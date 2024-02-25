@@ -1,0 +1,15 @@
+astalon_regions: dict[str, set[str]] = {
+    "Menu": {"Gorgon Tomb"},
+    "Gorgon Tomb": {"Mechanism", "The Apex", "Catacombs"},
+    "Mechanism": {"Hall of the Phantoms", "Cyclops Den"},
+    "Hall of the Phantoms": {"Ruins of Ash", "Cathedral"},
+    "Ruins of Ash": {"Darkness", "The Apex", "Serpent Path"},
+    "Darkness": set(),
+    "The Apex": {"Final Boss"},
+    "Final Boss": set(),
+    "Catacombs": {"Tower Roots"},
+    "Tower Roots": set(),
+    "Cyclops Den": set(),
+    "Cathedral": set(),
+    "Serpent Path": set(),
+}
