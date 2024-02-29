@@ -15,7 +15,8 @@ class AstalonItemData(NamedTuple):
 
 
 item_table: dict[str, AstalonItemData] = {
-    "10 Orbs": AstalonItemData(ItemClassification.filler, 0, "orbs"),
+    "100 Orbs": AstalonItemData(ItemClassification.filler, 0, "orbs"),
+
     "Gorgon Eye (Red)": AstalonItemData(ItemClassification.progression, 1, "eyes"),
     "Gorgon Eye (Blue)": AstalonItemData(ItemClassification.progression, 1, "eyes"),
     "Gorgon Eye (Green)": AstalonItemData(ItemClassification.progression, 1, "eyes"),
@@ -43,13 +44,15 @@ item_table: dict[str, AstalonItemData] = {
     "Prince's Crown": AstalonItemData(ItemClassification.progression, 1, "items"),
     "Magic Block": AstalonItemData(ItemClassification.progression, 1, "items"),
     "Morning Star": AstalonItemData(ItemClassification.progression, 1, "items"),
+
+    "Attack +1": AstalonItemData(ItemClassification.useful, 12, "upgrades"),
+    "Max HP +1": AstalonItemData(ItemClassification.useful, 14, "upgrades"),
+    "Max HP +2": AstalonItemData(ItemClassification.useful, 9, "upgrades"),
+    "Max HP +3": AstalonItemData(ItemClassification.useful, 1, "upgrades"),
+    "Max HP +5": AstalonItemData(ItemClassification.useful, 8, "upgrades"),
 }
 
 item_name_to_id: dict[str, int] = {name: 1000 + i for i, name in enumerate(item_table)}
-
-filler_items: list[str] = [
-    name for name, data in item_table.items() if data.classification == ItemClassification.filler
-]
 
 
 def get_item_group(item_name: str) -> str:
@@ -62,4 +65,4 @@ item_name_groups: dict[str, set[str]] = {
     if group != ""
 }
 
-filler_items = ["10 Orbs"]
+filler_items = ["100 Orbs"]
