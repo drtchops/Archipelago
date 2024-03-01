@@ -49,7 +49,10 @@ class AstalonWorld(World):
 
             for location_name in location_name_groups.get(name, []):
                 location = AstalonLocation(
-                    self.player, location_name, location_name_to_id[location_name], region,
+                    self.player,
+                    location_name,
+                    location_name_to_id[location_name],
+                    region,
                 )
                 region.locations.append(location)
 
