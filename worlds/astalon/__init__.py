@@ -1,3 +1,5 @@
+from typing import Any
+
 from BaseClasses import ItemClassification, Region, Tutorial
 from worlds.AutoWorld import WebWorld, World
 
@@ -8,10 +10,15 @@ from .Items import (
     item_name_to_id,
     item_table,
 )
-from .Locations import AstalonLocation, location_name_groups, location_name_to_id
+from .Locations import (
+    AstalonLocation,
+    location_name_groups,
+    location_name_to_id,
+    location_table,
+)
 from .Options import AstalonOptions
 from .Regions import astalon_regions
-from .Rules import set_location_rules, set_region_rules
+from .Rules import AstalonRules
 
 
 class AstalonWebWorld(WebWorld):
@@ -48,6 +55,14 @@ class AstalonWorld(World):
             region.add_exits(exits)
 
             for location_name in location_name_groups.get(name, []):
+                data = location_table[location_name]
+                # if data.item_group == "items" and not self.options.randomize_items.value:
+                #     continue
+                if data.item_group == "attack" and not self.options.randomize_attack_pickups.value:
+                    continue
+                if data.item_group == "health" and not self.options.randomize_health_pickups.value:
+                    continue
+
                 location = AstalonLocation(
                     self.player,
                     location_name,
@@ -72,6 +87,12 @@ class AstalonWorld(World):
 
     def create_items(self) -> None:
         for name, data in item_table.items():
+            # if data.item_group == "items" and not self.options.randomize_items.value:
+            #     continue
+            if data.item_group == "attack" and not self.options.randomize_attack_pickups.value:
+                continue
+            if data.item_group == "health" and not self.options.randomize_health_pickups.value:
+                continue
             for _ in range(0, data.quantity_in_item_pool):
                 item = self.create_item(name)
                 self.multiworld.itempool.append(item)
@@ -80,5 +101,14 @@ class AstalonWorld(World):
         return self.multiworld.random.choice(filler_items)
 
     def set_rules(self) -> None:
-        set_region_rules(self)
-        set_location_rules(self)
+        rules = AstalonRules(self)
+        rules.set_region_rules()
+        rules.set_location_rules()
+
+    def fill_slot_data(self) -> dict[str, Any]:
+        return {
+            "settings": {
+                "randomize_health_pickups": self.options.randomize_health_pickups.value == 1,
+                "randomize_attack_pickups": self.options.randomize_attack_pickups.value == 1,
+            }
+        }
