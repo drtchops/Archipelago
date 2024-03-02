@@ -51,7 +51,7 @@ class AstalonWorld(World):
             self.multiworld.regions.append(region)
 
         for name, exits in astalon_regions.items():
-            region = self.get_region(name)
+            region = self.multiworld.get_region(name, self.player)
             region.add_exits(exits)
 
             for location_name in location_name_groups.get(name, []):
@@ -71,7 +71,7 @@ class AstalonWorld(World):
                 )
                 region.locations.append(location)
 
-        final_boss = self.get_region("Final Boss")
+        final_boss = self.multiworld.get_region("Final Boss", self.player)
         victory = AstalonLocation(self.player, "Victory", None, final_boss)
         victory.place_locked_item(
             AstalonItem("Victory", ItemClassification.progression_skip_balancing, None, self.player)
