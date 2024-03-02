@@ -106,9 +106,10 @@ class AstalonWorld(World):
         rules.set_location_rules()
 
     def fill_slot_data(self) -> dict[str, Any]:
+        settings = self.options.as_dict(
+            "randomize_health_pickups",
+            "randomize_attack_pickups",
+        )
         return {
-            "settings": {
-                "randomize_health_pickups": self.options.randomize_health_pickups.value == 1,
-                "randomize_attack_pickups": self.options.randomize_attack_pickups.value == 1,
-            }
+            "settings": settings,
         }
