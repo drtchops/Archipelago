@@ -197,10 +197,6 @@ class AstalonRules:
                 self.has_three_eyes,
             )
             set_rule(
-                self.location("Catacombs - Attack +1 (Climbable Root)"),
-                self.has_red_eye,
-            )
-            set_rule(
                 self.location("Catacombs - Attack +1 (Poison Roots)"),
                 self.has_red_eye,
             )
