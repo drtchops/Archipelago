@@ -31,7 +31,9 @@ Astalon has in-game messages, but they disappear quickly and there's no reasonab
 ## Known Issues
 
 - Received items will not display in-game until you trigger a normal item box to appear by collecting an item or key.
+- Received items may need to be turned off and on again in the inventory to start working.
 - Health and orb counts on the HUD won't update immediately when receiving items.
 - If the game loses its AP connection, items will not be sent upon reconnecting. You'll have to quit and recollect the items.
+- Orbs received as filler items will get collected again every time you reconnect.
 - There's currently no softlock prevention.
 - Death link is not yet supported.
