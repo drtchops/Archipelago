@@ -84,7 +84,8 @@ item_table: dict[str, AstalonItemData] = {
     "Max HP +5": AstalonItemData(ItemClassification.useful, 8, "health"),
 }
 
-item_name_to_id: dict[str, int] = {name: 1000 + i for i, name in enumerate(item_table)}
+base_id = 333000
+item_name_to_id: dict[str, int] = {name: base_id + i for i, name in enumerate(item_table)}
 
 
 def get_item_group(item_name: str) -> str:

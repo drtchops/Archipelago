@@ -77,9 +77,7 @@ class AstalonWorld(World):
             AstalonItem("Victory", ItemClassification.progression_skip_balancing, None, self.player)
         )
         final_boss.locations.append(victory)
-        self.multiworld.completion_condition[self.player] = lambda state: state.has(
-            "Victory", self.player
-        )
+        self.multiworld.completion_condition[self.player] = lambda state: state.has("Victory", self.player)
 
     def create_item(self, name: str) -> AstalonItem:
         item_data = item_table[name]

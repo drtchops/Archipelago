@@ -32,9 +32,7 @@ location_table: dict[str, AstalonLocationData] = {
     "Hall of the Phantoms - Amulet of Sol": AstalonLocationData("Hall of the Phantoms", "items"),
     "Hall of the Phantoms - Griffon Claw": AstalonLocationData("Hall of the Phantoms", "items"),
     "Hall of the Phantoms - Boreas Gauntlet": AstalonLocationData("Hall of the Phantoms", "items"),
-    "Hall of the Phantoms - Dead Maiden's Ring": AstalonLocationData(
-        "Hall of the Phantoms", "items"
-    ),
+    "Hall of the Phantoms - Dead Maiden's Ring": AstalonLocationData("Hall of the Phantoms", "items"),
     "Ruins of Ash - Icarus Emblem": AstalonLocationData("Ruins of Ash", "items"),
     "Ruins of Ash - Gorgon Eye (Green)": AstalonLocationData("Ruins of Ash", "items"),
     "The Apex - Blood Chalice": AstalonLocationData("The Apex", "items"),
@@ -61,24 +59,12 @@ location_table: dict[str, AstalonLocationData] = {
     "Mechanism - Max HP +1 (Secret Switch)": AstalonLocationData("Mechanism", "health"),
     "Mechanism - Max HP +1 (Morning Star Blocks)": AstalonLocationData("Mechanism", "health"),
     "Mechanism - Max HP +3 (Above Checkpoint)": AstalonLocationData("Mechanism", "health"),
-    "Hall of the Phantoms - Max HP +1 (Griffon Claw)": AstalonLocationData(
-        "Hall of the Phantoms", "health"
-    ),
-    "Hall of the Phantoms - Max HP +2 (Secret Ladder)": AstalonLocationData(
-        "Hall of the Phantoms", "health"
-    ),
-    "Hall of the Phantoms - Max HP +2 (Boreas Gauntlet)": AstalonLocationData(
-        "Hall of the Phantoms", "health"
-    ),
-    "Hall of the Phantoms - Max HP +5 (Old Man)": AstalonLocationData(
-        "Hall of the Phantoms", "health"
-    ),
-    "Hall of the Phantoms - Max HP +5 (Teleport Maze)": AstalonLocationData(
-        "Hall of the Phantoms", "health"
-    ),
-    "Hall of the Phantoms - Max HP +5 (Above Start)": AstalonLocationData(
-        "Hall of the Phantoms", "health"
-    ),
+    "Hall of the Phantoms - Max HP +1 (Griffon Claw)": AstalonLocationData("Hall of the Phantoms", "health"),
+    "Hall of the Phantoms - Max HP +2 (Secret Ladder)": AstalonLocationData("Hall of the Phantoms", "health"),
+    "Hall of the Phantoms - Max HP +2 (Boreas Gauntlet)": AstalonLocationData("Hall of the Phantoms", "health"),
+    "Hall of the Phantoms - Max HP +5 (Old Man)": AstalonLocationData("Hall of the Phantoms", "health"),
+    "Hall of the Phantoms - Max HP +5 (Teleport Maze)": AstalonLocationData("Hall of the Phantoms", "health"),
+    "Hall of the Phantoms - Max HP +5 (Above Start)": AstalonLocationData("Hall of the Phantoms", "health"),
     "Ruins of Ash - Max HP +1 (Left of Ascent)": AstalonLocationData("Ruins of Ash", "health"),
     "Ruins of Ash - Max HP +2 (Right Side)": AstalonLocationData("Ruins of Ash", "health"),
     "Ruins of Ash - Max HP +5 (After Solaria)": AstalonLocationData("Ruins of Ash", "health"),
@@ -104,7 +90,8 @@ location_table: dict[str, AstalonLocationData] = {
     "Serpent Path - Max HP +1": AstalonLocationData("Serpent Path", "health"),
 }
 
-location_name_to_id: dict[str, int] = {name: 1000 + i for i, name in enumerate(location_table)}
+base_id = 333000
+location_name_to_id: dict[str, int] = {name: base_id + i for i, name in enumerate(location_table)}
 
 
 def get_location_group(location_name: str) -> str:
@@ -113,7 +100,5 @@ def get_location_group(location_name: str) -> str:
 
 location_name_groups: dict[str, set[str]] = {
     group: set(location_names)
-    for group, location_names in groupby(
-        sorted(location_table, key=get_location_group), get_location_group
-    )
+    for group, location_names in groupby(sorted(location_table, key=get_location_group), get_location_group)
 }

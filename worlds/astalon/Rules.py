@@ -236,9 +236,7 @@ class AstalonRules:
             )
             set_rule(
                 self.location("Hall of the Phantoms - Max HP +5 (Old Man)"),
-                lambda state: self.has_items(
-                    state, [KeyItem.EYE_GREEN, KeyItem.BELL, KeyItem.CLAW]
-                ),
+                lambda state: self.has_items(state, [KeyItem.EYE_GREEN, KeyItem.BELL, KeyItem.CLAW]),
             )
             set_rule(
                 self.location("Hall of the Phantoms - Max HP +5 (Teleport Maze)"),
@@ -289,9 +287,7 @@ class AstalonRules:
             )
             set_rule(
                 self.location("Catacombs - Max HP +2 (Above Gemini)"),
-                lambda state: self.has_red_eye(state)
-                and self.has_gauntlet(state)
-                and self.has_claw(state),
+                lambda state: self.has_red_eye(state) and self.has_gauntlet(state) and self.has_claw(state),
             )
             set_rule(
                 self.location("Catacombs - Max HP +5 (Item Chain)"),
