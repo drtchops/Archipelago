@@ -5,7 +5,7 @@ from itertools import groupby
 from BaseClasses import Item, ItemClassification
 
 
-class KeyItem(str, Enum):
+class Items(str, Enum):
     EYE_RED = "Gorgon Eye (Red)"
     EYE_BLUE = "Gorgon Eye (Blue)"
     EYE_GREEN = "Gorgon Eye (Green)"
@@ -46,32 +46,32 @@ class AstalonItemData:
 
 
 item_table: dict[str, AstalonItemData] = {
-    KeyItem.EYE_RED.value: AstalonItemData(ItemClassification.progression, 1, "items"),
-    KeyItem.EYE_BLUE.value: AstalonItemData(ItemClassification.progression, 1, "items"),
-    KeyItem.EYE_GREEN.value: AstalonItemData(ItemClassification.progression, 1, "items"),
-    KeyItem.GORGONHEART.value: AstalonItemData(ItemClassification.filler, 1, "items"),
-    KeyItem.RING_ANCIENTS.value: AstalonItemData(ItemClassification.filler, 1, "items"),
-    KeyItem.RING_DEAD_MAIDEN.value: AstalonItemData(ItemClassification.filler, 1, "items"),
-    KeyItem.SWORD.value: AstalonItemData(ItemClassification.progression, 1, "items"),
-    KeyItem.MAP.value: AstalonItemData(ItemClassification.filler, 1, "items"),
-    KeyItem.KEY_ASCENDANT.value: AstalonItemData(ItemClassification.progression, 1, "items"),
-    KeyItem.KEY_ADORNED.value: AstalonItemData(ItemClassification.progression, 1, "items"),
-    KeyItem.BANISH.value: AstalonItemData(ItemClassification.useful, 1, "items"),
-    KeyItem.VOID.value: AstalonItemData(ItemClassification.progression, 1, "items"),
+    Items.EYE_RED.value: AstalonItemData(ItemClassification.progression, 1, "items"),
+    Items.EYE_BLUE.value: AstalonItemData(ItemClassification.progression, 1, "items"),
+    Items.EYE_GREEN.value: AstalonItemData(ItemClassification.progression, 1, "items"),
+    Items.GORGONHEART.value: AstalonItemData(ItemClassification.filler, 1, "items"),
+    Items.RING_ANCIENTS.value: AstalonItemData(ItemClassification.filler, 1, "items"),
+    Items.RING_DEAD_MAIDEN.value: AstalonItemData(ItemClassification.filler, 1, "items"),
+    Items.SWORD.value: AstalonItemData(ItemClassification.progression, 1, "items"),
+    Items.MAP.value: AstalonItemData(ItemClassification.filler, 1, "items"),
+    Items.KEY_ASCENDANT.value: AstalonItemData(ItemClassification.progression, 1, "items"),
+    Items.KEY_ADORNED.value: AstalonItemData(ItemClassification.progression, 1, "items"),
+    Items.BANISH.value: AstalonItemData(ItemClassification.progression, 1, "items"),
+    Items.VOID.value: AstalonItemData(ItemClassification.progression, 1, "items"),
     # KeyItem.MONSTER.value: AstalonItemData(ItemClassification.progression, 1, "items"),
-    KeyItem.BOOTS.value: AstalonItemData(ItemClassification.useful, 1, "items"),
-    KeyItem.CLOAK.value: AstalonItemData(ItemClassification.progression, 1, "items"),
+    Items.BOOTS.value: AstalonItemData(ItemClassification.useful, 1, "items"),
+    Items.CLOAK.value: AstalonItemData(ItemClassification.progression, 1, "items"),
     # KeyItem.CYCLOPS.value: AstalonItemData(ItemClassification.progression, 1, "items"),
-    KeyItem.BELL.value: AstalonItemData(ItemClassification.progression, 1, "items"),
-    KeyItem.AMULET.value: AstalonItemData(ItemClassification.useful, 1, "items"),
-    KeyItem.CLAW.value: AstalonItemData(ItemClassification.progression, 1, "items"),
-    KeyItem.GAUNTLET.value: AstalonItemData(ItemClassification.progression, 1, "items"),
-    KeyItem.ICARUS.value: AstalonItemData(ItemClassification.useful, 1, "items"),
-    KeyItem.CHALICE.value: AstalonItemData(ItemClassification.useful, 1, "items"),
-    KeyItem.BOW.value: AstalonItemData(ItemClassification.progression, 1, "items"),
+    Items.BELL.value: AstalonItemData(ItemClassification.progression, 1, "items"),
+    Items.AMULET.value: AstalonItemData(ItemClassification.useful, 1, "items"),
+    Items.CLAW.value: AstalonItemData(ItemClassification.progression, 1, "items"),
+    Items.GAUNTLET.value: AstalonItemData(ItemClassification.progression, 1, "items"),
+    Items.ICARUS.value: AstalonItemData(ItemClassification.useful, 1, "items"),
+    Items.CHALICE.value: AstalonItemData(ItemClassification.useful, 1, "items"),
+    Items.BOW.value: AstalonItemData(ItemClassification.progression, 1, "items"),
     # KeyItem.CROWN.value: AstalonItemData(ItemClassification.progression, 1, "items"),
-    KeyItem.BLOCK.value: AstalonItemData(ItemClassification.progression, 1, "items"),
-    KeyItem.STAR.value: AstalonItemData(ItemClassification.progression, 1, "items"),
+    Items.BLOCK.value: AstalonItemData(ItemClassification.progression, 1, "items"),
+    Items.STAR.value: AstalonItemData(ItemClassification.progression, 1, "items"),
     # "Gil": AstalonItemData(ItemClassification.filler, 1, "items"),
     "50 Orbs": AstalonItemData(ItemClassification.filler, 0, "orbs"),
     "100 Orbs": AstalonItemData(ItemClassification.filler, 0, "orbs"),

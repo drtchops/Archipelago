@@ -67,7 +67,9 @@ location_table: dict[str, AstalonLocationData] = {
     "Hall of the Phantoms - Max HP +5 (Above Start)": AstalonLocationData("Hall of the Phantoms", "health"),
     "Ruins of Ash - Max HP +1 (Left of Ascent)": AstalonLocationData("Ruins of Ash", "health"),
     "Ruins of Ash - Max HP +2 (Right Side)": AstalonLocationData("Ruins of Ash", "health"),
-    "Ruins of Ash - Max HP +5 (After Solaria)": AstalonLocationData("Ruins of Ash", "health"),
+    "Ruins of Ash - Max HP +5 (After Solaria)": AstalonLocationData(
+        "The Apex", "health"
+    ),  # this is visually RoA but logically Apex
     "Darkness - Max HP +4": AstalonLocationData("Darkness", "health"),
     "The Apex - Max HP +1 (Blood Chalice)": AstalonLocationData("The Apex", "health"),
     "The Apex - Max HP +5 (After Heart)": AstalonLocationData("The Apex", "health"),

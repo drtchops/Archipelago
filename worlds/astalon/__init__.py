@@ -56,8 +56,6 @@ class AstalonWorld(World):
 
             for location_name in location_name_groups.get(name, []):
                 data = location_table[location_name]
-                # if data.item_group == "items" and not self.options.randomize_items.value:
-                #     continue
                 if data.item_group == "attack" and not self.options.randomize_attack_pickups.value:
                     continue
                 if data.item_group == "health" and not self.options.randomize_health_pickups.value:
@@ -85,8 +83,6 @@ class AstalonWorld(World):
 
     def create_items(self) -> None:
         for name, data in item_table.items():
-            # if data.item_group == "items" and not self.options.randomize_items.value:
-            #     continue
             if data.item_group == "attack" and not self.options.randomize_attack_pickups.value:
                 continue
             if data.item_group == "health" and not self.options.randomize_health_pickups.value:
@@ -107,7 +103,13 @@ class AstalonWorld(World):
         settings = self.options.as_dict(
             "randomize_health_pickups",
             "randomize_attack_pickups",
+            "skip_cutscenes",
+            "start_with_zeek",
+            "start_with_bram",
+            "start_with_qol",
+            # "free_apex_elevator",
         )
         return {
             "settings": settings,
+            # TODO: send list of locations for hp and str pickups to avoid long/int problem
         }

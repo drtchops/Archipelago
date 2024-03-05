@@ -1,6 +1,13 @@
 from dataclasses import dataclass
 
-from Options import Choice, DeathLink, PerGameCommonOptions, StartInventoryPool, Toggle
+from Options import (
+    Choice,
+    DeathLink,
+    DefaultOnToggle,
+    PerGameCommonOptions,
+    StartInventoryPool,
+    Toggle,
+)
 
 
 class Campaign(Choice):
@@ -17,33 +24,22 @@ class Campaign(Choice):
     default = 0
 
 
-class RandomizeItems(Toggle):
-    """
-    Choose whether to randomize inventory items like gorgon eyes and griffon claw.
-    """
-
-    display_name = "Randomize Items"
-    default = 1
-
-
-class RandomizeHealthPickups(Toggle):
+class RandomizeHealthPickups(DefaultOnToggle):
     """
     Choose whether to randomize the + Max HP pickups found in the world.
     Does not affect shop upgrades.
     """
 
     display_name = "Randomize Max HP Pickups"
-    default = 1
 
 
-class RandomizeAttackPickups(Toggle):
+class RandomizeAttackPickups(DefaultOnToggle):
     """
     Choose whether to randomize the + Attack pickups found in the world.
     Does not affect shop upgrades.
     """
 
     display_name = "Randomize Attack Pickups"
-    default = 1
 
 
 class RandomizeWhiteKeys(Toggle):
@@ -54,7 +50,6 @@ class RandomizeWhiteKeys(Toggle):
     """
 
     display_name = "Randomize White Keys"
-    default = 0
 
 
 class RandomizeBlueKeys(Toggle):
@@ -65,7 +60,6 @@ class RandomizeBlueKeys(Toggle):
     """
 
     display_name = "Randomize Blue Keys"
-    default = 0
 
 
 class RandomizeRedKeys(Toggle):
@@ -76,28 +70,62 @@ class RandomizeRedKeys(Toggle):
     """
 
     display_name = "Randomize Red Keys"
-    default = 0
 
 
-class SkipCutscenes(Toggle):
+class SkipCutscenes(DefaultOnToggle):
     """
-    NOT YET SUPPORTED
     Choose whether to skip or shorten cutscenes.
     """
 
     display_name = "Skip Cutscenes"
-    default = 1
+
+
+class StartWithZeek(Toggle):
+    """
+    Choose whether to start the game with Zeek unlocked.
+    """
+
+    display_name = "Start With Zeek"
+
+
+class StartWithBram(Toggle):
+    """
+    Choose whether to start the game with Bram unlocked.
+    """
+
+    display_name = "Start With Bram"
+
+
+class StartWithQOL(DefaultOnToggle):
+    """
+    Choose whether to start the game with various QoL shop upgrades.
+    Includes Knowledge, Orb Seeker, Map Reveal, Cartography, Gift, and Titan's Ego.
+    """
+
+    display_name = "Start With QoL"
+
+
+class FreeApexElevator(DefaultOnToggle):
+    """
+    NOT YET SUPPORTED
+    Choose whether to automatically unlock The Apex elevator when getting Ascendant Key as the vanilla game does.
+    """
+
+    display_name = "Free Apex Elevator"
 
 
 @dataclass
 class AstalonOptions(PerGameCommonOptions):
     start_inventory_from_pool: StartInventoryPool
     # campaign: Campaign
-    # randomize_items: RandomizeItems
     randomize_health_pickups: RandomizeHealthPickups
     randomize_attack_pickups: RandomizeAttackPickups
     # randomize_white_keys: RandomizeWhiteKeys
     # randomize_blue_keys: RandomizeBlueKeys
     # randomize_red_keys: RandomizeRedKeys
-    # skip_cutscenes: SkipCutscenes
+    skip_cutscenes: SkipCutscenes
+    start_with_zeek: StartWithZeek
+    start_with_bram: StartWithBram
+    start_with_qol: StartWithQOL
+    # free_apex_elevator: FreeApexElevator
     death_link: DeathLink
