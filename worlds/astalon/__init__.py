@@ -108,6 +108,7 @@ class AstalonWorld(World):
             "start_with_bram",
             "start_with_qol",
             # "free_apex_elevator",
+            "death_link",
         )
         return {
             "settings": settings,
