@@ -144,7 +144,7 @@ class AstalonRules:
         )
         set_rule(
             self.location("Tower Roots - Adorned Key"),
-            self.has(Items.EYE_RED, Items.EYE_BLUE, Items.EYE_GREEN),
+            self.has_all(Items.EYE_RED, Items.EYE_BLUE, Items.EYE_GREEN),
         )
         # set_rule(
         #     self.location("Catacombs - Gil"),
@@ -174,11 +174,11 @@ class AstalonRules:
             )
             set_rule(
                 self.location("Catacombs - Attack +1 (Item Chain Blue)"),
-                self.has(Items.EYE_RED, Items.EYE_BLUE),
+                self.has_all(Items.EYE_RED, Items.EYE_BLUE),
             )
             set_rule(
                 self.location("Catacombs - Attack +1 (Item Chain Green)"),
-                self.has(Items.EYE_RED, Items.EYE_BLUE, Items.EYE_GREEN),
+                self.has_all(Items.EYE_RED, Items.EYE_BLUE, Items.EYE_GREEN),
             )
             set_rule(
                 self.location("Catacombs - Attack +1 (Poison Roots)"),
