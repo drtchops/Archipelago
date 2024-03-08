@@ -144,7 +144,9 @@ class AstalonRules:
                 self.has_all(state, Items.EYE_RED, Items.EYE_BLUE, Items.BOW)
                 and self.has_any(state, Items.GAUNTLET, Items.CHALICE)
             ),
-            Locations.CATA_HP_5_CHAIN: lambda state: self.has_all(state, Items.EYE_RED, Items.EYE_BLUE, Items.STAR),
+            Locations.CATA_HP_5_CHAIN: lambda state: (
+                self.has_all(state, Items.EYE_RED, Items.EYE_BLUE, Items.STAR, Items.CLAW)
+            ),
             Locations.TR_HP_1_BOTTOM: lambda state: (
                 self.has(state, Items.DOOR_RED_TR) if self.options.randomize_red_keys else lambda _: True
             ),
@@ -164,7 +166,7 @@ class AstalonRules:
         self.blue_key_rules = {}
 
         self.red_key_rules = {
-            Locations.GT_RED_KEY: lambda state: self.has_all(state, Items.ZEEK, Items.CLAW),
+            Locations.GT_RED_KEY: lambda state: self.has_all(state, Items.ZEEK),
             Locations.MECH_RED_KEY: lambda _: True,
             Locations.HOTP_RED_KEY: lambda state: self.has_all(state, Items.EYE_GREEN, Items.CLOAK),
             Locations.ROA_RED_KEY: lambda state: self.has_all(state, Items.CLOAK, Items.BOW),
@@ -176,7 +178,16 @@ class AstalonRules:
             Locations.MECH_OLD_MAN: lambda _: True,
             Locations.HOTP_OLD_MAN: lambda state: self.has_all(state, Items.CLOAK, Items.BOW, Items.BELL),
             Locations.CATA_GIL: lambda state: (
-                self.has_all(state, Items.EYE_RED, Items.EYE_BLUE, Items.EYE_GREEN, Items.STAR, Items.BLOCK)
+                self.has_all(
+                    state,
+                    Items.EYE_RED,
+                    Items.EYE_BLUE,
+                    Items.EYE_GREEN,
+                    Items.STAR,
+                    Items.BLOCK,
+                    Items.CLAW,
+                    Items.BELL,
+                )
                 and (self.has(state, Items.DOOR_RED_DEV_ROOM) if self.options.randomize_red_keys else True)
             ),
         }
