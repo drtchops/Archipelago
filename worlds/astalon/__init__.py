@@ -5,6 +5,8 @@ from worlds.AutoWorld import WebWorld, World
 
 from .Items import (
     AstalonItem,
+    ItemGroups,
+    Items,
     filler_items,
     item_name_groups,
     item_name_to_id,
@@ -12,12 +14,14 @@ from .Items import (
 )
 from .Locations import (
     AstalonLocation,
+    LocationGroups,
+    Locations,
     location_name_groups,
     location_name_to_id,
     location_table,
 )
 from .Options import AstalonOptions
-from .Regions import astalon_regions
+from .Regions import Regions, astalon_regions
 from .Rules import AstalonRules
 
 
@@ -47,18 +51,20 @@ class AstalonWorld(World):
 
     def create_regions(self) -> None:
         for name in astalon_regions:
-            region = Region(name, self.player, self.multiworld)
+            region = Region(name.value, self.player, self.multiworld)
             self.multiworld.regions.append(region)
 
         for name, exits in astalon_regions.items():
-            region = self.multiworld.get_region(name, self.player)
+            region = self.multiworld.get_region(name.value, self.player)
             region.add_exits(exits)
 
-            for location_name in location_name_groups.get(name, []):
-                data = location_table[location_name]
-                if data.item_group == "attack" and not self.options.randomize_attack_pickups.value:
+            for location_name in location_name_groups.get(name.value, []):
+                data = location_table[Locations(location_name)]
+                if data.item_group == LocationGroups.ATTACK and not self.options.randomize_attack_pickups:
                     continue
-                if data.item_group == "health" and not self.options.randomize_health_pickups.value:
+                if data.item_group == LocationGroups.HEALTH and not self.options.randomize_health_pickups:
+                    continue
+                if data.item_group == LocationGroups.KEYS_RED and not self.options.randomize_red_keys:
                     continue
 
                 location = AstalonLocation(
@@ -69,26 +75,29 @@ class AstalonWorld(World):
                 )
                 region.locations.append(location)
 
-        final_boss = self.multiworld.get_region("Final Boss", self.player)
-        victory = AstalonLocation(self.player, "Victory", None, final_boss)
+        final_boss = self.multiworld.get_region(Regions.BOSS.value, self.player)
+        victory = AstalonLocation(self.player, Locations.VICTORY.value, None, final_boss)
         victory.place_locked_item(
-            AstalonItem("Victory", ItemClassification.progression_skip_balancing, None, self.player)
+            AstalonItem(Items.VICTORY.value, ItemClassification.progression_skip_balancing, None, self.player)
         )
         final_boss.locations.append(victory)
-        self.multiworld.completion_condition[self.player] = lambda state: state.has("Victory", self.player)
+        self.multiworld.completion_condition[self.player] = lambda state: state.has(Items.VICTORY.value, self.player)
 
     def create_item(self, name: str) -> AstalonItem:
-        item_data = item_table[name]
+        item_data = item_table[Items(name)]
         return AstalonItem(name, item_data.classification, self.item_name_to_id[name], self.player)
 
     def create_items(self) -> None:
         for name, data in item_table.items():
-            if data.item_group == "attack" and not self.options.randomize_attack_pickups.value:
+            if data.item_group == ItemGroups.ATTACK and not self.options.randomize_attack_pickups:
                 continue
-            if data.item_group == "health" and not self.options.randomize_health_pickups.value:
+            if data.item_group == ItemGroups.HEALTH and not self.options.randomize_health_pickups:
                 continue
+            if data.item_group == ItemGroups.DOORS_RED and not self.options.randomize_red_keys:
+                continue
+
             for _ in range(0, data.quantity_in_item_pool):
-                item = self.create_item(name)
+                item = self.create_item(name.value)
                 self.multiworld.itempool.append(item)
 
     def get_filler_item_name(self) -> str:
@@ -101,13 +110,19 @@ class AstalonWorld(World):
 
     def fill_slot_data(self) -> dict[str, Any]:
         settings = self.options.as_dict(
+            # "campaign",
             "randomize_health_pickups",
             "randomize_attack_pickups",
+            # "randomize_white_keys",
+            # "randomize_blue_keys",
+            "randomize_red_keys",
+            # "randomize_familiars",
             "skip_cutscenes",
             "start_with_zeek",
             "start_with_bram",
             "start_with_qol",
-            # "free_apex_elevator",
+            "free_apex_elevator",
+            # "cost_multiplier",
             "death_link",
         )
         return {

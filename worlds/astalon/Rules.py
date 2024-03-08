@@ -1,10 +1,13 @@
 from dataclasses import dataclass
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Callable
 
 from BaseClasses import CollectionState
 from worlds.generic.Rules import set_rule
 
 from .Items import Items
+from .Locations import Locations
+from .Options import AstalonOptions
+from .Regions import Regions
 
 if TYPE_CHECKING:
     from . import AstalonWorld
@@ -13,276 +16,260 @@ if TYPE_CHECKING:
 @dataclass
 class AstalonRules:
     world: "AstalonWorld"
+    player: int
+    options: AstalonOptions
+    entrance_rules: dict[tuple[Regions, Regions], Callable[[CollectionState], bool]]
+    item_rules: dict[Locations, Callable[[CollectionState], bool]]
+    familiar_rules: dict[Locations, Callable[[CollectionState], bool]]
+    attack_rules: dict[Locations, Callable[[CollectionState], bool]]
+    health_rules: dict[Locations, Callable[[CollectionState], bool]]
+    white_key_rules: dict[Locations, Callable[[CollectionState], bool]]
+    blue_key_rules: dict[Locations, Callable[[CollectionState], bool]]
+    red_key_rules: dict[Locations, Callable[[CollectionState], bool]]
 
-    def entrance(self, name: str):
-        return self.world.multiworld.get_entrance(name, self.world.player)
+    def __init__(self, world: "AstalonWorld"):
+        self.world = world
+        self.player = world.player
+        self.options = world.options
 
-    def location(self, name: str):
-        return self.world.multiworld.get_location(name, self.world.player)
+        self.entrance_rules = {
+            (Regions.GT, Regions.MECH): lambda state: self.has(state, Items.EYE_RED),
+            (Regions.GT, Regions.APEX): lambda state: (
+                self.has(state, Items.ASCENDANT_KEY) if self.options.free_apex_elevator else lambda _: False
+            ),
+            (Regions.MECH, Regions.HOTP): lambda state: self.has_any(state, Items.EYE_BLUE, Items.STAR),
+            (Regions.MECH, Regions.CD): lambda state: self.has_all(state, Items.CYCLOPS, Items.EYE_BLUE),
+            (Regions.HOTP, Regions.ROA): lambda state: self.has_all(state, Items.CLAW, Items.BELL),
+            (Regions.HOTP, Regions.CATH): lambda state: (
+                self.has_all(state, Items.EYE_GREEN, Items.BOW, Items.BELL, Items.ZEEK)
+                and (self.has(state, Items.DOOR_RED_CATH) if self.options.randomize_red_keys else True)
+            ),
+            (Regions.ROA, Regions.APEX): lambda state: self.has(state, Items.EYE_GREEN),
+            (Regions.ROA, Regions.SP): lambda state: (
+                self.has(state, Items.DOOR_RED_SP)
+                if self.options.randomize_red_keys
+                else (self.has(state, Items.CLOAK) and self.has_any(state, Items.EYE_GREEN, Items.BOW))
+            ),
+            (Regions.APEX, Regions.BOSS): lambda state: (
+                self.has_all(state, Items.EYE_RED, Items.EYE_BLUE, Items.EYE_GREEN, Items.BELL)
+            ),
+            (Regions.CATA, Regions.TR): lambda state: (
+                self.has_all(state, Items.EYE_RED, Items.EYE_BLUE, Items.BOW, Items.VOID, Items.CLAW)
+            ),
+        }
+
+        self.item_rules = {
+            Locations.GT_GORGONHEART: lambda _: True,
+            Locations.GT_ANCIENTS_RING: lambda state: self.has(state, Items.EYE_RED),
+            Locations.GT_SWORD: lambda state: self.has(state, Items.EYE_RED),
+            Locations.GT_MAP: lambda state: self.has(state, Items.EYE_RED),
+            Locations.GT_ASCENDANT_KEY: lambda _: True,
+            Locations.GT_BANISH: lambda _: True,
+            Locations.GT_VOID: lambda state: self.has(state, Items.EYE_RED),
+            Locations.GT_EYE_RED: lambda _: True,
+            Locations.MECH_BOOTS: lambda _: True,
+            Locations.MECH_CLOAK: lambda state: self.has(state, Items.EYE_BLUE),
+            # Locations.MECH_CYCLOPS: lambda state: self.can_reach_zeek(state),
+            Locations.MECH_EYE_BLUE: lambda _: True,
+            Locations.HOTP_BELL: lambda _: True,
+            Locations.HOTP_AMULET: lambda state: self.has_all(state, Items.CLAW, Items.EYE_BLUE),
+            Locations.HOTP_CLAW: lambda state: self.has(state, Items.BELL),
+            Locations.HOTP_GAUNTLET: lambda state: self.has_all(state, Items.EYE_GREEN, Items.CLAW, Items.BELL),
+            Locations.HOTP_MAIDEN_RING: lambda state: (
+                self.has_all(state, Items.SWORD, Items.BANISH, Items.BELL, Items.CLAW)
+            ),
+            Locations.ROA_ICARUS: lambda _: True,
+            Locations.ROA_EYE_GREEN: lambda _: True,
+            Locations.APEX_CHALICE: lambda state: self.has_all(state, Items.ADORNED_KEY, Items.STAR),
+            Locations.CATA_BOW: lambda state: self.has(state, Items.EYE_RED),
+            Locations.TR_ADORNED_KEY: lambda state: (
+                self.has_all(state, Items.EYE_RED, Items.EYE_BLUE, Items.EYE_GREEN, Items.STAR)
+            ),
+            # Locations.CD_CROWN: lambda _: True,
+            Locations.CATH_BLOCK: lambda _: True,
+            Locations.SP_STAR: lambda _: True,
+        }
+
+        self.attack_rules = {
+            Locations.GT_ATTACK: lambda state: (
+                self.has(state, Items.EYE_GREEN) and self.has_any(state, Items.ZEEK, Items.CLAW)
+            ),
+            Locations.MECH_ATTACK_VOLANTIS: lambda state: self.has_all(state, Items.CLAW, Items.BOW),
+            Locations.MECH_ATTACK_STAR: lambda state: self.has(state, Items.STAR),
+            Locations.ROA_ATTACK: lambda state: self.has(state, Items.STAR),
+            Locations.CATA_ATTACK_RED: lambda state: self.has(state, Items.EYE_RED),
+            Locations.CATA_ATTACK_BLUE: lambda state: self.has_all(state, Items.EYE_RED, Items.EYE_BLUE),
+            Locations.CATA_ATTACK_GREEN: lambda state: (
+                self.has_all(state, Items.EYE_RED, Items.EYE_BLUE) and self.has_any(state, Items.EYE_GREEN, Items.STAR)
+            ),
+            Locations.CATA_ATTACK_ROOT: lambda _: True,
+            Locations.CATA_ATTACK_POISON: lambda state: self.has_all(state, Items.EYE_RED, Items.BOW),
+            Locations.CD_ATTACK: lambda _: True,
+            Locations.CATH_ATTACK: lambda _: True,
+            Locations.SP_ATTACK: lambda _: True,
+        }
+
+        self.health_rules = {
+            Locations.GT_HP_1_RING: lambda state: self.has_all(state, Items.EYE_RED, Items.SWORD),
+            Locations.GT_HP_5_KEY: lambda state: self.has(state, Items.CLAW),
+            Locations.MECH_HP_1_SWITCH: lambda _: True,
+            Locations.MECH_HP_1_STAR: lambda state: self.has(state, Items.STAR),
+            Locations.MECH_HP_3_CLAW: lambda state: self.has(state, Items.CLAW),
+            Locations.HOTP_HP_1_CLAW: lambda state: self.has(state, Items.BELL),
+            Locations.HOTP_HP_2_LADDER: lambda state: self.has(state, Items.BELL),
+            Locations.HOTP_HP_2_GAUNTLET: lambda state: self.has_all(state, Items.EYE_GREEN, Items.CLAW),
+            Locations.HOTP_HP_5_OLD_MAN: lambda state: self.has_all(state, Items.EYE_GREEN, Items.BELL, Items.CLAW),
+            Locations.HOTP_HP_5_MAZE: lambda state: (
+                self.has_all(state, Items.EYE_GREEN, Items.BELL, Items.CLAW, Items.VOID, Items.CLOAK)
+            ),
+            Locations.HOTP_HP_5_START: lambda state: self.has(state, Items.CLAW),
+            Locations.ROA_HP_1_LEFT: lambda _: True,
+            Locations.ROA_HP_2_RIGHT: lambda state: self.has_any(state, Items.GAUNTLET, Items.STAR, Items.CHALICE),
+            Locations.ROA_HP_5_SOLARIA: lambda state: self.has(state, Items.EYE_GREEN),
+            Locations.DARK_HP_4: lambda _: True,
+            Locations.APEX_HP_1_CHALICE: lambda _: True,
+            Locations.APEX_HP_5_HEART: lambda _: True,
+            Locations.CATA_HP_1_START: lambda state: self.has_any(state, Items.BOW, Items.CHALICE),
+            Locations.CATA_HP_1_CYCLOPS: lambda state: self.has(state, Items.SWORD),
+            Locations.CATA_HP_1_ABOVE_POISON: lambda state: self.has_all(state, Items.EYE_RED, Items.BOW),
+            Locations.CATA_HP_2_BEFOER_POISON: lambda state: self.has_all(state, Items.EYE_RED, Items.BOW),
+            Locations.CATA_HP_2_AFTER_POISON: lambda state: self.has_all(state, Items.EYE_RED, Items.BOW),
+            Locations.CATA_HP_2_GEMINI_BOTTOM: lambda state: (
+                self.has_all(state, Items.EYE_RED, Items.EYE_BLUE, Items.BOW, Items.CLAW)
+            ),
+            Locations.CATA_HP_2_GEMINI_TOP: lambda state: (
+                self.has_all(state, Items.EYE_RED, Items.EYE_BLUE, Items.BOW, Items.CLAW)
+            ),
+            Locations.CATA_HP_2_ABOVE_GEMINI: lambda state: (
+                self.has_all(state, Items.EYE_RED, Items.EYE_BLUE, Items.BOW)
+                and self.has_any(state, Items.GAUNTLET, Items.CHALICE)
+            ),
+            Locations.CATA_HP_5_CHAIN: lambda state: self.has_all(state, Items.EYE_RED, Items.EYE_BLUE, Items.STAR),
+            Locations.TR_HP_1_BOTTOM: lambda state: (
+                self.has(state, Items.DOOR_RED_TR) if self.options.randomize_red_keys else lambda _: True
+            ),
+            Locations.TR_HP_2_TOP: lambda state: (
+                self.has(state, Items.DOOR_RED_TR) if self.options.randomize_red_keys else lambda _: True
+            ),
+            Locations.CD_HP_1: lambda _: True,
+            Locations.CATH_HP_1_TOP_LEFT: lambda _: True,
+            Locations.CATH_HP_1_TOP_RIGHT: lambda _: True,
+            Locations.CATH_HP_2_CLAW: lambda state: self.has(state, Items.CLAW),
+            Locations.CATH_HP_5_BELL: lambda _: True,
+            Locations.SP_HP_1: lambda _: True,
+        }
+
+        self.white_key_rules = {}
+
+        self.blue_key_rules = {}
+
+        self.red_key_rules = {
+            Locations.GT_RED_KEY: lambda state: self.has_all(state, Items.ZEEK, Items.CLAW),
+            Locations.MECH_RED_KEY: lambda _: True,
+            Locations.HOTP_RED_KEY: lambda state: self.has_all(state, Items.EYE_GREEN, Items.CLOAK),
+            Locations.ROA_RED_KEY: lambda state: self.has_all(state, Items.CLOAK, Items.BOW),
+            Locations.TR_RED_KEY: lambda _: True,
+        }
+
+        self.familiar_rules = {
+            Locations.GT_OLD_MAN: lambda state: self.has(state, Items.EYE_RED),
+            Locations.MECH_OLD_MAN: lambda _: True,
+            Locations.HOTP_OLD_MAN: lambda state: self.has_all(state, Items.CLOAK, Items.BOW, Items.BELL),
+            Locations.CATA_GIL: lambda state: (
+                self.has_all(state, Items.EYE_RED, Items.EYE_BLUE, Items.EYE_GREEN, Items.STAR, Items.BLOCK)
+                and (self.has(state, Items.DOOR_RED_DEV_ROOM) if self.options.randomize_red_keys else True)
+            ),
+        }
+
+    def region(self, name: Regions):
+        return self.world.multiworld.get_region(name.value, self.player)
+
+    def entrance(self, from_: Regions, to_: Regions):
+        return self.world.multiworld.get_entrance(f"{from_.value} -> {to_.value}", self.player)
+
+    def location(self, name: Locations):
+        return self.world.multiworld.get_location(name.value, self.player)
+
+    def can_reach_zeek(self, state: CollectionState):
+        if not self.region(Regions.MECH).can_reach(state):
+            return False
+        if self.options.randomize_red_keys:
+            return state.has(Items.DOOR_RED_ZEEK.value, self.player)
+        # what is reasonable to get a surplus of red keys with
+        return state.has(Items.EYE_BLUE.value, self.player) or state.has_all(
+            [Items.EYE_GREEN.value, Items.STAR.value], self.player
+        )
 
     def has_zeek(self, state: CollectionState):
-        return self.world.options.start_with_zeek or self.has_all(Items.EYE_RED, Items.EYE_BLUE)(state)
+        if self.options.start_with_zeek:
+            return True
+        return self.can_reach_zeek(state)
+
+    def can_reach_bram(self, state: CollectionState):
+        # if switch rando is implemented, may need to check for blue eye specifically
+        return self.region(Regions.TR).can_reach(state)
 
     def has_bram(self, state: CollectionState):
-        return self.world.options.start_with_bram or self.has_all(
-            Items.EYE_RED, Items.EYE_BLUE, Items.BOW, Items.CLAW, Items.VOID
-        )(state)
-
-    def has(self, item: Items, count: int = 1):
-        def has_item(state: CollectionState):
-            if item == Items.BLOCK and not self.has_zeek(state):
-                return False
-            if item == Items.STAR and not self.has_bram(state):
-                return False
-            return state.has(item.value, self.world.player, count=count)
-
-        return has_item
-
-    def has_all(self, *items: Items):
-        def has_all_items(state: CollectionState):
-            # cover zeek/bram logic instead of calling state.has_all
-            for item in items:
-                if not self.has(item)(state):
-                    return False
+        if self.options.start_with_bram:
             return True
+        return self.can_reach_bram(state)
 
-        return has_all_items
-
-    def has_any(self, *items: Items):
-        def has_any_item(state: CollectionState):
-            # cover zeek/bram logic instead of calling state.has_any
-            for item in items:
-                if self.has(item)(state):
-                    return True
+    def has(self, state: CollectionState, item: Items, *, count: int = 1):
+        if item == Items.CYCLOPS:
+            # item is not yet randomized
+            return self.can_reach_zeek(state)
+        if item == Items.ZEEK:
+            return self.has_zeek(state)
+        if item == Items.BRAM:
+            return self.has_bram(state)
+        if item == Items.BLOCK and not self.has_zeek(state):
             return False
+        if item == Items.STAR and not self.has_bram(state):
+            return False
+        return state.has(item.value, self.player, count=count)
 
-        return has_any_item
+    def has_all(self, state: CollectionState, *items: Items):
+        # cover extra logic instead of calling state.has_all
+        for item in items:
+            if not self.has(state, item):
+                return False
+        return True
+
+    def has_any(self, state: CollectionState, *items: Items):
+        # cover extra logic instead of calling state.has_any
+        for item in items:
+            if self.has(state, item):
+                return True
+        return False
 
     def set_region_rules(self):
-        set_rule(
-            self.entrance("Gorgon Tomb -> Mechanism"),
-            self.has(Items.EYE_RED),
-        )
-        set_rule(
-            self.entrance("Gorgon Tomb -> The Apex"),
-            self.has(Items.KEY_ASCENDANT),
-        )
-        set_rule(
-            self.entrance("Mechanism -> Hall of the Phantoms"),
-            self.has(Items.EYE_BLUE),
-        )
-        set_rule(
-            self.entrance("Mechanism -> Cyclops Den"),
-            self.has(Items.EYE_BLUE),
-        )
-        set_rule(
-            self.entrance("Hall of the Phantoms -> Ruins of Ash"),
-            self.has_all(Items.CLAW, Items.BELL),
-        )
-        set_rule(
-            self.entrance("Hall of the Phantoms -> Cathedral"),
-            self.has_all(Items.EYE_GREEN, Items.BOW, Items.BELL),
-        )
-        set_rule(
-            self.entrance("Ruins of Ash -> The Apex"),
-            self.has(Items.EYE_GREEN),
-        )
-        set_rule(
-            self.entrance("Ruins of Ash -> Serpent Path"),
-            self.has_all(Items.EYE_GREEN, Items.CLOAK, Items.BOW),
-        )
-        set_rule(
-            self.entrance("The Apex -> Final Boss"),
-            lambda state: self.has_all(Items.EYE_RED, Items.EYE_BLUE, Items.EYE_GREEN, Items.BELL)(state)
-            and self.has_any(Items.KEY_ASCENDANT, Items.CLAW)(state),
-        )
-        set_rule(
-            self.entrance("Catacombs -> Tower Roots"),
-            self.has_all(Items.EYE_RED, Items.EYE_BLUE, Items.BOW, Items.VOID, Items.CLAW),
-        )
+        for (from_, to_), rule in self.entrance_rules.items():
+            set_rule(self.entrance(from_, to_), rule)
 
     def set_location_rules(self):
-        set_rule(
-            self.location("Gorgon Tomb - Ring of the Ancients"),
-            self.has(Items.EYE_RED),
-        )
-        set_rule(
-            self.location("Gorgon Tomb - Sword of Mirrors"),
-            self.has(Items.EYE_RED),
-        )
-        set_rule(
-            self.location("Gorgon Tomb - Void Charm"),
-            self.has(Items.EYE_RED),
-        )
-        # set_rule(
-        #     self.location("Gorgon Tomb - Monster Ball"),
-        #     self.has(Items.EYE_RED),
-        # )
-        set_rule(
-            self.location("Mechanism - Cloak of Levitation"),
-            self.has(Items.EYE_BLUE),
-        )
-        set_rule(
-            self.location("Hall of the Phantoms - Griffon Claw"),
-            self.has(Items.BELL),
-        )
-        set_rule(
-            self.location("Hall of the Phantoms - Dead Maiden's Ring"),
-            self.has_all(Items.SWORD, Items.BANISH, Items.BELL, Items.CLAW),
-        )
-        set_rule(
-            self.location("Hall of the Phantoms - Boreas Gauntlet"),
-            self.has_all(Items.EYE_GREEN, Items.CLAW, Items.BELL),
-        )
-        set_rule(
-            self.location("The Apex - Blood Chalice"),
-            self.has_all(Items.KEY_ADORNED, Items.STAR),
-        )
-        set_rule(
-            self.location("Catacombs - Lunarian Bow"),
-            self.has(Items.EYE_RED),
-        )
-        set_rule(
-            self.location("Tower Roots - Adorned Key"),
-            self.has_all(Items.EYE_RED, Items.EYE_BLUE, Items.EYE_GREEN),
-        )
-        # set_rule(
-        #     self.location("Catacombs - Gil"),
-        #     self.has(Items.EYE_RED, Items.EYE_BLUE, Items.EYE_GREEN, Items.BLOCK),
-        # )
+        for location, rule in self.item_rules.items():
+            set_rule(self.location(location), rule)
 
-        if self.world.options.randomize_attack_pickups:
-            set_rule(
-                self.location("Gorgon Tomb - Attack +1"),
-                self.has(Items.EYE_GREEN),
-            )
-            set_rule(
-                self.location("Mechanism - Attack +1 (Above Volantis)"),
-                self.has_all(Items.CLAW, Items.BOW),
-            )
-            set_rule(
-                self.location("Mechanism - Attack +1 (Morning Star Blocks)"),
-                self.has(Items.STAR),
-            )
-            set_rule(
-                self.location("Ruins of Ash - Attack +1"),
-                self.has(Items.STAR),
-            )
-            set_rule(
-                self.location("Catacombs - Attack +1 (Item Chain Red)"),
-                self.has(Items.EYE_RED),
-            )
-            set_rule(
-                self.location("Catacombs - Attack +1 (Item Chain Blue)"),
-                self.has_all(Items.EYE_RED, Items.EYE_BLUE),
-            )
-            set_rule(
-                self.location("Catacombs - Attack +1 (Item Chain Green)"),
-                self.has_all(Items.EYE_RED, Items.EYE_BLUE, Items.EYE_GREEN),
-            )
-            set_rule(
-                self.location("Catacombs - Attack +1 (Poison Roots)"),
-                self.has(Items.EYE_RED),
-            )
-            set_rule(
-                self.location("Cathedral - Attack +1"),
-                self.has(Items.BOW),  # double check
-            )
+        if self.options.randomize_attack_pickups:
+            for location, rule in self.attack_rules.items():
+                set_rule(self.location(location), rule)
 
-        if self.world.options.randomize_health_pickups:
-            set_rule(
-                self.location("Gorgon Tomb - Max HP +1 (Ring of the Ancients)"),
-                self.has_all(Items.EYE_RED, Items.SWORD),
-            )
-            set_rule(
-                self.location("Gorgon Tomb - Max HP +5 (Ascendant Key)"),
-                self.has(Items.CLAW),
-            )
-            set_rule(
-                self.location("Mechanism - Max HP +1 (Morning Star Blocks)"),
-                self.has(Items.STAR),
-            )
-            set_rule(
-                self.location("Mechanism - Max HP +3 (Above Checkpoint)"),
-                self.has(Items.CLAW),
-            )
-            set_rule(
-                self.location("Hall of the Phantoms - Max HP +1 (Griffon Claw)"),
-                self.has(Items.BELL),
-            )
-            set_rule(
-                self.location("Hall of the Phantoms - Max HP +2 (Secret Ladder)"),
-                self.has(Items.BELL),
-            )
-            set_rule(
-                self.location("Hall of the Phantoms - Max HP +2 (Boreas Gauntlet)"),
-                self.has_all(Items.EYE_GREEN, Items.CLAW),
-            )
-            set_rule(
-                self.location("Hall of the Phantoms - Max HP +5 (Old Man)"),
-                self.has_all(Items.EYE_GREEN, Items.BELL, Items.CLAW),
-            )
-            set_rule(
-                self.location("Hall of the Phantoms - Max HP +5 (Teleport Maze)"),
-                self.has_all(Items.EYE_GREEN, Items.BELL, Items.CLAW, Items.VOID, Items.CLOAK),
-            )
-            set_rule(
-                self.location("Hall of the Phantoms - Max HP +5 (Above Start)"),
-                self.has(Items.CLAW),
-            )
-            set_rule(
-                self.location("Ruins of Ash - Max HP +2 (Right Side)"),
-                self.has_any(Items.GAUNTLET, Items.STAR),
-            )
-            set_rule(
-                self.location("Ruins of Ash - Max HP +5 (After Solaria)"),
-                self.has(Items.EYE_GREEN),
-            )
-            set_rule(
-                self.location("Catacombs - Max HP +1 (First Room)"),
-                self.has(Items.BOW),
-            )
-            set_rule(
-                self.location("Catacombs - Max HP +1 (Cyclops Arena)"),
-                self.has(Items.SWORD),
-            )
-            set_rule(
-                self.location("Catacombs - Max HP +1 (Above Poison Roots)"),
-                self.has_all(Items.EYE_RED, Items.BOW),
-            )
-            set_rule(
-                self.location("Catacombs - Max HP +2 (Before Poison Roots)"),
-                self.has_all(Items.EYE_RED, Items.BOW),
-            )
-            set_rule(
-                self.location("Catacombs - Max HP +2 (After Poison Roots)"),
-                self.has_all(Items.EYE_RED, Items.BOW),
-            )
-            set_rule(
-                self.location("Catacombs - Max HP +2 (Before Gemini Bottom)"),
-                self.has_all(Items.EYE_RED, Items.EYE_BLUE, Items.BOW, Items.CLAW),
-            )
-            set_rule(
-                self.location("Catacombs - Max HP +2 (Before Gemini Top)"),
-                self.has_all(Items.EYE_RED, Items.EYE_BLUE, Items.BOW, Items.CLAW),
-            )
-            set_rule(
-                self.location("Catacombs - Max HP +2 (Above Gemini)"),
-                self.has_all(Items.EYE_RED, Items.EYE_BLUE, Items.BOW, Items.GAUNTLET, Items.CLAW),
-            )
-            set_rule(
-                self.location("Catacombs - Max HP +5 (Item Chain)"),
-                self.has_all(Items.EYE_RED, Items.EYE_BLUE, Items.EYE_GREEN, Items.STAR),
-            )
-            set_rule(
-                self.location("Tower Roots - Max HP +1 (Bottom)"),
-                self.has(Items.EYE_BLUE),
-            )
-            set_rule(
-                self.location("Tower Roots - Max HP +2 (Top)"),
-                self.has(Items.EYE_BLUE),
-            )
-            set_rule(
-                self.location("Cathedral - Max HP +2 (Left Climb)"),
-                self.has(Items.CLAW),
-            )
+        if self.options.randomize_health_pickups:
+            for location, rule in self.health_rules.items():
+                set_rule(self.location(location), rule)
+
+        # if self.options.randomize_white_keys:
+        #     for location, rule in self.white_key_rules.items():
+        #         set_rule(self.location(location), rule)
+
+        # if self.options.randomize_blue_keys:
+        #     for location, rule in self.blue_key_rules.items():
+        #         set_rule(self.location(location), rule)
+
+        if self.options.randomize_red_keys:
+            for location, rule in self.red_key_rules.items():
+                set_rule(self.location(location), rule)
+
+        # if self.options.randomize_familiars:
+        #     for location, rule in self.familiar_rules.items():
+        #         set_rule(self.location(location), rule)
