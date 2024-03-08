@@ -35,7 +35,7 @@ class AstalonRules:
         self.entrance_rules = {
             (Regions.GT, Regions.MECH): lambda state: self.has(state, Items.EYE_RED),
             (Regions.GT, Regions.APEX): lambda state: (
-                self.has(state, Items.ASCENDANT_KEY) if self.options.free_apex_elevator else lambda _: False
+                self.has(state, Items.ASCENDANT_KEY) if self.options.free_apex_elevator else False
             ),
             (Regions.MECH, Regions.HOTP): lambda state: self.has_any(state, Items.EYE_BLUE, Items.STAR),
             (Regions.MECH, Regions.CD): lambda state: self.has_all(state, Items.CYCLOPS, Items.EYE_BLUE),
@@ -148,10 +148,10 @@ class AstalonRules:
                 self.has_all(state, Items.EYE_RED, Items.EYE_BLUE, Items.STAR, Items.CLAW)
             ),
             Locations.TR_HP_1_BOTTOM: lambda state: (
-                self.has(state, Items.DOOR_RED_TR) if self.options.randomize_red_keys else lambda _: True
+                self.has(state, Items.DOOR_RED_TR) if self.options.randomize_red_keys else True
             ),
             Locations.TR_HP_2_TOP: lambda state: (
-                self.has(state, Items.DOOR_RED_TR) if self.options.randomize_red_keys else lambda _: True
+                self.has(state, Items.DOOR_RED_TR) if self.options.randomize_red_keys else True
             ),
             Locations.CD_HP_1: lambda _: True,
             Locations.CATH_HP_1_TOP_LEFT: lambda _: True,
