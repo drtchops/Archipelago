@@ -85,7 +85,12 @@ class AstalonWorld(World):
 
     def create_item(self, name: str) -> AstalonItem:
         item_data = item_table[Items(name)]
-        return AstalonItem(name, item_data.classification, self.item_name_to_id[name], self.player)
+        classification: ItemClassification
+        if callable(item_data.classification):
+            classification = item_data.classification(self)
+        else:
+            classification = item_data.classification
+        return AstalonItem(name, classification, self.item_name_to_id[name], self.player)
 
     def create_items(self) -> None:
         for name, data in item_table.items():

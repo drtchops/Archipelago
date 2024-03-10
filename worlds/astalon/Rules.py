@@ -37,9 +37,15 @@ class AstalonRules:
             (Regions.GT, Regions.APEX): lambda state: (
                 self.has(state, Items.ASCENDANT_KEY) if self.options.free_apex_elevator else False
             ),
-            (Regions.MECH, Regions.HOTP): lambda state: self.has_any(state, Items.EYE_BLUE, Items.STAR),
+            (Regions.GT, Regions.CATA): lambda _: True,
+            (Regions.MECH, Regions.HOTP): lambda state: self.has_any(state, Items.EYE_BLUE, Items.STAR, Items.CLAW),
             (Regions.MECH, Regions.CD): lambda state: self.has_all(state, Items.CYCLOPS, Items.EYE_BLUE),
-            (Regions.HOTP, Regions.ROA): lambda state: self.has_all(state, Items.CLAW, Items.BELL),
+            (Regions.HOTP, Regions.ROA): lambda state: self.has_all(
+                # bell not needed if kyuli has claw and beam, should redo logic once shop is in rando
+                state,
+                Items.CLAW,
+                Items.BELL,
+            ),
             (Regions.HOTP, Regions.CATH): lambda state: (
                 self.has_all(state, Items.EYE_GREEN, Items.BOW, Items.BELL, Items.ZEEK)
                 and (self.has(state, Items.DOOR_RED_CATH) if self.options.randomize_red_keys else True)
@@ -51,10 +57,14 @@ class AstalonRules:
                 else (self.has(state, Items.CLOAK) and self.has_any(state, Items.EYE_GREEN, Items.BOW))
             ),
             (Regions.APEX, Regions.BOSS): lambda state: (
+                # if difficulties are added, bell shouldn't be required on hard
+                # TODO: minimum amount of hp/attack upgrades for logical completion?
                 self.has_all(state, Items.EYE_RED, Items.EYE_BLUE, Items.EYE_GREEN, Items.BELL)
             ),
             (Regions.CATA, Regions.TR): lambda state: (
-                self.has_all(state, Items.EYE_RED, Items.EYE_BLUE, Items.BOW, Items.VOID, Items.CLAW)
+                self.has_all(
+                    state, Items.EYE_RED, Items.EYE_BLUE, Items.BOW, Items.VOID, Items.CLAW, Items.BELL, Items.BANISH
+                )
             ),
         }
 
@@ -71,10 +81,12 @@ class AstalonRules:
             Locations.MECH_CLOAK: lambda state: self.has(state, Items.EYE_BLUE),
             # Locations.MECH_CYCLOPS: lambda state: self.can_reach_zeek(state),
             Locations.MECH_EYE_BLUE: lambda _: True,
-            Locations.HOTP_BELL: lambda _: True,
+            Locations.HOTP_BELL: lambda state: (
+                self.has_any(state, Items.EYE_BLUE, Items.STAR) or self.hotp_backdoor(state)
+            ),
             Locations.HOTP_AMULET: lambda state: self.has_all(state, Items.CLAW, Items.EYE_BLUE),
-            Locations.HOTP_CLAW: lambda state: self.has(state, Items.BELL),
-            Locations.HOTP_GAUNTLET: lambda state: self.has_all(state, Items.EYE_GREEN, Items.CLAW, Items.BELL),
+            Locations.HOTP_CLAW: lambda state: self.central_hotp(state),
+            Locations.HOTP_GAUNTLET: lambda state: self.has_all(state, Items.CLAW, Items.BELL, Items.BANISH),
             Locations.HOTP_MAIDEN_RING: lambda state: (
                 self.has_all(state, Items.SWORD, Items.BANISH, Items.BELL, Items.CLAW)
             ),
@@ -83,7 +95,9 @@ class AstalonRules:
             Locations.APEX_CHALICE: lambda state: self.has_all(state, Items.ADORNED_KEY, Items.STAR),
             Locations.CATA_BOW: lambda state: self.has(state, Items.EYE_RED),
             Locations.TR_ADORNED_KEY: lambda state: (
-                self.has_all(state, Items.EYE_RED, Items.EYE_BLUE, Items.EYE_GREEN, Items.STAR)
+                self.has_all(
+                    state, Items.EYE_RED, Items.EYE_BLUE, Items.EYE_GREEN, Items.STAR, Items.ZEEK, Items.BANISH
+                )
             ),
             # Locations.CD_CROWN: lambda _: True,
             Locations.CATH_BLOCK: lambda _: True,
@@ -92,9 +106,17 @@ class AstalonRules:
 
         self.attack_rules = {
             Locations.GT_ATTACK: lambda state: (
-                self.has(state, Items.EYE_GREEN) and self.has_any(state, Items.ZEEK, Items.CLAW)
+                self.has(state, Items.EYE_GREEN)
+                and (self.has(state, Items.CLAW) or self.has_all(state, Items.ZEEK, Items.BELL))
             ),
-            Locations.MECH_ATTACK_VOLANTIS: lambda state: self.has_all(state, Items.CLAW, Items.BOW),
+            Locations.MECH_ATTACK_VOLANTIS: lambda state: (
+                self.has(state, Items.CLAW)
+                and (
+                    self.has(state, Items.EYE_BLUE)
+                    or self.has_all(state, Items.EYE_GREEN, Items.VOID)
+                    or self.has_all(state, Items.STAR, Items.BELL)
+                )
+            ),
             Locations.MECH_ATTACK_STAR: lambda state: self.has(state, Items.STAR),
             Locations.ROA_ATTACK: lambda state: self.has(state, Items.STAR),
             Locations.CATA_ATTACK_RED: lambda state: self.has(state, Items.EYE_RED),
@@ -115,14 +137,23 @@ class AstalonRules:
             Locations.MECH_HP_1_SWITCH: lambda _: True,
             Locations.MECH_HP_1_STAR: lambda state: self.has(state, Items.STAR),
             Locations.MECH_HP_3_CLAW: lambda state: self.has(state, Items.CLAW),
-            Locations.HOTP_HP_1_CLAW: lambda state: self.has(state, Items.BELL),
-            Locations.HOTP_HP_2_LADDER: lambda state: self.has(state, Items.BELL),
-            Locations.HOTP_HP_2_GAUNTLET: lambda state: self.has_all(state, Items.EYE_GREEN, Items.CLAW),
-            Locations.HOTP_HP_5_OLD_MAN: lambda state: self.has_all(state, Items.EYE_GREEN, Items.BELL, Items.CLAW),
-            Locations.HOTP_HP_5_MAZE: lambda state: (
-                self.has_all(state, Items.EYE_GREEN, Items.BELL, Items.CLAW, Items.VOID, Items.CLOAK)
+            Locations.HOTP_HP_1_CLAW: lambda state: self.central_hotp(state),
+            Locations.HOTP_HP_2_LADDER: lambda state: self.central_hotp(state),
+            Locations.HOTP_HP_2_GAUNTLET: lambda state: self.has_all(state, Items.CLAW, Items.ZEEK, Items.BELL),
+            Locations.HOTP_HP_5_OLD_MAN: lambda state: (
+                self.central_hotp(state)
+                and self.has_all(state, Items.EYE_GREEN, Items.CLAW)
+                and (self.has_all(state, Items.BELL, Items.BANISH) or self.has(state, Items.CHALICE))
             ),
-            Locations.HOTP_HP_5_START: lambda state: self.has(state, Items.CLAW),
+            Locations.HOTP_HP_5_MAZE: lambda state: (
+                self.has(state, Items.EYE_BLUE)
+                or self.has_all(state, Items.EYE_GREEN, Items.CLAW, Items.VOID)
+                or self.has_all(state, Items.STAR, Items.BELL)
+                # bram with star and range/axe could make this without bell
+            ),
+            Locations.HOTP_HP_5_START: lambda state: (
+                self.has(state, Items.CLAW) and self.has_any(state, Items.BELL, Items.EYE_BLUE)
+            ),
             Locations.ROA_HP_1_LEFT: lambda _: True,
             Locations.ROA_HP_2_RIGHT: lambda state: self.has_any(state, Items.GAUNTLET, Items.STAR, Items.CHALICE),
             Locations.ROA_HP_5_SOLARIA: lambda state: self.has(state, Items.EYE_GREEN),
@@ -168,13 +199,18 @@ class AstalonRules:
         self.red_key_rules = {
             Locations.GT_RED_KEY: lambda state: self.has_all(state, Items.ZEEK),
             Locations.MECH_RED_KEY: lambda _: True,
-            Locations.HOTP_RED_KEY: lambda state: self.has_all(state, Items.EYE_GREEN, Items.CLOAK),
+            Locations.HOTP_RED_KEY: lambda state: (
+                self.has_all(state, Items.EYE_GREEN, Items.CLOAK)
+                and (self.has_any(state, Items.EYE_BLUE, Items.STAR) or self.hotp_backdoor(state))
+            ),
             Locations.ROA_RED_KEY: lambda state: self.has_all(state, Items.CLOAK, Items.BOW),
             Locations.TR_RED_KEY: lambda _: True,
         }
 
         self.familiar_rules = {
-            Locations.GT_OLD_MAN: lambda state: self.has(state, Items.EYE_RED),
+            Locations.GT_OLD_MAN: lambda state: (
+                self.has(state, Items.EYE_RED) and self.has_any(state, Items.BELL, Items.SWORD)
+            ),
             Locations.MECH_OLD_MAN: lambda _: True,
             Locations.HOTP_OLD_MAN: lambda state: self.has_all(state, Items.CLOAK, Items.BOW, Items.BELL),
             Locations.CATA_GIL: lambda state: (
@@ -252,6 +288,19 @@ class AstalonRules:
             if self.has(state, item):
                 return True
         return False
+
+    def hotp_backdoor(self, state: CollectionState):
+        # kyuli with claw+beam could do this
+        if not self.has(state, Items.CLAW):
+            return False
+        return self.has_any(state, Items.CLOAK, Items.ICARUS)
+
+    def central_hotp(self, state: CollectionState):
+        if self.hotp_backdoor(state):
+            return True
+        if not self.has(state, Items.BELL):
+            return False
+        return self.has_any(state, Items.STAR, Items.EYE_BLUE)
 
     def set_region_rules(self):
         for (from_, to_), rule in self.entrance_rules.items():

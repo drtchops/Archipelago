@@ -1,8 +1,12 @@
 from dataclasses import dataclass
 from enum import Enum
 from itertools import groupby
+from typing import TYPE_CHECKING, Callable, Union
 
 from BaseClasses import Item, ItemClassification
+
+if TYPE_CHECKING:
+    from . import AstalonWorld
 
 
 class ItemGroups(str, Enum):
@@ -84,7 +88,7 @@ class AstalonItem(Item):
 
 @dataclass
 class AstalonItemData:
-    classification: ItemClassification
+    classification: Union[ItemClassification, Callable[["AstalonWorld"], ItemClassification]]
     quantity_in_item_pool: int
     item_group: ItemGroups = ItemGroups.NONE
 
@@ -117,7 +121,7 @@ item_table: dict[Items, AstalonItemData] = {
     Items.AMULET: AstalonItemData(ItemClassification.useful, 1, ItemGroups.ITEMS),
     Items.CLAW: AstalonItemData(ItemClassification.progression, 1, ItemGroups.ITEMS),
     Items.GAUNTLET: AstalonItemData(ItemClassification.progression, 1, ItemGroups.ITEMS),
-    Items.ICARUS: AstalonItemData(ItemClassification.useful, 1, ItemGroups.ITEMS),
+    Items.ICARUS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.ITEMS),
     Items.CHALICE: AstalonItemData(ItemClassification.progression, 1, ItemGroups.ITEMS),
     Items.BOW: AstalonItemData(ItemClassification.progression, 1, ItemGroups.ITEMS),
     # Items.CROWN: AstalonItemData(ItemClassification.progression, 1, ItemGroups.ITEMS),
