@@ -106,7 +106,14 @@ class AstalonWorld(World):
                 self.multiworld.itempool.append(item)
 
     def get_filler_item_name(self) -> str:
-        return self.multiworld.random.choice(filler_items)
+        items = list(filler_items)
+        # if not self.options.randomize_white_keys:
+        #     items.append(Items.KEY_WHITE.value)
+        # if not self.options.randomize_blue_keys:
+        #     items.append(Items.KEY_BLUE.value)
+        if not self.options.randomize_red_keys:
+            items.append(Items.KEY_RED.value)
+        return self.multiworld.random.choice(items)
 
     def set_rules(self) -> None:
         rules = AstalonRules(self)
