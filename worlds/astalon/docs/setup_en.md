@@ -26,11 +26,16 @@ The game will connect to AP upon loading a save game. Any items you received whi
 ## Archipelago Text Client
 
 We recommend having Archipelago's Text Client open on the side to keep track of what items you receive and send.
-Astalon has in-game messages, but they disappear quickly and there's no reasonable way to check your message history in-game.
+Astalon has in-game messages, but they disappear quickly and there's no way to check your message history in-game.
+
+## In-Game Controls
+
+- Left Ctrl + Left Shift + K will kill your character and let you respawn.
+- Left Ctrl + Left Shift + L will toggle death link off or on.
 
 ## Known Issues
 
 - Received items may need to be turned off and on again in the inventory to start working.
 - If the game loses its AP connection, items will not be sent upon reconnecting. You'll have to quit and recollect the items.
-- Orbs received as filler items will get collected again every time you reconnect.
-- There's currently no softlock prevention, but you can press Left Ctrl + Left Shift + K to die and respawn.
+- Orbs and keys received as filler items will get collected again every time you reconnect.
+- There's currently no softlock prevention.
