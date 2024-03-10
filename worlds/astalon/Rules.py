@@ -42,6 +42,7 @@ class AstalonRules:
             (Regions.MECH, Regions.CD): lambda state: self.has_all(state, Items.CYCLOPS, Items.EYE_BLUE),
             (Regions.HOTP, Regions.ROA): lambda state: self.has_all(
                 # bell not needed if kyuli has claw and beam, should redo logic once shop is in rando
+                # algus can hit the switch if he has banish and bigger projectiles, though this doesn't seem to matter checks-wise yet
                 state,
                 Items.CLAW,
                 Items.BELL,
