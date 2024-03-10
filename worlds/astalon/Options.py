@@ -126,9 +126,7 @@ class FreeApexElevator(DefaultOnToggle):
 
 class CostMultiplier(NamedRange):
     """
-    NOT YET SUPPORTED
     Set a multiplier for how many orbs shop purchases cost.
-    50 means purchases will cost 50% or half the amount of orbs.
     """
 
     display_name = "Cost Multiplier"
@@ -161,5 +159,5 @@ class AstalonOptions(PerGameCommonOptions):
     start_with_bram: StartWithBram
     start_with_qol: StartWithQOL
     free_apex_elevator: FreeApexElevator
-    # cost_multiplier: CostMultiplier
+    cost_multiplier: CostMultiplier
     death_link: DeathLink

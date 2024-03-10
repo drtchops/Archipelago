@@ -134,7 +134,7 @@ class AstalonWorld(World):
             "start_with_bram",
             "start_with_qol",
             "free_apex_elevator",
-            # "cost_multiplier",
+            "cost_multiplier",
             "death_link",
         )
         return {
