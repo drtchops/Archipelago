@@ -7,31 +7,26 @@
   - Currently you must use the bleeding edge release of v6 since the stable version does not support IL2CPP. A direct download for the version tested against can be found [here](https://builds.bepinex.dev/projects/bepinex_be/688/BepInEx-Unity.IL2CPP-win-x86-6.0.0-be.688%2B4901521.zip).
 - [Archipelago Mod for Astalon](https://github.com/drtchops/Archipelago-Astalon/releases)
 
-## Installation Procedure
+## Installation
 
 1. Download and extract BepInEx into your Astalon install folder.
 2. Download and extract the Archipelago Mod into your Astalon install folder.
 
 ## Connecting
 
-1. Open `Astalon Tears of the Earth/BepInEx/config/Archipelago.cfg` in a text editor and change the `address`, `port`, `slotName`, and `password` fields as needed.
-2. Launch the game. It will take longer to open the first time after installing BepInEx as it needs to generate some files.
-3. Start a new save file in any slot.
-4. The game should connect to AP automatically when you gain control. You can look at the BepInEx console to verify.
+1. Launch the game. It will take longer to open the first time after installing BepInEx as it needs to generate some files.
+2. There will be a place to input your connection details in the bottom right corner of the screen. Enter the archipelago server address and port, your player name, and a password if required, and press connect.
+3. Once connected, the bottom corner will switch to showing your connection status. A console that shows you any messages from AP will appear at the top of the screen. You can click the show button to expand it and send messages.
+4. Start a new save file in any slot. You can also do so before connecting to AP.
+5. Items should send out and display an item box in-game when you check locations. Received items should automatically be added to your inventory and an item box will be displayed.
 
 ## Resuming
 
-The game will connect to AP upon loading a save game. Any items you received while the game was closed will be added to your inventory.
-
-## Archipelago Text Client
-
-We recommend having Archipelago's Text Client open on the side to keep track of what items you receive and send.
-Astalon has in-game messages, but they disappear quickly and there's no way to check your message history in-game.
+You can load an existing save and conenct to the AP server in any order. Once you've loaded in and connected you will receive any items that were sent since you last played.
 
 ## In-Game Controls
 
-- Left Ctrl + Left Shift + K will kill your character and let you respawn.
-- Left Ctrl + Left Shift + L will toggle death link off or on.
+Once you've connected to AP you can press F1 to open a set of debug options at the bottom of the screen. If you're softlocked you can use this menu to die and respawn.
 
 ## Known Issues
 
