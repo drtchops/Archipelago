@@ -108,7 +108,7 @@ class StartWithBram(Toggle):
 
 class StartWithQOL(DefaultOnToggle):
     """
-    Choose whether to start the game with various QoL shop upgrades.
+    Choose whether to start the game with various Quality of Life shop upgrades.
     Includes Knowledge, Orb Seeker, Map Reveal, Cartography, Gift, and Titan's Ego.
     """
 

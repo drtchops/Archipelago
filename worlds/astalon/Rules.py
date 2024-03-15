@@ -176,8 +176,8 @@ class AstalonRules:
                 self.has_all(state, Items.EYE_RED, Items.EYE_BLUE, Items.BOW, Items.CLAW)
             ),
             Locations.CATA_HP_2_ABOVE_GEMINI: lambda state: (
-                self.has_all(state, Items.EYE_RED, Items.EYE_BLUE, Items.BOW)
-                and self.has_any(state, Items.GAUNTLET, Items.CHALICE)
+                self.has_all(state, Items.EYE_RED, Items.EYE_BLUE, Items.BOW, Items.CLAW)
+                and (self.has_all(state, Items.GAUNTLET, Items.BELL) or self.has(state, Items.CHALICE))
             ),
             Locations.CATA_HP_5_CHAIN: lambda state: (
                 self.has_all(state, Items.EYE_RED, Items.EYE_BLUE, Items.STAR, Items.CLAW)
