@@ -163,7 +163,10 @@ class AstalonRules:
             Locations.APEX_HP_5_HEART: lambda _: True,
             Locations.CATA_HP_1_START: lambda state: self.has_any(state, Items.BOW, Items.CHALICE),
             Locations.CATA_HP_1_CYCLOPS: lambda state: self.has(state, Items.SWORD),
-            Locations.CATA_HP_1_ABOVE_POISON: lambda state: self.has_all(state, Items.EYE_RED, Items.BOW),
+            Locations.CATA_HP_1_ABOVE_POISON: lambda state: (
+                self.has_all(state, Items.EYE_RED, Items.BOW)
+                and (self.has(state, Items.BELL) or self.has_all(state, Items.ICARUS, Items.CLAW))
+            ),
             Locations.CATA_HP_2_BEFOER_POISON: lambda state: self.has_all(state, Items.EYE_RED, Items.BOW),
             Locations.CATA_HP_2_AFTER_POISON: lambda state: self.has_all(state, Items.EYE_RED, Items.BOW),
             Locations.CATA_HP_2_GEMINI_BOTTOM: lambda state: (
@@ -221,7 +224,7 @@ class AstalonRules:
                     Items.EYE_BLUE,
                     Items.EYE_GREEN,
                     Items.STAR,
-                    Items.BLOCK,
+                    Items.ZEEK,
                     Items.CLAW,
                     Items.BELL,
                 )

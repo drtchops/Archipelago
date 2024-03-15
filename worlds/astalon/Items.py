@@ -19,6 +19,8 @@ class ItemGroups(str, Enum):
     ATTACK = "attack"
     HEALTH = "health"
     ORBS = "orbs"
+    DOORS_WHITE = "white doors"
+    DOORS_BLUE = "blue doors"
     DOORS_RED = "red doors"
 
 
@@ -69,9 +71,56 @@ class Items(str, Enum):
     MAX_HP_3 = "Max HP +3"
     MAX_HP_4 = "Max HP +4"
     MAX_HP_5 = "Max HP +5"
-    ORBS_50 = "50 Orbs"
-    ORBS_100 = "100 Orbs"
     ORBS_200 = "200 Orbs"
+    ORBS_500 = "500 Orbs"
+    ORBS_1000 = "1000 Orbs"
+
+    DOOR_WHITE_GT_START = "GT White Door (1st Room)"
+    DOOR_WHITE_GT_MAP = "GT White Door (Linus' Map)"
+    DOOR_WHITE_GT_TAUROS = "GT White Door (Tauros)"
+    DOOR_WHITE_MECH_2ND = "Mech White Door (2nd Room)"
+    DOOR_WHITE_MECH_BK = "Mech White Door (Black Knight)"
+    DOOR_WHITE_MECH_ARENA = "Mech White Door (Enemy Arena)"
+    DOOR_WHITE_MECH_TOP = "Mech White Door (Top)"
+    DOOR_WHITE_HOTP_START = "HotP White Door (1st Room)"
+    DOOR_WHITE_HOTP_CLAW = "HotP White Door (Griffon Claw)"
+    DOOR_WHITE_HOTP_BOSS = "HotP White Door (Boss)"
+    DOOR_WHITE_ROA_WORMS = "RoA White Door (Worms)"
+    DOOR_WHITE_ROA_ASCEND = "RoA White Door (Ascend)"
+    DOOR_WHITE_ROA_BALLS = "RoA White Door (Spike Balls)"
+    DOOR_WHITE_ROA_SPINNERS = "RoA White Door (Spike Spinners)"
+    DOOR_WHITE_ROA_SKIP = "RoA White Door (Skippable)"
+    DOOR_WHITE_CATA_TOP = "Cata White Door (Top)"
+    DOOR_WHITE_CATA_BLUE = "Cata White Door (After Blue Door)"
+    DOOR_WHITE_CATA_PRISON = "Cata White Door (Prison)"
+
+    DOOR_BLUE_GT_HUNTER = "GT Blue Door (Bestiary)"
+    DOOR_BLUE_GT_RING = "GT Blue Door (Ring of the Ancients)"
+    DOOR_BLUE_GT_ORBS = "GT Blue Door (Bonus Orbs)"
+    DOOR_BLUE_GT_ASCENDANT = "GT Blue Door (Ascendant Key)"
+    DOOR_BLUE_GT_SWORD = "GT Blue Door (Sword of Mirrors)"
+    DOOR_BLUE_MECH_RED = "Mech Blue Door (Red Key)"
+    DOOR_BLUE_MECH_SHORTCUT = "Mech Blue Door (Shortcut)"
+    DOOR_BLUE_MECH_MUSIC = "Mech Blue Door (Music Test)"
+    DOOR_BLUE_MECH_BOOTS = "Mech Blue Door (Talaria Boots)"
+    DOOR_BLUE_MECH_VOID = "Mech Blue Door (Void Charm)"
+    DOOR_BLUE_MECH_CD = "Mech Blue Door (Cyclops Den)"
+    DOOR_BLUE_HOTP_START = "HotP Blue Door (Above Start)"
+    DOOR_BLUE_HOTP_STATUE = "HotP Blue Door (Epimetheus)"
+    DOOR_BLUE_HOTP_MAIDEN = "HotP Blue Door (Dead Maiden)"
+    DOOR_BLUE_ROA_FLAMES = "RoA Blue Door (Flames)"
+    DOOR_BLUE_ROA_BLOOD = "RoA Blue Door (Blood Pot)"
+    DOOR_BLUE_APEX = "Apex Blue Door"
+    DOOR_BLUE_CATA_START = "Cata Blue Door (Start)"
+    DOOR_BLUE_CATA_ORBS = "Cata Blue Door (Bonus Orbs)"
+    DOOR_BLUE_CATA_SAVE = "Cata Blue Door (Checkpoint)"
+    DOOR_BLUE_CATA_BOW = "Cata Blue Door (Lunarian Bow)"
+    DOOR_BLUE_CATA_ROOTS = "Cata Blue Door (Poison Roots)"
+    DOOR_BLUE_CATA_PRISON_CYCLOPS = "Cata Blue Door (Prison Cyclops)"
+    DOOR_BLUE_CATA_PRISON_LEFT = "Cata Blue Door (Prison Left)"
+    DOOR_BLUE_CATA_PRISON_RIGHT = "Cata Blue Door (Prison Right)"
+    DOOR_BLUE_TR = "TR Blue Door"
+    DOOR_BLUE_SP = "SP Blue Door"
 
     DOOR_RED_ZEEK = "Red Door (Zeek)"
     DOOR_RED_CATH = "Red Door (Cathedral)"
@@ -135,9 +184,54 @@ item_table: dict[Items, AstalonItemData] = {
     Items.MAX_HP_3: AstalonItemData(ItemClassification.useful, 1, ItemGroups.HEALTH),
     Items.MAX_HP_4: AstalonItemData(ItemClassification.useful, 1, ItemGroups.HEALTH),
     Items.MAX_HP_5: AstalonItemData(ItemClassification.useful, 8, ItemGroups.HEALTH),
-    Items.ORBS_50: AstalonItemData(ItemClassification.filler, 0, ItemGroups.ORBS),
-    Items.ORBS_100: AstalonItemData(ItemClassification.filler, 0, ItemGroups.ORBS),
     Items.ORBS_200: AstalonItemData(ItemClassification.filler, 0, ItemGroups.ORBS),
+    Items.ORBS_500: AstalonItemData(ItemClassification.filler, 0, ItemGroups.ORBS),
+    Items.ORBS_1000: AstalonItemData(ItemClassification.filler, 0, ItemGroups.ORBS),
+    # Items.DOOR_WHITE_GT_START: AstalonItemData(ItemClassification.progression, 1, ItemGroups.DOORS_WHITE),
+    # Items.DOOR_WHITE_GT_MAP: AstalonItemData(ItemClassification.progression, 1, ItemGroups.DOORS_WHITE),
+    # Items.DOOR_WHITE_GT_TAUROS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.DOORS_WHITE),
+    # Items.DOOR_WHITE_MECH_2ND: AstalonItemData(ItemClassification.progression, 1, ItemGroups.DOORS_WHITE),
+    # Items.DOOR_WHITE_MECH_BK: AstalonItemData(ItemClassification.progression, 1, ItemGroups.DOORS_WHITE),
+    # Items.DOOR_WHITE_MECH_ARENA: AstalonItemData(ItemClassification.progression, 1, ItemGroups.DOORS_WHITE),
+    # Items.DOOR_WHITE_MECH_TOP: AstalonItemData(ItemClassification.progression, 1, ItemGroups.DOORS_WHITE),
+    # Items.DOOR_WHITE_HOTP_START: AstalonItemData(ItemClassification.progression, 1, ItemGroups.DOORS_WHITE),
+    # Items.DOOR_WHITE_HOTP_CLAW: AstalonItemData(ItemClassification.progression, 1, ItemGroups.DOORS_WHITE),
+    # Items.DOOR_WHITE_HOTP_BOSS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.DOORS_WHITE),
+    # Items.DOOR_WHITE_ROA_WORMS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.DOORS_WHITE),
+    # Items.DOOR_WHITE_ROA_ASCEND: AstalonItemData(ItemClassification.progression, 1, ItemGroups.DOORS_WHITE),
+    # Items.DOOR_WHITE_ROA_BALLS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.DOORS_WHITE),
+    # Items.DOOR_WHITE_ROA_SPINNERS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.DOORS_WHITE),
+    # Items.DOOR_WHITE_ROA_SKIP: AstalonItemData(ItemClassification.filler, 1, ItemGroups.DOORS_WHITE),
+    # Items.DOOR_WHITE_CATA_TOP: AstalonItemData(ItemClassification.progression, 1, ItemGroups.DOORS_WHITE),
+    # Items.DOOR_WHITE_CATA_BLUE: AstalonItemData(ItemClassification.progression, 1, ItemGroups.DOORS_WHITE),
+    # Items.DOOR_WHITE_CATA_PRISON: AstalonItemData(ItemClassification.progression, 1, ItemGroups.DOORS_WHITE),
+    # Items.DOOR_BLUE_GT_HUNTER: AstalonItemData(ItemClassification.progression, 1, ItemGroups.DOORS_BLUE),
+    # Items.DOOR_BLUE_GT_RING: AstalonItemData(ItemClassification.progression, 1, ItemGroups.DOORS_BLUE),
+    # Items.DOOR_BLUE_GT_ORBS: AstalonItemData(ItemClassification.useful, 1, ItemGroups.DOORS_BLUE),
+    # Items.DOOR_BLUE_GT_ASCENDANT: AstalonItemData(ItemClassification.progression, 1, ItemGroups.DOORS_BLUE),
+    # Items.DOOR_BLUE_GT_SWORD: AstalonItemData(ItemClassification.progression, 1, ItemGroups.DOORS_BLUE),
+    # Items.DOOR_BLUE_MECH_RED: AstalonItemData(ItemClassification.progression, 1, ItemGroups.DOORS_BLUE),
+    # Items.DOOR_BLUE_MECH_SHORTCUT: AstalonItemData(ItemClassification.useful, 1, ItemGroups.DOORS_BLUE),
+    # Items.DOOR_BLUE_MECH_MUSIC: AstalonItemData(ItemClassification.filler, 1, ItemGroups.DOORS_BLUE),
+    # Items.DOOR_BLUE_MECH_BOOTS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.DOORS_BLUE),
+    # Items.DOOR_BLUE_MECH_VOID: AstalonItemData(ItemClassification.progression, 1, ItemGroups.DOORS_BLUE),
+    # Items.DOOR_BLUE_MECH_CD: AstalonItemData(ItemClassification.progression, 1, ItemGroups.DOORS_BLUE),
+    # Items.DOOR_BLUE_HOTP_START: AstalonItemData(ItemClassification.progression, 1, ItemGroups.DOORS_BLUE),
+    # Items.DOOR_BLUE_HOTP_STATUE: AstalonItemData(ItemClassification.progression, 1, ItemGroups.DOORS_BLUE),
+    # Items.DOOR_BLUE_HOTP_MAIDEN: AstalonItemData(ItemClassification.progression, 1, ItemGroups.DOORS_BLUE),
+    # Items.DOOR_BLUE_ROA_FLAMES: AstalonItemData(ItemClassification.progression, 1, ItemGroups.DOORS_BLUE),
+    # Items.DOOR_BLUE_ROA_BLOOD: AstalonItemData(ItemClassification.useful, 1, ItemGroups.DOORS_BLUE),
+    # Items.DOOR_BLUE_APEX: AstalonItemData(ItemClassification.progression, 1, ItemGroups.DOORS_BLUE),
+    # Items.DOOR_BLUE_CATA_START: AstalonItemData(ItemClassification.progression, 1, ItemGroups.DOORS_BLUE),
+    # Items.DOOR_BLUE_CATA_ORBS: AstalonItemData(ItemClassification.useful, 1, ItemGroups.DOORS_BLUE),
+    # Items.DOOR_BLUE_CATA_SAVE: AstalonItemData(ItemClassification.progression, 1, ItemGroups.DOORS_BLUE),
+    # Items.DOOR_BLUE_CATA_BOW: AstalonItemData(ItemClassification.progression, 1, ItemGroups.DOORS_BLUE),
+    # Items.DOOR_BLUE_CATA_ROOTS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.DOORS_BLUE),
+    # Items.DOOR_BLUE_CATA_PRISON_CYCLOPS: AstalonItemData(ItemClassification.filler, 1, ItemGroups.DOORS_BLUE),
+    # Items.DOOR_BLUE_CATA_PRISON_LEFT: AstalonItemData(ItemClassification.filler, 1, ItemGroups.DOORS_BLUE),
+    # Items.DOOR_BLUE_CATA_PRISON_RIGHT: AstalonItemData(ItemClassification.filler, 1, ItemGroups.DOORS_BLUE),
+    # Items.DOOR_BLUE_TR: AstalonItemData(ItemClassification.progression, 1, ItemGroups.DOORS_BLUE),
+    # Items.DOOR_BLUE_SP: AstalonItemData(ItemClassification.progression, 1, ItemGroups.DOORS_BLUE),
     Items.DOOR_RED_ZEEK: AstalonItemData(ItemClassification.progression, 1, ItemGroups.DOORS_RED),
     Items.DOOR_RED_CATH: AstalonItemData(ItemClassification.progression, 1, ItemGroups.DOORS_RED),
     Items.DOOR_RED_SP: AstalonItemData(ItemClassification.progression, 1, ItemGroups.DOORS_RED),

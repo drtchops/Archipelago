@@ -64,6 +64,10 @@ class AstalonWorld(World):
                     continue
                 if data.item_group == LocationGroups.HEALTH and not self.options.randomize_health_pickups:
                     continue
+                # if data.item_group == LocationGroups.KEYS_WHITE and not self.options.randomize_white_keys:
+                #     continue
+                # if data.item_group == LocationGroups.KEYS_BLUE and not self.options.randomize_blue_keys:
+                #     continue
                 if data.item_group == LocationGroups.KEYS_RED and not self.options.randomize_red_keys:
                     continue
 
@@ -98,6 +102,10 @@ class AstalonWorld(World):
                 continue
             if data.item_group == ItemGroups.HEALTH and not self.options.randomize_health_pickups:
                 continue
+            # if data.item_group == ItemGroups.DOORS_WHITE and not self.options.randomize_white_keys:
+            #     continue
+            # if data.item_group == ItemGroups.DOORS_BLUE and not self.options.randomize_blue_keys:
+            #     continue
             if data.item_group == ItemGroups.DOORS_RED and not self.options.randomize_red_keys:
                 continue
 
@@ -106,7 +114,7 @@ class AstalonWorld(World):
                 self.multiworld.itempool.append(item)
 
     def get_filler_item_name(self) -> str:
-        items = list(filler_items)
+        items = list(filler_items) + [Items.KEY_WHITE.value, Items.KEY_BLUE.value]
         # if not self.options.randomize_white_keys:
         #     items.append(Items.KEY_WHITE.value)
         # if not self.options.randomize_blue_keys:
@@ -139,5 +147,5 @@ class AstalonWorld(World):
         )
         return {
             "settings": settings,
-            # TODO: send list of locations for hp and str pickups to avoid long/int problem
+            # TODO: return list of items in world so they can display in-game correctly?
         }

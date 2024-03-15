@@ -9,10 +9,13 @@ from .Regions import Regions
 
 class LocationGroups(str, Enum):
     NONE = ""
+    CHARACTERS = "characters"
     ITEMS = "items"
     FAMILIARS = "familiars"
     HEALTH = "health"
     ATTACK = "attack"
+    KEYS_WHITE = "white keys"
+    KEYS_BLUE = "blue keys"
     KEYS_RED = "red keys"
 
 
@@ -29,8 +32,16 @@ class Locations(str, Enum):
     GT_ATTACK = "Gorgon Tomb - Attack +1"
     GT_HP_1_RING = "Gorgon Tomb - Max HP +1 (Ring of the Ancients)"
     GT_HP_5_KEY = "Gorgon Tomb - Max HP +5 (Ascendant Key)"
+    GT_WHITE_KEY_START = "Gorgon Tomb - White Key (First Room)"
+    GT_WHITE_KEY_RIGHT = "Gorgon Tomb - White Key (Right Side)"
+    GT_WHITE_KEY_BOSS = "Gorgon Tomb - White Key (Before Boss)"
+    GT_BLUE_KEY_BONEWORM = "Gorgon Tomb - Blue Key (Boneworms)"
+    GT_BLUE_KEY_BUTT = "Gorgon Tomb - Blue Key (Butt)"
+    GT_BLUE_KEY_WALL = "Gorgon Tomb - Blue Key (Inside Wall)"
+    GT_BLUE_KEY_POT = "Gorgon Tomb - Blue Key (Pot)"
     GT_RED_KEY = "Gorgon Tomb - Red Key"
 
+    MECH_ZEEK = "Mechanism - Zeek"
     MECH_BOOTS = "Mechanism - Talaria Boots"
     MECH_CLOAK = "Mechanism - Cloak of Levitation"
     MECH_CYCLOPS = "Mechanism - Cyclops Idol"
@@ -41,6 +52,21 @@ class Locations(str, Enum):
     MECH_HP_1_SWITCH = "Mechanism - Max HP +1 (Secret Switch)"
     MECH_HP_1_STAR = "Mechanism - Max HP +1 (Morning Star Blocks)"
     MECH_HP_3_CLAW = "Mechanism - Max HP +3 (Above Checkpoint)"
+    MECH_WHITE_KEY_LINUS = "Mechanism - White Key (Below Linus)"
+    MECH_WHITE_KEY_BK = "Mechanism - White Key (Black Knight)"
+    MECH_WHITE_KEY_ARENA = "Mechanism - White Key (Enemy Arena)"
+    MECH_WHITE_KEY_TOP = "Mechanism - White Key (Top)"
+    MECH_BLUE_KEY_VOID = "Mechanism - Blue Key (Void Charm)"
+    MECH_BLUE_KEY_SNAKE = "Mechanism - Blue Key (Snake Head)"
+    MECH_BLUE_KEY_LINUS = "Mechanism - Blue Key (Linus)"
+    MECH_BLUE_KEY_SACRIFICE = "Mechanism - Blue Key (Sacrifice)"
+    MECH_BLUE_KEY_RED = "Mechanism - Blue Key (To Red Key)"
+    MECH_BLUE_KEY_ARIAS = "Mechanism - Blue Key (Arias)"
+    MECH_BLUE_KEY_BLOCKS = "Mechanism - Blue Key (Switch Blocks)"
+    MECH_BLUE_KEY_TOP = "Mechanism - Blue Key (Top Path)"
+    MECH_BLUE_KEY_OLD_MAN = "Mechanism - Blue Key (Old Man)"
+    MECH_BLUE_KEY_SAVE = "Mechanism - Blue Key (Checkpoint)"
+    MECH_BLUE_KEY_POT = "Mechanism - Blue Key (Pot)"
     MECH_RED_KEY = "Mechanism - Red Key"
 
     HOTP_BELL = "Hall of the Phantoms - Athena's Bell"
@@ -55,6 +81,16 @@ class Locations(str, Enum):
     HOTP_HP_5_OLD_MAN = "Hall of the Phantoms - Max HP +5 (Old Man)"
     HOTP_HP_5_MAZE = "Hall of the Phantoms - Max HP +5 (Teleport Maze)"
     HOTP_HP_5_START = "Hall of the Phantoms - Max HP +5 (Above Start)"
+    HOTP_WHITE_KEY_LEFT = "Hall of the Phantoms - White Key (Left of Start)"
+    HOTP_WHITE_KEY_GHOST = "Hall of the Phantoms - White Key (Ghost)"
+    HOTP_WHITE_KEY_OLD_MAN = "Hall of the Phantoms - White Key (Old Man)"
+    HOTP_WHITE_KEY_BOSS = "Hall of the Phantoms - White Key (Boss)"
+    HOTP_BLUE_KEY_STATUE = "Hall of the Phantoms - Blue Key (Epimetheus)"
+    HOTP_BLUE_KEY_GOLD = "Hall of the Phantoms - Blue Key (Gold Hint)"
+    HOTP_BLUE_KEY_AMULET = "Hall of the Phantoms - Blue Key (Amulet of Sol)"
+    HOTP_BLUE_KEY_LADDER = "Hall of the Phantoms - Blue Key (Secret Ladder)"
+    HOTP_BLUE_KEY_TELEPORTS = "Hall of the Phantoms - Blue Key (Spike Teleporters)"
+    HOTP_BLUE_KEY_MAZE = "Hall of the Phantoms - Blue Key (Teleport Maze)"
     HOTP_RED_KEY = "Hall of the Phantoms - Red Key"
 
     ROA_ICARUS = "Ruins of Ash - Icarus Emblem"
@@ -63,13 +99,24 @@ class Locations(str, Enum):
     ROA_HP_1_LEFT = "Ruins of Ash - Max HP +1 (Left of Ascent)"
     ROA_HP_2_RIGHT = "Ruins of Ash - Max HP +2 (Right Side)"
     ROA_HP_5_SOLARIA = "Ruins of Ash - Max HP +5 (After Solaria)"
+    ROA_WHITE_KEY_SAVE = "Ruins of Ash - White Key (Checkpoint)"
+    ROA_WHITE_KEY_REAPERS = "Ruins of Ash - White Key (Three Reapers)"
+    ROA_WHITE_KEY_TORCHES = "Ruins of Ash - White Key (Torches)"
+    ROA_WHITE_KEY_PORTAL = "Ruins of Ash - White Key (Void Portal)"
+    ROA_BLUE_KEY_FACE = "Ruins of Ash - Blue Key (Face)"
+    ROA_BLUE_KEY_FLAMES = "Ruins of Ash - Blue Key (Flames)"
+    ROA_BLUE_KEY_BABY = "Ruins of Ash - Blue Key (Baby Gorgon)"
+    ROA_BLUE_KEY_TOP = "Ruins of Ash - Blue Key (Top)"
+    ROA_BLUE_KEY_POT = "Ruins of Ash - Blue Key (Pot)"
     ROA_RED_KEY = "Ruins of Ash - Red Key"
 
     DARK_HP_4 = "Darkness - Max HP +4"
+    DARK_WHITE_KEY = "Darkness - White Key"
 
     APEX_CHALICE = "The Apex - Blood Chalice"
     APEX_HP_1_CHALICE = "The Apex - Max HP +1 (Blood Chalice)"
     APEX_HP_5_HEART = "The Apex - Max HP +5 (After Heart)"
+    APEX_BLUE_KEY = "The Apex - Blue Key"
 
     CATA_BOW = "Catacombs - Lunarian Bow"
     CATA_GIL = "Catacombs - Gil"
@@ -87,7 +134,13 @@ class Locations(str, Enum):
     CATA_HP_2_GEMINI_TOP = "Catacombs - Max HP +2 (Before Gemini Top)"
     CATA_HP_2_ABOVE_GEMINI = "Catacombs - Max HP +2 (Above Gemini)"
     CATA_HP_5_CHAIN = "Catacombs - Max HP +5 (Item Chain)"
+    CATA_WHITE_KEY_HEAD = "Catacombs - White Key (On Head)"
+    CATA_WHITE_KEY_DEV_ROOM = "Catacombs - White Key (Dev Room)"
+    CATA_WHITE_KEY_PRISON = "Catacombs - White Key (Prison)"
+    CATA_BLUE_KEY_SLIMES = "Catacombs - Blue Key (Slime Water)"
+    CATA_BLUE_KEY_EYEBALLS = "Catacombs - Blue Key (Eyeballs)"
 
+    TR_BRAM = "Tower Roots - Bram"
     TR_ADORNED_KEY = "Tower Roots - Adorned Key"
     TR_HP_1_BOTTOM = "Tower Roots - Max HP +1 (Bottom)"
     TR_HP_2_TOP = "Tower Roots - Max HP +2 (Top)"
@@ -107,6 +160,10 @@ class Locations(str, Enum):
     SP_STAR = "Serpent Path - Morning Star"
     SP_ATTACK = "Serpent Path - Attack +1"
     SP_HP_1 = "Serpent Path - Max HP +1"
+    SP_BLUE_KEY_BUBBLES = "Serpent Path - Blue Key (Bubbles)"
+    SP_BLUE_KEY_STAR = "Serpent Path - Blue Key (Morning Star)"
+    SP_BLUE_KEY_PAINTING = "Serpent Path - Blue Key (Painting)"
+    SP_BLUE_KEY_ARIAS = "Serpent Path - Blue Key (Arias)"
 
     VICTORY = "Victory"
 
@@ -134,7 +191,15 @@ location_table: dict[Locations, AstalonLocationData] = {
     Locations.GT_ATTACK: AstalonLocationData(Regions.GT, LocationGroups.ATTACK),
     Locations.GT_HP_1_RING: AstalonLocationData(Regions.GT, LocationGroups.HEALTH),
     Locations.GT_HP_5_KEY: AstalonLocationData(Regions.GT, LocationGroups.HEALTH),
+    # Locations.GT_WHITE_KEY_START: AstalonLocationData(Regions.GT, LocationGroups.KEYS_WHITE),
+    # Locations.GT_WHITE_KEY_RIGHT: AstalonLocationData(Regions.GT, LocationGroups.KEYS_WHITE),
+    # Locations.GT_WHITE_KEY_BOSS: AstalonLocationData(Regions.GT, LocationGroups.KEYS_WHITE),
+    # Locations.GT_BLUE_KEY_BONEWORM: AstalonLocationData(Regions.GT, LocationGroups.KEYS_BLUE),
+    # Locations.GT_BLUE_KEY_BUTT: AstalonLocationData(Regions.GT, LocationGroups.KEYS_BLUE),
+    # Locations.GT_BLUE_KEY_WALL: AstalonLocationData(Regions.GT, LocationGroups.KEYS_BLUE),
+    # Locations.GT_BLUE_KEY_POT: AstalonLocationData(Regions.GT, LocationGroups.KEYS_BLUE),
     Locations.GT_RED_KEY: AstalonLocationData(Regions.GT, LocationGroups.KEYS_RED),
+    # Locations.MECH_ZEEK: AstalonLocationData(Regions.MECH, LocationGroups.CHARACTERS),
     Locations.MECH_BOOTS: AstalonLocationData(Regions.MECH, LocationGroups.ITEMS),
     Locations.MECH_CLOAK: AstalonLocationData(Regions.MECH, LocationGroups.ITEMS),
     # Locations.MECH_CYCLOPS: AstalonLocationData(Regions.MECH, LocationGroups.ITEMS),
@@ -145,6 +210,21 @@ location_table: dict[Locations, AstalonLocationData] = {
     Locations.MECH_HP_1_SWITCH: AstalonLocationData(Regions.MECH, LocationGroups.HEALTH),
     Locations.MECH_HP_1_STAR: AstalonLocationData(Regions.MECH, LocationGroups.HEALTH),
     Locations.MECH_HP_3_CLAW: AstalonLocationData(Regions.MECH, LocationGroups.HEALTH),
+    # Locations.MECH_WHITE_KEY_LINUS: AstalonLocationData(Regions.MECH, LocationGroups.KEYS_WHITE),
+    # Locations.MECH_WHITE_KEY_BK: AstalonLocationData(Regions.MECH, LocationGroups.KEYS_WHITE),
+    # Locations.MECH_WHITE_KEY_ARENA: AstalonLocationData(Regions.MECH, LocationGroups.KEYS_WHITE),
+    # Locations.MECH_WHITE_KEY_TOP: AstalonLocationData(Regions.MECH, LocationGroups.KEYS_WHITE),
+    # Locations.MECH_BLUE_KEY_VOID: AstalonLocationData(Regions.MECH, LocationGroups.KEYS_BLUE),
+    # Locations.MECH_BLUE_KEY_SNAKE: AstalonLocationData(Regions.MECH, LocationGroups.KEYS_BLUE),
+    # Locations.MECH_BLUE_KEY_LINUS: AstalonLocationData(Regions.MECH, LocationGroups.KEYS_BLUE),
+    # Locations.MECH_BLUE_KEY_SACRIFICE: AstalonLocationData(Regions.MECH, LocationGroups.KEYS_BLUE),
+    # Locations.MECH_BLUE_KEY_RED: AstalonLocationData(Regions.MECH, LocationGroups.KEYS_BLUE),
+    # Locations.MECH_BLUE_KEY_ARIAS: AstalonLocationData(Regions.MECH, LocationGroups.KEYS_BLUE),
+    # Locations.MECH_BLUE_KEY_BLOCKS: AstalonLocationData(Regions.MECH, LocationGroups.KEYS_BLUE),
+    # Locations.MECH_BLUE_KEY_TOP: AstalonLocationData(Regions.MECH, LocationGroups.KEYS_BLUE),
+    # Locations.MECH_BLUE_KEY_OLD_MAN: AstalonLocationData(Regions.MECH, LocationGroups.KEYS_BLUE),
+    # Locations.MECH_BLUE_KEY_SAVE: AstalonLocationData(Regions.MECH, LocationGroups.KEYS_BLUE),
+    # Locations.MECH_BLUE_KEY_POT: AstalonLocationData(Regions.MECH, LocationGroups.KEYS_BLUE),
     Locations.MECH_RED_KEY: AstalonLocationData(Regions.MECH, LocationGroups.KEYS_RED),
     Locations.HOTP_BELL: AstalonLocationData(Regions.HOTP, LocationGroups.ITEMS),
     Locations.HOTP_AMULET: AstalonLocationData(Regions.HOTP, LocationGroups.ITEMS),
@@ -158,6 +238,16 @@ location_table: dict[Locations, AstalonLocationData] = {
     Locations.HOTP_HP_5_OLD_MAN: AstalonLocationData(Regions.HOTP, LocationGroups.HEALTH),
     Locations.HOTP_HP_5_MAZE: AstalonLocationData(Regions.HOTP, LocationGroups.HEALTH),
     Locations.HOTP_HP_5_START: AstalonLocationData(Regions.HOTP, LocationGroups.HEALTH),
+    # Locations.HOTP_WHITE_KEY_LEFT: AstalonLocationData(Regions.HOTP, LocationGroups.KEYS_WHITE),
+    # Locations.HOTP_WHITE_KEY_GHOST: AstalonLocationData(Regions.HOTP, LocationGroups.KEYS_WHITE),
+    # Locations.HOTP_WHITE_KEY_OLD_MAN: AstalonLocationData(Regions.HOTP, LocationGroups.KEYS_WHITE),
+    # Locations.HOTP_WHITE_KEY_BOSS: AstalonLocationData(Regions.HOTP, LocationGroups.KEYS_WHITE),
+    # Locations.HOTP_BLUE_KEY_STATUE: AstalonLocationData(Regions.HOTP, LocationGroups.KEYS_BLUE),
+    # Locations.HOTP_BLUE_KEY_GOLD: AstalonLocationData(Regions.HOTP, LocationGroups.KEYS_BLUE),
+    # Locations.HOTP_BLUE_KEY_AMULET: AstalonLocationData(Regions.HOTP, LocationGroups.KEYS_BLUE),
+    # Locations.HOTP_BLUE_KEY_LADDER: AstalonLocationData(Regions.HOTP, LocationGroups.KEYS_BLUE),
+    # Locations.HOTP_BLUE_KEY_TELEPORTS: AstalonLocationData(Regions.HOTP, LocationGroups.KEYS_BLUE),
+    # Locations.HOTP_BLUE_KEY_MAZE: AstalonLocationData(Regions.HOTP, LocationGroups.KEYS_BLUE),
     Locations.HOTP_RED_KEY: AstalonLocationData(Regions.HOTP, LocationGroups.KEYS_RED),
     Locations.ROA_ICARUS: AstalonLocationData(Regions.ROA, LocationGroups.ITEMS),
     Locations.ROA_EYE_GREEN: AstalonLocationData(Regions.ROA, LocationGroups.ITEMS),
@@ -166,11 +256,22 @@ location_table: dict[Locations, AstalonLocationData] = {
     Locations.ROA_HP_2_RIGHT: AstalonLocationData(Regions.ROA, LocationGroups.HEALTH),
     # this is visually RoA but logically Apex
     Locations.ROA_HP_5_SOLARIA: AstalonLocationData(Regions.APEX, LocationGroups.HEALTH),
+    # Locations.ROA_WHITE_KEY_SAVE: AstalonLocationData(Regions.ROA, LocationGroups.KEYS_WHITE),
+    # Locations.ROA_WHITE_KEY_REAPERS: AstalonLocationData(Regions.ROA, LocationGroups.KEYS_WHITE),
+    # Locations.ROA_WHITE_KEY_TORCHES: AstalonLocationData(Regions.ROA, LocationGroups.KEYS_WHITE),
+    # Locations.ROA_WHITE_KEY_PORTAL: AstalonLocationData(Regions.ROA, LocationGroups.KEYS_WHITE),
+    # Locations.ROA_BLUE_KEY_FACE: AstalonLocationData(Regions.ROA, LocationGroups.KEYS_BLUE),
+    # Locations.ROA_BLUE_KEY_FLAMES: AstalonLocationData(Regions.ROA, LocationGroups.KEYS_BLUE),
+    # Locations.ROA_BLUE_KEY_BABY: AstalonLocationData(Regions.ROA, LocationGroups.KEYS_BLUE),
+    # Locations.ROA_BLUE_KEY_TOP: AstalonLocationData(Regions.ROA, LocationGroups.KEYS_BLUE),
+    # Locations.ROA_BLUE_KEY_POT: AstalonLocationData(Regions.ROA, LocationGroups.KEYS_BLUE),
     Locations.ROA_RED_KEY: AstalonLocationData(Regions.ROA, LocationGroups.KEYS_RED),
     Locations.DARK_HP_4: AstalonLocationData(Regions.DARK, LocationGroups.HEALTH),
+    # Locations.DARK_WHITE_KEY: AstalonLocationData(Regions.DARK, LocationGroups.KEYS_WHITE),
     Locations.APEX_CHALICE: AstalonLocationData(Regions.APEX, LocationGroups.ITEMS),
     Locations.APEX_HP_1_CHALICE: AstalonLocationData(Regions.APEX, LocationGroups.HEALTH),
     Locations.APEX_HP_5_HEART: AstalonLocationData(Regions.APEX, LocationGroups.HEALTH),
+    # Locations.APEX_BLUE_KEY: AstalonLocationData(Regions.APEX, LocationGroups.KEYS_BLUE),
     Locations.CATA_BOW: AstalonLocationData(Regions.CATA, LocationGroups.ITEMS),
     # Locations.CATA_GIL: AstalonLocationData(Regions.CATA, LocationGroups.FAMILIARS),
     Locations.CATA_ATTACK_RED: AstalonLocationData(Regions.CATA, LocationGroups.ATTACK),
@@ -187,6 +288,12 @@ location_table: dict[Locations, AstalonLocationData] = {
     Locations.CATA_HP_2_GEMINI_TOP: AstalonLocationData(Regions.CATA, LocationGroups.HEALTH),
     Locations.CATA_HP_2_ABOVE_GEMINI: AstalonLocationData(Regions.CATA, LocationGroups.HEALTH),
     Locations.CATA_HP_5_CHAIN: AstalonLocationData(Regions.CATA, LocationGroups.HEALTH),
+    # Locations.CATA_WHITE_KEY_HEAD: AstalonLocationData(Regions.CATA, LocationGroups.KEYS_WHITE),
+    # Locations.CATA_WHITE_KEY_DEV_ROOM: AstalonLocationData(Regions.CATA, LocationGroups.KEYS_WHITE),
+    # Locations.CATA_WHITE_KEY_PRISON: AstalonLocationData(Regions.CATA, LocationGroups.KEYS_WHITE),
+    # Locations.CATA_BLUE_KEY_SLIMES: AstalonLocationData(Regions.CATA, LocationGroups.KEYS_BLUE),
+    # Locations.CATA_BLUE_KEY_EYEBALLS: AstalonLocationData(Regions.CATA, LocationGroups.KEYS_BLUE),
+    # Locations.TR_BRAM: AstalonLocationData(Regions.TR, LocationGroups.CHARACTERS),
     Locations.TR_ADORNED_KEY: AstalonLocationData(Regions.TR, LocationGroups.ITEMS),
     Locations.TR_HP_1_BOTTOM: AstalonLocationData(Regions.TR, LocationGroups.HEALTH),
     Locations.TR_HP_2_TOP: AstalonLocationData(Regions.TR, LocationGroups.HEALTH),
@@ -203,6 +310,10 @@ location_table: dict[Locations, AstalonLocationData] = {
     Locations.SP_STAR: AstalonLocationData(Regions.SP, LocationGroups.ITEMS),
     Locations.SP_ATTACK: AstalonLocationData(Regions.SP, LocationGroups.ATTACK),
     Locations.SP_HP_1: AstalonLocationData(Regions.SP, LocationGroups.HEALTH),
+    # Locations.SP_BLUE_KEY_BUBBLES: AstalonLocationData(Regions.SP, LocationGroups.KEYS_BLUE),
+    # Locations.SP_BLUE_KEY_STAR: AstalonLocationData(Regions.SP, LocationGroups.KEYS_BLUE),
+    # Locations.SP_BLUE_KEY_PAINTING: AstalonLocationData(Regions.SP, LocationGroups.KEYS_BLUE),
+    # Locations.SP_BLUE_KEY_ARIAS: AstalonLocationData(Regions.SP, LocationGroups.KEYS_BLUE),
 }
 
 base_id = 333000

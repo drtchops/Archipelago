@@ -31,6 +31,4 @@ Once you've connected to AP you can press F1 to open a set of debug options at t
 ## Known Issues
 
 - Received items may need to be turned off and on again in the inventory to start working.
-- If the game loses its AP connection, items will not be sent upon reconnecting. You'll have to quit and recollect the items.
-- Orbs and keys received as filler items will get collected again every time you reconnect.
-- There's currently no softlock prevention.
+- There's currently no softlock prevention. If you get stuck you can use the debug menu to respawn.

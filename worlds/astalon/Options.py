@@ -13,7 +13,7 @@ from Options import (
 
 class Campaign(Choice):
     """
-    NOT CURRENTLY SUPPORTED
+    NOT YET SUPPORTED
     Set which campaign you wish to play through.
     """
 
