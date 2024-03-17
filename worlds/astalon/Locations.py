@@ -35,7 +35,7 @@ class Locations(str, Enum):
     GT_WHITE_KEY_START = "Gorgon Tomb - White Key (First Room)"
     GT_WHITE_KEY_RIGHT = "Gorgon Tomb - White Key (Right Side)"
     GT_WHITE_KEY_BOSS = "Gorgon Tomb - White Key (Before Boss)"
-    GT_BLUE_KEY_BONEWORM = "Gorgon Tomb - Blue Key (Boneworms)"
+    GT_BLUE_KEY_BONESNAKE = "Gorgon Tomb - Blue Key (Bonesnakes)"
     GT_BLUE_KEY_BUTT = "Gorgon Tomb - Blue Key (Butt)"
     GT_BLUE_KEY_WALL = "Gorgon Tomb - Blue Key (Inside Wall)"
     GT_BLUE_KEY_POT = "Gorgon Tomb - Blue Key (Pot)"
@@ -194,7 +194,7 @@ location_table: dict[Locations, AstalonLocationData] = {
     # Locations.GT_WHITE_KEY_START: AstalonLocationData(Regions.GT, LocationGroups.KEYS_WHITE),
     # Locations.GT_WHITE_KEY_RIGHT: AstalonLocationData(Regions.GT, LocationGroups.KEYS_WHITE),
     # Locations.GT_WHITE_KEY_BOSS: AstalonLocationData(Regions.GT, LocationGroups.KEYS_WHITE),
-    # Locations.GT_BLUE_KEY_BONEWORM: AstalonLocationData(Regions.GT, LocationGroups.KEYS_BLUE),
+    # Locations.GT_BLUE_KEY_BONESNAKE: AstalonLocationData(Regions.GT, LocationGroups.KEYS_BLUE),
     # Locations.GT_BLUE_KEY_BUTT: AstalonLocationData(Regions.GT, LocationGroups.KEYS_BLUE),
     # Locations.GT_BLUE_KEY_WALL: AstalonLocationData(Regions.GT, LocationGroups.KEYS_BLUE),
     # Locations.GT_BLUE_KEY_POT: AstalonLocationData(Regions.GT, LocationGroups.KEYS_BLUE),
