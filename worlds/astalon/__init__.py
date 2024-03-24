@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, Dict
 
 from BaseClasses import ItemClassification, Region, Tutorial
 from worlds.AutoWorld import WebWorld, World
@@ -64,10 +64,10 @@ class AstalonWorld(World):
                     continue
                 if data.item_group == LocationGroups.HEALTH and not self.options.randomize_health_pickups:
                     continue
-                # if data.item_group == LocationGroups.KEYS_WHITE and not self.options.randomize_white_keys:
-                #     continue
-                # if data.item_group == LocationGroups.KEYS_BLUE and not self.options.randomize_blue_keys:
-                #     continue
+                if data.item_group == LocationGroups.KEYS_WHITE and not self.options.randomize_white_keys:
+                    continue
+                if data.item_group == LocationGroups.KEYS_BLUE and not self.options.randomize_blue_keys:
+                    continue
                 if data.item_group == LocationGroups.KEYS_RED and not self.options.randomize_red_keys:
                     continue
 
@@ -102,10 +102,10 @@ class AstalonWorld(World):
                 continue
             if data.item_group == ItemGroups.HEALTH and not self.options.randomize_health_pickups:
                 continue
-            # if data.item_group == ItemGroups.DOORS_WHITE and not self.options.randomize_white_keys:
-            #     continue
-            # if data.item_group == ItemGroups.DOORS_BLUE and not self.options.randomize_blue_keys:
-            #     continue
+            if data.item_group == ItemGroups.DOORS_WHITE and not self.options.randomize_white_keys:
+                continue
+            if data.item_group == ItemGroups.DOORS_BLUE and not self.options.randomize_blue_keys:
+                continue
             if data.item_group == ItemGroups.DOORS_RED and not self.options.randomize_red_keys:
                 continue
 
@@ -114,11 +114,11 @@ class AstalonWorld(World):
                 self.multiworld.itempool.append(item)
 
     def get_filler_item_name(self) -> str:
-        items = list(filler_items) + [Items.KEY_WHITE.value, Items.KEY_BLUE.value]
-        # if not self.options.randomize_white_keys:
-        #     items.append(Items.KEY_WHITE.value)
-        # if not self.options.randomize_blue_keys:
-        #     items.append(Items.KEY_BLUE.value)
+        items = list(filler_items)
+        if not self.options.randomize_white_keys:
+            items.append(Items.KEY_WHITE.value)
+        if not self.options.randomize_blue_keys:
+            items.append(Items.KEY_BLUE.value)
         if not self.options.randomize_red_keys:
             items.append(Items.KEY_RED.value)
         return self.multiworld.random.choice(items)
@@ -128,13 +128,13 @@ class AstalonWorld(World):
         rules.set_region_rules()
         rules.set_location_rules()
 
-    def fill_slot_data(self) -> dict[str, Any]:
+    def fill_slot_data(self) -> Dict[str, Any]:
         settings = self.options.as_dict(
             # "campaign",
             "randomize_health_pickups",
             "randomize_attack_pickups",
-            # "randomize_white_keys",
-            # "randomize_blue_keys",
+            "randomize_white_keys",
+            "randomize_blue_keys",
             "randomize_red_keys",
             # "randomize_familiars",
             "skip_cutscenes",

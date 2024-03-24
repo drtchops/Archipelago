@@ -45,7 +45,6 @@ class RandomizeAttackPickups(DefaultOnToggle):
 
 class RandomizeWhiteKeys(Toggle):
     """
-    NOT YET SUPPORTED
     Choose whether to randomize white keys and locked white doors.
     Keys are location checks and door unlocks are received as items.
     """
@@ -55,7 +54,6 @@ class RandomizeWhiteKeys(Toggle):
 
 class RandomizeBlueKeys(Toggle):
     """
-    NOT YET SUPPORTED
     Choose whether to randomize blue keys and locked blue doors.
     Keys are location checks and door unlocks are received as items.
     """
@@ -144,14 +142,17 @@ class CostMultiplier(NamedRange):
     }
 
 
+# Open CD shortcuts by default?
+
+
 @dataclass
 class AstalonOptions(PerGameCommonOptions):
     start_inventory_from_pool: StartInventoryPool
     # campaign: Campaign
     randomize_health_pickups: RandomizeHealthPickups
     randomize_attack_pickups: RandomizeAttackPickups
-    # randomize_white_keys: RandomizeWhiteKeys
-    # randomize_blue_keys: RandomizeBlueKeys
+    randomize_white_keys: RandomizeWhiteKeys
+    randomize_blue_keys: RandomizeBlueKeys
     randomize_red_keys: RandomizeRedKeys
     # randomize_familiars: RandomizeFamiliars
     skip_cutscenes: SkipCutscenes
