@@ -130,7 +130,6 @@ class AstalonRules:
                 self.white_doors(state, Items.DOOR_WHITE_ROA_BALLS, Items.DOOR_WHITE_ROA_SPINNERS)
             ),
             (Regions.ROA_UPPER, Regions.APEX): lambda state: self.has(state, Items.EYE_GREEN),
-            # TODO
             (Regions.ROA_UPPER, Regions.SP): lambda state: (
                 self.red_doors(
                     state,

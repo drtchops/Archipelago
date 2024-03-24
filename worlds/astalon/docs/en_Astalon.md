@@ -1,8 +1,8 @@
 # Astalon: Tears of the Earth
 
-## Where is the options page?
+<!-- ## Where is the options page?
 
-The [player options page for this game](../player-options) contains all the options you need to configure and export a config file.
+The [player options page for this game](../player-options) contains all the options you need to configure and export a config file. -->
 
 ## What does randomization do to this game?
 
@@ -21,3 +21,13 @@ Any key items as noted above can appear in other players' worlds. If enabled, ma
 ## What does another world's item look like in Astalon?
 
 Items for your world or another Astalon world will appear as the actual item. Items for other worlds will appear as a blue orb.
+
+## Are there any unexpected bits of logic the randomizer uses?
+
+- Arias can get more height from jumping while slashing his sword
+- There are multiple connections between Mechanism and Hall of the Phantoms
+- If you have Blood Chalice you can damage boost through some obstacles
+- If you have Icarus Emblem you can clear some gaps you otherwise couldn't
+- Kyuli's beam attack and Bram's whiplash upgrade can activate Algus's orb switches
+- Banish Spell makes Algus's attacks larger
+- Athena's Bell is logically required to fight the final boss
