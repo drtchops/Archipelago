@@ -216,6 +216,7 @@ class AstalonRules:
         self.attack_rules = {
             Locations.GT_ATTACK: lambda state: (
                 self.has(state, Items.EYE_GREEN)
+                # zeek + bell should be hard logic?
                 and (self.has(state, Items.CLAW) or self.has(state, Items.ZEEK, Items.BELL))
             ),
             Locations.MECH_ATTACK_VOLANTIS: lambda state: (
@@ -289,7 +290,8 @@ class AstalonRules:
             Locations.CATA_HP_2_GEMINI_BOTTOM: lambda state: self.has(state, Items.CLAW),
             Locations.CATA_HP_2_GEMINI_TOP: lambda state: self.has(state, Items.CLAW),
             Locations.CATA_HP_2_ABOVE_GEMINI: lambda state: (
-                self.has(state, Items.GAUNTLET, Items.BELL) or self.has(state, Items.CHALICE)
+                (self.has(state, Items.CLAW) or self.has(state, Items.BLOCK, Items.BELL))
+                and (self.has(state, Items.GAUNTLET, Items.BELL) or self.has(state, Items.CHALICE))
             ),
             Locations.CATA_HP_5_CHAIN: lambda state: (
                 self.has(state, Items.EYE_RED, Items.EYE_BLUE, Items.STAR, Items.CLAW)
