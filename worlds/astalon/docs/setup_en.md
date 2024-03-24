@@ -22,7 +22,7 @@
 
 ## Resuming
 
-You can load an existing save and conenct to the AP server in any order. Once you've loaded in and connected you will receive any items that were sent since you last played.
+You can load an existing save and conenct to the AP server in any order. Once you've loaded in and connected you will receive any items that were sent since you last played. Quitting to the main menu will disconnect you automatically.
 
 ## In-Game Controls
 
