@@ -113,6 +113,17 @@ class AstalonWorld(World):
                 item = self.create_item(name.value)
                 self.multiworld.itempool.append(item)
 
+        # there are more keys to collect than doors to open
+        extra_filler = 0
+        if self.options.randomize_white_keys:
+            extra_filler += 1
+        if self.options.randomize_blue_keys:
+            extra_filler += 6
+
+        for _ in range(0, extra_filler):
+            item = self.create_item(self.get_filler_item_name())
+            self.multiworld.itempool.append(item)
+
     def get_filler_item_name(self) -> str:
         items = list(filler_items)
         if not self.options.randomize_white_keys:

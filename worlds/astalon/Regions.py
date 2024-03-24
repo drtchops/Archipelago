@@ -62,6 +62,7 @@ astalon_regions: Dict[Regions, Set[Regions]] = {
     Regions.CATA_LOWER: {Regions.TR},
     Regions.DEV_ROOM: set(),
     Regions.TR: {Regions.TR_PROPER},
+    Regions.TR_PROPER: set(),
     Regions.CD: set(),
     Regions.CATH: set(),
     Regions.SP: set(),
