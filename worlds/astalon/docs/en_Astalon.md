@@ -20,7 +20,7 @@ Any key items as noted above can appear in other players' worlds. If enabled, ma
 
 ## What does another world's item look like in Astalon?
 
-Items for your world or another Astalon world will appear as the actual item. Items for other worlds will appear as a blue orb.
+Items for your world or another Astalon world will appear as the actual item. Items for other worlds will appear as a blue orb if they're a progression item, or a grey orb otherwise.
 
 ## Are there any unexpected bits of logic the randomizer uses?
 
