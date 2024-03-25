@@ -59,7 +59,6 @@ class AstalonRules:
                     or self.blue_doors(state, Items.DOOR_BLUE_MECH_SHORTCUT)
                 )
                 and self.has(state, Items.CLAW)
-                and self.blue_doors(state, Items.DOOR_BLUE_HOTP_STATUE)
             ),
             (Regions.MECH_LOWER, Regions.GT_UPPER): lambda _: True,
             (Regions.MECH_UPPER, Regions.HOTP_START): lambda state: (
@@ -81,8 +80,7 @@ class AstalonRules:
             ),
             (Regions.HOTP_BOTTOM, Regions.HOTP_LOWER): lambda _: True,
             (Regions.HOTP_LOWER, Regions.HOTP_START): lambda state: (
-                self.has(state, Items.STAR)
-                or (self.has(state, Items.EYE_BLUE) and self.white_doors(state, Items.DOOR_WHITE_HOTP_START))
+                self.has(state, Items.STAR) and self.entrance(Regions.MECH_UPPER, Regions.HOTP_LOWER).can_reach(state)
             ),
             (Regions.HOTP_LOWER, Regions.HOTP_BELL): lambda _: True,
             (Regions.HOTP_LOWER, Regions.MECH_LOWER): lambda state: (
@@ -99,7 +97,7 @@ class AstalonRules:
             ),
             (Regions.HOTP_BELL, Regions.HOTP_MID): lambda state: self.has(state, Items.BELL),
             (Regions.HOTP_BELL, Regions.CATH): lambda state: (
-                self.has(state, Items.EYE_GREEN, Items.BOW, Items.BELL, Items.ZEEK)
+                self.has(state, Items.EYE_GREEN, Items.BOW, Items.BELL, Items.ZEEK, Items.CLAW)
                 and self.red_doors(state, Items.DOOR_RED_CATH)
             ),
             # check if door is necessary
@@ -301,7 +299,7 @@ class AstalonRules:
             Locations.CD_HP_1: lambda _: True,
             Locations.CATH_HP_1_TOP_LEFT: lambda _: True,
             Locations.CATH_HP_1_TOP_RIGHT: lambda _: True,
-            Locations.CATH_HP_2_CLAW: lambda state: self.has(state, Items.CLAW),
+            Locations.CATH_HP_2_CLAW: lambda _: True,
             Locations.CATH_HP_5_BELL: lambda _: True,
             Locations.SP_HP_1: lambda _: True,
         }
@@ -375,7 +373,8 @@ class AstalonRules:
             Locations.CATA_BLUE_KEY_EYEBALLS: lambda _: True,
             Locations.SP_BLUE_KEY_BUBBLES: lambda _: True,
             Locations.SP_BLUE_KEY_STAR: lambda state: (
-                self.has(state, Items.STAR) and self.blue_doors(state, Items.DOOR_BLUE_SP)
+                (self.has(state, Items.STAR) and self.blue_doors(state, Items.DOOR_BLUE_SP))
+                or self.has(state, Items.BLOCK)
             ),
             Locations.SP_BLUE_KEY_PAINTING: lambda _: True,
             Locations.SP_BLUE_KEY_ARIAS: lambda _: True,
