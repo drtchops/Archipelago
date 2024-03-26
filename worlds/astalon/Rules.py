@@ -194,8 +194,14 @@ class AstalonRules:
             ),
             Locations.HOTP_GAUNTLET: lambda state: self.has(state, Items.CLAW, Items.BELL, Items.BANISH),
             Locations.HOTP_MAIDEN_RING: lambda state: (
-                self.has(state, Items.SWORD, Items.BANISH, Items.BELL, Items.CLAW)
-                and self.blue_doors(state, Items.DOOR_BLUE_HOTP_MAIDEN)
+                self.has(state, Items.BANISH, Items.BELL, Items.CLAW)
+                and (
+                    self.region(Regions.SP).can_reach(state)
+                    or (
+                        self.blue_doors(state, Items.DOOR_BLUE_HOTP_MAIDEN)
+                        and self.has_any(state, Items.SWORD, Items.BLOCK)
+                    )
+                )
             ),
             Locations.ROA_ICARUS: lambda _: True,
             Locations.ROA_EYE_GREEN: lambda _: True,
@@ -363,7 +369,7 @@ class AstalonRules:
                 self.has(state, Items.BOW) and self.white_doors(state, Items.DOOR_WHITE_ROA_WORMS)
             ),
             Locations.ROA_BLUE_KEY_FLAMES: lambda state: (
-                self.has(state, Items.GAUNTLET) and self.white_doors(state, Items.DOOR_WHITE_ROA_WORMS)
+                self.has_any(state, Items.GAUNTLET, Items.BLOCK) and self.white_doors(state, Items.DOOR_WHITE_ROA_WORMS)
             ),
             Locations.ROA_BLUE_KEY_BABY: lambda _: True,
             Locations.ROA_BLUE_KEY_TOP: lambda _: True,
