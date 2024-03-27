@@ -62,13 +62,12 @@ class AstalonRules:
             ),
             (Regions.MECH_LOWER, Regions.GT_UPPER): lambda _: True,
             (Regions.MECH_UPPER, Regions.HOTP_START): lambda state: (
-                self.has(state, Items.EYE_BLUE)
+                self.has_any(state, Items.EYE_BLUE, Items.STAR)
                 and (
                     self.has(state, Items.CLAW)
                     or self.white_doors(state, Items.DOOR_WHITE_MECH_ARENA, Items.DOOR_WHITE_MECH_TOP)
                 )
             ),
-            (Regions.MECH_UPPER, Regions.HOTP_LOWER): lambda state: self.has(state, Items.STAR),
             (Regions.MECH_UPPER, Regions.HOTP_UPPER): lambda state: (
                 self.has(state, Items.CLAW)
                 and self.white_doors(state, Items.DOOR_WHITE_MECH_ARENA, Items.DOOR_WHITE_MECH_TOP)
@@ -79,14 +78,10 @@ class AstalonRules:
                 and self.white_doors(state, Items.DOOR_WHITE_MECH_ARENA)
             ),
             (Regions.HOTP_BOTTOM, Regions.HOTP_LOWER): lambda _: True,
-            (Regions.HOTP_LOWER, Regions.HOTP_START): lambda state: (
-                self.has(state, Items.STAR) and self.entrance(Regions.MECH_UPPER, Regions.HOTP_LOWER).can_reach(state)
-            ),
             (Regions.HOTP_LOWER, Regions.HOTP_BELL): lambda _: True,
             (Regions.HOTP_LOWER, Regions.MECH_LOWER): lambda state: (
                 self.has(state, Items.CLAW) and self.blue_doors(state, Items.DOOR_BLUE_HOTP_STATUE)
             ),
-            (Regions.HOTP_LOWER, Regions.MECH_UPPER): lambda state: self.has(state, Items.STAR),
             (Regions.HOTP_START, Regions.HOTP_UPPER): lambda state: (
                 self.has(state, Items.VOID, Items.EYE_GREEN, Items.CLAW)
                 and (self.has(state, Items.EYE_BLUE) or self.has(state, Items.STAR, Items.BELL))
@@ -298,7 +293,7 @@ class AstalonRules:
                 and (self.has(state, Items.GAUNTLET, Items.BELL) or self.has(state, Items.CHALICE))
             ),
             Locations.CATA_HP_5_CHAIN: lambda state: (
-                self.has(state, Items.EYE_RED, Items.EYE_BLUE, Items.STAR, Items.CLAW)
+                self.has(state, Items.EYE_RED, Items.EYE_BLUE, Items.STAR, Items.CLAW, Items.BELL)
             ),
             Locations.TR_HP_1_BOTTOM: lambda _: True,
             Locations.TR_HP_2_TOP: lambda _: True,
