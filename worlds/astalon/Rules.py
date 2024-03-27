@@ -421,7 +421,7 @@ class AstalonRules:
     def has_zeek(self, state: CollectionState):
         if self.options.start_with_zeek:
             return True
-        return self.can_reach_zeek(state)
+        return self.can_reach_zeek(state) and self.region(Regions.CD).can_reach(state)
 
     def can_reach_bram(self, state: CollectionState):
         return self.region(Regions.TR).can_reach(state) and self.has(state, Items.EYE_BLUE)

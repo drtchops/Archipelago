@@ -154,6 +154,8 @@ class AstalonWorld(World):
             "start_with_qol",
             "free_apex_elevator",
             "cost_multiplier",
+            "fast_blood_chalice",
+            "campfire_warp",
             "death_link",
         )
         return {

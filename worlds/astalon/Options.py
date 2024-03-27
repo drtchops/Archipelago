@@ -142,6 +142,22 @@ class CostMultiplier(NamedRange):
     }
 
 
+class FastBloodChalice(DefaultOnToggle):
+    """
+    Makes the Blood Chalice regeneration rate 5x faster so you spend less time standing around.
+    """
+
+    display_name = "Free Blood Chalice"
+
+
+class CampfireWarp(DefaultOnToggle):
+    """
+    Allows you to warp to any campfire you've previously visited.
+    """
+
+    display_name = "Campfire Warp"
+
+
 # Open CD shortcuts by default?
 
 
@@ -161,4 +177,6 @@ class AstalonOptions(PerGameCommonOptions):
     start_with_qol: StartWithQOL
     free_apex_elevator: FreeApexElevator
     cost_multiplier: CostMultiplier
+    fast_blood_chalice: FastBloodChalice
+    campfire_warp: CampfireWarp
     death_link: DeathLink
