@@ -90,6 +90,7 @@ class AstalonRules:
                 self.has(state, Items.STAR)
                 or (self.has(state, Items.EYE_BLUE) and self.white_doors(state, Items.DOOR_WHITE_HOTP_START))
             ),
+            (Regions.HOTP_START, Regions.MECH_UPPER): lambda state: self.has_any(state, Items.EYE_BLUE, Items.STAR),
             (Regions.HOTP_BELL, Regions.HOTP_MID): lambda state: self.has(state, Items.BELL),
             (Regions.HOTP_BELL, Regions.CATH): lambda state: (
                 self.has(state, Items.EYE_GREEN, Items.BOW, Items.BELL, Items.ZEEK, Items.CLAW)
@@ -100,6 +101,7 @@ class AstalonRules:
                 self.has(state, Items.CLAW) or self.white_doors(state, Items.DOOR_WHITE_HOTP_CLAW)
             ),
             (Regions.HOTP_MID, Regions.HOTP_BELL): lambda _: True,
+            (Regions.HOTP_MID, Regions.HOTP_START): lambda state: self.has(state, Items.STAR),
             (Regions.HOTP_UPPER, Regions.ROA_LOWER): lambda state: (
                 self.has(
                     # bell not needed if kyuli has claw and beam, should redo logic once shop is in rando
@@ -112,6 +114,12 @@ class AstalonRules:
                 and self.white_doors(state, Items.DOOR_WHITE_HOTP_BOSS)
             ),
             (Regions.HOTP_UPPER, Regions.HOTP_MID): lambda state: self.has_any(state, Items.CLOAK, Items.ICARUS),
+            (Regions.HOTP_UPPER, Regions.HOTP_START): lambda state: (
+                self.has(state, Items.EYE_GREEN, Items.CLAW, Items.CLOAK, Items.VOID)
+            ),
+            (Regions.HOTP_UPPER, Regions.MECH_UPPER): lambda state: (
+                self.has(state, Items.EYE_GREEN, Items.CLAW, Items.CLOAK)
+            ),
             (Regions.ROA_LOWER, Regions.ROA_MID): lambda state: (
                 self.white_doors(state, Items.DOOR_WHITE_ROA_WORMS)
                 and (
