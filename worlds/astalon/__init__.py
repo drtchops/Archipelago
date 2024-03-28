@@ -1,4 +1,4 @@
-from typing import Any, Dict
+from typing import Any, Dict, List
 
 from BaseClasses import ItemClassification, Region, Tutorial
 from worlds.AutoWorld import WebWorld, World
@@ -48,6 +48,16 @@ class AstalonWorld(World):
     location_name_groups = location_name_groups
     item_name_to_id = item_name_to_id
     location_name_to_id = location_name_to_id
+
+    def generate_early(self) -> None:
+        if self.options.open_early_doors:
+            items_to_add: List[Items] = []
+            if self.options.randomize_white_keys:
+                items_to_add.extend([Items.DOOR_WHITE_GT_START, Items.DOOR_WHITE_GT_MAP, Items.DOOR_WHITE_GT_TAUROS])
+            if self.options.randomize_blue_keys:
+                items_to_add.extend([Items.DOOR_BLUE_GT_ASCENDANT, Items.DOOR_BLUE_CATA_START])
+            for door in items_to_add:
+                self.options.start_inventory_from_pool.value[door.value] = 1
 
     def create_regions(self) -> None:
         for name in astalon_regions:

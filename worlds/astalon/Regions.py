@@ -49,7 +49,7 @@ astalon_regions: Dict[Regions, Set[Regions]] = {
     Regions.HOTP_START: {Regions.HOTP_UPPER, Regions.HOTP_LOWER, Regions.MECH_UPPER},
     Regions.HOTP_BELL: {Regions.HOTP_MID, Regions.CATH},
     Regions.HOTP_MID: {Regions.HOTP_UPPER, Regions.HOTP_BELL, Regions.HOTP_START},
-    Regions.HOTP_UPPER: {Regions.ROA_LOWER, Regions.HOTP_MID, Regions.HOTP_START},
+    Regions.HOTP_UPPER: {Regions.ROA_LOWER, Regions.HOTP_MID, Regions.HOTP_START, Regions.MECH_UPPER},
     Regions.ROA_LOWER: {Regions.ROA_MID},
     Regions.ROA_MID: {Regions.ROA_UPPER},
     Regions.ROA_UPPER: {Regions.APEX, Regions.DARK, Regions.SP},

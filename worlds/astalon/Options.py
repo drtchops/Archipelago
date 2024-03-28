@@ -158,6 +158,15 @@ class CampfireWarp(DefaultOnToggle):
     display_name = "Campfire Warp"
 
 
+class OpenEarlyDoors(DefaultOnToggle):
+    """
+    Opens some Gorgon's Tomb doors by default when using key rando to give you a bigger sphere 1.
+    Has no effect when not using white or blue key rando.
+    """
+
+    display_name = "Open Early Doors"
+
+
 # Open CD shortcuts by default?
 
 
@@ -179,4 +188,5 @@ class AstalonOptions(PerGameCommonOptions):
     cost_multiplier: CostMultiplier
     fast_blood_chalice: FastBloodChalice
     campfire_warp: CampfireWarp
+    open_early_doors: OpenEarlyDoors
     death_link: DeathLink
