@@ -34,7 +34,7 @@ class AstalonRules:
 
         self.entrance_rules = {
             (Regions.GT_START, Regions.GT_MID): lambda state: self.white_doors(state, Items.DOOR_WHITE_GT_START),
-            (Regions.GT_START, Regions.GT_LEFT): lambda state: self.has(state, Items.ICARUS),
+            (Regions.GT_START, Regions.GT_LEFT): lambda state: self.has_any(state, Items.ICARUS, Items.BOOTS),
             (Regions.GT_START, Regions.APEX): lambda state: (
                 self.has(state, Items.ASCENDANT_KEY) if self.options.free_apex_elevator else False
             ),
@@ -94,7 +94,7 @@ class AstalonRules:
             (Regions.HOTP_BELL, Regions.HOTP_MID): lambda state: self.has(state, Items.BELL),
             (Regions.HOTP_BELL, Regions.CATH): lambda state: (
                 self.has(state, Items.EYE_GREEN, Items.BOW, Items.BELL, Items.ZEEK, Items.CLAW)
-                and self.red_doors(state, Items.DOOR_RED_CATH)
+                and self.red_doors(state, Items.DOOR_RED_CATH, else_case=self.has(state, Items.CLOAK))
             ),
             # check if door is necessary
             (Regions.HOTP_MID, Regions.HOTP_UPPER): lambda state: (
@@ -132,11 +132,7 @@ class AstalonRules:
             ),
             (Regions.ROA_UPPER, Regions.APEX): lambda state: self.has(state, Items.EYE_GREEN),
             (Regions.ROA_UPPER, Regions.SP): lambda state: (
-                self.red_doors(
-                    state,
-                    Items.DOOR_RED_SP,
-                    else_case=(self.has(state, Items.CLOAK) and self.has_any(state, Items.EYE_GREEN, Items.BOW)),
-                )
+                self.red_doors(state, Items.DOOR_RED_SP, else_case=self.has(state, Items.CLOAK, Items.BOW))
             ),
             (Regions.APEX, Regions.BOSS): lambda state: (
                 # if difficulties are added, bell shouldn't be required on hard
@@ -414,12 +410,16 @@ class AstalonRules:
         return self.world.multiworld.get_location(name.value, self.player)
 
     def can_reach_zeek(self, state: CollectionState):
-        if not self.region(Regions.MECH_LOWER).can_reach(state):
+        if not self.region(Regions.MECH_UPPER).can_reach(state):
             return False
         if self.options.randomize_red_keys:
             return self.has(state, Items.DOOR_RED_ZEEK)
-        # what is reasonable to get a surplus of red keys with
-        return self.has(state, Items.EYE_BLUE) or self.has(state, Items.EYE_GREEN, Items.STAR)
+        # can reach one of the red keys
+        return (
+            self.blue_doors(state, Items.DOOR_BLUE_MECH_VOID)
+            or (self.region(Regions.HOTP_BELL).can_reach(state) and self.has(state, Items.EYE_GREEN, Items.CLOAK))
+            or (self.region(Regions.ROA_UPPER).can_reach(state) and self.has(state, Items.BOW, Items.CLOAK))
+        )
 
     def has_zeek(self, state: CollectionState):
         if self.options.start_with_zeek:
@@ -435,17 +435,35 @@ class AstalonRules:
         return self.can_reach_bram(state)
 
     def _has(self, state: CollectionState, item: Items, count: int = 1):
-        if item == Items.CYCLOPS:
-            # item is not yet randomized
-            return self.can_reach_zeek(state)
-        if item == Items.ZEEK:
+        if item in {Items.ALGUS, Items.ARIAS, Items.KYULI}:
+            # not yet randomized
+            return True
+        elif item == Items.ZEEK:
+            # not yet randomized, but optional
             return self.has_zeek(state)
-        if item == Items.BRAM:
+        elif item == Items.BRAM:
+            # not yet randomized, but optional
             return self.has_bram(state)
-        if item == Items.BLOCK and not self.has_zeek(state):
+
+        elif item == Items.CLOAK and not self._has(state, Items.ALGUS):
             return False
-        if item == Items.STAR and not self.has_bram(state):
+        elif item in {Items.SWORD, Items.BOOTS} and not self._has(state, Items.ARIAS):
             return False
+        elif item in {Items.CLAW, Items.BOW} and not self._has(state, Items.KYULI):
+            return False
+        elif item == Items.BLOCK and not self._has(state, Items.ZEEK):
+            return False
+        elif item == Items.STAR and not self._has(state, Items.BRAM):
+            return False
+        elif item == Items.BANISH and not self.has_any(state, Items.ALGUS, Items.ZEEK):
+            return False
+        elif item == Items.GAUNTLET and not self.has_any(state, Items.ARIAS, Items.BRAM):
+            return False
+
+        elif item == Items.CYCLOPS:
+            # not yet randomized
+            return self.can_reach_zeek(state)
+
         return state.has(item.value, self.player, count=count)
 
     def has(self, state: CollectionState, *items: Items, count: int = 1):
