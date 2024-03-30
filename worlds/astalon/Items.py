@@ -205,11 +205,6 @@ class AstalonItemData:
 
 
 item_table: Dict[Items, AstalonItemData] = {
-    # Items.ARIAS: AstalonItemData(ItemClassification.progression, 0, ItemGroups.CHARACTERS),
-    # Items.KYULI: AstalonItemData(ItemClassification.progression, 0, ItemGroups.CHARACTERS),
-    # Items.ALGUS: AstalonItemData(ItemClassification.progression, 0, ItemGroups.CHARACTERS),
-    # Items.ZEEK: AstalonItemData(ItemClassification.progression, 0, ItemGroups.CHARACTERS),
-    # Items.BRAM: AstalonItemData(ItemClassification.progression, 0, ItemGroups.CHARACTERS),
     Items.EYE_RED: AstalonItemData(ItemClassification.progression, 1, ItemGroups.EYES),
     Items.EYE_BLUE: AstalonItemData(ItemClassification.progression, 1, ItemGroups.EYES),
     Items.EYE_GREEN: AstalonItemData(ItemClassification.progression, 1, ItemGroups.EYES),
@@ -227,7 +222,6 @@ item_table: Dict[Items, AstalonItemData] = {
     Items.VOID: AstalonItemData(ItemClassification.progression, 1, ItemGroups.ITEMS),
     Items.BOOTS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.ITEMS),
     Items.CLOAK: AstalonItemData(ItemClassification.progression, 1, ItemGroups.ITEMS),
-    # Items.CYCLOPS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.ITEMS),
     Items.BELL: AstalonItemData(ItemClassification.progression, 1, ItemGroups.ITEMS),
     Items.AMULET: AstalonItemData(ItemClassification.useful, 1, ItemGroups.ITEMS),
     Items.CLAW: AstalonItemData(ItemClassification.progression, 1, ItemGroups.ITEMS),
@@ -235,11 +229,8 @@ item_table: Dict[Items, AstalonItemData] = {
     Items.ICARUS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.ITEMS),
     Items.CHALICE: AstalonItemData(ItemClassification.progression, 1, ItemGroups.ITEMS),
     Items.BOW: AstalonItemData(ItemClassification.progression, 1, ItemGroups.ITEMS),
-    # Items.CROWN: AstalonItemData(ItemClassification.progression, 1, ItemGroups.ITEMS),
     Items.BLOCK: AstalonItemData(ItemClassification.progression, 1, ItemGroups.ITEMS),
     Items.STAR: AstalonItemData(ItemClassification.progression, 1, ItemGroups.ITEMS),
-    # Items.MONSTER: AstalonItemData(ItemClassification.progression, 3, ItemGroups.FAMILIARS),
-    # Items.GIL: AstalonItemData(ItemClassification.filler, 1, ItemGroups.FAMILIARS),
     Items.ATTACK_1: AstalonItemData(ItemClassification.useful, 12, ItemGroups.ATTACK),
     Items.MAX_HP_1: AstalonItemData(ItemClassification.useful, 14, ItemGroups.HEALTH),
     Items.MAX_HP_2: AstalonItemData(ItemClassification.useful, 10, ItemGroups.HEALTH),
@@ -300,6 +291,15 @@ item_table: Dict[Items, AstalonItemData] = {
     Items.DOOR_RED_TR: AstalonItemData(ItemClassification.progression, 1, ItemGroups.DOORS_RED),
     # progression if gil is a check
     Items.DOOR_RED_DEV_ROOM: AstalonItemData(ItemClassification.filler, 1, ItemGroups.DOORS_RED),
+    # Items.ARIAS: AstalonItemData(ItemClassification.progression, 0, ItemGroups.CHARACTERS),
+    # Items.KYULI: AstalonItemData(ItemClassification.progression, 0, ItemGroups.CHARACTERS),
+    # Items.ALGUS: AstalonItemData(ItemClassification.progression, 0, ItemGroups.CHARACTERS),
+    # Items.ZEEK: AstalonItemData(ItemClassification.progression, 0, ItemGroups.CHARACTERS),
+    # Items.BRAM: AstalonItemData(ItemClassification.progression, 0, ItemGroups.CHARACTERS),
+    # Items.CYCLOPS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.ITEMS),
+    # Items.CROWN: AstalonItemData(ItemClassification.progression, 1, ItemGroups.ITEMS),
+    # Items.MONSTER: AstalonItemData(ItemClassification.progression, 3, ItemGroups.FAMILIARS),
+    # Items.GIL: AstalonItemData(ItemClassification.filler, 1, ItemGroups.FAMILIARS),
 }
 
 base_id = 333000
