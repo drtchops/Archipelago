@@ -4,6 +4,7 @@ from typing import Dict, Set
 
 class Regions(str, Enum):
     MENU = "Menu"
+    SHOP = "Shop"
     GT_START = "Gorgon Tomb Start"
     GT_MID = "Gorgon Tomb Mid"
     GT_LEFT = "Gorgon Tomb Left"
@@ -36,7 +37,8 @@ class Regions(str, Enum):
 
 
 astalon_regions: Dict[Regions, Set[Regions]] = {
-    Regions.MENU: {Regions.GT_START},
+    Regions.MENU: {Regions.GT_START, Regions.SHOP},
+    Regions.SHOP: set(),
     Regions.GT_START: {Regions.GT_MID, Regions.GT_LEFT, Regions.APEX},
     Regions.GT_MID: {Regions.GT_LEFT, Regions.CATA_UPPER},
     Regions.GT_LEFT: {Regions.GT_BOSS, Regions.GT_MID},

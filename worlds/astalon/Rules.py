@@ -210,7 +210,10 @@ class AstalonRules:
             Locations.CATA_BOW: lambda state: (
                 self.blue_doors(state, Items.DOOR_BLUE_CATA_BOW, Items.DOOR_BLUE_CATA_SAVE)
             ),
-            Locations.TR_ADORNED_KEY: lambda state: self.has(state, Items.EYE_GREEN, Items.STAR, Items.ZEEK),
+            Locations.TR_ADORNED_KEY: lambda state: (
+                self.has(state, Items.EYE_GREEN, Items.STAR, Items.ZEEK)
+                and self.has_any(state, Items.CLOAK, Items.ICARUS, Items.BOOTS, Items.BLOCK)
+            ),
             # Locations.CD_CROWN: lambda _: True,
             Locations.CATH_BLOCK: lambda _: True,
             Locations.SP_STAR: lambda state: self.blue_doors(state, Items.DOOR_BLUE_SP),
@@ -245,7 +248,9 @@ class AstalonRules:
         }
 
         self.health_rules = {
-            Locations.GT_HP_1_RING: lambda state: self.blue_doors(state, Items.DOOR_BLUE_GT_RING),
+            Locations.GT_HP_1_RING: lambda state: (
+                self.has(state, Items.STAR) or self.blue_doors(state, Items.DOOR_BLUE_GT_RING)
+            ),
             Locations.GT_HP_5_KEY: lambda state: (
                 self.has(state, Items.CLAW) and self.blue_doors(state, Items.DOOR_BLUE_GT_ASCENDANT)
             ),

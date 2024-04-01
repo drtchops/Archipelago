@@ -59,6 +59,28 @@ class AstalonWorld(World):
             for door in items_to_add:
                 self.options.start_inventory_from_pool.value[door.value] = 1
 
+        if self.options.start_with_qol:
+            items_to_add = [
+                Items.KNOWLEDGE,
+                Items.ORB_SEEKER,
+                Items.TITANS_EGO,
+                Items.MAP_REVEAL,
+                Items.GIFT,
+                Items.CARTOGRAPHER,
+            ]
+            if self.options.randomize_shop:
+                for item in items_to_add:
+                    self.options.start_inventory_from_pool.value[item.value] = 1
+            else:
+                for item in items_to_add:
+                    self.options.start_inventory.value[item.value] = 1
+
+        # TODO: use start_inventory_from_pool once they're in the pool
+        if self.options.start_with_zeek:
+            self.options.start_inventory.value[Items.ZEEK.value] = 1
+        if self.options.start_with_bram:
+            self.options.start_inventory.value[Items.BRAM.value] = 1
+
     def create_regions(self) -> None:
         for name in astalon_regions:
             region = Region(name.value, self.player, self.multiworld)
@@ -79,6 +101,8 @@ class AstalonWorld(World):
                 if data.item_group == LocationGroups.KEYS_BLUE and not self.options.randomize_blue_keys:
                     continue
                 if data.item_group == LocationGroups.KEYS_RED and not self.options.randomize_red_keys:
+                    continue
+                if data.item_group == LocationGroups.SHOP and not self.options.randomize_shop:
                     continue
 
                 location = AstalonLocation(
@@ -117,6 +141,8 @@ class AstalonWorld(World):
             if data.item_group == ItemGroups.DOORS_BLUE and not self.options.randomize_blue_keys:
                 continue
             if data.item_group == ItemGroups.DOORS_RED and not self.options.randomize_red_keys:
+                continue
+            if data.item_group == ItemGroups.SHOP and not self.options.randomize_shop:
                 continue
 
             for _ in range(0, data.quantity_in_item_pool):
@@ -157,18 +183,30 @@ class AstalonWorld(World):
             "randomize_white_keys",
             "randomize_blue_keys",
             "randomize_red_keys",
+            "randomize_shop",
             # "randomize_familiars",
             "skip_cutscenes",
-            "start_with_zeek",
-            "start_with_bram",
-            "start_with_qol",
             "free_apex_elevator",
             "cost_multiplier",
             "fast_blood_chalice",
             "campfire_warp",
             "death_link",
         )
+
+        shop_items: Dict[str, Dict[str, Any]] = {}
+        if self.options.randomize_shop:
+            region = self.multiworld.get_region(Regions.SHOP.value, self.player)
+            for location in region.locations:
+                item = location.item
+                if item:
+                    shop_items[location.name] = {
+                        "id": item.code,
+                        "name": item.name,
+                        "game": item.game,
+                        "flags": item.flags,
+                    }
+
         return {
             "settings": settings,
-            # TODO: return list of items in world so they can display in-game correctly?
+            "shop_items": shop_items,
         }

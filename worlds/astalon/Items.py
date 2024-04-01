@@ -24,6 +24,7 @@ class ItemGroups(str, Enum):
     DOORS_WHITE = "white doors"
     DOORS_BLUE = "blue doors"
     DOORS_RED = "red doors"
+    SHOP = "shop upgrades"
 
 
 class Items(str, Enum):
@@ -129,6 +130,16 @@ class Items(str, Enum):
     DOOR_RED_SP = "Red Door (Serpent Path)"
     DOOR_RED_TR = "Red Door (Tower Roots)"
     DOOR_RED_DEV_ROOM = "Red Door (Dev Room)"
+
+    KNOWLEDGE = "Knowledge"
+    ORB_SEEKER = "Orb Seeker"
+    TITANS_EGO = "Titan's Ego"
+    MAP_REVEAL = "Map Reveal"
+    GIFT = "Gift"
+    CARTOGRAPHER = "Cartographer"
+    DEATH_ORB = "Death Orb"
+    DEATH_POINT = "Death Point"
+    MERCY = "Mercy"
 
     VICTORY = "Victory"
 
@@ -264,7 +275,7 @@ item_table: Dict[Items, AstalonItemData] = {
     Items.DOOR_BLUE_GT_ASCENDANT: AstalonItemData(ItemClassification.progression, 1, ItemGroups.DOORS_BLUE),
     Items.DOOR_BLUE_GT_SWORD: AstalonItemData(ItemClassification.progression, 1, ItemGroups.DOORS_BLUE),
     Items.DOOR_BLUE_MECH_RED: AstalonItemData(ItemClassification.progression, 1, ItemGroups.DOORS_BLUE),
-    Items.DOOR_BLUE_MECH_SHORTCUT: AstalonItemData(ItemClassification.useful, 1, ItemGroups.DOORS_BLUE),
+    Items.DOOR_BLUE_MECH_SHORTCUT: AstalonItemData(ItemClassification.progression, 1, ItemGroups.DOORS_BLUE),
     Items.DOOR_BLUE_MECH_MUSIC: AstalonItemData(ItemClassification.filler, 1, ItemGroups.DOORS_BLUE),
     Items.DOOR_BLUE_MECH_BOOTS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.DOORS_BLUE),
     Items.DOOR_BLUE_MECH_VOID: AstalonItemData(ItemClassification.progression, 1, ItemGroups.DOORS_BLUE),
@@ -291,11 +302,20 @@ item_table: Dict[Items, AstalonItemData] = {
     Items.DOOR_RED_TR: AstalonItemData(ItemClassification.progression, 1, ItemGroups.DOORS_RED),
     # progression if gil is a check
     Items.DOOR_RED_DEV_ROOM: AstalonItemData(ItemClassification.filler, 1, ItemGroups.DOORS_RED),
-    # Items.ARIAS: AstalonItemData(ItemClassification.progression, 0, ItemGroups.CHARACTERS),
-    # Items.KYULI: AstalonItemData(ItemClassification.progression, 0, ItemGroups.CHARACTERS),
-    # Items.ALGUS: AstalonItemData(ItemClassification.progression, 0, ItemGroups.CHARACTERS),
-    # Items.ZEEK: AstalonItemData(ItemClassification.progression, 0, ItemGroups.CHARACTERS),
-    # Items.BRAM: AstalonItemData(ItemClassification.progression, 0, ItemGroups.CHARACTERS),
+    Items.ARIAS: AstalonItemData(ItemClassification.progression, 0, ItemGroups.CHARACTERS),
+    Items.KYULI: AstalonItemData(ItemClassification.progression, 0, ItemGroups.CHARACTERS),
+    Items.ALGUS: AstalonItemData(ItemClassification.progression, 0, ItemGroups.CHARACTERS),
+    Items.ZEEK: AstalonItemData(ItemClassification.progression, 0, ItemGroups.CHARACTERS),
+    Items.BRAM: AstalonItemData(ItemClassification.progression, 0, ItemGroups.CHARACTERS),
+    Items.KNOWLEDGE: AstalonItemData(ItemClassification.filler, 1, ItemGroups.SHOP),
+    Items.ORB_SEEKER: AstalonItemData(ItemClassification.useful, 1, ItemGroups.SHOP),
+    Items.TITANS_EGO: AstalonItemData(ItemClassification.filler, 1, ItemGroups.SHOP),
+    Items.MAP_REVEAL: AstalonItemData(ItemClassification.filler, 1, ItemGroups.SHOP),
+    Items.GIFT: AstalonItemData(ItemClassification.useful, 1, ItemGroups.SHOP),
+    Items.CARTOGRAPHER: AstalonItemData(ItemClassification.filler, 1, ItemGroups.SHOP),
+    Items.DEATH_ORB: AstalonItemData(ItemClassification.useful, 1, ItemGroups.SHOP),
+    Items.DEATH_POINT: AstalonItemData(ItemClassification.filler, 1, ItemGroups.SHOP),
+    Items.MERCY: AstalonItemData(ItemClassification.useful, 1, ItemGroups.SHOP),
     # Items.CYCLOPS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.ITEMS),
     # Items.CROWN: AstalonItemData(ItemClassification.progression, 1, ItemGroups.ITEMS),
     # Items.MONSTER: AstalonItemData(ItemClassification.progression, 3, ItemGroups.FAMILIARS),

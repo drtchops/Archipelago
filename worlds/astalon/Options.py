@@ -70,6 +70,14 @@ class RandomizeRedKeys(Toggle):
     display_name = "Randomize Red Keys"
 
 
+class RandomizeShop(Toggle):
+    """
+    Choose whether to randomize the purchases in Epimetheus's shop.
+    """
+
+    display_name = "Randomize Shop"
+
+
 class RandomizeFamiliars(Toggle):
     """
     NOT YET SUPPORTED
@@ -179,6 +187,7 @@ class AstalonOptions(PerGameCommonOptions):
     randomize_white_keys: RandomizeWhiteKeys
     randomize_blue_keys: RandomizeBlueKeys
     randomize_red_keys: RandomizeRedKeys
+    randomize_shop: RandomizeShop
     # randomize_familiars: RandomizeFamiliars
     skip_cutscenes: SkipCutscenes
     start_with_zeek: StartWithZeek

@@ -18,6 +18,7 @@ class LocationGroups(str, Enum):
     KEYS_WHITE = "white keys"
     KEYS_BLUE = "blue keys"
     KEYS_RED = "red keys"
+    SHOP = "shop upgrades"
 
 
 class Locations(str, Enum):
@@ -166,6 +167,16 @@ class Locations(str, Enum):
     SP_BLUE_KEY_PAINTING = "Serpent Path - Blue Key (Painting)"
     SP_BLUE_KEY_ARIAS = "Serpent Path - Blue Key (Arias)"
 
+    SHOP_KNOWLEDGE = "Shop - Knowledge"
+    SHOP_ORB_SEEKER = "Shop - Orb Seeker"
+    SHOP_TITANS_EGO = "Shop - Titan's Ego"
+    SHOP_MAP_REVEAL = "Shop - Map Reveal"
+    SHOP_GIFT = "Shop - Gift"
+    SHOP_CARTOGRAPHER = "Shop - Cartographer"
+    SHOP_DEATH_ORB = "Shop - Death Orb"
+    SHOP_DEATH_POINT = "Shop - Death Point"
+    SHOP_MERCY = "Shop - Mercy"
+
     VICTORY = "Victory"
 
 
@@ -306,6 +317,15 @@ location_table: Dict[Locations, AstalonLocationData] = {
     Locations.SP_BLUE_KEY_STAR: AstalonLocationData(Regions.SP, LocationGroups.KEYS_BLUE),
     Locations.SP_BLUE_KEY_PAINTING: AstalonLocationData(Regions.SP, LocationGroups.KEYS_BLUE),
     Locations.SP_BLUE_KEY_ARIAS: AstalonLocationData(Regions.SP, LocationGroups.KEYS_BLUE),
+    Locations.SHOP_KNOWLEDGE: AstalonLocationData(Regions.SHOP, LocationGroups.SHOP),
+    Locations.SHOP_ORB_SEEKER: AstalonLocationData(Regions.SHOP, LocationGroups.SHOP),
+    Locations.SHOP_TITANS_EGO: AstalonLocationData(Regions.SHOP, LocationGroups.SHOP),
+    Locations.SHOP_MAP_REVEAL: AstalonLocationData(Regions.SHOP, LocationGroups.SHOP),
+    Locations.SHOP_GIFT: AstalonLocationData(Regions.SHOP, LocationGroups.SHOP),
+    Locations.SHOP_CARTOGRAPHER: AstalonLocationData(Regions.SHOP, LocationGroups.SHOP),
+    Locations.SHOP_DEATH_ORB: AstalonLocationData(Regions.SHOP, LocationGroups.SHOP),
+    Locations.SHOP_DEATH_POINT: AstalonLocationData(Regions.SHOP, LocationGroups.SHOP),
+    Locations.SHOP_MERCY: AstalonLocationData(Regions.SHOP, LocationGroups.SHOP),
     # Locations.MECH_ZEEK: AstalonLocationData(Regions.MECH_LOWER, LocationGroups.CHARACTERS),
     # Locations.TR_BRAM: AstalonLocationData(Regions.TR, LocationGroups.CHARACTERS),
     # Locations.GT_OLD_MAN: AstalonLocationData(Regions.GT_UPPER, LocationGroups.FAMILIARS),
