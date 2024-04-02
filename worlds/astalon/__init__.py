@@ -202,8 +202,10 @@ class AstalonWorld(World):
                     shop_items[location.name] = {
                         "id": item.code,
                         "name": item.name,
+                        "player_name": self.multiworld.player_name.get(item.player),
                         "game": item.game,
                         "flags": item.flags,
+                        "is_local": item.player == self.player,
                     }
 
         return {

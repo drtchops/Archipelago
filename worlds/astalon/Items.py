@@ -131,15 +131,30 @@ class Items(str, Enum):
     DOOR_RED_TR = "Red Door (Tower Roots)"
     DOOR_RED_DEV_ROOM = "Red Door (Dev Room)"
 
-    KNOWLEDGE = "Knowledge"
-    ORB_SEEKER = "Orb Seeker"
-    TITANS_EGO = "Titan's Ego"
-    MAP_REVEAL = "Map Reveal"
     GIFT = "Gift"
+    KNOWLEDGE = "Knowledge"
+    MERCY = "Mercy"
+    ORB_SEEKER = "Orb Seeker"
+    MAP_REVEAL = "Map Reveal"
     CARTOGRAPHER = "Cartographer"
     DEATH_ORB = "Death Orb"
     DEATH_POINT = "Death Point"
-    MERCY = "Mercy"
+    TITANS_EGO = "Titan's Ego"
+    ALGUS_ARCANIST = "Algus's Arcanist"
+    ALGUS_SHOCK = "Algus's Shock Field"
+    ALGUS_METEOR = "Algus's Meteor Rain"
+    ARIAS_GORGONSLAYER = "Arias's Gorgonslayer"
+    ARIAS_LAST_STAND = "Arias's Last Stand"
+    ARIAS_LIONHEART = "Arias's Lionheart"
+    KYULI_ASSASSIN = "Kyuli's Assassin Strike"
+    KYULI_BULLSEYE = "Kyuli's Bullseye"
+    KYULI_RAY = "Kyuli's Shining Ray"
+    ZEEK_JUNKYARD = "Zeek's Junkyard Hunt"
+    ZEEK_ORBS = "Zeek's Orb Monger"
+    ZEEK_LOOT = "Zeek's Bigger Loot"
+    BRAM_AXE = "Bram's Golden Axe"
+    BRAM_HUNTER = "Bram's Monster Hunter"
+    BRAM_WHIPLASH = "Bram's Whiplash"
 
     VICTORY = "Victory"
 
@@ -307,15 +322,30 @@ item_table: Dict[Items, AstalonItemData] = {
     Items.ALGUS: AstalonItemData(ItemClassification.progression, 0, ItemGroups.CHARACTERS),
     Items.ZEEK: AstalonItemData(ItemClassification.progression, 0, ItemGroups.CHARACTERS),
     Items.BRAM: AstalonItemData(ItemClassification.progression, 0, ItemGroups.CHARACTERS),
-    Items.KNOWLEDGE: AstalonItemData(ItemClassification.filler, 1, ItemGroups.SHOP),
-    Items.ORB_SEEKER: AstalonItemData(ItemClassification.useful, 1, ItemGroups.SHOP),
-    Items.TITANS_EGO: AstalonItemData(ItemClassification.filler, 1, ItemGroups.SHOP),
-    Items.MAP_REVEAL: AstalonItemData(ItemClassification.filler, 1, ItemGroups.SHOP),
     Items.GIFT: AstalonItemData(ItemClassification.useful, 1, ItemGroups.SHOP),
+    Items.KNOWLEDGE: AstalonItemData(ItemClassification.filler, 1, ItemGroups.SHOP),
+    Items.MERCY: AstalonItemData(ItemClassification.useful, 1, ItemGroups.SHOP),
+    Items.ORB_SEEKER: AstalonItemData(ItemClassification.useful, 1, ItemGroups.SHOP),
+    Items.MAP_REVEAL: AstalonItemData(ItemClassification.filler, 1, ItemGroups.SHOP),
     Items.CARTOGRAPHER: AstalonItemData(ItemClassification.filler, 1, ItemGroups.SHOP),
     Items.DEATH_ORB: AstalonItemData(ItemClassification.useful, 1, ItemGroups.SHOP),
     Items.DEATH_POINT: AstalonItemData(ItemClassification.filler, 1, ItemGroups.SHOP),
-    Items.MERCY: AstalonItemData(ItemClassification.useful, 1, ItemGroups.SHOP),
+    Items.TITANS_EGO: AstalonItemData(ItemClassification.filler, 1, ItemGroups.SHOP),
+    Items.ALGUS_ARCANIST: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SHOP),
+    Items.ALGUS_SHOCK: AstalonItemData(ItemClassification.useful, 1, ItemGroups.SHOP),
+    Items.ALGUS_METEOR: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SHOP),
+    Items.ARIAS_GORGONSLAYER: AstalonItemData(ItemClassification.useful, 1, ItemGroups.SHOP),
+    Items.ARIAS_LAST_STAND: AstalonItemData(ItemClassification.useful, 1, ItemGroups.SHOP),
+    Items.ARIAS_LIONHEART: AstalonItemData(ItemClassification.useful, 1, ItemGroups.SHOP),
+    Items.KYULI_ASSASSIN: AstalonItemData(ItemClassification.useful, 1, ItemGroups.SHOP),
+    Items.KYULI_BULLSEYE: AstalonItemData(ItemClassification.useful, 1, ItemGroups.SHOP),
+    Items.KYULI_RAY: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SHOP),
+    Items.ZEEK_JUNKYARD: AstalonItemData(ItemClassification.useful, 1, ItemGroups.SHOP),
+    Items.ZEEK_ORBS: AstalonItemData(ItemClassification.useful, 1, ItemGroups.SHOP),
+    Items.ZEEK_LOOT: AstalonItemData(ItemClassification.useful, 1, ItemGroups.SHOP),
+    Items.BRAM_AXE: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SHOP),
+    Items.BRAM_HUNTER: AstalonItemData(ItemClassification.useful, 1, ItemGroups.SHOP),
+    Items.BRAM_WHIPLASH: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SHOP),
     # Items.CYCLOPS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.ITEMS),
     # Items.CROWN: AstalonItemData(ItemClassification.progression, 1, ItemGroups.ITEMS),
     # Items.MONSTER: AstalonItemData(ItemClassification.progression, 3, ItemGroups.FAMILIARS),

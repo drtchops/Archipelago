@@ -20,12 +20,13 @@ class AstalonRules:
     options: AstalonOptions
     entrance_rules: Dict[Tuple[Regions, Regions], Callable[[CollectionState], bool]]
     item_rules: Dict[Locations, Callable[[CollectionState], bool]]
-    familiar_rules: Dict[Locations, Callable[[CollectionState], bool]]
     attack_rules: Dict[Locations, Callable[[CollectionState], bool]]
     health_rules: Dict[Locations, Callable[[CollectionState], bool]]
     white_key_rules: Dict[Locations, Callable[[CollectionState], bool]]
     blue_key_rules: Dict[Locations, Callable[[CollectionState], bool]]
     red_key_rules: Dict[Locations, Callable[[CollectionState], bool]]
+    shop_rules: Dict[Locations, Callable[[CollectionState], bool]]
+    familiar_rules: Dict[Locations, Callable[[CollectionState], bool]]
 
     def __init__(self, world: "AstalonWorld"):
         self.world = world
@@ -398,6 +399,35 @@ class AstalonRules:
             Locations.TR_RED_KEY: lambda _: True,
         }
 
+        self.shop_rules = {
+            Locations.SHOP_GIFT: lambda state: self.moderate_shop(state),
+            Locations.SHOP_KNOWLEDGE: lambda state: self.cheap_shop(state),
+            Locations.SHOP_MERCY: lambda state: self.expensive_shop(state),
+            Locations.SHOP_ORB_SEEKER: lambda state: self.cheap_shop(state),
+            Locations.SHOP_MAP_REVEAL: lambda state: (
+                self.region(Regions.TR).can_reach(state) and self.region(Regions.ROA_UPPER).can_reach(state)
+            ),
+            Locations.SHOP_CARTOGRAPHER: lambda state: self.cheap_shop(state),
+            Locations.SHOP_DEATH_ORB: lambda state: self.moderate_shop(state),
+            Locations.SHOP_DEATH_POINT: lambda state: self.moderate_shop(state),
+            Locations.SHOP_TITANS_EGO: lambda state: self.moderate_shop(state),
+            Locations.SHOP_ALGUS_ARCANIST: lambda state: self.moderate_shop(state) and self.has(state, Items.ALGUS),
+            Locations.SHOP_ALGUS_SHOCK: lambda state: self.moderate_shop(state) and self.has(state, Items.ALGUS),
+            Locations.SHOP_ALGUS_METEOR: lambda state: self.expensive_shop(state) and self.has(state, Items.ALGUS),
+            Locations.SHOP_ARIAS_GORGONSLAYER: lambda state: self.moderate_shop(state) and self.has(state, Items.ARIAS),
+            Locations.SHOP_ARIAS_LAST_STAND: lambda state: self.expensive_shop(state) and self.has(state, Items.ARIAS),
+            Locations.SHOP_ARIAS_LIONHEART: lambda state: self.moderate_shop(state) and self.has(state, Items.ARIAS),
+            Locations.SHOP_KYULI_ASSASSIN: lambda state: self.cheap_shop(state) and self.has(state, Items.KYULI),
+            Locations.SHOP_KYULI_BULLSEYE: lambda state: self.moderate_shop(state) and self.has(state, Items.KYULI),
+            Locations.SHOP_KYULI_RAY: lambda state: self.expensive_shop(state) and self.has(state, Items.KYULI),
+            Locations.SHOP_ZEEK_JUNKYARD: lambda state: self.moderate_shop(state) and self.has(state, Items.ZEEK),
+            Locations.SHOP_ZEEK_ORBS: lambda state: self.moderate_shop(state) and self.has(state, Items.ZEEK),
+            Locations.SHOP_ZEEK_LOOT: lambda state: self.cheap_shop(state) and self.has(state, Items.ZEEK),
+            Locations.SHOP_BRAM_AXE: lambda state: self.expensive_shop(state) and self.has(state, Items.BRAM),
+            Locations.SHOP_BRAM_HUNTER: lambda state: self.moderate_shop(state) and self.has(state, Items.BRAM),
+            Locations.SHOP_BRAM_WHIPLASH: lambda state: self.moderate_shop(state) and self.has(state, Items.BRAM),
+        }
+
         self.familiar_rules = {
             Locations.GT_OLD_MAN: lambda state: self.has_any(state, Items.BELL, Items.SWORD),
             Locations.MECH_OLD_MAN: lambda _: True,
@@ -500,6 +530,15 @@ class AstalonRules:
             return else_case
         return self.has(state, *doors)
 
+    def cheap_shop(self, state: CollectionState):
+        return self.region(Regions.GT_LEFT).can_reach(state)
+
+    def moderate_shop(self, state: CollectionState):
+        return self.region(Regions.MECH_LOWER).can_reach(state)
+
+    def expensive_shop(self, state: CollectionState):
+        return self.region(Regions.ROA_LOWER).can_reach(state)
+
     def set_region_rules(self):
         for (from_, to_), rule in self.entrance_rules.items():
             set_rule(self.entrance(from_, to_), rule)
@@ -526,6 +565,10 @@ class AstalonRules:
 
         if self.options.randomize_red_keys:
             for location, rule in self.red_key_rules.items():
+                set_rule(self.location(location), rule)
+
+        if self.options.randomize_shop:
+            for location, rule in self.shop_rules.items():
                 set_rule(self.location(location), rule)
 
         # if self.options.randomize_familiars:

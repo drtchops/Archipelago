@@ -167,15 +167,30 @@ class Locations(str, Enum):
     SP_BLUE_KEY_PAINTING = "Serpent Path - Blue Key (Painting)"
     SP_BLUE_KEY_ARIAS = "Serpent Path - Blue Key (Arias)"
 
-    SHOP_KNOWLEDGE = "Shop - Knowledge"
-    SHOP_ORB_SEEKER = "Shop - Orb Seeker"
-    SHOP_TITANS_EGO = "Shop - Titan's Ego"
-    SHOP_MAP_REVEAL = "Shop - Map Reveal"
     SHOP_GIFT = "Shop - Gift"
+    SHOP_KNOWLEDGE = "Shop - Knowledge"
+    SHOP_MERCY = "Shop - Mercy"
+    SHOP_ORB_SEEKER = "Shop - Orb Seeker"
+    SHOP_MAP_REVEAL = "Shop - Map Reveal"
     SHOP_CARTOGRAPHER = "Shop - Cartographer"
     SHOP_DEATH_ORB = "Shop - Death Orb"
     SHOP_DEATH_POINT = "Shop - Death Point"
-    SHOP_MERCY = "Shop - Mercy"
+    SHOP_TITANS_EGO = "Shop - Titan's Ego"
+    SHOP_ALGUS_ARCANIST = "Shop - Algus's Arcanist"
+    SHOP_ALGUS_SHOCK = "Shop - Algus's Shock Field"
+    SHOP_ALGUS_METEOR = "Shop - Algus's Meteor Rain"
+    SHOP_ARIAS_GORGONSLAYER = "Shop - Arias's Gorgonslayer"
+    SHOP_ARIAS_LAST_STAND = "Shop - Arias's Last Stand"
+    SHOP_ARIAS_LIONHEART = "Shop - Arias's Lionheart"
+    SHOP_KYULI_ASSASSIN = "Shop - Kyuli's Assassin Strike"
+    SHOP_KYULI_BULLSEYE = "Shop - Kyuli's Bullseye"
+    SHOP_KYULI_RAY = "Shop - Kyuli's Shining Ray"
+    SHOP_ZEEK_JUNKYARD = "Shop - Zeek's Junkyard Hunt"
+    SHOP_ZEEK_ORBS = "Shop - Zeek's Orb Monger"
+    SHOP_ZEEK_LOOT = "Shop - Zeek's Bigger Loot"
+    SHOP_BRAM_AXE = "Shop - Bram's Golden Axe"
+    SHOP_BRAM_HUNTER = "Shop - Bram's Monster Hunter"
+    SHOP_BRAM_WHIPLASH = "Shop - Bram's Whiplash"
 
     VICTORY = "Victory"
 
@@ -317,15 +332,30 @@ location_table: Dict[Locations, AstalonLocationData] = {
     Locations.SP_BLUE_KEY_STAR: AstalonLocationData(Regions.SP, LocationGroups.KEYS_BLUE),
     Locations.SP_BLUE_KEY_PAINTING: AstalonLocationData(Regions.SP, LocationGroups.KEYS_BLUE),
     Locations.SP_BLUE_KEY_ARIAS: AstalonLocationData(Regions.SP, LocationGroups.KEYS_BLUE),
-    Locations.SHOP_KNOWLEDGE: AstalonLocationData(Regions.SHOP, LocationGroups.SHOP),
-    Locations.SHOP_ORB_SEEKER: AstalonLocationData(Regions.SHOP, LocationGroups.SHOP),
-    Locations.SHOP_TITANS_EGO: AstalonLocationData(Regions.SHOP, LocationGroups.SHOP),
-    Locations.SHOP_MAP_REVEAL: AstalonLocationData(Regions.SHOP, LocationGroups.SHOP),
     Locations.SHOP_GIFT: AstalonLocationData(Regions.SHOP, LocationGroups.SHOP),
+    Locations.SHOP_KNOWLEDGE: AstalonLocationData(Regions.SHOP, LocationGroups.SHOP),
+    Locations.SHOP_MERCY: AstalonLocationData(Regions.SHOP, LocationGroups.SHOP),
+    Locations.SHOP_ORB_SEEKER: AstalonLocationData(Regions.SHOP, LocationGroups.SHOP),
+    Locations.SHOP_MAP_REVEAL: AstalonLocationData(Regions.SHOP, LocationGroups.SHOP),
     Locations.SHOP_CARTOGRAPHER: AstalonLocationData(Regions.SHOP, LocationGroups.SHOP),
     Locations.SHOP_DEATH_ORB: AstalonLocationData(Regions.SHOP, LocationGroups.SHOP),
     Locations.SHOP_DEATH_POINT: AstalonLocationData(Regions.SHOP, LocationGroups.SHOP),
-    Locations.SHOP_MERCY: AstalonLocationData(Regions.SHOP, LocationGroups.SHOP),
+    Locations.SHOP_TITANS_EGO: AstalonLocationData(Regions.SHOP, LocationGroups.SHOP),
+    Locations.SHOP_ALGUS_ARCANIST: AstalonLocationData(Regions.SHOP, LocationGroups.SHOP),
+    Locations.SHOP_ALGUS_SHOCK: AstalonLocationData(Regions.SHOP, LocationGroups.SHOP),
+    Locations.SHOP_ALGUS_METEOR: AstalonLocationData(Regions.SHOP, LocationGroups.SHOP),
+    Locations.SHOP_ARIAS_GORGONSLAYER: AstalonLocationData(Regions.SHOP, LocationGroups.SHOP),
+    Locations.SHOP_ARIAS_LAST_STAND: AstalonLocationData(Regions.SHOP, LocationGroups.SHOP),
+    Locations.SHOP_ARIAS_LIONHEART: AstalonLocationData(Regions.SHOP, LocationGroups.SHOP),
+    Locations.SHOP_KYULI_ASSASSIN: AstalonLocationData(Regions.SHOP, LocationGroups.SHOP),
+    Locations.SHOP_KYULI_BULLSEYE: AstalonLocationData(Regions.SHOP, LocationGroups.SHOP),
+    Locations.SHOP_KYULI_RAY: AstalonLocationData(Regions.SHOP, LocationGroups.SHOP),
+    Locations.SHOP_ZEEK_JUNKYARD: AstalonLocationData(Regions.SHOP, LocationGroups.SHOP),
+    Locations.SHOP_ZEEK_ORBS: AstalonLocationData(Regions.SHOP, LocationGroups.SHOP),
+    Locations.SHOP_ZEEK_LOOT: AstalonLocationData(Regions.SHOP, LocationGroups.SHOP),
+    Locations.SHOP_BRAM_AXE: AstalonLocationData(Regions.SHOP, LocationGroups.SHOP),
+    Locations.SHOP_BRAM_HUNTER: AstalonLocationData(Regions.SHOP, LocationGroups.SHOP),
+    Locations.SHOP_BRAM_WHIPLASH: AstalonLocationData(Regions.SHOP, LocationGroups.SHOP),
     # Locations.MECH_ZEEK: AstalonLocationData(Regions.MECH_LOWER, LocationGroups.CHARACTERS),
     # Locations.TR_BRAM: AstalonLocationData(Regions.TR, LocationGroups.CHARACTERS),
     # Locations.GT_OLD_MAN: AstalonLocationData(Regions.GT_UPPER, LocationGroups.FAMILIARS),
