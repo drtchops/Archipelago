@@ -73,6 +73,7 @@ class RandomizeRedKeys(Toggle):
 class RandomizeShop(Toggle):
     """
     Choose whether to randomize the purchases in Epimetheus's shop.
+    All unique shop upgrades will be randomized, including the three special powers for each character.
     """
 
     display_name = "Randomize Shop"
