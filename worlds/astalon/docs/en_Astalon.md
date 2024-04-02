@@ -10,13 +10,15 @@ All key items that appear in your inventory are randomized with the exception of
 
 White, Blue, and Red keys can also be added to the randomized pool. If enabled, picking up keys will complete location checks, and you will receive individual door unlocks as items.
 
+You can also randomize all unique upgrades from Epimetheus's shop.
+
 ## What is the goal?
 
 The goal is to complete the main Tears of the Earth campaign. New Game Plus is not supported.
 
 ## What Astalon items can appear in other players' worlds?
 
-Any key items as noted above can appear in other players' worlds. If enabled, max health pickups, attack pickups, and key door unlocks will also appear.
+Any key items as noted above can appear in other players' worlds. If enabled, max health pickups, attack pickups, key door unlocks, and shop upgrades will also appear.
 
 ## What does another world's item look like in Astalon?
 
