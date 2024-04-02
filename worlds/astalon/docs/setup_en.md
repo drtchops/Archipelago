@@ -7,6 +7,11 @@
   - Currently you must use the bleeding edge release of v6 since the stable version does not support IL2CPP. A direct download for the version tested against can be found [here](https://builds.bepinex.dev/projects/bepinex_be/688/BepInEx-Unity.IL2CPP-win-x86-6.0.0-be.688%2B4901521.zip).
 - [Archipelago Mod for Astalon](https://github.com/drtchops/Archipelago-Astalon/releases)
 
+## Optional Software
+
+- [PopTracker](https://github.com/black-sliver/PopTracker/releases/tag/v0.25.8)
+- [Astalon Pack for PopTracker](https://github.com/Ouro-dev/astalon-poptracker/releases/latest)
+
 ## Installation
 
 1. Download and extract BepInEx into your Astalon install folder.

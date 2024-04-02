@@ -34,4 +34,3 @@ Items for your world or another Astalon world will appear as the actual item. It
 - Banish Spell makes Algus's attacks larger, allowing you to hit otherwise inaccessible orbs
 - Zeek can get blocks stuck in walls, providing extra height
 - Athena's Bell is logically required to fight the final boss
-- Until a dedicated tracker exists I suggest using the [Universal Tracker](https://github.com/FarisTheAncient/Archipelago/releases/tag/Tracker_v0.1.4) to keep track of what checks you have available ([Setup guide](https://github.com/FarisTheAncient/Archipelago/blob/tracker/worlds/tracker/docs/setup.md))
