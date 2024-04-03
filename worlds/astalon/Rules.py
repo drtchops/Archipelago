@@ -284,7 +284,10 @@ class AstalonRules:
                 )
             ),
             Locations.ROA_HP_1_LEFT: lambda _: True,
-            Locations.ROA_HP_2_RIGHT: lambda state: self.has_any(state, Items.GAUNTLET, Items.STAR, Items.CHALICE),
+            Locations.ROA_HP_2_RIGHT: lambda state: (
+                self.has_any(state, Items.GAUNTLET, Items.CHALICE)
+                and (self.has(state, Items.STAR) or self.blue_doors(state, Items.DOOR_BLUE_ROA_FLAMES))
+            ),
             Locations.ROA_HP_5_SOLARIA: lambda _: True,
             Locations.DARK_HP_4: lambda _: True,
             Locations.APEX_HP_1_CHALICE: lambda state: self.blue_doors(state, Items.DOOR_BLUE_APEX),
