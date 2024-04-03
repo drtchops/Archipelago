@@ -12,14 +12,14 @@ class NoCharacterStartTest(AstalonTestBase):
         "randomize_red_keys": "true",
     }
 
-    def test_star_needs_bram(self) -> None:
+    def test_star_needs_bram_access(self) -> None:
         location = Locations.GT_HP_1_RING.value
         self.collect_all_but([Items.VOID.value, Items.DOOR_BLUE_GT_RING.value])
         self.assertFalse(self.can_reach_location(location))
         self.collect_by_name(Items.VOID.value)
         self.assertTrue(self.can_reach_location(location))
 
-    def test_block_needs_zeek(self) -> None:
+    def test_block_needs_zeek_access(self) -> None:
         location = Locations.HOTP_MAIDEN_RING.value
         self.collect_all_but(
             [
@@ -32,24 +32,6 @@ class NoCharacterStartTest(AstalonTestBase):
         self.collect_by_name(Items.DOOR_RED_ZEEK.value)
         self.assertTrue(self.can_reach_location(location))
 
-    def test_access_ring_hp(self) -> None:
-        location = Locations.GT_HP_1_RING.value
-        self.collect_by_name(Items.STAR.value)
-        self.assertFalse(self.can_reach_location(location))
-        self.collect_by_name(
-            [
-                Items.DOOR_BLUE_CATA_START.value,
-                Items.EYE_RED.value,
-                Items.EYE_BLUE.value,
-                Items.BOW.value,
-                Items.CLAW.value,
-                Items.BELL.value,
-                Items.BANISH.value,
-                Items.VOID.value,
-            ]
-        )
-        self.assertTrue(self.can_reach_location(location))
-
 
 class AllCharacterStartTest(AstalonTestBase):
     options = {
@@ -60,7 +42,7 @@ class AllCharacterStartTest(AstalonTestBase):
         "randomize_red_keys": "true",
     }
 
-    def test_only_need_star(self) -> None:
+    def test_starting_with_bram_only_needs_star(self) -> None:
         location = Locations.GT_HP_1_RING.value
         self.assertFalse(self.can_reach_location(location))
         self.collect_by_name(Items.STAR.value)

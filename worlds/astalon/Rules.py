@@ -447,7 +447,7 @@ class AstalonRules:
     def location(self, name: Locations):
         return self.world.multiworld.get_location(name.value, self.player)
 
-    def can_reach_zeek(self, state: CollectionState):
+    def can_reach_zeek(self, state: CollectionState) -> bool:
         if not self.region(Regions.MECH_UPPER).can_reach(state):
             return False
         if self.options.randomize_red_keys:
@@ -459,20 +459,20 @@ class AstalonRules:
             or (self.region(Regions.ROA_UPPER).can_reach(state) and self.has(state, Items.BOW, Items.CLOAK))
         )
 
-    def has_zeek(self, state: CollectionState):
+    def has_zeek(self, state: CollectionState) -> bool:
         if self.options.start_with_zeek:
             return True
         return self.can_reach_zeek(state) and self.region(Regions.CD).can_reach(state)
 
-    def can_reach_bram(self, state: CollectionState):
+    def can_reach_bram(self, state: CollectionState) -> bool:
         return self.region(Regions.TR).can_reach(state) and self.has(state, Items.EYE_BLUE)
 
-    def has_bram(self, state: CollectionState):
+    def has_bram(self, state: CollectionState) -> bool:
         if self.options.start_with_bram:
             return True
         return self.can_reach_bram(state)
 
-    def _has(self, state: CollectionState, item: Items, count: int = 1):
+    def _has(self, state: CollectionState, item: Items, count: int = 1) -> bool:
         if item in {Items.ALGUS, Items.ARIAS, Items.KYULI}:
             # not yet randomized
             return True
@@ -504,52 +504,58 @@ class AstalonRules:
 
         return state.has(item.value, self.player, count=count)
 
-    def has(self, state: CollectionState, *items: Union[Characters, KeyItems], count: int = 1):
+    def has(self, state: CollectionState, *items: Union[Characters, KeyItems], count: int = 1) -> bool:
         # cover extra logic instead of calling state.has_all
         for item in items:
             if not self._has(state, item, count=count):
                 return False
         return True
 
-    def has_any(self, state: CollectionState, *items: Union[Characters, KeyItems]):
+    def has_any(self, state: CollectionState, *items: Union[Characters, KeyItems]) -> bool:
         # cover extra logic instead of calling state.has_any
         for item in items:
             if self._has(state, item):
                 return True
         return False
 
-    def white_doors(self, state: CollectionState, *doors: WhiteDoors, else_case=True):
+    def white_doors(self, state: CollectionState, *doors: WhiteDoors, else_case=True) -> bool:
         if not self.options.randomize_white_keys:
             return else_case
         for door in doors:
-            return self._has(state, door)
+            if not self._has(state, door):
+                return False
+        return True
 
-    def blue_doors(self, state: CollectionState, *doors: BlueDoors, else_case=True):
+    def blue_doors(self, state: CollectionState, *doors: BlueDoors, else_case=True) -> bool:
         if not self.options.randomize_blue_keys:
             return else_case
         for door in doors:
-            return self._has(state, door)
+            if not self._has(state, door):
+                return False
+        return True
 
-    def red_doors(self, state: CollectionState, *doors: RedDoors, else_case=True):
+    def red_doors(self, state: CollectionState, *doors: RedDoors, else_case=True) -> bool:
         if not self.options.randomize_red_keys:
             return else_case
         for door in doors:
-            return self._has(state, door)
+            if not self._has(state, door):
+                return False
+        return True
 
-    def cheap_shop(self, state: CollectionState):
+    def cheap_shop(self, state: CollectionState) -> bool:
         return self.region(Regions.GT_LEFT).can_reach(state)
 
-    def moderate_shop(self, state: CollectionState):
+    def moderate_shop(self, state: CollectionState) -> bool:
         return self.region(Regions.MECH_LOWER).can_reach(state)
 
-    def expensive_shop(self, state: CollectionState):
+    def expensive_shop(self, state: CollectionState) -> bool:
         return self.region(Regions.ROA_LOWER).can_reach(state)
 
-    def set_region_rules(self):
+    def set_region_rules(self) -> None:
         for (from_, to_), rule in self.entrance_rules.items():
             set_rule(self.entrance(from_, to_), rule)
 
-    def set_location_rules(self):
+    def set_location_rules(self) -> None:
         for location, rule in self.item_rules.items():
             set_rule(self.location(location), rule)
 
