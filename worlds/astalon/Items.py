@@ -159,6 +159,38 @@ class Items(str, Enum):
     VICTORY = "Victory"
 
 
+Characters: TypeAlias = Literal[
+    Items.ARIAS,
+    Items.KYULI,
+    Items.ALGUS,
+    Items.ZEEK,
+    Items.BRAM,
+]
+
+KeyItems: TypeAlias = Literal[
+    Items.EYE_RED,
+    Items.EYE_BLUE,
+    Items.EYE_GREEN,
+    Items.SWORD,
+    Items.ASCENDANT_KEY,
+    Items.ADORNED_KEY,
+    Items.BANISH,
+    Items.VOID,
+    Items.BOOTS,
+    Items.CLOAK,
+    Items.CYCLOPS,
+    Items.BELL,
+    Items.CLAW,
+    Items.GAUNTLET,
+    Items.ICARUS,
+    Items.CHALICE,
+    Items.BOW,
+    Items.CROWN,
+    Items.BLOCK,
+    Items.STAR,
+]
+
+
 WhiteDoors: TypeAlias = Literal[
     Items.DOOR_WHITE_GT_START,
     Items.DOOR_WHITE_GT_MAP,
@@ -216,6 +248,33 @@ RedDoors: TypeAlias = Literal[
     Items.DOOR_RED_SP,
     Items.DOOR_RED_TR,
     Items.DOOR_RED_DEV_ROOM,
+]
+
+ShopUpgrades: TypeAlias = Literal[
+    Items.GIFT,
+    Items.KNOWLEDGE,
+    Items.MERCY,
+    Items.ORB_SEEKER,
+    Items.MAP_REVEAL,
+    Items.CARTOGRAPHER,
+    Items.DEATH_ORB,
+    Items.DEATH_POINT,
+    Items.TITANS_EGO,
+    Items.ALGUS_ARCANIST,
+    Items.ALGUS_SHOCK,
+    Items.ALGUS_METEOR,
+    Items.ARIAS_GORGONSLAYER,
+    Items.ARIAS_LAST_STAND,
+    Items.ARIAS_LIONHEART,
+    Items.KYULI_ASSASSIN,
+    Items.KYULI_BULLSEYE,
+    Items.KYULI_RAY,
+    Items.ZEEK_JUNKYARD,
+    Items.ZEEK_ORBS,
+    Items.ZEEK_LOOT,
+    Items.BRAM_AXE,
+    Items.BRAM_HUNTER,
+    Items.BRAM_WHIPLASH,
 ]
 
 

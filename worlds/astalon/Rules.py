@@ -1,10 +1,10 @@
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, Callable, Dict, Tuple
+from typing import TYPE_CHECKING, Callable, Dict, Tuple, Union
 
 from BaseClasses import CollectionState
 from worlds.generic.Rules import set_rule
 
-from .Items import BlueDoors, Items, RedDoors, WhiteDoors
+from .Items import BlueDoors, Characters, Items, KeyItems, RedDoors, WhiteDoors
 from .Locations import Locations
 from .Options import AstalonOptions
 from .Regions import Regions
@@ -145,7 +145,7 @@ class AstalonRules:
             ),
             (Regions.CATA_MID, Regions.CATA_LOWER): lambda state: (
                 self.has(state, Items.BOW, Items.EYE_BLUE)
-                and self.has(state, Items.DOOR_WHITE_CATA_BLUE)
+                and self.white_doors(state, Items.DOOR_WHITE_CATA_BLUE)
                 and (self.has(state, Items.CLAW) or self.has(state, Items.ZEEK, Items.BELL))
             ),
             (Regions.CATA_MID, Regions.CATA_ROOTS): lambda state: (
@@ -451,7 +451,7 @@ class AstalonRules:
         if not self.region(Regions.MECH_UPPER).can_reach(state):
             return False
         if self.options.randomize_red_keys:
-            return self.has(state, Items.DOOR_RED_ZEEK)
+            return self.red_doors(state, Items.DOOR_RED_ZEEK)
         # can reach one of the red keys
         return (
             self.blue_doors(state, Items.DOOR_BLUE_MECH_VOID)
@@ -504,14 +504,14 @@ class AstalonRules:
 
         return state.has(item.value, self.player, count=count)
 
-    def has(self, state: CollectionState, *items: Items, count: int = 1):
+    def has(self, state: CollectionState, *items: Union[Characters, KeyItems], count: int = 1):
         # cover extra logic instead of calling state.has_all
         for item in items:
             if not self._has(state, item, count=count):
                 return False
         return True
 
-    def has_any(self, state: CollectionState, *items: Items):
+    def has_any(self, state: CollectionState, *items: Union[Characters, KeyItems]):
         # cover extra logic instead of calling state.has_any
         for item in items:
             if self._has(state, item):
@@ -521,17 +521,20 @@ class AstalonRules:
     def white_doors(self, state: CollectionState, *doors: WhiteDoors, else_case=True):
         if not self.options.randomize_white_keys:
             return else_case
-        return self.has(state, *doors)
+        for door in doors:
+            return self._has(state, door)
 
     def blue_doors(self, state: CollectionState, *doors: BlueDoors, else_case=True):
         if not self.options.randomize_blue_keys:
             return else_case
-        return self.has(state, *doors)
+        for door in doors:
+            return self._has(state, door)
 
     def red_doors(self, state: CollectionState, *doors: RedDoors, else_case=True):
         if not self.options.randomize_red_keys:
             return else_case
-        return self.has(state, *doors)
+        for door in doors:
+            return self._has(state, door)
 
     def cheap_shop(self, state: CollectionState):
         return self.region(Regions.GT_LEFT).can_reach(state)
