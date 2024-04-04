@@ -22,6 +22,9 @@ class LocationGroups(str, Enum):
 
 
 class Locations(str, Enum):
+    GT_ALGUS = "Gorgon Tomb - Algus"
+    GT_ARIAS = "Gorgon Tomb - Arias"
+    GT_KYULI = "Gorgon Tomb - Kyuli"
     GT_GORGONHEART = "Gorgon Tomb - Gorgonheart"
     GT_ANCIENTS_RING = "Gorgon Tomb - Ring of the Ancients"
     GT_SWORD = "Gorgon Tomb - Sword of Mirrors"
@@ -356,8 +359,11 @@ location_table: Dict[Locations, AstalonLocationData] = {
     Locations.SHOP_BRAM_AXE: AstalonLocationData(Regions.SHOP, LocationGroups.SHOP),
     Locations.SHOP_BRAM_HUNTER: AstalonLocationData(Regions.SHOP, LocationGroups.SHOP),
     Locations.SHOP_BRAM_WHIPLASH: AstalonLocationData(Regions.SHOP, LocationGroups.SHOP),
-    # Locations.MECH_ZEEK: AstalonLocationData(Regions.MECH_LOWER, LocationGroups.CHARACTERS),
-    # Locations.TR_BRAM: AstalonLocationData(Regions.TR, LocationGroups.CHARACTERS),
+    Locations.GT_ALGUS: AstalonLocationData(Regions.GT_START, LocationGroups.CHARACTERS),
+    Locations.GT_ARIAS: AstalonLocationData(Regions.GT_START, LocationGroups.CHARACTERS),
+    Locations.GT_KYULI: AstalonLocationData(Regions.GT_START, LocationGroups.CHARACTERS),
+    Locations.MECH_ZEEK: AstalonLocationData(Regions.MECH_LOWER, LocationGroups.CHARACTERS),
+    Locations.TR_BRAM: AstalonLocationData(Regions.TR, LocationGroups.CHARACTERS),
     # Locations.GT_OLD_MAN: AstalonLocationData(Regions.GT_UPPER, LocationGroups.FAMILIARS),
     # Locations.MECH_OLD_MAN: AstalonLocationData(Regions.MECH_UPPER, LocationGroups.FAMILIARS),
     # Locations.HOTP_OLD_MAN: AstalonLocationData(Regions.HOTP_MID, LocationGroups.FAMILIARS),

@@ -5,8 +5,7 @@ from . import AstalonTestBase
 
 class LocationsTest(AstalonTestBase):
     options = {
-        "start_with_zeek": "false",
-        "start_with_bram": "false",
+        "randomize_characters": "vanilla",
         "randomize_white_keys": "false",
         "randomize_blue_keys": "true",
         "randomize_red_keys": "true",

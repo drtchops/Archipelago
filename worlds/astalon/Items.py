@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from enum import Enum
 from itertools import groupby
-from typing import TYPE_CHECKING, Callable, Dict, Literal, Set, Union
+from typing import TYPE_CHECKING, Callable, Dict, Literal, Set, Tuple, Union
 
 from typing_extensions import TypeAlias
 
@@ -276,6 +276,34 @@ ShopUpgrades: TypeAlias = Literal[
     Items.BRAM_HUNTER,
     Items.BRAM_WHIPLASH,
 ]
+
+CHARACTERS: Tuple[Characters, ...] = (
+    Items.ALGUS,
+    Items.ARIAS,
+    Items.KYULI,
+    Items.ZEEK,
+    Items.BRAM,
+)
+
+EARLY_WHITE_DOORS: Tuple[Items, ...] = (
+    Items.DOOR_WHITE_GT_START,
+    Items.DOOR_WHITE_GT_MAP,
+    Items.DOOR_WHITE_GT_TAUROS,
+)
+
+EARLY_BLUE_DOORS: Tuple[Items, ...] = (
+    Items.DOOR_BLUE_GT_ASCENDANT,
+    Items.DOOR_BLUE_CATA_START,
+)
+
+QOL_ITEMS: Tuple[Items, ...] = (
+    Items.KNOWLEDGE,
+    Items.ORB_SEEKER,
+    Items.TITANS_EGO,
+    Items.MAP_REVEAL,
+    Items.GIFT,
+    Items.CARTOGRAPHER,
+)
 
 
 class AstalonItem(Item):

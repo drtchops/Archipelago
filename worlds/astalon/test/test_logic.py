@@ -3,10 +3,9 @@ from ..Locations import Locations
 from . import AstalonTestBase
 
 
-class NoCharacterStartTest(AstalonTestBase):
+class VanillaCharacterTest(AstalonTestBase):
     options = {
-        "start_with_zeek": "false",
-        "start_with_bram": "false",
+        "randomize_characters": "vanilla",
         "randomize_white_keys": "false",
         "randomize_blue_keys": "true",
         "randomize_red_keys": "true",
@@ -33,10 +32,9 @@ class NoCharacterStartTest(AstalonTestBase):
         self.assertTrue(self.can_reach_location(location))
 
 
-class AllCharacterStartTest(AstalonTestBase):
+class AllCharacterTest(AstalonTestBase):
     options = {
-        "start_with_zeek": "true",
-        "start_with_bram": "true",
+        "randomize_characters": "all",
         "randomize_white_keys": "false",
         "randomize_blue_keys": "true",
         "randomize_red_keys": "true",
@@ -47,3 +45,15 @@ class AllCharacterStartTest(AstalonTestBase):
         self.assertFalse(self.can_reach_location(location))
         self.collect_by_name(Items.STAR.value)
         self.assertTrue(self.can_reach_location(location))
+
+
+class SoloCharacterTest(AstalonTestBase):
+    options = {
+        "randomize_characters": "solo",
+        "randomize_health_pickups": "true",
+        "randomize_attack_pickups": "true",
+        "randomize_white_keys": "true",
+        "randomize_blue_keys": "true",
+        "randomize_red_keys": "true",
+        "randomize_shop": "true",
+    }

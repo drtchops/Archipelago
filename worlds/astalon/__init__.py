@@ -4,7 +4,12 @@ from BaseClasses import ItemClassification, Region, Tutorial
 from worlds.AutoWorld import WebWorld, World
 
 from .Items import (
+    CHARACTERS,
+    EARLY_BLUE_DOORS,
+    EARLY_WHITE_DOORS,
+    QOL_ITEMS,
     AstalonItem,
+    Characters,
     ItemGroups,
     Items,
     filler_items,
@@ -20,7 +25,7 @@ from .Locations import (
     location_name_to_id,
     location_table,
 )
-from .Options import AstalonOptions
+from .Options import AstalonOptions, RandomizeCharacters
 from .Regions import Regions, astalon_regions
 from .Rules import AstalonRules
 
@@ -48,38 +53,22 @@ class AstalonWorld(World):
     location_name_groups = location_name_groups
     item_name_to_id = item_name_to_id
     location_name_to_id = location_name_to_id
+    starting_characters: List[Characters]
 
     def generate_early(self) -> None:
-        if self.options.open_early_doors:
-            items_to_add: List[Items] = []
-            if self.options.randomize_white_keys:
-                items_to_add.extend([Items.DOOR_WHITE_GT_START, Items.DOOR_WHITE_GT_MAP, Items.DOOR_WHITE_GT_TAUROS])
-            if self.options.randomize_blue_keys:
-                items_to_add.extend([Items.DOOR_BLUE_GT_ASCENDANT, Items.DOOR_BLUE_CATA_START])
-            for door in items_to_add:
-                self.options.start_inventory_from_pool.value[door.value] = 1
+        self.starting_characters = []
+        if self.options.randomize_characters == RandomizeCharacters.option_solo:
+            self.starting_characters = [self.random.choice(CHARACTERS)]
+        if self.options.randomize_characters == RandomizeCharacters.option_trio:
+            self.starting_characters = list(CHARACTERS[:3])
+        if self.options.randomize_characters == RandomizeCharacters.option_all:
+            self.starting_characters = list(CHARACTERS)
 
-        if self.options.start_with_qol:
-            items_to_add = [
-                Items.KNOWLEDGE,
-                Items.ORB_SEEKER,
-                Items.TITANS_EGO,
-                Items.MAP_REVEAL,
-                Items.GIFT,
-                Items.CARTOGRAPHER,
-            ]
-            if self.options.randomize_shop:
-                for item in items_to_add:
-                    self.options.start_inventory_from_pool.value[item.value] = 1
-            else:
-                for item in items_to_add:
-                    self.options.start_inventory.value[item.value] = 1
-
-        # TODO: use start_inventory_from_pool once they're in the pool
-        if self.options.start_with_zeek:
-            self.options.start_inventory.value[Items.ZEEK.value] = 1
-        if self.options.start_with_bram:
-            self.options.start_inventory.value[Items.BRAM.value] = 1
+    def create_location(self, name: str):
+        data = location_table[Locations(name)]
+        region = self.multiworld.get_region(data.region.value, self.player)
+        location = AstalonLocation(self.player, name, location_name_to_id[name], region)
+        region.locations.append(location)
 
     def create_regions(self) -> None:
         for name in astalon_regions:
@@ -92,6 +81,8 @@ class AstalonWorld(World):
 
             for location_name in location_name_groups.get(name.value, []):
                 data = location_table[Locations(location_name)]
+                if data.item_group == LocationGroups.CHARACTERS:
+                    continue
                 if data.item_group == LocationGroups.ATTACK and not self.options.randomize_attack_pickups:
                     continue
                 if data.item_group == LocationGroups.HEALTH and not self.options.randomize_health_pickups:
@@ -105,13 +96,20 @@ class AstalonWorld(World):
                 if data.item_group == LocationGroups.SHOP and not self.options.randomize_shop:
                     continue
 
-                location = AstalonLocation(
-                    self.player,
-                    location_name,
-                    location_name_to_id[location_name],
-                    region,
-                )
+                location = AstalonLocation(self.player, location_name, location_name_to_id[location_name], region)
                 region.locations.append(location)
+
+        if self.options.randomize_characters != RandomizeCharacters.option_vanilla:
+            if Items.ALGUS not in self.starting_characters:
+                self.create_location(Locations.GT_ALGUS)
+            if Items.ARIAS not in self.starting_characters:
+                self.create_location(Locations.GT_ARIAS)
+            if Items.KYULI not in self.starting_characters:
+                self.create_location(Locations.GT_KYULI)
+            if Items.ZEEK not in self.starting_characters:
+                self.create_location(Locations.MECH_ZEEK)
+            if Items.BRAM not in self.starting_characters:
+                self.create_location(Locations.TR_BRAM)
 
         final_boss = self.multiworld.get_region(Regions.BOSS.value, self.player)
         victory = AstalonLocation(self.player, Locations.VICTORY.value, None, final_boss)
@@ -131,6 +129,7 @@ class AstalonWorld(World):
         return AstalonItem(name, classification, self.item_name_to_id[name], self.player)
 
     def create_items(self) -> None:
+        itempool = []
         for name, data in item_table.items():
             if data.item_group == ItemGroups.ATTACK and not self.options.randomize_attack_pickups:
                 continue
@@ -144,21 +143,44 @@ class AstalonWorld(World):
                 continue
             if data.item_group == ItemGroups.SHOP and not self.options.randomize_shop:
                 continue
+            if self.options.start_with_qol and name in QOL_ITEMS:
+                continue
+            if self.options.open_early_doors and (name in EARLY_WHITE_DOORS or name in EARLY_BLUE_DOORS):
+                continue
 
             for _ in range(0, data.quantity_in_item_pool):
-                item = self.create_item(name.value)
-                self.multiworld.itempool.append(item)
+                itempool.append(self.create_item(name.value))
 
-        # there are more keys to collect than doors to open
-        extra_filler = 0
-        if self.options.randomize_white_keys:
-            extra_filler += 1
-        if self.options.randomize_blue_keys:
-            extra_filler += 6
+        self.starting_characters = []
+        if self.options.randomize_characters == RandomizeCharacters.option_solo:
+            self.starting_characters = [self.random.choice(CHARACTERS)]
+        if self.options.randomize_characters == RandomizeCharacters.option_trio:
+            self.starting_characters = list(CHARACTERS[:3])
+        if self.options.randomize_characters == RandomizeCharacters.option_all:
+            self.starting_characters = list(CHARACTERS)
 
-        for _ in range(0, extra_filler):
-            item = self.create_item(self.get_filler_item_name())
-            self.multiworld.itempool.append(item)
+        for character in CHARACTERS:
+            character_item = self.create_item(character.value)
+            if character in self.starting_characters:
+                self.multiworld.push_precollected(character_item)
+            else:
+                itempool.append(character_item)
+
+        if self.options.start_with_qol:
+            for item in QOL_ITEMS:
+                self.multiworld.push_precollected(self.create_item(item.value))
+
+        if self.options.open_early_doors:
+            if self.options.randomize_white_keys:
+                for item in EARLY_WHITE_DOORS:
+                    self.multiworld.push_precollected(self.create_item(item.value))
+            if self.options.randomize_blue_keys:
+                for item in EARLY_BLUE_DOORS:
+                    self.multiworld.push_precollected(self.create_item(item.value))
+
+        while len(itempool) < len(list(self.multiworld.get_locations(self.player))):
+            itempool.append(self.create_item(self.get_filler_item_name()))
+        self.multiworld.itempool += itempool
 
     def get_filler_item_name(self) -> str:
         items = list(filler_items)
@@ -168,7 +190,7 @@ class AstalonWorld(World):
             items.append(Items.KEY_BLUE.value)
         if not self.options.randomize_red_keys:
             items.append(Items.KEY_RED.value)
-        return self.multiworld.random.choice(items)
+        return self.random.choice(items)
 
     def set_rules(self) -> None:
         rules = AstalonRules(self)
@@ -177,13 +199,16 @@ class AstalonWorld(World):
 
     def fill_slot_data(self) -> Dict[str, Any]:
         settings = self.options.as_dict(
+            "difficulty",
             # "campaign",
+            "randomize_characters",
             "randomize_health_pickups",
             "randomize_attack_pickups",
             "randomize_white_keys",
             "randomize_blue_keys",
             "randomize_red_keys",
             "randomize_shop",
+            "randomize_elevator",
             # "randomize_familiars",
             "skip_cutscenes",
             "free_apex_elevator",
@@ -211,4 +236,5 @@ class AstalonWorld(World):
         return {
             "settings": settings,
             "shop_items": shop_items,
+            "starting_characters": [c.value for c in self.starting_characters],
         }

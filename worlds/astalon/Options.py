@@ -11,6 +11,17 @@ from Options import (
 )
 
 
+class Difficulty(Choice):
+    """
+    NOT YET SUPPORTED
+    """
+
+    display_name = "Difficulty"
+    option_easy = 0
+    option_hard = 1
+    default = 0
+
+
 class Campaign(Choice):
     """
     NOT YET SUPPORTED
@@ -22,6 +33,24 @@ class Campaign(Choice):
     option_new_game_plus = 1
     option_black_knight = 2
     option_monster_mode = 3
+    default = 0
+
+
+class RandomizeCharacters(Choice):
+    """
+    NOT YET SUPPORTED
+    Choose how the 5 characters are randomized.
+    vanilla: Start with the default 3 characters and unlock Zeek and Bram in-game as normal
+    trio: Start with the default 3 characters and receive Zeek and Bram as items
+    solo: Start with one random character and receive the rest as items
+    all: Start with all 5 characters
+    """
+
+    display_name = "Randomize Characters"
+    option_vanilla = 0
+    option_trio = 1
+    option_solo = 2
+    option_all = 3
     default = 0
 
 
@@ -79,6 +108,16 @@ class RandomizeShop(Toggle):
     display_name = "Randomize Shop"
 
 
+class RandomizeElevator(Toggle):
+    """
+    NOT YET SUPPORTED
+    Choose whether to randomize the elevator destinations.
+    Finding elevators are checks and you will receive elevator destinations as items.
+    """
+
+    display_name = "Randomize Elevator"
+
+
 class RandomizeFamiliars(Toggle):
     """
     NOT YET SUPPORTED
@@ -95,22 +134,6 @@ class SkipCutscenes(DefaultOnToggle):
     """
 
     display_name = "Skip Cutscenes"
-
-
-class StartWithZeek(Toggle):
-    """
-    Choose whether to start the game with Zeek unlocked.
-    """
-
-    display_name = "Start With Zeek"
-
-
-class StartWithBram(Toggle):
-    """
-    Choose whether to start the game with Bram unlocked.
-    """
-
-    display_name = "Start With Bram"
 
 
 class StartWithQOL(DefaultOnToggle):
@@ -139,7 +162,7 @@ class CostMultiplier(NamedRange):
     display_name = "Cost Multiplier"
     range_start = 0
     range_end = 200
-    default = 100
+    default = 50
 
     special_range_names = {
         "zero": 0,
@@ -182,17 +205,18 @@ class OpenEarlyDoors(DefaultOnToggle):
 @dataclass
 class AstalonOptions(PerGameCommonOptions):
     start_inventory_from_pool: StartInventoryPool
+    difficulty: Difficulty
     # campaign: Campaign
+    randomize_characters: RandomizeCharacters
     randomize_health_pickups: RandomizeHealthPickups
     randomize_attack_pickups: RandomizeAttackPickups
     randomize_white_keys: RandomizeWhiteKeys
     randomize_blue_keys: RandomizeBlueKeys
     randomize_red_keys: RandomizeRedKeys
     randomize_shop: RandomizeShop
+    randomize_elevator: RandomizeElevator
     # randomize_familiars: RandomizeFamiliars
     skip_cutscenes: SkipCutscenes
-    start_with_zeek: StartWithZeek
-    start_with_bram: StartWithBram
     start_with_qol: StartWithQOL
     free_apex_elevator: FreeApexElevator
     cost_multiplier: CostMultiplier

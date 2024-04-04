@@ -4,9 +4,17 @@ from typing import TYPE_CHECKING, Callable, Dict, Tuple, Union
 from BaseClasses import CollectionState
 from worlds.generic.Rules import set_rule
 
-from .Items import BlueDoors, Characters, Items, KeyItems, RedDoors, WhiteDoors
+from .Items import (
+    CHARACTERS,
+    BlueDoors,
+    Characters,
+    Items,
+    KeyItems,
+    RedDoors,
+    WhiteDoors,
+)
 from .Locations import Locations
-from .Options import AstalonOptions
+from .Options import AstalonOptions, RandomizeCharacters
 from .Regions import Regions
 
 if TYPE_CHECKING:
@@ -459,46 +467,40 @@ class AstalonRules:
             or (self.region(Regions.ROA_UPPER).can_reach(state) and self.has(state, Items.BOW, Items.CLOAK))
         )
 
-    def has_zeek(self, state: CollectionState) -> bool:
-        if self.options.start_with_zeek:
-            return True
+    def can_get_zeek(self, state: CollectionState) -> bool:
         return self.can_reach_zeek(state) and self.region(Regions.CD).can_reach(state)
 
-    def can_reach_bram(self, state: CollectionState) -> bool:
+    def can_get_bram(self, state: CollectionState) -> bool:
         return self.region(Regions.TR).can_reach(state) and self.has(state, Items.EYE_BLUE)
 
-    def has_bram(self, state: CollectionState) -> bool:
-        if self.options.start_with_bram:
-            return True
-        return self.can_reach_bram(state)
-
     def _has(self, state: CollectionState, item: Items, count: int = 1) -> bool:
-        if item in {Items.ALGUS, Items.ARIAS, Items.KYULI}:
-            # not yet randomized
-            return True
-        elif item == Items.ZEEK:
-            # not yet randomized, but optional
-            return self.has_zeek(state)
-        elif item == Items.BRAM:
-            # not yet randomized, but optional
-            return self.has_bram(state)
+        if item in CHARACTERS:
+            if self.options.randomize_characters == RandomizeCharacters.option_vanilla:
+                if item in {Items.ALGUS, Items.ARIAS, Items.KYULI}:
+                    return True
+                elif item == Items.ZEEK:
+                    return self.can_get_zeek(state)
+                elif item == Items.BRAM:
+                    return self.can_get_bram(state)
+            else:
+                return state.has(item.value, self.player)
 
-        elif item == Items.CLOAK and not self._has(state, Items.ALGUS):
+        if item == Items.CLOAK and not self._has(state, Items.ALGUS):
             return False
-        elif item in {Items.SWORD, Items.BOOTS} and not self._has(state, Items.ARIAS):
+        if item in {Items.SWORD, Items.BOOTS} and not self._has(state, Items.ARIAS):
             return False
-        elif item in {Items.CLAW, Items.BOW} and not self._has(state, Items.KYULI):
+        if item in {Items.CLAW, Items.BOW} and not self._has(state, Items.KYULI):
             return False
-        elif item == Items.BLOCK and not self._has(state, Items.ZEEK):
+        if item == Items.BLOCK and not self._has(state, Items.ZEEK):
             return False
-        elif item == Items.STAR and not self._has(state, Items.BRAM):
+        if item == Items.STAR and not self._has(state, Items.BRAM):
             return False
-        elif item == Items.BANISH and not self.has_any(state, Items.ALGUS, Items.ZEEK):
+        if item == Items.BANISH and not self.has_any(state, Items.ALGUS, Items.ZEEK):
             return False
-        elif item == Items.GAUNTLET and not self.has_any(state, Items.ARIAS, Items.BRAM):
+        if item == Items.GAUNTLET and not self.has_any(state, Items.ARIAS, Items.BRAM):
             return False
 
-        elif item == Items.CYCLOPS:
+        if item == Items.CYCLOPS:
             # not yet randomized
             return self.can_reach_zeek(state)
 
