@@ -78,8 +78,7 @@ class AstalonRules:
                 )
             ),
             (Regions.MECH_UPPER, Regions.HOTP_UPPER): lambda state: (
-                self.has(state, Items.CLAW)
-                and self.white_doors(state, Items.DOOR_WHITE_MECH_ARENA, Items.DOOR_WHITE_MECH_TOP)
+                self.has(state, Items.CLAW) and self.white_doors(state, Items.DOOR_WHITE_MECH_ARENA)
             ),
             (Regions.MECH_UPPER, Regions.CD): lambda state: (
                 self.has(state, Items.CYCLOPS, Items.EYE_BLUE)
@@ -102,8 +101,8 @@ class AstalonRules:
             (Regions.HOTP_START, Regions.MECH_UPPER): lambda state: self.has_any(state, Items.EYE_BLUE, Items.STAR),
             (Regions.HOTP_BELL, Regions.HOTP_MID): lambda state: self.has(state, Items.BELL),
             (Regions.HOTP_BELL, Regions.CATH): lambda state: (
-                self.has(state, Items.EYE_GREEN, Items.BOW, Items.BELL, Items.ZEEK, Items.CLAW)
-                and self.red_doors(state, Items.DOOR_RED_CATH, else_case=self.has(state, Items.CLOAK))
+                self.has(state, Items.EYE_GREEN, Items.BOW, Items.BELL, Items.ZEEK, Items.CLAW, Items.VOID)
+                and self.red_doors(state, Items.DOOR_RED_CATH, disabled_case=self.has(state, Items.CLOAK))
             ),
             # check if door is necessary
             (Regions.HOTP_MID, Regions.HOTP_UPPER): lambda state: (
@@ -141,7 +140,7 @@ class AstalonRules:
             ),
             (Regions.ROA_UPPER, Regions.APEX): lambda state: self.has(state, Items.EYE_GREEN),
             (Regions.ROA_UPPER, Regions.SP): lambda state: (
-                self.red_doors(state, Items.DOOR_RED_SP, else_case=self.has(state, Items.CLOAK, Items.BOW))
+                self.red_doors(state, Items.DOOR_RED_SP, disabled_case=self.has(state, Items.CLOAK, Items.BOW))
             ),
             (Regions.APEX, Regions.BOSS): lambda state: (
                 # if difficulties are added, bell shouldn't be required on hard
@@ -188,7 +187,8 @@ class AstalonRules:
             Locations.MECH_BOOTS: lambda state: self.blue_doors(state, Items.DOOR_BLUE_MECH_BOOTS),
             Locations.MECH_CLOAK: lambda state: (
                 self.has(state, Items.EYE_BLUE)
-                and self.white_doors(state, Items.DOOR_WHITE_MECH_ARENA, Items.DOOR_WHITE_MECH_TOP)
+                and self.white_doors(state, Items.DOOR_WHITE_MECH_ARENA)
+                and (self.has(state, Items.CLAW) or self.white_doors(state, Items.DOOR_WHITE_MECH_TOP))
             ),
             # Locations.MECH_CYCLOPS: lambda state: self.can_reach_zeek(state),
             Locations.MECH_EYE_BLUE: lambda state: (
@@ -264,7 +264,13 @@ class AstalonRules:
                 self.has(state, Items.CLAW) and self.blue_doors(state, Items.DOOR_BLUE_GT_ASCENDANT)
             ),
             Locations.MECH_HP_1_SWITCH: lambda _: True,
-            Locations.MECH_HP_1_STAR: lambda state: self.has(state, Items.STAR),
+            Locations.MECH_HP_1_STAR: lambda state: (
+                self.has(state, Items.STAR)
+                and (
+                    self.has(state, Items.CLAW)
+                    or self.white_doors(state, Items.DOOR_WHITE_MECH_ARENA, Items.DOOR_WHITE_MECH_TOP)
+                )
+            ),
             Locations.MECH_HP_3_CLAW: lambda state: (
                 self.has(state, Items.CLAW)
                 and self.blue_doors(state, Items.DOOR_BLUE_MECH_BOOTS, Items.DOOR_BLUE_MECH_VOID)
@@ -520,25 +526,25 @@ class AstalonRules:
                 return True
         return False
 
-    def white_doors(self, state: CollectionState, *doors: WhiteDoors, else_case=True) -> bool:
+    def white_doors(self, state: CollectionState, *doors: WhiteDoors, disabled_case=True) -> bool:
         if not self.options.randomize_white_keys:
-            return else_case
+            return disabled_case
         for door in doors:
             if not self._has(state, door):
                 return False
         return True
 
-    def blue_doors(self, state: CollectionState, *doors: BlueDoors, else_case=True) -> bool:
+    def blue_doors(self, state: CollectionState, *doors: BlueDoors, disabled_case=True) -> bool:
         if not self.options.randomize_blue_keys:
-            return else_case
+            return disabled_case
         for door in doors:
             if not self._has(state, door):
                 return False
         return True
 
-    def red_doors(self, state: CollectionState, *doors: RedDoors, else_case=True) -> bool:
+    def red_doors(self, state: CollectionState, *doors: RedDoors, disabled_case=True) -> bool:
         if not self.options.randomize_red_keys:
-            return else_case
+            return disabled_case
         for door in doors:
             if not self._has(state, door):
                 return False
