@@ -38,12 +38,12 @@ class Campaign(Choice):
 
 class RandomizeCharacters(Choice):
     """
-    NOT YET SUPPORTED
     Choose how the 5 characters are randomized.
     vanilla: Start with the default 3 characters and unlock Zeek and Bram in-game as normal
     trio: Start with the default 3 characters and receive Zeek and Bram as items
     solo: Start with one random character and receive the rest as items
     all: Start with all 5 characters
+    random_selection: Start with a random selection of the characters and receive the rest as items
     """
 
     display_name = "Randomize Characters"
@@ -51,6 +51,7 @@ class RandomizeCharacters(Choice):
     option_trio = 1
     option_solo = 2
     option_all = 3
+    option_random_selection = 4
     default = 0
 
 
@@ -106,6 +107,14 @@ class RandomizeShop(Toggle):
     """
 
     display_name = "Randomize Shop"
+
+
+class RandomizeSwitches(Toggle):
+    """
+    NOT YET SUPPORTED
+    """
+
+    display_name = "Randomize Switches"
 
 
 class RandomizeElevator(Toggle):
@@ -205,7 +214,7 @@ class OpenEarlyDoors(DefaultOnToggle):
 @dataclass
 class AstalonOptions(PerGameCommonOptions):
     start_inventory_from_pool: StartInventoryPool
-    difficulty: Difficulty
+    # difficulty: Difficulty
     # campaign: Campaign
     randomize_characters: RandomizeCharacters
     randomize_health_pickups: RandomizeHealthPickups
@@ -214,7 +223,8 @@ class AstalonOptions(PerGameCommonOptions):
     randomize_blue_keys: RandomizeBlueKeys
     randomize_red_keys: RandomizeRedKeys
     randomize_shop: RandomizeShop
-    randomize_elevator: RandomizeElevator
+    # randomize_switches: RandomizeSwitches
+    # randomize_elevator: RandomizeElevator
     # randomize_familiars: RandomizeFamiliars
     skip_cutscenes: SkipCutscenes
     start_with_qol: StartWithQOL

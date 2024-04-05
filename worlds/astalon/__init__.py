@@ -54,21 +54,29 @@ class AstalonWorld(World):
     item_name_to_id = item_name_to_id
     location_name_to_id = location_name_to_id
     starting_characters: List[Characters]
+    location_count: int = 0
 
     def generate_early(self) -> None:
         self.starting_characters = []
         if self.options.randomize_characters == RandomizeCharacters.option_solo:
-            self.starting_characters = [self.random.choice(CHARACTERS)]
+            self.starting_characters.append(self.random.choice(CHARACTERS))
         if self.options.randomize_characters == RandomizeCharacters.option_trio:
-            self.starting_characters = list(CHARACTERS[:3])
+            self.starting_characters.extend(CHARACTERS[:3])
         if self.options.randomize_characters == RandomizeCharacters.option_all:
-            self.starting_characters = list(CHARACTERS)
+            self.starting_characters.extend(CHARACTERS)
+        if self.options.randomize_characters == RandomizeCharacters.option_random_selection:
+            for character in CHARACTERS:
+                if self.random.randint(0, 1):
+                    self.starting_characters.append(character)
+            if not self.starting_characters:
+                self.starting_characters.append(self.random.choice(CHARACTERS))
 
     def create_location(self, name: str):
         data = location_table[Locations(name)]
         region = self.multiworld.get_region(data.region.value, self.player)
         location = AstalonLocation(self.player, name, location_name_to_id[name], region)
         region.locations.append(location)
+        self.location_count += 1
 
     def create_regions(self) -> None:
         for name in astalon_regions:
@@ -98,6 +106,7 @@ class AstalonWorld(World):
 
                 location = AstalonLocation(self.player, location_name, location_name_to_id[location_name], region)
                 region.locations.append(location)
+                self.location_count += 1
 
         if self.options.randomize_characters != RandomizeCharacters.option_vanilla:
             if Items.ALGUS not in self.starting_characters:
@@ -151,20 +160,13 @@ class AstalonWorld(World):
             for _ in range(0, data.quantity_in_item_pool):
                 itempool.append(self.create_item(name.value))
 
-        self.starting_characters = []
-        if self.options.randomize_characters == RandomizeCharacters.option_solo:
-            self.starting_characters = [self.random.choice(CHARACTERS)]
-        if self.options.randomize_characters == RandomizeCharacters.option_trio:
-            self.starting_characters = list(CHARACTERS[:3])
-        if self.options.randomize_characters == RandomizeCharacters.option_all:
-            self.starting_characters = list(CHARACTERS)
-
-        for character in CHARACTERS:
-            character_item = self.create_item(character.value)
-            if character in self.starting_characters:
-                self.multiworld.push_precollected(character_item)
-            else:
-                itempool.append(character_item)
+        if self.options.randomize_characters != RandomizeCharacters.option_vanilla:
+            for character in CHARACTERS:
+                character_item = self.create_item(character.value)
+                if character in self.starting_characters:
+                    self.multiworld.push_precollected(character_item)
+                else:
+                    itempool.append(character_item)
 
         if self.options.start_with_qol:
             for item in QOL_ITEMS:
@@ -178,7 +180,7 @@ class AstalonWorld(World):
                 for item in EARLY_BLUE_DOORS:
                     self.multiworld.push_precollected(self.create_item(item.value))
 
-        while len(itempool) < len(list(self.multiworld.get_locations(self.player))):
+        while len(itempool) < self.location_count:
             itempool.append(self.create_item(self.get_filler_item_name()))
         self.multiworld.itempool += itempool
 
@@ -199,7 +201,7 @@ class AstalonWorld(World):
 
     def fill_slot_data(self) -> Dict[str, Any]:
         settings = self.options.as_dict(
-            "difficulty",
+            # "difficulty",
             # "campaign",
             "randomize_characters",
             "randomize_health_pickups",
@@ -208,7 +210,8 @@ class AstalonWorld(World):
             "randomize_blue_keys",
             "randomize_red_keys",
             "randomize_shop",
-            "randomize_elevator",
+            # "randomize_switches",
+            # "randomize_elevator",
             # "randomize_familiars",
             "skip_cutscenes",
             "free_apex_elevator",
