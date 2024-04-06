@@ -137,6 +137,22 @@ class RandomizeFamiliars(Toggle):
     display_name = "Randomize Familiars"
 
 
+class RandomizeOrbCrates(Toggle):
+    """
+    NOT YET SUPPORTED
+    """
+
+    display_name = "Randomize Orb Crates"
+
+
+class RandomizeBossOrbRewards(Toggle):
+    """
+    NOT YET SUPPORTED
+    """
+
+    display_name = "Randomize Boss Orb Rewards"
+
+
 class SkipCutscenes(DefaultOnToggle):
     """
     Choose whether to skip or shorten cutscenes.
@@ -214,7 +230,7 @@ class OpenEarlyDoors(DefaultOnToggle):
 @dataclass
 class AstalonOptions(PerGameCommonOptions):
     start_inventory_from_pool: StartInventoryPool
-    # difficulty: Difficulty
+    difficulty: Difficulty
     # campaign: Campaign
     randomize_characters: RandomizeCharacters
     randomize_health_pickups: RandomizeHealthPickups

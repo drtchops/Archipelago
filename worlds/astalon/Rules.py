@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from enum import Enum, auto
 from typing import TYPE_CHECKING, Callable, Dict, Tuple, Union
 
 from BaseClasses import CollectionState
@@ -11,14 +12,23 @@ from .Items import (
     Items,
     KeyItems,
     RedDoors,
+    ShopUpgrades,
     WhiteDoors,
 )
 from .Locations import Locations
-from .Options import AstalonOptions, RandomizeCharacters
+from .Options import AstalonOptions, Difficulty, RandomizeCharacters
 from .Regions import Regions
 
 if TYPE_CHECKING:
     from . import AstalonWorld
+
+
+class Logic(Enum):
+    ARIAS_JUMP = auto()
+    EXTRA_HEIGHT = auto()
+    BLOCK_IN_WALL = auto()
+    MAGIC_CRYSTAL = auto()
+    SENT = auto()
 
 
 @dataclass
@@ -510,9 +520,22 @@ class AstalonRules:
             # not yet randomized
             return self.can_reach_zeek(state)
 
+        if item in {Items.ALGUS_ARCANIST, Items.ALGUS_METEOR, Items.ALGUS_SHOCK} and not self._has(state, Items.ALGUS):
+            return False
+        if item in {Items.ARIAS_GORGONSLAYER, Items.ARIAS_LAST_STAND, Items.ARIAS_LIONHEART} and not self._has(
+            state, Items.ARIAS
+        ):
+            return False
+        if item in {Items.KYULI_ASSASSIN, Items.KYULI_BULLSEYE, Items.KYULI_RAY} and not self._has(state, Items.KYULI):
+            return False
+        if item in {Items.ZEEK_JUNKYARD, Items.ZEEK_ORBS, Items.ZEEK_LOOT} and not self._has(state, Items.ZEEK):
+            return False
+        if item in {Items.BRAM_AXE, Items.BRAM_HUNTER, Items.BRAM_WHIPLASH} and not self._has(state, Items.BRAM):
+            return False
+
         return state.has(item.value, self.player, count=count)
 
-    def has(self, state: CollectionState, *items: Union[Characters, KeyItems], count: int = 1) -> bool:
+    def has(self, state: CollectionState, *items: Union[Characters, KeyItems, ShopUpgrades], count: int = 1) -> bool:
         # cover extra logic instead of calling state.has_all
         for item in items:
             if not self._has(state, item, count=count):
@@ -550,6 +573,12 @@ class AstalonRules:
                 return False
         return True
 
+    def switches(self, state: CollectionState, *switches: Items, disabled_case=True) -> bool:
+        return disabled_case
+
+    def elevator(self, state: CollectionState, destination: Items) -> bool:
+        return False
+
     def cheap_shop(self, state: CollectionState) -> bool:
         return self.region(Regions.GT_LEFT).can_reach(state)
 
@@ -558,6 +587,32 @@ class AstalonRules:
 
     def expensive_shop(self, state: CollectionState) -> bool:
         return self.region(Regions.ROA_LOWER).can_reach(state)
+
+    def can(self, state: CollectionState, logic: Logic) -> bool:
+        if logic == Logic.ARIAS_JUMP:
+            return self.hard and self.has(state, Items.ARIAS)
+        if logic == Logic.EXTRA_HEIGHT:
+            return self.has(state, Items.KYULI) or self.has(state, Items.BLOCK) or self.can(state, Logic.ARIAS_JUMP)
+        if logic == Logic.BLOCK_IN_WALL:
+            return self.hard and self.has(state, Items.ZEEK)
+        if logic == Logic.MAGIC_CRYSTAL:
+            if self.has(state, Items.ALGUS):
+                return True
+            if self.hard:
+                return (
+                    self.has(state, Items.ZEEK, Items.BANISH)
+                    or self.has(state, Items.KYULI_RAY)
+                    or self.has(state, Items.BRAM_WHIPLASH)
+                )
+        return False
+
+    @property
+    def easy(self):
+        return self.options.difficulty >= Difficulty.option_easy
+
+    @property
+    def hard(self):
+        return self.options.difficulty >= Difficulty.option_hard
 
     def set_region_rules(self) -> None:
         for (from_, to_), rule in self.entrance_rules.items():
