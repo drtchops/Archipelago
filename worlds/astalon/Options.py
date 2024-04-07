@@ -13,7 +13,8 @@ from Options import (
 
 class Difficulty(Choice):
     """
-    NOT YET SUPPORTED
+    Choose how difficult of a playthrough the logic expects.
+    Hard difficulty expects extra jump height with Arias, sticking blocks in walls with Zeek, or hitting magic crystals with Kyuli or Bram.
     """
 
     display_name = "Difficulty"
@@ -111,7 +112,8 @@ class RandomizeShop(Toggle):
 
 class RandomizeSwitches(Toggle):
     """
-    NOT YET SUPPORTED
+    Choose whether to randomize all switches and magic crystals in the world.
+    Activating a switch will complete a check and the corresponding doors or blocks will open from a received item.
     """
 
     display_name = "Randomize Switches"
@@ -119,9 +121,8 @@ class RandomizeSwitches(Toggle):
 
 class RandomizeElevator(Toggle):
     """
-    NOT YET SUPPORTED
     Choose whether to randomize the elevator destinations.
-    Finding elevators are checks and you will receive elevator destinations as items.
+    Finding elevators will complete checks and you will receive elevator destinations as items.
     """
 
     display_name = "Randomize Elevator"
@@ -151,6 +152,14 @@ class RandomizeBossOrbRewards(Toggle):
     """
 
     display_name = "Randomize Boss Orb Rewards"
+
+
+class RandomizeMinibossOrbRewards(Toggle):
+    """
+    NOT YET SUPPORTED
+    """
+
+    display_name = "Randomize Miniboss Orb Rewards"
 
 
 class SkipCutscenes(DefaultOnToggle):
@@ -242,6 +251,9 @@ class AstalonOptions(PerGameCommonOptions):
     randomize_switches: RandomizeSwitches
     randomize_elevator: RandomizeElevator
     # randomize_familiars: RandomizeFamiliars
+    # randomize_orb_crates: RandomizeOrbCrates
+    # randomize_boss_orb_rewards: RandomizeBossOrbRewards
+    # randomize_miniboss_orb_rewards: RandomizeMinibossOrbRewards
     skip_cutscenes: SkipCutscenes
     start_with_qol: StartWithQOL
     free_apex_elevator: FreeApexElevator

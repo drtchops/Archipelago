@@ -22,7 +22,6 @@ class Regions(str, Enum):
     GT_LEFT = "Gorgon Tomb - Left"
     GT_ORBS_HEIGHT = "Gorgon Tomb - Kyuli Orbs"
     GT_ASCENDANT_KEY = "Gorgon Tomb - Asendant Key"
-    GT_ARIAS = "Gorgon Tomb - Arias"
     GT_TOP_LEFT = "Gorgon Tomb - Top Left"
     GT_TOP_RIGHT = "Gorgon Tomb - Top Right"
     GT_SPIKE_TUNNEL = "Gorgon Tomb - Spike Tunnel"
@@ -292,18 +291,13 @@ astalon_regions: Dict[Regions, Optional[Set[Regions]]] = {
         Regions.GT_GORGONHEART,
         Regions.GT_ORBS_HEIGHT,
         Regions.GT_ASCENDANT_KEY,
-        Regions.GT_ARIAS,
         Regions.GT_TOP_LEFT,
         Regions.GT_TOP_RIGHT,
     },
     Regions.GT_ORBS_HEIGHT: None,
     Regions.GT_ASCENDANT_KEY: None,
-    Regions.GT_ARIAS: {
-        Regions.GT_TOP_LEFT,
-    },
     Regions.GT_TOP_LEFT: {
         Regions.GT_LEFT,
-        Regions.GT_TOP_LEFT,
         Regions.GT_BUTT,
     },
     Regions.GT_TOP_RIGHT: {
@@ -355,6 +349,7 @@ astalon_regions: Dict[Regions, Optional[Set[Regions]]] = {
         Regions.GT_UPPER_PATH_CONNECTION,
     },
     Regions.GT_UPPER_PATH_CONNECTION: {
+        Regions.GT_UPPER_PATH,
         Regions.MECH_SWORD_CONNECTION,
     },
     Regions.MECH_START: {
