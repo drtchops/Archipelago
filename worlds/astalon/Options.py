@@ -239,8 +239,8 @@ class AstalonOptions(PerGameCommonOptions):
     randomize_blue_keys: RandomizeBlueKeys
     randomize_red_keys: RandomizeRedKeys
     randomize_shop: RandomizeShop
-    # randomize_switches: RandomizeSwitches
-    # randomize_elevator: RandomizeElevator
+    randomize_switches: RandomizeSwitches
+    randomize_elevator: RandomizeElevator
     # randomize_familiars: RandomizeFamiliars
     skip_cutscenes: SkipCutscenes
     start_with_qol: StartWithQOL

@@ -25,6 +25,7 @@ class ItemGroups(str, Enum):
     DOORS_BLUE = "blue doors"
     DOORS_RED = "red doors"
     SHOP = "shop upgrades"
+    SWITCHES = "switches"
 
 
 class Items(str, Enum):

@@ -85,7 +85,8 @@ class AstalonWorld(World):
 
         for name, exits in astalon_regions.items():
             region = self.multiworld.get_region(name.value, self.player)
-            region.add_exits(exits)
+            if exits:
+                region.add_exits([e.name for e in exits])
 
             for location_name in location_name_groups.get(name.value, []):
                 data = location_table[Locations(location_name)]
@@ -120,7 +121,7 @@ class AstalonWorld(World):
             if Items.BRAM not in self.starting_characters:
                 self.create_location(Locations.TR_BRAM)
 
-        final_boss = self.multiworld.get_region(Regions.BOSS.value, self.player)
+        final_boss = self.multiworld.get_region(Regions.FINAL_BOSS.value, self.player)
         victory = AstalonLocation(self.player, Locations.VICTORY.value, None, final_boss)
         victory.place_locked_item(
             AstalonItem(Items.VICTORY.value, ItemClassification.progression_skip_balancing, None, self.player)
@@ -210,8 +211,8 @@ class AstalonWorld(World):
             "randomize_blue_keys",
             "randomize_red_keys",
             "randomize_shop",
-            # "randomize_switches",
-            # "randomize_elevator",
+            "randomize_switches",
+            "randomize_elevator",
             # "randomize_familiars",
             "skip_cutscenes",
             "free_apex_elevator",
