@@ -319,7 +319,17 @@ Elevators: TypeAlias = Literal[
 
 Switches: TypeAlias = Literal[
     Items.SWITCH_GT_1,
+    Items.SWITCH_GT_2,
+    Items.SWITCH_GT_3,
+    Items.SWITCH_GT_4,
+    Items.SWITCH_GT_12,
+    Items.SWITCH_GT_23,
     Items.SWITCH_GT_25,
+    Items.SWITCH_GT_26,
+    Items.SWITCH_GT_208,
+    Items.SWITCH_MECH_10,
+    Items.SWITCH_MECH_28,
+    Items.SWITCH_MECH_171,
 ]
 
 CHARACTERS: Tuple[Characters, ...] = (
@@ -489,6 +499,9 @@ item_table: Dict[Items, AstalonItemData] = {
     Items.ELEVATOR_CATA_2: AstalonItemData(ItemClassification.progression, 1, ItemGroups.ELEVATOR),
     Items.ELEVATOR_TR: AstalonItemData(ItemClassification.progression, 1, ItemGroups.ELEVATOR),
     Items.SWITCH_GT_1: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_GT_2: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_GT_3: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_GT_4: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.SWITCH_GT_25: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     # Items.CYCLOPS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.ITEMS),
     # Items.CROWN: AstalonItemData(ItemClassification.progression, 1, ItemGroups.ITEMS),

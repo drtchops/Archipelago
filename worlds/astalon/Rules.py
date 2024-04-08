@@ -722,8 +722,11 @@ SHOP_RULES: Dict[L, Callable[["AstalonRules", CollectionState], bool]] = {
 }
 
 SWITCH_RULES: Dict[L, Callable[["AstalonRules", CollectionState], bool]] = {
+    L.GT_SWITCH_1: lambda rules, state: False,
+    L.GT_SWITCH_2: lambda rules, state: False,
     L.GT_SWITCH_3: lambda rules, state: False,
     L.GT_SWITCH_4: lambda rules, state: False,
+    L.GT_SWITCH_25: lambda rules, state: False,
     L.GT_SWITCH_208: lambda rules, state: False,
     L.MECH_SWITCH_10: lambda rules, state: False,
 }

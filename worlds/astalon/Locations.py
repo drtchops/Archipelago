@@ -46,8 +46,14 @@ class Locations(str, Enum):
     GT_BLUE_KEY_WALL = "Gorgon Tomb - Blue Key (Inside Wall)"
     GT_BLUE_KEY_POT = "Gorgon Tomb - Blue Key (Pot)"
     GT_RED_KEY = "Gorgon Tomb - Red Key"
+    GT_SWITCH_1 = "Gorgon Tomb - Switch (1st Room)"
+    GT_SWITCH_2 = "Gorgon Tomb - Switch (1st Cyclops)"
     GT_SWITCH_3 = "Gorgon Tomb - Switch (Spike Tunnel)"
     GT_SWITCH_4 = "Gorgon Tomb - Switch (Butt Access)"
+    GT_SWITCH_12 = "Gorgon Tomb - Switch (Ring of the Ancients)"
+    GT_SWITCH_23 = "Gorgon Tomb - Switch (Crosses)"
+    GT_SWITCH_25 = "Gorgon Tomb - Switch (Gorgonheart Shortcut)"
+    GT_SWITCH_26 = "Gorgon Tomb - Switch (Arias's Path)"
     GT_SWITCH_208 = "Gorgon Tomb - Switch (Upper Arias)"
 
     MECH_ZEEK = "Mechanism - Zeek"
@@ -78,6 +84,8 @@ class Locations(str, Enum):
     MECH_BLUE_KEY_POT = "Mechanism - Blue Key (Pot)"
     MECH_RED_KEY = "Mechanism - Red Key"
     MECH_SWITCH_10 = "Gorgon Tomb - Magic Crystal (Ladder)"
+    MECH_SWITCH_28 = "Gorgon Tomb - Switch (Snake 1)"
+    MECH_SWITCH_171 = "Gorgon Tomb - Switch (Snake 2)"
 
     HOTP_BELL = "Hall of the Phantoms - Athena's Bell"
     HOTP_AMULET = "Hall of the Phantoms - Amulet of Sol"
@@ -369,7 +377,11 @@ location_table: Dict[Locations, AstalonLocationData] = {
     Locations.GT_KYULI: AstalonLocationData(Regions.ENTRANCE, LocationGroups.CHARACTER),
     Locations.MECH_ZEEK: AstalonLocationData(Regions.MECH_ZEEK, LocationGroups.CHARACTER),
     Locations.TR_BRAM: AstalonLocationData(Regions.TR_BRAM, LocationGroups.CHARACTER),
+    Locations.GT_SWITCH_1: AstalonLocationData(Regions.ENTRANCE, LocationGroups.SWITCH),
+    Locations.GT_SWITCH_2: AstalonLocationData(Regions.GT_GORGONHEART, LocationGroups.SWITCH),
+    Locations.GT_SWITCH_3: AstalonLocationData(Regions.GT_TOP_LEFT, LocationGroups.SWITCH),
     Locations.GT_SWITCH_4: AstalonLocationData(Regions.GT_SPIKE_TUNNEL, LocationGroups.SWITCH),
+    Locations.GT_SWITCH_25: AstalonLocationData(Regions.GT_GORGONHEART, LocationGroups.SWITCH),
     # Locations.GT_OLD_MAN: AstalonLocationData(Regions.GT_OLD_MAN, LocationGroups.FAMILIARS),
     # Locations.MECH_OLD_MAN: AstalonLocationData(Regions.MECH_OLD_MAN, LocationGroups.FAMILIARS),
     # Locations.HOTP_OLD_MAN: AstalonLocationData(Regions.HOTP_OLD_MAN, LocationGroups.FAMILIARS),
