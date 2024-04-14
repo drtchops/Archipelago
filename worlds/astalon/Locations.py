@@ -46,15 +46,24 @@ class Locations(str, Enum):
     GT_BLUE_KEY_WALL = "Gorgon Tomb - Blue Key (Inside Wall)"
     GT_BLUE_KEY_POT = "Gorgon Tomb - Blue Key (Pot)"
     GT_RED_KEY = "Gorgon Tomb - Red Key"
-    GT_SWITCH_1 = "Gorgon Tomb - Switch (1st Room)"
-    GT_SWITCH_2 = "Gorgon Tomb - Switch (1st Cyclops)"
-    GT_SWITCH_3 = "Gorgon Tomb - Switch (Spike Tunnel)"
-    GT_SWITCH_4 = "Gorgon Tomb - Switch (Butt Access)"
-    GT_SWITCH_12 = "Gorgon Tomb - Switch (Ring of the Ancients)"
-    GT_SWITCH_23 = "Gorgon Tomb - Switch (Crosses)"
-    GT_SWITCH_25 = "Gorgon Tomb - Switch (Gorgonheart Shortcut)"
-    GT_SWITCH_26 = "Gorgon Tomb - Switch (Arias's Path)"
-    GT_SWITCH_208 = "Gorgon Tomb - Switch (Upper Arias)"
+    GT_SWITCH_2ND_ROOM = "Gorgon Tomb - Switch (2nd Room)"
+    GT_SWITCH_1ST_CYCLOPS = "Gorgon Tomb - Switch (1st Cyclops)"
+    GT_SWITCH_SPIKE_TUNNEL = "Gorgon Tomb - Switch (Spike Tunnel Access)"
+    GT_SWITCH_BUTT_ACCESS = "Gorgon Tomb - Switch (Butt Access)"
+    GT_SWITCH_GH = "Gorgon Tomb - Switch (Gorgonheart)"
+    GT_SWITCH_ROTA = "Gorgon Tomb - Switch (Ring of the Ancients)"
+    GT_SWITCH_UPPER_PATH_1 = "Gorgon Tomb - Switch (Upper Path 1)"
+    GT_SWITCH_UPPER_PATH_2 = "Gorgon Tomb - Switch (Upper Path 2)"
+    GT_SWITCH_CROSSES = "Gorgon Tomb - Switch (Crosses)"
+    GT_SWITCH_GH_SHORTCUT = "Gorgon Tomb - Switch (Gorgonheart Shortcut)"
+    GT_SWITCH_ARIAS_PATH = "Gorgon Tomb - Switch (Arias's Path)"
+    GT_SWITCH_SWORD_ACCESS = "Gorgon Tomb - Switch (Sword Access)"
+    GT_SWITCH_SWORD_BACKTRACK = "Gorgon Tomb - Switch (Sword Backtrack)"
+    GT_SWITCH_SWORD = "Gorgon Tomb - Switch (Sword)"
+    GT_SWITCH_OLD_MAN_1 = "Gorgon Tomb - Switch (Old Man 1)"
+    GT_SWITCH_OLD_MAN_2 = "Gorgon Tomb - Switch (Old Man 2)"
+    GT_SWITCH_UPPER_ARIAS = "Gorgon Tomb - Switch (Upper Arias)"
+    GT_CRYSTAL_LADDER = "Gorgon Tomb - Crystal (Ladder)"
 
     MECH_ZEEK = "Mechanism - Zeek"
     MECH_BOOTS = "Mechanism - Talaria Boots"
@@ -83,9 +92,49 @@ class Locations(str, Enum):
     MECH_BLUE_KEY_SAVE = "Mechanism - Blue Key (Checkpoint)"
     MECH_BLUE_KEY_POT = "Mechanism - Blue Key (Pot)"
     MECH_RED_KEY = "Mechanism - Red Key"
-    MECH_SWITCH_10 = "Gorgon Tomb - Magic Crystal (Ladder)"
-    MECH_SWITCH_28 = "Gorgon Tomb - Switch (Snake 1)"
-    MECH_SWITCH_171 = "Gorgon Tomb - Switch (Snake 2)"
+    MECH_SWITCH_WATCHER = "Mechanism - Switch (Watcher)"
+    MECH_SWITCH_CHAINS = "Mechanism - Switch (Chains)"
+    MECH_SWITCH_BOSS_ACCESS_1 = "Mechanism - Switch (Boss Access 1)"
+    MECH_SWITCH_BOSS_ACCESS_2 = "Mechanism - Switch (Boss Access 2)"
+    MECH_SWITCH_SNAKE_1 = "Mechanism - Switch (Snake 1)"
+    MECH_SWITCH_BOOTS_ACCESS = "Mechanism - Switch (Boots Access)"
+    MECH_SWITCH_UPPER_GT_ACCESS = "Mechanism - Switch (Upper GT Access)"
+    MECH_SWITCH_UPPER_VOID_DROP = "Mechanism - Switch (Upper Void Drop)"
+    MECH_SWITCH_UPPER_VOID = "Mechanism - Switch (Upper Void)"
+    MECH_SWITCH_LINUS = "Mechanism - Switch (Linus)"
+    MECH_SWITCH_LOWER = "Mechanism - Switch (Lower)"
+    MECH_SWITCH_TO_BOSS_3 = "Mechanism - Switch (To Boss 3)"
+    MECH_SWITCH_TO_BOSS_2 = "Mechanism - Switch (To Boss 2)"
+    MECH_SWITCH_POTS = "Mechanism - Switch (Pots)"
+    MECH_SWITCH_MAZE_BACKDOOR = "Mechanism - Switch (Maze Backdoor)"
+    MECH_SWITCH_TO_BOSS_1 = "Mechanism - Switch (To Boss 1)"
+    MECH_SWITCH_BLOCK_STAIRS = "Mechanism - Switch (Block Stairs)"
+    MECH_SWITCH_ARIAS_CYCLOPS = "Mechanism - Switch (Arias Cyclops)"
+    MECH_SWITCH_BOOTS_LOWER = "Mechanism - Switch (Boots Lower)"
+    MECH_SWITCH_CHAINS_GAP = "Mechanism - Switch (Chains Gap)"
+    MECH_SWITCH_LOWER_KEY = "Mechanism - Switch (Lower Key)"
+    MECH_SWITCH_ARIAS = "Mechanism - Switch (Arias)"
+    MECH_SWITCH_SNAKE_2 = "Mechanism - Switch (Snake 2)"
+    MECH_SWITCH_KEY_BLOCKS = "Mechanism - Switch (Key Blocks)"
+    MECH_SWITCH_CANNON = "Mechanism - Switch (Cannon)"
+    MECH_SWITCH_EYEBALL = "Mechanism - Switch (Eyeball)"
+    MECH_SWITCH_INVISIBLE = "Mechanism - Switch (Invisible)"
+    MECH_CRYSTAL_CANNON = "Mechanism - Crystal (Cannon)"
+    MECH_CRYSTAL_SPLIT_PATH = "Mechanism - Crystal (Split Path)"
+    MECH_CRYSTAL_LINUS = "Mechanism - Crystal (Linus)"
+    MECH_CRYSTAL_TRIPLE_1 = "Mechanism - Crystal (Triple 1)"
+    MECH_CRYSTAL_TRIPLE_2 = "Mechanism - Crystal (Triple 2)"
+    MECH_CRYSTAL_TRIPLE_3 = "Mechanism - Crystal (Triple 3)"
+    MECH_CRYSTAL_TOP = "Mechanism - Crystal (Top)"
+    MECH_CRYSTAL_CLOAK = "Mechanism - Crystal (Cloak)"
+    MECH_CRYSTAL_SLIMES = "Mechanism - Crystal (Slimes)"
+    MECH_CRYSTAL_TO_CD = "Mechanism - Crystal (To CD)"
+    MECH_CRYSTAL_CAMPFIRE = "Mechanism - Crystal (Campfire)"
+    MECH_CRYSTAL_1ST_ROOM = "Mechanism - Crystal (1st Room)"
+    MECH_CRYSTAL_OLD_MAN = "Mechanism - Crystal (Old Man)"
+    MECH_CRYSTAL_TOP_CHAINS = "Mechanism - Crystal (Top Chains)"
+    MECH_CRYSTAL_BK = "Mechanism - Crystal (Black Knight)"
+    MECH_FACE_ABOVE_VOLANTIS = "Mechanism - Face (Above Volantis)"
 
     HOTP_BELL = "Hall of the Phantoms - Athena's Bell"
     HOTP_AMULET = "Hall of the Phantoms - Amulet of Sol"
@@ -110,6 +159,37 @@ class Locations(str, Enum):
     HOTP_BLUE_KEY_TELEPORTS = "Hall of the Phantoms - Blue Key (Spike Teleporters)"
     HOTP_BLUE_KEY_MAZE = "Hall of the Phantoms - Blue Key (Teleport Maze)"
     HOTP_RED_KEY = "Hall of the Phantoms - Red Key"
+    HOTP_SWITCH_ROCK = "Hall of the Phantoms - Switch (Rock)"
+    HOTP_SWITCH_BELOW_START = "Hall of the Phantoms - Switch (Below Start)"
+    HOTP_SWITCH_ROCK_ACCESS = "Hall of the Phantoms - Switch (Rock Access)"
+    HOTP_SWITCH_LEFT_2 = "Hall of the Phantoms - Switch (Left 2)"
+    HOTP_SWITCH_LEFT_1 = "Hall of the Phantoms - Switch (Left 1)"
+    HOTP_SWITCH_LOWER_SHORTCUT = "Hall of the Phantoms - Switch (Lower Shortcut)"
+    HOTP_SWITCH_BELL = "Hall of the Phantoms - Switch (Bell)"
+    HOTP_SWITCH_GHOST_BLOOD = "Hall of the Phantoms - Switch (Ghost Blood)"
+    HOTP_SWITCH_TELEPORTS = "Hall of the Phantoms - Switch (Teleports)"
+    HOTP_SWITCH_WORM_PILLAR = "Hall of the Phantoms - Switch (Worm Pillar)"
+    HOTP_SWITCH_TO_CLAW_1 = "Hall of the Phantoms - Switch (To Claw 1)"
+    HOTP_SWITCH_TO_CLAW_2 = "Hall of the Phantoms - Switch (To Claw 2)"
+    HOTP_SWITCH_CLAW_ACCESS = "Hall of the Phantoms - Switch (Claw Access)"
+    HOTP_SWITCH_GHOSTS = "Hall of the Phantoms - Switch (Ghosts)"
+    HOTP_SWITCH_LEFT_3 = "Hall of the Phantoms - Switch (Left 3)"
+    HOTP_SWITCH_ABOVE_OLD_MAN = "Hall of the Phantoms - Switch (Above Old Man)"
+    HOTP_SWITCH_MAIDEN_ACCESS = "Hall of the Phantoms - Switch (Dead Maiden Access)"
+    HOTP_SWITCH_MAZE_PUZZLE = "Hall of the Phantoms - Switch (Maze Puzzle)"
+    HOTP_SWITCH_EYEBALL_SHORTCUT = "Hall of the Phantoms - Switch (Eyeball Shortcut)"
+    HOTP_SWITCH_BELL_ACCESS = "Hall of the Phantoms - Switch (Bell Access)"
+    HOTP_SWITCH_1ST_ROOM = "Hall of the Phantoms - Switch (1st Room)"
+    HOTP_SWITCH_LEFT_BACKTRACK = "Hall of the Phantoms - Switch (Left Backtrack)"
+    HOTP_CRYSTAL_BOTTOM = "Hall of the Phantoms - Crystal (Bottom)"
+    HOTP_CRYSTAL_LOWER = "Hall of the Phantoms - Crystal (Lower)"
+    HOTP_CRYSTAL_AFTER_CLAW = "Hall of the Phantoms - Crystal (After Claw)"
+    HOTP_CRYSTAL_MAIDEN_1 = "Hall of the Phantoms - Crystal (Dead Maiden 1)"
+    HOTP_CRYSTAL_MAIDEN_2 = "Hall of the Phantoms - Crystal (Dead Maiden 2)"
+    HOTP_CRYSTAL_BELL_ACCESS = "Hall of the Phantoms - Crystal (Bell Access)"
+    HOTP_CRYSTAL_HEART = "Hall of the Phantoms - Crystal (Heart)"
+    HOTP_CRYSTAL_BELOW_PUZZLE = "Hall of the Phantoms - Crystal (Below Puzzle)"
+    HOTP_FACE_OLD_MAN = "Hall of the Phantoms - Face (Old Man)"
 
     ROA_ICARUS = "Ruins of Ash - Icarus Emblem"
     ROA_EYE_GREEN = "Ruins of Ash - Gorgon Eye (Green)"
@@ -127,46 +207,130 @@ class Locations(str, Enum):
     ROA_BLUE_KEY_TOP = "Ruins of Ash - Blue Key (Top)"
     ROA_BLUE_KEY_POT = "Ruins of Ash - Blue Key (Pot)"
     ROA_RED_KEY = "Ruins of Ash - Red Key"
+    ROA_SWITCH_ASCEND = "Ruins of Ash - Switch (Ascend)"
+    ROA_SWITCH_AFTER_WORMS = "Ruins of Ash - Switch (After Worms)"
+    ROA_SWITCH_RIGHT_PATH = "Ruins of Ash - Switch (Right Path)"
+    ROA_SWITCH_APEX_ACCESS = "Ruins of Ash - Switch (Apex Access)"
+    ROA_SWITCH_ICARUS = "Ruins of Ash - Switch (Icarus Emblem)"
+    ROA_SWITCH_SHAFT_L = "Ruins of Ash - Switch (Shaft Left)"
+    ROA_SWITCH_SHAFT_R = "Ruins of Ash - Switch (Shaft Right)"
+    ROA_SWITCH_ELEVATOR = "Ruins of Ash - Switch (Elevator)"
+    ROA_SWITCH_SHAFT_DOWNWARDS = "Ruins of Ash - Switch (Shaft Downwards)"
+    ROA_SWITCH_SPIDERS_T = "Ruins of Ash - Switch (Spiders Top)"
+    ROA_SWITCH_SPIDERS_B = "Ruins of Ash - Switch (Spiders Bottom)"
+    ROA_SWITCH_DARK_ROOM = "Ruins of Ash - Switch (Dark Room)"
+    ROA_SWITCH_ASCEND_SHORTCUT = "Ruins of Ash - Switch (Ascend Shortcut)"
+    ROA_SWITCH_1ST_SHORTCUT = "Ruins of Ash - Switch (1st Shortcut)"
+    ROA_SWITCH_SPIKE_CLIMB = "Ruins of Ash - Switch (Spike Climb)"
+    ROA_SWITCH_ABOVE_CENTAUR = "Ruins of Ash - Switch (Above Centaur)"
+    ROA_SWITCH_BLOOD_POT = "Ruins of Ash - Switch (Blood Pot)"
+    ROA_SWITCH_WORMS = "Ruins of Ash - Switch (Worms)"
+    ROA_SWITCH_TRIPLE_1 = "Ruins of Ash - Switch (Triple 1)"
+    ROA_SWITCH_TRIPLE_3 = "Ruins of Ash - Switch (Triple 3)"
+    ROA_SWITCH_BABY_GORGON = "Ruins of Ash - Switch (Baby Gorgon)"
+    ROA_SWITCH_BOSS_ACCESS = "Ruins of Ash - Switch (Boss Access)"
+    ROA_SWITCH_BLOOD_POT_L = "Ruins of Ash - Switch (Blood Pot Left)"
+    ROA_SWITCH_BLOOD_POT_R = "Ruins of Ash - Switch (Blood Pot Right)"
+    ROA_SWITCH_LOWER_VOID = "Ruins of Ash - Switch (Lower Void)"
+    ROA_CRYSTAL_1ST_ROOM = "Ruins of Ash - Crystal (1st Room)"
+    ROA_CRYSTAL_BABY_GORGON = "Ruins of Ash - Crystal (Baby Gorgon)"
+    ROA_CRYSTAL_LADDER_R = "Ruins of Ash - Crystal (Ladder Right)"
+    ROA_CRYSTAL_LADDER_L = "Ruins of Ash - Crystal (Ladder Left)"
+    ROA_CRYSTAL_CENTAUR = "Ruins of Ash - Crystal (Centaur)"
+    ROA_CRYSTAL_SPIKE_BALLS = "Ruins of Ash - Crystal (Spike Balls)"
+    ROA_CRYSTAL_LEFT_ASCEND = "Ruins of Ash - Crystal (Left Ascend)"
+    ROA_CRYSTAL_SHAFT = "Ruins of Ash - Crystal (Shaft)"
+    ROA_CRYSTAL_BRANCH_R = "Ruins of Ash - Crystal (Branch Right)"
+    ROA_CRYSTAL_BRANCH_L = "Ruins of Ash - Crystal (Branch Left)"
+    ROA_CRYSTAL_3_REAPERS = "Ruins of Ash - Crystal (3 Reapers)"
+    ROA_CRYSTAL_TRIPLE_2 = "Ruins of Ash - Crystal (Triple 2)"
+    ROA_FACE_BLUE_KEY = "Ruins of Ash - Face (Blue Key)"
 
     DARK_HP_4 = "Darkness - Max HP +4"
     DARK_WHITE_KEY = "Darkness - White Key"
+    DARK_SWITCH = "Darkness - Switch"
 
     APEX_CHALICE = "The Apex - Blood Chalice"
     APEX_HP_1_CHALICE = "The Apex - Max HP +1 (Blood Chalice)"
     APEX_HP_5_HEART = "The Apex - Max HP +5 (After Heart)"
     APEX_BLUE_KEY = "The Apex - Blue Key"
+    APEX_SWITCH = "The Apex - Switch"
+
+    CAVES_ATTACK_RED = "Caves - Attack +1 (Item Chain Red)"
+    CAVES_ATTACK_BLUE = "Caves - Attack +1 (Item Chain Blue)"
+    CAVES_ATTACK_GREEN = "Caves - Attack +1 (Item Chain Green)"
+    CAVES_HP_1_START = "Caves - Max HP +1 (First Room)"
+    CAVES_HP_1_CYCLOPS = "Caves - Max HP +1 (Cyclops Arena)"
+    CAVES_HP_5_CHAIN = "Caves - Max HP +5 (Item Chain)"
+    CAVES_SWITCH_SKELETONS = "Caves - Switch (Skeletons)"
+    CAVES_SWITCH_CATA_ACCESS_1 = "Caves - Switch (Catacombs Access 1)"
+    CAVES_SWITCH_CATA_ACCESS_2 = "Caves - Switch (Catacombs Access 2)"
+    CAVES_SWITCH_CATA_ACCESS_3 = "Caves - Switch (Catacombs Access 3)"
+    CAVES_FACE_1ST_ROOM = "Caves - Face (1st Room)"
 
     CATA_BOW = "Catacombs - Lunarian Bow"
     CATA_GIL = "Catacombs - Gil"
-    CATA_ATTACK_RED = "Catacombs - Attack +1 (Item Chain Red)"
-    CATA_ATTACK_BLUE = "Catacombs - Attack +1 (Item Chain Blue)"
-    CATA_ATTACK_GREEN = "Catacombs - Attack +1 (Item Chain Green)"
     CATA_ATTACK_ROOT = "Catacombs - Attack +1 (Climbable Root)"
     CATA_ATTACK_POISON = "Catacombs - Attack +1 (Poison Roots)"
-    CATA_HP_1_START = "Catacombs - Max HP +1 (First Room)"
-    CATA_HP_1_CYCLOPS = "Catacombs - Max HP +1 (Cyclops Arena)"
     CATA_HP_1_ABOVE_POISON = "Catacombs - Max HP +1 (Above Poison Roots)"
     CATA_HP_2_BEFORE_POISON = "Catacombs - Max HP +2 (Before Poison Roots)"
     CATA_HP_2_AFTER_POISON = "Catacombs - Max HP +2 (After Poison Roots)"
     CATA_HP_2_GEMINI_BOTTOM = "Catacombs - Max HP +2 (Before Gemini Bottom)"
     CATA_HP_2_GEMINI_TOP = "Catacombs - Max HP +2 (Before Gemini Top)"
     CATA_HP_2_ABOVE_GEMINI = "Catacombs - Max HP +2 (Above Gemini)"
-    CATA_HP_5_CHAIN = "Catacombs - Max HP +5 (Item Chain)"
     CATA_WHITE_KEY_HEAD = "Catacombs - White Key (On Head)"
     CATA_WHITE_KEY_DEV_ROOM = "Catacombs - White Key (Dev Room)"
     CATA_WHITE_KEY_PRISON = "Catacombs - White Key (Prison)"
     CATA_BLUE_KEY_SLIMES = "Catacombs - Blue Key (Slime Water)"
     CATA_BLUE_KEY_EYEBALLS = "Catacombs - Blue Key (Eyeballs)"
+    CATA_SWITCH_ELEVATOR = "Catacombs - Switch (Elevator)"
+    CATA_SWITCH_SHORTCUT = "Catacombs - Switch (Vertical Shortcut)"
+    CATA_SWITCH_TOP = "Catacombs - Switch (Top)"
+    CATA_SWITCH_CLAW_1 = "Catacombs - Switch (Claw 1)"
+    CATA_SWITCH_CLAW_2 = "Catacombs - Switch (Claw 2)"
+    CATA_SWITCH_WATER_1 = "Catacombs - Switch (Water 1)"
+    CATA_SWITCH_WATER_2 = "Catacombs - Switch (Water 2)"
+    CATA_SWITCH_DEV_ROOM = "Catacombs - Switch (Dev Room)"
+    CATA_SWITCH_AFTER_BLUE_DOOR = "Catacombs - Switch (After Blue Door)"
+    CATA_SWITCH_SHORTCUT_ACCESS = "Catacombs - Switch (Shortcut Access)"
+    CATA_SWITCH_LADDER_BLOCKS = "Catacombs - Switch (Ladder Blocks)"
+    CATA_SWITCH_MID_SHORTCUT = "Catacombs - Switch (Mid Shortcut)"
+    CATA_SWITCH_1ST_ROOM = "Catacombs - Switch (1st Room)"
+    CATA_SWITCH_FLAMES_2 = "Catacombs - Switch (Flames 2)"
+    CATA_SWITCH_FLAMES_1 = "Catacombs - Switch (Flames 1)"
+    CATA_CRYSTAL_POISON_ROOTS = "Catacombs - Crystal (Poison Roots)"
+    CATA_FACE_AFTER_BOW = "Catacombs - Face (After Bow)"
+    CATA_FACE_BOW = "Catacombs - Face (Bow)"
+    CATA_FACE_X4 = "Catacombs - Face (x4)"
+    CATA_FACE_CAMPFIRE = "Catacombs - Face (Campfire)"
+    CATA_FACE_DOUBLE_DOOR = "Catacombs - Face (Double Door)"
+    CATA_FACE_BOTTOM = "Catacombs - Face (Bottom)"
 
     TR_BRAM = "Tower Roots - Bram"
     TR_ADORNED_KEY = "Tower Roots - Adorned Key"
     TR_HP_1_BOTTOM = "Tower Roots - Max HP +1 (Bottom)"
     TR_HP_2_TOP = "Tower Roots - Max HP +2 (Top)"
     TR_RED_KEY = "Tower Roots - Red Key"
+    TR_SWITCH_ADORNED_L = "Tower Roots - Switch (Adorned Key Left)"
+    TR_SWITCH_ADORNED_M = "Tower Roots - Switch (Adorned Key Middle)"
+    TR_SWITCH_ADORNED_R = "Tower Roots - Switch (Adorned Key Right)"
+    TR_SWITCH_ELEVATOR = "Tower Roots - Switch (Elevator)"
+    TR_SWITCH_BOTTOM = "Tower Roots - Switch (Bottom)"
+    TR_CRYSTAL_GOLD = "Tower Roots - Crystal (Gold)"
+    TR_CRYSTAL_DARK_ARIAS = "Tower Roots - Crystal (Dark Arias)"
 
     CD_CROWN = "Cyclops Den - Prince's Crown"
     CD_ATTACK = "Cyclops Den - Attack +1"
     CD_HP_1 = "Cyclops Den - Max HP +1"
+    CD_SWITCH_1 = "Cyclops Den - Switch 1"
+    CD_SWITCH_2 = "Cyclops Den - Switch 2"
+    CD_SWITCH_3 = "Cyclops Den - Switch 3"
+    CD_SWITCH_CAMPFIRE = "Cyclops Den - Switch (Campfire)"
+    CD_SWITCH_TOP = "Cyclops Den - Switch (Top)"
+    CD_CRYSTAL_BACKTRACK = "Cyclops Den - Crystal (Backtrack)"
+    CD_CRYSTAL_START = "Cyclops Den - Crystal (Start)"
+    CD_CRYSTAL_CAMPFIRE = "Cyclops Den - Crystal (Campfire)"
+    CD_CRYSTAL_STAIRS = "Cyclops Den - Crystal (Stairs)"
 
     CATH_BLOCK = "Cathedral - Magic Block"
     CATH_ATTACK = "Cathedral - Attack +1"
@@ -174,6 +338,18 @@ class Locations(str, Enum):
     CATH_HP_1_TOP_RIGHT = "Cathedral - Max HP +1 (Top Right)"
     CATH_HP_2_CLAW = "Cathedral - Max HP +2 (Left Climb)"
     CATH_HP_5_BELL = "Cathedral - Max HP +5 (Bell)"
+    CATH_SWITCH_BOTTOM = "Cathedral - Switch (Bottom)"
+    CATH_SWITCH_BESIDE_SHAFT = "Cathedral - Switch (Beside Shaft)"
+    CATH_SWITCH_TOP_CAMPFIRE = "Cathedral - Switch (Top Campfire)"
+    CATH_CRYSTAL_1ST_ROOM = "Cathedral - Crystal (1st Room)"
+    CATH_CRYSTAL_SHAFT = "Cathedral - Crystal (Shaft)"
+    CATH_CRYSTAL_SPIKE_PIT = "Cathedral - Crystal (Spike Pit)"
+    CATH_CRYSTAL_TOP_L = "Cathedral - Crystal (Top Left)"
+    CATH_CRYSTAL_TOP_R = "Cathedral - Crystal (Top Right)"
+    CATH_CRYSTAL_SHAFT_ACCESS = "Cathedral - Crystal (Shaft Access)"
+    CATH_CRYSTAL_ORBS = "Cathedral - Crystal (Orbs)"
+    CATH_FACE_LEFT = "Cathedral - Face (Left)"
+    CATH_FACE_RIGHT = "Cathedral - Face (Right)"
 
     SP_STAR = "Serpent Path - Morning Star"
     SP_ATTACK = "Serpent Path - Attack +1"
@@ -182,6 +358,11 @@ class Locations(str, Enum):
     SP_BLUE_KEY_STAR = "Serpent Path - Blue Key (Morning Star)"
     SP_BLUE_KEY_PAINTING = "Serpent Path - Blue Key (Painting)"
     SP_BLUE_KEY_ARIAS = "Serpent Path - Blue Key (Arias)"
+    SP_SWITCH_DOUBLE_DOORS = "Serpent Path - Switch (Double Doors)"
+    SP_SWITCH_BUBBLES = "Serpent Path - Switch (Bubbles)"
+    SP_SWITCH_AFTER_STAR = "Serpent Path - Switch (After Star)"
+    SP_CRYSTAL_BLOCKS = "Serpent Path - Crystal (Blocks)"
+    SP_CRYSTAL_STAR = "Serpent Path - Crystal (Star)"
 
     SHOP_GIFT = "Shop - Gift"
     SHOP_KNOWLEDGE = "Shop - Knowledge"
@@ -310,20 +491,20 @@ location_table: Dict[Locations, AstalonLocationData] = {
     Locations.APEX_HP_5_HEART: AstalonLocationData(Regions.APEX_HEART, LocationGroups.HEALTH),
     Locations.APEX_BLUE_KEY: AstalonLocationData(Regions.APEX, LocationGroups.KEY_BLUE),
     Locations.CATA_BOW: AstalonLocationData(Regions.CATA_BOW, LocationGroups.ITEM),
-    Locations.CATA_ATTACK_RED: AstalonLocationData(Regions.CAVES_ITEM_CHAIN, LocationGroups.ATTACK),
-    Locations.CATA_ATTACK_BLUE: AstalonLocationData(Regions.CAVES_ITEM_CHAIN, LocationGroups.ATTACK),
-    Locations.CATA_ATTACK_GREEN: AstalonLocationData(Regions.CAVES_ITEM_CHAIN, LocationGroups.ATTACK),
+    Locations.CAVES_ATTACK_RED: AstalonLocationData(Regions.CAVES_ITEM_CHAIN, LocationGroups.ATTACK),
+    Locations.CAVES_ATTACK_BLUE: AstalonLocationData(Regions.CAVES_ITEM_CHAIN, LocationGroups.ATTACK),
+    Locations.CAVES_ATTACK_GREEN: AstalonLocationData(Regions.CAVES_ITEM_CHAIN, LocationGroups.ATTACK),
     Locations.CATA_ATTACK_ROOT: AstalonLocationData(Regions.CATA_CLIMBABLE_ROOT, LocationGroups.ATTACK),
     Locations.CATA_ATTACK_POISON: AstalonLocationData(Regions.CATA_POISON_ROOTS, LocationGroups.ATTACK),
-    Locations.CATA_HP_1_START: AstalonLocationData(Regions.CAVES_START, LocationGroups.HEALTH),
-    Locations.CATA_HP_1_CYCLOPS: AstalonLocationData(Regions.CAVES_ARENA, LocationGroups.HEALTH),
+    Locations.CAVES_HP_1_START: AstalonLocationData(Regions.CAVES_START, LocationGroups.HEALTH),
+    Locations.CAVES_HP_1_CYCLOPS: AstalonLocationData(Regions.CAVES_ARENA, LocationGroups.HEALTH),
     Locations.CATA_HP_1_ABOVE_POISON: AstalonLocationData(Regions.CATA_POISON_ROOTS, LocationGroups.HEALTH),
     Locations.CATA_HP_2_BEFORE_POISON: AstalonLocationData(Regions.CATA_POISON_ROOTS, LocationGroups.HEALTH),
     Locations.CATA_HP_2_AFTER_POISON: AstalonLocationData(Regions.CATA_POISON_ROOTS, LocationGroups.HEALTH),
     Locations.CATA_HP_2_GEMINI_BOTTOM: AstalonLocationData(Regions.CATA_DOUBLE_DOOR, LocationGroups.HEALTH),
     Locations.CATA_HP_2_GEMINI_TOP: AstalonLocationData(Regions.CATA_CENTAUR, LocationGroups.HEALTH),
     Locations.CATA_HP_2_ABOVE_GEMINI: AstalonLocationData(Regions.CATA_FLAMES, LocationGroups.HEALTH),
-    Locations.CATA_HP_5_CHAIN: AstalonLocationData(Regions.CAVES_ITEM_CHAIN, LocationGroups.HEALTH),
+    Locations.CAVES_HP_5_CHAIN: AstalonLocationData(Regions.CAVES_ITEM_CHAIN, LocationGroups.HEALTH),
     Locations.CATA_WHITE_KEY_HEAD: AstalonLocationData(Regions.CATA_TOP, LocationGroups.KEY_WHITE),
     Locations.CATA_WHITE_KEY_DEV_ROOM: AstalonLocationData(Regions.CATA_DEV_ROOM_CONNECTION, LocationGroups.KEY_WHITE),
     Locations.CATA_WHITE_KEY_PRISON: AstalonLocationData(Regions.CATA_BOSS, LocationGroups.KEY_WHITE),
@@ -377,11 +558,198 @@ location_table: Dict[Locations, AstalonLocationData] = {
     Locations.GT_KYULI: AstalonLocationData(Regions.ENTRANCE, LocationGroups.CHARACTER),
     Locations.MECH_ZEEK: AstalonLocationData(Regions.MECH_ZEEK, LocationGroups.CHARACTER),
     Locations.TR_BRAM: AstalonLocationData(Regions.TR_BRAM, LocationGroups.CHARACTER),
-    Locations.GT_SWITCH_1: AstalonLocationData(Regions.ENTRANCE, LocationGroups.SWITCH),
-    Locations.GT_SWITCH_2: AstalonLocationData(Regions.GT_GORGONHEART, LocationGroups.SWITCH),
-    Locations.GT_SWITCH_3: AstalonLocationData(Regions.GT_TOP_LEFT, LocationGroups.SWITCH),
-    Locations.GT_SWITCH_4: AstalonLocationData(Regions.GT_SPIKE_TUNNEL, LocationGroups.SWITCH),
-    Locations.GT_SWITCH_25: AstalonLocationData(Regions.GT_GORGONHEART, LocationGroups.SWITCH),
+    Locations.GT_SWITCH_2ND_ROOM: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.GT_SWITCH_1ST_CYCLOPS: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.GT_SWITCH_SPIKE_TUNNEL: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.GT_SWITCH_BUTT_ACCESS: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.GT_SWITCH_GH: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.GT_SWITCH_ROTA: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.GT_SWITCH_UPPER_PATH_1: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.GT_SWITCH_UPPER_PATH_2: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.GT_SWITCH_CROSSES: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.GT_SWITCH_GH_SHORTCUT: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.GT_SWITCH_ARIAS_PATH: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.GT_SWITCH_SWORD_ACCESS: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.GT_SWITCH_SWORD_BACKTRACK: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.GT_SWITCH_SWORD: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.GT_SWITCH_OLD_MAN_1: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.GT_SWITCH_OLD_MAN_2: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.GT_SWITCH_UPPER_ARIAS: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.GT_CRYSTAL_LADDER: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.MECH_SWITCH_WATCHER: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.MECH_SWITCH_CHAINS: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.MECH_SWITCH_BOSS_ACCESS_1: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.MECH_SWITCH_BOSS_ACCESS_2: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.MECH_SWITCH_SNAKE_1: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.MECH_SWITCH_BOOTS_ACCESS: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.MECH_SWITCH_UPPER_GT_ACCESS: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.MECH_SWITCH_UPPER_VOID_DROP: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.MECH_SWITCH_UPPER_VOID: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.MECH_SWITCH_LINUS: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.MECH_SWITCH_LOWER: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.MECH_SWITCH_TO_BOSS_3: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.MECH_SWITCH_TO_BOSS_2: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.MECH_SWITCH_POTS: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.MECH_SWITCH_MAZE_BACKDOOR: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.MECH_SWITCH_TO_BOSS_1: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.MECH_SWITCH_BLOCK_STAIRS: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.MECH_SWITCH_ARIAS_CYCLOPS: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.MECH_SWITCH_BOOTS_LOWER: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.MECH_SWITCH_CHAINS_GAP: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.MECH_SWITCH_LOWER_KEY: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.MECH_SWITCH_ARIAS: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.MECH_SWITCH_SNAKE_2: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.MECH_SWITCH_KEY_BLOCKS: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.MECH_SWITCH_CANNON: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.MECH_SWITCH_EYEBALL: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.MECH_SWITCH_INVISIBLE: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.MECH_CRYSTAL_CANNON: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.MECH_CRYSTAL_SPLIT_PATH: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.MECH_CRYSTAL_LINUS: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.MECH_CRYSTAL_TRIPLE_1: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.MECH_CRYSTAL_TRIPLE_2: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.MECH_CRYSTAL_TRIPLE_3: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.MECH_CRYSTAL_TOP: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.MECH_CRYSTAL_CLOAK: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.MECH_CRYSTAL_SLIMES: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.MECH_CRYSTAL_TO_CD: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.MECH_CRYSTAL_CAMPFIRE: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.MECH_CRYSTAL_1ST_ROOM: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.MECH_CRYSTAL_OLD_MAN: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.MECH_CRYSTAL_TOP_CHAINS: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.MECH_CRYSTAL_BK: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.MECH_FACE_ABOVE_VOLANTIS: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.HOTP_SWITCH_ROCK: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.HOTP_SWITCH_BELOW_START: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.HOTP_SWITCH_ROCK_ACCESS: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.HOTP_SWITCH_LEFT_2: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.HOTP_SWITCH_LEFT_1: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.HOTP_SWITCH_LOWER_SHORTCUT: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.HOTP_SWITCH_BELL: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.HOTP_SWITCH_GHOST_BLOOD: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.HOTP_SWITCH_TELEPORTS: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.HOTP_SWITCH_WORM_PILLAR: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.HOTP_SWITCH_TO_CLAW_1: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.HOTP_SWITCH_TO_CLAW_2: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.HOTP_SWITCH_CLAW_ACCESS: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.HOTP_SWITCH_GHOSTS: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.HOTP_SWITCH_LEFT_3: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.HOTP_SWITCH_ABOVE_OLD_MAN: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.HOTP_SWITCH_MAIDEN_ACCESS: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.HOTP_SWITCH_MAZE_PUZZLE: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.HOTP_SWITCH_EYEBALL_SHORTCUT: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.HOTP_SWITCH_BELL_ACCESS: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.HOTP_SWITCH_1ST_ROOM: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.HOTP_SWITCH_LEFT_BACKTRACK: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.HOTP_CRYSTAL_BOTTOM: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.HOTP_CRYSTAL_LOWER: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.HOTP_CRYSTAL_AFTER_CLAW: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.HOTP_CRYSTAL_MAIDEN_1: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.HOTP_CRYSTAL_MAIDEN_2: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.HOTP_CRYSTAL_BELL_ACCESS: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.HOTP_CRYSTAL_HEART: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.HOTP_CRYSTAL_BELOW_PUZZLE: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.HOTP_FACE_OLD_MAN: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.ROA_SWITCH_ASCEND: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.ROA_SWITCH_AFTER_WORMS: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.ROA_SWITCH_RIGHT_PATH: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.ROA_SWITCH_APEX_ACCESS: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.ROA_SWITCH_ICARUS: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.ROA_SWITCH_SHAFT_L: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.ROA_SWITCH_SHAFT_R: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.ROA_SWITCH_ELEVATOR: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.ROA_SWITCH_SHAFT_DOWNWARDS: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.ROA_SWITCH_SPIDERS_T: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.ROA_SWITCH_SPIDERS_B: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.ROA_SWITCH_DARK_ROOM: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.ROA_SWITCH_ASCEND_SHORTCUT: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.ROA_SWITCH_1ST_SHORTCUT: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.ROA_SWITCH_SPIKE_CLIMB: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.ROA_SWITCH_ABOVE_CENTAUR: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.ROA_SWITCH_BLOOD_POT: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.ROA_SWITCH_WORMS: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.ROA_SWITCH_TRIPLE_1: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.ROA_SWITCH_TRIPLE_3: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.ROA_SWITCH_BABY_GORGON: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.ROA_SWITCH_BOSS_ACCESS: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.ROA_SWITCH_BLOOD_POT_L: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.ROA_SWITCH_BLOOD_POT_R: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.ROA_SWITCH_LOWER_VOID: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.ROA_CRYSTAL_1ST_ROOM: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.ROA_CRYSTAL_BABY_GORGON: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.ROA_CRYSTAL_LADDER_R: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.ROA_CRYSTAL_LADDER_L: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.ROA_CRYSTAL_CENTAUR: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.ROA_CRYSTAL_SPIKE_BALLS: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.ROA_CRYSTAL_LEFT_ASCEND: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.ROA_CRYSTAL_SHAFT: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.ROA_CRYSTAL_BRANCH_R: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.ROA_CRYSTAL_BRANCH_L: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.ROA_CRYSTAL_3_REAPERS: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.ROA_CRYSTAL_TRIPLE_2: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.ROA_FACE_BLUE_KEY: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.DARK_SWITCH: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.APEX_SWITCH: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.CAVES_SWITCH_SKELETONS: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.CAVES_SWITCH_CATA_ACCESS_1: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.CAVES_SWITCH_CATA_ACCESS_2: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.CAVES_SWITCH_CATA_ACCESS_3: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.CAVES_FACE_1ST_ROOM: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.CATA_SWITCH_ELEVATOR: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.CATA_SWITCH_SHORTCUT: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.CATA_SWITCH_TOP: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.CATA_SWITCH_CLAW_1: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.CATA_SWITCH_CLAW_2: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.CATA_SWITCH_WATER_1: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.CATA_SWITCH_WATER_2: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.CATA_SWITCH_DEV_ROOM: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.CATA_SWITCH_AFTER_BLUE_DOOR: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.CATA_SWITCH_SHORTCUT_ACCESS: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.CATA_SWITCH_LADDER_BLOCKS: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.CATA_SWITCH_MID_SHORTCUT: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.CATA_SWITCH_1ST_ROOM: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.CATA_SWITCH_FLAMES_2: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.CATA_SWITCH_FLAMES_1: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.CATA_CRYSTAL_POISON_ROOTS: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.CATA_FACE_AFTER_BOW: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.CATA_FACE_BOW: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.CATA_FACE_X4: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.CATA_FACE_CAMPFIRE: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.CATA_FACE_DOUBLE_DOOR: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.CATA_FACE_BOTTOM: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.TR_SWITCH_ADORNED_L: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.TR_SWITCH_ADORNED_M: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.TR_SWITCH_ADORNED_R: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.TR_SWITCH_ELEVATOR: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.TR_SWITCH_BOTTOM: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.TR_CRYSTAL_GOLD: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.TR_CRYSTAL_DARK_ARIAS: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.CD_SWITCH_1: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.CD_SWITCH_2: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.CD_SWITCH_3: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.CD_SWITCH_CAMPFIRE: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.CD_SWITCH_TOP: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.CD_CRYSTAL_BACKTRACK: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.CD_CRYSTAL_START: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.CD_CRYSTAL_CAMPFIRE: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.CD_CRYSTAL_STAIRS: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.CATH_SWITCH_BOTTOM: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.CATH_SWITCH_BESIDE_SHAFT: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.CATH_SWITCH_TOP_CAMPFIRE: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.CATH_CRYSTAL_1ST_ROOM: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.CATH_CRYSTAL_SHAFT: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.CATH_CRYSTAL_SPIKE_PIT: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.CATH_CRYSTAL_TOP_L: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.CATH_CRYSTAL_TOP_R: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.CATH_CRYSTAL_SHAFT_ACCESS: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.CATH_CRYSTAL_ORBS: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.CATH_FACE_LEFT: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.CATH_FACE_RIGHT: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.SP_SWITCH_DOUBLE_DOORS: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.SP_SWITCH_BUBBLES: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.SP_SWITCH_AFTER_STAR: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.SP_CRYSTAL_BLOCKS: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.SP_CRYSTAL_STAR: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
     # Locations.GT_OLD_MAN: AstalonLocationData(Regions.GT_OLD_MAN, LocationGroups.FAMILIARS),
     # Locations.MECH_OLD_MAN: AstalonLocationData(Regions.MECH_OLD_MAN, LocationGroups.FAMILIARS),
     # Locations.HOTP_OLD_MAN: AstalonLocationData(Regions.HOTP_OLD_MAN, LocationGroups.FAMILIARS),

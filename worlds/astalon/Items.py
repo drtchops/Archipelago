@@ -116,7 +116,7 @@ class Items(str, Enum):
     DOOR_BLUE_ROA_FLAMES = "RoA Blue Door (Flames)"
     DOOR_BLUE_ROA_BLOOD = "RoA Blue Door (Blood Pot)"
     DOOR_BLUE_APEX = "Apex Blue Door"
-    DOOR_BLUE_CATA_START = "Cata Blue Door (Start)"
+    DOOR_BLUE_CAVES = "Caves Blue Door"
     DOOR_BLUE_CATA_ORBS = "Cata Blue Door (Bonus Orbs)"
     DOOR_BLUE_CATA_SAVE = "Cata Blue Door (Checkpoint)"
     DOOR_BLUE_CATA_BOW = "Cata Blue Door (Lunarian Bow)"
@@ -170,18 +170,200 @@ class Items(str, Enum):
     ELEVATOR_CATA_2 = "Cata 2 Elevator"
     ELEVATOR_TR = "TR Elevator"
 
-    SWITCH_GT_1 = "GT Switch 1st Room"
-    SWITCH_GT_2 = "GT Switch 1st Cyclops"
-    SWITCH_GT_3 = "GT Switch Spike Tunnel"
-    SWITCH_GT_4 = "GT Switch Butt Access"
-    SWITCH_GT_12 = "GT Switch RotA"
-    SWITCH_GT_23 = "GT Switch Crosses"
-    SWITCH_GT_25 = "GT Switch GH Shortcut"
-    SWITCH_GT_26 = "GT Switch Arias"
-    SWITCH_GT_208 = "GT Switch Upper Arias"
-    SWITCH_MECH_10 = "Mech Crystal Ladder"
-    SWITCH_MECH_28 = "Mech Switch Snake 1"
-    SWITCH_MECH_171 = "Mech Switch Snake 2"
+    SWITCH_GT_2ND_ROOM = "GT Switch 2nd Room"
+    SWITCH_GT_1ST_CYCLOPS = "GT Switch 1st Cyclops"
+    SWITCH_GT_SPIKE_TUNNEL = "GT Switch Spike Tunnel"
+    SWITCH_GT_BUTT_ACCESS = "GT Switch Butt Access"
+    SWITCH_GT_GORGONHEART = "GT Switch Gorgonheart"
+    SWITCH_GT_ROTA = "GT Switch RotA"
+    SWITCH_GT_UPPER_PATH_1 = "GT Switch Upper Path 1"
+    SWITCH_GT_UPPER_PATH_2 = "GT Switch Upper Path 2"
+    SWITCH_GT_CROSSES = "GT Switch Crosses"
+    SWITCH_GT_GH_SHORTCUT = "GT Switch GH Shortcut"
+    SWITCH_GT_ARIAS = "GT Switch Arias"
+    SWITCH_GT_SWORD_ACCESS = "GT Switch Sword Access"
+    SWITCH_GT_SWORD_BACKTRACK = "GT Switch Sword Backtrack"
+    SWITCH_GT_SWORD = "GT Switch Sword"
+    SWITCH_GT_OLD_MAN_1 = "GT Switch Old Man 1"
+    SWITCH_GT_OLD_MAN_2 = "GT Switch Old Man 2"
+    SWITCH_GT_UPPER_ARIAS = "GT Switch Upper Arias"
+    SWITCH_MECH_WATCHER = "Mech Switch Watcher"
+    SWITCH_MECH_CHAINS = "Mech Switch Chains"
+    SWITCH_MECH_BOSS_1 = "Mech Switch Boss 1"
+    SWITCH_MECH_BOSS_2 = "Mech Switch Boss 2"
+    SWITCH_MECH_SNAKE_1 = "Mech Switch Snake 1"
+    SWITCH_MECH_BOOTS = "Mech Switch Boots"
+    SWITCH_MECH_TO_UPPER_GT = "Mech Switch to Upper GT"
+    SWITCH_MECH_UPPER_VOID_DROP = "Mech Switch Upper Void Drop"
+    SWITCH_MECH_UPPER_VOID = "Mech Switch Upper Void"
+    SWITCH_MECH_LINUS = "Mech Switch Linus"
+    SWITCH_MECH_LOWER = "Mech Switch Lower"
+    SWITCH_MECH_TO_BOSS_3 = "Mech Switch To Boss 3"
+    SWITCH_MECH_TO_BOSS_2 = "Mech Switch To Boss 2"
+    SWITCH_MECH_POTS = "Mech Switch Pots"
+    SWITCH_MECH_MAZE_BACKDOOR = "Mech Switch Maze Backdoor"
+    SWITCH_MECH_TO_BOSS_1 = "Mech Switch To Boss 1"
+    SWITCH_MECH_BLOCK_STAIRS = "Mech Switch Block Stairs"
+    SWITCH_MECH_ARIAS_CYCLOPS = "Mech Switch Arias Cyclops"
+    SWITCH_MECH_BOOTS_LOWER = "Mech Switch Boots Lower"
+    SWITCH_MECH_CHAINS_GAP = "Mech Switch Chains Gap"
+    SWITCH_MECH_LOWER_KEY = "Mech Switch Lower Key"
+    SWITCH_MECH_ARIAS = "Mech Switch Arias"
+    SWITCH_MECH_SNAKE_2 = "Mech Switch Snake 2"
+    SWITCH_MECH_KEY_BLOCKS = "Mech Switch Key Blocks"
+    SWITCH_MECH_CANNON = "Mech Switch Cannon"
+    SWITCH_MECH_EYEBALL = "Mech Switch Eyeball"
+    SWITCH_MECH_INVISIBLE = "Mech Switch Invisible"
+    SWITCH_HOTP_ROCK = "HotP Switch Rock"
+    SWITCH_HOTP_BELOW_START = "HotP Switch Below Start"
+    SWITCH_HOTP_ROCK_ACCESS = "HotP Switch Rock Access"
+    SWITCH_HOTP_LEFT_2 = "HotP Switch Left 2"
+    SWITCH_HOTP_LEFT_1 = "HotP Switch Left 1"
+    SWITCH_HOTP_LOWER_SHORTCUT = "HotP Switch Lower Shortcut"
+    SWITCH_HOTP_BELL = "HotP Switch Bell"
+    SWITCH_HOTP_GHOST_BLOOD = "HotP Switch Ghost Blood"
+    SWITCH_HOTP_TELEPORTS = "HotP Switch Teleports"
+    SWITCH_HOTP_WORM_PILLAR = "HotP Switch Worm Pillar"
+    SWITCH_HOTP_TO_CLAW_1 = "HotP Switch To Claw 1"
+    SWITCH_HOTP_TO_CLAW_2 = "HotP Switch To Claw 2"
+    SWITCH_HOTP_CLAW_ACCESS = "HotP Switch Claw Access"
+    SWITCH_HOTP_GHOSTS = "HotP Switch Ghosts"
+    SWITCH_HOTP_LEFT_3 = "HotP Switch Left 3"
+    SWITCH_HOTP_ABOVE_OLD_MAN = "HotP Switch Above Old Man"
+    SWITCH_HOTP_MAIDEN_ACCESS = "HotP Switch Maiden Access"
+    SWITCH_HOTP_MAZE_PUZZLE = "HotP Switch Maze Puzzle"
+    SWITCH_HOTP_EYEBALL_SHORTCUT = "HotP Switch Eyeball Shortcut"
+    SWITCH_HOTP_BELL_ACCESS = "HotP Switch Bell Access"
+    SWITCH_HOTP_1ST_ROOM = "HotP Switch 1st Room"
+    SWITCH_HOTP_LEFT_BACKTRACK = "HotP Switch Left Backtrack"
+    SWITCH_ROA_ASCEND = "RoA Switch Ascend"
+    SWITCH_ROA_AFTER_WORMS = "RoA Switch After Worms"
+    SWITCH_ROA_RIGHT_PATH = "RoA Switch Right Path"
+    SWITCH_ROA_APEX_ACCESS = "RoA Switch Apex Access"
+    SWITCH_ROA_ICARUS = "RoA Switch Icarus"
+    SWITCH_ROA_SHAFT_L = "RoA Switch Shaft Left"
+    SWITCH_ROA_SHAFT_R = "RoA Switch Shaft Right"
+    SWITCH_ROA_ELEVATOR = "RoA Switch Elevator"
+    SWITCH_ROA_SHAFT_DOWNWARDS = "RoA Switch Shaft Downwards"
+    SWITCH_ROA_SPIDERS_TOP = "RoA Switch Spiders Top"
+    SWITCH_ROA_SPIDERS_BOTTOM = "RoA Switch Spiders Bottom"
+    SWITCH_ROA_DARK_ROOM = "RoA Switch Dark Room"
+    SWITCH_ROA_ASCEND_SHORTCUT = "RoA Switch Ascend Shortcut"
+    SWITCH_ROA_1ST_SHORTCUT = "RoA Switch 1st Shortcut"
+    SWITCH_ROA_SPIKE_CLIMB = "RoA Switch Spike Climb"
+    SWITCH_ROA_ABOVE_CENTAUR = "RoA Switch Above Centaur"
+    SWITCH_ROA_BLOOD_POT = "RoA Switch Blood Pot"
+    SWITCH_ROA_WORMS = "RoA Switch Worms"
+    SWITCH_ROA_TRIPLE_1 = "RoA Switch Triple 1"
+    SWITCH_ROA_TRIPLE_3 = "RoA Switch Triple 3"
+    SWITCH_ROA_BABY_GORGON = "RoA Switch Baby Gorgon"
+    SWITCH_ROA_BOSS_ACCESS = "RoA Switch Boss Access"
+    SWITCH_ROA_BLOOD_POT_L = "RoA Switch Blood Pot Left"
+    SWITCH_ROA_BLOOD_POT_R = "RoA Switch Blood Pot Right"
+    SWITCH_ROA_LOWER_VOID = "RoA Switch Lower Void"
+    SWITCH_DARKNESS = "Darkness Switch"
+    SWITCH_APEX = "Apex Switch"
+    SWITCH_CAVES_SKELETONS = "Caves Switch Skeletons"
+    SWITCH_CAVES_CATA_1 = "Caves Switch Cata 1"
+    SWITCH_CAVES_CATA_2 = "Caves Switch Cata 2"
+    SWITCH_CAVES_CATA_3 = "Caves Switch Cata 3"
+    SWITCH_CATA_ELEVATOR = "Cata Switch Elevator"
+    SWITCH_CATA_VERTICAL_SHORTCUT = "Cata Switch Vertical Shortcut"
+    SWITCH_CATA_TOP = "Cata Switch Top"
+    SWITCH_CATA_CLAW_1 = "Cata Switch Claw 1"
+    SWITCH_CATA_CLAW_2 = "Cata Switch Claw 2"
+    SWITCH_CATA_WATER_1 = "Cata Switch Water 1"
+    SWITCH_CATA_WATER_2 = "Cata Switch Water 2"
+    SWITCH_CATA_DEV_ROOM = "Cata Switch Dev Room"
+    SWITCH_CATA_AFTER_BLUE_DOOR = "Cata Switch After Blue Door"
+    SWITCH_CATA_SHORTCUT_ACCESS = "Cata Switch Shortcut Access"
+    SWITCH_CATA_LADDER_BLOCKS = "Cata Switch Ladder Blocks"
+    SWITCH_CATA_MID_SHORTCUT = "Cata Switch Mid Shortcut"
+    SWITCH_CATA_1ST_ROOM = "Cata Switch 1st Room"
+    SWITCH_CATA_FLAMES_2 = "Cata Switch Flames 2"
+    SWITCH_CATA_FLAMES_1 = "Cata Switch Flames 1"
+    SWITCH_TR_ADORNED_L = "TR Switch Adorned Left"
+    SWITCH_TR_ADORNED_M = "TR Switch Adorned Middle"
+    SWITCH_TR_ADORNED_R = "TR Switch Adorned Right"
+    SWITCH_TR_ELEVATOR = "TR Switch Elevator"
+    SWITCH_TR_BOTTOM = "TR Switch Bottom"
+    SWITCH_CD_1 = "CD Switch 1"
+    SWITCH_CD_2 = "CD Switch 2"
+    SWITCH_CD_3 = "CD Switch 3"
+    SWITCH_CD_CAMPFIRE = "CD Switch Campfire"
+    SWITCH_CD_TOP = "CD Switch Top"
+    SWITCH_CATH_BOTTOM = "Cath Switch Bottom"
+    SWITCH_CATH_BESIDE_SHAFT = "Cath Switch Beside Shaft"
+    SWITCH_CATH_TOP_CAMPFIRE = "Cath Switch Top Campfire"
+    SWITCH_SP_DOUBLE_DOORS = "SP Switch Double Doors"
+    SWITCH_SP_BUBBLES = "SP Switch Bubbles"
+    SWITCH_SP_AFTER_STAR = "SP Switch After Star"
+
+    CRYSTAL_GT_LADDER = "GT Crystal Ladder"
+    CRYSTAL_MECH_CANNON = "Mech Crystal Cannon"
+    CRYSTAL_MECH_SPLIT_PATH = "Mech Crystal Split Path"
+    CRYSTAL_MECH_LINUS = "Mech Crystal Linus"
+    CRYSTAL_MECH_TRIPLE_1 = "Mech Crystal Triple 1"
+    CRYSTAL_MECH_TRIPLE_2 = "Mech Crystal Triple 2"
+    CRYSTAL_MECH_TRIPLE_3 = "Mech Crystal Triple 3"
+    CRYSTAL_MECH_TOP = "Mech Crystal Top"
+    CRYSTAL_MECH_CLOAK = "Mech Crystal Cloak"
+    CRYSTAL_MECH_SLIMES = "Mech Crystal Slimes"
+    CRYSTAL_MECH_TO_CD = "Mech Crystal To CD"
+    CRYSTAL_MECH_CAMPFIRE = "Mech Crystal Campfire"
+    CRYSTAL_MECH_1ST_ROOM = "Mech Crystal 1st Room"
+    CRYSTAL_MECH_OLD_MAN = "Mech Crystal Old Man"
+    CRYSTAL_MECH_TOP_CHAINS = "Mech Crystal Top Chains"
+    CRYSTAL_MECH_BK = "Mech Crystal BK"
+    CRYSTAL_HOTP_BOTTOM = "HotP Crystal Bottom"
+    CRYSTAL_HOTP_LOWER = "HotP Crystal Lower"
+    CRYSTAL_HOTP_AFTER_CLAW = "HotP Crystal After Claw"
+    CRYSTAL_HOTP_MAIDEN_1 = "HotP Crystal Maiden 1"
+    CRYSTAL_HOTP_MAIDEN_2 = "HotP Crystal Maiden 2"
+    CRYSTAL_HOTP_BELL_ACCESS = "HotP Crystal Bell Access"
+    CRYSTAL_HOTP_HEART = "HotP Crystal Heart"
+    CRYSTAL_HOTP_BELOW_PUZZLE = "HotP Crystal Below Puzzle"
+    CRYSTAL_ROA_1ST_ROOM = "RoA Crystal 1st Room"
+    CRYSTAL_ROA_BABY_GORGON = "RoA Crystal Baby Gorgon"
+    CRYSTAL_ROA_LADDER_R = "RoA Crystal Ladder Right"
+    CRYSTAL_ROA_LADDER_L = "RoA Crystal Ladder Left"
+    CRYSTAL_ROA_CENTAUR = "RoA Crystal Centaur"
+    CRYSTAL_ROA_SPIKE_BALLS = "RoA Crystal Spike Balls"
+    CRYSTAL_ROA_LEFT_ASCEND = "RoA Crystal Left Ascend"
+    CRYSTAL_ROA_SHAFT = "RoA Crystal Shaft"
+    CRYSTAL_ROA_BRANCH_R = "RoA Crystal Branch Right"
+    CRYSTAL_ROA_BRANCH_L = "RoA Crystal Branch Left"
+    CRYSTAL_ROA_3_REAPERS = "RoA Crystal 3 Reapers"
+    CRYSTAL_ROA_TRIPLE_2 = "RoA Crystal Triple 2"
+    CRYSTAL_CATA_POISON_ROOTS = "Cata Crystal Poison Roots"
+    CRYSTAL_TR_GOLD = "TR Crystal Gold"
+    CRYSTAL_TR_DARK_ARIAS = "TR Crystal Dark Arias"
+    CRYSTAL_CD_BACKTRACK = "CD Crystal Backtrack"
+    CRYSTAL_CD_START = "CD Crystal Start"
+    CRYSTAL_CD_CAMPFIRE = "CD Crystal Campfire"
+    CRYSTAL_CD_STAIRS = "CD Crystal Stairs"
+    CRYSTAL_CATH_1ST_ROOM = "Cath Crystal 1st Room"
+    CRYSTAL_CATH_SHAFT = "Cath Crystal Shaft"
+    CRYSTAL_CATH_SPIKE_PIT = "Cath Crystal Spike Pit"
+    CRYSTAL_CATH_TOP_L = "Cath Crystal Top Left"
+    CRYSTAL_CATH_TOP_R = "Cath Crystal Top Right"
+    CRYSTAL_CATH_SHAFT_ACCESS = "Cath Crystal Shaft Access"
+    CRYSTAL_CATH_ORBS = "Cath Crystal Orbs"
+    CRYSTAL_SP_BLOCKS = "SP Crystal Blocks"
+    CRYSTAL_SP_STAR = "SP Crystal Star"
+
+    FACE_MECH_VOLANTIS = "Mech Face Volantis"
+    FACE_HOTP_OLD_MAN = "HotP Face Old Man"
+    FACE_ROA_BLUE_KEY = "RoA Face Blue Key"
+    FACE_CAVES_1ST_ROOM = "Caves Face 1st Room"
+    FACE_CATA_AFTER_BOW = "Cata Face After Bow"
+    FACE_CATA_BOW = "Cata Face Bow"
+    FACE_CATA_X4 = "Cata Face x4"
+    FACE_CATA_CAMPFIRE = "Cata Face Campfire"
+    FACE_CATA_DOUBLE_DOOR = "Cata Face Double Door"
+    FACE_CATA_BOTTOM = "Cata Face Bottom"
+    FACE_CATH_L = "Cath Face Left"
+    FACE_CATH_R = "Cath Face Right"
 
     VICTORY = "Victory"
 
@@ -256,7 +438,7 @@ BlueDoors: TypeAlias = Literal[
     Items.DOOR_BLUE_ROA_FLAMES,
     Items.DOOR_BLUE_ROA_BLOOD,
     Items.DOOR_BLUE_APEX,
-    Items.DOOR_BLUE_CATA_START,
+    Items.DOOR_BLUE_CAVES,
     Items.DOOR_BLUE_CATA_ORBS,
     Items.DOOR_BLUE_CATA_SAVE,
     Items.DOOR_BLUE_CATA_BOW,
@@ -318,18 +500,198 @@ Elevators: TypeAlias = Literal[
 ]
 
 Switches: TypeAlias = Literal[
-    Items.SWITCH_GT_1,
-    Items.SWITCH_GT_2,
-    Items.SWITCH_GT_3,
-    Items.SWITCH_GT_4,
-    Items.SWITCH_GT_12,
-    Items.SWITCH_GT_23,
-    Items.SWITCH_GT_25,
-    Items.SWITCH_GT_26,
-    Items.SWITCH_GT_208,
-    Items.SWITCH_MECH_10,
-    Items.SWITCH_MECH_28,
-    Items.SWITCH_MECH_171,
+    Items.SWITCH_GT_2ND_ROOM,
+    Items.SWITCH_GT_1ST_CYCLOPS,
+    Items.SWITCH_GT_SPIKE_TUNNEL,
+    Items.SWITCH_GT_BUTT_ACCESS,
+    Items.SWITCH_GT_GORGONHEART,
+    Items.SWITCH_GT_ROTA,
+    Items.SWITCH_GT_UPPER_PATH_1,
+    Items.SWITCH_GT_UPPER_PATH_2,
+    Items.SWITCH_GT_CROSSES,
+    Items.SWITCH_GT_GH_SHORTCUT,
+    Items.SWITCH_GT_ARIAS,
+    Items.SWITCH_GT_SWORD_ACCESS,
+    Items.SWITCH_GT_SWORD_BACKTRACK,
+    Items.SWITCH_GT_SWORD,
+    Items.SWITCH_GT_OLD_MAN_1,
+    Items.SWITCH_GT_OLD_MAN_2,
+    Items.SWITCH_GT_UPPER_ARIAS,
+    Items.SWITCH_MECH_WATCHER,
+    Items.SWITCH_MECH_CHAINS,
+    Items.SWITCH_MECH_BOSS_1,
+    Items.SWITCH_MECH_BOSS_2,
+    Items.SWITCH_MECH_SNAKE_1,
+    Items.SWITCH_MECH_BOOTS,
+    Items.SWITCH_MECH_TO_UPPER_GT,
+    Items.SWITCH_MECH_UPPER_VOID_DROP,
+    Items.SWITCH_MECH_UPPER_VOID,
+    Items.SWITCH_MECH_LINUS,
+    Items.SWITCH_MECH_LOWER,
+    Items.SWITCH_MECH_TO_BOSS_3,
+    Items.SWITCH_MECH_TO_BOSS_2,
+    Items.SWITCH_MECH_POTS,
+    Items.SWITCH_MECH_MAZE_BACKDOOR,
+    Items.SWITCH_MECH_TO_BOSS_1,
+    Items.SWITCH_MECH_BLOCK_STAIRS,
+    Items.SWITCH_MECH_ARIAS_CYCLOPS,
+    Items.SWITCH_MECH_BOOTS_LOWER,
+    Items.SWITCH_MECH_CHAINS_GAP,
+    Items.SWITCH_MECH_LOWER_KEY,
+    Items.SWITCH_MECH_ARIAS,
+    Items.SWITCH_MECH_SNAKE_2,
+    Items.SWITCH_MECH_KEY_BLOCKS,
+    Items.SWITCH_MECH_CANNON,
+    Items.SWITCH_MECH_EYEBALL,
+    Items.SWITCH_MECH_INVISIBLE,
+    Items.SWITCH_HOTP_ROCK,
+    Items.SWITCH_HOTP_BELOW_START,
+    Items.SWITCH_HOTP_ROCK_ACCESS,
+    Items.SWITCH_HOTP_LEFT_2,
+    Items.SWITCH_HOTP_LEFT_1,
+    Items.SWITCH_HOTP_LOWER_SHORTCUT,
+    Items.SWITCH_HOTP_BELL,
+    Items.SWITCH_HOTP_GHOST_BLOOD,
+    Items.SWITCH_HOTP_TELEPORTS,
+    Items.SWITCH_HOTP_WORM_PILLAR,
+    Items.SWITCH_HOTP_TO_CLAW_1,
+    Items.SWITCH_HOTP_TO_CLAW_2,
+    Items.SWITCH_HOTP_CLAW_ACCESS,
+    Items.SWITCH_HOTP_GHOSTS,
+    Items.SWITCH_HOTP_LEFT_3,
+    Items.SWITCH_HOTP_ABOVE_OLD_MAN,
+    Items.SWITCH_HOTP_MAIDEN_ACCESS,
+    Items.SWITCH_HOTP_MAZE_PUZZLE,
+    Items.SWITCH_HOTP_EYEBALL_SHORTCUT,
+    Items.SWITCH_HOTP_BELL_ACCESS,
+    Items.SWITCH_HOTP_1ST_ROOM,
+    Items.SWITCH_HOTP_LEFT_BACKTRACK,
+    Items.SWITCH_ROA_ASCEND,
+    Items.SWITCH_ROA_AFTER_WORMS,
+    Items.SWITCH_ROA_RIGHT_PATH,
+    Items.SWITCH_ROA_APEX_ACCESS,
+    Items.SWITCH_ROA_ICARUS,
+    Items.SWITCH_ROA_SHAFT_L,
+    Items.SWITCH_ROA_SHAFT_R,
+    Items.SWITCH_ROA_ELEVATOR,
+    Items.SWITCH_ROA_SHAFT_DOWNWARDS,
+    Items.SWITCH_ROA_SPIDERS_TOP,
+    Items.SWITCH_ROA_SPIDERS_BOTTOM,
+    Items.SWITCH_ROA_DARK_ROOM,
+    Items.SWITCH_ROA_ASCEND_SHORTCUT,
+    Items.SWITCH_ROA_1ST_SHORTCUT,
+    Items.SWITCH_ROA_SPIKE_CLIMB,
+    Items.SWITCH_ROA_ABOVE_CENTAUR,
+    Items.SWITCH_ROA_BLOOD_POT,
+    Items.SWITCH_ROA_WORMS,
+    Items.SWITCH_ROA_TRIPLE_1,
+    Items.SWITCH_ROA_TRIPLE_3,
+    Items.SWITCH_ROA_BABY_GORGON,
+    Items.SWITCH_ROA_BOSS_ACCESS,
+    Items.SWITCH_ROA_BLOOD_POT_L,
+    Items.SWITCH_ROA_BLOOD_POT_R,
+    Items.SWITCH_ROA_LOWER_VOID,
+    Items.SWITCH_DARKNESS,
+    Items.SWITCH_APEX,
+    Items.SWITCH_CAVES_SKELETONS,
+    Items.SWITCH_CAVES_CATA_1,
+    Items.SWITCH_CAVES_CATA_2,
+    Items.SWITCH_CAVES_CATA_3,
+    Items.SWITCH_CATA_ELEVATOR,
+    Items.SWITCH_CATA_VERTICAL_SHORTCUT,
+    Items.SWITCH_CATA_TOP,
+    Items.SWITCH_CATA_CLAW_1,
+    Items.SWITCH_CATA_CLAW_2,
+    Items.SWITCH_CATA_WATER_1,
+    Items.SWITCH_CATA_WATER_2,
+    Items.SWITCH_CATA_DEV_ROOM,
+    Items.SWITCH_CATA_AFTER_BLUE_DOOR,
+    Items.SWITCH_CATA_SHORTCUT_ACCESS,
+    Items.SWITCH_CATA_LADDER_BLOCKS,
+    Items.SWITCH_CATA_MID_SHORTCUT,
+    Items.SWITCH_CATA_1ST_ROOM,
+    Items.SWITCH_CATA_FLAMES_2,
+    Items.SWITCH_CATA_FLAMES_1,
+    Items.SWITCH_TR_ADORNED_L,
+    Items.SWITCH_TR_ADORNED_M,
+    Items.SWITCH_TR_ADORNED_R,
+    Items.SWITCH_TR_ELEVATOR,
+    Items.SWITCH_TR_BOTTOM,
+    Items.SWITCH_CD_1,
+    Items.SWITCH_CD_2,
+    Items.SWITCH_CD_3,
+    Items.SWITCH_CD_CAMPFIRE,
+    Items.SWITCH_CD_TOP,
+    Items.SWITCH_CATH_BOTTOM,
+    Items.SWITCH_CATH_BESIDE_SHAFT,
+    Items.SWITCH_CATH_TOP_CAMPFIRE,
+    Items.SWITCH_SP_DOUBLE_DOORS,
+    Items.SWITCH_SP_BUBBLES,
+    Items.SWITCH_SP_AFTER_STAR,
+    Items.CRYSTAL_GT_LADDER,
+    Items.CRYSTAL_MECH_CANNON,
+    Items.CRYSTAL_MECH_SPLIT_PATH,
+    Items.CRYSTAL_MECH_LINUS,
+    Items.CRYSTAL_MECH_TRIPLE_1,
+    Items.CRYSTAL_MECH_TRIPLE_2,
+    Items.CRYSTAL_MECH_TRIPLE_3,
+    Items.CRYSTAL_MECH_TOP,
+    Items.CRYSTAL_MECH_CLOAK,
+    Items.CRYSTAL_MECH_SLIMES,
+    Items.CRYSTAL_MECH_TO_CD,
+    Items.CRYSTAL_MECH_CAMPFIRE,
+    Items.CRYSTAL_MECH_1ST_ROOM,
+    Items.CRYSTAL_MECH_OLD_MAN,
+    Items.CRYSTAL_MECH_TOP_CHAINS,
+    Items.CRYSTAL_MECH_BK,
+    Items.CRYSTAL_HOTP_BOTTOM,
+    Items.CRYSTAL_HOTP_LOWER,
+    Items.CRYSTAL_HOTP_AFTER_CLAW,
+    Items.CRYSTAL_HOTP_MAIDEN_1,
+    Items.CRYSTAL_HOTP_MAIDEN_2,
+    Items.CRYSTAL_HOTP_BELL_ACCESS,
+    Items.CRYSTAL_HOTP_HEART,
+    Items.CRYSTAL_HOTP_BELOW_PUZZLE,
+    Items.CRYSTAL_ROA_1ST_ROOM,
+    Items.CRYSTAL_ROA_BABY_GORGON,
+    Items.CRYSTAL_ROA_LADDER_R,
+    Items.CRYSTAL_ROA_LADDER_L,
+    Items.CRYSTAL_ROA_CENTAUR,
+    Items.CRYSTAL_ROA_SPIKE_BALLS,
+    Items.CRYSTAL_ROA_LEFT_ASCEND,
+    Items.CRYSTAL_ROA_SHAFT,
+    Items.CRYSTAL_ROA_BRANCH_R,
+    Items.CRYSTAL_ROA_BRANCH_L,
+    Items.CRYSTAL_ROA_3_REAPERS,
+    Items.CRYSTAL_ROA_TRIPLE_2,
+    Items.CRYSTAL_CATA_POISON_ROOTS,
+    Items.CRYSTAL_TR_GOLD,
+    Items.CRYSTAL_TR_DARK_ARIAS,
+    Items.CRYSTAL_CD_BACKTRACK,
+    Items.CRYSTAL_CD_START,
+    Items.CRYSTAL_CD_CAMPFIRE,
+    Items.CRYSTAL_CD_STAIRS,
+    Items.CRYSTAL_CATH_1ST_ROOM,
+    Items.CRYSTAL_CATH_SHAFT,
+    Items.CRYSTAL_CATH_SPIKE_PIT,
+    Items.CRYSTAL_CATH_TOP_L,
+    Items.CRYSTAL_CATH_TOP_R,
+    Items.CRYSTAL_CATH_SHAFT_ACCESS,
+    Items.CRYSTAL_CATH_ORBS,
+    Items.CRYSTAL_SP_BLOCKS,
+    Items.CRYSTAL_SP_STAR,
+    Items.FACE_MECH_VOLANTIS,
+    Items.FACE_HOTP_OLD_MAN,
+    Items.FACE_ROA_BLUE_KEY,
+    Items.FACE_CAVES_1ST_ROOM,
+    Items.FACE_CATA_AFTER_BOW,
+    Items.FACE_CATA_BOW,
+    Items.FACE_CATA_X4,
+    Items.FACE_CATA_CAMPFIRE,
+    Items.FACE_CATA_DOUBLE_DOOR,
+    Items.FACE_CATA_BOTTOM,
+    Items.FACE_CATH_L,
+    Items.FACE_CATH_R,
 ]
 
 CHARACTERS: Tuple[Characters, ...] = (
@@ -348,7 +710,7 @@ EARLY_WHITE_DOORS: Tuple[Items, ...] = (
 
 EARLY_BLUE_DOORS: Tuple[Items, ...] = (
     Items.DOOR_BLUE_GT_ASCENDANT,
-    Items.DOOR_BLUE_CATA_START,
+    Items.DOOR_BLUE_CAVES,
 )
 
 QOL_ITEMS: Tuple[Items, ...] = (
@@ -443,7 +805,7 @@ item_table: Dict[Items, AstalonItemData] = {
     Items.DOOR_BLUE_ROA_FLAMES: AstalonItemData(ItemClassification.progression, 1, ItemGroups.DOOR_BLUE),
     Items.DOOR_BLUE_ROA_BLOOD: AstalonItemData(ItemClassification.filler, 1, ItemGroups.DOOR_BLUE),
     Items.DOOR_BLUE_APEX: AstalonItemData(ItemClassification.progression, 1, ItemGroups.DOOR_BLUE),
-    Items.DOOR_BLUE_CATA_START: AstalonItemData(ItemClassification.progression, 1, ItemGroups.DOOR_BLUE),
+    Items.DOOR_BLUE_CAVES: AstalonItemData(ItemClassification.progression, 1, ItemGroups.DOOR_BLUE),
     Items.DOOR_BLUE_CATA_ORBS: AstalonItemData(ItemClassification.useful, 1, ItemGroups.DOOR_BLUE),
     Items.DOOR_BLUE_CATA_SAVE: AstalonItemData(ItemClassification.progression, 1, ItemGroups.DOOR_BLUE),
     Items.DOOR_BLUE_CATA_BOW: AstalonItemData(ItemClassification.progression, 1, ItemGroups.DOOR_BLUE),
@@ -498,11 +860,198 @@ item_table: Dict[Items, AstalonItemData] = {
     Items.ELEVATOR_CATA_1: AstalonItemData(ItemClassification.progression, 1, ItemGroups.ELEVATOR),
     Items.ELEVATOR_CATA_2: AstalonItemData(ItemClassification.progression, 1, ItemGroups.ELEVATOR),
     Items.ELEVATOR_TR: AstalonItemData(ItemClassification.progression, 1, ItemGroups.ELEVATOR),
-    Items.SWITCH_GT_1: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
-    Items.SWITCH_GT_2: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
-    Items.SWITCH_GT_3: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
-    Items.SWITCH_GT_4: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
-    Items.SWITCH_GT_25: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_GT_2ND_ROOM: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_GT_1ST_CYCLOPS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_GT_SPIKE_TUNNEL: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_GT_BUTT_ACCESS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_GT_GORGONHEART: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_GT_ROTA: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_GT_UPPER_PATH_1: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_GT_UPPER_PATH_2: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_GT_CROSSES: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_GT_GH_SHORTCUT: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_GT_ARIAS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_GT_SWORD_ACCESS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_GT_SWORD_BACKTRACK: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_GT_SWORD: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_GT_OLD_MAN_1: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_GT_OLD_MAN_2: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_GT_UPPER_ARIAS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_MECH_WATCHER: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_MECH_CHAINS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_MECH_BOSS_1: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_MECH_BOSS_2: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_MECH_SNAKE_1: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_MECH_BOOTS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_MECH_TO_UPPER_GT: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_MECH_UPPER_VOID_DROP: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_MECH_UPPER_VOID: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_MECH_LINUS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_MECH_LOWER: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_MECH_TO_BOSS_3: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_MECH_TO_BOSS_2: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_MECH_POTS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_MECH_MAZE_BACKDOOR: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_MECH_TO_BOSS_1: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_MECH_BLOCK_STAIRS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_MECH_ARIAS_CYCLOPS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_MECH_BOOTS_LOWER: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_MECH_CHAINS_GAP: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_MECH_LOWER_KEY: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_MECH_ARIAS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_MECH_SNAKE_2: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_MECH_KEY_BLOCKS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_MECH_CANNON: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_MECH_EYEBALL: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_MECH_INVISIBLE: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_HOTP_ROCK: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_HOTP_BELOW_START: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_HOTP_ROCK_ACCESS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_HOTP_LEFT_2: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_HOTP_LEFT_1: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_HOTP_LOWER_SHORTCUT: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_HOTP_BELL: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_HOTP_GHOST_BLOOD: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_HOTP_TELEPORTS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_HOTP_WORM_PILLAR: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_HOTP_TO_CLAW_1: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_HOTP_TO_CLAW_2: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_HOTP_CLAW_ACCESS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_HOTP_GHOSTS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_HOTP_LEFT_3: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_HOTP_ABOVE_OLD_MAN: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_HOTP_MAIDEN_ACCESS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_HOTP_MAZE_PUZZLE: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_HOTP_EYEBALL_SHORTCUT: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_HOTP_BELL_ACCESS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_HOTP_1ST_ROOM: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_HOTP_LEFT_BACKTRACK: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_ROA_ASCEND: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_ROA_AFTER_WORMS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_ROA_RIGHT_PATH: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_ROA_APEX_ACCESS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_ROA_ICARUS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_ROA_SHAFT_L: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_ROA_SHAFT_R: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_ROA_ELEVATOR: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_ROA_SHAFT_DOWNWARDS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_ROA_SPIDERS_TOP: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_ROA_SPIDERS_BOTTOM: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_ROA_DARK_ROOM: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_ROA_ASCEND_SHORTCUT: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_ROA_1ST_SHORTCUT: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_ROA_SPIKE_CLIMB: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_ROA_ABOVE_CENTAUR: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_ROA_BLOOD_POT: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_ROA_WORMS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_ROA_TRIPLE_1: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_ROA_TRIPLE_3: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_ROA_BABY_GORGON: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_ROA_BOSS_ACCESS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_ROA_BLOOD_POT_L: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_ROA_BLOOD_POT_R: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_ROA_LOWER_VOID: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_DARKNESS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_APEX: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_CAVES_SKELETONS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_CAVES_CATA_1: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_CAVES_CATA_2: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_CAVES_CATA_3: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_CATA_ELEVATOR: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_CATA_VERTICAL_SHORTCUT: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_CATA_TOP: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_CATA_CLAW_1: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_CATA_CLAW_2: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_CATA_WATER_1: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_CATA_WATER_2: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_CATA_DEV_ROOM: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_CATA_AFTER_BLUE_DOOR: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_CATA_SHORTCUT_ACCESS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_CATA_LADDER_BLOCKS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_CATA_MID_SHORTCUT: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_CATA_1ST_ROOM: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_CATA_FLAMES_2: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_CATA_FLAMES_1: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_TR_ADORNED_L: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_TR_ADORNED_M: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_TR_ADORNED_R: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_TR_ELEVATOR: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_TR_BOTTOM: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_CD_1: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_CD_2: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_CD_3: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_CD_CAMPFIRE: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_CD_TOP: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_CATH_BOTTOM: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_CATH_BESIDE_SHAFT: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_CATH_TOP_CAMPFIRE: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_SP_DOUBLE_DOORS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_SP_BUBBLES: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_SP_AFTER_STAR: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.CRYSTAL_GT_LADDER: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.CRYSTAL_MECH_CANNON: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.CRYSTAL_MECH_SPLIT_PATH: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.CRYSTAL_MECH_LINUS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.CRYSTAL_MECH_TRIPLE_1: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.CRYSTAL_MECH_TRIPLE_2: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.CRYSTAL_MECH_TRIPLE_3: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.CRYSTAL_MECH_TOP: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.CRYSTAL_MECH_CLOAK: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.CRYSTAL_MECH_SLIMES: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.CRYSTAL_MECH_TO_CD: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.CRYSTAL_MECH_CAMPFIRE: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.CRYSTAL_MECH_1ST_ROOM: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.CRYSTAL_MECH_OLD_MAN: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.CRYSTAL_MECH_TOP_CHAINS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.CRYSTAL_MECH_BK: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.CRYSTAL_HOTP_BOTTOM: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.CRYSTAL_HOTP_LOWER: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.CRYSTAL_HOTP_AFTER_CLAW: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.CRYSTAL_HOTP_MAIDEN_1: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.CRYSTAL_HOTP_MAIDEN_2: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.CRYSTAL_HOTP_BELL_ACCESS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.CRYSTAL_HOTP_HEART: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.CRYSTAL_HOTP_BELOW_PUZZLE: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.CRYSTAL_ROA_1ST_ROOM: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.CRYSTAL_ROA_BABY_GORGON: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.CRYSTAL_ROA_LADDER_R: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.CRYSTAL_ROA_LADDER_L: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.CRYSTAL_ROA_CENTAUR: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.CRYSTAL_ROA_SPIKE_BALLS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.CRYSTAL_ROA_LEFT_ASCEND: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.CRYSTAL_ROA_SHAFT: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.CRYSTAL_ROA_BRANCH_R: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.CRYSTAL_ROA_BRANCH_L: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.CRYSTAL_ROA_3_REAPERS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.CRYSTAL_ROA_TRIPLE_2: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.CRYSTAL_CATA_POISON_ROOTS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.CRYSTAL_TR_GOLD: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.CRYSTAL_TR_DARK_ARIAS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.CRYSTAL_CD_BACKTRACK: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.CRYSTAL_CD_START: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.CRYSTAL_CD_CAMPFIRE: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.CRYSTAL_CD_STAIRS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.CRYSTAL_CATH_1ST_ROOM: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.CRYSTAL_CATH_SHAFT: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.CRYSTAL_CATH_SPIKE_PIT: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.CRYSTAL_CATH_TOP_L: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.CRYSTAL_CATH_TOP_R: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.CRYSTAL_CATH_SHAFT_ACCESS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.CRYSTAL_CATH_ORBS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.CRYSTAL_SP_BLOCKS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.CRYSTAL_SP_STAR: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.FACE_MECH_VOLANTIS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.FACE_HOTP_OLD_MAN: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.FACE_ROA_BLUE_KEY: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.FACE_CAVES_1ST_ROOM: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.FACE_CATA_AFTER_BOW: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.FACE_CATA_BOW: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.FACE_CATA_X4: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.FACE_CATA_CAMPFIRE: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.FACE_CATA_DOUBLE_DOOR: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.FACE_CATA_BOTTOM: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.FACE_CATH_L: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.FACE_CATH_R: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     # Items.CYCLOPS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.ITEMS),
     # Items.CROWN: AstalonItemData(ItemClassification.progression, 1, ItemGroups.ITEMS),
     # Items.MONSTER: AstalonItemData(ItemClassification.progression, 3, ItemGroups.FAMILIARS),

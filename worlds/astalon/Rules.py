@@ -55,13 +55,13 @@ ENTRANCE_RULES: Dict[Tuple[R, R], Callable[["AstalonRules", CollectionState], bo
     (R.ENTRANCE, R.GT_BOTTOM): lambda rules, state: (
         rules.switches(
             state,
-            I.SWITCH_GT_1,
+            I.SWITCH_GT_2ND_ROOM,
             disabled_case=rules.white_doors(state, I.DOOR_WHITE_GT_START, disabled_case=True),
         )
     ),
     (R.ENTRANCE, R.GT_VOID): lambda rules, state: rules.has(state, I.VOID),
     (R.ENTRANCE, R.GT_GORGONHEART): lambda rules, state: (
-        rules.switches(state, I.SWITCH_GT_25, disabled_case=False) or rules.has_any(state, I.ICARUS, I.BOOTS)
+        rules.switches(state, I.SWITCH_GT_GH_SHORTCUT, disabled_case=False) or rules.has_any(state, I.ICARUS, I.BOOTS)
     ),
     (R.ENTRANCE, R.GT_BOSS): lambda rules, state: rules.elevator(state, I.ELEVATOR_GT_2),
     (R.ENTRANCE, R.MECH_ZEEK_CONNECTION): lambda rules, state: rules.elevator(state, I.ELEVATOR_MECH_1),
@@ -78,7 +78,7 @@ ENTRANCE_RULES: Dict[Tuple[R, R], Callable[["AstalonRules", CollectionState], bo
         rules.white_doors(state, I.DOOR_WHITE_GT_MAP, disabled_case=True)
     ),
     (R.GT_BOTTOM, R.GT_UPPER_PATH): lambda rules, state: (
-        rules.switches(state, I.SWITCH_GT_12, disabled_case=False)
+        rules.switches(state, I.SWITCH_GT_ROTA, disabled_case=False)
         or rules.can(state, Logic.ARIAS_JUMP)
         or (rules.has(state, I.STAR) and rules.blue_doors(state, I.DOOR_BLUE_GT_RING, disabled_case=True))
     ),
@@ -86,43 +86,46 @@ ENTRANCE_RULES: Dict[Tuple[R, R], Callable[["AstalonRules", CollectionState], bo
         rules.has(state, I.KYULI) or rules.can(state, Logic.BLOCK_IN_WALL)
     ),
     (R.GT_VOID, R.GT_BOTTOM): lambda rules, state: rules.has(state, I.EYE_RED),
-    (R.GT_VOID, R.MECH_SNAKE): lambda rules, state: rules.switches(state, I.SWITCH_MECH_171, disabled_case=False),
+    (R.GT_VOID, R.MECH_SNAKE): lambda rules, state: rules.switches(state, I.SWITCH_MECH_SNAKE_2, disabled_case=False),
     (R.GT_GORGONHEART, R.GT_BOTTOM): lambda _, __: True,
     (R.GT_GORGONHEART, R.GT_ORBS_DOOR): lambda rules, state: (
         rules.blue_doors(state, I.DOOR_BLUE_GT_ORBS, disabled_case=True)
     ),
     (R.GT_GORGONHEART, R.GT_LEFT): lambda rules, state: (
-        rules.switches(state, I.SWITCH_GT_23, disabled_case=False)
-        or rules.switches(state, I.SWITCH_GT_2, disabled_case=True)
+        rules.switches(state, I.SWITCH_GT_CROSSES, disabled_case=False)
+        or rules.switches(state, I.SWITCH_GT_1ST_CYCLOPS, disabled_case=True)
     ),
     (R.GT_LEFT, R.GT_GORGONHEART): lambda rules, state: (
-        rules.switches(state, I.SWITCH_GT_23, disabled_case=True)
-        or rules.switches(state, I.SWITCH_GT_2, disabled_case=False)
+        rules.switches(state, I.SWITCH_GT_CROSSES, disabled_case=True)
+        or rules.switches(state, I.SWITCH_GT_1ST_CYCLOPS, disabled_case=False)
     ),
     (R.GT_LEFT, R.GT_ORBS_HEIGHT): lambda rules, state: rules.can(state, Logic.EXTRA_HEIGHT),
     (R.GT_LEFT, R.GT_ASCENDANT_KEY): lambda rules, state: (
         rules.blue_doors(state, I.DOOR_BLUE_GT_ASCENDANT, disabled_case=True)
     ),
-    (R.GT_LEFT, R.GT_ARIAS): lambda rules, state: rules.has(state, I.ARIAS),
     (R.GT_LEFT, R.GT_TOP_LEFT): lambda rules, state: (
-        rules.switches(state, I.SWITCH_GT_26, disabled_case=False)
+        rules.switches(state, I.SWITCH_GT_ARIAS, disabled_case=False)
         or rules.has_any(state, I.ARIAS, I.CLAW)
         or rules.has(state, I.BLOCK, I.KYULI, I.BELL)
     ),
     (R.GT_LEFT, R.GT_TOP_RIGHT): lambda rules, state: rules.can(state, Logic.EXTRA_HEIGHT),
     (R.GT_TOP_LEFT, R.GT_LEFT): lambda _, __: True,
     (R.GT_TOP_LEFT, R.GT_BUTT): lambda rules, state: (
-        rules.switches(state, I.SWITCH_GT_4, disabled_case=rules.reachable(state, L.GT_SWITCH_4))
+        rules.switches(state, I.SWITCH_GT_BUTT_ACCESS, disabled_case=rules.reachable(state, L.GT_SWITCH_BUTT_ACCESS))
     ),
     (R.GT_TOP_RIGHT, R.GT_LEFT): lambda _, __: True,
     (R.GT_TOP_RIGHT, R.GT_SPIKE_TUNNEL): lambda rules, state: (
-        rules.switches(state, I.SWITCH_GT_3, disabled_case=rules.reachable(L.GT_SWITCH_3))
+        rules.switches(state, I.SWITCH_GT_SPIKE_TUNNEL, disabled_case=rules.reachable(L.GT_SWITCH_SPIKE_TUNNEL))
     ),
-    (R.GT_SPIKE_TUNNEL, R.GT_TOP_RIGHT): lambda rules, state: rules.switches(state, I.SWITCH_GT_3, disabled_case=False),
+    (R.GT_SPIKE_TUNNEL, R.GT_TOP_RIGHT): lambda rules, state: (
+        rules.switches(state, I.SWITCH_GT_SPIKE_TUNNEL, disabled_case=False)
+    ),
     (R.GT_SPIKE_TUNNEL, R.GT_BUTT): lambda rules, state: (
         rules.can(state, Logic.EXTRA_HEIGHT) and rules.has(state, I.STAR, I.BELL)
     ),
-    (R.GT_BUTT, R.GT_TOP_LEFT): lambda rules, state: rules.switches(state, I.SWITCH_GT_4, disabled_case=False),
+    (R.GT_BUTT, R.GT_TOP_LEFT): lambda rules, state: (
+        rules.switches(state, I.SWITCH_GT_BUTT_ACCESS, disabled_case=False)
+    ),
     (R.GT_BUTT, R.GT_SPIKE_TUNNEL): lambda rules, state: rules.has(state, I.STAR),
     (R.GT_BUTT, R.GT_BOSS): lambda rules, state: rules.white_doors(state, I.DOOR_WHITE_GT_TAUROS, disabled_case=True),
     (R.GT_BOSS, R.GT_BUTT): lambda rules, state: rules.white_doors(state, I.DOOR_WHITE_GT_TAUROS, disabled_case=False),
@@ -137,14 +140,14 @@ ENTRANCE_RULES: Dict[Tuple[R, R], Callable[["AstalonRules", CollectionState], bo
     (R.GT_BOSS, R.CATA_BOSS): lambda rules, state: rules.elevator(state, I.ELEVATOR_CATA_2),
     (R.GT_BOSS, R.TR_START): lambda rules, state: rules.elevator(state, I.ELEVATOR_TR),
     (R.GT_UPPER_ARIAS, R.GT_OLD_MAN_FORK): lambda rules, state: (
-        rules.switches(state, I.SWITCH_MECH_10, disabled_case=rules.reachable(L.MECH_SWITCH_10))
+        rules.switches(state, I.CRYSTAL_GT_LADDER, disabled_case=rules.reachable(L.GT_CRYSTAL_LADDER))
     ),
     (R.GT_UPPER_ARIAS, R.MECH_SWORD_CONNECTION): lambda rules, state: (
         rules.has(state, I.ARIAS)
-        or rules.switches(state, I.SWITCH_GT_208, disabled_case=rules.reachable(L.GT_SWITCH_208))
+        or rules.switches(state, I.SWITCH_GT_UPPER_ARIAS, disabled_case=rules.reachable(L.GT_SWITCH_UPPER_ARIAS))
     ),
     (R.GT_OLD_MAN_FORK, R.GT_UPPER_ARIAS): lambda rules, state: (
-        rules.switches(state, I.SWITCH_MECH_10, disabled_case=rules.reachable(L.MECH_SWITCH_10))
+        rules.switches(state, I.CRYSTAL_GT_LADDER, disabled_case=rules.reachable(L.GT_CRYSTAL_LADDER))
     ),
     (R.GT_OLD_MAN_FORK, R.GT_SWORD_FORK): lambda rules, state: (
         rules.blue_doors(state, I.DOOR_BLUE_GT_SWORD, disabled_case=True)
@@ -604,9 +607,9 @@ ATTACK_RULES: Dict[L, Callable[["AstalonRules", CollectionState], bool]] = {
     L.MECH_ATTACK_VOLANTIS: lambda rules, state: rules.has(state, I.CLAW),
     L.MECH_ATTACK_STAR: lambda rules, state: rules.has(state, I.STAR),
     L.ROA_ATTACK: lambda rules, state: rules.has(state, I.STAR),
-    L.CATA_ATTACK_RED: lambda rules, state: rules.has(state, I.EYE_RED),
-    L.CATA_ATTACK_BLUE: lambda rules, state: rules.has(state, I.EYE_RED, I.EYE_BLUE),
-    L.CATA_ATTACK_GREEN: lambda rules, state: (
+    L.CAVES_ATTACK_RED: lambda rules, state: rules.has(state, I.EYE_RED),
+    L.CAVES_ATTACK_BLUE: lambda rules, state: rules.has(state, I.EYE_RED, I.EYE_BLUE),
+    L.CAVES_ATTACK_GREEN: lambda rules, state: (
         rules.has(state, I.EYE_RED, I.EYE_BLUE) and rules.has_any(state, I.EYE_GREEN, I.STAR)
     ),
     L.CD_ATTACK: lambda rules, state: False,
@@ -634,8 +637,8 @@ HEALTH_RULES: Dict[L, Callable[["AstalonRules", CollectionState], bool]] = {
     ),
     L.ROA_HP_5_SOLARIA: lambda rules, state: rules.has(state, I.KYULI),
     L.APEX_HP_1_CHALICE: lambda rules, state: rules.blue_doors(state, I.DOOR_BLUE_APEX, disabled_case=True),
-    L.CATA_HP_1_START: lambda rules, state: rules.has_any(state, I.BOW, I.CHALICE),
-    L.CATA_HP_1_CYCLOPS: lambda rules, state: rules.has_any(state, I.SWORD, I.ALGUS_METEOR, I.KYULI_RAY),
+    L.CAVES_HP_1_START: lambda rules, state: rules.has_any(state, I.BOW, I.CHALICE),
+    L.CAVES_HP_1_CYCLOPS: lambda rules, state: rules.has_any(state, I.SWORD, I.ALGUS_METEOR, I.KYULI_RAY),
     # TODO
     L.CATA_HP_1_ABOVE_POISON: lambda rules, state: (rules.has(state, I.BELL) or rules.has(state, I.ICARUS, I.CLAW)),
     # TODO
@@ -646,7 +649,7 @@ HEALTH_RULES: Dict[L, Callable[["AstalonRules", CollectionState], bool]] = {
         (rules.has(state, I.CLAW) or rules.has(state, I.BLOCK, I.BELL))
         and (rules.has(state, I.GAUNTLET, I.BELL) or rules.has(state, I.CHALICE))
     ),
-    L.CATA_HP_5_CHAIN: lambda rules, state: (rules.has(state, I.EYE_RED, I.EYE_BLUE, I.STAR, I.CLAW, I.BELL)),
+    L.CAVES_HP_5_CHAIN: lambda rules, state: (rules.has(state, I.EYE_RED, I.EYE_BLUE, I.STAR, I.CLAW, I.BELL)),
     L.CD_HP_1: lambda rules, state: False,
     # might need cloak or icarus?
     L.CATH_HP_1_TOP_LEFT: lambda _, __: True,
@@ -722,13 +725,198 @@ SHOP_RULES: Dict[L, Callable[["AstalonRules", CollectionState], bool]] = {
 }
 
 SWITCH_RULES: Dict[L, Callable[["AstalonRules", CollectionState], bool]] = {
-    L.GT_SWITCH_1: lambda rules, state: False,
-    L.GT_SWITCH_2: lambda rules, state: False,
-    L.GT_SWITCH_3: lambda rules, state: False,
-    L.GT_SWITCH_4: lambda rules, state: False,
-    L.GT_SWITCH_25: lambda rules, state: False,
-    L.GT_SWITCH_208: lambda rules, state: False,
-    L.MECH_SWITCH_10: lambda rules, state: False,
+    L.GT_SWITCH_2ND_ROOM: lambda rules, state: False,
+    L.GT_SWITCH_1ST_CYCLOPS: lambda rules, state: False,
+    L.GT_SWITCH_SPIKE_TUNNEL: lambda rules, state: False,
+    L.GT_SWITCH_BUTT_ACCESS: lambda rules, state: False,
+    L.GT_SWITCH_GH: lambda rules, state: False,
+    L.GT_SWITCH_ROTA: lambda rules, state: False,
+    L.GT_SWITCH_UPPER_PATH_1: lambda rules, state: False,
+    L.GT_SWITCH_UPPER_PATH_2: lambda rules, state: False,
+    L.GT_SWITCH_CROSSES: lambda rules, state: False,
+    L.GT_SWITCH_GH_SHORTCUT: lambda rules, state: False,
+    L.GT_SWITCH_ARIAS_PATH: lambda rules, state: False,
+    L.GT_SWITCH_SWORD_ACCESS: lambda rules, state: False,
+    L.GT_SWITCH_SWORD_BACKTRACK: lambda rules, state: False,
+    L.GT_SWITCH_SWORD: lambda rules, state: False,
+    L.GT_SWITCH_OLD_MAN_1: lambda rules, state: False,
+    L.GT_SWITCH_OLD_MAN_2: lambda rules, state: False,
+    L.GT_SWITCH_UPPER_ARIAS: lambda rules, state: False,
+    L.GT_CRYSTAL_LADDER: lambda rules, state: False,
+    L.MECH_SWITCH_WATCHER: lambda rules, state: False,
+    L.MECH_SWITCH_CHAINS: lambda rules, state: False,
+    L.MECH_SWITCH_BOSS_ACCESS_1: lambda rules, state: False,
+    L.MECH_SWITCH_BOSS_ACCESS_2: lambda rules, state: False,
+    L.MECH_SWITCH_SNAKE_1: lambda rules, state: False,
+    L.MECH_SWITCH_BOOTS_ACCESS: lambda rules, state: False,
+    L.MECH_SWITCH_UPPER_GT_ACCESS: lambda rules, state: False,
+    L.MECH_SWITCH_UPPER_VOID_DROP: lambda rules, state: False,
+    L.MECH_SWITCH_UPPER_VOID: lambda rules, state: False,
+    L.MECH_SWITCH_LINUS: lambda rules, state: False,
+    L.MECH_SWITCH_LOWER: lambda rules, state: False,
+    L.MECH_SWITCH_TO_BOSS_3: lambda rules, state: False,
+    L.MECH_SWITCH_TO_BOSS_2: lambda rules, state: False,
+    L.MECH_SWITCH_POTS: lambda rules, state: False,
+    L.MECH_SWITCH_MAZE_BACKDOOR: lambda rules, state: False,
+    L.MECH_SWITCH_TO_BOSS_1: lambda rules, state: False,
+    L.MECH_SWITCH_BLOCK_STAIRS: lambda rules, state: False,
+    L.MECH_SWITCH_ARIAS_CYCLOPS: lambda rules, state: False,
+    L.MECH_SWITCH_BOOTS_LOWER: lambda rules, state: False,
+    L.MECH_SWITCH_CHAINS_GAP: lambda rules, state: False,
+    L.MECH_SWITCH_LOWER_KEY: lambda rules, state: False,
+    L.MECH_SWITCH_ARIAS: lambda rules, state: False,
+    L.MECH_SWITCH_SNAKE_2: lambda rules, state: False,
+    L.MECH_SWITCH_KEY_BLOCKS: lambda rules, state: False,
+    L.MECH_SWITCH_CANNON: lambda rules, state: False,
+    L.MECH_SWITCH_EYEBALL: lambda rules, state: False,
+    L.MECH_SWITCH_INVISIBLE: lambda rules, state: False,
+    L.MECH_CRYSTAL_CANNON: lambda rules, state: False,
+    L.MECH_CRYSTAL_SPLIT_PATH: lambda rules, state: False,
+    L.MECH_CRYSTAL_LINUS: lambda rules, state: False,
+    L.MECH_CRYSTAL_TRIPLE_1: lambda rules, state: False,
+    L.MECH_CRYSTAL_TRIPLE_2: lambda rules, state: False,
+    L.MECH_CRYSTAL_TRIPLE_3: lambda rules, state: False,
+    L.MECH_CRYSTAL_TOP: lambda rules, state: False,
+    L.MECH_CRYSTAL_CLOAK: lambda rules, state: False,
+    L.MECH_CRYSTAL_SLIMES: lambda rules, state: False,
+    L.MECH_CRYSTAL_TO_CD: lambda rules, state: False,
+    L.MECH_CRYSTAL_CAMPFIRE: lambda rules, state: False,
+    L.MECH_CRYSTAL_1ST_ROOM: lambda rules, state: False,
+    L.MECH_CRYSTAL_OLD_MAN: lambda rules, state: False,
+    L.MECH_CRYSTAL_TOP_CHAINS: lambda rules, state: False,
+    L.MECH_CRYSTAL_BK: lambda rules, state: False,
+    L.MECH_FACE_ABOVE_VOLANTIS: lambda rules, state: False,
+    L.HOTP_SWITCH_ROCK: lambda rules, state: False,
+    L.HOTP_SWITCH_BELOW_START: lambda rules, state: False,
+    L.HOTP_SWITCH_ROCK_ACCESS: lambda rules, state: False,
+    L.HOTP_SWITCH_LEFT_2: lambda rules, state: False,
+    L.HOTP_SWITCH_LEFT_1: lambda rules, state: False,
+    L.HOTP_SWITCH_LOWER_SHORTCUT: lambda rules, state: False,
+    L.HOTP_SWITCH_BELL: lambda rules, state: False,
+    L.HOTP_SWITCH_GHOST_BLOOD: lambda rules, state: False,
+    L.HOTP_SWITCH_TELEPORTS: lambda rules, state: False,
+    L.HOTP_SWITCH_WORM_PILLAR: lambda rules, state: False,
+    L.HOTP_SWITCH_TO_CLAW_1: lambda rules, state: False,
+    L.HOTP_SWITCH_TO_CLAW_2: lambda rules, state: False,
+    L.HOTP_SWITCH_CLAW_ACCESS: lambda rules, state: False,
+    L.HOTP_SWITCH_GHOSTS: lambda rules, state: False,
+    L.HOTP_SWITCH_LEFT_3: lambda rules, state: False,
+    L.HOTP_SWITCH_ABOVE_OLD_MAN: lambda rules, state: False,
+    L.HOTP_SWITCH_MAIDEN_ACCESS: lambda rules, state: False,
+    L.HOTP_SWITCH_MAZE_PUZZLE: lambda rules, state: False,
+    L.HOTP_SWITCH_EYEBALL_SHORTCUT: lambda rules, state: False,
+    L.HOTP_SWITCH_BELL_ACCESS: lambda rules, state: False,
+    L.HOTP_SWITCH_1ST_ROOM: lambda rules, state: False,
+    L.HOTP_SWITCH_LEFT_BACKTRACK: lambda rules, state: False,
+    L.HOTP_CRYSTAL_BOTTOM: lambda rules, state: False,
+    L.HOTP_CRYSTAL_LOWER: lambda rules, state: False,
+    L.HOTP_CRYSTAL_AFTER_CLAW: lambda rules, state: False,
+    L.HOTP_CRYSTAL_MAIDEN_1: lambda rules, state: False,
+    L.HOTP_CRYSTAL_MAIDEN_2: lambda rules, state: False,
+    L.HOTP_CRYSTAL_BELL_ACCESS: lambda rules, state: False,
+    L.HOTP_CRYSTAL_HEART: lambda rules, state: False,
+    L.HOTP_CRYSTAL_BELOW_PUZZLE: lambda rules, state: False,
+    L.HOTP_FACE_OLD_MAN: lambda rules, state: False,
+    L.ROA_SWITCH_ASCEND: lambda rules, state: False,
+    L.ROA_SWITCH_AFTER_WORMS: lambda rules, state: False,
+    L.ROA_SWITCH_RIGHT_PATH: lambda rules, state: False,
+    L.ROA_SWITCH_APEX_ACCESS: lambda rules, state: False,
+    L.ROA_SWITCH_ICARUS: lambda rules, state: False,
+    L.ROA_SWITCH_SHAFT_L: lambda rules, state: False,
+    L.ROA_SWITCH_SHAFT_R: lambda rules, state: False,
+    L.ROA_SWITCH_ELEVATOR: lambda rules, state: False,
+    L.ROA_SWITCH_SHAFT_DOWNWARDS: lambda rules, state: False,
+    L.ROA_SWITCH_SPIDERS_T: lambda rules, state: False,
+    L.ROA_SWITCH_SPIDERS_B: lambda rules, state: False,
+    L.ROA_SWITCH_DARK_ROOM: lambda rules, state: False,
+    L.ROA_SWITCH_ASCEND_SHORTCUT: lambda rules, state: False,
+    L.ROA_SWITCH_1ST_SHORTCUT: lambda rules, state: False,
+    L.ROA_SWITCH_SPIKE_CLIMB: lambda rules, state: False,
+    L.ROA_SWITCH_ABOVE_CENTAUR: lambda rules, state: False,
+    L.ROA_SWITCH_BLOOD_POT: lambda rules, state: False,
+    L.ROA_SWITCH_WORMS: lambda rules, state: False,
+    L.ROA_SWITCH_TRIPLE_1: lambda rules, state: False,
+    L.ROA_SWITCH_TRIPLE_3: lambda rules, state: False,
+    L.ROA_SWITCH_BABY_GORGON: lambda rules, state: False,
+    L.ROA_SWITCH_BOSS_ACCESS: lambda rules, state: False,
+    L.ROA_SWITCH_BLOOD_POT_L: lambda rules, state: False,
+    L.ROA_SWITCH_BLOOD_POT_R: lambda rules, state: False,
+    L.ROA_SWITCH_LOWER_VOID: lambda rules, state: False,
+    L.ROA_CRYSTAL_1ST_ROOM: lambda rules, state: False,
+    L.ROA_CRYSTAL_BABY_GORGON: lambda rules, state: False,
+    L.ROA_CRYSTAL_LADDER_R: lambda rules, state: False,
+    L.ROA_CRYSTAL_LADDER_L: lambda rules, state: False,
+    L.ROA_CRYSTAL_CENTAUR: lambda rules, state: False,
+    L.ROA_CRYSTAL_SPIKE_BALLS: lambda rules, state: False,
+    L.ROA_CRYSTAL_LEFT_ASCEND: lambda rules, state: False,
+    L.ROA_CRYSTAL_SHAFT: lambda rules, state: False,
+    L.ROA_CRYSTAL_BRANCH_R: lambda rules, state: False,
+    L.ROA_CRYSTAL_BRANCH_L: lambda rules, state: False,
+    L.ROA_CRYSTAL_3_REAPERS: lambda rules, state: False,
+    L.ROA_CRYSTAL_TRIPLE_2: lambda rules, state: False,
+    L.ROA_FACE_BLUE_KEY: lambda rules, state: False,
+    L.DARK_SWITCH: lambda rules, state: False,
+    L.APEX_SWITCH: lambda rules, state: False,
+    L.CAVES_SWITCH_SKELETONS: lambda rules, state: False,
+    L.CAVES_SWITCH_CATA_ACCESS_1: lambda rules, state: False,
+    L.CAVES_SWITCH_CATA_ACCESS_2: lambda rules, state: False,
+    L.CAVES_SWITCH_CATA_ACCESS_3: lambda rules, state: False,
+    L.CAVES_FACE_1ST_ROOM: lambda rules, state: False,
+    L.CATA_SWITCH_ELEVATOR: lambda rules, state: False,
+    L.CATA_SWITCH_SHORTCUT: lambda rules, state: False,
+    L.CATA_SWITCH_TOP: lambda rules, state: False,
+    L.CATA_SWITCH_CLAW_1: lambda rules, state: False,
+    L.CATA_SWITCH_CLAW_2: lambda rules, state: False,
+    L.CATA_SWITCH_WATER_1: lambda rules, state: False,
+    L.CATA_SWITCH_WATER_2: lambda rules, state: False,
+    L.CATA_SWITCH_DEV_ROOM: lambda rules, state: False,
+    L.CATA_SWITCH_AFTER_BLUE_DOOR: lambda rules, state: False,
+    L.CATA_SWITCH_SHORTCUT_ACCESS: lambda rules, state: False,
+    L.CATA_SWITCH_LADDER_BLOCKS: lambda rules, state: False,
+    L.CATA_SWITCH_MID_SHORTCUT: lambda rules, state: False,
+    L.CATA_SWITCH_1ST_ROOM: lambda rules, state: False,
+    L.CATA_SWITCH_FLAMES_2: lambda rules, state: False,
+    L.CATA_SWITCH_FLAMES_1: lambda rules, state: False,
+    L.CATA_CRYSTAL_POISON_ROOTS: lambda rules, state: False,
+    L.CATA_FACE_AFTER_BOW: lambda rules, state: False,
+    L.CATA_FACE_BOW: lambda rules, state: False,
+    L.CATA_FACE_X4: lambda rules, state: False,
+    L.CATA_FACE_CAMPFIRE: lambda rules, state: False,
+    L.CATA_FACE_DOUBLE_DOOR: lambda rules, state: False,
+    L.CATA_FACE_BOTTOM: lambda rules, state: False,
+    L.TR_SWITCH_ADORNED_L: lambda rules, state: False,
+    L.TR_SWITCH_ADORNED_M: lambda rules, state: False,
+    L.TR_SWITCH_ADORNED_R: lambda rules, state: False,
+    L.TR_SWITCH_ELEVATOR: lambda rules, state: False,
+    L.TR_SWITCH_BOTTOM: lambda rules, state: False,
+    L.TR_CRYSTAL_GOLD: lambda rules, state: False,
+    L.TR_CRYSTAL_DARK_ARIAS: lambda rules, state: False,
+    L.CD_SWITCH_1: lambda rules, state: False,
+    L.CD_SWITCH_2: lambda rules, state: False,
+    L.CD_SWITCH_3: lambda rules, state: False,
+    L.CD_SWITCH_CAMPFIRE: lambda rules, state: False,
+    L.CD_SWITCH_TOP: lambda rules, state: False,
+    L.CD_CRYSTAL_BACKTRACK: lambda rules, state: False,
+    L.CD_CRYSTAL_START: lambda rules, state: False,
+    L.CD_CRYSTAL_CAMPFIRE: lambda rules, state: False,
+    L.CD_CRYSTAL_STAIRS: lambda rules, state: False,
+    L.CATH_SWITCH_BOTTOM: lambda rules, state: False,
+    L.CATH_SWITCH_BESIDE_SHAFT: lambda rules, state: False,
+    L.CATH_SWITCH_TOP_CAMPFIRE: lambda rules, state: False,
+    L.CATH_CRYSTAL_1ST_ROOM: lambda rules, state: False,
+    L.CATH_CRYSTAL_SHAFT: lambda rules, state: False,
+    L.CATH_CRYSTAL_SPIKE_PIT: lambda rules, state: False,
+    L.CATH_CRYSTAL_TOP_L: lambda rules, state: False,
+    L.CATH_CRYSTAL_TOP_R: lambda rules, state: False,
+    L.CATH_CRYSTAL_SHAFT_ACCESS: lambda rules, state: False,
+    L.CATH_CRYSTAL_ORBS: lambda rules, state: False,
+    L.CATH_FACE_LEFT: lambda rules, state: False,
+    L.CATH_FACE_RIGHT: lambda rules, state: False,
+    L.SP_SWITCH_DOUBLE_DOORS: lambda rules, state: False,
+    L.SP_SWITCH_BUBBLES: lambda rules, state: False,
+    L.SP_SWITCH_AFTER_STAR: lambda rules, state: False,
+    L.SP_CRYSTAL_BLOCKS: lambda rules, state: False,
+    L.SP_CRYSTAL_STAR: lambda rules, state: False,
 }
 
 

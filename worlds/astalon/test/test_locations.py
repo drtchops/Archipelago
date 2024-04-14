@@ -17,7 +17,7 @@ class LocationsTest(AstalonTestBase):
         self.assertFalse(self.can_reach_location(location))
         self.collect_by_name(
             [
-                Items.DOOR_BLUE_CATA_START.value,
+                Items.DOOR_BLUE_CAVES.value,
                 Items.EYE_RED.value,
                 Items.EYE_BLUE.value,
                 Items.BOW.value,
