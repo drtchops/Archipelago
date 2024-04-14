@@ -52,18 +52,18 @@ class Locations(str, Enum):
     GT_SWITCH_BUTT_ACCESS = "Gorgon Tomb - Switch (Butt Access)"
     GT_SWITCH_GH = "Gorgon Tomb - Switch (Gorgonheart)"
     GT_SWITCH_ROTA = "Gorgon Tomb - Switch (Ring of the Ancients)"
-    GT_SWITCH_UPPER_PATH_1 = "Gorgon Tomb - Switch (Upper Path 1)"
-    GT_SWITCH_UPPER_PATH_2 = "Gorgon Tomb - Switch (Upper Path 2)"
+    GT_SWITCH_UPPER_PATH_BLOCKS = "Gorgon Tomb - Switch (Upper Path Blocks)"
+    GT_SWITCH_UPPER_PATH_ACCESS = "Gorgon Tomb - Switch (Upper Path Access)"
     GT_SWITCH_CROSSES = "Gorgon Tomb - Switch (Crosses)"
     GT_SWITCH_GH_SHORTCUT = "Gorgon Tomb - Switch (Gorgonheart Shortcut)"
     GT_SWITCH_ARIAS_PATH = "Gorgon Tomb - Switch (Arias's Path)"
     GT_SWITCH_SWORD_ACCESS = "Gorgon Tomb - Switch (Sword Access)"
     GT_SWITCH_SWORD_BACKTRACK = "Gorgon Tomb - Switch (Sword Backtrack)"
     GT_SWITCH_SWORD = "Gorgon Tomb - Switch (Sword)"
-    GT_SWITCH_OLD_MAN_1 = "Gorgon Tomb - Switch (Old Man 1)"
-    GT_SWITCH_OLD_MAN_2 = "Gorgon Tomb - Switch (Old Man 2)"
     GT_SWITCH_UPPER_ARIAS = "Gorgon Tomb - Switch (Upper Arias)"
     GT_CRYSTAL_LADDER = "Gorgon Tomb - Crystal (Ladder)"
+    GT_CRYSTAL_OLD_MAN_1 = "Gorgon Tomb - Crystal (Old Man 1)"
+    GT_CRYSTAL_OLD_MAN_2 = "Gorgon Tomb - Crystal (Old Man 2)"
 
     MECH_ZEEK = "Mechanism - Zeek"
     MECH_BOOTS = "Mechanism - Talaria Boots"
@@ -564,18 +564,18 @@ location_table: Dict[Locations, AstalonLocationData] = {
     Locations.GT_SWITCH_BUTT_ACCESS: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
     Locations.GT_SWITCH_GH: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
     Locations.GT_SWITCH_ROTA: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
-    Locations.GT_SWITCH_UPPER_PATH_1: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
-    Locations.GT_SWITCH_UPPER_PATH_2: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.GT_SWITCH_UPPER_PATH_BLOCKS: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.GT_SWITCH_UPPER_PATH_ACCESS: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
     Locations.GT_SWITCH_CROSSES: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
     Locations.GT_SWITCH_GH_SHORTCUT: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
     Locations.GT_SWITCH_ARIAS_PATH: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
     Locations.GT_SWITCH_SWORD_ACCESS: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
     Locations.GT_SWITCH_SWORD_BACKTRACK: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
     Locations.GT_SWITCH_SWORD: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
-    Locations.GT_SWITCH_OLD_MAN_1: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
-    Locations.GT_SWITCH_OLD_MAN_2: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
     Locations.GT_SWITCH_UPPER_ARIAS: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
     Locations.GT_CRYSTAL_LADDER: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.GT_CRYSTAL_OLD_MAN_1: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
+    Locations.GT_CRYSTAL_OLD_MAN_2: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
     Locations.MECH_SWITCH_WATCHER: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
     Locations.MECH_SWITCH_CHAINS: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
     Locations.MECH_SWITCH_BOSS_ACCESS_1: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),

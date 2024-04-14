@@ -86,7 +86,7 @@ class AstalonWorld(World):
         for name, exits in astalon_regions.items():
             region = self.multiworld.get_region(name.value, self.player)
             if exits:
-                region.add_exits([e.name for e in exits])
+                region.add_exits([e.value for e in exits])
 
             for location_name in location_name_groups.get(name.value, []):
                 data = location_table[Locations(location_name)]

@@ -338,7 +338,6 @@ astalon_regions: Dict[Regions, Optional[Set[Regions]]] = {
     },
     Regions.GT_OLD_MAN: None,
     Regions.GT_SWORD_FORK: {
-        Regions.GT_OLD_MAN_FORK,
         Regions.GT_SWORD,
         Regions.GT_ARIAS_SWORD_SWITCH,
     },

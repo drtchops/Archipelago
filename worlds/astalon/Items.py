@@ -176,16 +176,14 @@ class Items(str, Enum):
     SWITCH_GT_BUTT_ACCESS = "GT Switch Butt Access"
     SWITCH_GT_GH = "GT Switch Gorgonheart"
     SWITCH_GT_ROTA = "GT Switch RotA"
-    SWITCH_GT_UPPER_PATH_1 = "GT Switch Upper Path 1"
-    SWITCH_GT_UPPER_PATH_2 = "GT Switch Upper Path 2"
+    SWITCH_GT_UPPER_PATH_BLOCKS = "GT Switch Upper Path Blocks"
+    SWITCH_GT_UPPER_PATH_ACCESS = "GT Switch Upper Path Access"
     SWITCH_GT_CROSSES = "GT Switch Crosses"
     SWITCH_GT_GH_SHORTCUT = "GT Switch GH Shortcut"
     SWITCH_GT_ARIAS = "GT Switch Arias"
     SWITCH_GT_SWORD_ACCESS = "GT Switch Sword Access"
     SWITCH_GT_SWORD_BACKTRACK = "GT Switch Sword Backtrack"
     SWITCH_GT_SWORD = "GT Switch Sword"
-    SWITCH_GT_OLD_MAN_1 = "GT Switch Old Man 1"
-    SWITCH_GT_OLD_MAN_2 = "GT Switch Old Man 2"
     SWITCH_GT_UPPER_ARIAS = "GT Switch Upper Arias"
     SWITCH_MECH_WATCHER = "Mech Switch Watcher"
     SWITCH_MECH_CHAINS = "Mech Switch Chains"
@@ -300,6 +298,8 @@ class Items(str, Enum):
     SWITCH_SP_AFTER_STAR = "SP Switch After Star"
 
     CRYSTAL_GT_LADDER = "GT Crystal Ladder"
+    CRYSTAL_GT_OLD_MAN_1 = "GT Crystal Old Man 1"
+    CRYSTAL_GT_OLD_MAN_2 = "GT Crystal Old Man 2"
     CRYSTAL_MECH_CANNON = "Mech Crystal Cannon"
     CRYSTAL_MECH_SPLIT_PATH = "Mech Crystal Split Path"
     CRYSTAL_MECH_LINUS = "Mech Crystal Linus"
@@ -506,16 +506,14 @@ Switches: TypeAlias = Literal[
     Items.SWITCH_GT_BUTT_ACCESS,
     Items.SWITCH_GT_GH,
     Items.SWITCH_GT_ROTA,
-    Items.SWITCH_GT_UPPER_PATH_1,
-    Items.SWITCH_GT_UPPER_PATH_2,
+    Items.SWITCH_GT_UPPER_PATH_BLOCKS,
+    Items.SWITCH_GT_UPPER_PATH_ACCESS,
     Items.SWITCH_GT_CROSSES,
     Items.SWITCH_GT_GH_SHORTCUT,
     Items.SWITCH_GT_ARIAS,
     Items.SWITCH_GT_SWORD_ACCESS,
     Items.SWITCH_GT_SWORD_BACKTRACK,
     Items.SWITCH_GT_SWORD,
-    Items.SWITCH_GT_OLD_MAN_1,
-    Items.SWITCH_GT_OLD_MAN_2,
     Items.SWITCH_GT_UPPER_ARIAS,
     Items.SWITCH_MECH_WATCHER,
     Items.SWITCH_MECH_CHAINS,
@@ -629,6 +627,8 @@ Switches: TypeAlias = Literal[
     Items.SWITCH_SP_BUBBLES,
     Items.SWITCH_SP_AFTER_STAR,
     Items.CRYSTAL_GT_LADDER,
+    Items.CRYSTAL_GT_OLD_MAN_1,
+    Items.CRYSTAL_GT_OLD_MAN_2,
     Items.CRYSTAL_MECH_CANNON,
     Items.CRYSTAL_MECH_SPLIT_PATH,
     Items.CRYSTAL_MECH_LINUS,
@@ -866,16 +866,14 @@ item_table: Dict[Items, AstalonItemData] = {
     Items.SWITCH_GT_BUTT_ACCESS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.SWITCH_GT_GH: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.SWITCH_GT_ROTA: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
-    Items.SWITCH_GT_UPPER_PATH_1: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
-    Items.SWITCH_GT_UPPER_PATH_2: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_GT_UPPER_PATH_BLOCKS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_GT_UPPER_PATH_ACCESS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.SWITCH_GT_CROSSES: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.SWITCH_GT_GH_SHORTCUT: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.SWITCH_GT_ARIAS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.SWITCH_GT_SWORD_ACCESS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.SWITCH_GT_SWORD_BACKTRACK: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.SWITCH_GT_SWORD: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
-    Items.SWITCH_GT_OLD_MAN_1: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
-    Items.SWITCH_GT_OLD_MAN_2: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.SWITCH_GT_UPPER_ARIAS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.SWITCH_MECH_WATCHER: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.SWITCH_MECH_CHAINS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
@@ -989,6 +987,8 @@ item_table: Dict[Items, AstalonItemData] = {
     Items.SWITCH_SP_BUBBLES: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.SWITCH_SP_AFTER_STAR: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.CRYSTAL_GT_LADDER: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.CRYSTAL_GT_OLD_MAN_1: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.CRYSTAL_GT_OLD_MAN_2: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.CRYSTAL_MECH_CANNON: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.CRYSTAL_MECH_SPLIT_PATH: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.CRYSTAL_MECH_LINUS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),

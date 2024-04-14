@@ -31,7 +31,7 @@ class Logic(Enum):
     EXTRA_HEIGHT = auto()
     COMBO_HEIGHT = auto()
     BLOCK_IN_WALL = auto()
-    MAGIC_CRYSTAL = auto()
+    CRYSTAL = auto()
 
 
 ENTRANCE_RULES: Dict[Tuple[R, R], Callable[["AstalonRules", CollectionState], bool]] = {
@@ -152,14 +152,29 @@ ENTRANCE_RULES: Dict[Tuple[R, R], Callable[["AstalonRules", CollectionState], bo
     (R.GT_OLD_MAN_FORK, R.GT_SWORD_FORK): lambda rules, state: (
         rules.blue_doors(state, I.DOOR_BLUE_GT_SWORD, disabled_case=True)
     ),
-    (R.GT_OLD_MAN_FORK, R.GT_OLD_MAN): lambda rules, state: False,  # TODO
-    (R.GT_SWORD_FORK, R.GT_SWORD): lambda rules, state: False,
-    (R.GT_SWORD_FORK, R.GT_OLD_MAN_FORK): lambda rules, state: False,
-    (R.GT_SWORD_FORK, R.GT_ARIAS_SWORD_SWITCH): lambda rules, state: False,
-    (R.GT_UPPER_PATH, R.GT_UPPER_PATH_CONNECTION): lambda rules, state: False,
-    (R.GT_UPPER_PATH, R.GT_BOTTOM): lambda rules, state: False,
-    (R.GT_UPPER_PATH_CONNECTION, R.GT_UPPER_PATH): lambda rules, state: False,
-    (R.GT_UPPER_PATH_CONNECTION, R.MECH_SWORD_CONNECTION): lambda rules, state: False,
+    (R.GT_OLD_MAN_FORK, R.GT_OLD_MAN): lambda rules, state: (
+        # TODO: you don't need both switches, revist when adding old man
+        rules.has(state, I.CLAW)
+        or rules.switches(
+            state, I.CRYSTAL_GT_OLD_MAN_1, I.CRYSTAL_GT_OLD_MAN_2, disabled_case=rules.can(state, Logic.CRYSTAL)
+        )
+    ),
+    (R.GT_SWORD_FORK, R.GT_SWORD): lambda rules, state: (
+        rules.switches(state, I.SWITCH_GT_SWORD_ACCESS, disabled_case=True)
+    ),
+    (R.GT_SWORD_FORK, R.GT_ARIAS_SWORD_SWITCH): lambda rules, state: (
+        rules.has(state, I.SWORD) or rules.has(state, I.BOW, I.BELL)
+    ),
+    (R.GT_UPPER_PATH, R.GT_UPPER_PATH_CONNECTION): lambda rules, state: (
+        rules.switches(state, I.SWITCH_GT_UPPER_PATH_ACCESS, disabled_case=False)
+    ),
+    (R.GT_UPPER_PATH, R.GT_BOTTOM): lambda _, __: True,
+    (R.GT_UPPER_PATH_CONNECTION, R.GT_UPPER_PATH): lambda rules, state: (
+        rules.switches(state, I.SWITCH_GT_UPPER_PATH_ACCESS, disabled_case=True)
+    ),
+    (R.GT_UPPER_PATH_CONNECTION, R.MECH_SWORD_CONNECTION): lambda rules, state: (
+        rules.switches(state, I.SWITCH_MECH_TO_UPPER_GT, disabled_case=False)
+    ),
     (R.MECH_START, R.GT_LADDER_SWITCH): lambda rules, state: rules.has(state, I.EYE_RED),
     (R.MECH_START, R.MECH_BK): lambda rules, state: False,
     (R.MECH_START, R.MECH_ROOTS): lambda rules, state: False,
@@ -725,22 +740,22 @@ SHOP_RULES: Dict[L, Callable[["AstalonRules", CollectionState], bool]] = {
 }
 
 SWITCH_RULES: Dict[L, Callable[["AstalonRules", CollectionState], bool]] = {
-    L.GT_SWITCH_2ND_ROOM: lambda rules, state: False,
+    L.GT_SWITCH_2ND_ROOM: lambda rules, state: rules.white_doors(state, I.DOOR_WHITE_GT_START, disabled_case=True),
     L.GT_SWITCH_1ST_CYCLOPS: lambda rules, state: False,
     L.GT_SWITCH_SPIKE_TUNNEL: lambda rules, state: False,
     L.GT_SWITCH_BUTT_ACCESS: lambda rules, state: False,
     L.GT_SWITCH_GH: lambda rules, state: False,
     L.GT_SWITCH_ROTA: lambda rules, state: False,
-    L.GT_SWITCH_UPPER_PATH_1: lambda rules, state: False,
-    L.GT_SWITCH_UPPER_PATH_2: lambda rules, state: False,
+    L.GT_SWITCH_UPPER_PATH_BLOCKS: lambda rules, state: False,
+    L.GT_SWITCH_UPPER_PATH_ACCESS: lambda rules, state: False,
     L.GT_SWITCH_CROSSES: lambda rules, state: False,
     L.GT_SWITCH_GH_SHORTCUT: lambda rules, state: False,
     L.GT_SWITCH_ARIAS_PATH: lambda rules, state: False,
     L.GT_SWITCH_SWORD_ACCESS: lambda rules, state: False,
     L.GT_SWITCH_SWORD_BACKTRACK: lambda rules, state: False,
     L.GT_SWITCH_SWORD: lambda rules, state: False,
-    L.GT_SWITCH_OLD_MAN_1: lambda rules, state: False,
-    L.GT_SWITCH_OLD_MAN_2: lambda rules, state: False,
+    L.GT_CRYSTAL_OLD_MAN_1: lambda rules, state: False,
+    L.GT_CRYSTAL_OLD_MAN_2: lambda rules, state: False,
     L.GT_SWITCH_UPPER_ARIAS: lambda rules, state: False,
     L.GT_CRYSTAL_LADDER: lambda rules, state: False,
     L.MECH_SWITCH_WATCHER: lambda rules, state: False,
@@ -1079,7 +1094,7 @@ class AstalonRules:
             return self.hard and self.can(state, Logic.ARIAS_JUMP) and self._has(state, I.BELL, I.BLOCK)
         if logic == Logic.BLOCK_IN_WALL:
             return self.hard and self._has(state, I.ZEEK)
-        if logic == Logic.MAGIC_CRYSTAL:
+        if logic == Logic.CRYSTAL:
             if self._has(state, I.ALGUS) or self._has(state, I.ZEEK, I.BANISH):
                 return True
             if self.hard:
