@@ -77,13 +77,13 @@ class Regions(str, Enum):
     HOTP_START_LEFT = "Hall of the Phantoms - Start Left"
     HOTP_START_BOTTOM = "Hall of the Phantoms - Start Bottom"
     HOTP_LOWER = "Hall of the Phantoms - Lower"
-    HOTP_EPIMETHEUS = "Hall of the Phantoms - Epimetheus Statue"
+    HOTP_EPIMETHEUS = "Hall of the Phantoms - Epimetheus"
     HOTP_MECH_VOID_CONNECTION = "Hall of the Phantoms - Mech Void Connection"
     HOTP_AMULET_CONNECTION = "Hall of the Phantoms - Amulet Connection"
     HOTP_AMULET = "Hall of the Phantoms - Amulet of Sol"
-    HOTP_TP_TUTORIAL = "Hall of the Phantoms - Teleport_tutorial"
-    HOTP_BELL_CAMPFIRE = "Hall of the Phantoms - Bell_campfire"
-    HOTP_RED_KEY = "Hall of the Phantoms - Red_key"
+    HOTP_TP_TUTORIAL = "Hall of the Phantoms - Teleport Tutorial"
+    HOTP_BELL_CAMPFIRE = "Hall of the Phantoms - Bell Campfire"
+    HOTP_RED_KEY = "Hall of the Phantoms - Red Key"
     HOTP_BELL = "Hall of the Phantoms - Bell"
     HOTP_CATH_CONNECTION = "Hall of the Phantoms - Cathedral Connection"
     HOTP_LOWER_ARIAS = "Hall of the Phantoms - Lower Arias"
@@ -154,7 +154,7 @@ class Regions(str, Enum):
     APEX_HEART = "The Apex - Heart"
 
     CAVES_START = "Caves - Start"
-    CAVES_STATUE = "Caves - Epimetheus Statue"
+    CAVES_EPIMETHEUS = "Caves - Epimetheus"
     CAVES_UPPER = "Caves - Upper"
     CAVES_ARENA = "Caves - Arena"
     CAVES_LOWER = "Caves - Lower"
@@ -859,14 +859,14 @@ astalon_regions: Dict[Regions, Optional[Set[Regions]]] = {
     Regions.APEX_HEART: None,
     Regions.CAVES_START: {
         Regions.GT_BOTTOM,
-        Regions.CAVES_STATUE,
+        Regions.CAVES_EPIMETHEUS,
     },
-    Regions.CAVES_STATUE: {
+    Regions.CAVES_EPIMETHEUS: {
         Regions.CAVES_START,
         Regions.CAVES_UPPER,
     },
     Regions.CAVES_UPPER: {
-        Regions.CAVES_STATUE,
+        Regions.CAVES_EPIMETHEUS,
         Regions.CAVES_ARENA,
         Regions.CAVES_LOWER,
     },

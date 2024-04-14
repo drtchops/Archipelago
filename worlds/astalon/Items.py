@@ -213,7 +213,6 @@ class Items(str, Enum):
     SWITCH_MECH_INVISIBLE = "Mech Switch Invisible"
     SWITCH_HOTP_ROCK = "HotP Switch Rock"
     SWITCH_HOTP_BELOW_START = "HotP Switch Below Start"
-    SWITCH_HOTP_ROCK_ACCESS = "HotP Switch Rock Access"
     SWITCH_HOTP_LEFT_2 = "HotP Switch Left 2"
     SWITCH_HOTP_LEFT_1 = "HotP Switch Left 1"
     SWITCH_HOTP_LOWER_SHORTCUT = "HotP Switch Lower Shortcut"
@@ -227,8 +226,8 @@ class Items(str, Enum):
     SWITCH_HOTP_GHOSTS = "HotP Switch Ghosts"
     SWITCH_HOTP_LEFT_3 = "HotP Switch Left 3"
     SWITCH_HOTP_ABOVE_OLD_MAN = "HotP Switch Above Old Man"
-    SWITCH_HOTP_MAIDEN_ACCESS = "HotP Switch Maiden Access"
-    SWITCH_HOTP_MAZE_PUZZLE = "HotP Switch Maze Puzzle"
+    SWITCH_HOTP_TO_ABOVE_OLD_MAN = "HotP Switch To Above Old Man"
+    SWITCH_HOTP_TP_PUZZLE = "HotP Switch TP Puzzle"
     SWITCH_HOTP_EYEBALL_SHORTCUT = "HotP Switch Eyeball Shortcut"
     SWITCH_HOTP_BELL_ACCESS = "HotP Switch Bell Access"
     SWITCH_HOTP_1ST_ROOM = "HotP Switch 1st Room"
@@ -315,6 +314,7 @@ class Items(str, Enum):
     CRYSTAL_MECH_OLD_MAN = "Mech Crystal Old Man"
     CRYSTAL_MECH_TOP_CHAINS = "Mech Crystal Top Chains"
     CRYSTAL_MECH_BK = "Mech Crystal BK"
+    CRYSTAL_HOTP_ROCK_ACCESS = "HotP Crystal Rock Access"
     CRYSTAL_HOTP_BOTTOM = "HotP Crystal Bottom"
     CRYSTAL_HOTP_LOWER = "HotP Crystal Lower"
     CRYSTAL_HOTP_AFTER_CLAW = "HotP Crystal After Claw"
@@ -341,7 +341,7 @@ class Items(str, Enum):
     CRYSTAL_CD_BACKTRACK = "CD Crystal Backtrack"
     CRYSTAL_CD_START = "CD Crystal Start"
     CRYSTAL_CD_CAMPFIRE = "CD Crystal Campfire"
-    CRYSTAL_CD_STAIRS = "CD Crystal Stairs"
+    CRYSTAL_CD_STEPS = "CD Crystal Steps"
     CRYSTAL_CATH_1ST_ROOM = "Cath Crystal 1st Room"
     CRYSTAL_CATH_SHAFT = "Cath Crystal Shaft"
     CRYSTAL_CATH_SPIKE_PIT = "Cath Crystal Spike Pit"
@@ -543,7 +543,6 @@ Switches: TypeAlias = Literal[
     Items.SWITCH_MECH_INVISIBLE,
     Items.SWITCH_HOTP_ROCK,
     Items.SWITCH_HOTP_BELOW_START,
-    Items.SWITCH_HOTP_ROCK_ACCESS,
     Items.SWITCH_HOTP_LEFT_2,
     Items.SWITCH_HOTP_LEFT_1,
     Items.SWITCH_HOTP_LOWER_SHORTCUT,
@@ -557,8 +556,8 @@ Switches: TypeAlias = Literal[
     Items.SWITCH_HOTP_GHOSTS,
     Items.SWITCH_HOTP_LEFT_3,
     Items.SWITCH_HOTP_ABOVE_OLD_MAN,
-    Items.SWITCH_HOTP_MAIDEN_ACCESS,
-    Items.SWITCH_HOTP_MAZE_PUZZLE,
+    Items.SWITCH_HOTP_TO_ABOVE_OLD_MAN,
+    Items.SWITCH_HOTP_TP_PUZZLE,
     Items.SWITCH_HOTP_EYEBALL_SHORTCUT,
     Items.SWITCH_HOTP_BELL_ACCESS,
     Items.SWITCH_HOTP_1ST_ROOM,
@@ -644,6 +643,7 @@ Switches: TypeAlias = Literal[
     Items.CRYSTAL_MECH_OLD_MAN,
     Items.CRYSTAL_MECH_TOP_CHAINS,
     Items.CRYSTAL_MECH_BK,
+    Items.CRYSTAL_HOTP_ROCK_ACCESS,
     Items.CRYSTAL_HOTP_BOTTOM,
     Items.CRYSTAL_HOTP_LOWER,
     Items.CRYSTAL_HOTP_AFTER_CLAW,
@@ -670,7 +670,7 @@ Switches: TypeAlias = Literal[
     Items.CRYSTAL_CD_BACKTRACK,
     Items.CRYSTAL_CD_START,
     Items.CRYSTAL_CD_CAMPFIRE,
-    Items.CRYSTAL_CD_STAIRS,
+    Items.CRYSTAL_CD_STEPS,
     Items.CRYSTAL_CATH_1ST_ROOM,
     Items.CRYSTAL_CATH_SHAFT,
     Items.CRYSTAL_CATH_SPIKE_PIT,
@@ -903,7 +903,6 @@ item_table: Dict[Items, AstalonItemData] = {
     Items.SWITCH_MECH_INVISIBLE: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.SWITCH_HOTP_ROCK: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.SWITCH_HOTP_BELOW_START: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
-    Items.SWITCH_HOTP_ROCK_ACCESS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.SWITCH_HOTP_LEFT_2: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.SWITCH_HOTP_LEFT_1: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.SWITCH_HOTP_LOWER_SHORTCUT: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
@@ -917,8 +916,8 @@ item_table: Dict[Items, AstalonItemData] = {
     Items.SWITCH_HOTP_GHOSTS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.SWITCH_HOTP_LEFT_3: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.SWITCH_HOTP_ABOVE_OLD_MAN: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
-    Items.SWITCH_HOTP_MAIDEN_ACCESS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
-    Items.SWITCH_HOTP_MAZE_PUZZLE: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_HOTP_TO_ABOVE_OLD_MAN: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_HOTP_TP_PUZZLE: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.SWITCH_HOTP_EYEBALL_SHORTCUT: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.SWITCH_HOTP_BELL_ACCESS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.SWITCH_HOTP_1ST_ROOM: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
@@ -1004,6 +1003,7 @@ item_table: Dict[Items, AstalonItemData] = {
     Items.CRYSTAL_MECH_OLD_MAN: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.CRYSTAL_MECH_TOP_CHAINS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.CRYSTAL_MECH_BK: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.CRYSTAL_HOTP_ROCK_ACCESS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.CRYSTAL_HOTP_BOTTOM: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.CRYSTAL_HOTP_LOWER: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.CRYSTAL_HOTP_AFTER_CLAW: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
@@ -1030,7 +1030,7 @@ item_table: Dict[Items, AstalonItemData] = {
     Items.CRYSTAL_CD_BACKTRACK: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.CRYSTAL_CD_START: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.CRYSTAL_CD_CAMPFIRE: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
-    Items.CRYSTAL_CD_STAIRS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.CRYSTAL_CD_STEPS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.CRYSTAL_CATH_1ST_ROOM: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.CRYSTAL_CATH_SHAFT: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.CRYSTAL_CATH_SPIKE_PIT: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
