@@ -174,7 +174,7 @@ class Items(str, Enum):
     SWITCH_GT_1ST_CYCLOPS = "GT Switch 1st Cyclops"
     SWITCH_GT_SPIKE_TUNNEL = "GT Switch Spike Tunnel"
     SWITCH_GT_BUTT_ACCESS = "GT Switch Butt Access"
-    SWITCH_GT_GORGONHEART = "GT Switch Gorgonheart"
+    SWITCH_GT_GH = "GT Switch Gorgonheart"
     SWITCH_GT_ROTA = "GT Switch RotA"
     SWITCH_GT_UPPER_PATH_1 = "GT Switch Upper Path 1"
     SWITCH_GT_UPPER_PATH_2 = "GT Switch Upper Path 2"
@@ -504,7 +504,7 @@ Switches: TypeAlias = Literal[
     Items.SWITCH_GT_1ST_CYCLOPS,
     Items.SWITCH_GT_SPIKE_TUNNEL,
     Items.SWITCH_GT_BUTT_ACCESS,
-    Items.SWITCH_GT_GORGONHEART,
+    Items.SWITCH_GT_GH,
     Items.SWITCH_GT_ROTA,
     Items.SWITCH_GT_UPPER_PATH_1,
     Items.SWITCH_GT_UPPER_PATH_2,
@@ -864,7 +864,7 @@ item_table: Dict[Items, AstalonItemData] = {
     Items.SWITCH_GT_1ST_CYCLOPS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.SWITCH_GT_SPIKE_TUNNEL: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.SWITCH_GT_BUTT_ACCESS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
-    Items.SWITCH_GT_GORGONHEART: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_GT_GH: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.SWITCH_GT_ROTA: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.SWITCH_GT_UPPER_PATH_1: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.SWITCH_GT_UPPER_PATH_2: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
