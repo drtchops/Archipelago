@@ -189,14 +189,13 @@ class Items(str, Enum):
     SWITCH_MECH_CHAINS = "Mech Switch Chains"
     SWITCH_MECH_BOSS_1 = "Mech Switch Boss 1"
     SWITCH_MECH_BOSS_2 = "Mech Switch Boss 2"
+    SWITCH_MECH_SPLIT_PATH = "Mech Switch Split Path"
     SWITCH_MECH_SNAKE_1 = "Mech Switch Snake 1"
     SWITCH_MECH_BOOTS = "Mech Switch Boots"
     SWITCH_MECH_TO_UPPER_GT = "Mech Switch to Upper GT"
     SWITCH_MECH_UPPER_VOID_DROP = "Mech Switch Upper Void Drop"
     SWITCH_MECH_UPPER_VOID = "Mech Switch Upper Void"
     SWITCH_MECH_LINUS = "Mech Switch Linus"
-    SWITCH_MECH_LOWER = "Mech Switch Lower"
-    SWITCH_MECH_TO_BOSS_3 = "Mech Switch To Boss 3"
     SWITCH_MECH_TO_BOSS_2 = "Mech Switch To Boss 2"
     SWITCH_MECH_POTS = "Mech Switch Pots"
     SWITCH_MECH_MAZE_BACKDOOR = "Mech Switch Maze Backdoor"
@@ -301,8 +300,9 @@ class Items(str, Enum):
     CRYSTAL_GT_OLD_MAN_1 = "GT Crystal Old Man 1"
     CRYSTAL_GT_OLD_MAN_2 = "GT Crystal Old Man 2"
     CRYSTAL_MECH_CANNON = "Mech Crystal Cannon"
-    CRYSTAL_MECH_SPLIT_PATH = "Mech Crystal Split Path"
     CRYSTAL_MECH_LINUS = "Mech Crystal Linus"
+    CRYSTAL_MECH_LOWER = "Mech Crystal Lower"
+    CRYSTAL_MECH_TO_BOSS_3 = "Mech Crystal To Boss 3"
     CRYSTAL_MECH_TRIPLE_1 = "Mech Crystal Triple 1"
     CRYSTAL_MECH_TRIPLE_2 = "Mech Crystal Triple 2"
     CRYSTAL_MECH_TRIPLE_3 = "Mech Crystal Triple 3"
@@ -519,14 +519,13 @@ Switches: TypeAlias = Literal[
     Items.SWITCH_MECH_CHAINS,
     Items.SWITCH_MECH_BOSS_1,
     Items.SWITCH_MECH_BOSS_2,
+    Items.SWITCH_MECH_SPLIT_PATH,
     Items.SWITCH_MECH_SNAKE_1,
     Items.SWITCH_MECH_BOOTS,
     Items.SWITCH_MECH_TO_UPPER_GT,
     Items.SWITCH_MECH_UPPER_VOID_DROP,
     Items.SWITCH_MECH_UPPER_VOID,
     Items.SWITCH_MECH_LINUS,
-    Items.SWITCH_MECH_LOWER,
-    Items.SWITCH_MECH_TO_BOSS_3,
     Items.SWITCH_MECH_TO_BOSS_2,
     Items.SWITCH_MECH_POTS,
     Items.SWITCH_MECH_MAZE_BACKDOOR,
@@ -630,8 +629,9 @@ Switches: TypeAlias = Literal[
     Items.CRYSTAL_GT_OLD_MAN_1,
     Items.CRYSTAL_GT_OLD_MAN_2,
     Items.CRYSTAL_MECH_CANNON,
-    Items.CRYSTAL_MECH_SPLIT_PATH,
     Items.CRYSTAL_MECH_LINUS,
+    Items.CRYSTAL_MECH_LOWER,
+    Items.CRYSTAL_MECH_TO_BOSS_3,
     Items.CRYSTAL_MECH_TRIPLE_1,
     Items.CRYSTAL_MECH_TRIPLE_2,
     Items.CRYSTAL_MECH_TRIPLE_3,
@@ -879,14 +879,13 @@ item_table: Dict[Items, AstalonItemData] = {
     Items.SWITCH_MECH_CHAINS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.SWITCH_MECH_BOSS_1: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.SWITCH_MECH_BOSS_2: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_MECH_SPLIT_PATH: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.SWITCH_MECH_SNAKE_1: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.SWITCH_MECH_BOOTS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.SWITCH_MECH_TO_UPPER_GT: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.SWITCH_MECH_UPPER_VOID_DROP: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.SWITCH_MECH_UPPER_VOID: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.SWITCH_MECH_LINUS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
-    Items.SWITCH_MECH_LOWER: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
-    Items.SWITCH_MECH_TO_BOSS_3: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.SWITCH_MECH_TO_BOSS_2: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.SWITCH_MECH_POTS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.SWITCH_MECH_MAZE_BACKDOOR: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
@@ -990,8 +989,9 @@ item_table: Dict[Items, AstalonItemData] = {
     Items.CRYSTAL_GT_OLD_MAN_1: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.CRYSTAL_GT_OLD_MAN_2: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.CRYSTAL_MECH_CANNON: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
-    Items.CRYSTAL_MECH_SPLIT_PATH: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.CRYSTAL_MECH_LINUS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.CRYSTAL_MECH_LOWER: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.CRYSTAL_MECH_TO_BOSS_3: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.CRYSTAL_MECH_TRIPLE_1: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.CRYSTAL_MECH_TRIPLE_2: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.CRYSTAL_MECH_TRIPLE_3: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
