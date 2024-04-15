@@ -48,6 +48,7 @@ class Regions(str, Enum):
     MECH_BOTTOM_CAMPFIRE = "Mechanism - Bottom Campfire"
     MECH_SNAKE = "Mechanism - Snake"
     MECH_LOWER_VOID = "Mechanism - Lower Void"
+    MECH_WATCHER = "Mechanism - Watcher"
     MECH_ROOTS = "Mechanism - Roots"
     MECH_MUSIC = "Mechanism - Music"
     MECH_BK = "Mechanism - BK"
@@ -112,6 +113,7 @@ class Regions(str, Enum):
     ROA_HEARTS = "Ruins of Ash - Hearts"
     ROA_SPIKE_CLIMB = "Ruins of Ash - Spike Climb"
     ROA_BOTTOM_ASCEND = "Ruins of Ash - Bottom of Ascend"
+    ROA_TRIPLE_REAPER = "Ruins of Ash - Triple Reaper"
     ROA_ARENA = "Ruins of Ash - Arena"
     ROA_LOWER_VOID_CONNECTION = "Ruins of Ash - Lower Void Connection"
     ROA_LOWER_VOID = "Ruins of Ash - Lower Void"
@@ -128,7 +130,6 @@ class Regions(str, Enum):
     ROA_LEFT_SWITCH = "Ruins of Ash - Left Switch"
     ROA_RIGHT_SWITCH_1 = "Ruins of Ash - Right Switch 1"
     ROA_RIGHT_SWITCH_2 = "Ruins of Ash - Right Switch 2"
-    ROA_RIGHT_SWITCH_3 = "Ruins of Ash - Right Switch 3"
     ROA_MIDDLE_LADDER = "Ruins of Ash - Middle Ladder"
     ROA_UPPER_VOID = "Ruins of Ash - Upper Void"
     ROA_SPIKE_BALLS = "Ruins of Ash - Spike Balls"
@@ -176,11 +177,13 @@ class Regions(str, Enum):
     CATA_ROOTS_CAMPFIRE = "Catacombs - Roots Campfire"
     CATA_POISON_ROOTS = "Catacombs - Poison Roots"
     CATA_BLUE_EYE_DOOR = "Catacombs - Blue Eye Door"
+    CATA_FLAMES_FORK = "Catacombs - Flames Fork"
     CATA_FLAMES = "Catacombs - Flames"
     CATA_CENTAUR = "Catacombs - Centaur"
     CATA_4_FACES = "Catacombs - 4 Faces"
     CATA_DOUBLE_DOOR = "Catacombs - Double Door"
-    CATA_VOID = "Catacombs - Void"
+    CATA_VOID_R = "Catacombs - Void Right"
+    CATA_VOID_L = "Catacombs - Void Left"
     CATA_BOSS = "Catacombs - Boss"
 
     TR_START = "Tower Roots - Start"
@@ -350,6 +353,7 @@ astalon_regions: Dict[Regions, Optional[Set[Regions]]] = {
     Regions.GT_UPPER_PATH_CONNECTION: {
         Regions.GT_UPPER_PATH,
         Regions.MECH_SWORD_CONNECTION,
+        Regions.MECH_BOTTOM_CAMPFIRE,
     },
     Regions.MECH_START: {
         Regions.GT_BOSS,
@@ -358,7 +362,7 @@ astalon_regions: Dict[Regions, Optional[Set[Regions]]] = {
         Regions.MECH_LINUS,
         Regions.MECH_LOWER_VOID,
         Regions.MECH_BK,
-        Regions.MECH_ROOTS,
+        Regions.MECH_WATCHER,
     },
     Regions.MECH_SACRIFICE: None,
     Regions.MECH_LINUS: {
@@ -384,6 +388,7 @@ astalon_regions: Dict[Regions, Optional[Set[Regions]]] = {
     },
     Regions.MECH_BOOTS_UPPER: None,
     Regions.MECH_BOTTOM_CAMPFIRE: {
+        Regions.GT_UPPER_PATH_CONNECTION,
         Regions.MECH_SWORD_CONNECTION,
         Regions.MECH_BOOTS_CONNECTION,
         Regions.MECH_SNAKE,
@@ -397,8 +402,12 @@ astalon_regions: Dict[Regions, Optional[Set[Regions]]] = {
         Regions.MECH_UPPER_VOID,
         Regions.HOTP_MECH_VOID_CONNECTION,
     },
-    Regions.MECH_ROOTS: {
+    Regions.MECH_WATCHER: {
         Regions.MECH_START,
+        Regions.MECH_ROOTS,
+    },
+    Regions.MECH_ROOTS: {
+        Regions.MECH_WATCHER,
         Regions.MECH_MUSIC,
         Regions.MECH_BK,
         Regions.MECH_ZEEK_CONNECTION,
@@ -486,7 +495,6 @@ astalon_regions: Dict[Regions, Optional[Set[Regions]]] = {
     },
     Regions.MECH_BOSS_CONNECTION: {
         Regions.MECH_CHAINS,
-        Regions.MECH_BOSS_SWITCHES,
         Regions.MECH_BRAM_TUNNEL,
         Regions.MECH_BOSS,
     },
@@ -529,6 +537,7 @@ astalon_regions: Dict[Regions, Optional[Set[Regions]]] = {
     Regions.HOTP_START_BOTTOM: {
         Regions.MECH_BRAM_TUNNEL,
         Regions.HOTP_START,
+        Regions.HOTP_LOWER,
     },
     Regions.HOTP_LOWER: {
         Regions.HOTP_START_BOTTOM,
@@ -565,7 +574,6 @@ astalon_regions: Dict[Regions, Optional[Set[Regions]]] = {
     Regions.HOTP_RED_KEY: None,
     Regions.HOTP_BELL: None,
     Regions.HOTP_CATH_CONNECTION: {
-        Regions.HOTP_BELL_CAMPFIRE,
         Regions.HOTP_BELL,
         Regions.CATH_START,
     },
@@ -647,6 +655,7 @@ astalon_regions: Dict[Regions, Optional[Set[Regions]]] = {
     Regions.HOTP_FALL_BOTTOM: {
         Regions.MECH_TP_CONNECTION,
         Regions.HOTP_TP_FALL_TOP,
+        Regions.HOTP_UPPER_VOID,
     },
     Regions.HOTP_UPPER_VOID: {
         Regions.HOTP_LOWER_VOID,
@@ -687,11 +696,15 @@ astalon_regions: Dict[Regions, Optional[Set[Regions]]] = {
     Regions.ROA_BOTTOM_ASCEND: {
         Regions.ROA_HEARTS,
         Regions.ROA_SPIKE_CLIMB,
-        Regions.ROA_ARENA,
+        Regions.ROA_TRIPLE_REAPER,
         Regions.ROA_TOP_ASCENT,
     },
-    Regions.ROA_ARENA: {
+    Regions.ROA_TRIPLE_REAPER: {
         Regions.ROA_BOTTOM_ASCEND,
+        Regions.ROA_ARENA,
+    },
+    Regions.ROA_ARENA: {
+        Regions.ROA_TRIPLE_REAPER,
         Regions.ROA_LOWER_VOID_CONNECTION,
         Regions.ROA_FLAMES_CONNECTION,
     },
@@ -721,7 +734,6 @@ astalon_regions: Dict[Regions, Optional[Set[Regions]]] = {
     },
     Regions.ROA_FLAMES: {
         Regions.ROA_ARIAS_BABY_GORGON,
-        Regions.ROA_FLAMES_CONNECTION,
     },
     Regions.ROA_WORM_CLIMB: {
         Regions.ROA_FLAMES_CONNECTION,
@@ -756,10 +768,7 @@ astalon_regions: Dict[Regions, Optional[Set[Regions]]] = {
     Regions.ROA_RIGHT_SWITCH_1: {
         Regions.ROA_RIGHT_SWITCH_2,
     },
-    Regions.ROA_RIGHT_SWITCH_2: {
-        Regions.ROA_RIGHT_SWITCH_3,
-    },
-    Regions.ROA_RIGHT_SWITCH_3: None,
+    Regions.ROA_RIGHT_SWITCH_2: None,
     Regions.ROA_MIDDLE_LADDER: {
         Regions.ROA_MIDDLE,
         Regions.ROA_UPPER_VOID,
@@ -814,7 +823,7 @@ astalon_regions: Dict[Regions, Optional[Set[Regions]]] = {
     },
     Regions.ROA_ICARUS: None,
     Regions.ROA_DARK_CONNECTION: {
-        Regions.ROA_DARK_CONNECTION,
+        Regions.ROA_ELEVATOR,
         Regions.DARK_START,
         Regions.ROA_CENTAUR,
     },
@@ -915,6 +924,7 @@ astalon_regions: Dict[Regions, Optional[Set[Regions]]] = {
     Regions.CATA_VERTICAL_SHORTCUT: {
         Regions.CATA_BOW_CONNECTION,
         Regions.CATA_BLUE_EYE_DOOR,
+        Regions.CATA_FLAMES_FORK,
     },
     Regions.CATA_EYEBALL_BONES: {
         Regions.CATA_BOW_CAMPFIRE,
@@ -940,14 +950,18 @@ astalon_regions: Dict[Regions, Optional[Set[Regions]]] = {
     },
     Regions.CATA_POISON_ROOTS: None,
     Regions.CATA_BLUE_EYE_DOOR: {
-        Regions.CATA_VERTICAL_SHORTCUT,
         Regions.CATA_ROOTS_CAMPFIRE,
+        Regions.CATA_FLAMES_FORK,
+    },
+    Regions.CATA_FLAMES_FORK: {
+        Regions.CATA_VERTICAL_SHORTCUT,
+        Regions.CATA_BLUE_EYE_DOOR,
         Regions.CATA_FLAMES,
         Regions.CATA_CENTAUR,
     },
     Regions.CATA_FLAMES: None,
     Regions.CATA_CENTAUR: {
-        Regions.CATA_BLUE_EYE_DOOR,
+        Regions.CATA_FLAMES_FORK,
         Regions.CATA_4_FACES,
         Regions.CATA_BOSS,
     },
@@ -957,10 +971,14 @@ astalon_regions: Dict[Regions, Optional[Set[Regions]]] = {
     },
     Regions.CATA_DOUBLE_DOOR: {
         Regions.CATA_4_FACES,
-        Regions.CATA_VOID,
+        Regions.CATA_VOID_R,
     },
-    Regions.CATA_VOID: {
+    Regions.CATA_VOID_R: {
         Regions.CATA_DOUBLE_DOOR,
+        Regions.CATA_VOID_L,
+    },
+    Regions.CATA_VOID_L: {
+        Regions.CATA_VOID_R,
         Regions.CATA_BOSS,
     },
     Regions.CATA_BOSS: {
@@ -972,7 +990,8 @@ astalon_regions: Dict[Regions, Optional[Set[Regions]]] = {
         Regions.ROA_ELEVATOR,
         Regions.APEX,
         Regions.CATA_ELEVATOR,
-        Regions.CATA_VOID,
+        Regions.CATA_CENTAUR,
+        Regions.CATA_VOID_L,
         Regions.TR_START,
         Regions.TR_START,
     },

@@ -216,8 +216,7 @@ class Locations(str, Enum):
     ROA_SWITCH_SHAFT_R = "Ruins of Ash - Switch (Shaft Right)"
     ROA_SWITCH_ELEVATOR = "Ruins of Ash - Switch (Elevator)"
     ROA_SWITCH_SHAFT_DOWNWARDS = "Ruins of Ash - Switch (Shaft Downwards)"
-    ROA_SWITCH_SPIDERS_T = "Ruins of Ash - Switch (Spiders Top)"
-    ROA_SWITCH_SPIDERS_B = "Ruins of Ash - Switch (Spiders Bottom)"
+    ROA_SWITCH_SPIDERS = "Ruins of Ash - Switch (Spiders)"
     ROA_SWITCH_DARK_ROOM = "Ruins of Ash - Switch (Dark Room)"
     ROA_SWITCH_ASCEND_SHORTCUT = "Ruins of Ash - Switch (Ascend Shortcut)"
     ROA_SWITCH_1ST_SHORTCUT = "Ruins of Ash - Switch (1st Shortcut)"
@@ -244,6 +243,7 @@ class Locations(str, Enum):
     ROA_CRYSTAL_BRANCH_L = "Ruins of Ash - Crystal (Branch Left)"
     ROA_CRYSTAL_3_REAPERS = "Ruins of Ash - Crystal (3 Reapers)"
     ROA_CRYSTAL_TRIPLE_2 = "Ruins of Ash - Crystal (Triple 2)"
+    ROA_FACE_SPIDERS = "Ruins of Ash - Face (Spiders)"
     ROA_FACE_BLUE_KEY = "Ruins of Ash - Face (Blue Key)"
 
     DARK_HP_4 = "Darkness - Max HP +4"
@@ -482,7 +482,7 @@ location_table: Dict[Locations, AstalonLocationData] = {
     Locations.ROA_BLUE_KEY_FLAMES: AstalonLocationData(Regions.ROA_FLAMES, LocationGroups.KEY_BLUE),
     Locations.ROA_BLUE_KEY_BABY: AstalonLocationData(Regions.ROA_LEFT_BABY_GORGON, LocationGroups.KEY_BLUE),
     Locations.ROA_BLUE_KEY_TOP: AstalonLocationData(Regions.ROA_CENTAUR, LocationGroups.KEY_BLUE),
-    Locations.ROA_BLUE_KEY_POT: AstalonLocationData(Regions.ROA_BOTTOM_ASCEND, LocationGroups.KEY_BLUE),
+    Locations.ROA_BLUE_KEY_POT: AstalonLocationData(Regions.ROA_TRIPLE_REAPER, LocationGroups.KEY_BLUE),
     Locations.ROA_RED_KEY: AstalonLocationData(Regions.ROA_RED_KEY, LocationGroups.KEY_RED),
     Locations.DARK_HP_4: AstalonLocationData(Regions.DARK_END, LocationGroups.HEALTH),
     Locations.DARK_WHITE_KEY: AstalonLocationData(Regions.DARK_END, LocationGroups.KEY_WHITE),
@@ -659,8 +659,7 @@ location_table: Dict[Locations, AstalonLocationData] = {
     Locations.ROA_SWITCH_SHAFT_R: AstalonLocationData(Regions.ROA_MIDDLE_LADDER, LocationGroups.SWITCH),
     Locations.ROA_SWITCH_ELEVATOR: AstalonLocationData(Regions.ROA_ELEVATOR, LocationGroups.SWITCH),
     Locations.ROA_SWITCH_SHAFT_DOWNWARDS: AstalonLocationData(Regions.ROA_SP_CONNECTION, LocationGroups.SWITCH),
-    Locations.ROA_SWITCH_SPIDERS_T: AstalonLocationData(Regions.ROA_SPIDERS_2, LocationGroups.SWITCH),
-    Locations.ROA_SWITCH_SPIDERS_B: AstalonLocationData(Regions.ROA_SPIDERS_1, LocationGroups.SWITCH),
+    Locations.ROA_SWITCH_SPIDERS: AstalonLocationData(Regions.ROA_SPIDERS_2, LocationGroups.SWITCH),
     Locations.ROA_SWITCH_DARK_ROOM: AstalonLocationData(Regions.ROA_ELEVATOR, LocationGroups.SWITCH),
     Locations.ROA_SWITCH_ASCEND_SHORTCUT: AstalonLocationData(Regions.ROA_MIDDLE, LocationGroups.SWITCH),
     Locations.ROA_SWITCH_1ST_SHORTCUT: AstalonLocationData(Regions.ROA_BOTTOM_ASCEND, LocationGroups.SWITCH),
@@ -677,7 +676,7 @@ location_table: Dict[Locations, AstalonLocationData] = {
     Locations.ROA_SWITCH_LOWER_VOID: AstalonLocationData(Regions.ROA_LOWER_VOID, LocationGroups.SWITCH),
     Locations.ROA_CRYSTAL_1ST_ROOM: AstalonLocationData(Regions.ROA_START, LocationGroups.SWITCH),
     Locations.ROA_CRYSTAL_BABY_GORGON: AstalonLocationData(Regions.ROA_LOWER_VOID_CONNECTION, LocationGroups.SWITCH),
-    Locations.ROA_CRYSTAL_LADDER_R: AstalonLocationData(Regions.ROA_RIGHT_SWITCH_3, LocationGroups.SWITCH),
+    Locations.ROA_CRYSTAL_LADDER_R: AstalonLocationData(Regions.ROA_RIGHT_SWITCH_2, LocationGroups.SWITCH),
     Locations.ROA_CRYSTAL_LADDER_L: AstalonLocationData(Regions.ROA_LEFT_SWITCH, LocationGroups.SWITCH),
     Locations.ROA_CRYSTAL_CENTAUR: AstalonLocationData(Regions.ROA_CENTAUR, LocationGroups.SWITCH),
     Locations.ROA_CRYSTAL_SPIKE_BALLS: AstalonLocationData(Regions.ROA_UPPER_VOID, LocationGroups.SWITCH),
@@ -685,8 +684,9 @@ location_table: Dict[Locations, AstalonLocationData] = {
     Locations.ROA_CRYSTAL_SHAFT: AstalonLocationData(Regions.ROA_SP_CONNECTION, LocationGroups.SWITCH),
     Locations.ROA_CRYSTAL_BRANCH_R: AstalonLocationData(Regions.ROA_RIGHT_BRANCH, LocationGroups.SWITCH),
     Locations.ROA_CRYSTAL_BRANCH_L: AstalonLocationData(Regions.ROA_RIGHT_BRANCH, LocationGroups.SWITCH),
-    Locations.ROA_CRYSTAL_3_REAPERS: AstalonLocationData(Regions.ROA_BOTTOM_ASCEND, LocationGroups.SWITCH),
+    Locations.ROA_CRYSTAL_3_REAPERS: AstalonLocationData(Regions.ROA_TRIPLE_REAPER, LocationGroups.SWITCH),
     Locations.ROA_CRYSTAL_TRIPLE_2: AstalonLocationData(Regions.ROA_TRIPLE_SWITCH, LocationGroups.SWITCH),
+    Locations.ROA_FACE_SPIDERS: AstalonLocationData(Regions.ROA_SPIDERS_1, LocationGroups.SWITCH),
     Locations.ROA_FACE_BLUE_KEY: AstalonLocationData(Regions.ROA_BOTTOM_ASCEND, LocationGroups.SWITCH),
     Locations.DARK_SWITCH: AstalonLocationData(Regions.DARK_START, LocationGroups.SWITCH),
     Locations.APEX_SWITCH: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH),
@@ -704,12 +704,12 @@ location_table: Dict[Locations, AstalonLocationData] = {
     Locations.CATA_SWITCH_WATER_2: AstalonLocationData(Regions.CATA_DOUBLE_SWITCH, LocationGroups.SWITCH),
     Locations.CATA_SWITCH_DEV_ROOM: AstalonLocationData(Regions.CATA_DEV_ROOM_CONNECTION, LocationGroups.SWITCH),
     Locations.CATA_SWITCH_AFTER_BLUE_DOOR: AstalonLocationData(Regions.CATA_BLUE_EYE_DOOR, LocationGroups.SWITCH),
-    Locations.CATA_SWITCH_SHORTCUT_ACCESS: AstalonLocationData(Regions.CATA_BLUE_EYE_DOOR, LocationGroups.SWITCH),
-    Locations.CATA_SWITCH_LADDER_BLOCKS: AstalonLocationData(Regions.CATA_BLUE_EYE_DOOR, LocationGroups.SWITCH),
+    Locations.CATA_SWITCH_SHORTCUT_ACCESS: AstalonLocationData(Regions.CATA_FLAMES_FORK, LocationGroups.SWITCH),
+    Locations.CATA_SWITCH_LADDER_BLOCKS: AstalonLocationData(Regions.CATA_FLAMES_FORK, LocationGroups.SWITCH),
     Locations.CATA_SWITCH_MID_SHORTCUT: AstalonLocationData(Regions.CATA_VERTICAL_SHORTCUT, LocationGroups.SWITCH),
     Locations.CATA_SWITCH_1ST_ROOM: AstalonLocationData(Regions.CATA_START, LocationGroups.SWITCH),
-    Locations.CATA_SWITCH_FLAMES_2: AstalonLocationData(Regions.CATA_BLUE_EYE_DOOR, LocationGroups.SWITCH),
-    Locations.CATA_SWITCH_FLAMES_1: AstalonLocationData(Regions.CATA_BLUE_EYE_DOOR, LocationGroups.SWITCH),
+    Locations.CATA_SWITCH_FLAMES_2: AstalonLocationData(Regions.CATA_FLAMES_FORK, LocationGroups.SWITCH),
+    Locations.CATA_SWITCH_FLAMES_1: AstalonLocationData(Regions.CATA_FLAMES_FORK, LocationGroups.SWITCH),
     Locations.CATA_CRYSTAL_POISON_ROOTS: AstalonLocationData(Regions.CATA_POISON_ROOTS, LocationGroups.SWITCH),
     Locations.CATA_FACE_AFTER_BOW: AstalonLocationData(Regions.CATA_BOW_CAMPFIRE, LocationGroups.SWITCH),
     Locations.CATA_FACE_BOW: AstalonLocationData(Regions.CATA_BOW, LocationGroups.SWITCH),

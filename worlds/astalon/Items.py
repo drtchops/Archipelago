@@ -241,8 +241,7 @@ class Items(str, Enum):
     SWITCH_ROA_SHAFT_R = "RoA Switch Shaft Right"
     SWITCH_ROA_ELEVATOR = "RoA Switch Elevator"
     SWITCH_ROA_SHAFT_DOWNWARDS = "RoA Switch Shaft Downwards"
-    SWITCH_ROA_SPIDERS_TOP = "RoA Switch Spiders Top"
-    SWITCH_ROA_SPIDERS_BOTTOM = "RoA Switch Spiders Bottom"
+    SWITCH_ROA_SPIDERS = "RoA Switch Spiders"
     SWITCH_ROA_DARK_ROOM = "RoA Switch Dark Room"
     SWITCH_ROA_ASCEND_SHORTCUT = "RoA Switch Ascend Shortcut"
     SWITCH_ROA_1ST_SHORTCUT = "RoA Switch 1st Shortcut"
@@ -354,6 +353,7 @@ class Items(str, Enum):
 
     FACE_MECH_VOLANTIS = "Mech Face Volantis"
     FACE_HOTP_OLD_MAN = "HotP Face Old Man"
+    FACE_ROA_SPIDERS = "RoA Face Spiders"
     FACE_ROA_BLUE_KEY = "RoA Face Blue Key"
     FACE_CAVES_1ST_ROOM = "Caves Face 1st Room"
     FACE_CATA_AFTER_BOW = "Cata Face After Bow"
@@ -571,8 +571,7 @@ Switches: TypeAlias = Literal[
     Items.SWITCH_ROA_SHAFT_R,
     Items.SWITCH_ROA_ELEVATOR,
     Items.SWITCH_ROA_SHAFT_DOWNWARDS,
-    Items.SWITCH_ROA_SPIDERS_TOP,
-    Items.SWITCH_ROA_SPIDERS_BOTTOM,
+    Items.SWITCH_ROA_SPIDERS,
     Items.SWITCH_ROA_DARK_ROOM,
     Items.SWITCH_ROA_ASCEND_SHORTCUT,
     Items.SWITCH_ROA_1ST_SHORTCUT,
@@ -682,6 +681,7 @@ Switches: TypeAlias = Literal[
     Items.CRYSTAL_SP_STAR,
     Items.FACE_MECH_VOLANTIS,
     Items.FACE_HOTP_OLD_MAN,
+    Items.FACE_ROA_SPIDERS,
     Items.FACE_ROA_BLUE_KEY,
     Items.FACE_CAVES_1ST_ROOM,
     Items.FACE_CATA_AFTER_BOW,
@@ -931,8 +931,7 @@ item_table: Dict[Items, AstalonItemData] = {
     Items.SWITCH_ROA_SHAFT_R: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.SWITCH_ROA_ELEVATOR: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.SWITCH_ROA_SHAFT_DOWNWARDS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
-    Items.SWITCH_ROA_SPIDERS_TOP: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
-    Items.SWITCH_ROA_SPIDERS_BOTTOM: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_ROA_SPIDERS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.SWITCH_ROA_DARK_ROOM: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.SWITCH_ROA_ASCEND_SHORTCUT: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.SWITCH_ROA_1ST_SHORTCUT: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
@@ -1042,6 +1041,7 @@ item_table: Dict[Items, AstalonItemData] = {
     Items.CRYSTAL_SP_STAR: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.FACE_MECH_VOLANTIS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.FACE_HOTP_OLD_MAN: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.FACE_ROA_SPIDERS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.FACE_ROA_BLUE_KEY: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.FACE_CAVES_1ST_ROOM: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.FACE_CATA_AFTER_BOW: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
