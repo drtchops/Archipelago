@@ -88,29 +88,31 @@ class AstalonWorld(World):
             if exits:
                 region.add_exits([e.value for e in exits])
 
-            for location_name in location_name_groups.get(name.value, []):
-                data = location_table[Locations(location_name)]
-                if data.item_group == LocationGroups.CHARACTER:
-                    continue
-                if data.item_group == LocationGroups.ATTACK and not self.options.randomize_attack_pickups:
-                    continue
-                if data.item_group == LocationGroups.HEALTH and not self.options.randomize_health_pickups:
-                    continue
-                if data.item_group == LocationGroups.KEY_WHITE and not self.options.randomize_white_keys:
-                    continue
-                if data.item_group == LocationGroups.KEY_BLUE and not self.options.randomize_blue_keys:
-                    continue
-                if data.item_group == LocationGroups.KEY_RED and not self.options.randomize_red_keys:
-                    continue
-                if data.item_group == LocationGroups.SHOP and not self.options.randomize_shop:
-                    continue
-                if location_name == Locations.SHOP_MAP_REVEAL:
-                    # this requires way too much map completion
-                    continue
+        for location_name, data in location_table.items():
+            if data.group == LocationGroups.CHARACTER:
+                continue
+            if data.group == LocationGroups.ATTACK and not self.options.randomize_attack_pickups:
+                continue
+            if data.group == LocationGroups.HEALTH and not self.options.randomize_health_pickups:
+                continue
+            if data.group == LocationGroups.KEY_WHITE and not self.options.randomize_white_keys:
+                continue
+            if data.group == LocationGroups.KEY_BLUE and not self.options.randomize_blue_keys:
+                continue
+            if data.group == LocationGroups.KEY_RED and not self.options.randomize_red_keys:
+                continue
+            if data.group == LocationGroups.SHOP and not self.options.randomize_shop:
+                continue
+            if location_name == Locations.SHOP_MAP_REVEAL:
+                # this requires way too much map completion
+                continue
 
-                location = AstalonLocation(self.player, location_name, location_name_to_id[location_name], region)
-                region.locations.append(location)
-                self.location_count += 1
+            region = self.get_region(data.region.value)
+            location = AstalonLocation(
+                self.player, location_name.value, location_name_to_id[location_name.value], region
+            )
+            region.locations.append(location)
+            self.location_count += 1
 
         if self.options.randomize_characters != RandomizeCharacters.option_vanilla:
             if Items.ALGUS not in self.starting_characters:
@@ -144,17 +146,17 @@ class AstalonWorld(World):
     def create_items(self) -> None:
         itempool = []
         for name, data in item_table.items():
-            if data.item_group == ItemGroups.ATTACK and not self.options.randomize_attack_pickups:
+            if data.group == ItemGroups.ATTACK and not self.options.randomize_attack_pickups:
                 continue
-            if data.item_group == ItemGroups.HEALTH and not self.options.randomize_health_pickups:
+            if data.group == ItemGroups.HEALTH and not self.options.randomize_health_pickups:
                 continue
-            if data.item_group == ItemGroups.DOOR_WHITE and not self.options.randomize_white_keys:
+            if data.group == ItemGroups.DOOR_WHITE and not self.options.randomize_white_keys:
                 continue
-            if data.item_group == ItemGroups.DOOR_BLUE and not self.options.randomize_blue_keys:
+            if data.group == ItemGroups.DOOR_BLUE and not self.options.randomize_blue_keys:
                 continue
-            if data.item_group == ItemGroups.DOOR_RED and not self.options.randomize_red_keys:
+            if data.group == ItemGroups.DOOR_RED and not self.options.randomize_red_keys:
                 continue
-            if data.item_group == ItemGroups.SHOP and not self.options.randomize_shop:
+            if data.group == ItemGroups.SHOP and not self.options.randomize_shop:
                 continue
             if self.options.start_with_qol and name in QOL_ITEMS:
                 continue
@@ -202,6 +204,7 @@ class AstalonWorld(World):
         rules = AstalonRules(self)
         rules.set_region_rules()
         rules.set_location_rules()
+        rules.set_indirect_conditions()
 
     def fill_slot_data(self) -> Dict[str, Any]:
         settings = self.options.as_dict(

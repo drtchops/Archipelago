@@ -175,7 +175,6 @@ class Items(str, Enum):
     SWITCH_GT_SPIKE_TUNNEL = "GT Switch Spike Tunnel"
     SWITCH_GT_BUTT_ACCESS = "GT Switch Butt Access"
     SWITCH_GT_GH = "GT Switch Gorgonheart"
-    SWITCH_GT_ROTA = "GT Switch RotA"
     SWITCH_GT_UPPER_PATH_BLOCKS = "GT Switch Upper Path Blocks"
     SWITCH_GT_UPPER_PATH_ACCESS = "GT Switch Upper Path Access"
     SWITCH_GT_CROSSES = "GT Switch Crosses"
@@ -295,6 +294,7 @@ class Items(str, Enum):
     SWITCH_SP_AFTER_STAR = "SP Switch After Star"
 
     CRYSTAL_GT_LADDER = "GT Crystal Ladder"
+    CRYSTAL_GT_ROTA = "GT Crystal RotA"
     CRYSTAL_GT_OLD_MAN_1 = "GT Crystal Old Man 1"
     CRYSTAL_GT_OLD_MAN_2 = "GT Crystal Old Man 2"
     CRYSTAL_MECH_CANNON = "Mech Crystal Cannon"
@@ -505,7 +505,6 @@ Switches: TypeAlias = Literal[
     Items.SWITCH_GT_SPIKE_TUNNEL,
     Items.SWITCH_GT_BUTT_ACCESS,
     Items.SWITCH_GT_GH,
-    Items.SWITCH_GT_ROTA,
     Items.SWITCH_GT_UPPER_PATH_BLOCKS,
     Items.SWITCH_GT_UPPER_PATH_ACCESS,
     Items.SWITCH_GT_CROSSES,
@@ -624,6 +623,7 @@ Switches: TypeAlias = Literal[
     Items.SWITCH_SP_BUBBLES,
     Items.SWITCH_SP_AFTER_STAR,
     Items.CRYSTAL_GT_LADDER,
+    Items.CRYSTAL_GT_ROTA,
     Items.CRYSTAL_GT_OLD_MAN_1,
     Items.CRYSTAL_GT_OLD_MAN_2,
     Items.CRYSTAL_MECH_CANNON,
@@ -731,7 +731,7 @@ class AstalonItem(Item):
 class AstalonItemData:
     classification: Union[ItemClassification, Callable[["AstalonWorld"], ItemClassification]]
     quantity_in_item_pool: int
-    item_group: ItemGroups = ItemGroups.NONE
+    group: ItemGroups = ItemGroups.NONE
 
 
 item_table: Dict[Items, AstalonItemData] = {
@@ -865,7 +865,6 @@ item_table: Dict[Items, AstalonItemData] = {
     Items.SWITCH_GT_SPIKE_TUNNEL: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.SWITCH_GT_BUTT_ACCESS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.SWITCH_GT_GH: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
-    Items.SWITCH_GT_ROTA: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.SWITCH_GT_UPPER_PATH_BLOCKS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.SWITCH_GT_UPPER_PATH_ACCESS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.SWITCH_GT_CROSSES: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
@@ -984,6 +983,7 @@ item_table: Dict[Items, AstalonItemData] = {
     Items.SWITCH_SP_BUBBLES: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.SWITCH_SP_AFTER_STAR: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.CRYSTAL_GT_LADDER: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.CRYSTAL_GT_ROTA: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.CRYSTAL_GT_OLD_MAN_1: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.CRYSTAL_GT_OLD_MAN_2: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.CRYSTAL_MECH_CANNON: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
@@ -1063,7 +1063,7 @@ item_name_to_id: Dict[str, int] = {name.value: base_id + i for i, name in enumer
 
 
 def get_item_group(item_name: Items):
-    return item_table[item_name].item_group
+    return item_table[item_name].group
 
 
 item_name_groups: Dict[str, Set[str]] = {

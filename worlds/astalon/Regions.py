@@ -255,6 +255,7 @@ astalon_regions: Dict[Regions, Optional[Set[Regions]]] = {
     Regions.SHOP_KYULI: None,
     Regions.SHOP_ZEEK: None,
     Regions.SHOP_BRAM: None,
+    Regions.FINAL_BOSS: None,
     Regions.ENTRANCE: {
         Regions.BESTIARY,
         Regions.GT_BABY_GORGON,
@@ -1134,5 +1135,7 @@ astalon_regions: Dict[Regions, Optional[Set[Regions]]] = {
     Regions.SP_FROG: {
         Regions.SP_CAMPFIRE_2,
     },
-    Regions.SP_CAMPFIRE_2: None,
+    Regions.SP_CAMPFIRE_2: {
+        Regions.HOTP_MAIDEN,
+    },
 }
