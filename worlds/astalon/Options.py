@@ -14,7 +14,8 @@ from Options import (
 class Difficulty(Choice):
     """
     Choose how difficult of a playthrough the logic expects.
-    Hard difficulty expects extra jump height with Arias, sticking blocks in walls with Zeek, or hitting magic crystals with Kyuli or Bram.
+    Hard difficulty expects extra jump height with Arias, sticking blocks in walls with Zeek,
+    or hitting magic crystals with Kyuli or Bram.
     """
 
     display_name = "Difficulty"
@@ -248,8 +249,8 @@ class AstalonOptions(PerGameCommonOptions):
     randomize_blue_keys: RandomizeBlueKeys
     randomize_red_keys: RandomizeRedKeys
     randomize_shop: RandomizeShop
-    randomize_switches: RandomizeSwitches
     randomize_elevator: RandomizeElevator
+    randomize_switches: RandomizeSwitches
     # randomize_familiars: RandomizeFamiliars
     # randomize_orb_crates: RandomizeOrbCrates
     # randomize_boss_orb_rewards: RandomizeBossOrbRewards

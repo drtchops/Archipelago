@@ -6,6 +6,8 @@ from worlds.AutoWorld import WebWorld, World
 from .Items import (
     CHARACTERS,
     EARLY_BLUE_DOORS,
+    EARLY_ITEMS,
+    EARLY_SWITCHES,
     EARLY_WHITE_DOORS,
     QOL_ITEMS,
     AstalonItem,
@@ -88,31 +90,36 @@ class AstalonWorld(World):
             if exits:
                 region.add_exits([e.value for e in exits])
 
-        for location_name, data in location_table.items():
-            if data.group == LocationGroups.CHARACTER:
+        for group, location_names in location_name_groups.items():
+            if group == LocationGroups.CHARACTER:
                 continue
-            if data.group == LocationGroups.ATTACK and not self.options.randomize_attack_pickups:
+            if group == LocationGroups.ATTACK and not self.options.randomize_attack_pickups:
                 continue
-            if data.group == LocationGroups.HEALTH and not self.options.randomize_health_pickups:
+            if group == LocationGroups.HEALTH and not self.options.randomize_health_pickups:
                 continue
-            if data.group == LocationGroups.KEY_WHITE and not self.options.randomize_white_keys:
+            if group == LocationGroups.KEY_WHITE and not self.options.randomize_white_keys:
                 continue
-            if data.group == LocationGroups.KEY_BLUE and not self.options.randomize_blue_keys:
+            if group == LocationGroups.KEY_BLUE and not self.options.randomize_blue_keys:
                 continue
-            if data.group == LocationGroups.KEY_RED and not self.options.randomize_red_keys:
+            if group == LocationGroups.KEY_RED and not self.options.randomize_red_keys:
                 continue
-            if data.group == LocationGroups.SHOP and not self.options.randomize_shop:
+            if group == LocationGroups.SHOP and not self.options.randomize_shop:
                 continue
-            if location_name == Locations.SHOP_MAP_REVEAL:
-                # this requires way too much map completion
+            if group == LocationGroups.ELEVATOR and not self.options.randomize_elevator:
+                continue
+            if group == LocationGroups.SWITCH and not self.options.randomize_switches:
                 continue
 
-            region = self.get_region(data.region.value)
-            location = AstalonLocation(
-                self.player, location_name.value, location_name_to_id[location_name.value], region
-            )
-            region.locations.append(location)
-            self.location_count += 1
+            for location_name in location_names:
+                if location_name == Locations.SHOP_MAP_REVEAL:
+                    # this requires way too much map completion
+                    continue
+
+                data = location_table[Locations(location_name)]
+                region = self.get_region(data.region.value)
+                location = AstalonLocation(self.player, location_name, location_name_to_id[location_name], region)
+                region.locations.append(location)
+                self.location_count += 1
 
         if self.options.randomize_characters != RandomizeCharacters.option_vanilla:
             if Items.ALGUS not in self.starting_characters:
@@ -145,26 +152,36 @@ class AstalonWorld(World):
 
     def create_items(self) -> None:
         itempool = []
-        for name, data in item_table.items():
-            if data.group == ItemGroups.ATTACK and not self.options.randomize_attack_pickups:
+
+        for group, item_names in item_name_groups.items():
+            if group == ItemGroups.CHARACTER:
                 continue
-            if data.group == ItemGroups.HEALTH and not self.options.randomize_health_pickups:
+            if group == ItemGroups.ATTACK and not self.options.randomize_attack_pickups:
                 continue
-            if data.group == ItemGroups.DOOR_WHITE and not self.options.randomize_white_keys:
+            if group == ItemGroups.HEALTH and not self.options.randomize_health_pickups:
                 continue
-            if data.group == ItemGroups.DOOR_BLUE and not self.options.randomize_blue_keys:
+            if group == ItemGroups.DOOR_WHITE and not self.options.randomize_white_keys:
                 continue
-            if data.group == ItemGroups.DOOR_RED and not self.options.randomize_red_keys:
+            if group == ItemGroups.DOOR_BLUE and not self.options.randomize_blue_keys:
                 continue
-            if data.group == ItemGroups.SHOP and not self.options.randomize_shop:
+            if group == ItemGroups.DOOR_RED and not self.options.randomize_red_keys:
                 continue
-            if self.options.start_with_qol and name in QOL_ITEMS:
+            if group == ItemGroups.SHOP and not self.options.randomize_shop:
                 continue
-            if self.options.open_early_doors and (name in EARLY_WHITE_DOORS or name in EARLY_BLUE_DOORS):
+            if group == ItemGroups.ELEVATOR and not self.options.randomize_elevator:
+                continue
+            if group == ItemGroups.SWITCH and not self.options.randomize_switches:
                 continue
 
-            for _ in range(0, data.quantity_in_item_pool):
-                itempool.append(self.create_item(name.value))
+            for name in item_names:
+                if self.options.start_with_qol and name in QOL_ITEMS:
+                    continue
+                if self.options.open_early_doors and name in EARLY_ITEMS:
+                    continue
+
+                data = item_table[Items(name)]
+                for _ in range(0, data.quantity_in_item_pool):
+                    itempool.append(self.create_item(name))
 
         if self.options.randomize_characters != RandomizeCharacters.option_vanilla:
             for character in CHARACTERS:
@@ -184,6 +201,9 @@ class AstalonWorld(World):
                     self.multiworld.push_precollected(self.create_item(item.value))
             if self.options.randomize_blue_keys:
                 for item in EARLY_BLUE_DOORS:
+                    self.multiworld.push_precollected(self.create_item(item.value))
+            if self.options.randomize_switches:
+                for item in EARLY_SWITCHES:
                     self.multiworld.push_precollected(self.create_item(item.value))
 
         while len(itempool) < self.location_count:
@@ -216,8 +236,8 @@ class AstalonWorld(World):
             "randomize_blue_keys",
             "randomize_red_keys",
             "randomize_shop",
-            "randomize_switches",
             "randomize_elevator",
+            "randomize_switches",
             # "randomize_familiars",
             # "randomize_orb_crates",
             # "randomize_boss_orb_rewards",

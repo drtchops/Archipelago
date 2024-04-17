@@ -329,7 +329,10 @@ ENTRANCE_RULES: Dict[Tuple[R, R], Callable[["AstalonRules", CollectionState], bo
     (R.MECH_SPLIT_PATH, R.MECH_CHAINS): lambda rules, state: (
         rules.switches(state, I.SWITCH_MECH_SPLIT_PATH, disabled_case=False)
     ),
-    (R.MECH_RIGHT, R.MECH_OLD_MAN): lambda rules, state: rules.can(state, Logic.CRYSTAL),
+    (R.MECH_RIGHT, R.MECH_OLD_MAN): lambda rules, state: (
+        rules.switches(state, I.CRYSTAL_MECH_OLD_MAN, disabled_case=rules.can(state, Logic.CRYSTAL))
+        or rules.has(state, I.KYULI, I.BLOCK, I.BELL)
+    ),
     (R.MECH_RIGHT, R.MECH_SPLIT_PATH): lambda rules, state: rules.has(state, I.STAR),
     (R.MECH_RIGHT, R.MECH_POTS): lambda rules, state: (
         rules.switches(state, I.SWITCH_MECH_POTS, disabled_case=True)
@@ -359,9 +362,16 @@ ENTRANCE_RULES: Dict[Tuple[R, R], Callable[["AstalonRules", CollectionState], bo
         rules.has(state, I.CLAW) or rules.white_doors(state, I.DOOR_WHITE_MECH_TOP, disabled_case=True)
     ),
     (R.MECH_TOP, R.CD_START): lambda rules, state: (
-        rules.has(state, I.CYCLOPS, I.EYE_BLUE) and rules.blue_doors(state, I.DOOR_BLUE_MECH_CD, disabled_case=True)
+        rules.has(state, I.CYCLOPS, I.EYE_BLUE)
+        and rules.blue_doors(state, I.DOOR_BLUE_MECH_CD, disabled_case=True)
+        and (
+            rules.switches(state, I.CRYSTAL_MECH_TO_CD, disabled_case=rules.can(state, Logic.CRYSTAL))
+            or rules.has(state, I.KYULI, I.BLOCK, I.BELL)
+        )
     ),
-    (R.MECH_TP_CONNECTION, R.HOTP_FALL_BOTTOM): lambda rules, state: rules.has(state, I.CLAW),
+    (R.MECH_TP_CONNECTION, R.HOTP_FALL_BOTTOM): lambda rules, state: (
+        rules.has(state, I.CLAW) or rules.switches(state, I.SWITCH_MECH_MAZE_BACKDOOR, disabled_case=False)
+    ),
     (R.MECH_TP_CONNECTION, R.MECH_TOP): lambda rules, state: (
         rules.has(state, I.CLAW) or rules.white_doors(state, I.DOOR_WHITE_MECH_TOP, disabled_case=True)
     ),
@@ -651,7 +661,10 @@ ENTRANCE_RULES: Dict[Tuple[R, R], Callable[["AstalonRules", CollectionState], bo
         rules.white_doors(state, I.DOOR_WHITE_ROA_WORMS, disabled_case=True)
         and (rules.switches(state, I.SWITCH_ROA_AFTER_WORMS, disabled_case=True) or rules.has(state, I.STAR))
     ),
-    (R.ROA_WORMS, R.ROA_START): lambda rules, state: rules.can(state, Logic.CRYSTAL),
+    (R.ROA_WORMS, R.ROA_START): lambda rules, state: (
+        rules.switches(state, I.SWITCH_ROA_WORMS, disabled_case=True)
+        or rules.switches(state, I.CRYSTAL_ROA_1ST_ROOM, disabled_case=rules.can(state, Logic.CRYSTAL))
+    ),
     (R.ROA_WORMS, R.ROA_LOWER_VOID_CONNECTION): lambda rules, state: rules.has(state, I.CLAW),
     (R.ROA_HEARTS, R.ROA_BOTTOM_ASCEND): lambda rules, state: (
         rules.switches(state, I.SWITCH_ROA_1ST_SHORTCUT, disabled_case=False)
@@ -760,7 +773,14 @@ ENTRANCE_RULES: Dict[Tuple[R, R], Callable[["AstalonRules", CollectionState], bo
     ),
     (R.ROA_MIDDLE, R.ROA_MIDDLE_LADDER): lambda rules, state: (
         # this could allow more
-        rules.reachable(state, L.ROA_CRYSTAL_LADDER_L) and rules.reachable(state, L.ROA_CRYSTAL_LADDER_R)
+        rules.switches(
+            state,
+            I.CRYSTAL_ROA_LADDER_L,
+            I.CRYSTAL_ROA_LADDER_R,
+            disabled_case=lambda rules, state: (
+                rules.reachable(state, L.ROA_CRYSTAL_LADDER_L) and rules.reachable(state, L.ROA_CRYSTAL_LADDER_R)
+            ),
+        )
     ),
     (R.ROA_MIDDLE, R.ROA_TRIPLE_SWITCH): lambda *_: True,
     (R.ROA_MIDDLE, R.ROA_LEFT_BABY_GORGON): lambda rules, state: rules.can(state, Logic.EXTRA_HEIGHT),
@@ -882,7 +902,7 @@ ENTRANCE_RULES: Dict[Tuple[R, R], Callable[["AstalonRules", CollectionState], bo
     ),
     (R.CAVES_START, R.GT_BOTTOM): lambda *_: True,
     (R.CAVES_EPIMETHEUS, R.CAVES_UPPER): lambda rules, state: (
-        rules.has(state, I.CLAW) or rules.can(state, Logic.BLOCK_IN_WALL) or rules.can(state, Logic.COMBO_HEIGHT)
+        rules.has(state, I.KYULI) or rules.can(state, Logic.BLOCK_IN_WALL) or rules.can(state, Logic.COMBO_HEIGHT)
     ),
     (R.CAVES_EPIMETHEUS, R.CAVES_START): lambda rules, state: (
         rules.blue_doors(state, I.DOOR_BLUE_CAVES, disabled_case=True)
@@ -951,6 +971,7 @@ ENTRANCE_RULES: Dict[Tuple[R, R], Callable[["AstalonRules", CollectionState], bo
     (R.CATA_VERTICAL_SHORTCUT, R.CATA_FLAMES_FORK): lambda *_: True,
     (R.CATA_VERTICAL_SHORTCUT, R.CATA_BOW_CONNECTION): lambda rules, state: (
         rules.switches(state, I.SWITCH_CATA_VERTICAL_SHORTCUT, disabled_case=True)
+        and (rules.switches(state, I.SWITCH_CATA_MID_SHORTCUT, disabled_case=True) or rules.has(state, I.KYULI))
     ),
     (R.CATA_EYEBALL_BONES, R.CATA_SNAKE_MUSHROOMS): lambda rules, state: rules.has(state, I.EYE_RED),
     (R.CATA_EYEBALL_BONES, R.CATA_BOW_CAMPFIRE): lambda *_: True,
@@ -1141,7 +1162,10 @@ ENTRANCE_RULES: Dict[Tuple[R, R], Callable[["AstalonRules", CollectionState], bo
     (R.SP_PAINTING, R.SP_SHAFT): lambda rules, state: (
         rules.has(state, I.CLAW) and rules.blue_doors(state, I.DOOR_BLUE_SP, disabled_case=True)
     ),
-    (R.SP_SHAFT, R.SP_STAR): lambda rules, state: rules.has(state, I.CLAW, I.BELL) and rules.can(state, Logic.CRYSTAL),
+    (R.SP_SHAFT, R.SP_STAR): lambda rules, state: (
+        rules.has(state, I.CLAW, I.BELL)
+        and rules.switches(state, I.CRYSTAL_SP_STAR, disabled_case=rules.can(state, Logic.CRYSTAL))
+    ),
     (R.SP_STAR, R.SP_STAR_CONNECTION): lambda rules, state: rules.has(state, I.STAR),
     (R.SP_STAR_CONNECTION, R.SP_STAR_END): lambda rules, state: (
         rules.switches(state, I.SWITCH_SP_AFTER_STAR, disabled_case=rules.has(state, I.ARIAS))
@@ -1150,13 +1174,14 @@ ENTRANCE_RULES: Dict[Tuple[R, R], Callable[["AstalonRules", CollectionState], bo
     (R.SP_CAMPFIRE_2, R.HOTP_MAIDEN): lambda *_: True,
 }
 
-INDIRECT_CONDITIONS: Tuple[Union[L, R], Tuple[R, R]] = (
+INDIRECT_CONDITIONS: Tuple[Tuple[Union[L, R], Tuple[R, R]], ...] = (
     (L.GT_SWITCH_BUTT_ACCESS, (R.GT_TOP_LEFT, R.GT_BUTT)),
     (L.GT_SWITCH_SPIKE_TUNNEL, (R.GT_TOP_RIGHT, R.GT_SPIKE_TUNNEL)),
     (L.GT_CRYSTAL_LADDER, (R.GT_UPPER_ARIAS, R.GT_OLD_MAN_FORK)),
     (L.GT_SWITCH_UPPER_ARIAS, (R.GT_UPPER_ARIAS, R.MECH_SWORD_CONNECTION)),
     (L.GT_CRYSTAL_LADDER, (R.GT_OLD_MAN_FORK, R.GT_UPPER_ARIAS)),
     (L.MECH_RED_KEY, (R.MECH_ZEEK_CONNECTION, R.MECH_ZEEK)),
+    (R.MECH_ZEEK, (R.MECH_TOP, R.CD_START)),
     (L.HOTP_SWITCH_BELOW_START, (R.HOTP_START_BOTTOM, R.HOTP_LOWER)),
     (L.HOTP_RED_KEY, (R.HOTP_CATH_CONNECTION, R.CATH_START)),
     (L.ROA_CRYSTAL_LADDER_L, (R.ROA_MIDDLE, R.ROA_MIDDLE_LADDER)),
@@ -1168,12 +1193,72 @@ INDIRECT_CONDITIONS: Tuple[Union[L, R], Tuple[R, R]] = (
     (R.CD_TOP, (R.CD_START, R.CD_BOSS)),
 )
 
+ZEEK_CONNECTIONS: Tuple[Tuple[R, R], ...] = (
+    (R.SHOP, R.SHOP_ZEEK),
+    (R.ENTRANCE, R.GT_BABY_GORGON),
+    (R.GT_LEFT, R.GT_TOP_LEFT),
+    (R.MECH_TOP, R.CD_START),
+    (R.HOTP_TOP_LEFT, R.HOTP_ABOVE_OLD_MAN),
+    (R.TR_TOP_RIGHT, R.TR_GOLD),
+    (R.CATH_UNDER_CAMPFIRE, R.CATH_CAMPFIRE_1),
+)
+
+BRAM_CONNECTIONS: Tuple[Tuple[R, R], ...] = (
+    (R.SHOP, R.SHOP_BRAM),
+    (R.GT_BOTTOM, R.GT_UPPER_PATH),
+    (R.GT_BUTT, R.GT_SPIKE_TUNNEL),
+    (R.MECH_BOOTS_CONNECTION, R.MECH_BOOTS_LOWER),
+    (R.MECH_ARIAS_EYEBALL, R.MECH_ZEEK_CONNECTION),
+    (R.MECH_ARIAS_EYEBALL, R.MECH_CHAINS),
+    (R.MECH_ZEEK_CONNECTION, R.MECH_ARIAS_EYEBALL),
+    (R.MECH_RIGHT, R.MECH_SPLIT_PATH),
+    (R.MECH_BOSS_CONNECTION, R.MECH_BRAM_TUNNEL),
+    (R.MECH_BRAM_TUNNEL, R.MECH_BOSS_CONNECTION),
+    (R.MECH_BRAM_TUNNEL, R.HOTP_START_BOTTOM),
+    (R.HOTP_START, R.HOTP_START_BOTTOM),
+    (R.HOTP_START_MID, R.HOTP_START_LEFT),
+    (R.HOTP_START_MID, R.HOTP_START_BOTTOM),
+    (R.HOTP_START_LEFT, R.HOTP_START_MID),
+    (R.HOTP_START_BOTTOM, R.MECH_BRAM_TUNNEL),
+    (R.HOTP_START_BOTTOM, R.HOTP_START),
+    (R.HOTP_CLAW_LEFT, R.HOTP_CLAW),
+    (R.HOTP_CLAW, R.HOTP_CLAW_LEFT),
+    (R.HOTP_TP_PUZZLE, R.HOTP_TP_FALL_TOP),
+    (R.HOTP_TP_FALL_TOP, R.HOTP_TP_PUZZLE),
+    (R.ROA_WORMS, R.ROA_HEARTS),
+    (R.ROA_HEARTS, R.ROA_WORMS),
+    (R.ROA_LOWER_VOID_CONNECTION, R.ROA_FLAMES_CONNECTION),
+    (R.ROA_ARIAS_BABY_GORGON, R.ROA_LOWER_VOID_CONNECTION),
+    (R.ROA_FLAMES_CONNECTION, R.ROA_LOWER_VOID_CONNECTION),
+    (R.ROA_RIGHT_BRANCH, R.ROA_MIDDLE),
+    (R.ROA_MIDDLE, R.ROA_RIGHT_BRANCH),
+    (R.ROA_BOSS_CONNECTION, R.ROA_BOSS),
+    (R.APEX, R.APEX_CENTAUR),
+    (R.TR_LEFT, R.TR_TOP_RIGHT),
+    (R.SP_HEARTS, R.SP_ORBS),
+    (R.SP_STAR, R.SP_STAR_CONNECTION),
+)
+
 ITEM_RULES: Dict[L, Callable[["AstalonRules", CollectionState], bool]] = {
+    L.GT_GORGONHEART: lambda rules, state: (
+        rules.switches(state, I.SWITCH_GT_GH, disabled_case=True)
+        or rules.has_any(state, I.KYULI, I.ICARUS, I.BLOCK, I.CLOAK, I.BOOTS)
+    ),
     L.GT_ANCIENTS_RING: lambda rules, state: rules.has(state, I.EYE_RED),
     L.GT_BANISH: lambda rules, state: (
         rules.region(R.GT_BOTTOM).can_reach(state)
         and rules.region(R.GT_ASCENDANT_KEY).can_reach(state)
         and rules.region(R.GT_BUTT).can_reach(state)
+    ),
+    L.HOTP_BELL: lambda rules, state: (
+        rules.switches(state, I.SWITCH_HOTP_BELL, disabled_case=True)
+        or rules.has(state, I.KYULI)
+        or rules.can(state, Logic.COMBO_HEIGHT)
+    ),
+    L.HOTP_MAIDEN_RING: lambda rules, state: (
+        rules.switches(
+            state, I.CRYSTAL_HOTP_MAIDEN_1, I.CRYSTAL_HOTP_MAIDEN_2, disabled_case=rules.can(state, Logic.CRYSTAL)
+        )
     ),
     L.TR_ADORNED_KEY: lambda rules, state: (
         rules.switches(
@@ -1209,7 +1294,11 @@ ATTACK_RULES: Dict[L, Callable[["AstalonRules", CollectionState], bool]] = {
 
 HEALTH_RULES: Dict[L, Callable[["AstalonRules", CollectionState], bool]] = {
     L.GT_HP_1_RING: lambda rules, state: (
-        rules.has(state, I.STAR) or rules.blue_doors(state, I.DOOR_BLUE_GT_RING, disabled_case=True)
+        rules.has(state, I.STAR)
+        or (
+            rules.region(R.GT_UPPER_PATH).can_reach(state)
+            and rules.blue_doors(state, I.DOOR_BLUE_GT_RING, disabled_case=True)
+        )
     ),
     L.GT_HP_5_KEY: lambda rules, state: rules.has(state, I.CLAW),
     L.MECH_HP_1_SWITCH: lambda rules, state: rules.switches(state, I.SWITCH_MECH_INVISIBLE, disabled_case=True),
@@ -1232,7 +1321,10 @@ HEALTH_RULES: Dict[L, Callable[["AstalonRules", CollectionState], bool]] = {
     ),
     L.ROA_HP_5_SOLARIA: lambda rules, state: rules.has(state, I.KYULI),
     L.APEX_HP_1_CHALICE: lambda rules, state: rules.blue_doors(state, I.DOOR_BLUE_APEX, disabled_case=True),
-    L.CAVES_HP_1_START: lambda rules, state: rules.has_any(state, I.BOW, I.CHALICE),
+    L.CAVES_HP_1_START: lambda rules, state: (
+        rules.has(state, I.CHALICE)
+        or rules.switches(state, I.FACE_CAVES_1ST_ROOM, disabled_case=rules.has(state, I.BOW))
+    ),
     L.CAVES_HP_1_CYCLOPS: lambda rules, state: rules.has_any(state, I.SWORD, I.ALGUS_METEOR, I.KYULI_RAY),
     L.CATA_HP_1_ABOVE_POISON: lambda rules, state: (
         rules.has(state, I.KYULI)
@@ -1283,7 +1375,9 @@ BLUE_KEY_RULES: Dict[L, Callable[["AstalonRules", CollectionState], bool]] = {
     L.HOTP_BLUE_KEY_MAZE: lambda rules, state: (
         rules.switches(state, I.CRYSTAL_HOTP_BELOW_PUZZLE, disabled_case=rules.can(state, Logic.CRYSTAL))
     ),
-    L.ROA_BLUE_KEY_FACE: lambda rules, state: rules.has(state, I.BOW),
+    L.ROA_BLUE_KEY_FACE: lambda rules, state: (
+        rules.switches(state, I.FACE_ROA_BLUE_KEY, disabled_case=rules.has(state, I.BOW))
+    ),
     L.ROA_BLUE_KEY_FLAMES: lambda rules, state: rules.switches(state, I.SWITCH_ROA_BABY_GORGON, disabled_case=True),
     L.ROA_BLUE_KEY_TOP: lambda rules, state: rules.can(state, Logic.EXTRA_HEIGHT),
     L.SP_BLUE_KEY_ARIAS: lambda rules, state: rules.has(state, I.ARIAS),
@@ -1370,7 +1464,9 @@ SWITCH_RULES: Dict[L, Callable[["AstalonRules", CollectionState], bool]] = {
         rules.switches(state, I.CRYSTAL_HOTP_LOWER, disabled_case=rules.can(state, Logic.CRYSTAL))
     ),
     L.HOTP_SWITCH_TO_CLAW_2: lambda rules, state: (
-        rules.switches(state, I.SWITCH_HOTP_TO_CLAW_2, disabled_case=True) or rules.has(state, I.CLAW)
+        rules.switches(state, I.SWITCH_HOTP_TO_CLAW_1, disabled_case=True)
+        or (rules.switches(state, I.SWITCH_HOTP_TO_CLAW_2, disabled_case=True) and rules.can(state, Logic.EXTRA_HEIGHT))
+        or rules.has(state, I.CLAW)
     ),
     L.HOTP_SWITCH_CLAW_ACCESS: lambda rules, state: (
         rules.has(state, I.KYULI) or rules.can(state, Logic.BLOCK_IN_WALL)
@@ -1479,21 +1575,15 @@ class AstalonRules:
     def location(self, name: L):
         return self.world.multiworld.get_location(name.value, self.player)
 
-    def can_get_zeek(self, state: CollectionState) -> bool:
-        return self.region(R.MECH_ZEEK).can_reach(state) and self.region(R.CD_BOSS).can_reach(state)
-
-    def can_get_bram(self, state: CollectionState) -> bool:
-        return self.region(R.TR_BRAM).can_reach(state)
-
     def _has(self, state: CollectionState, item: I, count: int = 1) -> bool:
         if item in CHARACTERS:
             if self.options.randomize_characters == RandomizeCharacters.option_vanilla:
                 if item in {I.ALGUS, I.ARIAS, I.KYULI}:
                     return True
                 elif item == I.ZEEK:
-                    return self.can_get_zeek(state)
+                    return self.region(R.MECH_ZEEK).can_reach(state) and self.region(R.CD_BOSS).can_reach(state)
                 elif item == I.BRAM:
-                    return self.can_get_bram(state)
+                    return self.region(R.TR_BRAM).can_reach(state)
             else:
                 return state.has(item.value, self.player)
 
@@ -1536,7 +1626,7 @@ class AstalonRules:
                 return False
         return True
 
-    def has_any(self, state: CollectionState, *items: Union[Characters, KeyItems]) -> bool:
+    def has_any(self, state: CollectionState, *items: Union[Characters, KeyItems, ShopUpgrades]) -> bool:
         # cover extra logic instead of calling state.has_any
         for item in items:
             if self._has(state, item):
@@ -1549,7 +1639,7 @@ class AstalonRules:
         *doors: WhiteDoors,
         disabled_case: Union[bool, Callable[["AstalonRules", CollectionState], bool]],
     ) -> bool:
-        return self._togglable(state, self.options.randomize_white_keys, disabled_case, *doors)
+        return self._togglable(state, bool(self.options.randomize_white_keys), disabled_case, *doors)
 
     def blue_doors(
         self,
@@ -1557,7 +1647,7 @@ class AstalonRules:
         *doors: BlueDoors,
         disabled_case: Union[bool, Callable[["AstalonRules", CollectionState], bool]],
     ) -> bool:
-        return self._togglable(state, self.options.randomize_blue_keys, disabled_case, *doors)
+        return self._togglable(state, bool(self.options.randomize_blue_keys), disabled_case, *doors)
 
     def red_doors(
         self,
@@ -1565,7 +1655,7 @@ class AstalonRules:
         *doors: RedDoors,
         disabled_case: Union[bool, Callable[["AstalonRules", CollectionState], bool]],
     ) -> bool:
-        return self._togglable(state, self.options.randomize_switches, disabled_case, *doors)
+        return self._togglable(state, bool(self.options.randomize_switches), disabled_case, *doors)
 
     def switches(
         self,
@@ -1573,7 +1663,7 @@ class AstalonRules:
         *switches: Switches,
         disabled_case: Union[bool, Callable[["AstalonRules", CollectionState], bool]],
     ) -> bool:
-        return self._togglable(state, self.options.randomize_switches, disabled_case, *switches)
+        return self._togglable(state, bool(self.options.randomize_switches), disabled_case, *switches)
 
     def _togglable(
         self,
@@ -1596,7 +1686,7 @@ class AstalonRules:
             return False
         if self.options.free_apex_elevator and destination == I.ELEVATOR_APEX:
             return True
-        return self.options.randomize_elevator and self._has(state, destination)
+        return bool(self.options.randomize_elevator) and self._has(state, destination)
 
     def cheap_shop(self, state: CollectionState) -> bool:
         # TODO
@@ -1610,27 +1700,27 @@ class AstalonRules:
         # TODO
         return self.region(R.ROA_START).can_reach(state)
 
-    def can(self, state: CollectionState, logic: L, gold_block=False) -> bool:
+    def can(self, state: CollectionState, logic: Logic, gold_block=False) -> bool:
         if logic == Logic.ARIAS_JUMP:
-            return self.hard and self._has(state, I.ARIAS)
+            return self.hard and self.has(state, I.ARIAS)
         if logic == Logic.EXTRA_HEIGHT:
             return (
-                self._has(state, I.KYULI)
-                or self._has(state, I.BLOCK)
-                or (gold_block and self._has(state, I.ZEEK))
+                self.has(state, I.KYULI)
+                or self.has(state, I.BLOCK)
+                or (gold_block and self.has(state, I.ZEEK))
                 or self.can(state, Logic.ARIAS_JUMP)
             )
         if logic == Logic.COMBO_HEIGHT:
-            return self.hard and self.can(state, Logic.ARIAS_JUMP) and self._has(state, I.BELL, I.BLOCK)
+            return self.hard and self.can(state, Logic.ARIAS_JUMP) and self.has(state, I.BELL, I.BLOCK)
         if logic == Logic.BLOCK_IN_WALL:
-            return self.hard and (self._has(state, I.BLOCK) or (gold_block and self._has(state, I.ZEEK)))
+            return self.hard and (self.has(state, I.BLOCK) or (gold_block and self.has(state, I.ZEEK)))
         if logic == Logic.CRYSTAL:
-            if self._has(state, I.ALGUS) or self._has(state, I.ZEEK, I.BANISH):
+            if self.has(state, I.ALGUS) or self.has(state, I.ZEEK, I.BANISH):
                 return True
             if self.hard:
-                return self._has(state, I.KYULI_RAY) or self._has(state, I.BRAM_WHIPLASH)
+                return self.has(state, I.KYULI_RAY) or self.has(state, I.BRAM_WHIPLASH)
         if logic == Logic.BIG_MAGIC:
-            return self.hard and self._has(state, I.BANISH, I.ALGUS_ARCANIST)
+            return self.hard and self.has(state, I.BANISH, I.ALGUS_ARCANIST)
         return False
 
     def reachable(self, state: CollectionState, location: L) -> bool:
@@ -1713,3 +1803,15 @@ class AstalonRules:
     def set_indirect_conditions(self) -> None:
         for dependency, (from_, to_) in INDIRECT_CONDITIONS:
             self.register_indirect_condition(dependency, from_, to_)
+
+        if self.options.randomize_characters == RandomizeCharacters.option_vanilla:
+            zeek_region = self.region(R.MECH_ZEEK)
+            crown_region = self.region(R.CD_BOSS)
+            bram_region = self.region(R.TR_BRAM)
+            for from_, to_ in ZEEK_CONNECTIONS:
+                entrance = self.entrance(from_, to_)
+                self.world.multiworld.register_indirect_condition(zeek_region, entrance)
+                self.world.multiworld.register_indirect_condition(crown_region, entrance)
+            for from_, to_ in BRAM_CONNECTIONS:
+                entrance = self.entrance(from_, to_)
+                self.world.multiworld.register_indirect_condition(bram_region, entrance)

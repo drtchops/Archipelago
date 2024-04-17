@@ -5,6 +5,7 @@ from . import AstalonTestBase
 
 class LocationsTest(AstalonTestBase):
     options = {
+        "difficulty": "hard",
         "randomize_characters": "vanilla",
         "randomize_white_keys": "false",
         "randomize_blue_keys": "true",
@@ -35,13 +36,15 @@ class LocationsTest(AstalonTestBase):
         self.collect_by_name(Items.DOOR_BLUE_GT_RING.value)
         self.assertTrue(self.can_reach_location(location))
 
-    def _test_bow(self, reversed: bool):
+    def _test_bow(self, reverse_order: bool):
         location = Locations.CATA_BOW.value
         items = [Items.DOOR_BLUE_CATA_BOW.value, Items.DOOR_BLUE_CATA_SAVE.value]
-        self.collect_all_but(items)
-        self.assertFalse(self.can_reach_location(location))
-        if reversed:
+        if reverse_order:
             items.reverse()
+        precollect = [Items.EYE_RED.value, Items.DOOR_BLUE_CAVES.value]
+        for item in precollect:
+            self.collect_by_name(item)
+        self.assertFalse(self.can_reach_location(location))
 
         self.collect_by_name(items[0])
         self.assertFalse(self.can_reach_location(location))

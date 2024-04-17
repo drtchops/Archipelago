@@ -9,7 +9,6 @@ from .Regions import Regions
 
 
 class Area(str, Enum):
-    NONE = ""
     SHOP = "Shop"
     GT = "Gorgon Tomb"
     MECH = "Mechanism"
@@ -26,7 +25,6 @@ class Area(str, Enum):
 
 
 class LocationGroups(str, Enum):
-    NONE = ""
     CHARACTER = "characters"
     ITEM = "items"
     FAMILIAR = "familiars"
@@ -36,6 +34,7 @@ class LocationGroups(str, Enum):
     KEY_BLUE = "blue keys"
     KEY_RED = "red keys"
     SHOP = "shop upgrades"
+    ELEVATOR = "elevators"
     SWITCH = "switches"
 
 
@@ -63,6 +62,7 @@ class Locations(str, Enum):
     GT_BLUE_KEY_WALL = "Gorgon Tomb - Blue Key (Inside Wall)"
     GT_BLUE_KEY_POT = "Gorgon Tomb - Blue Key (Pot)"
     GT_RED_KEY = "Gorgon Tomb - Red Key"
+    GT_ELEVATOR_2 = "Gorgon Tomb - Elevator 2"
     GT_SWITCH_2ND_ROOM = "Gorgon Tomb - Switch (2nd Room)"
     GT_SWITCH_1ST_CYCLOPS = "Gorgon Tomb - Switch (1st Cyclops)"
     GT_SWITCH_SPIKE_TUNNEL = "Gorgon Tomb - Switch (Spike Tunnel Access)"
@@ -109,6 +109,8 @@ class Locations(str, Enum):
     MECH_BLUE_KEY_SAVE = "Mechanism - Blue Key (Checkpoint)"
     MECH_BLUE_KEY_POT = "Mechanism - Blue Key (Pot)"
     MECH_RED_KEY = "Mechanism - Red Key"
+    MECH_ELEVATOR_1 = "Mechanism - Elevator 1"
+    MECH_ELEVATOR_2 = "Mechanism - Elevator 2"
     MECH_SWITCH_WATCHER = "Mechanism - Switch (Watcher)"
     MECH_SWITCH_CHAINS = "Mechanism - Switch (Chains)"
     MECH_SWITCH_BOSS_ACCESS_1 = "Mechanism - Switch (Boss Access 1)"
@@ -176,6 +178,7 @@ class Locations(str, Enum):
     HOTP_BLUE_KEY_TELEPORTS = "Hall of the Phantoms - Blue Key (Spike Teleporters)"
     HOTP_BLUE_KEY_MAZE = "Hall of the Phantoms - Blue Key (Teleport Maze)"
     HOTP_RED_KEY = "Hall of the Phantoms - Red Key"
+    HOTP_ELEVATOR = "Hall of the Phantoms - Elevator"
     HOTP_SWITCH_ROCK = "Hall of the Phantoms - Switch (Rock)"
     HOTP_SWITCH_BELOW_START = "Hall of the Phantoms - Switch (Below Start)"
     HOTP_SWITCH_LEFT_2 = "Hall of the Phantoms - Switch (Left 2)"
@@ -224,6 +227,8 @@ class Locations(str, Enum):
     ROA_BLUE_KEY_TOP = "Ruins of Ash - Blue Key (Top)"
     ROA_BLUE_KEY_POT = "Ruins of Ash - Blue Key (Pot)"
     ROA_RED_KEY = "Ruins of Ash - Red Key"
+    ROA_ELEVATOR_1 = "Ruins of Ash - Elevator 1"
+    ROA_ELEVATOR_2 = "Ruins of Ash - Elevator 2"
     ROA_SWITCH_ASCEND = "Ruins of Ash - Switch (Ascend)"
     ROA_SWITCH_AFTER_WORMS = "Ruins of Ash - Switch (After Worms)"
     ROA_SWITCH_RIGHT_PATH = "Ruins of Ash - Switch (Right Path)"
@@ -271,6 +276,7 @@ class Locations(str, Enum):
     APEX_HP_1_CHALICE = "The Apex - Max HP +1 (Blood Chalice)"
     APEX_HP_5_HEART = "The Apex - Max HP +5 (After Heart)"
     APEX_BLUE_KEY = "The Apex - Blue Key"
+    APEX_ELEVATOR = "The Apex - Elevator"
     APEX_SWITCH = "The Apex - Switch"
 
     CAVES_ATTACK_RED = "Caves - Attack +1 (Item Chain Red)"
@@ -300,6 +306,8 @@ class Locations(str, Enum):
     CATA_WHITE_KEY_PRISON = "Catacombs - White Key (Prison)"
     CATA_BLUE_KEY_SLIMES = "Catacombs - Blue Key (Slime Water)"
     CATA_BLUE_KEY_EYEBALLS = "Catacombs - Blue Key (Eyeballs)"
+    CATA_ELEVATOR_1 = "Catacombs - Elevator 1"
+    CATA_ELEVATOR_2 = "Catacombs - Elevator 2"
     CATA_SWITCH_ELEVATOR = "Catacombs - Switch (Elevator)"
     CATA_SWITCH_SHORTCUT = "Catacombs - Switch (Vertical Shortcut)"
     CATA_SWITCH_TOP = "Catacombs - Switch (Top)"
@@ -328,6 +336,7 @@ class Locations(str, Enum):
     TR_HP_1_BOTTOM = "Tower Roots - Max HP +1 (Bottom)"
     TR_HP_2_TOP = "Tower Roots - Max HP +2 (Top)"
     TR_RED_KEY = "Tower Roots - Red Key"
+    TR_ELEVATOR = "Tower Roots - Elevator"
     TR_SWITCH_ADORNED_L = "Tower Roots - Switch (Adorned Key Left)"
     TR_SWITCH_ADORNED_M = "Tower Roots - Switch (Adorned Key Middle)"
     TR_SWITCH_ADORNED_R = "Tower Roots - Switch (Adorned Key Right)"
@@ -413,11 +422,11 @@ class AstalonLocation(Location):
     game = "Astalon"
 
 
-@dataclass
+@dataclass(frozen=True)
 class AstalonLocationData:
     region: Regions
-    group: LocationGroups = LocationGroups.NONE
-    area: Area = Area.NONE
+    group: LocationGroups
+    area: Area
 
 
 location_table: Dict[Locations, AstalonLocationData] = {
@@ -430,7 +439,7 @@ location_table: Dict[Locations, AstalonLocationData] = {
     Locations.GT_VOID: AstalonLocationData(Regions.GT_VOID, LocationGroups.ITEM, Area.GT),
     Locations.GT_EYE_RED: AstalonLocationData(Regions.GT_BOSS, LocationGroups.ITEM, Area.GT),
     Locations.GT_ATTACK: AstalonLocationData(Regions.GT_BABY_GORGON, LocationGroups.ATTACK, Area.GT),
-    Locations.GT_HP_1_RING: AstalonLocationData(Regions.GT_UPPER_PATH, LocationGroups.HEALTH, Area.GT),
+    Locations.GT_HP_1_RING: AstalonLocationData(Regions.GT_BOTTOM, LocationGroups.HEALTH, Area.GT),
     Locations.GT_HP_5_KEY: AstalonLocationData(Regions.GT_ASCENDANT_KEY, LocationGroups.HEALTH, Area.GT),
     Locations.GT_WHITE_KEY_START: AstalonLocationData(Regions.ENTRANCE, LocationGroups.KEY_WHITE, Area.GT),
     Locations.GT_WHITE_KEY_RIGHT: AstalonLocationData(Regions.GT_BOTTOM, LocationGroups.KEY_WHITE, Area.GT),
@@ -582,6 +591,7 @@ location_table: Dict[Locations, AstalonLocationData] = {
     Locations.GT_KYULI: AstalonLocationData(Regions.ENTRANCE, LocationGroups.CHARACTER, Area.GT),
     Locations.MECH_ZEEK: AstalonLocationData(Regions.MECH_ZEEK, LocationGroups.CHARACTER, Area.MECH),
     Locations.TR_BRAM: AstalonLocationData(Regions.TR_BRAM, LocationGroups.CHARACTER, Area.TR),
+    Locations.GT_ELEVATOR_2: AstalonLocationData(Regions.GT_BOSS, LocationGroups.ELEVATOR, Area.GT),
     Locations.GT_SWITCH_2ND_ROOM: AstalonLocationData(Regions.ENTRANCE, LocationGroups.SWITCH, Area.GT),
     Locations.GT_SWITCH_1ST_CYCLOPS: AstalonLocationData(Regions.GT_GORGONHEART, LocationGroups.SWITCH, Area.GT),
     Locations.GT_SWITCH_SPIKE_TUNNEL: AstalonLocationData(Regions.GT_TOP_LEFT, LocationGroups.SWITCH, Area.GT),
@@ -604,6 +614,8 @@ location_table: Dict[Locations, AstalonLocationData] = {
     Locations.GT_CRYSTAL_ROTA: AstalonLocationData(Regions.GT_UPPER_PATH, LocationGroups.SWITCH, Area.GT),
     Locations.GT_CRYSTAL_OLD_MAN_1: AstalonLocationData(Regions.GT_OLD_MAN_FORK, LocationGroups.SWITCH, Area.GT),
     Locations.GT_CRYSTAL_OLD_MAN_2: AstalonLocationData(Regions.GT_OLD_MAN_FORK, LocationGroups.SWITCH, Area.GT),
+    Locations.MECH_ELEVATOR_1: AstalonLocationData(Regions.MECH_ZEEK_CONNECTION, LocationGroups.ELEVATOR, Area.MECH),
+    Locations.MECH_ELEVATOR_2: AstalonLocationData(Regions.MECH_BOSS, LocationGroups.ELEVATOR, Area.MECH),
     Locations.MECH_SWITCH_WATCHER: AstalonLocationData(Regions.MECH_ROOTS, LocationGroups.SWITCH, Area.MECH),
     Locations.MECH_SWITCH_CHAINS: AstalonLocationData(Regions.MECH_CHAINS, LocationGroups.SWITCH, Area.MECH),
     Locations.MECH_SWITCH_BOSS_ACCESS_1: AstalonLocationData(
@@ -626,7 +638,7 @@ location_table: Dict[Locations, AstalonLocationData] = {
     Locations.MECH_SWITCH_TO_BOSS_2: AstalonLocationData(Regions.MECH_BOSS_SWITCHES, LocationGroups.SWITCH, Area.MECH),
     Locations.MECH_SWITCH_POTS: AstalonLocationData(Regions.MECH_POTS, LocationGroups.SWITCH, Area.MECH),
     Locations.MECH_SWITCH_MAZE_BACKDOOR: AstalonLocationData(
-        Regions.MECH_TP_CONNECTION, LocationGroups.SWITCH, Area.MECH
+        Regions.HOTP_FALL_BOTTOM, LocationGroups.SWITCH, Area.MECH
     ),
     Locations.MECH_SWITCH_TO_BOSS_1: AstalonLocationData(Regions.MECH_BOSS_SWITCHES, LocationGroups.SWITCH, Area.MECH),
     Locations.MECH_SWITCH_BLOCK_STAIRS: AstalonLocationData(
@@ -671,6 +683,7 @@ location_table: Dict[Locations, AstalonLocationData] = {
     Locations.MECH_CRYSTAL_TOP_CHAINS: AstalonLocationData(Regions.MECH_CHAINS, LocationGroups.SWITCH, Area.MECH),
     Locations.MECH_CRYSTAL_BK: AstalonLocationData(Regions.MECH_BK, LocationGroups.SWITCH, Area.MECH),
     Locations.MECH_FACE_ABOVE_VOLANTIS: AstalonLocationData(Regions.MECH_BOSS, LocationGroups.SWITCH, Area.MECH),
+    Locations.HOTP_ELEVATOR: AstalonLocationData(Regions.HOTP_ELEVATOR, LocationGroups.ELEVATOR, Area.HOTP),
     Locations.HOTP_SWITCH_ROCK: AstalonLocationData(Regions.HOTP_AMULET_CONNECTION, LocationGroups.SWITCH, Area.HOTP),
     Locations.HOTP_SWITCH_BELOW_START: AstalonLocationData(Regions.HOTP_START_BOTTOM, LocationGroups.SWITCH, Area.HOTP),
     Locations.HOTP_SWITCH_LEFT_2: AstalonLocationData(Regions.HOTP_START_MID, LocationGroups.SWITCH, Area.HOTP),
@@ -722,6 +735,8 @@ location_table: Dict[Locations, AstalonLocationData] = {
         Regions.HOTP_TP_FALL_TOP, LocationGroups.SWITCH, Area.HOTP
     ),
     Locations.HOTP_FACE_OLD_MAN: AstalonLocationData(Regions.HOTP_ELEVATOR, LocationGroups.SWITCH, Area.HOTP),
+    Locations.ROA_ELEVATOR_1: AstalonLocationData(Regions.HOTP_BOSS, LocationGroups.ELEVATOR, Area.ROA),
+    Locations.ROA_ELEVATOR_2: AstalonLocationData(Regions.ROA_ELEVATOR, LocationGroups.ELEVATOR, Area.ROA),
     Locations.ROA_SWITCH_ASCEND: AstalonLocationData(Regions.ROA_BOTTOM_ASCEND, LocationGroups.SWITCH, Area.ROA),
     Locations.ROA_SWITCH_AFTER_WORMS: AstalonLocationData(Regions.ROA_WORMS, LocationGroups.SWITCH, Area.ROA),
     Locations.ROA_SWITCH_RIGHT_PATH: AstalonLocationData(Regions.ROA_RIGHT_SWITCH_1, LocationGroups.SWITCH, Area.ROA),
@@ -769,12 +784,15 @@ location_table: Dict[Locations, AstalonLocationData] = {
     Locations.ROA_FACE_SPIDERS: AstalonLocationData(Regions.ROA_SPIDERS_1, LocationGroups.SWITCH, Area.ROA),
     Locations.ROA_FACE_BLUE_KEY: AstalonLocationData(Regions.ROA_BOTTOM_ASCEND, LocationGroups.SWITCH, Area.ROA),
     Locations.DARK_SWITCH: AstalonLocationData(Regions.DARK_START, LocationGroups.SWITCH, Area.DARK),
+    Locations.APEX_ELEVATOR: AstalonLocationData(Regions.APEX, LocationGroups.ELEVATOR, Area.APEX),
     Locations.APEX_SWITCH: AstalonLocationData(Regions.APEX, LocationGroups.SWITCH, Area.APEX),
     Locations.CAVES_SWITCH_SKELETONS: AstalonLocationData(Regions.CAVES_UPPER, LocationGroups.SWITCH, Area.CAVES),
     Locations.CAVES_SWITCH_CATA_ACCESS_1: AstalonLocationData(Regions.CAVES_LOWER, LocationGroups.SWITCH, Area.CAVES),
     Locations.CAVES_SWITCH_CATA_ACCESS_2: AstalonLocationData(Regions.CAVES_LOWER, LocationGroups.SWITCH, Area.CAVES),
     Locations.CAVES_SWITCH_CATA_ACCESS_3: AstalonLocationData(Regions.CAVES_LOWER, LocationGroups.SWITCH, Area.CAVES),
     Locations.CAVES_FACE_1ST_ROOM: AstalonLocationData(Regions.CAVES_START, LocationGroups.SWITCH, Area.CAVES),
+    Locations.CATA_ELEVATOR_1: AstalonLocationData(Regions.CATA_ELEVATOR, LocationGroups.ELEVATOR, Area.CATA),
+    Locations.CATA_ELEVATOR_2: AstalonLocationData(Regions.CATA_BOSS, LocationGroups.ELEVATOR, Area.CATA),
     Locations.CATA_SWITCH_ELEVATOR: AstalonLocationData(Regions.CATA_TOP, LocationGroups.SWITCH, Area.CATA),
     Locations.CATA_SWITCH_SHORTCUT: AstalonLocationData(
         Regions.CATA_VERTICAL_SHORTCUT, LocationGroups.SWITCH, Area.CATA
@@ -811,6 +829,7 @@ location_table: Dict[Locations, AstalonLocationData] = {
     Locations.CATA_FACE_CAMPFIRE: AstalonLocationData(Regions.CATA_BOSS, LocationGroups.SWITCH, Area.CATA),
     Locations.CATA_FACE_DOUBLE_DOOR: AstalonLocationData(Regions.CATA_DOUBLE_DOOR, LocationGroups.SWITCH, Area.CATA),
     Locations.CATA_FACE_BOTTOM: AstalonLocationData(Regions.CATA_DOUBLE_DOOR, LocationGroups.SWITCH, Area.CATA),
+    Locations.TR_ELEVATOR: AstalonLocationData(Regions.TR_START, LocationGroups.ELEVATOR, Area.TR),
     Locations.TR_SWITCH_ADORNED_L: AstalonLocationData(Regions.TR_BOTTOM, LocationGroups.SWITCH, Area.TR),
     Locations.TR_SWITCH_ADORNED_M: AstalonLocationData(Regions.TR_LEFT, LocationGroups.SWITCH, Area.TR),
     Locations.TR_SWITCH_ADORNED_R: AstalonLocationData(Regions.TR_TOP_RIGHT, LocationGroups.SWITCH, Area.TR),

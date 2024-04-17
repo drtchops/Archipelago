@@ -12,7 +12,6 @@ if TYPE_CHECKING:
 
 
 class ItemGroups(str, Enum):
-    NONE = ""
     CHARACTER = "characters"
     EYE = "eyes"
     KEY = "keys"
@@ -158,7 +157,6 @@ class Items(str, Enum):
     BRAM_HUNTER = "Bram's Monster Hunter"
     BRAM_WHIPLASH = "Bram's Whiplash"
 
-    ELEVATOR_GT_1 = "GT 1 Elevator"
     ELEVATOR_GT_2 = "GT 2 Elevator"
     ELEVATOR_MECH_1 = "Mech 1 Elevator"
     ELEVATOR_MECH_2 = "Mech 2 Elevator"
@@ -486,7 +484,6 @@ ShopUpgrades: TypeAlias = Literal[
 ]
 
 Elevators: TypeAlias = Literal[
-    Items.ELEVATOR_GT_1,
     Items.ELEVATOR_GT_2,
     Items.ELEVATOR_MECH_1,
     Items.ELEVATOR_MECH_2,
@@ -713,6 +710,19 @@ EARLY_BLUE_DOORS: Tuple[Items, ...] = (
     Items.DOOR_BLUE_CAVES,
 )
 
+EARLY_SWITCHES: Tuple[Items, ...] = (
+    Items.SWITCH_GT_2ND_ROOM,
+    Items.SWITCH_GT_1ST_CYCLOPS,
+    Items.SWITCH_GT_SPIKE_TUNNEL,
+    Items.SWITCH_GT_BUTT_ACCESS,
+    Items.SWITCH_GT_GH,
+    Items.SWITCH_GT_CROSSES,
+    Items.SWITCH_GT_GH_SHORTCUT,
+    Items.SWITCH_GT_ARIAS,
+)
+
+EARLY_ITEMS = set([*EARLY_WHITE_DOORS, *EARLY_BLUE_DOORS, *EARLY_SWITCHES])
+
 QOL_ITEMS: Tuple[Items, ...] = (
     Items.KNOWLEDGE,
     Items.ORB_SEEKER,
@@ -727,11 +737,11 @@ class AstalonItem(Item):
     game = "Astalon"
 
 
-@dataclass
+@dataclass(frozen=True)
 class AstalonItemData:
     classification: Union[ItemClassification, Callable[["AstalonWorld"], ItemClassification]]
     quantity_in_item_pool: int
-    group: ItemGroups = ItemGroups.NONE
+    group: ItemGroups
 
 
 item_table: Dict[Items, AstalonItemData] = {
@@ -871,7 +881,7 @@ item_table: Dict[Items, AstalonItemData] = {
     Items.SWITCH_GT_GH_SHORTCUT: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.SWITCH_GT_ARIAS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.SWITCH_GT_SWORD_ACCESS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
-    Items.SWITCH_GT_SWORD_BACKTRACK: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_GT_SWORD_BACKTRACK: AstalonItemData(ItemClassification.filler, 1, ItemGroups.SWITCH),
     Items.SWITCH_GT_SWORD: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.SWITCH_GT_UPPER_ARIAS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.SWITCH_MECH_WATCHER: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
@@ -892,7 +902,7 @@ item_table: Dict[Items, AstalonItemData] = {
     Items.SWITCH_MECH_BLOCK_STAIRS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.SWITCH_MECH_ARIAS_CYCLOPS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.SWITCH_MECH_BOOTS_LOWER: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
-    Items.SWITCH_MECH_CHAINS_GAP: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_MECH_CHAINS_GAP: AstalonItemData(ItemClassification.filler, 1, ItemGroups.SWITCH),
     Items.SWITCH_MECH_LOWER_KEY: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.SWITCH_MECH_ARIAS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.SWITCH_MECH_SNAKE_2: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
@@ -934,19 +944,19 @@ item_table: Dict[Items, AstalonItemData] = {
     Items.SWITCH_ROA_DARK_ROOM: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.SWITCH_ROA_ASCEND_SHORTCUT: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.SWITCH_ROA_1ST_SHORTCUT: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
-    Items.SWITCH_ROA_SPIKE_CLIMB: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
-    Items.SWITCH_ROA_ABOVE_CENTAUR: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_ROA_SPIKE_CLIMB: AstalonItemData(ItemClassification.filler, 1, ItemGroups.SWITCH),
+    Items.SWITCH_ROA_ABOVE_CENTAUR: AstalonItemData(ItemClassification.filler, 1, ItemGroups.SWITCH),
     Items.SWITCH_ROA_BLOOD_POT: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.SWITCH_ROA_WORMS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.SWITCH_ROA_TRIPLE_1: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.SWITCH_ROA_TRIPLE_3: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.SWITCH_ROA_BABY_GORGON: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.SWITCH_ROA_BOSS_ACCESS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
-    Items.SWITCH_ROA_BLOOD_POT_L: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
-    Items.SWITCH_ROA_BLOOD_POT_R: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_ROA_BLOOD_POT_L: AstalonItemData(ItemClassification.filler, 1, ItemGroups.SWITCH),
+    Items.SWITCH_ROA_BLOOD_POT_R: AstalonItemData(ItemClassification.filler, 1, ItemGroups.SWITCH),
     Items.SWITCH_ROA_LOWER_VOID: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.SWITCH_DARKNESS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
-    Items.SWITCH_APEX: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_APEX: AstalonItemData(ItemClassification.filler, 1, ItemGroups.SWITCH),
     Items.SWITCH_CAVES_SKELETONS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.SWITCH_CAVES_CATA_1: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.SWITCH_CAVES_CATA_2: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
@@ -958,7 +968,7 @@ item_table: Dict[Items, AstalonItemData] = {
     Items.SWITCH_CATA_CLAW_2: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.SWITCH_CATA_WATER_1: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.SWITCH_CATA_WATER_2: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
-    Items.SWITCH_CATA_DEV_ROOM: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_CATA_DEV_ROOM: AstalonItemData(ItemClassification.filler, 1, ItemGroups.SWITCH),
     Items.SWITCH_CATA_AFTER_BLUE_DOOR: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.SWITCH_CATA_SHORTCUT_ACCESS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.SWITCH_CATA_LADDER_BLOCKS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
@@ -972,7 +982,7 @@ item_table: Dict[Items, AstalonItemData] = {
     Items.SWITCH_TR_ELEVATOR: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.SWITCH_TR_BOTTOM: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.SWITCH_CD_1: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
-    Items.SWITCH_CD_2: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.SWITCH_CD_2: AstalonItemData(ItemClassification.filler, 1, ItemGroups.SWITCH),
     Items.SWITCH_CD_3: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.SWITCH_CD_CAMPFIRE: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.SWITCH_CD_TOP: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
@@ -998,9 +1008,9 @@ item_table: Dict[Items, AstalonItemData] = {
     Items.CRYSTAL_MECH_SLIMES: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.CRYSTAL_MECH_TO_CD: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.CRYSTAL_MECH_CAMPFIRE: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
-    Items.CRYSTAL_MECH_1ST_ROOM: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.CRYSTAL_MECH_1ST_ROOM: AstalonItemData(ItemClassification.filler, 1, ItemGroups.SWITCH),
     Items.CRYSTAL_MECH_OLD_MAN: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
-    Items.CRYSTAL_MECH_TOP_CHAINS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.CRYSTAL_MECH_TOP_CHAINS: AstalonItemData(ItemClassification.filler, 1, ItemGroups.SWITCH),
     Items.CRYSTAL_MECH_BK: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.CRYSTAL_HOTP_ROCK_ACCESS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.CRYSTAL_HOTP_BOTTOM: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
@@ -1026,8 +1036,8 @@ item_table: Dict[Items, AstalonItemData] = {
     Items.CRYSTAL_CATA_POISON_ROOTS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.CRYSTAL_TR_GOLD: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.CRYSTAL_TR_DARK_ARIAS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
-    Items.CRYSTAL_CD_BACKTRACK: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
-    Items.CRYSTAL_CD_START: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.CRYSTAL_CD_BACKTRACK: AstalonItemData(ItemClassification.filler, 1, ItemGroups.SWITCH),
+    Items.CRYSTAL_CD_START: AstalonItemData(ItemClassification.filler, 1, ItemGroups.SWITCH),
     Items.CRYSTAL_CD_CAMPFIRE: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.CRYSTAL_CD_STEPS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.CRYSTAL_CATH_1ST_ROOM: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
@@ -1039,13 +1049,13 @@ item_table: Dict[Items, AstalonItemData] = {
     Items.CRYSTAL_CATH_ORBS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.CRYSTAL_SP_BLOCKS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.CRYSTAL_SP_STAR: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
-    Items.FACE_MECH_VOLANTIS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.FACE_MECH_VOLANTIS: AstalonItemData(ItemClassification.filler, 1, ItemGroups.SWITCH),
     Items.FACE_HOTP_OLD_MAN: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.FACE_ROA_SPIDERS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.FACE_ROA_BLUE_KEY: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.FACE_CAVES_1ST_ROOM: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.FACE_CATA_AFTER_BOW: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
-    Items.FACE_CATA_BOW: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Items.FACE_CATA_BOW: AstalonItemData(ItemClassification.filler, 1, ItemGroups.SWITCH),
     Items.FACE_CATA_X4: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.FACE_CATA_CAMPFIRE: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.FACE_CATA_DOUBLE_DOOR: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
