@@ -867,12 +867,12 @@ location_table: Dict[Locations, AstalonLocationData] = {
     Locations.SP_SWITCH_AFTER_STAR: AstalonLocationData(Regions.SP_STAR_CONNECTION, LocationGroups.SWITCH, Area.SP),
     Locations.SP_CRYSTAL_BLOCKS: AstalonLocationData(Regions.SP_START, LocationGroups.SWITCH, Area.SP),
     Locations.SP_CRYSTAL_STAR: AstalonLocationData(Regions.SP_SHAFT, LocationGroups.SWITCH, Area.SP),
-    # Locations.GT_OLD_MAN: AstalonLocationData(Regions.GT_OLD_MAN, LocationGroups.FAMILIARS, Area.GT),
-    # Locations.MECH_OLD_MAN: AstalonLocationData(Regions.MECH_OLD_MAN, LocationGroups.FAMILIARS, Area.MECH),
-    # Locations.HOTP_OLD_MAN: AstalonLocationData(Regions.HOTP_OLD_MAN, LocationGroups.FAMILIARS, Area.HOTP),
-    # Locations.CATA_GIL: AstalonLocationData(Regions.CATA_DEV_ROOM, LocationGroups.FAMILIARS, Area.CATA),
-    # Locations.MECH_CYCLOPS: AstalonLocationData(Regions.MECH_ZEEK, LocationGroups.ITEMS, Area.MECH),
-    # Locations.CD_CROWN: AstalonLocationData(Regions.CD_BOSS, LocationGroups.ITEMS, Area.CD),
+    Locations.MECH_CYCLOPS: AstalonLocationData(Regions.MECH_ZEEK, LocationGroups.ITEM, Area.MECH),
+    Locations.CD_CROWN: AstalonLocationData(Regions.CD_BOSS, LocationGroups.ITEM, Area.CD),
+    # Locations.GT_OLD_MAN: AstalonLocationData(Regions.GT_OLD_MAN, LocationGroups.FAMILIAR, Area.GT),
+    # Locations.MECH_OLD_MAN: AstalonLocationData(Regions.MECH_OLD_MAN, LocationGroups.FAMILIAR, Area.MECH),
+    # Locations.HOTP_OLD_MAN: AstalonLocationData(Regions.HOTP_OLD_MAN, LocationGroups.FAMILIAR, Area.HOTP),
+    # Locations.CATA_GIL: AstalonLocationData(Regions.CATA_DEV_ROOM, LocationGroups.FAMILIAR, Area.CATA),
 }
 
 base_id = 333000

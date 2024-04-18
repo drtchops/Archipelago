@@ -12,6 +12,7 @@ from .Items import (
     QOL_ITEMS,
     AstalonItem,
     Characters,
+    Events,
     ItemGroups,
     Items,
     filler_items,
@@ -81,12 +82,12 @@ class AstalonWorld(World):
         self.location_count += 1
 
     def create_regions(self) -> None:
-        for name in astalon_regions:
-            region = Region(name.value, self.player, self.multiworld)
+        for region_name in astalon_regions:
+            region = Region(region_name.value, self.player, self.multiworld)
             self.multiworld.regions.append(region)
 
-        for name, exits in astalon_regions.items():
-            region = self.multiworld.get_region(name.value, self.player)
+        for region_name, exits in astalon_regions.items():
+            region = self.multiworld.get_region(region_name.value, self.player)
             if exits:
                 region.add_exits([e.value for e in exits])
 
@@ -114,6 +115,8 @@ class AstalonWorld(World):
                 if location_name == Locations.SHOP_MAP_REVEAL:
                     # this requires way too much map completion
                     continue
+                if location_name == Locations.APEX_ELEVATOR and self.options.free_apex_elevator:
+                    continue
 
                 data = location_table[Locations(location_name)]
                 region = self.get_region(data.region.value)
@@ -136,10 +139,10 @@ class AstalonWorld(World):
         final_boss = self.multiworld.get_region(Regions.FINAL_BOSS.value, self.player)
         victory = AstalonLocation(self.player, Locations.VICTORY.value, None, final_boss)
         victory.place_locked_item(
-            AstalonItem(Items.VICTORY.value, ItemClassification.progression_skip_balancing, None, self.player)
+            AstalonItem(Events.VICTORY.value, ItemClassification.progression_skip_balancing, None, self.player)
         )
         final_boss.locations.append(victory)
-        self.multiworld.completion_condition[self.player] = lambda state: state.has(Items.VICTORY.value, self.player)
+        self.multiworld.completion_condition[self.player] = lambda state: state.has(Events.VICTORY.value, self.player)
 
     def create_item(self, name: str) -> AstalonItem:
         item_data = item_table[Items(name)]
@@ -149,6 +152,9 @@ class AstalonWorld(World):
         else:
             classification = item_data.classification
         return AstalonItem(name, classification, self.item_name_to_id[name], self.player)
+
+    def create_event(self, name: str) -> AstalonItem:
+        return AstalonItem(name, ItemClassification.progression, None, self.player)
 
     def create_items(self) -> None:
         itempool = []
@@ -173,15 +179,17 @@ class AstalonWorld(World):
             if group == ItemGroups.SWITCH and not self.options.randomize_switches:
                 continue
 
-            for name in item_names:
-                if self.options.start_with_qol and name in QOL_ITEMS:
+            for item_name in item_names:
+                if self.options.start_with_qol and item_name in QOL_ITEMS:
                     continue
-                if self.options.open_early_doors and name in EARLY_ITEMS:
+                if self.options.open_early_doors and item_name in EARLY_ITEMS:
+                    continue
+                if self.options.free_apex_elevator and item_name == Items.ELEVATOR_APEX:
                     continue
 
-                data = item_table[Items(name)]
+                data = item_table[Items(item_name)]
                 for _ in range(0, data.quantity_in_item_pool):
-                    itempool.append(self.create_item(name))
+                    itempool.append(self.create_item(item_name))
 
         if self.options.randomize_characters != RandomizeCharacters.option_vanilla:
             for character in CHARACTERS:

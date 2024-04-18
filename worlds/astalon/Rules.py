@@ -1602,9 +1602,9 @@ class AstalonRules:
         if item == I.GAUNTLET and not self.has_any(state, I.ARIAS, I.BRAM):
             return False
 
-        if item == I.CYCLOPS:
-            # not yet randomized
-            return self.region(R.MECH_ZEEK).can_reach(state)
+        # if item == I.CYCLOPS:
+        #     # not yet randomized
+        #     return self.region(R.MECH_ZEEK).can_reach(state)
 
         if item in {I.ALGUS_ARCANIST, I.ALGUS_METEOR, I.ALGUS_SHOCK} and not self._has(state, I.ALGUS):
             return False
@@ -1655,7 +1655,7 @@ class AstalonRules:
         *doors: RedDoors,
         disabled_case: Union[bool, Callable[["AstalonRules", CollectionState], bool]],
     ) -> bool:
-        return self._togglable(state, bool(self.options.randomize_switches), disabled_case, *doors)
+        return self._togglable(state, bool(self.options.randomize_red_keys), disabled_case, *doors)
 
     def switches(
         self,

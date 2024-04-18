@@ -1,5 +1,6 @@
 from ..Items import Items
 from ..Locations import Locations
+from ..Regions import Regions
 from . import AstalonTestBase
 
 
@@ -19,16 +20,12 @@ class VanillaCharacterTest(AstalonTestBase):
         self.assertTrue(self.can_reach_location(location))
 
     def test_block_needs_zeek_access(self) -> None:
-        location = Locations.HOTP_MAIDEN_RING.value
-        self.collect_all_but(
-            [
-                Items.SWORD.value,
-                Items.DOOR_RED_SP.value,
-                Items.DOOR_RED_ZEEK.value,
-            ]
-        )
+        location = Locations.CATH_BLOCK.value
+        self.collect_all_but(Items.DOOR_RED_ZEEK.value)
+        self.assertFalse(self.can_reach_region(Regions.MECH_ZEEK.value))
         self.assertFalse(self.can_reach_location(location))
         self.collect_by_name(Items.DOOR_RED_ZEEK.value)
+        self.assertTrue(self.can_reach_region(Regions.MECH_ZEEK.value))
         self.assertTrue(self.can_reach_location(location))
 
 

@@ -363,6 +363,8 @@ class Items(str, Enum):
     FACE_CATH_L = "Cath Face Left"
     FACE_CATH_R = "Cath Face Right"
 
+
+class Events(str, Enum):
     VICTORY = "Victory"
 
 
@@ -716,9 +718,11 @@ EARLY_SWITCHES: Tuple[Items, ...] = (
     Items.SWITCH_GT_SPIKE_TUNNEL,
     Items.SWITCH_GT_BUTT_ACCESS,
     Items.SWITCH_GT_GH,
-    Items.SWITCH_GT_CROSSES,
-    Items.SWITCH_GT_GH_SHORTCUT,
     Items.SWITCH_GT_ARIAS,
+    Items.SWITCH_CAVES_SKELETONS,
+    Items.SWITCH_CAVES_CATA_1,
+    Items.SWITCH_CAVES_CATA_2,
+    Items.SWITCH_CAVES_CATA_3,
 )
 
 EARLY_ITEMS = set([*EARLY_WHITE_DOORS, *EARLY_BLUE_DOORS, *EARLY_SWITCHES])
@@ -1062,10 +1066,10 @@ item_table: Dict[Items, AstalonItemData] = {
     Items.FACE_CATA_BOTTOM: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.FACE_CATH_L: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Items.FACE_CATH_R: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
-    # Items.CYCLOPS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.ITEMS),
-    # Items.CROWN: AstalonItemData(ItemClassification.progression, 1, ItemGroups.ITEMS),
-    # Items.MONSTER: AstalonItemData(ItemClassification.progression, 3, ItemGroups.FAMILIARS),
-    # Items.GIL: AstalonItemData(ItemClassification.filler, 1, ItemGroups.FAMILIARS),
+    Items.CYCLOPS: AstalonItemData(ItemClassification.progression, 1, ItemGroups.ITEM),
+    Items.CROWN: AstalonItemData(ItemClassification.progression, 1, ItemGroups.ITEM),
+    # Items.MONSTER: AstalonItemData(ItemClassification.progression, 3, ItemGroups.FAMILIAR),
+    # Items.GIL: AstalonItemData(ItemClassification.filler, 1, ItemGroups.FAMILIAR),
 }
 
 base_id = 333000
