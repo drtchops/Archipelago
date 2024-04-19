@@ -1,12 +1,11 @@
 from enum import Enum, auto
 from functools import partial
-from typing import TYPE_CHECKING, Callable, Dict, Tuple, Union
+from typing import TYPE_CHECKING, Dict, Protocol, Tuple, TypeVar, Union
 
 from BaseClasses import CollectionState
 from worlds.generic.Rules import set_rule
 
 from .Items import (
-    CHARACTERS,
     BlueDoors,
     Characters,
     Elevators,
@@ -26,6 +25,13 @@ if TYPE_CHECKING:
     from . import AstalonWorld
 
 
+class Events(str, Enum):
+    VICTORY = "Victory"
+    MET_ZEEK = "Met Zeek"
+    ZEEK_JOINED = "Zeek Joined"
+    BRAM_JOINED = "Bram Joined"
+
+
 class Logic(Enum):
     ARIAS_JUMP = auto()
     EXTRA_HEIGHT = auto()
@@ -35,7 +41,26 @@ class Logic(Enum):
     BIG_MAGIC = auto()
 
 
-ENTRANCE_RULES: Dict[Tuple[R, R], Callable[["AstalonRules", CollectionState], bool]] = {
+T = TypeVar("T", bound=I, contravariant=True)  # noqa: PLC0105
+
+
+class AstalonRule(Protocol):
+    def __call__(self, rules: "AstalonRules", state: CollectionState) -> bool: ...
+
+
+class Has(Protocol):
+    def __call__(self, state: CollectionState, item: Union[I, Events], count: int = 1) -> bool: ...
+
+
+class Can(Protocol):
+    def __call__(self, state: CollectionState, logic: Logic, gold_block: bool = False) -> bool: ...
+
+
+class Togglable(Protocol[T]):
+    def __call__(self, state: CollectionState, *items: T, disabled_case: Union[bool, AstalonRule]) -> bool: ...
+
+
+ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
     (R.SHOP, R.SHOP_ALGUS): lambda rules, state: rules.has(state, I.ALGUS),
     (R.SHOP, R.SHOP_ARIAS): lambda rules, state: rules.has(state, I.ARIAS),
     (R.SHOP, R.SHOP_KYULI): lambda rules, state: rules.has(state, I.KYULI),
@@ -1193,53 +1218,7 @@ INDIRECT_CONDITIONS: Tuple[Tuple[Union[L, R], Tuple[R, R]], ...] = (
     (R.CD_TOP, (R.CD_START, R.CD_BOSS)),
 )
 
-ZEEK_CONNECTIONS: Tuple[Tuple[R, R], ...] = (
-    (R.SHOP, R.SHOP_ZEEK),
-    (R.ENTRANCE, R.GT_BABY_GORGON),
-    (R.GT_LEFT, R.GT_TOP_LEFT),
-    (R.MECH_TOP, R.CD_START),
-    (R.HOTP_TOP_LEFT, R.HOTP_ABOVE_OLD_MAN),
-    (R.TR_TOP_RIGHT, R.TR_GOLD),
-    (R.CATH_UNDER_CAMPFIRE, R.CATH_CAMPFIRE_1),
-)
-
-BRAM_CONNECTIONS: Tuple[Tuple[R, R], ...] = (
-    (R.SHOP, R.SHOP_BRAM),
-    (R.GT_BOTTOM, R.GT_UPPER_PATH),
-    (R.GT_BUTT, R.GT_SPIKE_TUNNEL),
-    (R.MECH_BOOTS_CONNECTION, R.MECH_BOOTS_LOWER),
-    (R.MECH_ARIAS_EYEBALL, R.MECH_ZEEK_CONNECTION),
-    (R.MECH_ARIAS_EYEBALL, R.MECH_CHAINS),
-    (R.MECH_ZEEK_CONNECTION, R.MECH_ARIAS_EYEBALL),
-    (R.MECH_RIGHT, R.MECH_SPLIT_PATH),
-    (R.MECH_BOSS_CONNECTION, R.MECH_BRAM_TUNNEL),
-    (R.MECH_BRAM_TUNNEL, R.MECH_BOSS_CONNECTION),
-    (R.MECH_BRAM_TUNNEL, R.HOTP_START_BOTTOM),
-    (R.HOTP_START, R.HOTP_START_BOTTOM),
-    (R.HOTP_START_MID, R.HOTP_START_LEFT),
-    (R.HOTP_START_MID, R.HOTP_START_BOTTOM),
-    (R.HOTP_START_LEFT, R.HOTP_START_MID),
-    (R.HOTP_START_BOTTOM, R.MECH_BRAM_TUNNEL),
-    (R.HOTP_START_BOTTOM, R.HOTP_START),
-    (R.HOTP_CLAW_LEFT, R.HOTP_CLAW),
-    (R.HOTP_CLAW, R.HOTP_CLAW_LEFT),
-    (R.HOTP_TP_PUZZLE, R.HOTP_TP_FALL_TOP),
-    (R.HOTP_TP_FALL_TOP, R.HOTP_TP_PUZZLE),
-    (R.ROA_WORMS, R.ROA_HEARTS),
-    (R.ROA_HEARTS, R.ROA_WORMS),
-    (R.ROA_LOWER_VOID_CONNECTION, R.ROA_FLAMES_CONNECTION),
-    (R.ROA_ARIAS_BABY_GORGON, R.ROA_LOWER_VOID_CONNECTION),
-    (R.ROA_FLAMES_CONNECTION, R.ROA_LOWER_VOID_CONNECTION),
-    (R.ROA_RIGHT_BRANCH, R.ROA_MIDDLE),
-    (R.ROA_MIDDLE, R.ROA_RIGHT_BRANCH),
-    (R.ROA_BOSS_CONNECTION, R.ROA_BOSS),
-    (R.APEX, R.APEX_CENTAUR),
-    (R.TR_LEFT, R.TR_TOP_RIGHT),
-    (R.SP_HEARTS, R.SP_ORBS),
-    (R.SP_STAR, R.SP_STAR_CONNECTION),
-)
-
-ITEM_RULES: Dict[L, Callable[["AstalonRules", CollectionState], bool]] = {
+ITEM_RULES: Dict[L, AstalonRule] = {
     L.GT_GORGONHEART: lambda rules, state: (
         rules.switches(state, I.SWITCH_GT_GH, disabled_case=True)
         or rules.has_any(state, I.KYULI, I.ICARUS, I.BLOCK, I.CLOAK, I.BOOTS)
@@ -1278,7 +1257,7 @@ ITEM_RULES: Dict[L, Callable[["AstalonRules", CollectionState], bool]] = {
     ),
 }
 
-ATTACK_RULES: Dict[L, Callable[["AstalonRules", CollectionState], bool]] = {
+ATTACK_RULES: Dict[L, AstalonRule] = {
     L.MECH_ATTACK_VOLANTIS: lambda rules, state: rules.has(state, I.CLAW),
     L.MECH_ATTACK_STAR: lambda rules, state: rules.has(state, I.STAR),
     L.ROA_ATTACK: lambda rules, state: rules.has(state, I.STAR),
@@ -1292,7 +1271,7 @@ ATTACK_RULES: Dict[L, Callable[["AstalonRules", CollectionState], bool]] = {
     ),
 }
 
-HEALTH_RULES: Dict[L, Callable[["AstalonRules", CollectionState], bool]] = {
+HEALTH_RULES: Dict[L, AstalonRule] = {
     L.GT_HP_1_RING: lambda rules, state: (
         rules.has(state, I.STAR)
         or (
@@ -1355,7 +1334,7 @@ HEALTH_RULES: Dict[L, Callable[["AstalonRules", CollectionState], bool]] = {
     L.CATH_HP_5_BELL: lambda rules, state: rules.has_any(state, I.KYULI, I.BLOCK, I.ICARUS, I.CLOAK),
 }
 
-WHITE_KEY_RULES: Dict[L, Callable[["AstalonRules", CollectionState], bool]] = {
+WHITE_KEY_RULES: Dict[L, AstalonRule] = {
     L.MECH_WHITE_KEY_LINUS: lambda rules, state: rules.switches(state, I.SWITCH_MECH_LOWER_KEY, disabled_case=True),
     L.MECH_WHITE_KEY_TOP: lambda rules, state: (
         rules.switches(state, I.CRYSTAL_MECH_TOP, disabled_case=rules.can(state, Logic.CRYSTAL))
@@ -1364,7 +1343,7 @@ WHITE_KEY_RULES: Dict[L, Callable[["AstalonRules", CollectionState], bool]] = {
     L.ROA_WHITE_KEY_SAVE: lambda rules, state: rules.switches(state, I.SWITCH_ROA_WORMS, disabled_case=True),
 }
 
-BLUE_KEY_RULES: Dict[L, Callable[["AstalonRules", CollectionState], bool]] = {
+BLUE_KEY_RULES: Dict[L, AstalonRule] = {
     L.GT_BLUE_KEY_WALL: lambda rules, state: rules.can(state, Logic.EXTRA_HEIGHT),
     L.MECH_BLUE_KEY_BLOCKS: lambda rules, state: rules.switches(state, I.SWITCH_MECH_KEY_BLOCKS, disabled_case=True),
     L.MECH_BLUE_KEY_SAVE: lambda rules, state: rules.has(state, I.CLAW),
@@ -1383,13 +1362,13 @@ BLUE_KEY_RULES: Dict[L, Callable[["AstalonRules", CollectionState], bool]] = {
     L.SP_BLUE_KEY_ARIAS: lambda rules, state: rules.has(state, I.ARIAS),
 }
 
-RED_KEY_RULES: Dict[L, Callable[["AstalonRules", CollectionState], bool]] = {
+RED_KEY_RULES: Dict[L, AstalonRule] = {
     L.GT_RED_KEY: lambda rules, state: rules.has(state, I.ZEEK, I.KYULI),
     L.ROA_RED_KEY: lambda rules, state: rules.has(state, I.CLOAK, I.CLAW, I.BELL),
     L.TR_RED_KEY: lambda rules, state: rules.has(state, I.CLAW),
 }
 
-SHOP_RULES: Dict[L, Callable[["AstalonRules", CollectionState], bool]] = {
+SHOP_RULES: Dict[L, AstalonRule] = {
     L.SHOP_GIFT: lambda rules, state: rules.moderate_shop(state),
     L.SHOP_KNOWLEDGE: lambda rules, state: rules.cheap_shop(state),
     L.SHOP_MERCY: lambda rules, state: rules.expensive_shop(state),
@@ -1419,7 +1398,7 @@ SHOP_RULES: Dict[L, Callable[["AstalonRules", CollectionState], bool]] = {
     L.SHOP_BRAM_WHIPLASH: lambda rules, state: rules.moderate_shop(state),
 }
 
-SWITCH_RULES: Dict[L, Callable[["AstalonRules", CollectionState], bool]] = {
+SWITCH_RULES: Dict[L, AstalonRule] = {
     L.GT_SWITCH_2ND_ROOM: lambda rules, state: rules.white_doors(state, I.DOOR_WHITE_GT_START, disabled_case=True),
     L.GT_SWITCH_BUTT_ACCESS: lambda rules, state: rules.can(state, Logic.EXTRA_HEIGHT),
     L.GT_SWITCH_UPPER_PATH_ACCESS: lambda rules, state: (
@@ -1555,16 +1534,42 @@ SWITCH_RULES: Dict[L, Callable[["AstalonRules", CollectionState], bool]] = {
     L.SP_CRYSTAL_STAR: lambda rules, state: rules.can(state, Logic.CRYSTAL),
 }
 
+EVENT_RULES: Dict[Events, AstalonRule] = {
+    Events.ZEEK_JOINED: lambda rules, state: rules.has(state, I.CROWN),
+}
+
+
+VANILLA_CHARACTERS = {I.ALGUS, I.ARIAS, I.KYULI}
+
 
 class AstalonRules:
     world: "AstalonWorld"
     player: int
     options: AstalonOptions
 
+    _has: Has
+    can: Can
+    white_doors: Togglable[WhiteDoors]
+    blue_doors: Togglable[BlueDoors]
+    red_doors: Togglable[RedDoors]
+    switches: Togglable[Switches]
+
     def __init__(self, world: "AstalonWorld"):
         self.world = world
         self.player = world.player
         self.options = world.options
+
+        if self.options.randomize_characters == RandomizeCharacters.option_vanilla:
+            self._has = self._vanilla_has
+            self.can = self._hard_vanilla_can if self.hard else self._easy_vanilla_can
+        else:
+            self._has = self._rando_has
+            self.can = self._hard_rando_can if self.hard else self._easy_rando_can
+
+        self.white_doors = self._enabled_togglable if self.options.randomize_white_keys else self._disabled_togglable
+        self.blue_doors = self._enabled_togglable if self.options.randomize_blue_keys else self._disabled_togglable
+        self.red_doors = self._enabled_togglable if self.options.randomize_red_keys else self._disabled_togglable
+        self.switches = self._enabled_togglable if self.options.randomize_switches else self._disabled_togglable
 
     def region(self, name: R):
         return self.world.multiworld.get_region(name.value, self.player)
@@ -1572,21 +1577,10 @@ class AstalonRules:
     def entrance(self, from_: R, to_: R):
         return self.world.multiworld.get_entrance(f"{from_.value} -> {to_.value}", self.player)
 
-    def location(self, name: L):
+    def location(self, name: Union[L, Events]):
         return self.world.multiworld.get_location(name.value, self.player)
 
-    def _has(self, state: CollectionState, item: I, count: int = 1) -> bool:
-        if item in CHARACTERS:
-            if self.options.randomize_characters == RandomizeCharacters.option_vanilla:
-                if item in {I.ALGUS, I.ARIAS, I.KYULI}:
-                    return True
-                elif item == I.ZEEK:
-                    return self.region(R.MECH_ZEEK).can_reach(state) and self.region(R.CD_BOSS).can_reach(state)
-                elif item == I.BRAM:
-                    return self.region(R.TR_BRAM).can_reach(state)
-            else:
-                return state.has(item.value, self.player)
-
+    def _rando_has(self, state: CollectionState, item: Union[I, Events], count: int = 1) -> bool:
         if item == I.CLOAK and not self._has(state, I.ALGUS):
             return False
         if item in {I.SWORD, I.BOOTS} and not self._has(state, I.ARIAS):
@@ -1602,16 +1596,32 @@ class AstalonRules:
         if item == I.GAUNTLET and not self.has_any(state, I.ARIAS, I.BRAM):
             return False
 
-        # if item == I.CYCLOPS:
-        #     # not yet randomized
-        #     return self.region(R.MECH_ZEEK).can_reach(state)
-
         if item in {I.ALGUS_ARCANIST, I.ALGUS_METEOR, I.ALGUS_SHOCK} and not self._has(state, I.ALGUS):
             return False
         if item in {I.ARIAS_GORGONSLAYER, I.ARIAS_LAST_STAND, I.ARIAS_LIONHEART} and not self._has(state, I.ARIAS):
             return False
         if item in {I.KYULI_ASSASSIN, I.KYULI_BULLSEYE, I.KYULI_RAY} and not self._has(state, I.KYULI):
             return False
+        if item in {I.ZEEK_JUNKYARD, I.ZEEK_ORBS, I.ZEEK_LOOT} and not self._has(state, I.ZEEK):
+            return False
+        if item in {I.BRAM_AXE, I.BRAM_HUNTER, I.BRAM_WHIPLASH} and not self._has(state, I.BRAM):
+            return False
+
+        return state.has(item.value, self.player, count=count)
+
+    def _vanilla_has(self, state: CollectionState, item: Union[I, Events], count: int = 1) -> bool:
+        if item in VANILLA_CHARACTERS:
+            return True
+        if item == I.ZEEK:
+            return self._has(state, Events.ZEEK_JOINED)
+        if item == I.BRAM:
+            return self._has(state, Events.BRAM_JOINED)
+
+        if item == I.BLOCK and not self._has(state, I.ZEEK):
+            return False
+        if item == I.STAR and not self._has(state, I.BRAM):
+            return False
+
         if item in {I.ZEEK_JUNKYARD, I.ZEEK_ORBS, I.ZEEK_LOOT} and not self._has(state, I.ZEEK):
             return False
         if item in {I.BRAM_AXE, I.BRAM_HUNTER, I.BRAM_WHIPLASH} and not self._has(state, I.BRAM):
@@ -1633,53 +1643,16 @@ class AstalonRules:
                 return True
         return False
 
-    def white_doors(
-        self,
-        state: CollectionState,
-        *doors: WhiteDoors,
-        disabled_case: Union[bool, Callable[["AstalonRules", CollectionState], bool]],
-    ) -> bool:
-        return self._togglable(state, bool(self.options.randomize_white_keys), disabled_case, *doors)
-
-    def blue_doors(
-        self,
-        state: CollectionState,
-        *doors: BlueDoors,
-        disabled_case: Union[bool, Callable[["AstalonRules", CollectionState], bool]],
-    ) -> bool:
-        return self._togglable(state, bool(self.options.randomize_blue_keys), disabled_case, *doors)
-
-    def red_doors(
-        self,
-        state: CollectionState,
-        *doors: RedDoors,
-        disabled_case: Union[bool, Callable[["AstalonRules", CollectionState], bool]],
-    ) -> bool:
-        return self._togglable(state, bool(self.options.randomize_red_keys), disabled_case, *doors)
-
-    def switches(
-        self,
-        state: CollectionState,
-        *switches: Switches,
-        disabled_case: Union[bool, Callable[["AstalonRules", CollectionState], bool]],
-    ) -> bool:
-        return self._togglable(state, bool(self.options.randomize_switches), disabled_case, *switches)
-
-    def _togglable(
-        self,
-        state: CollectionState,
-        option: bool,
-        disabled_case: Union[bool, Callable[["AstalonRules", CollectionState], bool]],
-        *items: I,
-    ) -> bool:
-        if not option:
-            if isinstance(disabled_case, bool):
-                return disabled_case
-            return disabled_case(self, state)
+    def _enabled_togglable(self, state: CollectionState, *items: I, disabled_case: Union[bool, AstalonRule]) -> bool:
         for item in items:
             if not self._has(state, item):
                 return False
         return True
+
+    def _disabled_togglable(self, state: CollectionState, *items: I, disabled_case: Union[bool, AstalonRule]) -> bool:
+        if isinstance(disabled_case, bool):
+            return disabled_case
+        return disabled_case(self, state)
 
     def elevator(self, state: CollectionState, destination: Elevators) -> bool:
         if not self._has(state, I.ASCENDANT_KEY):
@@ -1700,7 +1673,22 @@ class AstalonRules:
         # TODO
         return self.region(R.ROA_START).can_reach(state)
 
-    def can(self, state: CollectionState, logic: Logic, gold_block=False) -> bool:
+    def _easy_rando_can(self, state: CollectionState, logic: Logic, gold_block=False) -> bool:
+        if logic == Logic.ARIAS_JUMP:
+            return False
+        if logic == Logic.EXTRA_HEIGHT:
+            return self.has(state, I.KYULI) or self.has(state, I.BLOCK) or (gold_block and self.has(state, I.ZEEK))
+        if logic == Logic.COMBO_HEIGHT:
+            return False
+        if logic == Logic.BLOCK_IN_WALL:
+            return False
+        if logic == Logic.CRYSTAL:
+            return self.has(state, I.ALGUS) or self.has(state, I.ZEEK, I.BANISH)
+        if logic == Logic.BIG_MAGIC:
+            return False
+        return False
+
+    def _hard_rando_can(self, state: CollectionState, logic: Logic, gold_block=False) -> bool:
         if logic == Logic.ARIAS_JUMP:
             return self.hard and self.has(state, I.ARIAS)
         if logic == Logic.EXTRA_HEIGHT:
@@ -1721,6 +1709,36 @@ class AstalonRules:
                 return self.has(state, I.KYULI_RAY) or self.has(state, I.BRAM_WHIPLASH)
         if logic == Logic.BIG_MAGIC:
             return self.hard and self.has(state, I.BANISH, I.ALGUS_ARCANIST)
+        return False
+
+    def _easy_vanilla_can(self, state: CollectionState, logic: Logic, gold_block=False) -> bool:
+        if logic == Logic.ARIAS_JUMP:
+            return False
+        if logic == Logic.EXTRA_HEIGHT:
+            return True
+        if logic == Logic.COMBO_HEIGHT:
+            return False
+        if logic == Logic.BLOCK_IN_WALL:
+            return False
+        if logic == Logic.CRYSTAL:
+            return True
+        if logic == Logic.BIG_MAGIC:
+            return False
+        return False
+
+    def _hard_vanilla_can(self, state: CollectionState, logic: Logic, gold_block=False) -> bool:
+        if logic == Logic.ARIAS_JUMP:
+            return True
+        if logic == Logic.EXTRA_HEIGHT:
+            return True
+        if logic == Logic.COMBO_HEIGHT:
+            return self.has(state, I.BELL, I.BLOCK)
+        if logic == Logic.BLOCK_IN_WALL:
+            return self.has(state, I.BLOCK) or (gold_block and self.has(state, I.ZEEK))
+        if logic == Logic.CRYSTAL:
+            return True
+        if logic == Logic.BIG_MAGIC:
+            return self.has(state, I.BANISH, I.ALGUS_ARCANIST)
         return False
 
     def reachable(self, state: CollectionState, location: L) -> bool:
@@ -1800,18 +1818,10 @@ class AstalonRules:
             for location, rule in SWITCH_RULES.items():
                 set_rule(self.location(location), partial(rule, self))
 
+        if self.options.randomize_characters == RandomizeCharacters.option_vanilla:
+            for event, rule in EVENT_RULES.items():
+                set_rule(self.location(event), partial(rule, self))
+
     def set_indirect_conditions(self) -> None:
         for dependency, (from_, to_) in INDIRECT_CONDITIONS:
             self.register_indirect_condition(dependency, from_, to_)
-
-        if self.options.randomize_characters == RandomizeCharacters.option_vanilla:
-            zeek_region = self.region(R.MECH_ZEEK)
-            crown_region = self.region(R.CD_BOSS)
-            bram_region = self.region(R.TR_BRAM)
-            for from_, to_ in ZEEK_CONNECTIONS:
-                entrance = self.entrance(from_, to_)
-                self.world.multiworld.register_indirect_condition(zeek_region, entrance)
-                self.world.multiworld.register_indirect_condition(crown_region, entrance)
-            for from_, to_ in BRAM_CONNECTIONS:
-                entrance = self.entrance(from_, to_)
-                self.world.multiworld.register_indirect_condition(bram_region, entrance)

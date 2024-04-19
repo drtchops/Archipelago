@@ -364,10 +364,6 @@ class Items(str, Enum):
     FACE_CATH_R = "Cath Face Right"
 
 
-class Events(str, Enum):
-    VICTORY = "Victory"
-
-
 Characters: TypeAlias = Literal[
     Items.ARIAS,
     Items.KYULI,

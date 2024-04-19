@@ -12,7 +12,6 @@ from .Items import (
     QOL_ITEMS,
     AstalonItem,
     Characters,
-    Events,
     ItemGroups,
     Items,
     filler_items,
@@ -30,7 +29,7 @@ from .Locations import (
 )
 from .Options import AstalonOptions, RandomizeCharacters
 from .Regions import Regions, astalon_regions
-from .Rules import AstalonRules
+from .Rules import AstalonRules, Events
 
 
 class AstalonWebWorld(WebWorld):
@@ -124,7 +123,11 @@ class AstalonWorld(World):
                 region.locations.append(location)
                 self.location_count += 1
 
-        if self.options.randomize_characters != RandomizeCharacters.option_vanilla:
+        if self.options.randomize_characters == RandomizeCharacters.option_vanilla:
+            self.create_event(Events.MET_ZEEK, Regions.MECH_ZEEK)
+            self.create_event(Events.ZEEK_JOINED, Regions.MECH_ZEEK)
+            self.create_event(Events.BRAM_JOINED, Regions.TR_BRAM)
+        else:
             if Items.ALGUS not in self.starting_characters:
                 self.create_location(Locations.GT_ALGUS)
             if Items.ARIAS not in self.starting_characters:
@@ -136,12 +139,7 @@ class AstalonWorld(World):
             if Items.BRAM not in self.starting_characters:
                 self.create_location(Locations.TR_BRAM)
 
-        final_boss = self.multiworld.get_region(Regions.FINAL_BOSS.value, self.player)
-        victory = AstalonLocation(self.player, Locations.VICTORY.value, None, final_boss)
-        victory.place_locked_item(
-            AstalonItem(Events.VICTORY.value, ItemClassification.progression_skip_balancing, None, self.player)
-        )
-        final_boss.locations.append(victory)
+        self.create_event(Events.VICTORY, Regions.FINAL_BOSS)
         self.multiworld.completion_condition[self.player] = lambda state: state.has(Events.VICTORY.value, self.player)
 
     def create_item(self, name: str) -> AstalonItem:
@@ -153,8 +151,13 @@ class AstalonWorld(World):
             classification = item_data.classification
         return AstalonItem(name, classification, self.item_name_to_id[name], self.player)
 
-    def create_event(self, name: str) -> AstalonItem:
-        return AstalonItem(name, ItemClassification.progression, None, self.player)
+    def create_event(self, event: Events, region_name: Regions) -> None:
+        region = self.multiworld.get_region(region_name.value, self.player)
+        location = AstalonLocation(self.player, event.value, None, region)
+        location.place_locked_item(
+            AstalonItem(event.value, ItemClassification.progression_skip_balancing, None, self.player)
+        )
+        region.locations.append(location)
 
     def create_items(self) -> None:
         itempool = []
