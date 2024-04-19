@@ -12,8 +12,9 @@ from .Items import (
     QOL_ITEMS,
     AstalonItem,
     Characters,
+    Elevators,
     ItemGroups,
-    Items,
+    Keys,
     filler_items,
     item_name_groups,
     item_name_to_id,
@@ -74,7 +75,7 @@ class AstalonWorld(World):
                 self.starting_characters.append(self.random.choice(CHARACTERS))
 
     def create_location(self, name: str):
-        data = location_table[Locations(name)]
+        data = location_table[name]
         region = self.multiworld.get_region(data.region.value, self.player)
         location = AstalonLocation(self.player, name, location_name_to_id[name], region)
         region.locations.append(location)
@@ -117,33 +118,29 @@ class AstalonWorld(World):
                 if location_name == Locations.APEX_ELEVATOR and self.options.free_apex_elevator:
                     continue
 
-                data = location_table[Locations(location_name)]
-                region = self.get_region(data.region.value)
-                location = AstalonLocation(self.player, location_name, location_name_to_id[location_name], region)
-                region.locations.append(location)
-                self.location_count += 1
+                self.create_location(location_name)
 
         if self.options.randomize_characters == RandomizeCharacters.option_vanilla:
             self.create_event(Events.MET_ZEEK, Regions.MECH_ZEEK)
             self.create_event(Events.ZEEK_JOINED, Regions.MECH_ZEEK)
             self.create_event(Events.BRAM_JOINED, Regions.TR_BRAM)
         else:
-            if Items.ALGUS not in self.starting_characters:
+            if Characters.ALGUS not in self.starting_characters:
                 self.create_location(Locations.GT_ALGUS)
-            if Items.ARIAS not in self.starting_characters:
+            if Characters.ARIAS not in self.starting_characters:
                 self.create_location(Locations.GT_ARIAS)
-            if Items.KYULI not in self.starting_characters:
+            if Characters.KYULI not in self.starting_characters:
                 self.create_location(Locations.GT_KYULI)
-            if Items.ZEEK not in self.starting_characters:
+            if Characters.ZEEK not in self.starting_characters:
                 self.create_location(Locations.MECH_ZEEK)
-            if Items.BRAM not in self.starting_characters:
+            if Characters.BRAM not in self.starting_characters:
                 self.create_location(Locations.TR_BRAM)
 
         self.create_event(Events.VICTORY, Regions.FINAL_BOSS)
         self.multiworld.completion_condition[self.player] = lambda state: state.has(Events.VICTORY.value, self.player)
 
     def create_item(self, name: str) -> AstalonItem:
-        item_data = item_table[Items(name)]
+        item_data = item_table[name]
         classification: ItemClassification
         if callable(item_data.classification):
             classification = item_data.classification(self)
@@ -187,10 +184,10 @@ class AstalonWorld(World):
                     continue
                 if self.options.open_early_doors and item_name in EARLY_ITEMS:
                     continue
-                if self.options.free_apex_elevator and item_name == Items.ELEVATOR_APEX:
+                if self.options.free_apex_elevator and item_name == Elevators.ELEVATOR_APEX:
                     continue
 
-                data = item_table[Items(item_name)]
+                data = item_table[item_name]
                 for _ in range(0, data.quantity_in_item_pool):
                     itempool.append(self.create_item(item_name))
 
@@ -203,19 +200,19 @@ class AstalonWorld(World):
                     itempool.append(character_item)
 
         if self.options.start_with_qol:
-            for item in QOL_ITEMS:
-                self.multiworld.push_precollected(self.create_item(item.value))
+            for qol_item in QOL_ITEMS:
+                self.multiworld.push_precollected(self.create_item(qol_item.value))
 
         if self.options.open_early_doors:
             if self.options.randomize_white_keys:
-                for item in EARLY_WHITE_DOORS:
-                    self.multiworld.push_precollected(self.create_item(item.value))
+                for white_door in EARLY_WHITE_DOORS:
+                    self.multiworld.push_precollected(self.create_item(white_door.value))
             if self.options.randomize_blue_keys:
-                for item in EARLY_BLUE_DOORS:
-                    self.multiworld.push_precollected(self.create_item(item.value))
+                for blue_door in EARLY_BLUE_DOORS:
+                    self.multiworld.push_precollected(self.create_item(blue_door.value))
             if self.options.randomize_switches:
-                for item in EARLY_SWITCHES:
-                    self.multiworld.push_precollected(self.create_item(item.value))
+                for red_door in EARLY_SWITCHES:
+                    self.multiworld.push_precollected(self.create_item(red_door.value))
 
         while len(itempool) < self.location_count:
             itempool.append(self.create_item(self.get_filler_item_name()))
@@ -224,11 +221,11 @@ class AstalonWorld(World):
     def get_filler_item_name(self) -> str:
         items = list(filler_items)
         if not self.options.randomize_white_keys:
-            items.append(Items.KEY_WHITE.value)
+            items.append(Keys.KEY_WHITE.value)
         if not self.options.randomize_blue_keys:
-            items.append(Items.KEY_BLUE.value)
+            items.append(Keys.KEY_BLUE.value)
         if not self.options.randomize_red_keys:
-            items.append(Items.KEY_RED.value)
+            items.append(Keys.KEY_RED.value)
         return self.random.choice(items)
 
     def set_rules(self) -> None:
