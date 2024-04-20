@@ -471,7 +471,7 @@ location_table: Dict[str, AstalonLocationData] = {
     Locations.MECH_BLUE_KEY_SACRIFICE.value: AstalonLocationData(
         Regions.MECH_SACRIFICE, LocationGroups.KEY_BLUE, Area.MECH
     ),
-    Locations.MECH_BLUE_KEY_RED.value: AstalonLocationData(Regions.MECH_LOWER_VOID, LocationGroups.KEY_BLUE, Area.MECH),
+    Locations.MECH_BLUE_KEY_RED.value: AstalonLocationData(Regions.MECH_START, LocationGroups.KEY_BLUE, Area.MECH),
     Locations.MECH_BLUE_KEY_ARIAS.value: AstalonLocationData(
         Regions.MECH_ARIAS_EYEBALL, LocationGroups.KEY_BLUE, Area.MECH
     ),

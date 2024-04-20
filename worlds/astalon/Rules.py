@@ -243,7 +243,7 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
         rules.switches(state, Crystal.MECH_LINUS, disabled_case=lambda rules, state: rules.can(state, Logic.CRYSTAL))
     ),
     (R.MECH_START, R.MECH_LOWER_VOID): lambda rules, state: (
-        rules.blue_doors(state, BlueDoor.MECH_VOID, disabled_case=True)
+        rules.blue_doors(state, BlueDoor.MECH_RED, disabled_case=True)
     ),
     (R.MECH_START, R.MECH_SACRIFICE): lambda rules, state: rules.can(state, Logic.EXTRA_HEIGHT),
     (R.MECH_START, R.GT_BOSS): lambda rules, state: rules.has(state, Eye.RED),
@@ -306,7 +306,7 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
     ),
     (R.MECH_SNAKE, R.GT_VOID): lambda rules, state: rules.switches(state, Switch.MECH_SNAKE_2, disabled_case=True),
     (R.MECH_LOWER_VOID, R.MECH_START): lambda rules, state: (
-        rules.blue_doors(state, BlueDoor.MECH_VOID, disabled_case=True)
+        rules.blue_doors(state, BlueDoor.MECH_RED, disabled_case=True)
     ),
     (R.MECH_LOWER_VOID, R.MECH_UPPER_VOID): lambda rules, state: rules.has(state, KeyItem.VOID),
     (R.MECH_LOWER_VOID, R.HOTP_MECH_VOID_CONNECTION): lambda rules, state: rules.has(state, Eye.BLUE),
@@ -1584,7 +1584,11 @@ SWITCH_RULES: Dict[L, AstalonRule] = {
     L.MECH_CRYSTAL_TOP: lambda rules, state: rules.can(state, Logic.CRYSTAL),
     L.MECH_CRYSTAL_CLOAK: lambda rules, state: rules.can(state, Logic.CRYSTAL),
     L.MECH_CRYSTAL_SLIMES: lambda rules, state: rules.can(state, Logic.CRYSTAL),
-    L.MECH_CRYSTAL_TO_CD: lambda rules, state: rules.can(state, Logic.CRYSTAL),
+    L.MECH_CRYSTAL_TO_CD: lambda rules, state: (
+        rules.can(state, Logic.CRYSTAL)
+        and rules.has(state, Eye.BLUE)
+        and rules.blue_doors(state, BlueDoor.MECH_CD, disabled_case=True)
+    ),
     L.MECH_CRYSTAL_CAMPFIRE: lambda rules, state: rules.can(state, Logic.CRYSTAL),
     L.MECH_CRYSTAL_1ST_ROOM: lambda rules, state: rules.can(state, Logic.CRYSTAL),
     L.MECH_CRYSTAL_OLD_MAN: lambda rules, state: rules.can(state, Logic.CRYSTAL),
