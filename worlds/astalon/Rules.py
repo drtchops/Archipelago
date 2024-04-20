@@ -1387,8 +1387,8 @@ ITEM_RULES: Dict[L, AstalonRule] = {
     ),
 }
 
-CHARACTER_RULES: Dict[L, AstalonRule] = {
-    L.MECH_ZEEK: lambda rules, state: rules.has(state, KeyItem.CROWN),
+CHARACTER_RULES: Dict[Tuple[Character, L], AstalonRule] = {
+    (Character.ZEEK, L.MECH_ZEEK): lambda rules, state: rules.has(state, KeyItem.CROWN),
 }
 
 ATTACK_RULES: Dict[L, AstalonRule] = {
@@ -1981,10 +1981,6 @@ class AstalonRules:
         for location, rule in ITEM_RULES.items():
             set_rule(self.location(location), partial(rule, self))
 
-        if self.options.randomize_characters != RandomizeCharacters.option_vanilla:
-            for location, rule in CHARACTER_RULES.items():
-                set_rule(self.location(location), partial(rule, self))
-
         if self.options.randomize_attack_pickups:
             for location, rule in ATTACK_RULES.items():
                 set_rule(self.location(location), partial(rule, self))
@@ -2016,6 +2012,10 @@ class AstalonRules:
         if self.options.randomize_characters == RandomizeCharacters.option_vanilla:
             for event, rule in EVENT_RULES.items():
                 set_rule(self.location(event), partial(rule, self))
+        else:
+            for (character, location), rule in CHARACTER_RULES.items():
+                if character not in self.world.starting_characters:
+                    set_rule(self.location(location), partial(rule, self))
 
     def set_indirect_conditions(self) -> None:
         for dependency, (from_, to_) in INDIRECT_CONDITIONS:
