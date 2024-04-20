@@ -260,8 +260,8 @@ class AstalonWorld(World):
 
         shop_items: Dict[str, Dict[str, Any]] = {}
         if self.options.randomize_shop:
-            region = self.multiworld.get_region(Regions.SHOP.value, self.player)
-            for location in region.locations:
+            for location_name in location_name_groups[LocationGroups.SHOP.value]:
+                location = self.multiworld.get_location(location_name, self.player)
                 item = location.item
                 if item:
                     shop_items[location.name] = {

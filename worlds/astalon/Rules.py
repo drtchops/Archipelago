@@ -348,7 +348,7 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
         rules.switches(state, Switch.MECH_SPLIT_PATH, disabled_case=True)
     ),
     (R.MECH_CHAINS, R.MECH_BOSS_SWITCHES): lambda rules, state: (
-        rules.switches(state, Switch.MECH_BOSS_1, disabled_case=False)
+        rules.switches(state, Switch.MECH_TO_BOSS_1, disabled_case=False)
     ),
     (R.MECH_CHAINS, R.MECH_BOSS_CONNECTION): lambda rules, state: (
         rules.has(state, KeyItem.CLAW)
@@ -927,9 +927,7 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
         rules.switches(state, Face.ROA_SPIDERS, disabled_case=lambda rules, state: rules.has(state, KeyItem.BOW))
     ),
     (R.ROA_SPIDERS_1, R.ROA_SPIDERS_2): lambda rules, state: rules.can(state, Logic.EXTRA_HEIGHT),
-    (R.ROA_SPIDERS_1, R.ROA_SPIKE_SPINNERS): lambda rules, state: (
-        rules.white_doors(state, WhiteDoor.ROA_SPINNERS, disabled_case=True)
-    ),
+    (R.ROA_SPIDERS_1, R.ROA_SPIKE_SPINNERS): lambda rules, state: True,
     (R.ROA_SPIDERS_2, R.ROA_SPIDERS_1): lambda rules, state: True,
     (R.ROA_SPIDERS_2, R.ROA_BLOOD_POT_HALLWAY): lambda rules, state: (
         rules.switches(state, Switch.ROA_SPIDERS, disabled_case=True)
