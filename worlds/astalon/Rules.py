@@ -1329,7 +1329,6 @@ INDIRECT_CONDITIONS: Tuple[Tuple[Union[L, R], Tuple[R, R]], ...] = (
     (L.GT_SWITCH_UPPER_ARIAS, (R.GT_UPPER_ARIAS, R.MECH_SWORD_CONNECTION)),
     (L.GT_CRYSTAL_LADDER, (R.GT_OLD_MAN_FORK, R.GT_UPPER_ARIAS)),
     (L.MECH_RED_KEY, (R.MECH_ZEEK_CONNECTION, R.MECH_ZEEK)),
-    (R.MECH_ZEEK, (R.MECH_TOP, R.CD_START)),
     (L.HOTP_SWITCH_BELOW_START, (R.HOTP_START_BOTTOM, R.HOTP_LOWER)),
     (L.HOTP_RED_KEY, (R.HOTP_CATH_CONNECTION, R.CATH_START)),
     (L.ROA_CRYSTAL_LADDER_L, (R.ROA_MIDDLE, R.ROA_MIDDLE_LADDER)),
@@ -1386,6 +1385,10 @@ ITEM_RULES: Dict[L, AstalonRule] = {
             disabled_case=lambda rules, state: rules.can(state, Logic.CRYSTAL),
         )
     ),
+}
+
+CHARACTER_RULES: Dict[L, AstalonRule] = {
+    L.MECH_ZEEK: lambda rules, state: rules.has(state, KeyItem.CROWN),
 }
 
 ATTACK_RULES: Dict[L, AstalonRule] = {
@@ -1973,6 +1976,10 @@ class AstalonRules:
     def set_location_rules(self) -> None:
         for location, rule in ITEM_RULES.items():
             set_rule(self.location(location), partial(rule, self))
+
+        if self.options.randomize_characters != RandomizeCharacters.option_vanilla:
+            for location, rule in CHARACTER_RULES.items():
+                set_rule(self.location(location), partial(rule, self))
 
         if self.options.randomize_attack_pickups:
             for location, rule in ATTACK_RULES.items():

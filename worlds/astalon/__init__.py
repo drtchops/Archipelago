@@ -255,12 +255,16 @@ class AstalonWorld(World):
             "cost_multiplier",
             "fast_blood_chalice",
             "campfire_warp",
+            "cheap_kyuli_ray",
             "death_link",
         )
 
         shop_items: Dict[str, Dict[str, Any]] = {}
         if self.options.randomize_shop:
             for location_name in location_name_groups[LocationGroups.SHOP.value]:
+                if location_name == Locations.SHOP_MAP_REVEAL:
+                    continue
+
                 location = self.multiworld.get_location(location_name, self.player)
                 item = location.item
                 if item:

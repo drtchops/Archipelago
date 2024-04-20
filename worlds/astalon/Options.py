@@ -54,7 +54,7 @@ class RandomizeCharacters(Choice):
     option_solo = 2
     option_all = 3
     option_random_selection = 4
-    default = 0
+    default = 1
 
 
 class RandomizeHealthPickups(DefaultOnToggle):
@@ -234,7 +234,13 @@ class OpenEarlyDoors(DefaultOnToggle):
     display_name = "Open Early Doors"
 
 
-# Open CD shortcuts by default?
+class CheapKyuliRay(Toggle):
+    """
+    Make's Kyuli's Shining Ray only cost 50 orbs. You still need to have at least 500 to fire it.
+    Recommended when using hard logic as it can activate crystals.
+    """
+
+    display_name = "Cheap Kyuli Ray"
 
 
 @dataclass
@@ -262,4 +268,5 @@ class AstalonOptions(PerGameCommonOptions):
     fast_blood_chalice: FastBloodChalice
     campfire_warp: CampfireWarp
     open_early_doors: OpenEarlyDoors
+    cheap_kyuli_ray: CheapKyuliRay
     death_link: DeathLink
