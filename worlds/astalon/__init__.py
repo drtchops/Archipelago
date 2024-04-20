@@ -11,10 +11,10 @@ from .Items import (
     EARLY_WHITE_DOORS,
     QOL_ITEMS,
     AstalonItem,
-    Characters,
-    Elevators,
+    Character,
+    Elevator,
     ItemGroups,
-    Keys,
+    Key,
     filler_items,
     item_name_groups,
     item_name_to_id,
@@ -56,7 +56,7 @@ class AstalonWorld(World):
     location_name_groups = location_name_groups
     item_name_to_id = item_name_to_id
     location_name_to_id = location_name_to_id
-    starting_characters: List[Characters]
+    starting_characters: List[Character]
     location_count: int = 0
 
     def generate_early(self) -> None:
@@ -125,15 +125,15 @@ class AstalonWorld(World):
             self.create_event(Events.ZEEK_JOINED, Regions.MECH_ZEEK)
             self.create_event(Events.BRAM_JOINED, Regions.TR_BRAM)
         else:
-            if Characters.ALGUS not in self.starting_characters:
+            if Character.ALGUS not in self.starting_characters:
                 self.create_location(Locations.GT_ALGUS)
-            if Characters.ARIAS not in self.starting_characters:
+            if Character.ARIAS not in self.starting_characters:
                 self.create_location(Locations.GT_ARIAS)
-            if Characters.KYULI not in self.starting_characters:
+            if Character.KYULI not in self.starting_characters:
                 self.create_location(Locations.GT_KYULI)
-            if Characters.ZEEK not in self.starting_characters:
+            if Character.ZEEK not in self.starting_characters:
                 self.create_location(Locations.MECH_ZEEK)
-            if Characters.BRAM not in self.starting_characters:
+            if Character.BRAM not in self.starting_characters:
                 self.create_location(Locations.TR_BRAM)
 
         self.create_event(Events.VICTORY, Regions.FINAL_BOSS)
@@ -184,7 +184,7 @@ class AstalonWorld(World):
                     continue
                 if self.options.open_early_doors and item_name in EARLY_ITEMS:
                     continue
-                if self.options.free_apex_elevator and item_name == Elevators.ELEVATOR_APEX:
+                if self.options.free_apex_elevator and item_name == Elevator.APEX:
                     continue
 
                 data = item_table[item_name]
@@ -221,11 +221,11 @@ class AstalonWorld(World):
     def get_filler_item_name(self) -> str:
         items = list(filler_items)
         if not self.options.randomize_white_keys:
-            items.append(Keys.KEY_WHITE.value)
+            items.append(Key.WHITE.value)
         if not self.options.randomize_blue_keys:
-            items.append(Keys.KEY_BLUE.value)
+            items.append(Key.BLUE.value)
         if not self.options.randomize_red_keys:
-            items.append(Keys.KEY_RED.value)
+            items.append(Key.RED.value)
         return self.random.choice(items)
 
     def set_rules(self) -> None:
