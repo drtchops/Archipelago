@@ -5,4 +5,4 @@ from .. import AstalonWorld
 
 class AstalonTestBase(WorldTestBase):
     game = "Astalon"
-    world: AstalonWorld
+    world: AstalonWorld  # type: ignore

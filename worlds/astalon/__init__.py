@@ -51,7 +51,7 @@ class AstalonWorld(World):
     game = "Astalon"
     web = AstalonWebWorld()
     options_dataclass = AstalonOptions
-    options: AstalonOptions
+    options: AstalonOptions  # type: ignore
     item_name_groups = item_name_groups
     location_name_groups = location_name_groups
     item_name_to_id = item_name_to_id
