@@ -113,8 +113,8 @@ class RandomizeShop(Toggle):
 
 class RandomizeSwitches(Toggle):
     """
-    Choose whether to randomize all switches and magic crystals in the world.
-    Activating a switch will complete a check and the corresponding doors or blocks will open from a received item.
+    Choose whether to randomize all ground switches, magic crystals, and face switches in the world.
+    Activating a switch will complete a check and the corresponding doors or blocks will toggle from a received item.
     """
 
     display_name = "Randomize Switches"
@@ -123,7 +123,7 @@ class RandomizeSwitches(Toggle):
 class RandomizeElevator(Toggle):
     """
     Choose whether to randomize the elevator destinations.
-    Finding elevators will complete checks and you will receive elevator destinations as items.
+    Finding elevators will complete checks and you will unlock elevator destinations as items.
     """
 
     display_name = "Randomize Elevator"
@@ -227,8 +227,8 @@ class CampfireWarp(DefaultOnToggle):
 
 class OpenEarlyDoors(DefaultOnToggle):
     """
-    Opens some Gorgon's Tomb doors by default when using key rando to give you a bigger sphere 1.
-    Has no effect when not using white or blue key rando.
+    Opens some Gorgon's Tomb doors by default when using key or switch rando to give you a bigger sphere 1.
+    Has no effect when not using white key, blue key, or switch rando.
     """
 
     display_name = "Open Early Doors"
@@ -237,7 +237,7 @@ class OpenEarlyDoors(DefaultOnToggle):
 class CheapKyuliRay(Toggle):
     """
     Make's Kyuli's Shining Ray only cost 50 orbs. You still need to have at least 500 to fire it.
-    Recommended when using hard logic as it can activate crystals.
+    Recommended when using hard logic and character rando as it can activate crystals.
     """
 
     display_name = "Cheap Kyuli Ray"
