@@ -440,7 +440,11 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
         rules.has(state, KeyItem.CLAW) or rules.white_doors(state, WhiteDoor.MECH_TOP, disabled_case=True)
     ),
     (R.MECH_TP_CONNECTION, R.MECH_CHARACTER_SWAPS): lambda rules, state: (
-        rules.has(state, Character.ARIAS) or rules.switches(state, Switch.MECH_ARIAS_CYCLOPS, disabled_case=False)
+        (
+            rules.has(state, Character.ARIAS)
+            and (rules.white_doors(state, WhiteDoor.MECH_TOP, disabled_case=True) or rules.has(state, KeyItem.BELL))
+        )
+        or rules.switches(state, Switch.MECH_ARIAS_CYCLOPS, disabled_case=False)
     ),
     (R.MECH_CHARACTER_SWAPS, R.MECH_CLOAK_CONNECTION): lambda rules, state: (
         rules.switches(
@@ -644,7 +648,7 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
     ),
     (R.HOTP_ELEVATOR, R.HOTP_EYEBALL): lambda rules, state: (
         rules.switches(state, Switch.HOTP_EYEBALL_SHORTCUT, Switch.HOTP_WORM_PILLAR, disabled_case=True)
-        or rules.switches(state, Switch.HOTP_GHOST_BLOOD, disabled_case=False)
+        and rules.switches(state, Switch.HOTP_GHOST_BLOOD, disabled_case=False)
     ),
     (R.HOTP_ELEVATOR, R.HOTP_CLAW_LEFT): lambda rules, state: (
         (rules.switches(state, Switch.HOTP_TO_CLAW_2, disabled_case=True) and rules.can(state, Logic.EXTRA_HEIGHT))
@@ -868,22 +872,19 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
         rules.switches(state, Switch.ROA_ASCEND_SHORTCUT, disabled_case=False)
     ),
     (R.ROA_TRIPLE_SWITCH, R.ROA_MIDDLE): lambda rules, state: (
-        rules.switches(state, Switch.ROA_TRIPLE_1, Switch.ROA_TRIPLE_3, disabled_case=False)
-        and rules.has(state, KeyItem.CLAW, KeyItem.BELL)
-    ),
-    (R.ROA_TRIPLE_SWITCH, R.ROA_TOP_ASCENT): lambda rules, state: (
         rules.switches(
             state,
             Switch.ROA_TRIPLE_1,
-            Crystal.ROA_TRIPLE_2,
             Switch.ROA_TRIPLE_3,
             disabled_case=lambda rules, state: rules.can(state, Logic.CRYSTAL),
         )
+        and rules.has(state, KeyItem.CLAW, KeyItem.BELL)
     ),
+    (R.ROA_TRIPLE_SWITCH, R.ROA_TOP_ASCENT): lambda rules, state: True,
     (R.ROA_MIDDLE, R.ROA_LEFT_SWITCH): lambda rules, state: rules.can(state, Logic.EXTRA_HEIGHT),
     (R.ROA_MIDDLE, R.ROA_RIGHT_BRANCH): lambda rules, state: rules.has(state, KeyItem.STAR),
     (R.ROA_MIDDLE, R.ROA_RIGHT_SWITCH_1): lambda rules, state: (
-        rules.has(state, KeyItem.CLAW) or rules.switches(state, Switch.ROA_RIGHT_PATH, disabled_case=False)
+        rules.has(state, Character.KYULI) or rules.switches(state, Switch.ROA_RIGHT_PATH, disabled_case=False)
     ),
     (R.ROA_MIDDLE, R.ROA_MIDDLE_LADDER): lambda rules, state: (
         # this could allow more
@@ -896,7 +897,9 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
             ),
         )
     ),
-    (R.ROA_MIDDLE, R.ROA_TRIPLE_SWITCH): lambda rules, state: True,
+    (R.ROA_MIDDLE, R.ROA_TRIPLE_SWITCH): lambda rules, state: (
+        rules.switches(state, Switch.ROA_TRIPLE_1, Switch.ROA_TRIPLE_3, disabled_case=False)
+    ),
     (R.ROA_MIDDLE, R.ROA_LEFT_BABY_GORGON): lambda rules, state: rules.can(state, Logic.EXTRA_HEIGHT),
     (R.ROA_RIGHT_SWITCH_1, R.ROA_RIGHT_SWITCH_2): lambda rules, state: rules.can(state, Logic.EXTRA_HEIGHT),
     (R.ROA_MIDDLE_LADDER, R.ROA_MIDDLE): lambda rules, state: True,
