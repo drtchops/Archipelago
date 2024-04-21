@@ -418,8 +418,8 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
             or rules.switches(state, Switch.MECH_EYEBALL, disabled_case=True)
         )
     ),
-    (R.MECH_POTS, R.MECH_TOP): lambda rules, state: (rules.switches(state, Switch.MECH_POTS, disabled_case=False)),
-    (R.MECH_TOP, R.MECH_POTS): lambda rules, state: (rules.switches(state, Switch.MECH_POTS, disabled_case=False)),
+    (R.MECH_POTS, R.MECH_TOP): lambda rules, state: rules.switches(state, Switch.MECH_POTS, disabled_case=True),
+    (R.MECH_TOP, R.MECH_POTS): lambda rules, state: rules.switches(state, Switch.MECH_POTS, disabled_case=False),
     (R.MECH_TOP, R.MECH_TP_CONNECTION): lambda rules, state: (
         rules.has(state, KeyItem.CLAW) or rules.white_doors(state, WhiteDoor.MECH_TOP, disabled_case=True)
     ),
