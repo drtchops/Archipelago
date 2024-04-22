@@ -237,6 +237,8 @@ class AstalonWorld(World):
         self.rules.set_indirect_conditions()
 
     def fill_slot_data(self) -> Dict[str, Any]:
+        self.rules.clear_cache()
+
         settings = self.options.as_dict(
             # "campaign",
             "randomize_characters",
