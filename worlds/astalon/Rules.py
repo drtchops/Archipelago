@@ -1,5 +1,5 @@
 from enum import Enum, auto
-from functools import partial
+from functools import cached_property, lru_cache, partial
 from typing import TYPE_CHECKING, Dict, Protocol, Tuple, TypeVar, Union
 
 from BaseClasses import CollectionState
@@ -1751,6 +1751,7 @@ class AstalonRules:
     def location(self, name: Union[L, Events]):
         return self.world.multiworld.get_location(name.value, self.player)
 
+    @lru_cache(maxsize=None)
     def _rando_has(self, state: CollectionState, item: Union[AllItems, Events], count: int = 1) -> bool:
         if item == KeyItem.CLOAK and not self._has(state, Character.ALGUS):
             return False
@@ -1792,6 +1793,7 @@ class AstalonRules:
 
         return state.has(item.value, self.player, count=count)
 
+    @lru_cache(maxsize=None)
     def _vanilla_has(self, state: CollectionState, item: Union[AllItems, Events], count: int = 1) -> bool:
         if item in VANILLA_CHARACTERS:
             return True
@@ -1864,14 +1866,13 @@ class AstalonRules:
         # TODO
         return self.region(R.ROA_START).can_reach(state)
 
+    @lru_cache(maxsize=None)
     def _easy_rando_can(self, state: CollectionState, logic: Logic, gold_block=False) -> bool:
         if logic == Logic.ARIAS_JUMP:
             return False
         if logic == Logic.EXTRA_HEIGHT:
-            return (
-                self.has(state, Character.KYULI)
-                or self.has(state, KeyItem.BLOCK)
-                or (gold_block and self.has(state, Character.ZEEK))
+            return self.has_any(state, Character.KYULI, KeyItem.BLOCK) or (
+                gold_block and self.has(state, Character.ZEEK)
             )
         if logic == Logic.COMBO_HEIGHT:
             return False
@@ -1881,31 +1882,29 @@ class AstalonRules:
             return self.has(state, Character.ALGUS) or self.has(state, Character.ZEEK, KeyItem.BANISH)
         if logic == Logic.BIG_MAGIC:
             return False
-        return False
 
+    @lru_cache(maxsize=None)
     def _hard_rando_can(self, state: CollectionState, logic: Logic, gold_block=False) -> bool:
         if logic == Logic.ARIAS_JUMP:
-            return self.hard and self.has(state, Character.ARIAS)
+            return self.has(state, Character.ARIAS)
         if logic == Logic.EXTRA_HEIGHT:
             return (
-                self.has(state, Character.KYULI)
-                or self.has(state, KeyItem.BLOCK)
+                self.has_any(state, Character.KYULI, KeyItem.BLOCK)
                 or (gold_block and self.has(state, Character.ZEEK))
                 or self.can(state, Logic.ARIAS_JUMP)
             )
         if logic == Logic.COMBO_HEIGHT:
-            return self.hard and self.can(state, Logic.ARIAS_JUMP) and self.has(state, KeyItem.BELL, KeyItem.BLOCK)
+            return self.can(state, Logic.ARIAS_JUMP) and self.has(state, KeyItem.BELL, KeyItem.BLOCK)
         if logic == Logic.BLOCK_IN_WALL:
-            return self.hard and (self.has(state, KeyItem.BLOCK) or (gold_block and self.has(state, Character.ZEEK)))
+            return self.has(state, KeyItem.BLOCK) or (gold_block and self.has(state, Character.ZEEK))
         if logic == Logic.CRYSTAL:
-            if self.has(state, Character.ALGUS) or self.has(state, Character.ZEEK, KeyItem.BANISH):
-                return True
-            if self.hard:
-                return self.has(state, ShopUpgrade.KYULI_RAY) or self.has(state, ShopUpgrade.BRAM_WHIPLASH)
+            return self.has_any(state, Character.ALGUS, ShopUpgrade.KYULI_RAY, ShopUpgrade.BRAM_WHIPLASH) or self.has(
+                state, Character.ZEEK, KeyItem.BANISH
+            )
         if logic == Logic.BIG_MAGIC:
-            return self.hard and self.has(state, KeyItem.BANISH, ShopUpgrade.ALGUS_ARCANIST)
-        return False
+            return self.has(state, KeyItem.BANISH, ShopUpgrade.ALGUS_ARCANIST)
 
+    @lru_cache(maxsize=None)
     def _easy_vanilla_can(self, state: CollectionState, logic: Logic, gold_block=False) -> bool:
         if logic == Logic.ARIAS_JUMP:
             return False
@@ -1919,8 +1918,8 @@ class AstalonRules:
             return True
         if logic == Logic.BIG_MAGIC:
             return False
-        return False
 
+    @lru_cache(maxsize=None)
     def _hard_vanilla_can(self, state: CollectionState, logic: Logic, gold_block=False) -> bool:
         if logic == Logic.ARIAS_JUMP:
             return True
@@ -1934,7 +1933,6 @@ class AstalonRules:
             return True
         if logic == Logic.BIG_MAGIC:
             return self.has(state, KeyItem.BANISH, ShopUpgrade.ALGUS_ARCANIST)
-        return False
 
     def reachable(self, state: CollectionState, location: L) -> bool:
         data = location_table[location]
@@ -1969,13 +1967,17 @@ class AstalonRules:
         entrance = self.entrance(from_region, to_region)
         self.world.multiworld.register_indirect_condition(region, entrance)
 
-    @property
+    @cached_property
     def easy(self):
         return self.options.difficulty >= Difficulty.option_easy
 
-    @property
+    @cached_property
     def hard(self):
         return self.options.difficulty >= Difficulty.option_hard
+
+    def clear_cache(self):
+        self.can.cache_clear()  # type: ignore
+        self._has.cache_clear()  # type: ignore
 
     def set_region_rules(self) -> None:
         for (from_, to_), rule in ENTRANCE_RULES.items():

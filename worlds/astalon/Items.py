@@ -599,8 +599,16 @@ item_table: Dict[str, AstalonItemData] = {
     Switch.GT_GH.value: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Switch.GT_UPPER_PATH_BLOCKS.value: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Switch.GT_UPPER_PATH_ACCESS.value: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
-    Switch.GT_CROSSES.value: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
-    Switch.GT_GH_SHORTCUT.value: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
+    Switch.GT_CROSSES.value: AstalonItemData(
+        lambda world: ItemClassification.filler if world.options.open_early_doors else ItemClassification.progression,
+        1,
+        ItemGroups.SWITCH,
+    ),
+    Switch.GT_GH_SHORTCUT.value: AstalonItemData(
+        lambda world: ItemClassification.filler if world.options.open_early_doors else ItemClassification.progression,
+        1,
+        ItemGroups.SWITCH,
+    ),
     Switch.GT_ARIAS.value: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Switch.GT_SWORD_ACCESS.value: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Switch.GT_SWORD_BACKTRACK.value: AstalonItemData(ItemClassification.filler, 1, ItemGroups.SWITCH),

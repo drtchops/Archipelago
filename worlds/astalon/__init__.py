@@ -1,6 +1,6 @@
 from typing import Any, Dict, List
 
-from BaseClasses import ItemClassification, Region, Tutorial
+from BaseClasses import CollectionState, Item, ItemClassification, Region, Tutorial
 from worlds.AutoWorld import WebWorld, World
 
 from .Items import (
@@ -58,8 +58,11 @@ class AstalonWorld(World):
     location_name_to_id = location_name_to_id
     starting_characters: List[Character]
     location_count: int = 0
+    rules: AstalonRules
 
     def generate_early(self) -> None:
+        self.rules = AstalonRules(self)
+
         self.starting_characters = []
         if self.options.randomize_characters == RandomizeCharacters.option_solo:
             self.starting_characters.append(self.random.choice(CHARACTERS))
@@ -229,10 +232,9 @@ class AstalonWorld(World):
         return self.random.choice(items)
 
     def set_rules(self) -> None:
-        rules = AstalonRules(self)
-        rules.set_region_rules()
-        rules.set_location_rules()
-        rules.set_indirect_conditions()
+        self.rules.set_region_rules()
+        self.rules.set_location_rules()
+        self.rules.set_indirect_conditions()
 
     def fill_slot_data(self) -> Dict[str, Any]:
         settings = self.options.as_dict(
@@ -282,3 +284,8 @@ class AstalonWorld(World):
             "shop_items": shop_items,
             "starting_characters": [c.value for c in self.starting_characters],
         }
+
+    def collect(self, state: "CollectionState", item: "Item"):
+        if item.advancement:
+            self.rules.clear_cache()
+        return super().collect(state, item)
