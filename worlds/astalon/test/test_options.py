@@ -54,3 +54,19 @@ class AllHardTest(AstalonTestBase):
         "free_apex_elevator": "true",
         "open_early_doors": "true",
     }
+
+
+class VanillaTest(AstalonTestBase):
+    options = {
+        "randomize_characters": "vanilla",
+        "randomize_health_pickups": "false",
+        "randomize_attack_pickups": "false",
+        "randomize_white_keys": "false",
+        "randomize_blue_keys": "false",
+        "randomize_red_keys": "false",
+        "randomize_shop": "false",
+        "randomize_elevator": "false",
+        "randomize_switches": "false",
+        "start_with_qol": "false",
+        "open_early_doors": "false",
+    }
