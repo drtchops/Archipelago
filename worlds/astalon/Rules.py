@@ -1360,6 +1360,7 @@ ITEM_RULES: Dict[L, AstalonRule] = {
         or rules.has(state, Character.KYULI)
         or rules.can(state, Logic.COMBO_HEIGHT)
     ),
+    L.HOTP_CLAW: lambda rules, state: rules.can(state, Logic.EXTRA_HEIGHT),
     L.HOTP_MAIDEN_RING: lambda rules, state: (
         rules.switches(
             state,

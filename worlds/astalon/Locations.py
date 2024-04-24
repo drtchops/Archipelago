@@ -892,7 +892,7 @@ location_table: Dict[str, AstalonLocationData] = {
         Regions.ROA_UPPER_VOID, LocationGroups.SWITCH, Area.ROA
     ),
     Locations.ROA_CRYSTAL_LEFT_ASCEND.value: AstalonLocationData(
-        Regions.ROA_FLAMES_CONNECTION, LocationGroups.SWITCH, Area.ROA
+        Regions.ROA_LEFT_ASCENT, LocationGroups.SWITCH, Area.ROA
     ),
     Locations.ROA_CRYSTAL_SHAFT.value: AstalonLocationData(Regions.ROA_SP_CONNECTION, LocationGroups.SWITCH, Area.ROA),
     Locations.ROA_CRYSTAL_BRANCH_R.value: AstalonLocationData(
