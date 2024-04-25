@@ -57,7 +57,6 @@ class AstalonWorld(World):
     item_name_to_id = item_name_to_id
     location_name_to_id = location_name_to_id
     starting_characters: List[Character]
-    location_count: int = 0
     rules: AstalonRules
 
     def generate_early(self) -> None:
@@ -82,7 +81,6 @@ class AstalonWorld(World):
         region = self.multiworld.get_region(data.region.value, self.player)
         location = AstalonLocation(self.player, name, location_name_to_id[name], region)
         region.locations.append(location)
-        self.location_count += 1
 
     def create_regions(self) -> None:
         for region_name in astalon_regions:
@@ -217,8 +215,9 @@ class AstalonWorld(World):
                 for red_door in EARLY_SWITCHES:
                     self.multiworld.push_precollected(self.create_item(red_door.value))
 
-        while len(itempool) < self.location_count:
-            itempool.append(self.create_item(self.get_filler_item_name()))
+        total_locations = len(self.multiworld.get_unfilled_locations(self.player))
+        while len(itempool) < total_locations:
+            itempool.append(self.create_filler())
         self.multiworld.itempool += itempool
 
     def get_filler_item_name(self) -> str:

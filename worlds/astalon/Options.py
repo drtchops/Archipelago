@@ -236,7 +236,7 @@ class OpenEarlyDoors(DefaultOnToggle):
 
 class CheapKyuliRay(Toggle):
     """
-    Make's Kyuli's Shining Ray only cost 50 orbs. You still need to have at least 500 to fire it.
+    Make's Kyuli's Shining Ray only cost 50 orbs.
     Recommended when using hard logic and character rando as it can activate crystals.
     """
 
