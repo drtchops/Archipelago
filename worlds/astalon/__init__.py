@@ -75,6 +75,16 @@ class AstalonWorld(World):
                     self.starting_characters.append(character)
             if not self.starting_characters:
                 self.starting_characters.append(self.random.choice(CHARACTERS))
+        if self.options.randomize_characters == RandomizeCharacters.option_algus:
+            self.starting_characters.append(Character.ALGUS)
+        if self.options.randomize_characters == RandomizeCharacters.option_arias:
+            self.starting_characters.append(Character.ARIAS)
+        if self.options.randomize_characters == RandomizeCharacters.option_kyuli:
+            self.starting_characters.append(Character.KYULI)
+        if self.options.randomize_characters == RandomizeCharacters.option_bram:
+            self.starting_characters.append(Character.BRAM)
+        if self.options.randomize_characters == RandomizeCharacters.option_zeek:
+            self.starting_characters.append(Character.ZEEK)
 
     def create_location(self, name: str):
         data = location_table[name]

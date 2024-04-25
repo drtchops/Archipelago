@@ -46,6 +46,11 @@ class RandomizeCharacters(Choice):
     solo: Start with one random character and receive the rest as items
     all: Start with all 5 characters
     random_selection: Start with a random selection of the characters and receive the rest as items
+    algus: Start with just Algus and receive the rest as items
+    arias: Start with just Arias and receive the rest as items
+    kyuli: Start with just Kyuli and receive the rest as items
+    bram: Start with just Bram and receive the rest as items
+    zeek: Start with just Zeek and receive the rest as items
     """
 
     display_name = "Randomize Characters"
@@ -54,6 +59,11 @@ class RandomizeCharacters(Choice):
     option_solo = 2
     option_all = 3
     option_random_selection = 4
+    option_algus = 5
+    option_arias = 6
+    option_kyuli = 7
+    option_bram = 8
+    option_zeek = 9
     default = 1
 
 
