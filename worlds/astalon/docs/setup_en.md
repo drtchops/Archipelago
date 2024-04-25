@@ -4,6 +4,7 @@
 
 - [Astalon: Tears of the Earth](https://store.steampowered.com/app/1046400/Astalon_Tears_of_the_Earth/)
 - [BepInEx IL2CPP v6 x86](https://builds.bepinex.dev/projects/bepinex_be)
+  - It must be the x86 version, the x64 version won't work
   - Currently you must use the bleeding edge release of v6 since the stable version does not support IL2CPP. A direct download for the version tested against can be found [here](https://builds.bepinex.dev/projects/bepinex_be/688/BepInEx-Unity.IL2CPP-win-x86-6.0.0-be.688%2B4901521.zip).
 - [Archipelago Mod for Astalon](https://github.com/drtchops/Archipelago-Astalon/releases)
 
@@ -16,6 +17,16 @@
 
 1. Download and extract BepInEx into your Astalon install folder.
 2. Download and extract the Archipelago Mod into your Astalon install folder.
+
+After installing, your game folder should contain a `BepInEx` folder, like this:
+
+<!-- ![image](/static/generated/docs/Astalon/game_dir.png) -->
+![image](./game_dir.png)
+
+Inside of `BepInEx/plugins` should look like this:
+
+<!-- ![image](/static/generated/docs/Astalon/plugins_dir.png) -->
+![image](./plugins_dir.png)
 
 ## Connecting
 
