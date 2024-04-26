@@ -102,7 +102,10 @@ class AstalonWorld(World):
             if exits:
                 region.add_exits([e.value for e in exits])
 
+        logic_groups = set(g.value for g in LocationGroups)
         for group, location_names in location_name_groups.items():
+            if group not in logic_groups:
+                continue
             if group == LocationGroups.CHARACTER:
                 continue
             if group == LocationGroups.ATTACK and not self.options.randomize_attack_pickups:
@@ -170,7 +173,10 @@ class AstalonWorld(World):
     def create_items(self) -> None:
         itempool = []
 
+        logic_groups = set(g.value for g in ItemGroups)
         for group, item_names in item_name_groups.items():
+            if group not in logic_groups:
+                continue
             if group == ItemGroups.CHARACTER:
                 continue
             if group == ItemGroups.ATTACK and not self.options.randomize_attack_pickups:

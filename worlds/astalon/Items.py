@@ -12,20 +12,20 @@ if TYPE_CHECKING:
 
 
 class ItemGroups(str, Enum):
-    CHARACTER = "characters"
-    EYE = "eyes"
-    KEY = "keys"
-    ITEM = "items"
-    FAMILIAR = "familiars"
-    ATTACK = "attack"
-    HEALTH = "health"
-    ORBS = "orbs"
-    DOOR_WHITE = "white doors"
-    DOOR_BLUE = "blue doors"
-    DOOR_RED = "red doors"
-    SHOP = "shop upgrades"
-    ELEVATOR = "elevators"
-    SWITCH = "switches"
+    CHARACTER = "Characters"
+    EYE = "Eyes"
+    KEY = "Keys"
+    ITEM = "Items"
+    FAMILIAR = "Familiars"
+    ATTACK = "Attack"
+    HEALTH = "Health"
+    ORBS = "Orbs"
+    DOOR_WHITE = "White doors"
+    DOOR_BLUE = "Blue doors"
+    DOOR_RED = "Red doors"
+    SHOP = "Shop upgrades"
+    ELEVATOR = "Elevators"
+    SWITCH = "Switches"
 
 
 class Character(str, Enum):

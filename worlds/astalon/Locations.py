@@ -25,17 +25,17 @@ class Area(str, Enum):
 
 
 class LocationGroups(str, Enum):
-    CHARACTER = "characters"
-    ITEM = "items"
-    FAMILIAR = "familiars"
-    HEALTH = "health"
-    ATTACK = "attack"
-    KEY_WHITE = "white keys"
-    KEY_BLUE = "blue keys"
-    KEY_RED = "red keys"
-    SHOP = "shop upgrades"
-    ELEVATOR = "elevators"
-    SWITCH = "switches"
+    CHARACTER = "Characters"
+    ITEM = "Items"
+    FAMILIAR = "Familiars"
+    HEALTH = "Health"
+    ATTACK = "Attack"
+    KEY_WHITE = "White keys"
+    KEY_BLUE = "Blue keys"
+    KEY_RED = "Red keys"
+    SHOP = "Shop upgrades"
+    ELEVATOR = "Elevators"
+    SWITCH = "Switches"
 
 
 class Locations(str, Enum):
@@ -1035,7 +1035,17 @@ def get_location_group(location_name: str) -> LocationGroups:
     return location_table[location_name].group
 
 
+def get_location_area(location_name: str) -> Area:
+    return location_table[location_name].area
+
+
 location_name_groups: Dict[str, Set[str]] = {
     group.value: set(location for location in location_names)
     for group, location_names in groupby(sorted(location_table, key=get_location_group), get_location_group)
 }
+location_name_groups.update(
+    {
+        group.value: set(location for location in location_names)
+        for group, location_names in groupby(sorted(location_table, key=get_location_area), get_location_area)
+    }
+)
