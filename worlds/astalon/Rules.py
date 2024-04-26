@@ -326,7 +326,8 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
         rules.blue_doors(state, BlueDoor.MECH_MUSIC, disabled_case=True)
     ),
     (R.MECH_BK, R.MECH_START): lambda rules, state: (
-        rules.blue_doors(state, BlueDoor.MECH_SHORTCUT, disabled_case=True) and rules.can(state, Logic.EXTRA_HEIGHT)
+        rules.blue_doors(state, BlueDoor.MECH_SHORTCUT, disabled_case=True)
+        and (rules.has(state, Character.KYULI) or rules.can(state, Logic.COMBO_HEIGHT))
     ),
     (R.MECH_BK, R.MECH_AFTER_BK): lambda rules, state: (
         rules.switches(state, Crystal.MECH_BK, disabled_case=lambda rules, state: rules.can(state, Logic.CRYSTAL))
@@ -1354,6 +1355,7 @@ ITEM_RULES: Dict[L, AstalonRule] = {
         rules.region(R.GT_BOTTOM).can_reach(state)
         and rules.region(R.GT_ASCENDANT_KEY).can_reach(state)
         and rules.region(R.GT_BUTT).can_reach(state)
+        and rules.has(state, Character.ALGUS, Character.KYULI, Character.BRAM, Character.ZEEK, KeyItem.SWORD)
     ),
     L.HOTP_BELL: lambda rules, state: (
         rules.switches(state, Switch.HOTP_BELL, disabled_case=True)
