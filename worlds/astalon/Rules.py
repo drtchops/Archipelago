@@ -1590,7 +1590,7 @@ SWITCH_RULES: Dict[L, AstalonRule] = {
     L.MECH_CRYSTAL_TRIPLE_2: lambda rules, state: rules.can(state, Logic.CRYSTAL),
     L.MECH_CRYSTAL_TRIPLE_3: lambda rules, state: rules.can(state, Logic.CRYSTAL),
     L.MECH_CRYSTAL_TOP: lambda rules, state: rules.can(state, Logic.CRYSTAL),
-    L.MECH_CRYSTAL_CLOAK: lambda rules, state: rules.can(state, Logic.CRYSTAL),
+    L.MECH_CRYSTAL_CLOAK: lambda rules, state: rules.can(state, Logic.CRYSTAL) and rules.has(state, Eye.BLUE),
     L.MECH_CRYSTAL_SLIMES: lambda rules, state: rules.can(state, Logic.CRYSTAL),
     L.MECH_CRYSTAL_TO_CD: lambda rules, state: (
         rules.can(state, Logic.CRYSTAL)
