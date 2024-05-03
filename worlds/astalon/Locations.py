@@ -594,7 +594,7 @@ location_table: Dict[str, AstalonLocationData] = {
     Locations.TR_ADORNED_KEY.value: AstalonLocationData(Regions.TR_BOTTOM, LocationGroups.ITEM, Area.TR),
     Locations.TR_HP_1_BOTTOM.value: AstalonLocationData(Regions.TR_BOTTOM_LEFT, LocationGroups.HEALTH, Area.TR),
     Locations.TR_HP_2_TOP.value: AstalonLocationData(Regions.TR_LEFT, LocationGroups.HEALTH, Area.TR),
-    Locations.TR_RED_KEY.value: AstalonLocationData(Regions.TR_START, LocationGroups.KEY_RED, Area.TR),
+    Locations.TR_RED_KEY.value: AstalonLocationData(Regions.CATA_BOSS, LocationGroups.KEY_RED, Area.TR),
     Locations.CD_ATTACK.value: AstalonLocationData(Regions.CD_TOP, LocationGroups.ATTACK, Area.CD),
     Locations.CD_HP_1.value: AstalonLocationData(Regions.CD_TOP, LocationGroups.HEALTH, Area.CD),
     Locations.CATH_BLOCK.value: AstalonLocationData(Regions.CATH_TOP, LocationGroups.ITEM, Area.CATH),

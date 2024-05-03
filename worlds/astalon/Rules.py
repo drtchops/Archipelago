@@ -531,7 +531,7 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
         rules.has(state, KeyItem.STAR) and rules.switches(state, Switch.HOTP_GHOSTS, disabled_case=True)
     ),
     (R.HOTP_START_MID, R.HOTP_LOWER_VOID): lambda rules, state: (
-        rules.has_any(state, Character.ALGUS, ShopUpgrade.BRAM_WHIPLASH)
+        rules.hard and rules.has_any(state, Character.ALGUS, ShopUpgrade.BRAM_WHIPLASH)
     ),
     (R.HOTP_START_MID, R.HOTP_START): lambda rules, state: True,
     (R.HOTP_LOWER_VOID, R.HOTP_START_MID): lambda rules, state: True,
@@ -985,11 +985,11 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
         )
     ),
     (R.ROA_BOSS_CONNECTION, R.ROA_BOSS): lambda rules, state: (
-        rules.switches(state, Crystal.ROA_CENTAUR, disabled_case=False)
-        or (rules.has(state, KeyItem.BELL, KeyItem.STAR, Character.ARIAS) and rules.can(state, Logic.EXTRA_HEIGHT))
+        rules.switches(state, Switch.ROA_BOSS_ACCESS, disabled_case=True)
     ),
     (R.ROA_BOSS_CONNECTION, R.ROA_CENTAUR): lambda rules, state: (
-        rules.switches(state, Switch.ROA_BOSS_ACCESS, disabled_case=False)
+        rules.switches(state, Crystal.ROA_CENTAUR, disabled_case=False)
+        or (rules.has(state, KeyItem.BELL, KeyItem.STAR, Character.ARIAS) and rules.can(state, Logic.EXTRA_HEIGHT))
     ),
     (R.ROA_BOSS, R.ROA_APEX_CONNECTION): lambda rules, state: rules.has(state, Eye.GREEN),
     (R.ROA_BOSS, R.ROA_BOSS_CONNECTION): lambda rules, state: (
@@ -1488,7 +1488,7 @@ HEALTH_RULES: Dict[L, AstalonRule] = {
 }
 
 WHITE_KEY_RULES: Dict[L, AstalonRule] = {
-    L.MECH_WHITE_KEY_LINUS: lambda rules, state: (rules.switches(state, Switch.MECH_LOWER_KEY, disabled_case=True)),
+    L.MECH_WHITE_KEY_LINUS: lambda rules, state: rules.switches(state, Switch.MECH_LOWER_KEY, disabled_case=True),
     L.MECH_WHITE_KEY_TOP: lambda rules, state: (
         rules.switches(state, Crystal.MECH_TOP, disabled_case=lambda rules, state: rules.can(state, Logic.CRYSTAL))
         and rules.has(state, Character.KYULI)
@@ -1498,7 +1498,7 @@ WHITE_KEY_RULES: Dict[L, AstalonRule] = {
 
 BLUE_KEY_RULES: Dict[L, AstalonRule] = {
     L.GT_BLUE_KEY_WALL: lambda rules, state: rules.can(state, Logic.EXTRA_HEIGHT),
-    L.MECH_BLUE_KEY_BLOCKS: lambda rules, state: (rules.switches(state, Switch.MECH_KEY_BLOCKS, disabled_case=True)),
+    L.MECH_BLUE_KEY_BLOCKS: lambda rules, state: rules.switches(state, Switch.MECH_KEY_BLOCKS, disabled_case=True),
     L.MECH_BLUE_KEY_SAVE: lambda rules, state: rules.has(state, KeyItem.CLAW),
     L.MECH_BLUE_KEY_POT: lambda rules, state: (
         rules.has(state, Character.KYULI) or rules.can(state, Logic.COMBO_HEIGHT)
