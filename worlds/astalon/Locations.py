@@ -536,7 +536,9 @@ location_table: Dict[str, AstalonLocationData] = {
     Locations.ROA_BLUE_KEY_FACE.value: AstalonLocationData(
         Regions.ROA_BOTTOM_ASCEND, LocationGroups.KEY_BLUE, Area.ROA
     ),
-    Locations.ROA_BLUE_KEY_FLAMES.value: AstalonLocationData(Regions.ROA_FLAMES, LocationGroups.KEY_BLUE, Area.ROA),
+    Locations.ROA_BLUE_KEY_FLAMES.value: AstalonLocationData(
+        Regions.ROA_ARIAS_BABY_GORGON, LocationGroups.KEY_BLUE, Area.ROA
+    ),
     Locations.ROA_BLUE_KEY_BABY.value: AstalonLocationData(
         Regions.ROA_LEFT_BABY_GORGON, LocationGroups.KEY_BLUE, Area.ROA
     ),
@@ -866,9 +868,7 @@ location_table: Dict[str, AstalonLocationData] = {
     Locations.ROA_SWITCH_TRIPLE_3.value: AstalonLocationData(
         Regions.ROA_TRIPLE_SWITCH, LocationGroups.SWITCH, Area.ROA
     ),
-    Locations.ROA_SWITCH_BABY_GORGON.value: AstalonLocationData(
-        Regions.ROA_ARIAS_BABY_GORGON, LocationGroups.SWITCH, Area.ROA
-    ),
+    Locations.ROA_SWITCH_BABY_GORGON.value: AstalonLocationData(Regions.ROA_FLAMES, LocationGroups.SWITCH, Area.ROA),
     Locations.ROA_SWITCH_BOSS_ACCESS.value: AstalonLocationData(
         Regions.ROA_BOSS_CONNECTION, LocationGroups.SWITCH, Area.ROA
     ),

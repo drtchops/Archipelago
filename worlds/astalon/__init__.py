@@ -171,7 +171,7 @@ class AstalonWorld(World):
         region.locations.append(location)
 
     def create_items(self) -> None:
-        itempool = []
+        itempool: List[Item] = []
 
         logic_groups = set(g.value for g in ItemGroups)
         for group, item_names in item_name_groups.items():

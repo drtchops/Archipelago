@@ -833,8 +833,7 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
         and rules.has(state, KeyItem.BLOCK, Character.KYULI, KeyItem.BELL)
     ),
     (R.ROA_ARIAS_BABY_GORGON, R.ROA_LOWER_VOID_CONNECTION): lambda rules, state: (
-        rules.has(state, KeyItem.STAR)
-        or (rules.has(state, Character.ARIAS) and rules.switches(state, Crystal.ROA_BABY_GORGON, disabled_case=False))
+        rules.has(state, Character.ARIAS) and rules.switches(state, Crystal.ROA_BABY_GORGON, disabled_case=False)
     ),
     (R.ROA_FLAMES_CONNECTION, R.ROA_WORM_CLIMB): lambda rules, state: (
         rules.blue_doors(state, BlueDoor.ROA_FLAMES, disabled_case=True) and rules.has(state, KeyItem.CLAW)
@@ -847,7 +846,9 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
         )
         and rules.can(state, Logic.EXTRA_HEIGHT)
     ),
-    (R.ROA_FLAMES_CONNECTION, R.ROA_ARIAS_BABY_GORGON): lambda rules, state: True,
+    (R.ROA_FLAMES_CONNECTION, R.ROA_ARIAS_BABY_GORGON): lambda rules, state: (
+        rules.hard and rules.has_any(state, ShopUpgrade.BRAM_WHIPLASH, ShopUpgrade.KYULI_RAY)
+    ),
     (R.ROA_FLAMES_CONNECTION, R.ROA_ARENA): lambda rules, state: True,
     (R.ROA_FLAMES_CONNECTION, R.ROA_FLAMES): lambda rules, state: (
         rules.has(state, KeyItem.GAUNTLET, KeyItem.BELL) and rules.can(state, Logic.EXTRA_HEIGHT)
@@ -1297,6 +1298,7 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
         rules.switches(
             state, Crystal.CATH_SPIKE_PIT, disabled_case=lambda rules, state: rules.can(state, Logic.CRYSTAL)
         )
+        or (rules.hard and rules.has(state, KeyItem.CLOAK, KeyItem.BLOCK, KeyItem.BELL))
     ),
     (R.CATH_TOP, R.CATH_CAMPFIRE_2): lambda rules, state: (
         rules.switches(state, Switch.CATH_TOP_CAMPFIRE, disabled_case=True)
@@ -1518,7 +1520,10 @@ BLUE_KEY_RULES: Dict[L, AstalonRule] = {
     L.ROA_BLUE_KEY_FACE: lambda rules, state: (
         rules.switches(state, Face.ROA_BLUE_KEY, disabled_case=lambda rules, state: rules.has(state, KeyItem.BOW))
     ),
-    L.ROA_BLUE_KEY_FLAMES: lambda rules, state: (rules.switches(state, Switch.ROA_BABY_GORGON, disabled_case=True)),
+    L.ROA_BLUE_KEY_FLAMES: lambda rules, state: (
+        rules.has(state, KeyItem.BLOCK, Character.KYULI, KeyItem.BELL)
+        or rules.entrance(R.ROA_FLAMES, R.ROA_ARIAS_BABY_GORGON).can_reach(state)
+    ),
     L.ROA_BLUE_KEY_TOP: lambda rules, state: rules.can(state, Logic.EXTRA_HEIGHT),
     L.SP_BLUE_KEY_ARIAS: lambda rules, state: rules.has(state, Character.ARIAS),
 }
@@ -1638,13 +1643,6 @@ SWITCH_RULES: Dict[L, AstalonRule] = {
     L.ROA_SWITCH_SPIKE_CLIMB: lambda rules, state: rules.has(state, KeyItem.CLAW),
     L.ROA_SWITCH_TRIPLE_3: lambda rules, state: (
         rules.switches(state, Crystal.ROA_TRIPLE_2, disabled_case=lambda rules, state: rules.can(state, Logic.CRYSTAL))
-    ),
-    L.ROA_SWITCH_BABY_GORGON: lambda rules, state: (
-        (
-            rules.switches(state, Switch.ROA_BABY_GORGON, disabled_case=False)
-            and rules.has(state, KeyItem.BELL, Character.ZEEK, Character.KYULI)
-        )
-        or rules.region(R.ROA_FLAMES).can_reach(state)
     ),
     L.ROA_CRYSTAL_1ST_ROOM: lambda rules, state: (
         rules.can(state, Logic.CRYSTAL) and rules.has(state, Character.KYULI, KeyItem.BELL)
