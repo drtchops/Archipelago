@@ -1574,7 +1574,9 @@ SWITCH_RULES: Dict[L, AstalonRule] = {
     L.GT_CRYSTAL_LADDER: lambda rules, state: rules.can(state, Logic.CRYSTAL),
     L.GT_CRYSTAL_ROTA: lambda rules, state: rules.can(state, Logic.CRYSTAL),
     L.GT_CRYSTAL_OLD_MAN_1: lambda rules, state: rules.can(state, Logic.CRYSTAL),
-    L.GT_CRYSTAL_OLD_MAN_2: lambda rules, state: rules.can(state, Logic.CRYSTAL),
+    L.GT_CRYSTAL_OLD_MAN_2: lambda rules, state: (
+        rules.can(state, Logic.CRYSTAL) and rules.switches(state, Crystal.GT_OLD_MAN_1, disabled_case=True)
+    ),
     L.MECH_SWITCH_BOSS_ACCESS_2: lambda rules, state: (
         rules.switches(state, Switch.MECH_BOSS_1, disabled_case=True)
         or rules.region(R.MECH_BRAM_TUNNEL).can_reach(state)
