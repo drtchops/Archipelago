@@ -44,9 +44,13 @@ You can load an existing save and conenct to the AP server in any order. Once yo
 
 Once you've connected to AP you can press F1 to open a set of debug options at the bottom of the screen. If you're softlocked you can use this menu to die and respawn or warp to a previously used campfire.
 
+## Disabling the Mod
+
+If you would like to turn off the mod entirely, open `Astalon Tears of the Earth/BepInEx/config/Archipelago.cfg` in a text editor, find where it says `enabled = true`, and change it to `enabled = false`. If the game is currently open you'll have to restart it.
+
 ## Known Issues
 
-- Athena's Bell may need to be turned off and on again in the inventory to start working.
+- Athena's Bell and Lunarian Bow may need to be turned off and on again in the inventory to start working.
 - There's currently no softlock prevention. If you get stuck you can use the debug menu to respawn or warp to a campfire.
 
 ## I have the mod setup, how do I start a seed on Archipelago?

@@ -8,6 +8,7 @@ from Options import (
     PerGameCommonOptions,
     StartInventoryPool,
     Toggle,
+    Visibility,
 )
 
 
@@ -30,6 +31,7 @@ class Campaign(Choice):
     Set which campaign you wish to play through.
     """
 
+    visibility = Visibility.none
     display_name = "Campaign"
     option_tears_of_the_earth = 0
     option_new_game_plus = 1
@@ -65,6 +67,15 @@ class RandomizeCharacters(Choice):
     option_bram = 8
     option_zeek = 9
     default = 1
+
+
+class RandomizeKeyItems(DefaultOnToggle):
+    """
+    Choose whether to randomize key items that appear in your inventory.
+    Does not include Monster Ball or Gift.
+    """
+
+    display_name = "Randomize Key Items"
 
 
 class RandomizeHealthPickups(DefaultOnToggle):
@@ -146,31 +157,26 @@ class RandomizeFamiliars(Toggle):
     This includes all three Old Man checks and Gil in the secret dev room.
     """
 
+    visibility = Visibility.none
     display_name = "Randomize Familiars"
 
 
-class RandomizeOrbCrates(Toggle):
+class RandomizeOrbRocks(Toggle):
     """
     NOT YET SUPPORTED
     """
 
-    display_name = "Randomize Orb Crates"
+    visibility = Visibility.none
+    display_name = "Randomize Orb Rocks"
 
 
-class RandomizeBossOrbRewards(Toggle):
+class RandomizeMinibossRewards(Toggle):
     """
     NOT YET SUPPORTED
     """
 
-    display_name = "Randomize Boss Orb Rewards"
-
-
-class RandomizeMinibossOrbRewards(Toggle):
-    """
-    NOT YET SUPPORTED
-    """
-
-    display_name = "Randomize Miniboss Orb Rewards"
+    visibility = Visibility.none
+    display_name = "Randomize Miniboss Rewards"
 
 
 class SkipCutscenes(DefaultOnToggle):
@@ -190,13 +196,35 @@ class StartWithQOL(DefaultOnToggle):
     display_name = "Start With QoL"
 
 
-class FreeApexElevator(DefaultOnToggle):
+class StartWithAscendantKey(Toggle):
     """
-    Choose whether to automatically unlock The Apex elevator when getting Ascendant Key as the vanilla game does.
-    Disabling this means you'll have to ascend the whole tower and defeat all normally required bosses.
+    Choose whether to start the seed with Ascendant Key already acquired.
     """
 
-    display_name = "Free Apex Elevator"
+    display_name = "Start With Ascendant Key"
+
+
+class StartWithBell(Toggle):
+    """
+    Choose whether to start the seed with Athena's Bell already acquired.
+    """
+
+    display_name = "Start With Bell"
+
+
+class ApexElevator(Choice):
+    """
+    Choose how The Apex elevator is unlocked.
+    Vanilla: available as soon as you get Ascendant Key
+    Included: available when received as an item or reached normally if elevators aren't randomized
+    Removed: will not be available for the whole seed
+    """
+
+    display_name = "Apex Elevator"
+    option_vanilla = 0
+    option_included = 1
+    option_removed = 2
+    default = 0
 
 
 class CostMultiplier(NamedRange):
@@ -257,8 +285,9 @@ class CheapKyuliRay(Toggle):
 class AstalonOptions(PerGameCommonOptions):
     start_inventory_from_pool: StartInventoryPool
     difficulty: Difficulty
-    # campaign: Campaign
+    campaign: Campaign
     randomize_characters: RandomizeCharacters
+    randomize_key_items: RandomizeKeyItems
     randomize_health_pickups: RandomizeHealthPickups
     randomize_attack_pickups: RandomizeAttackPickups
     randomize_white_keys: RandomizeWhiteKeys
@@ -267,13 +296,14 @@ class AstalonOptions(PerGameCommonOptions):
     randomize_shop: RandomizeShop
     randomize_elevator: RandomizeElevator
     randomize_switches: RandomizeSwitches
-    # randomize_familiars: RandomizeFamiliars
-    # randomize_orb_crates: RandomizeOrbCrates
-    # randomize_boss_orb_rewards: RandomizeBossOrbRewards
-    # randomize_miniboss_orb_rewards: RandomizeMinibossOrbRewards
+    randomize_familiars: RandomizeFamiliars
+    randomize_orb_rocks: RandomizeOrbRocks
+    randomize_miniboss_rewards: RandomizeMinibossRewards
     skip_cutscenes: SkipCutscenes
     start_with_qol: StartWithQOL
-    free_apex_elevator: FreeApexElevator
+    start_with_ascendant_key: StartWithAscendantKey
+    start_with_bell: StartWithBell
+    apex_elevator: ApexElevator
     cost_multiplier: CostMultiplier
     fast_blood_chalice: FastBloodChalice
     campfire_warp: CampfireWarp

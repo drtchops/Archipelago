@@ -21,7 +21,7 @@ from .items import (
 )
 from .locations import LocationGroups, location_table
 from .locations import Locations as L
-from .options import AstalonOptions, Difficulty, RandomizeCharacters
+from .options import ApexElevator, AstalonOptions, Difficulty, RandomizeCharacters
 from .regions import Regions as R
 
 if TYPE_CHECKING:
@@ -113,7 +113,9 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
         or (rules.has(state, KeyItem.STAR) and rules.blue_doors(state, BlueDoor.GT_RING, disabled_case=True))
     ),
     (R.GT_BOTTOM, R.CAVES_START): lambda rules, state: (
-        rules.has(state, Character.KYULI) or rules.can(state, Logic.BLOCK_IN_WALL, gold_block=True)
+        rules.has(state, Character.KYULI)
+        or rules.can(state, Logic.BLOCK_IN_WALL, gold_block=True)
+        or (rules.hard and rules.has(state, KeyItem.BOOTS))
     ),
     (R.GT_VOID, R.GT_BOTTOM): lambda rules, state: rules.has(state, Eye.RED),
     (R.GT_VOID, R.MECH_SNAKE): lambda rules, state: (rules.switches(state, Switch.MECH_SNAKE_2, disabled_case=False)),
@@ -1854,7 +1856,7 @@ class AstalonRules:
     def elevator(self, state: CollectionState, destination: Elevator) -> bool:
         if not self._has(state, KeyItem.ASCENDANT_KEY):
             return False
-        if self.options.free_apex_elevator and destination == Elevator.APEX:
+        if self.options.apex_elevator == ApexElevator.option_vanilla and destination == Elevator.APEX:
             return True
         return bool(self.options.randomize_elevator) and self._has(state, destination)
 

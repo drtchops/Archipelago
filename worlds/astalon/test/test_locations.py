@@ -1,5 +1,5 @@
-from ..Items import BlueDoor, Eye, KeyItem
-from ..Locations import Locations
+from ..items import BlueDoor, Eye, KeyItem
+from ..locations import Locations
 from . import AstalonTestBase
 
 

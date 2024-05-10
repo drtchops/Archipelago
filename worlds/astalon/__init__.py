@@ -15,6 +15,7 @@ from .items import (
     Elevator,
     ItemGroups,
     Key,
+    KeyItem,
     filler_items,
     item_name_groups,
     item_name_to_id,
@@ -28,7 +29,7 @@ from .locations import (
     location_name_to_id,
     location_table,
 )
-from .options import AstalonOptions, RandomizeCharacters
+from .options import ApexElevator, AstalonOptions, RandomizeCharacters
 from .regions import Regions, astalon_regions
 from .rules import AstalonRules, Events
 
@@ -129,7 +130,10 @@ class AstalonWorld(World):
                 if location_name == Locations.SHOP_MAP_REVEAL:
                     # this requires way too much map completion
                     continue
-                if location_name == Locations.APEX_ELEVATOR and self.options.free_apex_elevator:
+                if (
+                    location_name == Locations.APEX_ELEVATOR
+                    and self.options.apex_elevator != ApexElevator.option_included
+                ):
                     continue
 
                 self.create_location(location_name)
@@ -199,9 +203,13 @@ class AstalonWorld(World):
             for item_name in item_names:
                 if self.options.start_with_qol and item_name in QOL_ITEMS:
                     continue
+                if self.options.start_with_ascendant_key and item_name == KeyItem.ASCENDANT_KEY:
+                    continue
+                if self.options.start_with_bell and item_name == KeyItem.BELL:
+                    continue
                 if self.options.open_early_doors and item_name in EARLY_ITEMS:
                     continue
-                if self.options.free_apex_elevator and item_name == Elevator.APEX:
+                if self.options.apex_elevator != ApexElevator.option_included and item_name == Elevator.APEX:
                     continue
 
                 data = item_table[item_name]
@@ -219,6 +227,11 @@ class AstalonWorld(World):
         if self.options.start_with_qol:
             for qol_item in QOL_ITEMS:
                 self.multiworld.push_precollected(self.create_item(qol_item.value))
+
+        if self.options.start_with_ascendant_key:
+            self.multiworld.push_precollected(self.create_item(KeyItem.ASCENDANT_KEY.value))
+        if self.options.start_with_bell:
+            self.multiworld.push_precollected(self.create_item(KeyItem.BELL.value))
 
         if self.options.open_early_doors:
             if self.options.randomize_white_keys:
@@ -255,8 +268,9 @@ class AstalonWorld(World):
         self.rules.clear_cache()
 
         settings = self.options.as_dict(
-            # "campaign",
+            "campaign",
             "randomize_characters",
+            "randomize_key_items",
             "randomize_health_pickups",
             "randomize_attack_pickups",
             "randomize_white_keys",
@@ -265,12 +279,11 @@ class AstalonWorld(World):
             "randomize_shop",
             "randomize_elevator",
             "randomize_switches",
-            # "randomize_familiars",
-            # "randomize_orb_crates",
-            # "randomize_boss_orb_rewards",
-            # "randomize_miniboss_orb_rewards",
+            "randomize_familiars",
+            "randomize_orb_rocks",
+            "randomize_miniboss_rewards",
             "skip_cutscenes",
-            "free_apex_elevator",
+            "apex_elevator",
             "cost_multiplier",
             "fast_blood_chalice",
             "campfire_warp",

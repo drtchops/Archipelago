@@ -1,7 +1,7 @@
-from ..Items import BlueDoor, KeyItem, RedDoor
-from ..Locations import Locations
-from ..Regions import Regions
-from ..Rules import Events
+from ..items import BlueDoor, KeyItem, RedDoor
+from ..locations import Locations
+from ..regions import Regions
+from ..rules import Events
 from . import AstalonTestBase
 
 
