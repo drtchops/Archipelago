@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING, Dict, Protocol, Tuple, TypeVar, Union
 from BaseClasses import CollectionState
 from worlds.generic.Rules import set_rule
 
-from .Items import (
+from .items import (
     AllItems,
     BlueDoor,
     Character,
@@ -19,10 +19,10 @@ from .Items import (
     Switch,
     WhiteDoor,
 )
-from .Locations import LocationGroups, location_table
-from .Locations import Locations as L
-from .Options import AstalonOptions, Difficulty, RandomizeCharacters
-from .Regions import Regions as R
+from .locations import LocationGroups, location_table
+from .locations import Locations as L
+from .options import AstalonOptions, Difficulty, RandomizeCharacters
+from .regions import Regions as R
 
 if TYPE_CHECKING:
     from . import AstalonWorld

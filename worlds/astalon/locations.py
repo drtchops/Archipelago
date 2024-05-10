@@ -5,7 +5,7 @@ from typing import Dict, Set
 
 from BaseClasses import Location
 
-from .Regions import Regions
+from .regions import Regions
 
 
 class Area(str, Enum):

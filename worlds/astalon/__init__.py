@@ -3,7 +3,7 @@ from typing import Any, Dict, List
 from BaseClasses import CollectionState, Item, ItemClassification, Region, Tutorial
 from worlds.AutoWorld import WebWorld, World
 
-from .Items import (
+from .items import (
     CHARACTERS,
     EARLY_BLUE_DOORS,
     EARLY_ITEMS,
@@ -20,7 +20,7 @@ from .Items import (
     item_name_to_id,
     item_table,
 )
-from .Locations import (
+from .locations import (
     AstalonLocation,
     LocationGroups,
     Locations,
@@ -28,9 +28,9 @@ from .Locations import (
     location_name_to_id,
     location_table,
 )
-from .Options import AstalonOptions, RandomizeCharacters
-from .Regions import Regions, astalon_regions
-from .Rules import AstalonRules, Events
+from .options import AstalonOptions, RandomizeCharacters
+from .regions import Regions, astalon_regions
+from .rules import AstalonRules, Events
 
 
 class AstalonWebWorld(WebWorld):
