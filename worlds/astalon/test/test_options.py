@@ -20,10 +20,27 @@ class SwitchesTest(AstalonTestBase):
     }
 
 
+class SwitchesOnlyTest(AstalonTestBase):
+    options = {
+        "difficulty": "hard",
+        "randomize_characters": "vanilla",
+        "randomize_key_items": "false",
+        "randomize_health_pickups": "false",
+        "randomize_attack_pickups": "false",
+        "randomize_white_keys": "false",
+        "randomize_blue_keys": "false",
+        "randomize_red_keys": "false",
+        "randomize_shop": "false",
+        "randomize_elevator": "false",
+        "randomize_switches": "true",
+    }
+
+
 class AllEasyTest(AstalonTestBase):
     options = {
         "difficulty": "easy",
         "randomize_characters": "solo",
+        "randomize_key_items": "true",
         "randomize_health_pickups": "true",
         "randomize_attack_pickups": "true",
         "randomize_white_keys": "true",
@@ -33,7 +50,7 @@ class AllEasyTest(AstalonTestBase):
         "randomize_elevator": "true",
         "randomize_switches": "true",
         "start_with_qol": "true",
-        "free_apex_elevator": "true",
+        "apex_elevator": "vanilla",
         "open_early_doors": "true",
     }
 
@@ -42,6 +59,7 @@ class AllHardTest(AstalonTestBase):
     options = {
         "difficulty": "hard",
         "randomize_characters": "solo",
+        "randomize_key_items": "true",
         "randomize_health_pickups": "true",
         "randomize_attack_pickups": "true",
         "randomize_white_keys": "true",
@@ -51,7 +69,7 @@ class AllHardTest(AstalonTestBase):
         "randomize_elevator": "true",
         "randomize_switches": "true",
         "start_with_qol": "true",
-        "free_apex_elevator": "true",
+        "apex_elevator": "vanilla",
         "open_early_doors": "true",
     }
 
@@ -59,6 +77,7 @@ class AllHardTest(AstalonTestBase):
 class VanillaTest(AstalonTestBase):
     options = {
         "randomize_characters": "vanilla",
+        "randomize_key_items": "false",
         "randomize_health_pickups": "false",
         "randomize_attack_pickups": "false",
         "randomize_white_keys": "false",

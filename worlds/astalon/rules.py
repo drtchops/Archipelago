@@ -30,9 +30,28 @@ if TYPE_CHECKING:
 
 class Events(str, Enum):
     VICTORY = "Victory"
-    MET_ZEEK = "Met Zeek"
-    ZEEK_JOINED = "Zeek Joined"
-    BRAM_JOINED = "Bram Joined"
+    EYE_RED = Eye.RED.value
+    EYE_BLUE = Eye.BLUE.value
+    EYE_GREEN = Eye.GREEN.value
+    SWORD = KeyItem.SWORD.value
+    ASCENDANT_KEY = KeyItem.ASCENDANT_KEY.value
+    ADORNED_KEY = KeyItem.ADORNED_KEY.value
+    BANISH = KeyItem.BANISH.value
+    VOID = KeyItem.VOID.value
+    BOOTS = KeyItem.BOOTS.value
+    CLOAK = KeyItem.CLOAK.value
+    CYCLOPS = KeyItem.CYCLOPS.value
+    BELL = KeyItem.BELL.value
+    CLAW = KeyItem.CLAW.value
+    GAUNTLET = KeyItem.GAUNTLET.value
+    ICARUS = KeyItem.ICARUS.value
+    CHALICE = KeyItem.CHALICE.value
+    BOW = KeyItem.BOW.value
+    CROWN = KeyItem.CROWN.value
+    BLOCK = KeyItem.BLOCK.value
+    STAR = KeyItem.STAR.value
+    ZEEK = Character.ZEEK.value
+    BRAM = Character.BRAM.value
 
 
 class Logic(Enum):
@@ -1349,7 +1368,7 @@ INDIRECT_CONDITIONS: Tuple[Tuple[Union[L, R], Tuple[R, R]], ...] = (
     (R.CD_TOP, (R.CD_START, R.CD_BOSS)),
 )
 
-ITEM_RULES: Dict[L, AstalonRule] = {
+KEY_ITEM_RULES: Dict[L, AstalonRule] = {
     L.GT_GORGONHEART: lambda rules, state: (
         rules.switches(state, Switch.GT_GH, disabled_case=True)
         or rules.has_any(state, Character.KYULI, KeyItem.ICARUS, KeyItem.BLOCK, KeyItem.CLOAK, KeyItem.BOOTS)
@@ -1396,6 +1415,14 @@ ITEM_RULES: Dict[L, AstalonRule] = {
             disabled_case=lambda rules, state: rules.can(state, Logic.CRYSTAL),
         )
     ),
+}
+
+KEY_ITEM_EVENTS: Dict[Events, L] = {
+    Events.BANISH: L.GT_BANISH,
+    Events.BELL: L.HOTP_BELL,
+    Events.CLAW: L.HOTP_CLAW,
+    Events.ADORNED_KEY: L.TR_ADORNED_KEY,
+    Events.BLOCK: L.CATH_BLOCK,
 }
 
 CHARACTER_RULES: Dict[Tuple[Character, L], AstalonRule] = {
@@ -1712,10 +1739,6 @@ SWITCH_RULES: Dict[L, AstalonRule] = {
     L.SP_CRYSTAL_STAR: lambda rules, state: rules.can(state, Logic.CRYSTAL),
 }
 
-EVENT_RULES: Dict[Events, AstalonRule] = {
-    Events.ZEEK_JOINED: lambda rules, state: rules.has(state, KeyItem.CROWN),
-}
-
 VANILLA_CHARACTERS = {Character.ALGUS, Character.ARIAS, Character.KYULI}
 
 
@@ -1803,10 +1826,6 @@ class AstalonRules:
     def _vanilla_has(self, state: CollectionState, item: Union[AllItems, Events], count: int = 1) -> bool:
         if item in VANILLA_CHARACTERS:
             return True
-        if item == Character.ZEEK:
-            return self._has(state, Events.ZEEK_JOINED)
-        if item == Character.BRAM:
-            return self._has(state, Events.BRAM_JOINED)
 
         if item == KeyItem.BLOCK and not self._has(state, Character.ZEEK):
             return False
@@ -1945,7 +1964,7 @@ class AstalonRules:
         if not self.region(data.region).can_reach(state):
             return False
         all_rules = (
-            ITEM_RULES,
+            KEY_ITEM_RULES,
             ATTACK_RULES,
             HEALTH_RULES,
             WHITE_KEY_RULES,
@@ -1990,8 +2009,12 @@ class AstalonRules:
             set_rule(self.entrance(from_, to_), partial(rule, self))
 
     def set_location_rules(self) -> None:
-        for location, rule in ITEM_RULES.items():
-            set_rule(self.location(location), partial(rule, self))
+        if self.options.randomize_key_items:
+            for location, rule in KEY_ITEM_RULES.items():
+                set_rule(self.location(location), partial(rule, self))
+        else:
+            for event, location in KEY_ITEM_EVENTS.items():
+                set_rule(self.location(event), lambda state: self.reachable(state, location))
 
         if self.options.randomize_attack_pickups:
             for location, rule in ATTACK_RULES.items():
@@ -2021,13 +2044,16 @@ class AstalonRules:
             for location, rule in SWITCH_RULES.items():
                 set_rule(self.location(location), partial(rule, self))
 
-        if self.options.randomize_characters == RandomizeCharacters.option_vanilla:
-            for event, rule in EVENT_RULES.items():
-                set_rule(self.location(event), partial(rule, self))
-        else:
-            for (character, location), rule in CHARACTER_RULES.items():
-                if character not in self.world.starting_characters:
-                    set_rule(self.location(location), partial(rule, self))
+        for (character, location), rule in CHARACTER_RULES.items():
+            if (
+                self.options.randomize_characters == RandomizeCharacters.option_vanilla
+                and character not in VANILLA_CHARACTERS
+            ) or (
+                self.options.randomize_characters != RandomizeCharacters.option_vanilla
+                and character in self.world.starting_characters
+            ):
+                continue
+            set_rule(self.location(location), partial(rule, self))
 
     def set_indirect_conditions(self) -> None:
         for dependency, (from_, to_) in INDIRECT_CONDITIONS:

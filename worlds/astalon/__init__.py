@@ -109,6 +109,8 @@ class AstalonWorld(World):
                 continue
             if group == LocationGroups.CHARACTER:
                 continue
+            if group == LocationGroups.ITEM and not self.options.randomize_key_items:
+                continue
             if group == LocationGroups.ATTACK and not self.options.randomize_attack_pickups:
                 continue
             if group == LocationGroups.HEALTH and not self.options.randomize_health_pickups:
@@ -139,9 +141,8 @@ class AstalonWorld(World):
                 self.create_location(location_name)
 
         if self.options.randomize_characters == RandomizeCharacters.option_vanilla:
-            self.create_event(Events.MET_ZEEK, Regions.MECH_ZEEK)
-            self.create_event(Events.ZEEK_JOINED, Regions.MECH_ZEEK)
-            self.create_event(Events.BRAM_JOINED, Regions.TR_BRAM)
+            self.create_event(Events.ZEEK, Regions.MECH_ZEEK)
+            self.create_event(Events.BRAM, Regions.TR_BRAM)
         else:
             if Character.ALGUS not in self.starting_characters:
                 self.create_location(Locations.GT_ALGUS)
@@ -153,6 +154,28 @@ class AstalonWorld(World):
                 self.create_location(Locations.MECH_ZEEK)
             if Character.BRAM not in self.starting_characters:
                 self.create_location(Locations.TR_BRAM)
+
+        if not self.options.randomize_key_items:
+            self.create_event(Events.EYE_RED, Regions.GT_BOSS)
+            self.create_event(Events.EYE_BLUE, Regions.MECH_BOSS)
+            self.create_event(Events.EYE_GREEN, Regions.ROA_BOSS)
+            self.create_event(Events.SWORD, Regions.GT_SWORD)
+            self.create_event(Events.ASCENDANT_KEY, Regions.GT_ASCENDANT_KEY)
+            self.create_event(Events.ADORNED_KEY, Regions.TR_BOTTOM)
+            self.create_event(Events.BANISH, Regions.GT_LEFT)
+            self.create_event(Events.VOID, Regions.GT_VOID)
+            self.create_event(Events.BOOTS, Regions.MECH_BOOTS_UPPER)
+            self.create_event(Events.CLOAK, Regions.MECH_CLOAK)
+            self.create_event(Events.CYCLOPS, Regions.MECH_ZEEK)
+            self.create_event(Events.BELL, Regions.HOTP_BELL)
+            self.create_event(Events.CLAW, Regions.HOTP_CLAW)
+            self.create_event(Events.GAUNTLET, Regions.HOTP_GAUNTLET)
+            self.create_event(Events.ICARUS, Regions.ROA_ICARUS)
+            self.create_event(Events.CHALICE, Regions.APEX_CENTAUR)
+            self.create_event(Events.BOW, Regions.CATA_BOW)
+            self.create_event(Events.CROWN, Regions.CD_BOSS)
+            self.create_event(Events.BLOCK, Regions.CATH_TOP)
+            self.create_event(Events.STAR, Regions.SP_STAR)
 
         self.create_event(Events.VICTORY, Regions.FINAL_BOSS)
         self.multiworld.completion_condition[self.player] = lambda state: state.has(Events.VICTORY.value, self.player)
@@ -182,6 +205,8 @@ class AstalonWorld(World):
             if group not in logic_groups:
                 continue
             if group == ItemGroups.CHARACTER:
+                continue
+            if group in {ItemGroups.EYE, ItemGroups.ITEM} and not self.options.randomize_key_items:
                 continue
             if group == ItemGroups.ATTACK and not self.options.randomize_attack_pickups:
                 continue

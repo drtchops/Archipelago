@@ -40,19 +40,34 @@ class Campaign(Choice):
     default = 0
 
 
+class Goal(Choice):
+    """
+    NOT YET SUPPORTED
+    Select what requirements must be completed before you can finish your goal.
+    Vanilla: Acquire the red, blue, and green gorgon eyes and defeat Medusa
+    Eye Hunt: Acquire a configurable number of grogon eyes before you can confront Medusa
+    """
+
+    visibility = Visibility.none
+    display_name = "Goal"
+    option_vanilla = 0
+    option_eye_hunt = 1
+    default = 0
+
+
 class RandomizeCharacters(Choice):
     """
     Choose how the 5 characters are randomized.
-    vanilla: Start with the default 3 characters and unlock Zeek and Bram in-game as normal
-    trio: Start with the default 3 characters and receive Zeek and Bram as items
-    solo: Start with one random character and receive the rest as items
-    all: Start with all 5 characters
-    random_selection: Start with a random selection of the characters and receive the rest as items
-    algus: Start with just Algus and receive the rest as items
-    arias: Start with just Arias and receive the rest as items
-    kyuli: Start with just Kyuli and receive the rest as items
-    bram: Start with just Bram and receive the rest as items
-    zeek: Start with just Zeek and receive the rest as items
+    Vanilla: Start with the default 3 characters and unlock Zeek and Bram in-game as normal
+    Trio: Start with the default 3 characters and receive Zeek and Bram as items
+    Solo: Start with one random character and receive the rest as items
+    All: Start with all 5 characters
+    Random Selection: Start with a random selection of the characters and receive the rest as items
+    Algus: Start with just Algus and receive the rest as items
+    Arias: Start with just Arias and receive the rest as items
+    Kyuli: Start with just Kyuli and receive the rest as items
+    Bram: Start with just Bram and receive the rest as items
+    Zeek: Start with just Zeek and receive the rest as items
     """
 
     display_name = "Randomize Characters"
@@ -286,6 +301,7 @@ class AstalonOptions(PerGameCommonOptions):
     start_inventory_from_pool: StartInventoryPool
     difficulty: Difficulty
     campaign: Campaign
+    goal: Goal
     randomize_characters: RandomizeCharacters
     randomize_key_items: RandomizeKeyItems
     randomize_health_pickups: RandomizeHealthPickups

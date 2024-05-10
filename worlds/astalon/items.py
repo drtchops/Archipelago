@@ -724,7 +724,7 @@ item_table: Dict[str, AstalonItemData] = {
     Switch.SP_AFTER_STAR.value: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Crystal.GT_LADDER.value: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Crystal.GT_ROTA.value: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
-    Crystal.GT_OLD_MAN_1.value: AstalonItemData(ItemClassification.filler, 1, ItemGroups.SWITCH),
+    Crystal.GT_OLD_MAN_1.value: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Crystal.GT_OLD_MAN_2.value: AstalonItemData(ItemClassification.filler, 1, ItemGroups.SWITCH),
     Crystal.MECH_CANNON.value: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Crystal.MECH_LINUS.value: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),

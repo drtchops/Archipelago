@@ -17,14 +17,14 @@ class VanillaCharacterTest(AstalonTestBase):
 
     def test_star_needs_bram_access(self) -> None:
         location = Locations.GT_HP_1_RING.value
-        self.collect_all_but([KeyItem.VOID.value, BlueDoor.GT_RING.value, Events.BRAM_JOINED.value])
+        self.collect_all_but([KeyItem.VOID.value, BlueDoor.GT_RING.value, Events.BRAM.value])
         self.assertFalse(self.can_reach_location(location))
         self.collect_by_name(KeyItem.VOID.value)
         self.assertTrue(self.can_reach_location(location))
 
     def test_block_needs_zeek_access(self) -> None:
         location = Locations.CATH_BLOCK.value
-        self.collect_all_but([RedDoor.ZEEK.value, Events.ZEEK_JOINED.value])
+        self.collect_all_but([RedDoor.ZEEK.value, Events.ZEEK.value])
         self.assertFalse(self.can_reach_region(Regions.MECH_ZEEK.value))
         self.assertFalse(self.can_reach_location(location))
         self.collect_by_name(RedDoor.ZEEK.value)
