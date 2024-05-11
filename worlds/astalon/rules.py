@@ -280,7 +280,9 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
             rules.switches(
                 state, Crystal.MECH_LOWER, disabled_case=lambda rules, state: rules.can(state, Logic.CRYSTAL)
             )
-            and (rules.has_any(state, KeyItem.CLAW, KeyItem.CLOAK) or rules.has(state, Character.KYULI, KeyItem.ICARUS))
+            or rules.has_any(state, KeyItem.CLAW, KeyItem.CLOAK)
+            or rules.has(state, Character.KYULI, KeyItem.ICARUS)
+            or (rules.hard and rules.has(state, KeyItem.BOOTS))
         )
     ),
     (R.MECH_SWORD_CONNECTION, R.GT_UPPER_PATH_CONNECTION): lambda rules, state: (
