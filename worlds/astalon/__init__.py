@@ -335,7 +335,6 @@ class AstalonWorld(World):
             "campaign",
             "goal",
             "additional_eyes_required",
-            "extra_eyes",
             "randomize_characters",
             "randomize_key_items",
             "randomize_health_pickups",

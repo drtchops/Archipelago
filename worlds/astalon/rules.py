@@ -21,7 +21,7 @@ from .items import (
 )
 from .locations import LocationGroups, location_table
 from .locations import Locations as L
-from .options import ApexElevator, AstalonOptions, Difficulty, RandomizeCharacters
+from .options import ApexElevator, AstalonOptions, Difficulty, Goal, RandomizeCharacters
 from .regions import Regions as R
 
 if TYPE_CHECKING:
@@ -1035,7 +1035,10 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
     (R.APEX, R.FINAL_BOSS): lambda rules, state: (
         rules.has(state, Eye.RED, Eye.BLUE, Eye.GREEN)
         and (rules.hard or rules.has(state, KeyItem.BELL))
-        and (rules.world.required_gold_eyes <= 0 or rules.has(state, Eye.GOLD, count=rules.world.required_gold_eyes))
+        and (
+            rules.options.goal != Goal.option_eye_hunt
+            or rules.has(state, Eye.GOLD, count=rules.world.required_gold_eyes)
+        )
     ),
     (R.APEX, R.ROA_APEX_CONNECTION): lambda rules, state: (
         rules.switches(state, Switch.ROA_APEX_ACCESS, disabled_case=False)
@@ -1615,10 +1618,36 @@ SWITCH_RULES: Dict[L, AstalonRule] = {
         or rules.has(state, Character.KYULI, KeyItem.BLOCK, Character.ZEEK)
     ),
     L.GT_CRYSTAL_LADDER: lambda rules, state: rules.can(state, Logic.CRYSTAL),
-    L.GT_CRYSTAL_ROTA: lambda rules, state: rules.can(state, Logic.CRYSTAL),
-    L.GT_CRYSTAL_OLD_MAN_1: lambda rules, state: rules.can(state, Logic.CRYSTAL),
+    L.GT_CRYSTAL_ROTA: lambda rules, state: rules.can(state, Logic.CRYSTAL)
+    and (
+        rules.has(state, KeyItem.BELL)
+        or (
+            rules.entrance(R.MECH_BOTTOM_CAMPFIRE, R.GT_UPPER_PATH_CONNECTION).can_reach(state)
+            and rules.entrance(R.GT_UPPER_PATH_CONNECTION, R.GT_UPPER_PATH).can_reach(state)
+        )
+    ),
+    L.GT_CRYSTAL_OLD_MAN_1: lambda rules, state: (
+        rules.can(state, Logic.CRYSTAL)
+        and (
+            rules.has(state, KeyItem.BELL)
+            or rules.switches(
+                state,
+                Switch.GT_UPPER_ARIAS,
+                disabled_case=lambda rules, state: rules.reachable(state, L.GT_SWITCH_UPPER_ARIAS),
+            )
+        )
+    ),
     L.GT_CRYSTAL_OLD_MAN_2: lambda rules, state: (
-        rules.can(state, Logic.CRYSTAL) and rules.switches(state, Crystal.GT_OLD_MAN_1, disabled_case=True)
+        rules.can(state, Logic.CRYSTAL)
+        and rules.switches(state, Crystal.GT_OLD_MAN_1, disabled_case=True)
+        and (
+            rules.has(state, KeyItem.BELL)
+            or rules.switches(
+                state,
+                Switch.GT_UPPER_ARIAS,
+                disabled_case=lambda rules, state: rules.reachable(state, L.GT_SWITCH_UPPER_ARIAS),
+            )
+        )
     ),
     L.MECH_SWITCH_BOSS_ACCESS_2: lambda rules, state: (
         rules.switches(state, Switch.MECH_BOSS_1, disabled_case=True)
