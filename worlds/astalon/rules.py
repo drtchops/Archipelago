@@ -75,7 +75,13 @@ class Has(Protocol):
 
 
 class Can(Protocol):
-    def __call__(self, state: CollectionState, logic: Logic, gold_block: bool = False) -> bool: ...
+    def __call__(
+        self,
+        state: CollectionState,
+        logic: Logic,
+        gold_block: bool = False,
+        include_whiplash: bool = True,
+    ) -> bool: ...
 
 
 class Togglable(Protocol[T]):
@@ -396,7 +402,7 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
         and (rules.switches(state, Switch.MECH_ARIAS, disabled_case=False) or rules.has(state, KeyItem.STAR))
     ),
     (R.MECH_ZEEK_CONNECTION, R.MECH_ARIAS_EYEBALL): lambda rules, state: (
-        rules.switches(state, Switch.MECH_ARIAS, disabled_case=False) or rules.has(state, KeyItem.STAR)
+        rules.switches(state, Switch.MECH_ARIAS, disabled_case=False) or rules.has(state, KeyItem.STAR, Character.ARIAS)
     ),
     (R.MECH_ZEEK_CONNECTION, R.CATA_ELEVATOR): lambda rules, state: rules.elevator(state, Elevator.CATA_1),
     (R.MECH_ZEEK_CONNECTION, R.CATA_BOSS): lambda rules, state: rules.elevator(state, Elevator.CATA_2),
@@ -1434,7 +1440,9 @@ CHARACTER_RULES: Dict[Tuple[Character, L], AstalonRule] = {
 ATTACK_RULES: Dict[L, AstalonRule] = {
     L.MECH_ATTACK_VOLANTIS: lambda rules, state: rules.has(state, KeyItem.CLAW),
     L.MECH_ATTACK_STAR: lambda rules, state: rules.has(state, KeyItem.STAR),
-    L.ROA_ATTACK: lambda rules, state: rules.has(state, KeyItem.STAR),
+    L.ROA_ATTACK: lambda rules, state: (
+        rules.has(state, KeyItem.STAR, KeyItem.BELL) and rules.can(state, Logic.EXTRA_HEIGHT)
+    ),
     L.CAVES_ATTACK_RED: lambda rules, state: rules.has(state, Eye.RED),
     L.CAVES_ATTACK_BLUE: lambda rules, state: rules.has(state, Eye.RED, Eye.BLUE),
     L.CAVES_ATTACK_GREEN: lambda rules, state: (
@@ -1478,6 +1486,7 @@ HEALTH_RULES: Dict[L, AstalonRule] = {
     ),
     L.ROA_HP_5_SOLARIA: lambda rules, state: rules.has(state, Character.KYULI),
     L.APEX_HP_1_CHALICE: lambda rules, state: rules.blue_doors(state, BlueDoor.APEX, disabled_case=True),
+    L.APEX_HP_5_HEART: lambda rules, state: rules.has_any(state, Character.KYULI, KeyItem.BLOCK),
     L.CAVES_HP_1_START: lambda rules, state: (
         rules.has(state, KeyItem.CHALICE)
         or rules.switches(state, Face.CAVES_1ST_ROOM, disabled_case=lambda rules, state: rules.has(state, KeyItem.BOW))
@@ -1530,7 +1539,6 @@ WHITE_KEY_RULES: Dict[L, AstalonRule] = {
 }
 
 BLUE_KEY_RULES: Dict[L, AstalonRule] = {
-    L.GT_BLUE_KEY_WALL: lambda rules, state: rules.can(state, Logic.EXTRA_HEIGHT),
     L.MECH_BLUE_KEY_BLOCKS: lambda rules, state: rules.switches(state, Switch.MECH_KEY_BLOCKS, disabled_case=True),
     L.MECH_BLUE_KEY_SAVE: lambda rules, state: rules.has(state, KeyItem.CLAW),
     L.MECH_BLUE_KEY_POT: lambda rules, state: (
@@ -1620,6 +1628,7 @@ SWITCH_RULES: Dict[L, AstalonRule] = {
     L.MECH_SWITCH_EYEBALL: lambda rules, state: (
         rules.white_doors(state, WhiteDoor.MECH_ARENA, disabled_case=True) or rules.region(R.MECH_POTS).can_reach(state)
     ),
+    L.MECH_SWITCH_ARIAS: lambda rules, state: rules.has(state, Character.ARIAS),
     L.MECH_CRYSTAL_CANNON: lambda rules, state: rules.can(state, Logic.CRYSTAL),
     L.MECH_CRYSTAL_LINUS: lambda rules, state: rules.can(state, Logic.CRYSTAL),
     L.MECH_CRYSTAL_LOWER: lambda rules, state: rules.can(state, Logic.CRYSTAL),
@@ -1681,8 +1690,8 @@ SWITCH_RULES: Dict[L, AstalonRule] = {
         rules.can(state, Logic.CRYSTAL) and rules.has(state, Character.KYULI, KeyItem.BELL)
     ),
     L.ROA_CRYSTAL_BABY_GORGON: lambda rules, state: rules.can(state, Logic.CRYSTAL),
-    L.ROA_CRYSTAL_LADDER_R: lambda rules, state: rules.can(state, Logic.CRYSTAL),
-    L.ROA_CRYSTAL_LADDER_L: lambda rules, state: rules.can(state, Logic.CRYSTAL),
+    L.ROA_CRYSTAL_LADDER_R: lambda rules, state: rules.can(state, Logic.CRYSTAL, include_whiplash=False),
+    L.ROA_CRYSTAL_LADDER_L: lambda rules, state: rules.can(state, Logic.CRYSTAL, include_whiplash=False),
     L.ROA_CRYSTAL_CENTAUR: lambda rules, state: (
         rules.can(state, Logic.CRYSTAL) and rules.has(state, KeyItem.BELL, Character.ARIAS)
     ),
@@ -1894,7 +1903,7 @@ class AstalonRules:
         return self.region(R.ROA_START).can_reach(state)
 
     @lru_cache(maxsize=None)
-    def _easy_rando_can(self, state: CollectionState, logic: Logic, gold_block=False) -> bool:
+    def _easy_rando_can(self, state: CollectionState, logic: Logic, gold_block=False, include_whiplash=True) -> bool:
         if logic == Logic.ARIAS_JUMP:
             return False
         if logic == Logic.EXTRA_HEIGHT:
@@ -1911,7 +1920,7 @@ class AstalonRules:
             return False
 
     @lru_cache(maxsize=None)
-    def _hard_rando_can(self, state: CollectionState, logic: Logic, gold_block=False) -> bool:
+    def _hard_rando_can(self, state: CollectionState, logic: Logic, gold_block=False, include_whiplash=True) -> bool:
         if logic == Logic.ARIAS_JUMP:
             return self.has(state, Character.ARIAS)
         if logic == Logic.EXTRA_HEIGHT:
@@ -1925,14 +1934,16 @@ class AstalonRules:
         if logic == Logic.BLOCK_IN_WALL:
             return self.has(state, KeyItem.BLOCK) or (gold_block and self.has(state, Character.ZEEK))
         if logic == Logic.CRYSTAL:
-            return self.has_any(state, Character.ALGUS, ShopUpgrade.KYULI_RAY, ShopUpgrade.BRAM_WHIPLASH) or self.has(
-                state, Character.ZEEK, KeyItem.BANISH
+            return (
+                self.has_any(state, Character.ALGUS, ShopUpgrade.KYULI_RAY)
+                or self.has(state, Character.ZEEK, KeyItem.BANISH)
+                or (include_whiplash and self.has(state, ShopUpgrade.BRAM_WHIPLASH))
             )
         if logic == Logic.BIG_MAGIC:
             return self.has(state, KeyItem.BANISH, ShopUpgrade.ALGUS_ARCANIST)
 
     @lru_cache(maxsize=None)
-    def _easy_vanilla_can(self, state: CollectionState, logic: Logic, gold_block=False) -> bool:
+    def _easy_vanilla_can(self, state: CollectionState, logic: Logic, gold_block=False, include_whiplash=True) -> bool:
         if logic == Logic.ARIAS_JUMP:
             return False
         if logic == Logic.EXTRA_HEIGHT:
@@ -1947,7 +1958,7 @@ class AstalonRules:
             return False
 
     @lru_cache(maxsize=None)
-    def _hard_vanilla_can(self, state: CollectionState, logic: Logic, gold_block=False) -> bool:
+    def _hard_vanilla_can(self, state: CollectionState, logic: Logic, gold_block=False, include_whiplash=True) -> bool:
         if logic == Logic.ARIAS_JUMP:
             return True
         if logic == Logic.EXTRA_HEIGHT:
