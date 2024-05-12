@@ -89,3 +89,11 @@ class VanillaTest(AstalonTestBase):
         "start_with_qol": "false",
         "open_early_doors": "false",
     }
+
+
+class EyeHuntTest(AstalonTestBase):
+    options = {
+        "goal": "eye_hunt",
+        "additional_eyes_required": "6",
+        "extra_eyes": "33",
+    }

@@ -40,6 +40,7 @@ class Eye(str, Enum):
     RED = "Gorgon Eye (Red)"
     BLUE = "Gorgon Eye (Blue)"
     GREEN = "Gorgon Eye (Green)"
+    GOLD = "Gorgon Eye (Gold)"
 
 
 class Key(str, Enum):
@@ -794,6 +795,7 @@ item_table: Dict[str, AstalonItemData] = {
     Face.CATH_R.value: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     KeyItem.CYCLOPS.value: AstalonItemData(ItemClassification.progression, 1, ItemGroups.ITEM),
     KeyItem.CROWN.value: AstalonItemData(ItemClassification.progression, 1, ItemGroups.ITEM),
+    Eye.GOLD.value: AstalonItemData(ItemClassification.progression, 0, ItemGroups.EYE),
     # Familiars.MONSTER.value: AstalonItemData(ItemClassification.useful, 3, ItemGroups.FAMILIAR),
     # Familiars.GIL.value: AstalonItemData(ItemClassification.filler, 1, ItemGroups.FAMILIAR),
 }

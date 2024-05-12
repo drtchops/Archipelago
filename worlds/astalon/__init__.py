@@ -13,6 +13,7 @@ from .items import (
     AstalonItem,
     Character,
     Elevator,
+    Eye,
     ItemGroups,
     Key,
     KeyItem,
@@ -29,7 +30,7 @@ from .locations import (
     location_name_to_id,
     location_table,
 )
-from .options import ApexElevator, AstalonOptions, RandomizeCharacters
+from .options import ApexElevator, AstalonOptions, Goal, RandomizeCharacters
 from .regions import Regions, astalon_regions
 from .rules import AstalonRules, Events
 
@@ -58,6 +59,8 @@ class AstalonWorld(World):
     item_name_to_id = item_name_to_id
     location_name_to_id = location_name_to_id
     starting_characters: List[Character]
+    required_gold_eyes: int = 0
+    extra_gold_eyes: int = 0
     rules: AstalonRules
 
     def generate_early(self) -> None:
@@ -86,6 +89,10 @@ class AstalonWorld(World):
             self.starting_characters.append(Character.BRAM)
         if self.options.randomize_characters == RandomizeCharacters.option_zeek:
             self.starting_characters.append(Character.ZEEK)
+
+        if self.options.goal == Goal.option_eye_hunt:
+            self.required_gold_eyes = self.options.additional_eyes_required.value
+            self.extra_gold_eyes = int(round(self.required_gold_eyes * (self.options.extra_eyes / 100)))
 
     def create_location(self, name: str):
         data = location_table[name]
@@ -145,15 +152,15 @@ class AstalonWorld(World):
             self.create_event(Events.BRAM, Regions.TR_BRAM)
         else:
             if Character.ALGUS not in self.starting_characters:
-                self.create_location(Locations.GT_ALGUS)
+                self.create_location(Locations.GT_ALGUS.value)
             if Character.ARIAS not in self.starting_characters:
-                self.create_location(Locations.GT_ARIAS)
+                self.create_location(Locations.GT_ARIAS.value)
             if Character.KYULI not in self.starting_characters:
-                self.create_location(Locations.GT_KYULI)
+                self.create_location(Locations.GT_KYULI.value)
             if Character.ZEEK not in self.starting_characters:
-                self.create_location(Locations.MECH_ZEEK)
+                self.create_location(Locations.MECH_ZEEK.value)
             if Character.BRAM not in self.starting_characters:
-                self.create_location(Locations.TR_BRAM)
+                self.create_location(Locations.TR_BRAM.value)
 
         if not self.options.randomize_key_items:
             self.create_event(Events.EYE_RED, Regions.GT_BOSS)
@@ -269,10 +276,42 @@ class AstalonWorld(World):
                 for red_door in EARLY_SWITCHES:
                     self.multiworld.push_precollected(self.create_item(red_door.value))
 
+        for _ in range(0, self.required_gold_eyes + self.extra_gold_eyes):
+            itempool.append(self.create_item(Eye.GOLD.value))
+
         total_locations = len(self.multiworld.get_unfilled_locations(self.player))
+
+        if len(itempool) > total_locations:
+            remove_count = len(itempool) - total_locations
+            itempool = self.remove_filler(itempool, remove_count)
+
         while len(itempool) < total_locations:
             itempool.append(self.create_filler())
+
         self.multiworld.itempool += itempool
+
+    def remove_filler(self, itempool: List[Item], count: int) -> List[Item]:
+        new_pool = list(itempool)
+
+        filler = [i for i in new_pool if i.classification == ItemClassification.filler]
+        if len(filler) > count:
+            filler = self.random.sample(filler, count)
+        for f in filler:
+            new_pool.remove(f)
+            count -= 1
+        if count <= 0:
+            return new_pool
+
+        useful = [i for i in new_pool if i.classification != ItemClassification.progression]
+        if len(useful) < count:
+            raise Exception("No space left for eye hunt. Lower your eye hunt goal or randomize more things.")
+        if len(useful) > count:
+            useful = self.random.sample(useful, count)
+        for u in useful:
+            new_pool.remove(u)
+            count -= 1
+
+        return new_pool
 
     def get_filler_item_name(self) -> str:
         items = list(filler_items)
@@ -294,6 +333,9 @@ class AstalonWorld(World):
 
         settings = self.options.as_dict(
             "campaign",
+            "goal",
+            "additional_eyes_required",
+            "extra_eyes",
             "randomize_characters",
             "randomize_key_items",
             "randomize_health_pickups",

@@ -6,6 +6,7 @@ from Options import (
     DefaultOnToggle,
     NamedRange,
     PerGameCommonOptions,
+    Range,
     StartInventoryPool,
     Toggle,
     Visibility,
@@ -42,17 +43,38 @@ class Campaign(Choice):
 
 class Goal(Choice):
     """
-    NOT YET SUPPORTED
     Select what requirements must be completed before you can finish your goal.
     Vanilla: Acquire the red, blue, and green gorgon eyes and defeat Medusa
-    Eye Hunt: Acquire a configurable number of grogon eyes before you can confront Medusa
+    Eye Hunt: Acquire a configurable number of gorgon eyes before you can confront Medusa
     """
 
-    visibility = Visibility.none
     display_name = "Goal"
     option_vanilla = 0
     option_eye_hunt = 1
     default = 0
+
+
+class AdditionalEyesRequired(Range):
+    """
+    How many additional gorgon eyes are required to confront Medusa when playing Eye Hunt.
+    These are on top of the red, blue, and green gorgon eyes, which are always required.
+    """
+
+    display_name = "Additional Eyes Required"
+    range_start = 1
+    range_end = 30
+    default = 6
+
+
+class ExtraEyes(Range):
+    """
+    How many extra gorgon eyes are added to the item pool, as a percentage of the goal amount.
+    """
+
+    display_name = "Extra Eyes"
+    range_start = 0
+    range_end = 100
+    default = 33
 
 
 class RandomizeCharacters(Choice):
@@ -302,6 +324,8 @@ class AstalonOptions(PerGameCommonOptions):
     difficulty: Difficulty
     campaign: Campaign
     goal: Goal
+    additional_eyes_required: AdditionalEyesRequired
+    extra_eyes: ExtraEyes
     randomize_characters: RandomizeCharacters
     randomize_key_items: RandomizeKeyItems
     randomize_health_pickups: RandomizeHealthPickups

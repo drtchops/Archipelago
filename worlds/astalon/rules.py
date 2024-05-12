@@ -1032,7 +1032,11 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
     (R.APEX, R.CATA_ELEVATOR): lambda rules, state: rules.elevator(state, Elevator.CATA_1),
     (R.APEX, R.CATA_BOSS): lambda rules, state: rules.elevator(state, Elevator.CATA_2),
     (R.APEX, R.HOTP_ELEVATOR): lambda rules, state: rules.elevator(state, Elevator.HOTP),
-    (R.APEX, R.FINAL_BOSS): lambda rules, state: rules.has(state, Eye.RED, Eye.BLUE, Eye.GREEN, KeyItem.BELL),
+    (R.APEX, R.FINAL_BOSS): lambda rules, state: (
+        rules.has(state, Eye.RED, Eye.BLUE, Eye.GREEN)
+        and (rules.hard or rules.has(state, KeyItem.BELL))
+        and (rules.world.required_gold_eyes <= 0 or rules.has(state, Eye.GOLD, count=rules.world.required_gold_eyes))
+    ),
     (R.APEX, R.ROA_APEX_CONNECTION): lambda rules, state: (
         rules.switches(state, Switch.ROA_APEX_ACCESS, disabled_case=False)
     ),
