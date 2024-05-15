@@ -768,7 +768,7 @@ item_table: Dict[str, AstalonItemData] = {
     Crystal.TR_GOLD.value: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Crystal.TR_DARK_ARIAS.value: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Crystal.CD_BACKTRACK.value: AstalonItemData(ItemClassification.filler, 1, ItemGroups.SWITCH),
-    Crystal.CD_START.value: AstalonItemData(ItemClassification.filler, 1, ItemGroups.SWITCH),
+    Crystal.CD_START.value: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Crystal.CD_CAMPFIRE.value: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Crystal.CD_STEPS.value: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),
     Crystal.CATH_1ST_ROOM.value: AstalonItemData(ItemClassification.progression, 1, ItemGroups.SWITCH),

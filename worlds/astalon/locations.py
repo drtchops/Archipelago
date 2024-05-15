@@ -737,13 +737,13 @@ location_table: Dict[str, AstalonLocationData] = {
         Regions.MECH_BOSS_CONNECTION, LocationGroups.SWITCH, Area.MECH
     ),
     Locations.MECH_CRYSTAL_TRIPLE_1.value: AstalonLocationData(
-        Regions.MECH_CHARACTER_SWAPS, LocationGroups.SWITCH, Area.MECH
+        Regions.MECH_TRIPLE_SWITCHES, LocationGroups.SWITCH, Area.MECH
     ),
     Locations.MECH_CRYSTAL_TRIPLE_2.value: AstalonLocationData(
-        Regions.MECH_CHARACTER_SWAPS, LocationGroups.SWITCH, Area.MECH
+        Regions.MECH_TRIPLE_SWITCHES, LocationGroups.SWITCH, Area.MECH
     ),
     Locations.MECH_CRYSTAL_TRIPLE_3.value: AstalonLocationData(
-        Regions.MECH_CHARACTER_SWAPS, LocationGroups.SWITCH, Area.MECH
+        Regions.MECH_TRIPLE_SWITCHES, LocationGroups.SWITCH, Area.MECH
     ),
     Locations.MECH_CRYSTAL_TOP.value: AstalonLocationData(Regions.MECH_TOP, LocationGroups.SWITCH, Area.MECH),
     Locations.MECH_CRYSTAL_CLOAK.value: AstalonLocationData(
@@ -892,7 +892,7 @@ location_table: Dict[str, AstalonLocationData] = {
         Regions.ROA_UPPER_VOID, LocationGroups.SWITCH, Area.ROA
     ),
     Locations.ROA_CRYSTAL_LEFT_ASCEND.value: AstalonLocationData(
-        Regions.ROA_LEFT_ASCENT, LocationGroups.SWITCH, Area.ROA
+        Regions.ROA_LEFT_ASCENT_CRYSTAL, LocationGroups.SWITCH, Area.ROA
     ),
     Locations.ROA_CRYSTAL_SHAFT.value: AstalonLocationData(Regions.ROA_SP_CONNECTION, LocationGroups.SWITCH, Area.ROA),
     Locations.ROA_CRYSTAL_BRANCH_R.value: AstalonLocationData(

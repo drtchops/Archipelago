@@ -55,6 +55,7 @@ class Regions(str, Enum):
     MECH_AFTER_BK = "Mechanism - After BK"
     MECH_CHAINS = "Mechanism - Chains"
     MECH_ARIAS_EYEBALL = "Mechanism - Arias Eyeball"
+    MECH_TRIPLE_SWITCHES = "Mechanism - Triple Switches"
     MECH_ZEEK_CONNECTION = "Mechanism - Zeek Connection"
     MECH_ZEEK = "Mechanism - Zeek"
     MECH_SPLIT_PATH = "Mechanism - Split Path"
@@ -123,6 +124,7 @@ class Regions(str, Enum):
     ROA_WORM_CLIMB = "Ruins of Ash - Worm Climb"
     ROA_RIGHT_BRANCH = "Ruins of Ash - Right Branch"
     ROA_LEFT_ASCENT = "Ruins of Ash - Left of Ascent"
+    ROA_LEFT_ASCENT_CRYSTAL = "Ruins of Ash - Left of Ascent Crystal"
     ROA_TOP_ASCENT = "Ruins of Ash - Top of Ascent"
     ROA_TRIPLE_SWITCH = "Ruins of Ash - Triple Switch"
     ROA_MIDDLE = "Ruins of Ash - Middle"
@@ -418,6 +420,7 @@ astalon_regions: Dict[Regions, Optional[Set[Regions]]] = {
         Regions.MECH_START,
         Regions.MECH_ROOTS,
         Regions.MECH_AFTER_BK,
+        Regions.MECH_TRIPLE_SWITCHES,
     },
     Regions.MECH_AFTER_BK: {
         Regions.MECH_BK,
@@ -433,8 +436,10 @@ astalon_regions: Dict[Regions, Optional[Set[Regions]]] = {
     },
     Regions.MECH_ARIAS_EYEBALL: {
         Regions.MECH_CHAINS,
+        Regions.MECH_TRIPLE_SWITCHES,
         Regions.MECH_ZEEK_CONNECTION,
     },
+    Regions.MECH_TRIPLE_SWITCHES: None,
     Regions.MECH_ZEEK_CONNECTION: {
         Regions.GT_BOSS,
         Regions.MECH_ROOTS,
@@ -470,6 +475,7 @@ astalon_regions: Dict[Regions, Optional[Set[Regions]]] = {
         Regions.MECH_TOP,
     },
     Regions.MECH_TOP: {
+        Regions.MECH_TRIPLE_SWITCHES,
         Regions.MECH_POTS,
         Regions.MECH_TP_CONNECTION,
         Regions.CD_START,
@@ -505,6 +511,7 @@ astalon_regions: Dict[Regions, Optional[Set[Regions]]] = {
     },
     Regions.MECH_BOSS: {
         Regions.GT_BOSS,
+        Regions.MECH_TRIPLE_SWITCHES,
         Regions.MECH_ZEEK_CONNECTION,
         Regions.MECH_BOSS_CONNECTION,
         Regions.HOTP_START,
@@ -634,6 +641,7 @@ astalon_regions: Dict[Regions, Optional[Set[Regions]]] = {
         Regions.HOTP_BOSS_CAMPFIRE,
     },
     Regions.HOTP_BOSS_CAMPFIRE: {
+        Regions.MECH_TRIPLE_SWITCHES,
         Regions.HOTP_HEART,
         Regions.HOTP_MAIDEN,
         Regions.HOTP_TP_PUZZLE,
@@ -732,6 +740,7 @@ astalon_regions: Dict[Regions, Optional[Set[Regions]]] = {
         Regions.ROA_FLAMES,
         Regions.ROA_WORM_CLIMB,
         Regions.ROA_LEFT_ASCENT,
+        Regions.ROA_LEFT_ASCENT_CRYSTAL,
     },
     Regions.ROA_FLAMES: {
         Regions.ROA_ARIAS_BABY_GORGON,
@@ -746,8 +755,10 @@ astalon_regions: Dict[Regions, Optional[Set[Regions]]] = {
     },
     Regions.ROA_LEFT_ASCENT: {
         Regions.ROA_FLAMES_CONNECTION,
+        Regions.ROA_LEFT_ASCENT_CRYSTAL,
         Regions.ROA_TOP_ASCENT,
     },
+    Regions.ROA_LEFT_ASCENT_CRYSTAL: None,
     Regions.ROA_TOP_ASCENT: {
         Regions.ROA_LEFT_ASCENT,
         Regions.ROA_TRIPLE_SWITCH,
