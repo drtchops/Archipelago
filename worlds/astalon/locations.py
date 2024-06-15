@@ -30,10 +30,10 @@ class LocationGroups(str, Enum):
     FAMILIAR = "Familiars"
     HEALTH = "Health"
     ATTACK = "Attack"
-    KEY_WHITE = "White keys"
-    KEY_BLUE = "Blue keys"
-    KEY_RED = "Red keys"
-    SHOP = "Shop upgrades"
+    KEY_WHITE = "White Keys"
+    KEY_BLUE = "Blue Keys"
+    KEY_RED = "Red Keys"
+    SHOP = "Shop Upgrades"
     ELEVATOR = "Elevators"
     SWITCH = "Switches"
 
@@ -415,11 +415,9 @@ class Locations(str, Enum):
     SHOP_BRAM_HUNTER = "Shop - Bram's Monster Hunter"
     SHOP_BRAM_WHIPLASH = "Shop - Bram's Whiplash"
 
-    VICTORY = "Victory"
-
 
 class AstalonLocation(Location):
-    game = "Astalon"
+    game = "Astalon Tears of the Earth"
 
 
 @dataclass(frozen=True)

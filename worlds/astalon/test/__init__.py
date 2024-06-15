@@ -4,7 +4,7 @@ from .. import AstalonWorld
 
 
 class AstalonTestBase(WorldTestBase):
-    game = "Astalon"
+    game = "Astalon Tears of the Earth"
     world: AstalonWorld  # type: ignore
 
     def tearDown(self) -> None:

@@ -34,6 +34,19 @@ from .options import ApexElevator, AstalonOptions, Goal, RandomizeCharacters
 from .regions import Regions, astalon_regions
 from .rules import AstalonRules, Events
 
+# ██░░░██████░░███░░░███
+# ██░░░░██░░░▓▓░░░▓░░███
+# ██░█░▓░░▓▓▓▓▓▓░▓░░░███
+# █░▓█░▓▓▓▓▓█░▓░░█▓▓▓░██
+# █░▓▓▓▓▓▓▓▓██░███▓▓▓▓░█
+# ░▓▓██▓▓▓▓▓▓▓███▓▓▓▓██░
+# ░▓████▓▓▓░░░░░░░░░▓██░ THIS IS THE SAFETY BUBSETTE OF GOOD CODE.
+# ░▓████▓▓░█████████░██░ MANY GOOD PROGRAMS AND FEW ERRORS WILL COME TO YOU
+# █░▓██▓▓░███░███░██░▓░█ AS LONG AS YOU KEEP HER IN YOUR PROGRAM TO WATCH OVER IT
+# ██░░▓▓▓░███░███░██░░██ INCREMENT THIS NUMBER EVERY TIME YOU SAY HI TO BUBSETTE
+# ████░░░░██████████░███ hi_bubsette = 2
+# ████████░░░░░░░░░░████
+
 
 class AstalonWebWorld(WebWorld):
     theme = "stone"
@@ -50,7 +63,11 @@ class AstalonWebWorld(WebWorld):
 
 
 class AstalonWorld(World):
-    game = "Astalon"
+    """
+    why do they call it astalon when you ass to the vanilla lawn ass from rando the lawn
+    """
+
+    game = "Astalon Tears of the Earth"
     web = AstalonWebWorld()
     options_dataclass = AstalonOptions
     options: AstalonOptions  # type: ignore
