@@ -374,27 +374,8 @@ class AstalonWorld(World):
             "death_link",
         )
 
-        shop_items: Dict[str, Dict[str, Any]] = {}
-        if self.options.randomize_shop:
-            for location_name in location_name_groups[LocationGroups.SHOP.value]:
-                if location_name == Locations.SHOP_MAP_REVEAL:
-                    continue
-
-                location = self.multiworld.get_location(location_name, self.player)
-                item = location.item
-                if item:
-                    shop_items[location.name] = {
-                        "id": item.code,
-                        "name": item.name,
-                        "player_name": self.multiworld.player_name.get(item.player),
-                        "game": item.game,
-                        "flags": item.flags,
-                        "is_local": item.player == self.player,
-                    }
-
         return {
             "settings": settings,
-            "shop_items": shop_items,
             "starting_characters": [c.value for c in self.starting_characters],
         }
 
