@@ -458,7 +458,7 @@ QOL_ITEMS: Tuple[ShopUpgrade, ...] = (
 
 
 class AstalonItem(Item):
-    game = "Astalon Tears of the Earth"
+    game = "Astalon"
 
 
 @dataclass(frozen=True)

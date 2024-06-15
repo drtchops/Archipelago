@@ -67,7 +67,7 @@ class AstalonWorld(World):
     why do they call it astalon when you ass to the vanilla lawn ass from rando the lawn
     """
 
-    game = "Astalon Tears of the Earth"
+    game = "Astalon"
     web = AstalonWebWorld()
     options_dataclass = AstalonOptions
     options: AstalonOptions  # type: ignore

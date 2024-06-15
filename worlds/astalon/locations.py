@@ -417,7 +417,7 @@ class Locations(str, Enum):
 
 
 class AstalonLocation(Location):
-    game = "Astalon Tears of the Earth"
+    game = "Astalon"
 
 
 @dataclass(frozen=True)
