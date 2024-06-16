@@ -370,6 +370,7 @@ class AstalonWorld(World):
             "cost_multiplier",
             "fast_blood_chalice",
             "campfire_warp",
+            "allow_block_warping",
             "cheap_kyuli_ray",
             "death_link",
         )

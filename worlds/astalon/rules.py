@@ -417,9 +417,6 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
         and rules.has_any(state, Character.ALGUS, ShopUpgrade.BRAM_WHIPLASH)
         and (rules.switches(state, Switch.MECH_ARIAS, disabled_case=False) or rules.has(state, KeyItem.STAR))
     ),
-    (R.MECH_ARIAS_EYEBALL, R.MECH_TRIPLE_SWITCHES): lambda rules, state: (
-        rules.can(state, Logic.CRYSTAL) and rules.has(state, KeyItem.BELL)
-    ),
     (R.MECH_ZEEK_CONNECTION, R.MECH_ARIAS_EYEBALL): lambda rules, state: (
         rules.switches(state, Switch.MECH_ARIAS, disabled_case=False) or rules.has(state, KeyItem.STAR, Character.ARIAS)
     ),
@@ -439,6 +436,19 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
     (R.MECH_SPLIT_PATH, R.MECH_RIGHT): lambda rules, state: True,  # until skulls are included
     (R.MECH_SPLIT_PATH, R.MECH_CHAINS): lambda rules, state: (
         rules.switches(state, Switch.MECH_SPLIT_PATH, disabled_case=False)
+    ),
+    (R.MECH_RIGHT, R.MECH_TRIPLE_SWITCHES): lambda rules, state: (
+        rules.hard
+        and rules.switches(
+            state,
+            Switch.MECH_SPLIT_PATH,
+            Switch.MECH_TO_BOSS_1,
+            Crystal.MECH_TRIPLE_1,
+            Crystal.MECH_TRIPLE_2,
+            Crystal.MECH_TRIPLE_3,
+            disabled_case=False,
+        )
+        and rules.has(state, KeyItem.STAR, ShopUpgrade.BRAM_WHIPLASH)
     ),
     (R.MECH_RIGHT, R.MECH_OLD_MAN): lambda rules, state: (
         rules.switches(state, Crystal.MECH_OLD_MAN, disabled_case=lambda rules, state: rules.can(state, Logic.CRYSTAL))

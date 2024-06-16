@@ -300,6 +300,15 @@ class CampfireWarp(DefaultOnToggle):
     display_name = "Campfire Warp"
 
 
+class AllowBlockWarping(Toggle):
+    """
+    Allows Zeek to continue carrying a block when using campfire warp.
+    This may allow you to get to things out of logic.
+    """
+
+    display_name = "Allow Block Warping"
+
+
 class OpenEarlyDoors(DefaultOnToggle):
     """
     Opens some Gorgon's Tomb doors by default when using key or switch rando to give you a bigger sphere 1.
@@ -347,6 +356,7 @@ class AstalonOptions(PerGameCommonOptions):
     cost_multiplier: CostMultiplier
     fast_blood_chalice: FastBloodChalice
     campfire_warp: CampfireWarp
+    allow_block_warping: AllowBlockWarping
     open_early_doors: OpenEarlyDoors
     cheap_kyuli_ray: CheapKyuliRay
     death_link: DeathLink

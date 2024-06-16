@@ -436,7 +436,6 @@ astalon_regions: Dict[Regions, Optional[Set[Regions]]] = {
     },
     Regions.MECH_ARIAS_EYEBALL: {
         Regions.MECH_CHAINS,
-        Regions.MECH_TRIPLE_SWITCHES,
         Regions.MECH_ZEEK_CONNECTION,
     },
     Regions.MECH_TRIPLE_SWITCHES: None,
@@ -460,6 +459,7 @@ astalon_regions: Dict[Regions, Optional[Set[Regions]]] = {
         Regions.MECH_RIGHT,
     },
     Regions.MECH_RIGHT: {
+        Regions.MECH_TRIPLE_SWITCHES,
         Regions.MECH_SPLIT_PATH,
         Regions.MECH_OLD_MAN,
         Regions.MECH_UPPER_VOID,
