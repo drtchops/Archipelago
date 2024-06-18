@@ -1,8 +1,9 @@
+from dataclasses import dataclass
 from enum import Enum
 from typing import Dict, Optional, Set
 
 
-class Regions(str, Enum):
+class RegionName(str, Enum):
     MENU = "Menu"
     SHOP = "Shop"
     SHOP_ALGUS = "Shop - Algus"
@@ -100,7 +101,7 @@ class Regions(str, Enum):
     HOTP_HEART = "Hall of the Phantoms - Heart"
     HOTP_UPPER_ARIAS = "Hall of the Phantoms - Upper Arias"
     HOTP_BOSS_CAMPFIRE = "Hall of the Phantoms - Boss Campfire"
-    HOTP_MAIDEN = "Hall of the Phantoms - Dead Maiden"
+    HOTP_MAIDEN = "Hall of the Phantoms - Dead Maiden"  # may need to break this up
     HOTP_TP_PUZZLE = "Hall of the Phantoms - Teleport Puzzle"
     HOTP_TP_FALL_TOP = "Hall of the Phantoms - Teleport Fall Top"
     HOTP_GAUNTLET_CONNECTION = "Hall of the Phantoms - Gauntlet Connection"
@@ -167,6 +168,7 @@ class Regions(str, Enum):
     CATA_CLIMBABLE_ROOT = "Catacombs - Climbable Root"
     CATA_TOP = "Catacombs - Top"
     CATA_ELEVATOR = "Catacombs - Elevator"
+    CATA_MULTI = "Catacombs - Orb Multiplier"
     CATA_BOW_CAMPFIRE = "Catacombs - Bow Campfire"
     CATA_BOW_CONNECTION = "Catacombs - Bow Connection"
     CATA_BOW = "Catacombs - Bow"
@@ -195,7 +197,7 @@ class Regions(str, Enum):
     TR_TOP_RIGHT = "Tower Roots - Top Right"
     TR_GOLD = "Tower Roots - Gold"
     TR_MIDDLE_RIGHT = "Tower Roots - Middle Right"
-    TD_DARK_ARIAS = "Tower Roots - Dark Arias"
+    TR_DARK_ARIAS = "Tower Roots - Dark Arias"
     TR_BOTTOM = "Tower Roots - Bottom"
 
     CD_START = "Cyclops Den - Start"
@@ -240,913 +242,1331 @@ class Regions(str, Enum):
     SP_CAMPFIRE_2 = "Serpent Path - Campfire 2"
 
 
-astalon_regions: Dict[Regions, Optional[Set[Regions]]] = {
-    Regions.MENU: {
-        Regions.ENTRANCE,
-        Regions.SHOP,
-    },
-    Regions.SHOP: {
-        Regions.SHOP_ALGUS,
-        Regions.SHOP_ARIAS,
-        Regions.SHOP_KYULI,
-        Regions.SHOP_ZEEK,
-        Regions.SHOP_BRAM,
-    },
-    Regions.SHOP_ALGUS: None,
-    Regions.SHOP_ARIAS: None,
-    Regions.SHOP_KYULI: None,
-    Regions.SHOP_ZEEK: None,
-    Regions.SHOP_BRAM: None,
-    Regions.FINAL_BOSS: None,
-    Regions.ENTRANCE: {
-        Regions.BESTIARY,
-        Regions.GT_BABY_GORGON,
-        Regions.GT_BOTTOM,
-        Regions.GT_VOID,
-        Regions.GT_GORGONHEART,
-        Regions.GT_BOSS,
-        Regions.MECH_ZEEK_CONNECTION,
-        Regions.MECH_BOSS,
-        Regions.HOTP_ELEVATOR,
-        Regions.HOTP_BOSS,
-        Regions.ROA_ELEVATOR,
-        Regions.APEX,
-        Regions.CATA_ELEVATOR,
-        Regions.CATA_BOSS,
-        Regions.TR_START,
-    },
-    Regions.BESTIARY: None,
-    Regions.GT_BABY_GORGON: None,
-    Regions.GT_BOTTOM: {
-        Regions.GT_VOID,
-        Regions.GT_GORGONHEART,
-        Regions.GT_UPPER_PATH,
-        Regions.CAVES_START,
-    },
-    Regions.GT_VOID: {
-        Regions.GT_BOTTOM,
-        Regions.MECH_SNAKE,
-    },
-    Regions.GT_GORGONHEART: {
-        Regions.GT_BOTTOM,
-        Regions.GT_ORBS_DOOR,
-        Regions.GT_LEFT,
-    },
-    Regions.GT_ORBS_DOOR: None,
-    Regions.GT_LEFT: {
-        Regions.GT_GORGONHEART,
-        Regions.GT_ORBS_HEIGHT,
-        Regions.GT_ASCENDANT_KEY,
-        Regions.GT_TOP_LEFT,
-        Regions.GT_TOP_RIGHT,
-    },
-    Regions.GT_ORBS_HEIGHT: None,
-    Regions.GT_ASCENDANT_KEY: None,
-    Regions.GT_TOP_LEFT: {
-        Regions.GT_LEFT,
-        Regions.GT_BUTT,
-    },
-    Regions.GT_TOP_RIGHT: {
-        Regions.GT_LEFT,
-        Regions.GT_SPIKE_TUNNEL,
-    },
-    Regions.GT_SPIKE_TUNNEL: {
-        Regions.GT_TOP_RIGHT,
-        Regions.GT_BUTT,
-    },
-    Regions.GT_BUTT: {
-        Regions.GT_TOP_LEFT,
-        Regions.GT_SPIKE_TUNNEL,
-        Regions.GT_BOSS,
-    },
-    Regions.GT_BOSS: {
-        Regions.GT_BUTT,
-        Regions.MECH_START,
-        Regions.MECH_ZEEK_CONNECTION,
-        Regions.MECH_BOSS,
-        Regions.HOTP_ELEVATOR,
-        Regions.HOTP_BOSS,
-        Regions.ROA_ELEVATOR,
-        Regions.APEX,
-        Regions.CATA_ELEVATOR,
-        Regions.CATA_BOSS,
-        Regions.TR_START,
-    },
-    Regions.GT_LADDER_SWITCH: None,
-    Regions.GT_UPPER_ARIAS: {
-        Regions.GT_OLD_MAN_FORK,
-        Regions.MECH_SWORD_CONNECTION,
-    },
-    Regions.GT_OLD_MAN_FORK: {
-        Regions.GT_UPPER_ARIAS,
-        Regions.GT_OLD_MAN,
-        Regions.GT_SWORD_FORK,
-    },
-    Regions.GT_OLD_MAN: None,
-    Regions.GT_SWORD_FORK: {
-        Regions.GT_SWORD,
-        Regions.GT_ARIAS_SWORD_SWITCH,
-    },
-    Regions.GT_SWORD: None,
-    Regions.GT_ARIAS_SWORD_SWITCH: None,
-    Regions.GT_UPPER_PATH: {
-        Regions.GT_BOTTOM,
-        Regions.GT_UPPER_PATH_CONNECTION,
-    },
-    Regions.GT_UPPER_PATH_CONNECTION: {
-        Regions.GT_UPPER_PATH,
-        Regions.MECH_SWORD_CONNECTION,
-        Regions.MECH_BOTTOM_CAMPFIRE,
-    },
-    Regions.MECH_START: {
-        Regions.GT_BOSS,
-        Regions.GT_LADDER_SWITCH,
-        Regions.MECH_SACRIFICE,
-        Regions.MECH_LINUS,
-        Regions.MECH_LOWER_VOID,
-        Regions.MECH_BK,
-        Regions.MECH_WATCHER,
-    },
-    Regions.MECH_SACRIFICE: None,
-    Regions.MECH_LINUS: {
-        Regions.MECH_START,
-        Regions.MECH_SWORD_CONNECTION,
-    },
-    Regions.MECH_SWORD_CONNECTION: {
-        Regions.GT_UPPER_ARIAS,
-        Regions.GT_UPPER_PATH_CONNECTION,
-        Regions.MECH_LINUS,
-        Regions.MECH_LOWER_ARIAS,
-        Regions.MECH_BOOTS_CONNECTION,
-        Regions.MECH_BOTTOM_CAMPFIRE,
-    },
-    Regions.MECH_LOWER_ARIAS: None,
-    Regions.MECH_BOOTS_CONNECTION: {
-        Regions.MECH_SWORD_CONNECTION,
-        Regions.MECH_BOOTS_LOWER,
-        Regions.MECH_BOTTOM_CAMPFIRE,
-    },
-    Regions.MECH_BOOTS_LOWER: {
-        Regions.MECH_BOOTS_UPPER,
-    },
-    Regions.MECH_BOOTS_UPPER: None,
-    Regions.MECH_BOTTOM_CAMPFIRE: {
-        Regions.GT_UPPER_PATH_CONNECTION,
-        Regions.MECH_SWORD_CONNECTION,
-        Regions.MECH_BOOTS_CONNECTION,
-        Regions.MECH_SNAKE,
-    },
-    Regions.MECH_SNAKE: {
-        Regions.GT_VOID,
-        Regions.MECH_BOTTOM_CAMPFIRE,
-    },
-    Regions.MECH_LOWER_VOID: {
-        Regions.MECH_START,
-        Regions.MECH_UPPER_VOID,
-        Regions.HOTP_MECH_VOID_CONNECTION,
-    },
-    Regions.MECH_WATCHER: {
-        Regions.MECH_START,
-        Regions.MECH_ROOTS,
-    },
-    Regions.MECH_ROOTS: {
-        Regions.MECH_WATCHER,
-        Regions.MECH_MUSIC,
-        Regions.MECH_BK,
-        Regions.MECH_ZEEK_CONNECTION,
-    },
-    Regions.MECH_MUSIC: None,
-    Regions.MECH_BK: {
-        Regions.MECH_START,
-        Regions.MECH_ROOTS,
-        Regions.MECH_AFTER_BK,
-        Regions.MECH_TRIPLE_SWITCHES,
-    },
-    Regions.MECH_AFTER_BK: {
-        Regions.MECH_BK,
-        Regions.MECH_CHAINS,
-        Regions.HOTP_EPIMETHEUS,
-    },
-    Regions.MECH_CHAINS: {
-        Regions.MECH_AFTER_BK,
-        Regions.MECH_ARIAS_EYEBALL,
-        Regions.MECH_SPLIT_PATH,
-        Regions.MECH_BOSS_SWITCHES,
-        Regions.MECH_BOSS_CONNECTION,
-    },
-    Regions.MECH_ARIAS_EYEBALL: {
-        Regions.MECH_CHAINS,
-        Regions.MECH_ZEEK_CONNECTION,
-    },
-    Regions.MECH_TRIPLE_SWITCHES: None,
-    Regions.MECH_ZEEK_CONNECTION: {
-        Regions.GT_BOSS,
-        Regions.MECH_ROOTS,
-        Regions.MECH_ARIAS_EYEBALL,
-        Regions.MECH_ZEEK,
-        Regions.MECH_BOSS,
-        Regions.HOTP_ELEVATOR,
-        Regions.HOTP_BOSS,
-        Regions.ROA_ELEVATOR,
-        Regions.APEX,
-        Regions.CATA_ELEVATOR,
-        Regions.CATA_BOSS,
-        Regions.TR_START,
-    },
-    Regions.MECH_ZEEK: None,
-    Regions.MECH_SPLIT_PATH: {
-        Regions.MECH_CHAINS,
-        Regions.MECH_RIGHT,
-    },
-    Regions.MECH_RIGHT: {
-        Regions.MECH_TRIPLE_SWITCHES,
-        Regions.MECH_SPLIT_PATH,
-        Regions.MECH_OLD_MAN,
-        Regions.MECH_UPPER_VOID,
-        Regions.MECH_POTS,
-    },
-    Regions.MECH_OLD_MAN: None,
-    Regions.MECH_UPPER_VOID: {
-        Regions.MECH_LOWER_VOID,
-        Regions.MECH_RIGHT,
-    },
-    Regions.MECH_POTS: {
-        Regions.MECH_RIGHT,
-        Regions.MECH_TOP,
-    },
-    Regions.MECH_TOP: {
-        Regions.MECH_TRIPLE_SWITCHES,
-        Regions.MECH_POTS,
-        Regions.MECH_TP_CONNECTION,
-        Regions.CD_START,
-    },
-    Regions.MECH_TP_CONNECTION: {
-        Regions.MECH_TOP,
-        Regions.MECH_CHARACTER_SWAPS,
-        Regions.HOTP_FALL_BOTTOM,
-    },
-    Regions.MECH_CHARACTER_SWAPS: {
-        Regions.MECH_TP_CONNECTION,
-        Regions.MECH_CLOAK_CONNECTION,
-    },
-    Regions.MECH_CLOAK_CONNECTION: {
-        Regions.MECH_CHARACTER_SWAPS,
-        Regions.MECH_CLOAK,
-        Regions.MECH_BOSS_SWITCHES,
-    },
-    Regions.MECH_CLOAK: None,
-    Regions.MECH_BOSS_SWITCHES: {
-        Regions.MECH_CHAINS,
-        Regions.MECH_CLOAK_CONNECTION,
-        Regions.MECH_BOSS_CONNECTION,
-    },
-    Regions.MECH_BOSS_CONNECTION: {
-        Regions.MECH_CHAINS,
-        Regions.MECH_BRAM_TUNNEL,
-        Regions.MECH_BOSS,
-    },
-    Regions.MECH_BRAM_TUNNEL: {
-        Regions.MECH_BOSS_CONNECTION,
-        Regions.HOTP_START_BOTTOM,
-    },
-    Regions.MECH_BOSS: {
-        Regions.GT_BOSS,
-        Regions.MECH_TRIPLE_SWITCHES,
-        Regions.MECH_ZEEK_CONNECTION,
-        Regions.MECH_BOSS_CONNECTION,
-        Regions.HOTP_START,
-        Regions.HOTP_ELEVATOR,
-        Regions.HOTP_BOSS,
-        Regions.ROA_ELEVATOR,
-        Regions.APEX,
-        Regions.CATA_ELEVATOR,
-        Regions.CATA_BOSS,
-        Regions.TR_START,
-    },
-    Regions.HOTP_START: {
-        Regions.MECH_BOSS,
-        Regions.HOTP_START_MID,
-        Regions.HOTP_START_BOTTOM,
-    },
-    Regions.HOTP_START_MID: {
-        Regions.HOTP_START,
-        Regions.HOTP_LOWER_VOID,
-        Regions.HOTP_START_LEFT,
-        Regions.HOTP_START_BOTTOM,
-    },
-    Regions.HOTP_LOWER_VOID: {
-        Regions.HOTP_START_MID,
-        Regions.HOTP_UPPER_VOID,
-    },
-    Regions.HOTP_START_LEFT: {
-        Regions.HOTP_START_MID,
-        Regions.HOTP_ELEVATOR,
-    },
-    Regions.HOTP_START_BOTTOM: {
-        Regions.MECH_BRAM_TUNNEL,
-        Regions.HOTP_START,
-        Regions.HOTP_LOWER,
-    },
-    Regions.HOTP_LOWER: {
-        Regions.HOTP_START_BOTTOM,
-        Regions.HOTP_EPIMETHEUS,
-        Regions.HOTP_MECH_VOID_CONNECTION,
-        Regions.HOTP_TP_TUTORIAL,
-    },
-    Regions.HOTP_EPIMETHEUS: {
-        Regions.MECH_AFTER_BK,
-        Regions.HOTP_LOWER,
-    },
-    Regions.HOTP_MECH_VOID_CONNECTION: {
-        Regions.MECH_LOWER_VOID,
-        Regions.HOTP_LOWER,
-        Regions.HOTP_AMULET_CONNECTION,
-    },
-    Regions.HOTP_AMULET_CONNECTION: {
-        Regions.GT_BUTT,
-        Regions.HOTP_MECH_VOID_CONNECTION,
-        Regions.HOTP_AMULET,
-    },
-    Regions.HOTP_AMULET: None,
-    Regions.HOTP_TP_TUTORIAL: {
-        Regions.HOTP_LOWER,
-        Regions.HOTP_BELL_CAMPFIRE,
-    },
-    Regions.HOTP_BELL_CAMPFIRE: {
-        Regions.HOTP_TP_TUTORIAL,
-        Regions.HOTP_RED_KEY,
-        Regions.HOTP_BELL,
-        Regions.HOTP_CATH_CONNECTION,
-        Regions.HOTP_LOWER_ARIAS,
-    },
-    Regions.HOTP_RED_KEY: None,
-    Regions.HOTP_BELL: None,
-    Regions.HOTP_CATH_CONNECTION: {
-        Regions.HOTP_BELL,
-        Regions.CATH_START,
-    },
-    Regions.HOTP_LOWER_ARIAS: {
-        Regions.HOTP_BELL_CAMPFIRE,
-        Regions.HOTP_EYEBALL,
-    },
-    Regions.HOTP_EYEBALL: {
-        Regions.HOTP_LOWER_ARIAS,
-        Regions.HOTP_ELEVATOR,
-    },
-    Regions.HOTP_ELEVATOR: {
-        Regions.GT_BOSS,
-        Regions.MECH_ZEEK_CONNECTION,
-        Regions.MECH_BOSS,
-        Regions.HOTP_START_LEFT,
-        Regions.HOTP_EYEBALL,
-        Regions.HOTP_OLD_MAN,
-        Regions.HOTP_CLAW_LEFT,
-        Regions.HOTP_TOP_LEFT,
-        Regions.HOTP_BOSS,
-        Regions.ROA_ELEVATOR,
-        Regions.APEX,
-        Regions.CATA_ELEVATOR,
-        Regions.CATA_BOSS,
-        Regions.TR_START,
-    },
-    Regions.HOTP_OLD_MAN: None,
-    Regions.HOTP_CLAW_LEFT: {
-        Regions.HOTP_ELEVATOR,
-        Regions.HOTP_TOP_LEFT,
-        Regions.HOTP_CLAW,
-    },
-    Regions.HOTP_TOP_LEFT: {
-        Regions.HOTP_ELEVATOR,
-        Regions.HOTP_CLAW_LEFT,
-        Regions.HOTP_ABOVE_OLD_MAN,
-        Regions.HOTP_CLAW_CAMPFIRE,
-    },
-    Regions.HOTP_ABOVE_OLD_MAN: None,
-    Regions.HOTP_CLAW_CAMPFIRE: {
-        Regions.HOTP_TOP_LEFT,
-        Regions.HOTP_CLAW,
-        Regions.HOTP_HEART,
-    },
-    Regions.HOTP_CLAW: {
-        Regions.HOTP_CLAW_LEFT,
-        Regions.HOTP_CLAW_CAMPFIRE,
-    },
-    Regions.HOTP_HEART: {
-        Regions.HOTP_CLAW_CAMPFIRE,
-        Regions.HOTP_UPPER_ARIAS,
-        Regions.HOTP_BOSS_CAMPFIRE,
-    },
-    Regions.HOTP_UPPER_ARIAS: {
-        Regions.HOTP_HEART,
-        Regions.HOTP_BOSS_CAMPFIRE,
-    },
-    Regions.HOTP_BOSS_CAMPFIRE: {
-        Regions.MECH_TRIPLE_SWITCHES,
-        Regions.HOTP_HEART,
-        Regions.HOTP_MAIDEN,
-        Regions.HOTP_TP_PUZZLE,
-        Regions.HOTP_BOSS,
-    },
-    Regions.HOTP_MAIDEN: None,  # may need to break this up
-    Regions.HOTP_TP_PUZZLE: {
-        Regions.HOTP_TP_FALL_TOP,
-    },
-    Regions.HOTP_TP_FALL_TOP: {
-        Regions.HOTP_BOSS_CAMPFIRE,
-        Regions.HOTP_TP_PUZZLE,
-        Regions.HOTP_GAUNTLET_CONNECTION,
-        Regions.HOTP_FALL_BOTTOM,
-    },
-    Regions.HOTP_GAUNTLET_CONNECTION: {
-        Regions.HOTP_GAUNTLET,
-    },
-    Regions.HOTP_GAUNTLET: None,
-    Regions.HOTP_FALL_BOTTOM: {
-        Regions.MECH_TP_CONNECTION,
-        Regions.HOTP_TP_FALL_TOP,
-        Regions.HOTP_UPPER_VOID,
-    },
-    Regions.HOTP_UPPER_VOID: {
-        Regions.HOTP_LOWER_VOID,
-        Regions.HOTP_TP_FALL_TOP,
-        Regions.HOTP_FALL_BOTTOM,
-    },
-    Regions.HOTP_BOSS: {
-        Regions.GT_BOSS,
-        Regions.MECH_ZEEK_CONNECTION,
-        Regions.MECH_BOSS,
-        Regions.HOTP_ELEVATOR,
-        Regions.HOTP_BOSS_CAMPFIRE,
-        Regions.ROA_START,
-        Regions.ROA_ELEVATOR,
-        Regions.APEX,
-        Regions.CATA_ELEVATOR,
-        Regions.CATA_BOSS,
-        Regions.TR_START,
-    },
-    Regions.ROA_START: {
-        Regions.HOTP_BOSS,
-        Regions.ROA_WORMS,
-    },
-    Regions.ROA_WORMS: {
-        Regions.ROA_START,
-        Regions.ROA_HEARTS,
-        Regions.ROA_LOWER_VOID_CONNECTION,
-    },
-    Regions.ROA_HEARTS: {
-        Regions.ROA_WORMS,
-        Regions.ROA_SPIKE_CLIMB,
-        Regions.ROA_BOTTOM_ASCEND,
-    },
-    Regions.ROA_SPIKE_CLIMB: {
-        Regions.ROA_HEARTS,
-        Regions.ROA_BOTTOM_ASCEND,
-    },
-    Regions.ROA_BOTTOM_ASCEND: {
-        Regions.ROA_HEARTS,
-        Regions.ROA_SPIKE_CLIMB,
-        Regions.ROA_TRIPLE_REAPER,
-        Regions.ROA_TOP_ASCENT,
-    },
-    Regions.ROA_TRIPLE_REAPER: {
-        Regions.ROA_BOTTOM_ASCEND,
-        Regions.ROA_ARENA,
-    },
-    Regions.ROA_ARENA: {
-        Regions.ROA_TRIPLE_REAPER,
-        Regions.ROA_LOWER_VOID_CONNECTION,
-        Regions.ROA_FLAMES_CONNECTION,
-    },
-    Regions.ROA_LOWER_VOID_CONNECTION: {
-        Regions.ROA_WORMS,
-        Regions.ROA_ARENA,
-        Regions.ROA_LOWER_VOID,
-        Regions.ROA_ARIAS_BABY_GORGON,
-        Regions.ROA_FLAMES_CONNECTION,
-    },
-    Regions.ROA_LOWER_VOID: {
-        Regions.ROA_LOWER_VOID_CONNECTION,
-        Regions.ROA_UPPER_VOID,
-    },
-    Regions.ROA_ARIAS_BABY_GORGON: {
-        Regions.ROA_LOWER_VOID_CONNECTION,
-        Regions.ROA_FLAMES_CONNECTION,
-        Regions.ROA_FLAMES,
-    },
-    Regions.ROA_FLAMES_CONNECTION: {
-        Regions.ROA_ARENA,
-        Regions.ROA_LOWER_VOID_CONNECTION,
-        Regions.ROA_ARIAS_BABY_GORGON,
-        Regions.ROA_FLAMES,
-        Regions.ROA_WORM_CLIMB,
-        Regions.ROA_LEFT_ASCENT,
-        Regions.ROA_LEFT_ASCENT_CRYSTAL,
-    },
-    Regions.ROA_FLAMES: {
-        Regions.ROA_ARIAS_BABY_GORGON,
-    },
-    Regions.ROA_WORM_CLIMB: {
-        Regions.ROA_FLAMES_CONNECTION,
-        Regions.ROA_RIGHT_BRANCH,
-    },
-    Regions.ROA_RIGHT_BRANCH: {
-        Regions.ROA_WORM_CLIMB,
-        Regions.ROA_MIDDLE,
-    },
-    Regions.ROA_LEFT_ASCENT: {
-        Regions.ROA_FLAMES_CONNECTION,
-        Regions.ROA_LEFT_ASCENT_CRYSTAL,
-        Regions.ROA_TOP_ASCENT,
-    },
-    Regions.ROA_LEFT_ASCENT_CRYSTAL: None,
-    Regions.ROA_TOP_ASCENT: {
-        Regions.ROA_LEFT_ASCENT,
-        Regions.ROA_TRIPLE_SWITCH,
-    },
-    Regions.ROA_TRIPLE_SWITCH: {
-        Regions.ROA_TOP_ASCENT,
-        Regions.ROA_MIDDLE,
-    },
-    Regions.ROA_MIDDLE: {
-        Regions.ROA_RIGHT_BRANCH,
-        Regions.ROA_TRIPLE_SWITCH,
-        Regions.ROA_LEFT_BABY_GORGON,
-        Regions.ROA_LEFT_SWITCH,
-        Regions.ROA_RIGHT_SWITCH_1,
-        Regions.ROA_MIDDLE_LADDER,
-    },
-    Regions.ROA_LEFT_BABY_GORGON: None,
-    Regions.ROA_LEFT_SWITCH: None,
-    Regions.ROA_RIGHT_SWITCH_1: {
-        Regions.ROA_RIGHT_SWITCH_2,
-    },
-    Regions.ROA_RIGHT_SWITCH_2: None,
-    Regions.ROA_MIDDLE_LADDER: {
-        Regions.ROA_MIDDLE,
-        Regions.ROA_UPPER_VOID,
-    },
-    Regions.ROA_UPPER_VOID: {
-        Regions.ROA_LOWER_VOID,
-        Regions.ROA_MIDDLE_LADDER,
-        Regions.ROA_SPIKE_BALLS,
-        Regions.ROA_SP_CONNECTION,
-    },
-    Regions.ROA_SPIKE_BALLS: {
-        Regions.ROA_UPPER_VOID,
-        Regions.ROA_SPIKE_SPINNERS,
-    },
-    Regions.ROA_SPIKE_SPINNERS: {
-        Regions.ROA_SPIKE_BALLS,
-        Regions.ROA_SPIDERS_1,
-    },
-    Regions.ROA_SPIDERS_1: {
-        Regions.ROA_SPIKE_SPINNERS,
-        Regions.ROA_RED_KEY,
-        Regions.ROA_SPIDERS_2,
-    },
-    Regions.ROA_RED_KEY: None,
-    Regions.ROA_SPIDERS_2: {
-        Regions.ROA_SPIDERS_1,
-        Regions.ROA_BLOOD_POT_HALLWAY,
-    },
-    Regions.ROA_BLOOD_POT_HALLWAY: {
-        Regions.ROA_SPIDERS_2,
-        Regions.ROA_SP_CONNECTION,
-    },
-    Regions.ROA_SP_CONNECTION: {
-        Regions.ROA_UPPER_VOID,
-        Regions.ROA_BLOOD_POT_HALLWAY,
-        Regions.ROA_ELEVATOR,
-        Regions.SP_START,
-    },
-    Regions.ROA_ELEVATOR: {
-        Regions.GT_BOSS,
-        Regions.MECH_ZEEK_CONNECTION,
-        Regions.MECH_BOSS,
-        Regions.HOTP_ELEVATOR,
-        Regions.HOTP_BOSS,
-        Regions.ROA_SP_CONNECTION,
-        Regions.ROA_ICARUS,
-        Regions.ROA_DARK_CONNECTION,
-        Regions.APEX,
-        Regions.CATA_ELEVATOR,
-        Regions.CATA_BOSS,
-        Regions.TR_START,
-    },
-    Regions.ROA_ICARUS: None,
-    Regions.ROA_DARK_CONNECTION: {
-        Regions.ROA_ELEVATOR,
-        Regions.DARK_START,
-        Regions.ROA_CENTAUR,
-    },
-    Regions.DARK_START: {
-        Regions.DARK_END,
-    },
-    Regions.DARK_END: {
-        Regions.ROA_CENTAUR,
-    },
-    Regions.ROA_CENTAUR: {
-        Regions.ROA_DARK_CONNECTION,
-        Regions.ROA_BOSS_CONNECTION,
-    },
-    Regions.ROA_BOSS_CONNECTION: {
-        Regions.ROA_CENTAUR,
-        Regions.ROA_BOSS,
-    },
-    Regions.ROA_BOSS: {
-        Regions.ROA_BOSS_CONNECTION,
-        Regions.ROA_APEX_CONNECTION,
-    },
-    Regions.ROA_APEX_CONNECTION: {
-        Regions.ROA_BOSS,
-        Regions.APEX,
-    },
-    Regions.APEX: {
-        Regions.GT_BOSS,
-        Regions.MECH_ZEEK_CONNECTION,
-        Regions.MECH_BOSS,
-        Regions.HOTP_ELEVATOR,
-        Regions.HOTP_BOSS,
-        Regions.ROA_ELEVATOR,
-        Regions.FINAL_BOSS,
-        Regions.ROA_APEX_CONNECTION,
-        Regions.APEX_CENTAUR,
-        Regions.APEX_HEART,
-        Regions.CATA_ELEVATOR,
-        Regions.CATA_BOSS,
-        Regions.TR_START,
-    },
-    Regions.APEX_CENTAUR: None,
-    Regions.APEX_HEART: None,
-    Regions.CAVES_START: {
-        Regions.GT_BOTTOM,
-        Regions.CAVES_EPIMETHEUS,
-    },
-    Regions.CAVES_EPIMETHEUS: {
-        Regions.CAVES_START,
-        Regions.CAVES_UPPER,
-    },
-    Regions.CAVES_UPPER: {
-        Regions.CAVES_EPIMETHEUS,
-        Regions.CAVES_ARENA,
-        Regions.CAVES_LOWER,
-    },
-    Regions.CAVES_ARENA: None,
-    Regions.CAVES_LOWER: {
-        Regions.CAVES_UPPER,
-        Regions.CAVES_ITEM_CHAIN,
-        Regions.CATA_START,
-    },
-    Regions.CAVES_ITEM_CHAIN: None,
-    Regions.CATA_START: {
-        Regions.CAVES_LOWER,
-        Regions.CATA_CLIMBABLE_ROOT,
-    },
-    Regions.CATA_CLIMBABLE_ROOT: {
-        Regions.CATA_TOP,
-    },
-    Regions.CATA_TOP: {
-        Regions.CATA_CLIMBABLE_ROOT,
-        Regions.CATA_ELEVATOR,
-        Regions.CATA_BOW_CAMPFIRE,
-    },
-    Regions.CATA_ELEVATOR: {
-        Regions.GT_BOSS,
-        Regions.MECH_ZEEK_CONNECTION,
-        Regions.MECH_BOSS,
-        Regions.HOTP_ELEVATOR,
-        Regions.HOTP_BOSS,
-        Regions.ROA_ELEVATOR,
-        Regions.APEX,
-        Regions.CATA_TOP,
-        Regions.CATA_BOSS,
-        Regions.TR_START,
-    },
-    Regions.CATA_BOW_CAMPFIRE: {
-        Regions.CATA_TOP,
-        Regions.CATA_BOW_CONNECTION,
-        Regions.CATA_EYEBALL_BONES,
-    },
-    Regions.CATA_BOW_CONNECTION: {
-        Regions.CATA_BOW_CAMPFIRE,
-        Regions.CATA_BOW,
-        Regions.CATA_VERTICAL_SHORTCUT,
-    },
-    Regions.CATA_BOW: None,
-    Regions.CATA_VERTICAL_SHORTCUT: {
-        Regions.CATA_BOW_CONNECTION,
-        Regions.CATA_BLUE_EYE_DOOR,
-        Regions.CATA_FLAMES_FORK,
-    },
-    Regions.CATA_EYEBALL_BONES: {
-        Regions.CATA_BOW_CAMPFIRE,
-        Regions.CATA_SNAKE_MUSHROOMS,
-    },
-    Regions.CATA_SNAKE_MUSHROOMS: {
-        Regions.CATA_EYEBALL_BONES,
-        Regions.CATA_DEV_ROOM_CONNECTION,
-        Regions.CATA_DOUBLE_SWITCH,
-    },
-    Regions.CATA_DEV_ROOM_CONNECTION: {
-        Regions.CATA_DEV_ROOM,
-    },
-    Regions.CATA_DEV_ROOM: None,
-    Regions.CATA_DOUBLE_SWITCH: {
-        Regions.CATA_SNAKE_MUSHROOMS,
-        Regions.CATA_ROOTS_CAMPFIRE,
-    },
-    Regions.CATA_ROOTS_CAMPFIRE: {
-        Regions.CATA_DOUBLE_SWITCH,
-        Regions.CATA_POISON_ROOTS,
-        Regions.CATA_BLUE_EYE_DOOR,
-    },
-    Regions.CATA_POISON_ROOTS: None,
-    Regions.CATA_BLUE_EYE_DOOR: {
-        Regions.CATA_ROOTS_CAMPFIRE,
-        Regions.CATA_FLAMES_FORK,
-    },
-    Regions.CATA_FLAMES_FORK: {
-        Regions.CATA_VERTICAL_SHORTCUT,
-        Regions.CATA_BLUE_EYE_DOOR,
-        Regions.CATA_FLAMES,
-        Regions.CATA_CENTAUR,
-    },
-    Regions.CATA_FLAMES: None,
-    Regions.CATA_CENTAUR: {
-        Regions.CATA_FLAMES_FORK,
-        Regions.CATA_4_FACES,
-        Regions.CATA_BOSS,
-    },
-    Regions.CATA_4_FACES: {
-        Regions.CATA_CENTAUR,
-        Regions.CATA_DOUBLE_DOOR,
-    },
-    Regions.CATA_DOUBLE_DOOR: {
-        Regions.CATA_4_FACES,
-        Regions.CATA_VOID_R,
-    },
-    Regions.CATA_VOID_R: {
-        Regions.CATA_DOUBLE_DOOR,
-        Regions.CATA_VOID_L,
-    },
-    Regions.CATA_VOID_L: {
-        Regions.CATA_VOID_R,
-        Regions.CATA_BOSS,
-    },
-    Regions.CATA_BOSS: {
-        Regions.GT_BOSS,
-        Regions.MECH_ZEEK_CONNECTION,
-        Regions.MECH_BOSS,
-        Regions.HOTP_ELEVATOR,
-        Regions.HOTP_BOSS,
-        Regions.ROA_ELEVATOR,
-        Regions.APEX,
-        Regions.CATA_ELEVATOR,
-        Regions.CATA_CENTAUR,
-        Regions.CATA_VOID_L,
-        Regions.TR_START,
-        Regions.TR_START,
-    },
-    Regions.TR_START: {
-        Regions.GT_BOSS,
-        Regions.MECH_ZEEK_CONNECTION,
-        Regions.MECH_BOSS,
-        Regions.HOTP_ELEVATOR,
-        Regions.HOTP_BOSS,
-        Regions.ROA_ELEVATOR,
-        Regions.APEX,
-        Regions.CATA_ELEVATOR,
-        Regions.CATA_BOSS,
-        Regions.CATA_BOSS,
-        Regions.TR_BRAM,
-        Regions.TR_LEFT,
-    },
-    Regions.TR_BRAM: None,
-    Regions.TR_LEFT: {
-        Regions.TR_BOTTOM_LEFT,
-        Regions.TR_TOP_RIGHT,
-    },
-    Regions.TR_BOTTOM_LEFT: {
-        Regions.TR_BOTTOM,
-    },
-    Regions.TR_TOP_RIGHT: {
-        Regions.TR_GOLD,
-        Regions.TR_MIDDLE_RIGHT,
-    },
-    Regions.TR_GOLD: None,
-    Regions.TR_MIDDLE_RIGHT: {
-        Regions.TD_DARK_ARIAS,
-        Regions.TR_BOTTOM,
-    },
-    Regions.TD_DARK_ARIAS: None,
-    Regions.TR_BOTTOM: {
-        Regions.TR_BOTTOM_LEFT,
-    },
-    Regions.CD_START: {
-        Regions.CD_2,
-        Regions.CD_BOSS,
-    },
-    Regions.CD_2: {
-        Regions.CD_3,
-    },
-    Regions.CD_3: {
-        Regions.CD_MIDDLE,
-    },
-    Regions.CD_MIDDLE: {
-        Regions.CD_ARIAS_ROUTE,
-        Regions.CD_KYULI_ROUTE,
-    },
-    Regions.CD_ARIAS_ROUTE: None,
-    Regions.CD_KYULI_ROUTE: {
-        Regions.CD_CAMPFIRE_3,
-    },
-    Regions.CD_CAMPFIRE_3: {
-        Regions.CD_ARENA,
-    },
-    Regions.CD_ARENA: {
-        Regions.CD_STEPS,
-    },
-    Regions.CD_STEPS: {
-        Regions.CD_TOP,
-    },
-    Regions.CD_TOP: None,
-    Regions.CD_BOSS: None,
-    Regions.CATH_START: {
-        Regions.CATH_START_RIGHT,
-        Regions.CATH_START_LEFT,
-    },
-    Regions.CATH_START_RIGHT: {
-        Regions.CATH_START_TOP_LEFT,
-    },
-    Regions.CATH_START_TOP_LEFT: {
-        Regions.CATH_START_LEFT,
-    },
-    Regions.CATH_START_LEFT: {
-        Regions.CATH_TP,
-    },
-    Regions.CATH_TP: {
-        Regions.CATH_LEFT_SHAFT,
-    },
-    Regions.CATH_LEFT_SHAFT: {
-        Regions.CATH_UNDER_CAMPFIRE,
-        Regions.CATH_SHAFT_ACCESS,
-    },
-    Regions.CATH_UNDER_CAMPFIRE: {
-        Regions.CATH_CAMPFIRE_1,
-    },
-    Regions.CATH_CAMPFIRE_1: {
-        Regions.CATH_SHAFT_ACCESS,
-    },
-    Regions.CATH_SHAFT_ACCESS: {
-        Regions.CATH_ORB_ROOM,
-    },
-    Regions.CATH_ORB_ROOM: {
-        Regions.CATH_GOLD_BLOCK,
-        Regions.CATH_RIGHT_SHAFT_CONNECTION,
-    },
-    Regions.CATH_GOLD_BLOCK: None,
-    Regions.CATH_RIGHT_SHAFT_CONNECTION: {
-        Regions.CATH_RIGHT_SHAFT,
-    },
-    Regions.CATH_RIGHT_SHAFT: {
-        Regions.CATH_TOP,
-    },
-    Regions.CATH_TOP: {
-        Regions.CATH_CAMPFIRE_2,
-        Regions.CATH_UPPER_SPIKE_PIT,
-    },
-    Regions.CATH_CAMPFIRE_2: None,
-    Regions.CATH_UPPER_SPIKE_PIT: None,
-    Regions.SP_START: {
-        Regions.SP_CAMPFIRE_1,
-        Regions.SP_STAR_END,
-    },
-    Regions.SP_CAMPFIRE_1: {
-        Regions.SP_HEARTS,
-    },
-    Regions.SP_HEARTS: {
-        Regions.SP_PAINTING,
-        Regions.SP_ORBS,
-        Regions.SP_FROG,
-    },
-    Regions.SP_PAINTING: {
-        Regions.SP_SHAFT,
-    },
-    Regions.SP_SHAFT: {
-        Regions.SP_STAR,
-    },
-    Regions.SP_STAR: {
-        Regions.SP_STAR_CONNECTION,
-    },
-    Regions.SP_STAR_CONNECTION: {
-        Regions.SP_STAR_END,
-    },
-    Regions.SP_STAR_END: None,
-    Regions.SP_ORBS: None,
-    Regions.SP_FROG: {
-        Regions.SP_CAMPFIRE_2,
-    },
-    Regions.SP_CAMPFIRE_2: {
-        Regions.HOTP_MAIDEN,
-    },
+@dataclass(frozen=True)
+class RegionData:
+    exits: Optional[Set[RegionName]] = None
+    boss: bool = False
+    campfire: bool = False
+    elevator: bool = False
+    multiplier: bool = False
+    portal: bool = False
+    statue: bool = False
+    orbs: int = 0
+
+
+astalon_regions: Dict[RegionName, RegionData] = {
+    RegionName.MENU: RegionData(
+        exits={
+            RegionName.ENTRANCE,
+            RegionName.SHOP,
+        },
+    ),
+    RegionName.SHOP: RegionData(
+        exits={
+            RegionName.SHOP_ALGUS,
+            RegionName.SHOP_ARIAS,
+            RegionName.SHOP_KYULI,
+            RegionName.SHOP_ZEEK,
+            RegionName.SHOP_BRAM,
+        },
+    ),
+    RegionName.SHOP_ALGUS: RegionData(),
+    RegionName.SHOP_ARIAS: RegionData(),
+    RegionName.SHOP_KYULI: RegionData(),
+    RegionName.SHOP_ZEEK: RegionData(),
+    RegionName.SHOP_BRAM: RegionData(),
+    RegionName.FINAL_BOSS: RegionData(boss=True),
+    RegionName.ENTRANCE: RegionData(
+        exits={
+            RegionName.BESTIARY,
+            RegionName.GT_BABY_GORGON,
+            RegionName.GT_BOTTOM,
+            RegionName.GT_VOID,
+            RegionName.GT_GORGONHEART,
+            RegionName.GT_BOSS,
+            RegionName.MECH_ZEEK_CONNECTION,
+            RegionName.MECH_BOSS,
+            RegionName.HOTP_ELEVATOR,
+            RegionName.HOTP_BOSS,
+            RegionName.ROA_ELEVATOR,
+            RegionName.APEX,
+            RegionName.CATA_ELEVATOR,
+            RegionName.CATA_BOSS,
+            RegionName.TR_START,
+        },
+        campfire=True,
+        elevator=True,
+        multiplier=True,
+        portal=True,
+    ),
+    RegionName.BESTIARY: RegionData(),
+    RegionName.GT_BABY_GORGON: RegionData(),
+    RegionName.GT_BOTTOM: RegionData(
+        exits={
+            RegionName.GT_VOID,
+            RegionName.GT_GORGONHEART,
+            RegionName.GT_UPPER_PATH,
+            RegionName.CAVES_START,
+        },
+        campfire=True,
+    ),
+    RegionName.GT_VOID: RegionData(
+        exits={
+            RegionName.GT_BOTTOM,
+            RegionName.MECH_SNAKE,
+        },
+        portal=True,
+    ),
+    RegionName.GT_GORGONHEART: RegionData(
+        exits={
+            RegionName.GT_BOTTOM,
+            RegionName.GT_ORBS_DOOR,
+            RegionName.GT_LEFT,
+        },
+    ),
+    RegionName.GT_ORBS_DOOR: RegionData(),
+    RegionName.GT_LEFT: RegionData(
+        exits={
+            RegionName.GT_GORGONHEART,
+            RegionName.GT_ORBS_HEIGHT,
+            RegionName.GT_ASCENDANT_KEY,
+            RegionName.GT_TOP_LEFT,
+            RegionName.GT_TOP_RIGHT,
+        },
+        campfire=True,
+    ),
+    RegionName.GT_ORBS_HEIGHT: RegionData(),
+    RegionName.GT_ASCENDANT_KEY: RegionData(),
+    RegionName.GT_TOP_LEFT: RegionData(
+        exits={
+            RegionName.GT_LEFT,
+            RegionName.GT_BUTT,
+        },
+    ),
+    RegionName.GT_TOP_RIGHT: RegionData(
+        exits={
+            RegionName.GT_LEFT,
+            RegionName.GT_SPIKE_TUNNEL,
+        },
+    ),
+    RegionName.GT_SPIKE_TUNNEL: RegionData(
+        exits={
+            RegionName.GT_TOP_RIGHT,
+            RegionName.GT_BUTT,
+        },
+    ),
+    RegionName.GT_BUTT: RegionData(
+        exits={
+            RegionName.GT_TOP_LEFT,
+            RegionName.GT_SPIKE_TUNNEL,
+            RegionName.GT_BOSS,
+        },
+    ),
+    RegionName.GT_BOSS: RegionData(
+        exits={
+            RegionName.GT_BUTT,
+            RegionName.MECH_START,
+            RegionName.MECH_ZEEK_CONNECTION,
+            RegionName.MECH_BOSS,
+            RegionName.HOTP_ELEVATOR,
+            RegionName.HOTP_BOSS,
+            RegionName.ROA_ELEVATOR,
+            RegionName.APEX,
+            RegionName.CATA_ELEVATOR,
+            RegionName.CATA_BOSS,
+            RegionName.TR_START,
+        },
+        boss=True,
+        campfire=True,
+        elevator=True,
+    ),
+    RegionName.GT_LADDER_SWITCH: RegionData(),
+    RegionName.GT_UPPER_ARIAS: RegionData(
+        exits={
+            RegionName.GT_OLD_MAN_FORK,
+            RegionName.MECH_SWORD_CONNECTION,
+        },
+    ),
+    RegionName.GT_OLD_MAN_FORK: RegionData(
+        exits={
+            RegionName.GT_UPPER_ARIAS,
+            RegionName.GT_OLD_MAN,
+            RegionName.GT_SWORD_FORK,
+        },
+    ),
+    RegionName.GT_OLD_MAN: RegionData(),
+    RegionName.GT_SWORD_FORK: RegionData(
+        exits={
+            RegionName.GT_SWORD,
+            RegionName.GT_ARIAS_SWORD_SWITCH,
+        },
+    ),
+    RegionName.GT_SWORD: RegionData(),
+    RegionName.GT_ARIAS_SWORD_SWITCH: RegionData(),
+    RegionName.GT_UPPER_PATH: RegionData(
+        exits={
+            RegionName.GT_BOTTOM,
+            RegionName.GT_UPPER_PATH_CONNECTION,
+        },
+    ),
+    RegionName.GT_UPPER_PATH_CONNECTION: RegionData(
+        exits={
+            RegionName.GT_UPPER_PATH,
+            RegionName.MECH_SWORD_CONNECTION,
+            RegionName.MECH_BOTTOM_CAMPFIRE,
+        },
+    ),
+    RegionName.MECH_START: RegionData(
+        exits={
+            RegionName.GT_BOSS,
+            RegionName.GT_LADDER_SWITCH,
+            RegionName.MECH_SACRIFICE,
+            RegionName.MECH_LINUS,
+            RegionName.MECH_LOWER_VOID,
+            RegionName.MECH_BK,
+            RegionName.MECH_WATCHER,
+        },
+        campfire=True,
+    ),
+    RegionName.MECH_SACRIFICE: RegionData(),
+    RegionName.MECH_LINUS: RegionData(
+        exits={
+            RegionName.MECH_START,
+            RegionName.MECH_SWORD_CONNECTION,
+        },
+    ),
+    RegionName.MECH_SWORD_CONNECTION: RegionData(
+        exits={
+            RegionName.GT_UPPER_ARIAS,
+            RegionName.GT_UPPER_PATH_CONNECTION,
+            RegionName.MECH_LINUS,
+            RegionName.MECH_LOWER_ARIAS,
+            RegionName.MECH_BOOTS_CONNECTION,
+            RegionName.MECH_BOTTOM_CAMPFIRE,
+        },
+        campfire=True,
+    ),
+    RegionName.MECH_LOWER_ARIAS: RegionData(),
+    RegionName.MECH_BOOTS_CONNECTION: RegionData(
+        exits={
+            RegionName.MECH_SWORD_CONNECTION,
+            RegionName.MECH_BOOTS_LOWER,
+            RegionName.MECH_BOTTOM_CAMPFIRE,
+        },
+    ),
+    RegionName.MECH_BOOTS_LOWER: RegionData(
+        exits={
+            RegionName.MECH_BOOTS_UPPER,
+        },
+    ),
+    RegionName.MECH_BOOTS_UPPER: RegionData(),
+    RegionName.MECH_BOTTOM_CAMPFIRE: RegionData(
+        exits={
+            RegionName.GT_UPPER_PATH_CONNECTION,
+            RegionName.MECH_SWORD_CONNECTION,
+            RegionName.MECH_BOOTS_CONNECTION,
+            RegionName.MECH_SNAKE,
+        },
+        campfire=True,
+    ),
+    RegionName.MECH_SNAKE: RegionData(
+        exits={
+            RegionName.GT_VOID,
+            RegionName.MECH_BOTTOM_CAMPFIRE,
+        },
+    ),
+    RegionName.MECH_LOWER_VOID: RegionData(
+        exits={
+            RegionName.MECH_START,
+            RegionName.MECH_UPPER_VOID,
+            RegionName.HOTP_MECH_VOID_CONNECTION,
+        },
+        portal=True,
+    ),
+    RegionName.MECH_WATCHER: RegionData(
+        exits={
+            RegionName.MECH_START,
+            RegionName.MECH_ROOTS,
+        },
+    ),
+    RegionName.MECH_ROOTS: RegionData(
+        exits={
+            RegionName.MECH_WATCHER,
+            RegionName.MECH_MUSIC,
+            RegionName.MECH_BK,
+            RegionName.MECH_ZEEK_CONNECTION,
+        },
+    ),
+    RegionName.MECH_MUSIC: RegionData(),
+    RegionName.MECH_BK: RegionData(
+        exits={
+            RegionName.MECH_START,
+            RegionName.MECH_ROOTS,
+            RegionName.MECH_AFTER_BK,
+            RegionName.MECH_TRIPLE_SWITCHES,
+        },
+        boss=True,
+        campfire=True,
+    ),
+    RegionName.MECH_AFTER_BK: RegionData(
+        exits={
+            RegionName.MECH_BK,
+            RegionName.MECH_CHAINS,
+            RegionName.HOTP_EPIMETHEUS,
+        },
+        multiplier=True,
+        statue=True,
+    ),
+    RegionName.MECH_CHAINS: RegionData(
+        exits={
+            RegionName.MECH_AFTER_BK,
+            RegionName.MECH_ARIAS_EYEBALL,
+            RegionName.MECH_SPLIT_PATH,
+            RegionName.MECH_BOSS_SWITCHES,
+            RegionName.MECH_BOSS_CONNECTION,
+        },
+    ),
+    RegionName.MECH_ARIAS_EYEBALL: RegionData(
+        exits={
+            RegionName.MECH_CHAINS,
+            RegionName.MECH_ZEEK_CONNECTION,
+        },
+    ),
+    RegionName.MECH_TRIPLE_SWITCHES: RegionData(),
+    RegionName.MECH_ZEEK_CONNECTION: RegionData(
+        exits={
+            RegionName.GT_BOSS,
+            RegionName.MECH_ROOTS,
+            RegionName.MECH_ARIAS_EYEBALL,
+            RegionName.MECH_ZEEK,
+            RegionName.MECH_BOSS,
+            RegionName.HOTP_ELEVATOR,
+            RegionName.HOTP_BOSS,
+            RegionName.ROA_ELEVATOR,
+            RegionName.APEX,
+            RegionName.CATA_ELEVATOR,
+            RegionName.CATA_BOSS,
+            RegionName.TR_START,
+        },
+        elevator=True,
+    ),
+    RegionName.MECH_ZEEK: RegionData(),
+    RegionName.MECH_SPLIT_PATH: RegionData(
+        exits={
+            RegionName.MECH_CHAINS,
+            RegionName.MECH_RIGHT,
+        },
+    ),
+    RegionName.MECH_RIGHT: RegionData(
+        exits={
+            RegionName.MECH_TRIPLE_SWITCHES,
+            RegionName.MECH_SPLIT_PATH,
+            RegionName.MECH_OLD_MAN,
+            RegionName.MECH_UPPER_VOID,
+            RegionName.MECH_POTS,
+        },
+        campfire=True,
+    ),
+    RegionName.MECH_OLD_MAN: RegionData(),
+    RegionName.MECH_UPPER_VOID: RegionData(
+        exits={
+            RegionName.MECH_LOWER_VOID,
+            RegionName.MECH_RIGHT,
+        },
+        portal=True,
+    ),
+    RegionName.MECH_POTS: RegionData(
+        exits={
+            RegionName.MECH_RIGHT,
+            RegionName.MECH_TOP,
+        },
+    ),
+    RegionName.MECH_TOP: RegionData(
+        exits={
+            RegionName.MECH_TRIPLE_SWITCHES,
+            RegionName.MECH_POTS,
+            RegionName.MECH_TP_CONNECTION,
+            RegionName.CD_START,
+        },
+        campfire=True,
+    ),
+    RegionName.MECH_TP_CONNECTION: RegionData(
+        exits={
+            RegionName.MECH_TOP,
+            RegionName.MECH_CHARACTER_SWAPS,
+            RegionName.HOTP_FALL_BOTTOM,
+        },
+    ),
+    RegionName.MECH_CHARACTER_SWAPS: RegionData(
+        exits={
+            RegionName.MECH_TP_CONNECTION,
+            RegionName.MECH_CLOAK_CONNECTION,
+        },
+    ),
+    RegionName.MECH_CLOAK_CONNECTION: RegionData(
+        exits={
+            RegionName.MECH_CHARACTER_SWAPS,
+            RegionName.MECH_CLOAK,
+            RegionName.MECH_BOSS_SWITCHES,
+        },
+    ),
+    RegionName.MECH_CLOAK: RegionData(),
+    RegionName.MECH_BOSS_SWITCHES: RegionData(
+        exits={
+            RegionName.MECH_CHAINS,
+            RegionName.MECH_CLOAK_CONNECTION,
+            RegionName.MECH_BOSS_CONNECTION,
+        },
+    ),
+    RegionName.MECH_BOSS_CONNECTION: RegionData(
+        exits={
+            RegionName.MECH_CHAINS,
+            RegionName.MECH_BRAM_TUNNEL,
+            RegionName.MECH_BOSS,
+        },
+    ),
+    RegionName.MECH_BRAM_TUNNEL: RegionData(
+        exits={
+            RegionName.MECH_BOSS_CONNECTION,
+            RegionName.HOTP_START_BOTTOM,
+        },
+    ),
+    RegionName.MECH_BOSS: RegionData(
+        exits={
+            RegionName.GT_BOSS,
+            RegionName.MECH_TRIPLE_SWITCHES,
+            RegionName.MECH_ZEEK_CONNECTION,
+            RegionName.MECH_BOSS_CONNECTION,
+            RegionName.HOTP_START,
+            RegionName.HOTP_ELEVATOR,
+            RegionName.HOTP_BOSS,
+            RegionName.ROA_ELEVATOR,
+            RegionName.APEX,
+            RegionName.CATA_ELEVATOR,
+            RegionName.CATA_BOSS,
+            RegionName.TR_START,
+        },
+        boss=True,
+        campfire=True,
+        elevator=True,
+    ),
+    RegionName.HOTP_START: RegionData(
+        exits={
+            RegionName.MECH_BOSS,
+            RegionName.HOTP_START_MID,
+            RegionName.HOTP_START_BOTTOM,
+        },
+    ),
+    RegionName.HOTP_START_MID: RegionData(
+        exits={
+            RegionName.HOTP_START,
+            RegionName.HOTP_LOWER_VOID,
+            RegionName.HOTP_START_LEFT,
+            RegionName.HOTP_START_BOTTOM,
+        },
+    ),
+    RegionName.HOTP_LOWER_VOID: RegionData(
+        exits={
+            RegionName.HOTP_START_MID,
+            RegionName.HOTP_UPPER_VOID,
+        },
+        portal=True,
+    ),
+    RegionName.HOTP_START_LEFT: RegionData(
+        exits={
+            RegionName.HOTP_START_MID,
+            RegionName.HOTP_ELEVATOR,
+        },
+    ),
+    RegionName.HOTP_START_BOTTOM: RegionData(
+        exits={
+            RegionName.MECH_BRAM_TUNNEL,
+            RegionName.HOTP_START,
+            RegionName.HOTP_LOWER,
+        },
+    ),
+    RegionName.HOTP_LOWER: RegionData(
+        exits={
+            RegionName.HOTP_START_BOTTOM,
+            RegionName.HOTP_EPIMETHEUS,
+            RegionName.HOTP_MECH_VOID_CONNECTION,
+            RegionName.HOTP_TP_TUTORIAL,
+        },
+    ),
+    RegionName.HOTP_EPIMETHEUS: RegionData(
+        exits={
+            RegionName.MECH_AFTER_BK,
+            RegionName.HOTP_LOWER,
+        },
+        campfire=True,
+    ),
+    RegionName.HOTP_MECH_VOID_CONNECTION: RegionData(
+        exits={
+            RegionName.MECH_LOWER_VOID,
+            RegionName.HOTP_LOWER,
+            RegionName.HOTP_AMULET_CONNECTION,
+        },
+    ),
+    RegionName.HOTP_AMULET_CONNECTION: RegionData(
+        exits={
+            RegionName.GT_BUTT,
+            RegionName.HOTP_MECH_VOID_CONNECTION,
+            RegionName.HOTP_AMULET,
+        },
+    ),
+    RegionName.HOTP_AMULET: RegionData(),
+    RegionName.HOTP_TP_TUTORIAL: RegionData(
+        exits={
+            RegionName.HOTP_LOWER,
+            RegionName.HOTP_BELL_CAMPFIRE,
+        },
+    ),
+    RegionName.HOTP_BELL_CAMPFIRE: RegionData(
+        exits={
+            RegionName.HOTP_TP_TUTORIAL,
+            RegionName.HOTP_RED_KEY,
+            RegionName.HOTP_BELL,
+            RegionName.HOTP_CATH_CONNECTION,
+            RegionName.HOTP_LOWER_ARIAS,
+        },
+        campfire=True,
+    ),
+    RegionName.HOTP_RED_KEY: RegionData(),
+    RegionName.HOTP_BELL: RegionData(),
+    RegionName.HOTP_CATH_CONNECTION: RegionData(
+        exits={
+            RegionName.HOTP_BELL,
+            RegionName.CATH_START,
+        },
+    ),
+    RegionName.HOTP_LOWER_ARIAS: RegionData(
+        exits={
+            RegionName.HOTP_BELL_CAMPFIRE,
+            RegionName.HOTP_EYEBALL,
+        },
+    ),
+    RegionName.HOTP_EYEBALL: RegionData(
+        exits={
+            RegionName.HOTP_LOWER_ARIAS,
+            RegionName.HOTP_ELEVATOR,
+        },
+    ),
+    RegionName.HOTP_ELEVATOR: RegionData(
+        exits={
+            RegionName.GT_BOSS,
+            RegionName.MECH_ZEEK_CONNECTION,
+            RegionName.MECH_BOSS,
+            RegionName.HOTP_START_LEFT,
+            RegionName.HOTP_EYEBALL,
+            RegionName.HOTP_OLD_MAN,
+            RegionName.HOTP_CLAW_LEFT,
+            RegionName.HOTP_TOP_LEFT,
+            RegionName.HOTP_BOSS,
+            RegionName.ROA_ELEVATOR,
+            RegionName.APEX,
+            RegionName.CATA_ELEVATOR,
+            RegionName.CATA_BOSS,
+            RegionName.TR_START,
+        },
+        elevator=True,
+    ),
+    RegionName.HOTP_OLD_MAN: RegionData(),
+    RegionName.HOTP_CLAW_LEFT: RegionData(
+        exits={
+            RegionName.HOTP_ELEVATOR,
+            RegionName.HOTP_TOP_LEFT,
+            RegionName.HOTP_CLAW,
+        },
+    ),
+    RegionName.HOTP_TOP_LEFT: RegionData(
+        exits={
+            RegionName.HOTP_ELEVATOR,
+            RegionName.HOTP_CLAW_LEFT,
+            RegionName.HOTP_ABOVE_OLD_MAN,
+            RegionName.HOTP_CLAW_CAMPFIRE,
+        },
+    ),
+    RegionName.HOTP_ABOVE_OLD_MAN: RegionData(),
+    RegionName.HOTP_CLAW_CAMPFIRE: RegionData(
+        exits={
+            RegionName.HOTP_TOP_LEFT,
+            RegionName.HOTP_CLAW,
+            RegionName.HOTP_HEART,
+        },
+        campfire=True,
+    ),
+    RegionName.HOTP_CLAW: RegionData(
+        exits={
+            RegionName.HOTP_CLAW_LEFT,
+            RegionName.HOTP_CLAW_CAMPFIRE,
+        },
+    ),
+    RegionName.HOTP_HEART: RegionData(
+        exits={
+            RegionName.HOTP_CLAW_CAMPFIRE,
+            RegionName.HOTP_UPPER_ARIAS,
+            RegionName.HOTP_BOSS_CAMPFIRE,
+        },
+    ),
+    RegionName.HOTP_UPPER_ARIAS: RegionData(
+        exits={
+            RegionName.HOTP_HEART,
+            RegionName.HOTP_BOSS_CAMPFIRE,
+        },
+    ),
+    RegionName.HOTP_BOSS_CAMPFIRE: RegionData(
+        exits={
+            RegionName.MECH_TRIPLE_SWITCHES,
+            RegionName.HOTP_HEART,
+            RegionName.HOTP_MAIDEN,
+            RegionName.HOTP_TP_PUZZLE,
+            RegionName.HOTP_BOSS,
+        },
+        campfire=True,
+    ),
+    RegionName.HOTP_MAIDEN: RegionData(statue=True),
+    RegionName.HOTP_TP_PUZZLE: RegionData(
+        exits={
+            RegionName.HOTP_TP_FALL_TOP,
+        },
+    ),
+    RegionName.HOTP_TP_FALL_TOP: RegionData(
+        exits={
+            RegionName.HOTP_BOSS_CAMPFIRE,
+            RegionName.HOTP_TP_PUZZLE,
+            RegionName.HOTP_GAUNTLET_CONNECTION,
+            RegionName.HOTP_FALL_BOTTOM,
+        },
+    ),
+    RegionName.HOTP_GAUNTLET_CONNECTION: RegionData(
+        exits={
+            RegionName.HOTP_GAUNTLET,
+        },
+    ),
+    RegionName.HOTP_GAUNTLET: RegionData(),
+    RegionName.HOTP_FALL_BOTTOM: RegionData(
+        exits={
+            RegionName.MECH_TP_CONNECTION,
+            RegionName.HOTP_TP_FALL_TOP,
+            RegionName.HOTP_UPPER_VOID,
+        },
+    ),
+    RegionName.HOTP_UPPER_VOID: RegionData(
+        exits={
+            RegionName.HOTP_LOWER_VOID,
+            RegionName.HOTP_TP_FALL_TOP,
+            RegionName.HOTP_FALL_BOTTOM,
+        },
+        portal=True,
+    ),
+    RegionName.HOTP_BOSS: RegionData(
+        exits={
+            RegionName.GT_BOSS,
+            RegionName.MECH_ZEEK_CONNECTION,
+            RegionName.MECH_BOSS,
+            RegionName.HOTP_ELEVATOR,
+            RegionName.HOTP_BOSS_CAMPFIRE,
+            RegionName.ROA_START,
+            RegionName.ROA_ELEVATOR,
+            RegionName.APEX,
+            RegionName.CATA_ELEVATOR,
+            RegionName.CATA_BOSS,
+            RegionName.TR_START,
+        },
+        boss=True,
+        elevator=True,
+    ),
+    RegionName.ROA_START: RegionData(
+        exits={
+            RegionName.HOTP_BOSS,
+            RegionName.ROA_WORMS,
+        },
+        campfire=True,
+    ),
+    RegionName.ROA_WORMS: RegionData(
+        exits={
+            RegionName.ROA_START,
+            RegionName.ROA_HEARTS,
+            RegionName.ROA_LOWER_VOID_CONNECTION,
+        },
+    ),
+    RegionName.ROA_HEARTS: RegionData(
+        exits={
+            RegionName.ROA_WORMS,
+            RegionName.ROA_SPIKE_CLIMB,
+            RegionName.ROA_BOTTOM_ASCEND,
+        },
+    ),
+    RegionName.ROA_SPIKE_CLIMB: RegionData(
+        exits={
+            RegionName.ROA_HEARTS,
+            RegionName.ROA_BOTTOM_ASCEND,
+        },
+    ),
+    RegionName.ROA_BOTTOM_ASCEND: RegionData(
+        exits={
+            RegionName.ROA_HEARTS,
+            RegionName.ROA_SPIKE_CLIMB,
+            RegionName.ROA_TRIPLE_REAPER,
+            RegionName.ROA_TOP_ASCENT,
+        },
+    ),
+    RegionName.ROA_TRIPLE_REAPER: RegionData(
+        exits={
+            RegionName.ROA_BOTTOM_ASCEND,
+            RegionName.ROA_ARENA,
+        },
+    ),
+    RegionName.ROA_ARENA: RegionData(
+        exits={
+            RegionName.ROA_TRIPLE_REAPER,
+            RegionName.ROA_LOWER_VOID_CONNECTION,
+            RegionName.ROA_FLAMES_CONNECTION,
+        },
+    ),
+    RegionName.ROA_LOWER_VOID_CONNECTION: RegionData(
+        exits={
+            RegionName.ROA_WORMS,
+            RegionName.ROA_ARENA,
+            RegionName.ROA_LOWER_VOID,
+            RegionName.ROA_ARIAS_BABY_GORGON,
+            RegionName.ROA_FLAMES_CONNECTION,
+        },
+    ),
+    RegionName.ROA_LOWER_VOID: RegionData(
+        exits={
+            RegionName.ROA_LOWER_VOID_CONNECTION,
+            RegionName.ROA_UPPER_VOID,
+        },
+        portal=True,
+    ),
+    RegionName.ROA_ARIAS_BABY_GORGON: RegionData(
+        exits={
+            RegionName.ROA_LOWER_VOID_CONNECTION,
+            RegionName.ROA_FLAMES_CONNECTION,
+            RegionName.ROA_FLAMES,
+        },
+    ),
+    RegionName.ROA_FLAMES_CONNECTION: RegionData(
+        exits={
+            RegionName.ROA_ARENA,
+            RegionName.ROA_LOWER_VOID_CONNECTION,
+            RegionName.ROA_ARIAS_BABY_GORGON,
+            RegionName.ROA_FLAMES,
+            RegionName.ROA_WORM_CLIMB,
+            RegionName.ROA_LEFT_ASCENT,
+            RegionName.ROA_LEFT_ASCENT_CRYSTAL,
+        },
+    ),
+    RegionName.ROA_FLAMES: RegionData(
+        exits={
+            RegionName.ROA_ARIAS_BABY_GORGON,
+        },
+    ),
+    RegionName.ROA_WORM_CLIMB: RegionData(
+        exits={
+            RegionName.ROA_FLAMES_CONNECTION,
+            RegionName.ROA_RIGHT_BRANCH,
+        },
+    ),
+    RegionName.ROA_RIGHT_BRANCH: RegionData(
+        exits={
+            RegionName.ROA_WORM_CLIMB,
+            RegionName.ROA_MIDDLE,
+        },
+    ),
+    RegionName.ROA_LEFT_ASCENT: RegionData(
+        exits={
+            RegionName.ROA_FLAMES_CONNECTION,
+            RegionName.ROA_LEFT_ASCENT_CRYSTAL,
+            RegionName.ROA_TOP_ASCENT,
+        },
+        campfire=True,
+    ),
+    RegionName.ROA_LEFT_ASCENT_CRYSTAL: RegionData(),
+    RegionName.ROA_TOP_ASCENT: RegionData(
+        exits={
+            RegionName.ROA_LEFT_ASCENT,
+            RegionName.ROA_TRIPLE_SWITCH,
+        },
+    ),
+    RegionName.ROA_TRIPLE_SWITCH: RegionData(
+        exits={
+            RegionName.ROA_TOP_ASCENT,
+            RegionName.ROA_MIDDLE,
+        },
+    ),
+    RegionName.ROA_MIDDLE: RegionData(
+        exits={
+            RegionName.ROA_RIGHT_BRANCH,
+            RegionName.ROA_TRIPLE_SWITCH,
+            RegionName.ROA_LEFT_BABY_GORGON,
+            RegionName.ROA_LEFT_SWITCH,
+            RegionName.ROA_RIGHT_SWITCH_1,
+            RegionName.ROA_MIDDLE_LADDER,
+        },
+        campfire=True,
+    ),
+    RegionName.ROA_LEFT_BABY_GORGON: RegionData(),
+    RegionName.ROA_LEFT_SWITCH: RegionData(),
+    RegionName.ROA_RIGHT_SWITCH_1: RegionData(
+        exits={
+            RegionName.ROA_RIGHT_SWITCH_2,
+        },
+    ),
+    RegionName.ROA_RIGHT_SWITCH_2: RegionData(),
+    RegionName.ROA_MIDDLE_LADDER: RegionData(
+        exits={
+            RegionName.ROA_MIDDLE,
+            RegionName.ROA_UPPER_VOID,
+        },
+    ),
+    RegionName.ROA_UPPER_VOID: RegionData(
+        exits={
+            RegionName.ROA_LOWER_VOID,
+            RegionName.ROA_MIDDLE_LADDER,
+            RegionName.ROA_SPIKE_BALLS,
+            RegionName.ROA_SP_CONNECTION,
+        },
+        portal=True,
+    ),
+    RegionName.ROA_SPIKE_BALLS: RegionData(
+        exits={
+            RegionName.ROA_UPPER_VOID,
+            RegionName.ROA_SPIKE_SPINNERS,
+        },
+    ),
+    RegionName.ROA_SPIKE_SPINNERS: RegionData(
+        exits={
+            RegionName.ROA_SPIKE_BALLS,
+            RegionName.ROA_SPIDERS_1,
+        },
+    ),
+    RegionName.ROA_SPIDERS_1: RegionData(
+        exits={
+            RegionName.ROA_SPIKE_SPINNERS,
+            RegionName.ROA_RED_KEY,
+            RegionName.ROA_SPIDERS_2,
+        },
+    ),
+    RegionName.ROA_RED_KEY: RegionData(),
+    RegionName.ROA_SPIDERS_2: RegionData(
+        exits={
+            RegionName.ROA_SPIDERS_1,
+            RegionName.ROA_BLOOD_POT_HALLWAY,
+        },
+    ),
+    RegionName.ROA_BLOOD_POT_HALLWAY: RegionData(
+        exits={
+            RegionName.ROA_SPIDERS_2,
+            RegionName.ROA_SP_CONNECTION,
+        },
+    ),
+    RegionName.ROA_SP_CONNECTION: RegionData(
+        exits={
+            RegionName.ROA_UPPER_VOID,
+            RegionName.ROA_BLOOD_POT_HALLWAY,
+            RegionName.ROA_ELEVATOR,
+            RegionName.SP_START,
+        },
+    ),
+    RegionName.ROA_ELEVATOR: RegionData(
+        exits={
+            RegionName.GT_BOSS,
+            RegionName.MECH_ZEEK_CONNECTION,
+            RegionName.MECH_BOSS,
+            RegionName.HOTP_ELEVATOR,
+            RegionName.HOTP_BOSS,
+            RegionName.ROA_SP_CONNECTION,
+            RegionName.ROA_ICARUS,
+            RegionName.ROA_DARK_CONNECTION,
+            RegionName.APEX,
+            RegionName.CATA_ELEVATOR,
+            RegionName.CATA_BOSS,
+            RegionName.TR_START,
+        },
+        campfire=True,
+        elevator=True,
+    ),
+    RegionName.ROA_ICARUS: RegionData(),
+    RegionName.ROA_DARK_CONNECTION: RegionData(
+        exits={
+            RegionName.ROA_ELEVATOR,
+            RegionName.DARK_START,
+            RegionName.ROA_CENTAUR,
+        },
+    ),
+    RegionName.DARK_START: RegionData(
+        exits={
+            RegionName.DARK_END,
+        },
+    ),
+    RegionName.DARK_END: RegionData(
+        exits={
+            RegionName.ROA_CENTAUR,
+        },
+    ),
+    RegionName.ROA_CENTAUR: RegionData(
+        exits={
+            RegionName.ROA_DARK_CONNECTION,
+            RegionName.ROA_BOSS_CONNECTION,
+        },
+    ),
+    RegionName.ROA_BOSS_CONNECTION: RegionData(
+        exits={
+            RegionName.ROA_CENTAUR,
+            RegionName.ROA_BOSS,
+        },
+    ),
+    RegionName.ROA_BOSS: RegionData(
+        exits={
+            RegionName.ROA_BOSS_CONNECTION,
+            RegionName.ROA_APEX_CONNECTION,
+        },
+        boss=True,
+        campfire=True,
+    ),
+    RegionName.ROA_APEX_CONNECTION: RegionData(
+        exits={
+            RegionName.ROA_BOSS,
+            RegionName.APEX,
+        },
+    ),
+    RegionName.APEX: RegionData(
+        exits={
+            RegionName.GT_BOSS,
+            RegionName.MECH_ZEEK_CONNECTION,
+            RegionName.MECH_BOSS,
+            RegionName.HOTP_ELEVATOR,
+            RegionName.HOTP_BOSS,
+            RegionName.ROA_ELEVATOR,
+            RegionName.FINAL_BOSS,
+            RegionName.ROA_APEX_CONNECTION,
+            RegionName.APEX_CENTAUR,
+            RegionName.APEX_HEART,
+            RegionName.CATA_ELEVATOR,
+            RegionName.CATA_BOSS,
+            RegionName.TR_START,
+        },
+        campfire=True,
+        elevator=True,
+        statue=True,
+    ),
+    RegionName.APEX_CENTAUR: RegionData(boss=True),
+    RegionName.APEX_HEART: RegionData(),
+    RegionName.CAVES_START: RegionData(
+        exits={
+            RegionName.GT_BOTTOM,
+            RegionName.CAVES_EPIMETHEUS,
+        },
+    ),
+    RegionName.CAVES_EPIMETHEUS: RegionData(
+        exits={
+            RegionName.CAVES_START,
+            RegionName.CAVES_UPPER,
+        },
+        statue=True,
+    ),
+    RegionName.CAVES_UPPER: RegionData(
+        exits={
+            RegionName.CAVES_EPIMETHEUS,
+            RegionName.CAVES_ARENA,
+            RegionName.CAVES_LOWER,
+        },
+    ),
+    RegionName.CAVES_ARENA: RegionData(),
+    RegionName.CAVES_LOWER: RegionData(
+        exits={
+            RegionName.CAVES_UPPER,
+            RegionName.CAVES_ITEM_CHAIN,
+            RegionName.CATA_START,
+        },
+        campfire=True,
+    ),
+    RegionName.CAVES_ITEM_CHAIN: RegionData(),
+    RegionName.CATA_START: RegionData(
+        exits={
+            RegionName.CAVES_LOWER,
+            RegionName.CATA_CLIMBABLE_ROOT,
+        },
+    ),
+    RegionName.CATA_CLIMBABLE_ROOT: RegionData(
+        exits={
+            RegionName.CATA_TOP,
+        },
+    ),
+    RegionName.CATA_TOP: RegionData(
+        exits={
+            RegionName.CATA_CLIMBABLE_ROOT,
+            RegionName.CATA_ELEVATOR,
+            RegionName.CATA_BOW_CAMPFIRE,
+        },
+    ),
+    RegionName.CATA_ELEVATOR: RegionData(
+        exits={
+            RegionName.GT_BOSS,
+            RegionName.MECH_ZEEK_CONNECTION,
+            RegionName.MECH_BOSS,
+            RegionName.HOTP_ELEVATOR,
+            RegionName.HOTP_BOSS,
+            RegionName.ROA_ELEVATOR,
+            RegionName.APEX,
+            RegionName.CATA_TOP,
+            RegionName.CATA_MULTI,
+            RegionName.CATA_BOSS,
+            RegionName.TR_START,
+        },
+        elevator=True,
+    ),
+    RegionName.CATA_MULTI: RegionData(multiplier=True),
+    RegionName.CATA_BOW_CAMPFIRE: RegionData(
+        exits={
+            RegionName.CATA_TOP,
+            RegionName.CATA_BOW_CONNECTION,
+            RegionName.CATA_EYEBALL_BONES,
+        },
+        campfire=True,
+    ),
+    RegionName.CATA_BOW_CONNECTION: RegionData(
+        exits={
+            RegionName.CATA_BOW_CAMPFIRE,
+            RegionName.CATA_BOW,
+            RegionName.CATA_VERTICAL_SHORTCUT,
+        },
+    ),
+    RegionName.CATA_BOW: RegionData(),
+    RegionName.CATA_VERTICAL_SHORTCUT: RegionData(
+        exits={
+            RegionName.CATA_BOW_CONNECTION,
+            RegionName.CATA_BLUE_EYE_DOOR,
+            RegionName.CATA_FLAMES_FORK,
+        },
+    ),
+    RegionName.CATA_EYEBALL_BONES: RegionData(
+        exits={
+            RegionName.CATA_BOW_CAMPFIRE,
+            RegionName.CATA_SNAKE_MUSHROOMS,
+        },
+    ),
+    RegionName.CATA_SNAKE_MUSHROOMS: RegionData(
+        exits={
+            RegionName.CATA_EYEBALL_BONES,
+            RegionName.CATA_DEV_ROOM_CONNECTION,
+            RegionName.CATA_DOUBLE_SWITCH,
+        },
+    ),
+    RegionName.CATA_DEV_ROOM_CONNECTION: RegionData(
+        exits={
+            RegionName.CATA_DEV_ROOM,
+        },
+    ),
+    RegionName.CATA_DEV_ROOM: RegionData(
+        campfire=True,
+        statue=True,
+    ),
+    RegionName.CATA_DOUBLE_SWITCH: RegionData(
+        exits={
+            RegionName.CATA_SNAKE_MUSHROOMS,
+            RegionName.CATA_ROOTS_CAMPFIRE,
+        },
+    ),
+    RegionName.CATA_ROOTS_CAMPFIRE: RegionData(
+        exits={
+            RegionName.CATA_DOUBLE_SWITCH,
+            RegionName.CATA_POISON_ROOTS,
+            RegionName.CATA_BLUE_EYE_DOOR,
+        },
+        campfire=True,
+    ),
+    RegionName.CATA_POISON_ROOTS: RegionData(),
+    RegionName.CATA_BLUE_EYE_DOOR: RegionData(
+        exits={
+            RegionName.CATA_ROOTS_CAMPFIRE,
+            RegionName.CATA_FLAMES_FORK,
+        },
+    ),
+    RegionName.CATA_FLAMES_FORK: RegionData(
+        exits={
+            RegionName.CATA_VERTICAL_SHORTCUT,
+            RegionName.CATA_BLUE_EYE_DOOR,
+            RegionName.CATA_FLAMES,
+            RegionName.CATA_CENTAUR,
+        },
+    ),
+    RegionName.CATA_FLAMES: RegionData(),
+    RegionName.CATA_CENTAUR: RegionData(
+        exits={
+            RegionName.CATA_FLAMES_FORK,
+            RegionName.CATA_4_FACES,
+            RegionName.CATA_BOSS,
+        },
+    ),
+    RegionName.CATA_4_FACES: RegionData(
+        exits={
+            RegionName.CATA_CENTAUR,
+            RegionName.CATA_DOUBLE_DOOR,
+        },
+    ),
+    RegionName.CATA_DOUBLE_DOOR: RegionData(
+        exits={
+            RegionName.CATA_4_FACES,
+            RegionName.CATA_VOID_R,
+        },
+    ),
+    RegionName.CATA_VOID_R: RegionData(
+        exits={
+            RegionName.CATA_DOUBLE_DOOR,
+            RegionName.CATA_VOID_L,
+        },
+        portal=True,
+    ),
+    RegionName.CATA_VOID_L: RegionData(
+        exits={
+            RegionName.CATA_VOID_R,
+            RegionName.CATA_BOSS,
+        },
+        portal=True,
+    ),
+    RegionName.CATA_BOSS: RegionData(
+        exits={
+            RegionName.GT_BOSS,
+            RegionName.MECH_ZEEK_CONNECTION,
+            RegionName.MECH_BOSS,
+            RegionName.HOTP_ELEVATOR,
+            RegionName.HOTP_BOSS,
+            RegionName.ROA_ELEVATOR,
+            RegionName.APEX,
+            RegionName.CATA_ELEVATOR,
+            RegionName.CATA_CENTAUR,
+            RegionName.CATA_VOID_L,
+            RegionName.TR_START,
+            RegionName.TR_START,
+        },
+        boss=True,
+        campfire=True,
+        elevator=True,
+    ),
+    RegionName.TR_START: RegionData(
+        exits={
+            RegionName.GT_BOSS,
+            RegionName.MECH_ZEEK_CONNECTION,
+            RegionName.MECH_BOSS,
+            RegionName.HOTP_ELEVATOR,
+            RegionName.HOTP_BOSS,
+            RegionName.ROA_ELEVATOR,
+            RegionName.APEX,
+            RegionName.CATA_ELEVATOR,
+            RegionName.CATA_BOSS,
+            RegionName.CATA_BOSS,
+            RegionName.TR_BRAM,
+            RegionName.TR_LEFT,
+        },
+        campfire=True,
+        elevator=True,
+    ),
+    RegionName.TR_BRAM: RegionData(),
+    RegionName.TR_LEFT: RegionData(
+        exits={
+            RegionName.TR_BOTTOM_LEFT,
+            RegionName.TR_TOP_RIGHT,
+        },
+    ),
+    RegionName.TR_BOTTOM_LEFT: RegionData(
+        exits={
+            RegionName.TR_BOTTOM,
+        },
+    ),
+    RegionName.TR_TOP_RIGHT: RegionData(
+        exits={
+            RegionName.TR_GOLD,
+            RegionName.TR_MIDDLE_RIGHT,
+        },
+    ),
+    RegionName.TR_GOLD: RegionData(),
+    RegionName.TR_MIDDLE_RIGHT: RegionData(
+        exits={
+            RegionName.TR_DARK_ARIAS,
+            RegionName.TR_BOTTOM,
+        },
+    ),
+    RegionName.TR_DARK_ARIAS: RegionData(boss=True),
+    RegionName.TR_BOTTOM: RegionData(
+        exits={
+            RegionName.TR_BOTTOM_LEFT,
+        },
+    ),
+    RegionName.CD_START: RegionData(
+        exits={
+            RegionName.CD_2,
+            RegionName.CD_BOSS,
+        },
+        campfire=True,
+    ),
+    RegionName.CD_2: RegionData(
+        exits={
+            RegionName.CD_3,
+        },
+    ),
+    RegionName.CD_3: RegionData(
+        exits={
+            RegionName.CD_MIDDLE,
+        },
+    ),
+    RegionName.CD_MIDDLE: RegionData(
+        exits={
+            RegionName.CD_ARIAS_ROUTE,
+            RegionName.CD_KYULI_ROUTE,
+        },
+        campfire=True,
+    ),
+    RegionName.CD_ARIAS_ROUTE: RegionData(),
+    RegionName.CD_KYULI_ROUTE: RegionData(
+        exits={
+            RegionName.CD_CAMPFIRE_3,
+        },
+    ),
+    RegionName.CD_CAMPFIRE_3: RegionData(
+        exits={
+            RegionName.CD_ARENA,
+        },
+        campfire=True,
+    ),
+    RegionName.CD_ARENA: RegionData(
+        exits={
+            RegionName.CD_STEPS,
+        },
+    ),
+    RegionName.CD_STEPS: RegionData(
+        exits={
+            RegionName.CD_TOP,
+        },
+    ),
+    RegionName.CD_TOP: RegionData(campfire=True),
+    RegionName.CD_BOSS: RegionData(boss=True),
+    RegionName.CATH_START: RegionData(
+        exits={
+            RegionName.CATH_START_RIGHT,
+            RegionName.CATH_START_LEFT,
+        },
+        portal=True,
+    ),
+    RegionName.CATH_START_RIGHT: RegionData(
+        exits={
+            RegionName.CATH_START_TOP_LEFT,
+        },
+    ),
+    RegionName.CATH_START_TOP_LEFT: RegionData(
+        exits={
+            RegionName.CATH_START_LEFT,
+        },
+    ),
+    RegionName.CATH_START_LEFT: RegionData(
+        exits={
+            RegionName.CATH_TP,
+        },
+    ),
+    RegionName.CATH_TP: RegionData(
+        exits={
+            RegionName.CATH_LEFT_SHAFT,
+        },
+    ),
+    RegionName.CATH_LEFT_SHAFT: RegionData(
+        exits={
+            RegionName.CATH_UNDER_CAMPFIRE,
+            RegionName.CATH_SHAFT_ACCESS,
+        },
+    ),
+    RegionName.CATH_UNDER_CAMPFIRE: RegionData(
+        exits={
+            RegionName.CATH_CAMPFIRE_1,
+        },
+    ),
+    RegionName.CATH_CAMPFIRE_1: RegionData(
+        exits={
+            RegionName.CATH_SHAFT_ACCESS,
+        },
+        campfire=True,
+    ),
+    RegionName.CATH_SHAFT_ACCESS: RegionData(
+        exits={
+            RegionName.CATH_ORB_ROOM,
+        },
+    ),
+    RegionName.CATH_ORB_ROOM: RegionData(
+        exits={
+            RegionName.CATH_GOLD_BLOCK,
+            RegionName.CATH_RIGHT_SHAFT_CONNECTION,
+        },
+    ),
+    RegionName.CATH_GOLD_BLOCK: RegionData(),
+    RegionName.CATH_RIGHT_SHAFT_CONNECTION: RegionData(
+        exits={
+            RegionName.CATH_RIGHT_SHAFT,
+        },
+    ),
+    RegionName.CATH_RIGHT_SHAFT: RegionData(
+        exits={
+            RegionName.CATH_TOP,
+        },
+    ),
+    RegionName.CATH_TOP: RegionData(
+        exits={
+            RegionName.CATH_CAMPFIRE_2,
+            RegionName.CATH_UPPER_SPIKE_PIT,
+        },
+    ),
+    RegionName.CATH_CAMPFIRE_2: RegionData(campfire=True),
+    RegionName.CATH_UPPER_SPIKE_PIT: RegionData(),
+    RegionName.SP_START: RegionData(
+        exits={
+            RegionName.SP_CAMPFIRE_1,
+            RegionName.SP_STAR_END,
+        },
+    ),
+    RegionName.SP_CAMPFIRE_1: RegionData(
+        exits={
+            RegionName.SP_HEARTS,
+        },
+        campfire=True,
+    ),
+    RegionName.SP_HEARTS: RegionData(
+        exits={
+            RegionName.SP_PAINTING,
+            RegionName.SP_ORBS,
+            RegionName.SP_FROG,
+        },
+    ),
+    RegionName.SP_PAINTING: RegionData(
+        exits={
+            RegionName.SP_SHAFT,
+        },
+    ),
+    RegionName.SP_SHAFT: RegionData(
+        exits={
+            RegionName.SP_STAR,
+        },
+    ),
+    RegionName.SP_STAR: RegionData(
+        exits={
+            RegionName.SP_STAR_CONNECTION,
+        },
+    ),
+    RegionName.SP_STAR_CONNECTION: RegionData(
+        exits={
+            RegionName.SP_STAR_END,
+        },
+    ),
+    RegionName.SP_STAR_END: RegionData(),
+    RegionName.SP_ORBS: RegionData(),
+    RegionName.SP_FROG: RegionData(
+        exits={
+            RegionName.SP_CAMPFIRE_2,
+        },
+    ),
+    RegionName.SP_CAMPFIRE_2: RegionData(
+        exits={
+            RegionName.HOTP_MAIDEN,
+        },
+        campfire=True,
+    ),
 }

@@ -6,23 +6,23 @@ from BaseClasses import CollectionState
 from worlds.generic.Rules import set_rule
 
 from .items import (
-    AllItems,
     BlueDoor,
     Character,
     Crystal,
     Elevator,
     Eye,
     Face,
+    ItemName,
     KeyItem,
     RedDoor,
     ShopUpgrade,
     Switch,
     WhiteDoor,
 )
-from .locations import LocationGroups, location_table
-from .locations import Locations as L
+from .locations import LocationGroup, location_table
+from .locations import LocationName as L
 from .options import ApexElevator, AstalonOptions, Difficulty, Goal, RandomizeCharacters
-from .regions import Regions as R
+from .regions import RegionName as R
 
 if TYPE_CHECKING:
     from . import AstalonWorld
@@ -71,7 +71,7 @@ class AstalonRule(Protocol):
 
 
 class Has(Protocol):
-    def __call__(self, state: CollectionState, item: Union[AllItems, Events], count: int = 1) -> bool: ...
+    def __call__(self, state: CollectionState, item: Union[ItemName, Events], count: int = 1) -> bool: ...
 
 
 class Can(Protocol):
@@ -1180,6 +1180,9 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
     (R.CATA_ELEVATOR, R.CATA_TOP): lambda rules, state: (
         rules.switches(state, Switch.CATA_ELEVATOR, disabled_case=False)
     ),
+    (R.CATA_ELEVATOR, R.CATA_MULTI): lambda rules, state: (
+        rules.blue_doors(state, BlueDoor.CATA_ORBS, disabled_case=True)
+    ),
     (R.CATA_ELEVATOR, R.MECH_BOSS): lambda rules, state: rules.elevator(state, Elevator.MECH_2),
     (R.CATA_BOW_CAMPFIRE, R.CATA_TOP): lambda rules, state: (
         rules.switches(state, Switch.CATA_TOP, disabled_case=False)
@@ -1324,7 +1327,7 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
             disabled_case=(rules.has(state, KeyItem.BELL, KeyItem.CLAW) and rules.can(state, Logic.CRYSTAL)),
         )
     ),
-    (R.TR_MIDDLE_RIGHT, R.TD_DARK_ARIAS): lambda rules, state: rules.has(state, Eye.GREEN),
+    (R.TR_MIDDLE_RIGHT, R.TR_DARK_ARIAS): lambda rules, state: rules.has(state, Eye.GREEN),
     (R.TR_MIDDLE_RIGHT, R.TR_BOTTOM): lambda rules, state: (
         rules.switches(state, Switch.TR_BOTTOM, disabled_case=True)
     ),
@@ -1885,7 +1888,7 @@ class AstalonRules:
         return self.world.multiworld.get_location(name.value, self.player)
 
     @lru_cache(maxsize=None)
-    def _rando_has(self, state: CollectionState, item: Union[AllItems, Events], count: int = 1) -> bool:
+    def _rando_has(self, state: CollectionState, item: Union[ItemName, Events], count: int = 1) -> bool:
         if item == KeyItem.CLOAK and not self._has(state, Character.ALGUS):
             return False
         if item in {KeyItem.SWORD, KeyItem.BOOTS} and not self._has(state, Character.ARIAS):
@@ -1927,7 +1930,7 @@ class AstalonRules:
         return state.has(item.value, self.player, count=count)
 
     @lru_cache(maxsize=None)
-    def _vanilla_has(self, state: CollectionState, item: Union[AllItems, Events], count: int = 1) -> bool:
+    def _vanilla_has(self, state: CollectionState, item: Union[ItemName, Events], count: int = 1) -> bool:
         if item in VANILLA_CHARACTERS:
             return True
 
@@ -1962,7 +1965,7 @@ class AstalonRules:
         return False
 
     def _enabled_togglable(
-        self, state: CollectionState, *items: AllItems, disabled_case: Union[bool, AstalonRule]
+        self, state: CollectionState, *items: ItemName, disabled_case: Union[bool, AstalonRule]
     ) -> bool:
         for item in items:
             if not self._has(state, item):
@@ -1970,7 +1973,7 @@ class AstalonRules:
         return True
 
     def _disabled_togglable(
-        self, state: CollectionState, *items: AllItems, disabled_case: Union[bool, AstalonRule]
+        self, state: CollectionState, *items: ItemName, disabled_case: Union[bool, AstalonRule]
     ) -> bool:
         if isinstance(disabled_case, bool):
             return disabled_case
@@ -2087,9 +2090,9 @@ class AstalonRules:
     def register_indirect_condition(self, dependency: Union[L, R], from_region: R, to_region: R):
         if isinstance(dependency, L):
             data = location_table[dependency]
-            if data.group == LocationGroups.KEY_RED and self.options.randomize_red_keys:
+            if data.group == LocationGroup.KEY_RED and self.options.randomize_red_keys:
                 return
-            if data.group == LocationGroups.SWITCH and self.options.randomize_switches:
+            if data.group == LocationGroup.SWITCH and self.options.randomize_switches:
                 return
             region = self.region(data.region)
         else:

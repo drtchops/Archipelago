@@ -1,6 +1,6 @@
 from ..items import BlueDoor, KeyItem, RedDoor
-from ..locations import Locations
-from ..regions import Regions
+from ..locations import LocationName
+from ..regions import RegionName
 from ..rules import Events
 from . import AstalonTestBase
 
@@ -16,19 +16,19 @@ class VanillaCharacterTest(AstalonTestBase):
     }
 
     def test_star_needs_bram_access(self) -> None:
-        location = Locations.GT_HP_1_RING.value
+        location = LocationName.GT_HP_1_RING.value
         self.collect_all_but([KeyItem.VOID.value, BlueDoor.GT_RING.value, Events.BRAM.value])
         self.assertFalse(self.can_reach_location(location))
         self.collect_by_name(KeyItem.VOID.value)
         self.assertTrue(self.can_reach_location(location))
 
     def test_block_needs_zeek_access(self) -> None:
-        location = Locations.CATH_BLOCK.value
+        location = LocationName.CATH_BLOCK.value
         self.collect_all_but([RedDoor.ZEEK.value, Events.ZEEK.value])
-        self.assertFalse(self.can_reach_region(Regions.MECH_ZEEK.value))
+        self.assertFalse(self.can_reach_region(RegionName.MECH_ZEEK.value))
         self.assertFalse(self.can_reach_location(location))
         self.collect_by_name(RedDoor.ZEEK.value)
-        self.assertTrue(self.can_reach_region(Regions.MECH_ZEEK.value))
+        self.assertTrue(self.can_reach_region(RegionName.MECH_ZEEK.value))
         self.assertTrue(self.can_reach_location(location))
 
 
@@ -41,7 +41,7 @@ class AllCharacterTest(AstalonTestBase):
     }
 
     def test_starting_with_bram_only_needs_star(self) -> None:
-        location = Locations.GT_HP_1_RING.value
+        location = LocationName.GT_HP_1_RING.value
         self.assertFalse(self.can_reach_location(location))
         self.collect_by_name(KeyItem.STAR.value)
         self.assertTrue(self.can_reach_location(location))

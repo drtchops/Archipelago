@@ -14,7 +14,7 @@ from .items import (
     Character,
     Elevator,
     Eye,
-    ItemGroups,
+    ItemGroup,
     Key,
     KeyItem,
     filler_items,
@@ -24,14 +24,14 @@ from .items import (
 )
 from .locations import (
     AstalonLocation,
-    LocationGroups,
-    Locations,
+    LocationGroup,
+    LocationName,
     location_name_groups,
     location_name_to_id,
     location_table,
 )
 from .options import ApexElevator, AstalonOptions, Goal, RandomizeCharacters
-from .regions import Regions, astalon_regions
+from .regions import RegionName, astalon_regions
 from .rules import AstalonRules, Events
 
 # ██░░░██████░░███░░░███
@@ -122,42 +122,42 @@ class AstalonWorld(World):
             region = Region(region_name.value, self.player, self.multiworld)
             self.multiworld.regions.append(region)
 
-        for region_name, exits in astalon_regions.items():
+        for region_name, region_data in astalon_regions.items():
             region = self.multiworld.get_region(region_name.value, self.player)
-            if exits:
-                region.add_exits([e.value for e in exits])
+            if region_data.exits:
+                region.add_exits([e.value for e in region_data.exits])
 
-        logic_groups = set(g.value for g in LocationGroups)
+        logic_groups = set(g.value for g in LocationGroup)
         for group, location_names in location_name_groups.items():
             if group not in logic_groups:
                 continue
-            if group == LocationGroups.CHARACTER:
+            if group == LocationGroup.CHARACTER:
                 continue
-            if group == LocationGroups.ITEM and not self.options.randomize_key_items:
+            if group == LocationGroup.ITEM and not self.options.randomize_key_items:
                 continue
-            if group == LocationGroups.ATTACK and not self.options.randomize_attack_pickups:
+            if group == LocationGroup.ATTACK and not self.options.randomize_attack_pickups:
                 continue
-            if group == LocationGroups.HEALTH and not self.options.randomize_health_pickups:
+            if group == LocationGroup.HEALTH and not self.options.randomize_health_pickups:
                 continue
-            if group == LocationGroups.KEY_WHITE and not self.options.randomize_white_keys:
+            if group == LocationGroup.KEY_WHITE and not self.options.randomize_white_keys:
                 continue
-            if group == LocationGroups.KEY_BLUE and not self.options.randomize_blue_keys:
+            if group == LocationGroup.KEY_BLUE and not self.options.randomize_blue_keys:
                 continue
-            if group == LocationGroups.KEY_RED and not self.options.randomize_red_keys:
+            if group == LocationGroup.KEY_RED and not self.options.randomize_red_keys:
                 continue
-            if group == LocationGroups.SHOP and not self.options.randomize_shop:
+            if group == LocationGroup.SHOP and not self.options.randomize_shop:
                 continue
-            if group == LocationGroups.ELEVATOR and not self.options.randomize_elevator:
+            if group == LocationGroup.ELEVATOR and not self.options.randomize_elevator:
                 continue
-            if group == LocationGroups.SWITCH and not self.options.randomize_switches:
+            if group == LocationGroup.SWITCH and not self.options.randomize_switches:
                 continue
 
             for location_name in location_names:
-                if location_name == Locations.SHOP_MAP_REVEAL:
+                if location_name == LocationName.SHOP_MAP_REVEAL:
                     # this requires way too much map completion
                     continue
                 if (
-                    location_name == Locations.APEX_ELEVATOR
+                    location_name == LocationName.APEX_ELEVATOR
                     and self.options.apex_elevator != ApexElevator.option_included
                 ):
                     continue
@@ -165,43 +165,43 @@ class AstalonWorld(World):
                 self.create_location(location_name)
 
         if self.options.randomize_characters == RandomizeCharacters.option_vanilla:
-            self.create_event(Events.ZEEK, Regions.MECH_ZEEK)
-            self.create_event(Events.BRAM, Regions.TR_BRAM)
+            self.create_event(Events.ZEEK, RegionName.MECH_ZEEK)
+            self.create_event(Events.BRAM, RegionName.TR_BRAM)
         else:
             if Character.ALGUS not in self.starting_characters:
-                self.create_location(Locations.GT_ALGUS.value)
+                self.create_location(LocationName.GT_ALGUS.value)
             if Character.ARIAS not in self.starting_characters:
-                self.create_location(Locations.GT_ARIAS.value)
+                self.create_location(LocationName.GT_ARIAS.value)
             if Character.KYULI not in self.starting_characters:
-                self.create_location(Locations.GT_KYULI.value)
+                self.create_location(LocationName.GT_KYULI.value)
             if Character.ZEEK not in self.starting_characters:
-                self.create_location(Locations.MECH_ZEEK.value)
+                self.create_location(LocationName.MECH_ZEEK.value)
             if Character.BRAM not in self.starting_characters:
-                self.create_location(Locations.TR_BRAM.value)
+                self.create_location(LocationName.TR_BRAM.value)
 
         if not self.options.randomize_key_items:
-            self.create_event(Events.EYE_RED, Regions.GT_BOSS)
-            self.create_event(Events.EYE_BLUE, Regions.MECH_BOSS)
-            self.create_event(Events.EYE_GREEN, Regions.ROA_BOSS)
-            self.create_event(Events.SWORD, Regions.GT_SWORD)
-            self.create_event(Events.ASCENDANT_KEY, Regions.GT_ASCENDANT_KEY)
-            self.create_event(Events.ADORNED_KEY, Regions.TR_BOTTOM)
-            self.create_event(Events.BANISH, Regions.GT_LEFT)
-            self.create_event(Events.VOID, Regions.GT_VOID)
-            self.create_event(Events.BOOTS, Regions.MECH_BOOTS_UPPER)
-            self.create_event(Events.CLOAK, Regions.MECH_CLOAK)
-            self.create_event(Events.CYCLOPS, Regions.MECH_ZEEK)
-            self.create_event(Events.BELL, Regions.HOTP_BELL)
-            self.create_event(Events.CLAW, Regions.HOTP_CLAW)
-            self.create_event(Events.GAUNTLET, Regions.HOTP_GAUNTLET)
-            self.create_event(Events.ICARUS, Regions.ROA_ICARUS)
-            self.create_event(Events.CHALICE, Regions.APEX_CENTAUR)
-            self.create_event(Events.BOW, Regions.CATA_BOW)
-            self.create_event(Events.CROWN, Regions.CD_BOSS)
-            self.create_event(Events.BLOCK, Regions.CATH_TOP)
-            self.create_event(Events.STAR, Regions.SP_STAR)
+            self.create_event(Events.EYE_RED, RegionName.GT_BOSS)
+            self.create_event(Events.EYE_BLUE, RegionName.MECH_BOSS)
+            self.create_event(Events.EYE_GREEN, RegionName.ROA_BOSS)
+            self.create_event(Events.SWORD, RegionName.GT_SWORD)
+            self.create_event(Events.ASCENDANT_KEY, RegionName.GT_ASCENDANT_KEY)
+            self.create_event(Events.ADORNED_KEY, RegionName.TR_BOTTOM)
+            self.create_event(Events.BANISH, RegionName.GT_LEFT)
+            self.create_event(Events.VOID, RegionName.GT_VOID)
+            self.create_event(Events.BOOTS, RegionName.MECH_BOOTS_UPPER)
+            self.create_event(Events.CLOAK, RegionName.MECH_CLOAK)
+            self.create_event(Events.CYCLOPS, RegionName.MECH_ZEEK)
+            self.create_event(Events.BELL, RegionName.HOTP_BELL)
+            self.create_event(Events.CLAW, RegionName.HOTP_CLAW)
+            self.create_event(Events.GAUNTLET, RegionName.HOTP_GAUNTLET)
+            self.create_event(Events.ICARUS, RegionName.ROA_ICARUS)
+            self.create_event(Events.CHALICE, RegionName.APEX_CENTAUR)
+            self.create_event(Events.BOW, RegionName.CATA_BOW)
+            self.create_event(Events.CROWN, RegionName.CD_BOSS)
+            self.create_event(Events.BLOCK, RegionName.CATH_TOP)
+            self.create_event(Events.STAR, RegionName.SP_STAR)
 
-        self.create_event(Events.VICTORY, Regions.FINAL_BOSS)
+        self.create_event(Events.VICTORY, RegionName.FINAL_BOSS)
         self.multiworld.completion_condition[self.player] = lambda state: state.has(Events.VICTORY.value, self.player)
 
     def create_item(self, name: str) -> AstalonItem:
@@ -213,7 +213,7 @@ class AstalonWorld(World):
             classification = item_data.classification
         return AstalonItem(name, classification, self.item_name_to_id[name], self.player)
 
-    def create_event(self, event: Events, region_name: Regions) -> None:
+    def create_event(self, event: Events, region_name: RegionName) -> None:
         region = self.multiworld.get_region(region_name.value, self.player)
         location = AstalonLocation(self.player, event.value, None, region)
         location.place_locked_item(
@@ -224,29 +224,29 @@ class AstalonWorld(World):
     def create_items(self) -> None:
         itempool: List[Item] = []
 
-        logic_groups = set(g.value for g in ItemGroups)
+        logic_groups = set(g.value for g in ItemGroup)
         for group, item_names in item_name_groups.items():
             if group not in logic_groups:
                 continue
-            if group == ItemGroups.CHARACTER:
+            if group == ItemGroup.CHARACTER:
                 continue
-            if group in {ItemGroups.EYE, ItemGroups.ITEM} and not self.options.randomize_key_items:
+            if group in {ItemGroup.EYE, ItemGroup.ITEM} and not self.options.randomize_key_items:
                 continue
-            if group == ItemGroups.ATTACK and not self.options.randomize_attack_pickups:
+            if group == ItemGroup.ATTACK and not self.options.randomize_attack_pickups:
                 continue
-            if group == ItemGroups.HEALTH and not self.options.randomize_health_pickups:
+            if group == ItemGroup.HEALTH and not self.options.randomize_health_pickups:
                 continue
-            if group == ItemGroups.DOOR_WHITE and not self.options.randomize_white_keys:
+            if group == ItemGroup.DOOR_WHITE and not self.options.randomize_white_keys:
                 continue
-            if group == ItemGroups.DOOR_BLUE and not self.options.randomize_blue_keys:
+            if group == ItemGroup.DOOR_BLUE and not self.options.randomize_blue_keys:
                 continue
-            if group == ItemGroups.DOOR_RED and not self.options.randomize_red_keys:
+            if group == ItemGroup.DOOR_RED and not self.options.randomize_red_keys:
                 continue
-            if group == ItemGroups.SHOP and not self.options.randomize_shop:
+            if group == ItemGroup.SHOP and not self.options.randomize_shop:
                 continue
-            if group == ItemGroups.ELEVATOR and not self.options.randomize_elevator:
+            if group == ItemGroup.ELEVATOR and not self.options.randomize_elevator:
                 continue
-            if group == ItemGroups.SWITCH and not self.options.randomize_switches:
+            if group == ItemGroup.SWITCH and not self.options.randomize_switches:
                 continue
 
             for item_name in item_names:
