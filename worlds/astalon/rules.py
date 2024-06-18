@@ -845,7 +845,7 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
         rules.white_doors(state, WhiteDoor.ROA_WORMS, disabled_case=True)
     ),
     (R.ROA_WORMS_CONNECTION, R.ROA_HEARTS): lambda rules, state: (
-        rules.switches(state, Switch.ROA_AFTER_WORMS, disabled_case=False) or rules.has(state, KeyItem.STAR)
+        rules.switches(state, Switch.ROA_AFTER_WORMS, disabled_case=True) or rules.has(state, KeyItem.STAR)
     ),
     (R.ROA_HEARTS, R.ROA_WORMS_CONNECTION): lambda rules, state: (
         rules.switches(state, Switch.ROA_AFTER_WORMS, disabled_case=False)

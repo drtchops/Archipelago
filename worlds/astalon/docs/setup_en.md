@@ -3,15 +3,17 @@
 ## Required Software
 
 - [Astalon: Tears of the Earth](https://store.steampowered.com/app/1046400/Astalon_Tears_of_the_Earth/)
+  - Only the Steam version has been tested
 - [BepInEx IL2CPP v6 x86](https://builds.bepinex.dev/projects/bepinex_be)
   - It must be the x86 version, the x64 version won't work
   - Currently you must use the bleeding edge release of v6 since the stable version does not support IL2CPP. A direct download for the version tested against can be found [here](https://builds.bepinex.dev/projects/bepinex_be/688/BepInEx-Unity.IL2CPP-win-x86-6.0.0-be.688%2B4901521.zip).
-- [Archipelago Mod for Astalon](https://github.com/drtchops/Archipelago-Astalon/releases)
+- [Archipelago Mod for Astalon](https://github.com/drtchops/Archipelago-Astalon/releases/latest)
 
 ## Optional Software
 
-- [PopTracker](https://github.com/black-sliver/PopTracker/releases/tag/v0.25.8)
+- [PopTracker](https://github.com/black-sliver/PopTracker/releases)
 - [Astalon Pack for PopTracker](https://github.com/Ouro-dev/astalon-poptracker/releases/latest)
+  - The current latest release v0.2.1 does not fully support Astalon mod versions past v0.10.0
 
 ## Installation
 
@@ -20,25 +22,29 @@
 
 After installing, your game folder should contain a `BepInEx` folder, like this:
 
-<!-- ![image](/static/generated/docs/Astalon/game_dir.png) -->
-![image](./game_dir.png)
+<!-- ![Contents of the Astalon Tears of the Earth folder after installing BepInEx](/static/generated/docs/Astalon/game_dir.png) -->
+
+![Contents of the Astalon Tears of the Earth folder after installing BepInEx](./game_dir.png)
 
 Inside of `BepInEx/plugins` should look like this:
 
-<!-- ![image](/static/generated/docs/Astalon/plugins_dir.png) -->
-![image](./plugins_dir.png)
+<!-- ![Contents of the plugins folder after installing the randomizer mod](/static/generated/docs/Astalon/plugins_dir.png) -->
+
+![Contents of the plugins folder after installing the randomizer mod](./plugins_dir.png)
 
 ## Connecting
 
 1. Launch the game. It will take longer to open the first time after installing BepInEx as it needs to generate some files.
 2. There will be a place to input your connection details in the bottom right corner of the screen. Enter the archipelago server address and port, your player name, and a password if required, and press connect.
 3. Once connected, the bottom corner will switch to showing your connection status. A console that shows you any messages from AP will appear at the top of the screen. You can click the show button to expand it and send messages.
-4. Start a new save file in any slot. You can also do so before connecting to AP, but you should connect before leaving the first room.
+4. Start a new save file in any slot.
 5. Items should send out and display an item box in-game when you check locations. Received items should automatically be added to your inventory and an item box will be displayed.
 
 ## Resuming
 
-You can load an existing save and conenct to the AP server in any order. Once you've loaded in and connected you will receive any items that were sent since you last played. Quitting to the main menu will disconnect you automatically.
+You can load an existing save and it will automatically reconnect to the same AP server. If you need to change the port, manually connect to the new server on the main menu before loading your save.
+
+Once you've loaded in and connected you will receive any items that were sent since you last played. Quitting to the main menu will disconnect you automatically.
 
 ## In-Game Controls
 
@@ -50,8 +56,8 @@ If you would like to turn off the mod entirely, open `Astalon Tears of the Earth
 
 ## Known Issues
 
-- Athena's Bell and Lunarian Bow may need to be turned off and on again in the inventory to start working.
 - There's currently no softlock prevention. If you get stuck you can use the debug menu to respawn or warp to a campfire.
+- The logic does not properly handle tracking which characters can access individual rooms. You may run into an issue where you can physically reach a magic crystal or face switch, but not with a character that can actually activate it.
 
 ## I have the mod setup, how do I start a seed on Archipelago?
 
