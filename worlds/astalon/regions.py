@@ -79,6 +79,7 @@ class RegionName(str, Enum):
     HOTP_LOWER_VOID = "Hall of the Phantoms - Lower Void"
     HOTP_START_LEFT = "Hall of the Phantoms - Start Left"
     HOTP_START_BOTTOM = "Hall of the Phantoms - Start Bottom"
+    HOTP_START_BOTTOM_MID = "Hall of the Phantoms - Start Bottom/Mid Connection"
     HOTP_LOWER = "Hall of the Phantoms - Lower"
     HOTP_EPIMETHEUS = "Hall of the Phantoms - Epimetheus"
     HOTP_MECH_VOID_CONNECTION = "Hall of the Phantoms - Mech Void Connection"
@@ -112,6 +113,7 @@ class RegionName(str, Enum):
 
     ROA_START = "Ruins of Ash - Start"
     ROA_WORMS = "Ruins of Ash - Worms"
+    ROA_WORMS_CONNECTION = "Ruins of Ash - Worms Connection"
     ROA_HEARTS = "Ruins of Ash - Hearts"
     ROA_SPIKE_CLIMB = "Ruins of Ash - Spike Climb"
     ROA_BOTTOM_ASCEND = "Ruins of Ash - Bottom of Ascend"
@@ -662,7 +664,7 @@ astalon_regions: Dict[RegionName, RegionData] = {
             RegionName.HOTP_START,
             RegionName.HOTP_LOWER_VOID,
             RegionName.HOTP_START_LEFT,
-            RegionName.HOTP_START_BOTTOM,
+            RegionName.HOTP_START_BOTTOM_MID,
         },
     ),
     RegionName.HOTP_LOWER_VOID: RegionData(
@@ -682,7 +684,14 @@ astalon_regions: Dict[RegionName, RegionData] = {
         exits={
             RegionName.MECH_BRAM_TUNNEL,
             RegionName.HOTP_START,
+            RegionName.HOTP_START_BOTTOM_MID,
             RegionName.HOTP_LOWER,
+        },
+    ),
+    RegionName.HOTP_START_BOTTOM_MID: RegionData(
+        exits={
+            RegionName.HOTP_START_MID,
+            RegionName.HOTP_START_BOTTOM,
         },
     ),
     RegionName.HOTP_LOWER: RegionData(
@@ -886,13 +895,19 @@ astalon_regions: Dict[RegionName, RegionData] = {
     RegionName.ROA_WORMS: RegionData(
         exits={
             RegionName.ROA_START,
-            RegionName.ROA_HEARTS,
+            RegionName.ROA_WORMS_CONNECTION,
             RegionName.ROA_LOWER_VOID_CONNECTION,
+        },
+    ),
+    RegionName.ROA_WORMS_CONNECTION: RegionData(
+        exits={
+            RegionName.ROA_WORMS,
+            RegionName.ROA_HEARTS,
         },
     ),
     RegionName.ROA_HEARTS: RegionData(
         exits={
-            RegionName.ROA_WORMS,
+            RegionName.ROA_WORMS_CONNECTION,
             RegionName.ROA_SPIKE_CLIMB,
             RegionName.ROA_BOTTOM_ASCEND,
         },

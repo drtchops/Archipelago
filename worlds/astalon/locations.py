@@ -740,7 +740,7 @@ location_table: Dict[str, LocationData] = {
         RegionName.HOTP_AMULET_CONNECTION, LocationGroup.SWITCH, Area.HOTP
     ),
     LocationName.HOTP_SWITCH_BELOW_START.value: LocationData(
-        RegionName.HOTP_START_BOTTOM, LocationGroup.SWITCH, Area.HOTP
+        RegionName.HOTP_START_BOTTOM_MID, LocationGroup.SWITCH, Area.HOTP
     ),
     LocationName.HOTP_SWITCH_LEFT_2.value: LocationData(RegionName.HOTP_START_MID, LocationGroup.SWITCH, Area.HOTP),
     LocationName.HOTP_SWITCH_LEFT_1.value: LocationData(RegionName.HOTP_START_MID, LocationGroup.SWITCH, Area.HOTP),
@@ -798,7 +798,9 @@ location_table: Dict[str, LocationData] = {
     LocationName.ROA_ELEVATOR_1.value: LocationData(RegionName.HOTP_BOSS, LocationGroup.ELEVATOR, Area.ROA),
     LocationName.ROA_ELEVATOR_2.value: LocationData(RegionName.ROA_ELEVATOR, LocationGroup.ELEVATOR, Area.ROA),
     LocationName.ROA_SWITCH_ASCEND.value: LocationData(RegionName.ROA_BOTTOM_ASCEND, LocationGroup.SWITCH, Area.ROA),
-    LocationName.ROA_SWITCH_AFTER_WORMS.value: LocationData(RegionName.ROA_WORMS, LocationGroup.SWITCH, Area.ROA),
+    LocationName.ROA_SWITCH_AFTER_WORMS.value: LocationData(
+        RegionName.ROA_WORMS_CONNECTION, LocationGroup.SWITCH, Area.ROA
+    ),
     LocationName.ROA_SWITCH_RIGHT_PATH.value: LocationData(
         RegionName.ROA_RIGHT_SWITCH_1, LocationGroup.SWITCH, Area.ROA
     ),

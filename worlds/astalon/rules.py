@@ -144,7 +144,6 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
     ),
     (R.GT_VOID, R.GT_BOTTOM): lambda rules, state: rules.has(state, Eye.RED),
     (R.GT_VOID, R.MECH_SNAKE): lambda rules, state: (rules.switches(state, Switch.MECH_SNAKE_2, disabled_case=False)),
-    (R.GT_GORGONHEART, R.GT_BOTTOM): lambda rules, state: True,
     (R.GT_GORGONHEART, R.GT_ORBS_DOOR): lambda rules, state: (
         rules.blue_doors(state, BlueDoor.GT_ORBS, disabled_case=True)
     ),
@@ -166,7 +165,6 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
         or rules.has(state, KeyItem.BLOCK, Character.KYULI, KeyItem.BELL)
     ),
     (R.GT_LEFT, R.GT_TOP_RIGHT): lambda rules, state: rules.can(state, Logic.EXTRA_HEIGHT),
-    (R.GT_TOP_LEFT, R.GT_LEFT): lambda rules, state: True,
     (R.GT_TOP_LEFT, R.GT_BUTT): lambda rules, state: (
         rules.switches(
             state,
@@ -174,7 +172,6 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
             disabled_case=lambda rules, state: rules.reachable(state, L.GT_SWITCH_BUTT_ACCESS),
         )
     ),
-    (R.GT_TOP_RIGHT, R.GT_LEFT): lambda rules, state: True,
     (R.GT_TOP_RIGHT, R.GT_SPIKE_TUNNEL): lambda rules, state: (
         rules.switches(
             state,
@@ -248,7 +245,6 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
     (R.GT_UPPER_PATH, R.GT_UPPER_PATH_CONNECTION): lambda rules, state: (
         rules.switches(state, Switch.GT_UPPER_PATH_ACCESS, disabled_case=False)
     ),
-    (R.GT_UPPER_PATH, R.GT_BOTTOM): lambda rules, state: True,
     (R.GT_UPPER_PATH_CONNECTION, R.GT_UPPER_PATH): lambda rules, state: (
         rules.switches(state, Switch.GT_UPPER_PATH_ACCESS, disabled_case=True)
     ),
@@ -307,7 +303,6 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
     (R.MECH_BOOTS_CONNECTION, R.MECH_BOTTOM_CAMPFIRE): lambda rules, state: (
         rules.blue_doors(state, BlueDoor.MECH_VOID, disabled_case=True)
     ),
-    (R.MECH_BOOTS_CONNECTION, R.MECH_SWORD_CONNECTION): lambda rules, state: True,
     (R.MECH_BOOTS_CONNECTION, R.MECH_BOOTS_LOWER): lambda rules, state: (
         rules.switches(
             state,
@@ -346,11 +341,9 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
     (R.MECH_WATCHER, R.MECH_ROOTS): lambda rules, state: (
         rules.has(state, KeyItem.CLAW) or rules.switches(state, Switch.MECH_WATCHER, disabled_case=True)
     ),
-    (R.MECH_ROOTS, R.MECH_WATCHER): lambda rules, state: True,
     (R.MECH_ROOTS, R.MECH_ZEEK_CONNECTION): lambda rules, state: rules.has(
         state, KeyItem.CLAW, KeyItem.BLOCK, KeyItem.BELL
     ),
-    (R.MECH_ROOTS, R.MECH_BK): lambda rules, state: True,
     (R.MECH_ROOTS, R.MECH_MUSIC): lambda rules, state: (
         rules.blue_doors(state, BlueDoor.MECH_MUSIC, disabled_case=True)
     ),
@@ -422,7 +415,6 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
     ),
     (R.MECH_ZEEK_CONNECTION, R.CATA_ELEVATOR): lambda rules, state: rules.elevator(state, Elevator.CATA_1),
     (R.MECH_ZEEK_CONNECTION, R.CATA_BOSS): lambda rules, state: rules.elevator(state, Elevator.CATA_2),
-    (R.MECH_ZEEK_CONNECTION, R.MECH_ROOTS): lambda rules, state: True,
     (R.MECH_ZEEK_CONNECTION, R.HOTP_ELEVATOR): lambda rules, state: rules.elevator(state, Elevator.HOTP),
     (R.MECH_ZEEK_CONNECTION, R.TR_START): lambda rules, state: rules.elevator(state, Elevator.TR),
     (R.MECH_ZEEK_CONNECTION, R.HOTP_BOSS): lambda rules, state: rules.elevator(state, Elevator.ROA_1),
@@ -433,7 +425,6 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
     (R.MECH_ZEEK_CONNECTION, R.APEX): lambda rules, state: rules.elevator(state, Elevator.APEX),
     (R.MECH_ZEEK_CONNECTION, R.GT_BOSS): lambda rules, state: rules.elevator(state, Elevator.GT_2),
     (R.MECH_ZEEK_CONNECTION, R.MECH_BOSS): lambda rules, state: rules.elevator(state, Elevator.MECH_2),
-    (R.MECH_SPLIT_PATH, R.MECH_RIGHT): lambda rules, state: True,  # until skulls are included
     (R.MECH_SPLIT_PATH, R.MECH_CHAINS): lambda rules, state: (
         rules.switches(state, Switch.MECH_SPLIT_PATH, disabled_case=False)
     ),
@@ -529,7 +520,6 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
     (R.MECH_CHARACTER_SWAPS, R.MECH_TP_CONNECTION): lambda rules, state: (
         rules.has(state, Character.ARIAS) or rules.switches(state, Switch.MECH_ARIAS_CYCLOPS, disabled_case=True)
     ),
-    (R.MECH_CLOAK_CONNECTION, R.MECH_BOSS_SWITCHES): lambda rules, state: True,
     (R.MECH_CLOAK_CONNECTION, R.MECH_CHARACTER_SWAPS): lambda rules, state: (
         rules.switches(
             state,
@@ -567,7 +557,6 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
     (R.MECH_BOSS_CONNECTION, R.MECH_BRAM_TUNNEL): lambda rules, state: (
         rules.switches(state, Switch.MECH_BOSS_1, disabled_case=True) and rules.has(state, KeyItem.STAR)
     ),
-    (R.MECH_BOSS_CONNECTION, R.MECH_CHAINS): lambda rules, state: True,
     (R.MECH_BRAM_TUNNEL, R.MECH_BOSS_CONNECTION): lambda rules, state: rules.has(state, KeyItem.STAR),
     (R.MECH_BRAM_TUNNEL, R.HOTP_START_BOTTOM): lambda rules, state: rules.has(state, KeyItem.STAR),
     (R.MECH_BOSS, R.CATA_ELEVATOR): lambda rules, state: rules.elevator(state, Elevator.CATA_1),
@@ -584,7 +573,6 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
             disabled_case=False,
         )
     ),
-    (R.MECH_BOSS, R.MECH_BOSS_CONNECTION): lambda rules, state: True,
     (R.MECH_BOSS, R.HOTP_BOSS): lambda rules, state: rules.elevator(state, Elevator.ROA_1),
     (R.MECH_BOSS, R.ROA_ELEVATOR): lambda rules, state: rules.elevator(state, Elevator.ROA_2),
     (R.MECH_BOSS, R.APEX): lambda rules, state: rules.elevator(state, Elevator.APEX),
@@ -607,14 +595,12 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
             and rules.switches(state, Switch.HOTP_LEFT_1, Switch.HOTP_LEFT_2, disabled_case=True)
         )
     ),
-    (R.HOTP_START_MID, R.HOTP_START_BOTTOM): lambda rules, state: (
-        rules.has(state, KeyItem.STAR) and rules.switches(state, Switch.HOTP_GHOSTS, disabled_case=True)
+    (R.HOTP_START_MID, R.HOTP_START_BOTTOM_MID): lambda rules, state: (
+        rules.switches(state, Switch.HOTP_GHOSTS, disabled_case=True)
     ),
     (R.HOTP_START_MID, R.HOTP_LOWER_VOID): lambda rules, state: (
         rules.hard and rules.has_any(state, Character.ALGUS, ShopUpgrade.BRAM_WHIPLASH)
     ),
-    (R.HOTP_START_MID, R.HOTP_START): lambda rules, state: True,
-    (R.HOTP_LOWER_VOID, R.HOTP_START_MID): lambda rules, state: True,
     (R.HOTP_LOWER_VOID, R.HOTP_UPPER_VOID): lambda rules, state: rules.has(state, KeyItem.VOID, KeyItem.CLAW),
     (R.HOTP_START_LEFT, R.HOTP_ELEVATOR): lambda rules, state: (
         rules.switches(state, Switch.HOTP_LEFT_BACKTRACK, disabled_case=False)
@@ -631,6 +617,9 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
         rules.has(state, KeyItem.STAR)
         or (rules.white_doors(state, WhiteDoor.HOTP_START, disabled_case=True) and rules.has(state, Eye.BLUE))
     ),
+    (R.HOTP_START_BOTTOM, R.HOTP_START_BOTTOM_MID): lambda rules, state: (
+        rules.has(state, KeyItem.BLOCK, KeyItem.BELL, KeyItem.STAR)
+    ),
     (R.HOTP_START_BOTTOM, R.HOTP_LOWER): lambda rules, state: (
         rules.switches(
             state,
@@ -638,6 +627,10 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
             disabled_case=lambda rules, state: rules.reachable(state, L.HOTP_SWITCH_BELOW_START),
         )
     ),
+    (R.HOTP_START_BOTTOM_MID, R.HOTP_START_MID): lambda rules, state: (
+        rules.switches(state, Switch.HOTP_GHOSTS, disabled_case=False)
+    ),
+    (R.HOTP_START_BOTTOM_MID, R.HOTP_START_BOTTOM): lambda rules, state: rules.has(state, KeyItem.STAR),
     (R.HOTP_LOWER, R.HOTP_START_BOTTOM): lambda rules, state: (
         rules.switches(state, Switch.HOTP_BELOW_START, disabled_case=False)
     ),
@@ -654,7 +647,6 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
         )
     ),
     (R.HOTP_EPIMETHEUS, R.MECH_AFTER_BK): lambda rules, state: rules.has(state, KeyItem.CLAW),
-    (R.HOTP_EPIMETHEUS, R.HOTP_LOWER): lambda rules, state: True,
     (R.HOTP_MECH_VOID_CONNECTION, R.HOTP_AMULET_CONNECTION): lambda rules, state: (
         rules.switches(
             state, Crystal.HOTP_ROCK_ACCESS, disabled_case=lambda rules, state: rules.can(state, Logic.CRYSTAL)
@@ -673,8 +665,6 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
             state, Crystal.HOTP_ROCK_ACCESS, disabled_case=lambda rules, state: rules.can(state, Logic.CRYSTAL)
         )
     ),
-    (R.HOTP_TP_TUTORIAL, R.HOTP_BELL_CAMPFIRE): lambda rules, state: True,  # until skulls are included
-    (R.HOTP_TP_TUTORIAL, R.HOTP_LOWER): lambda rules, state: True,
     (R.HOTP_BELL_CAMPFIRE, R.HOTP_LOWER_ARIAS): lambda rules, state: (
         rules.has(state, Character.ARIAS) and (rules.has(state, KeyItem.BELL) or rules.can(state, Logic.ARIAS_JUMP))
     ),
@@ -696,7 +686,6 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
             or (rules.hard and rules.has(state, KeyItem.CLAW))
         )
     ),
-    (R.HOTP_CATH_CONNECTION, R.HOTP_BELL): lambda rules, state: True,
     (R.HOTP_CATH_CONNECTION, R.CATH_START): lambda rules, state: (
         rules.has(state, KeyItem.VOID, KeyItem.CLAW)
         and rules.red_doors(
@@ -715,7 +704,6 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
         rules.switches(state, Switch.HOTP_EYEBALL_SHORTCUT, Switch.HOTP_WORM_PILLAR, disabled_case=False)
         or rules.switches(state, Switch.HOTP_GHOST_BLOOD, disabled_case=True)
     ),
-    (R.HOTP_EYEBALL, R.HOTP_LOWER_ARIAS): lambda rules, state: True,
     (R.HOTP_ELEVATOR, R.HOTP_OLD_MAN): lambda rules, state: (
         rules.has(state, KeyItem.CLOAK)
         and rules.switches(state, Face.HOTP_OLD_MAN, disabled_case=lambda rules, state: rules.has(state, KeyItem.BOW))
@@ -749,9 +737,6 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
         rules.white_doors(state, WhiteDoor.HOTP_CLAW, disabled_case=True)
     ),
     (R.HOTP_CLAW_LEFT, R.HOTP_CLAW): lambda rules, state: rules.has(state, KeyItem.STAR),
-    (R.HOTP_TOP_LEFT, R.HOTP_ELEVATOR): lambda rules, state: True,
-    (R.HOTP_TOP_LEFT, R.HOTP_CLAW_CAMPFIRE): lambda rules, state: True,  # until enemy arenas are included
-    (R.HOTP_TOP_LEFT, R.HOTP_CLAW_LEFT): lambda rules, state: True,
     (R.HOTP_TOP_LEFT, R.HOTP_ABOVE_OLD_MAN): lambda rules, state: (
         rules.has(state, Eye.GREEN)
         and (
@@ -759,7 +744,6 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
             or (rules.has(state, KeyItem.BLOCK, KeyItem.BELL) and rules.can(state, Logic.ARIAS_JUMP))
         )
     ),
-    (R.HOTP_CLAW_CAMPFIRE, R.HOTP_TOP_LEFT): lambda rules, state: True,
     (R.HOTP_CLAW_CAMPFIRE, R.HOTP_CLAW): lambda rules, state: (
         rules.switches(state, Switch.HOTP_CLAW_ACCESS, disabled_case=True)
         and (rules.has(state, Character.KYULI) or rules.can(state, Logic.BLOCK_IN_WALL))
@@ -796,7 +780,6 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
             or rules.switches(state, Crystal.HOTP_HEART, disabled_case=False)
         )
     ),
-    (R.HOTP_UPPER_ARIAS, R.HOTP_HEART): lambda rules, state: True,
     (R.HOTP_UPPER_ARIAS, R.HOTP_BOSS_CAMPFIRE): lambda rules, state: rules.has(state, KeyItem.CLAW),
     (R.HOTP_BOSS_CAMPFIRE, R.MECH_TRIPLE_SWITCHES): lambda rules, state: (
         rules.has(state, Eye.GREEN, KeyItem.CLOAK)
@@ -806,7 +789,6 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
         rules.blue_doors(state, BlueDoor.HOTP_MAIDEN, disabled_case=True)
         and (rules.has(state, KeyItem.SWORD) or rules.has(state, Character.KYULI, KeyItem.BLOCK, KeyItem.BELL))
     ),
-    (R.HOTP_BOSS_CAMPFIRE, R.HOTP_HEART): lambda rules, state: True,
     (R.HOTP_BOSS_CAMPFIRE, R.HOTP_TP_PUZZLE): lambda rules, state: rules.has(state, Eye.GREEN),
     (R.HOTP_BOSS_CAMPFIRE, R.HOTP_BOSS): lambda rules, state: (
         rules.white_doors(state, WhiteDoor.HOTP_BOSS, disabled_case=True)
@@ -826,23 +808,18 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
         rules.has(state, KeyItem.CLAW, KeyItem.BANISH, KeyItem.BELL)
     ),
     (R.HOTP_FALL_BOTTOM, R.HOTP_TP_FALL_TOP): lambda rules, state: rules.has(state, KeyItem.CLAW),
-    (R.HOTP_FALL_BOTTOM, R.MECH_TP_CONNECTION): lambda rules, state: True,
     (R.HOTP_FALL_BOTTOM, R.HOTP_UPPER_VOID): lambda rules, state: rules.has(state, Eye.GREEN),
     (R.HOTP_UPPER_VOID, R.HOTP_FALL_BOTTOM): lambda rules, state: rules.has(state, Eye.GREEN),
-    (R.HOTP_UPPER_VOID, R.HOTP_TP_FALL_TOP): lambda rules, state: True,
     (R.HOTP_UPPER_VOID, R.HOTP_LOWER_VOID): lambda rules, state: rules.has(state, KeyItem.VOID),
     (R.HOTP_BOSS, R.CATA_ELEVATOR): lambda rules, state: rules.elevator(state, Elevator.CATA_1),
     (R.HOTP_BOSS, R.CATA_BOSS): lambda rules, state: rules.elevator(state, Elevator.CATA_2),
     (R.HOTP_BOSS, R.HOTP_ELEVATOR): lambda rules, state: rules.elevator(state, Elevator.HOTP),
-    (R.HOTP_BOSS, R.HOTP_BOSS_CAMPFIRE): lambda rules, state: True,
     (R.HOTP_BOSS, R.TR_START): lambda rules, state: rules.elevator(state, Elevator.TR),
     (R.HOTP_BOSS, R.ROA_ELEVATOR): lambda rules, state: rules.elevator(state, Elevator.ROA_2),
     (R.HOTP_BOSS, R.APEX): lambda rules, state: rules.elevator(state, Elevator.APEX),
     (R.HOTP_BOSS, R.GT_BOSS): lambda rules, state: rules.elevator(state, Elevator.GT_2),
     (R.HOTP_BOSS, R.MECH_ZEEK_CONNECTION): lambda rules, state: rules.elevator(state, Elevator.MECH_1),
-    (R.HOTP_BOSS, R.ROA_START): lambda rules, state: True,
     (R.HOTP_BOSS, R.MECH_BOSS): lambda rules, state: rules.elevator(state, Elevator.MECH_2),
-    (R.ROA_START, R.HOTP_BOSS): lambda rules, state: True,
     (R.ROA_START, R.ROA_WORMS): lambda rules, state: (
         rules.switches(
             state,
@@ -851,32 +828,31 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
             disabled_case=(rules.has(state, KeyItem.BELL) and rules.can(state, Logic.CRYSTAL)),
         )
     ),
-    (R.ROA_WORMS, R.ROA_HEARTS): lambda rules, state: (
-        rules.white_doors(state, WhiteDoor.ROA_WORMS, disabled_case=True)
-        and (rules.switches(state, Switch.ROA_AFTER_WORMS, disabled_case=True) or rules.has(state, KeyItem.STAR))
-    ),
     (R.ROA_WORMS, R.ROA_START): lambda rules, state: (
         rules.switches(state, Switch.ROA_WORMS, disabled_case=True)
         or rules.switches(
             state, Crystal.ROA_1ST_ROOM, disabled_case=lambda rules, state: rules.can(state, Logic.CRYSTAL)
         )
     ),
+    (R.ROA_WORMS, R.ROA_WORMS_CONNECTION): lambda rules, state: (
+        rules.white_doors(state, WhiteDoor.ROA_WORMS, disabled_case=True)
+    ),
     (R.ROA_WORMS, R.ROA_LOWER_VOID_CONNECTION): lambda rules, state: rules.has(state, KeyItem.CLAW),
     (R.ROA_HEARTS, R.ROA_BOTTOM_ASCEND): lambda rules, state: (
         rules.switches(state, Switch.ROA_1ST_SHORTCUT, disabled_case=False)
     ),
-    (R.ROA_HEARTS, R.ROA_SPIKE_CLIMB): lambda rules, state: True,  # until enemy arenas are included
-    (R.ROA_HEARTS, R.ROA_WORMS): lambda rules, state: (
+    (R.ROA_WORMS_CONNECTION, R.ROA_WORMS): lambda rules, state: (
         rules.white_doors(state, WhiteDoor.ROA_WORMS, disabled_case=True)
-        and (
-            rules.switches(state, Switch.ROA_AFTER_WORMS, disabled_case=False)
-            or (rules.has(state, KeyItem.STAR, KeyItem.BELL) and rules.can(state, Logic.EXTRA_HEIGHT))
-        )
+    ),
+    (R.ROA_WORMS_CONNECTION, R.ROA_HEARTS): lambda rules, state: (
+        rules.switches(state, Switch.ROA_AFTER_WORMS, disabled_case=False) or rules.has(state, KeyItem.STAR)
+    ),
+    (R.ROA_HEARTS, R.ROA_WORMS_CONNECTION): lambda rules, state: (
+        rules.switches(state, Switch.ROA_AFTER_WORMS, disabled_case=False)
+        or (rules.has(state, KeyItem.STAR, KeyItem.BELL) and rules.can(state, Logic.EXTRA_HEIGHT))
     ),
     (R.ROA_SPIKE_CLIMB, R.ROA_HEARTS): lambda rules, state: False,  # until enemy arenas are included
     (R.ROA_SPIKE_CLIMB, R.ROA_BOTTOM_ASCEND): lambda rules, state: rules.has(state, KeyItem.CLAW),
-    (R.ROA_BOTTOM_ASCEND, R.ROA_HEARTS): lambda rules, state: True,
-    (R.ROA_BOTTOM_ASCEND, R.ROA_SPIKE_CLIMB): lambda rules, state: True,
     (R.ROA_BOTTOM_ASCEND, R.ROA_TOP_ASCENT): lambda rules, state: (
         rules.white_doors(state, WhiteDoor.ROA_ASCEND, disabled_case=True)
     ),
@@ -884,7 +860,6 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
         rules.switches(state, Switch.ROA_ASCEND, disabled_case=True)
         or (rules.has(state, Character.KYULI, KeyItem.BLOCK, KeyItem.BELL))
     ),
-    (R.ROA_TRIPLE_REAPER, R.ROA_BOTTOM_ASCEND): lambda rules, state: True,
     (R.ROA_TRIPLE_REAPER, R.ROA_ARENA): lambda rules, state: (
         rules.switches(state, Crystal.ROA_3_REAPERS, disabled_case=lambda rules, state: rules.can(state, Logic.CRYSTAL))
     ),
@@ -899,7 +874,6 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
             state, Crystal.ROA_BABY_GORGON, disabled_case=lambda rules, state: rules.can(state, Logic.CRYSTAL)
         )
     ),
-    (R.ROA_LOWER_VOID_CONNECTION, R.ROA_WORMS): lambda rules, state: True,
     (R.ROA_LOWER_VOID_CONNECTION, R.ROA_FLAMES_CONNECTION): lambda rules, state: (
         rules.has(state, KeyItem.STAR, KeyItem.BELL)
     ),
@@ -911,7 +885,6 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
     (R.ROA_LOWER_VOID, R.ROA_LOWER_VOID_CONNECTION): lambda rules, state: (
         rules.switches(state, Switch.ROA_LOWER_VOID, disabled_case=True)
     ),
-    (R.ROA_ARIAS_BABY_GORGON, R.ROA_FLAMES_CONNECTION): lambda rules, state: True,  # until arenas are included
     (R.ROA_ARIAS_BABY_GORGON, R.ROA_FLAMES): lambda rules, state: (
         rules.switches(state, Switch.ROA_BABY_GORGON, disabled_case=False)
         and rules.has(state, KeyItem.BLOCK, Character.KYULI, KeyItem.BELL)
@@ -933,7 +906,6 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
     (R.ROA_FLAMES_CONNECTION, R.ROA_ARIAS_BABY_GORGON): lambda rules, state: (
         rules.hard and rules.has_any(state, ShopUpgrade.BRAM_WHIPLASH, ShopUpgrade.KYULI_RAY)
     ),
-    (R.ROA_FLAMES_CONNECTION, R.ROA_ARENA): lambda rules, state: True,
     (R.ROA_FLAMES_CONNECTION, R.ROA_FLAMES): lambda rules, state: (
         rules.has(state, KeyItem.GAUNTLET, KeyItem.BELL) and rules.can(state, Logic.EXTRA_HEIGHT)
     ),
@@ -944,9 +916,7 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
     (R.ROA_FLAMES, R.ROA_ARIAS_BABY_GORGON): lambda rules, state: (
         rules.switches(state, Switch.ROA_BABY_GORGON, disabled_case=True)
     ),
-    (R.ROA_WORM_CLIMB, R.ROA_FLAMES_CONNECTION): lambda rules, state: True,
     (R.ROA_WORM_CLIMB, R.ROA_RIGHT_BRANCH): lambda rules, state: rules.has(state, KeyItem.CLAW),
-    (R.ROA_RIGHT_BRANCH, R.ROA_WORM_CLIMB): lambda rules, state: True,
     (R.ROA_RIGHT_BRANCH, R.ROA_MIDDLE): lambda rules, state: rules.has(state, KeyItem.STAR),
     (R.ROA_LEFT_ASCENT, R.ROA_FLAMES_CONNECTION): lambda rules, state: (
         rules.switches(
@@ -970,7 +940,6 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
         )
         and rules.has(state, KeyItem.CLAW, KeyItem.BELL)
     ),
-    (R.ROA_TRIPLE_SWITCH, R.ROA_TOP_ASCENT): lambda rules, state: True,
     (R.ROA_MIDDLE, R.ROA_LEFT_SWITCH): lambda rules, state: rules.can(state, Logic.EXTRA_HEIGHT),
     (R.ROA_MIDDLE, R.ROA_RIGHT_BRANCH): lambda rules, state: rules.has(state, KeyItem.STAR),
     (R.ROA_MIDDLE, R.ROA_RIGHT_SWITCH_1): lambda rules, state: (
@@ -992,11 +961,9 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
     ),
     (R.ROA_MIDDLE, R.ROA_LEFT_BABY_GORGON): lambda rules, state: rules.can(state, Logic.EXTRA_HEIGHT),
     (R.ROA_RIGHT_SWITCH_1, R.ROA_RIGHT_SWITCH_2): lambda rules, state: rules.can(state, Logic.EXTRA_HEIGHT),
-    (R.ROA_MIDDLE_LADDER, R.ROA_MIDDLE): lambda rules, state: True,
     (R.ROA_MIDDLE_LADDER, R.ROA_UPPER_VOID): lambda rules, state: (
         rules.switches(state, Switch.ROA_SHAFT_L, Switch.ROA_SHAFT_R, disabled_case=True)
     ),
-    (R.ROA_UPPER_VOID, R.ROA_MIDDLE_LADDER): lambda rules, state: True,
     (R.ROA_UPPER_VOID, R.ROA_LOWER_VOID): lambda rules, state: rules.has(state, KeyItem.VOID),
     (R.ROA_UPPER_VOID, R.ROA_SP_CONNECTION): lambda rules, state: (
         rules.switches(state, Crystal.ROA_SHAFT, Switch.ROA_SHAFT_DOWNWARDS, disabled_case=False)
@@ -1009,7 +976,6 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
     (R.ROA_SPIKE_BALLS, R.ROA_SPIKE_SPINNERS): lambda rules, state: (
         rules.white_doors(state, WhiteDoor.ROA_BALLS, disabled_case=True)
     ),
-    (R.ROA_SPIKE_BALLS, R.ROA_UPPER_VOID): lambda rules, state: True,
     (R.ROA_SPIKE_SPINNERS, R.ROA_SPIDERS_1): lambda rules, state: (
         rules.white_doors(state, WhiteDoor.ROA_SPINNERS, disabled_case=True)
     ),
@@ -1020,14 +986,9 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
         rules.switches(state, Face.ROA_SPIDERS, disabled_case=lambda rules, state: rules.has(state, KeyItem.BOW))
     ),
     (R.ROA_SPIDERS_1, R.ROA_SPIDERS_2): lambda rules, state: rules.can(state, Logic.EXTRA_HEIGHT),
-    (R.ROA_SPIDERS_1, R.ROA_SPIKE_SPINNERS): lambda rules, state: True,
-    (R.ROA_SPIDERS_2, R.ROA_SPIDERS_1): lambda rules, state: True,
     (R.ROA_SPIDERS_2, R.ROA_BLOOD_POT_HALLWAY): lambda rules, state: (
         rules.switches(state, Switch.ROA_SPIDERS, disabled_case=True)
     ),
-    (R.ROA_BLOOD_POT_HALLWAY, R.ROA_SP_CONNECTION): lambda rules, state: True,  # until arenas are included
-    (R.ROA_BLOOD_POT_HALLWAY, R.ROA_SPIDERS_2): lambda rules, state: True,
-    (R.ROA_SP_CONNECTION, R.ROA_BLOOD_POT_HALLWAY): lambda rules, state: True,
     (R.ROA_SP_CONNECTION, R.SP_START): lambda rules, state: (
         rules.red_doors(state, RedDoor.SP, disabled_case=lambda rules, state: rules.reachable(state, L.ROA_RED_KEY))
     ),
@@ -1035,10 +996,8 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
         # can probably make it without claw
         rules.has(state, KeyItem.CLAW) and rules.switches(state, Switch.ROA_DARK_ROOM, disabled_case=True)
     ),
-    (R.ROA_SP_CONNECTION, R.ROA_UPPER_VOID): lambda rules, state: True,
     (R.ROA_ELEVATOR, R.CATA_ELEVATOR): lambda rules, state: rules.elevator(state, Elevator.CATA_1),
     (R.ROA_ELEVATOR, R.CATA_BOSS): lambda rules, state: rules.elevator(state, Elevator.CATA_2),
-    (R.ROA_ELEVATOR, R.ROA_SP_CONNECTION): lambda rules, state: True,
     (R.ROA_ELEVATOR, R.HOTP_ELEVATOR): lambda rules, state: rules.elevator(state, Elevator.HOTP),
     (R.ROA_ELEVATOR, R.TR_START): lambda rules, state: rules.elevator(state, Elevator.TR),
     (R.ROA_ELEVATOR, R.HOTP_BOSS): lambda rules, state: rules.elevator(state, Elevator.ROA_1),
@@ -1050,7 +1009,6 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
     (R.ROA_ELEVATOR, R.GT_BOSS): lambda rules, state: rules.elevator(state, Elevator.GT_2),
     (R.ROA_ELEVATOR, R.MECH_ZEEK_CONNECTION): lambda rules, state: rules.elevator(state, Elevator.MECH_1),
     (R.ROA_ELEVATOR, R.MECH_BOSS): lambda rules, state: rules.elevator(state, Elevator.MECH_2),
-    (R.ROA_DARK_CONNECTION, R.ROA_ELEVATOR): lambda rules, state: True,
     (R.ROA_DARK_CONNECTION, R.ROA_CENTAUR): lambda rules, state: (
         rules.switches(state, Switch.ROA_BLOOD_POT, disabled_case=False)
     ),
@@ -1116,7 +1074,6 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
     (R.CAVES_START, R.CAVES_EPIMETHEUS): lambda rules, state: (
         rules.blue_doors(state, BlueDoor.CAVES, disabled_case=True)
     ),
-    (R.CAVES_START, R.GT_BOTTOM): lambda rules, state: True,
     (R.CAVES_EPIMETHEUS, R.CAVES_UPPER): lambda rules, state: (
         rules.has(state, Character.KYULI)
         or rules.can(state, Logic.BLOCK_IN_WALL)
@@ -1125,7 +1082,6 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
     (R.CAVES_EPIMETHEUS, R.CAVES_START): lambda rules, state: (
         rules.blue_doors(state, BlueDoor.CAVES, disabled_case=True)
     ),
-    (R.CAVES_UPPER, R.CAVES_EPIMETHEUS): lambda rules, state: True,
     (R.CAVES_UPPER, R.CAVES_ARENA): lambda rules, state: (
         rules.has_any(state, KeyItem.SWORD, ShopUpgrade.ALGUS_METEOR, ShopUpgrade.KYULI_RAY)
     ),
@@ -1202,14 +1158,11 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
     (R.CATA_BOW_CONNECTION, R.CATA_VERTICAL_SHORTCUT): lambda rules, state: (
         rules.switches(state, Switch.CATA_VERTICAL_SHORTCUT, disabled_case=False)
     ),
-    (R.CATA_VERTICAL_SHORTCUT, R.CATA_BLUE_EYE_DOOR): lambda rules, state: True,
-    (R.CATA_VERTICAL_SHORTCUT, R.CATA_FLAMES_FORK): lambda rules, state: True,
     (R.CATA_VERTICAL_SHORTCUT, R.CATA_BOW_CONNECTION): lambda rules, state: (
         rules.switches(state, Switch.CATA_VERTICAL_SHORTCUT, disabled_case=True)
         and (rules.switches(state, Switch.CATA_MID_SHORTCUT, disabled_case=True) or rules.has(state, Character.KYULI))
     ),
     (R.CATA_EYEBALL_BONES, R.CATA_SNAKE_MUSHROOMS): lambda rules, state: rules.has(state, Eye.RED),
-    (R.CATA_EYEBALL_BONES, R.CATA_BOW_CAMPFIRE): lambda rules, state: True,
     (R.CATA_SNAKE_MUSHROOMS, R.CATA_DEV_ROOM_CONNECTION): lambda rules, state: rules.has(
         state, KeyItem.CLAW, KeyItem.BELL, Character.ZEEK
     ),
@@ -1260,7 +1213,6 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
     (R.CATA_CENTAUR, R.CATA_BOSS): lambda rules, state: (
         rules.switches(state, Face.CATA_CAMPFIRE, disabled_case=False)
     ),
-    (R.CATA_4_FACES, R.CATA_CENTAUR): lambda rules, state: True,
     (R.CATA_4_FACES, R.CATA_DOUBLE_DOOR): lambda rules, state: (
         rules.switches(state, Face.CATA_X4, disabled_case=lambda rules, state: rules.has(state, KeyItem.BOW))
     ),
@@ -1336,7 +1288,6 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
     (R.CD_START, R.CD_BOSS): lambda rules, state: (
         rules.region(R.CD_ARIAS_ROUTE).can_reach(state) and rules.region(R.CD_TOP).can_reach(state)
     ),
-    (R.CD_2, R.CD_3): lambda rules, state: True,  # until arenas are included
     (R.CD_3, R.CD_MIDDLE): lambda rules, state: rules.switches(state, Switch.CD_3, disabled_case=True),
     (R.CD_MIDDLE, R.CD_KYULI_ROUTE): lambda rules, state: (
         rules.switches(state, Switch.CD_CAMPFIRE, disabled_case=True)
@@ -1346,7 +1297,6 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
     (R.CD_CAMPFIRE_3, R.CD_ARENA): lambda rules, state: (
         rules.switches(state, Crystal.CD_CAMPFIRE, disabled_case=lambda rules, state: rules.can(state, Logic.CRYSTAL))
     ),
-    (R.CD_ARENA, R.CD_STEPS): lambda rules, state: True,  # until arenas are included
     (R.CD_STEPS, R.CD_TOP): lambda rules, state: (
         rules.switches(state, Crystal.CD_STEPS, disabled_case=lambda rules, state: rules.can(state, Logic.CRYSTAL))
     ),
@@ -1358,7 +1308,6 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
         )
         and rules.has(state, KeyItem.CLAW)
     ),
-    (R.CATH_START, R.CATH_START_RIGHT): lambda rules, state: True,  # until arenas are included
     (R.CATH_START_RIGHT, R.CATH_START_TOP_LEFT): lambda rules, state: (
         rules.switches(state, Switch.CATH_BOTTOM, disabled_case=True)
     ),
@@ -1368,7 +1317,6 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
     (R.CATH_START_LEFT, R.CATH_TP): lambda rules, state: (
         rules.switches(state, Face.CATH_R, disabled_case=lambda rules, state: rules.has(state, KeyItem.BOW))
     ),
-    (R.CATH_TP, R.CATH_LEFT_SHAFT): lambda rules, state: True,
     (R.CATH_LEFT_SHAFT, R.CATH_SHAFT_ACCESS): lambda rules, state: (
         rules.switches(state, Crystal.CATH_SHAFT_ACCESS, disabled_case=False) and rules.has(state, KeyItem.CLAW)
     ),
@@ -1387,7 +1335,6 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
             disabled_case=(rules.can(state, Logic.CRYSTAL) and rules.has(state, KeyItem.BELL)),
         )
     ),
-    (R.CATH_ORB_ROOM, R.CATH_RIGHT_SHAFT_CONNECTION): lambda rules, state: True,  # until arenas are included
     (R.CATH_RIGHT_SHAFT_CONNECTION, R.CATH_RIGHT_SHAFT): lambda rules, state: rules.has(
         state, KeyItem.BELL, Character.ZEEK, KeyItem.BOW
     ),
@@ -1408,7 +1355,6 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
     (R.SP_CAMPFIRE_1, R.SP_HEARTS): lambda rules, state: (rules.switches(state, Switch.SP_BUBBLES, disabled_case=True)),
     (R.SP_HEARTS, R.SP_ORBS): lambda rules, state: rules.has(state, KeyItem.STAR, KeyItem.BELL, Character.KYULI),
     (R.SP_HEARTS, R.SP_FROG): lambda rules, state: (rules.switches(state, Switch.SP_DOUBLE_DOORS, disabled_case=True)),
-    (R.SP_HEARTS, R.SP_PAINTING): lambda rules, state: True,  # until arenas are included
     (R.SP_PAINTING, R.SP_SHAFT): lambda rules, state: (
         rules.has(state, KeyItem.CLAW) and rules.blue_doors(state, BlueDoor.SP, disabled_case=True)
     ),
@@ -1422,8 +1368,6 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
             state, Switch.SP_AFTER_STAR, disabled_case=lambda rules, state: rules.has(state, Character.ARIAS)
         )
     ),
-    (R.SP_FROG, R.SP_CAMPFIRE_2): lambda rules, state: True,  # until arenas are included
-    (R.SP_CAMPFIRE_2, R.HOTP_MAIDEN): lambda rules, state: True,
 }
 
 INDIRECT_CONDITIONS: Tuple[Tuple[Union[L, R], Tuple[R, R]], ...] = (
@@ -1744,7 +1688,6 @@ SWITCH_RULES: Dict[L, AstalonRule] = {
     L.MECH_CRYSTAL_TOP_CHAINS: lambda rules, state: rules.can(state, Logic.CRYSTAL),
     L.MECH_CRYSTAL_BK: lambda rules, state: rules.can(state, Logic.CRYSTAL),
     L.MECH_FACE_ABOVE_VOLANTIS: lambda rules, state: rules.has(state, KeyItem.BOW, KeyItem.CLAW),
-    L.HOTP_SWITCH_BELOW_START: lambda rules, state: (rules.switches(state, Switch.HOTP_GHOSTS, disabled_case=True)),
     L.HOTP_SWITCH_LOWER_SHORTCUT: lambda rules, state: (
         rules.switches(state, Crystal.HOTP_LOWER, disabled_case=lambda rules, state: rules.can(state, Logic.CRYSTAL))
     ),
@@ -1775,7 +1718,6 @@ SWITCH_RULES: Dict[L, AstalonRule] = {
     L.HOTP_CRYSTAL_HEART: lambda rules, state: rules.can(state, Logic.CRYSTAL),
     L.HOTP_CRYSTAL_BELOW_PUZZLE: lambda rules, state: rules.can(state, Logic.CRYSTAL),
     L.HOTP_FACE_OLD_MAN: lambda rules, state: rules.has(state, KeyItem.BOW),
-    L.ROA_SWITCH_AFTER_WORMS: lambda rules, state: rules.white_doors(state, WhiteDoor.ROA_WORMS, disabled_case=True),
     L.ROA_SWITCH_SPIKE_CLIMB: lambda rules, state: rules.has(state, KeyItem.CLAW),
     L.ROA_SWITCH_TRIPLE_3: lambda rules, state: (
         rules.switches(state, Crystal.ROA_TRIPLE_2, disabled_case=lambda rules, state: rules.can(state, Logic.CRYSTAL))
