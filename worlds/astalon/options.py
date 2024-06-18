@@ -311,7 +311,7 @@ class AllowBlockWarping(Toggle):
 
 class OpenEarlyDoors(DefaultOnToggle):
     """
-    Opens some Gorgon's Tomb doors by default when using key or switch rando to give you a bigger sphere 1.
+    Opens some Gorgon Tomb doors by default when using key or switch rando to give you a bigger sphere 1.
     Has no effect when not using white key, blue key, or switch rando.
     """
 
@@ -320,11 +320,19 @@ class OpenEarlyDoors(DefaultOnToggle):
 
 class CheapKyuliRay(Toggle):
     """
-    Make's Kyuli's Shining Ray only cost 50 orbs.
+    Makes Kyuli's Shining Ray only cost 50 orbs.
     Recommended when using hard logic and character rando as it can activate crystals.
     """
 
     display_name = "Cheap Kyuli Ray"
+
+
+class AlwaysRestoreCandles(Toggle):
+    """
+    Restores all candles on every death for free.
+    """
+
+    display_name = "Always Restore Candles"
 
 
 @dataclass
@@ -359,4 +367,5 @@ class AstalonOptions(PerGameCommonOptions):
     allow_block_warping: AllowBlockWarping
     open_early_doors: OpenEarlyDoors
     cheap_kyuli_ray: CheapKyuliRay
+    always_restore_candles: AlwaysRestoreCandles
     death_link: DeathLink

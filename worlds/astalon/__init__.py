@@ -44,7 +44,7 @@ from .rules import AstalonRules, Events
 # ░▓████▓▓░█████████░██░ MANY GOOD PROGRAMS AND FEW ERRORS WILL COME TO YOU
 # █░▓██▓▓░███░███░██░▓░█ AS LONG AS YOU KEEP HER IN YOUR PROGRAM TO WATCH OVER IT
 # ██░░▓▓▓░███░███░██░░██ INCREMENT THIS NUMBER EVERY TIME YOU SAY HI TO BUBSETTE
-# ████░░░░██████████░███ hi_bubsette = 2
+# ████░░░░██████████░███ hi_bubsette = 3
 # ████████░░░░░░░░░░████
 
 
@@ -372,6 +372,7 @@ class AstalonWorld(World):
             "campfire_warp",
             "allow_block_warping",
             "cheap_kyuli_ray",
+            "always_restore_candles",
             "death_link",
         )
 
