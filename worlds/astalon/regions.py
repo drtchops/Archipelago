@@ -1546,6 +1546,7 @@ astalon_regions: Dict[RegionName, RegionData] = {
     ),
     RegionName.SP_HEARTS: RegionData(
         exits={
+            RegionName.SP_CAMPFIRE_1,
             RegionName.SP_PAINTING,
             RegionName.SP_ORBS,
             RegionName.SP_FROG,
@@ -1553,25 +1554,33 @@ astalon_regions: Dict[RegionName, RegionData] = {
     ),
     RegionName.SP_PAINTING: RegionData(
         exits={
+            RegionName.SP_HEARTS,
             RegionName.SP_SHAFT,
         },
     ),
     RegionName.SP_SHAFT: RegionData(
         exits={
+            RegionName.SP_PAINTING,
             RegionName.SP_STAR,
         },
     ),
     RegionName.SP_STAR: RegionData(
         exits={
+            RegionName.SP_SHAFT,
             RegionName.SP_STAR_CONNECTION,
         },
     ),
     RegionName.SP_STAR_CONNECTION: RegionData(
         exits={
+            RegionName.SP_STAR,
             RegionName.SP_STAR_END,
         },
     ),
-    RegionName.SP_STAR_END: RegionData(),
+    RegionName.SP_STAR_END: RegionData(
+        exits={
+            RegionName.SP_STAR_CONNECTION,
+        },
+    ),
     RegionName.SP_ORBS: RegionData(),
     RegionName.SP_FROG: RegionData(
         exits={

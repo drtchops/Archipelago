@@ -1284,7 +1284,10 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
         rules.switches(state, Switch.TR_BOTTOM, disabled_case=True)
     ),
     (R.TR_BOTTOM, R.TR_BOTTOM_LEFT): lambda rules, state: rules.has(state, Eye.BLUE),
-    (R.CD_START, R.CD_2): lambda rules, state: rules.switches(state, Switch.CD_1, disabled_case=True),
+    (R.CD_START, R.CD_2): lambda rules, state: (
+        rules.switches(state, Switch.CD_1, disabled_case=True)
+        or rules.switches(state, Crystal.CD_BACKTRACK, disabled_case=False)
+    ),
     (R.CD_START, R.CD_BOSS): lambda rules, state: (
         rules.region(R.CD_ARIAS_ROUTE).can_reach(state) and rules.region(R.CD_TOP).can_reach(state)
     ),
@@ -1352,21 +1355,34 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
     (R.SP_START, R.SP_CAMPFIRE_1): lambda rules, state: (
         rules.switches(state, Crystal.SP_BLOCKS, disabled_case=lambda rules, state: rules.can(state, Logic.CRYSTAL))
     ),
-    (R.SP_CAMPFIRE_1, R.SP_HEARTS): lambda rules, state: (rules.switches(state, Switch.SP_BUBBLES, disabled_case=True)),
+    (R.SP_CAMPFIRE_1, R.SP_HEARTS): lambda rules, state: rules.switches(state, Switch.SP_BUBBLES, disabled_case=True),
+    (R.SP_HEARTS, R.SP_CAMPFIRE_1): lambda rules, state: rules.switches(state, Switch.SP_BUBBLES, disabled_case=False),
     (R.SP_HEARTS, R.SP_ORBS): lambda rules, state: rules.has(state, KeyItem.STAR, KeyItem.BELL, Character.KYULI),
-    (R.SP_HEARTS, R.SP_FROG): lambda rules, state: (rules.switches(state, Switch.SP_DOUBLE_DOORS, disabled_case=True)),
+    (R.SP_HEARTS, R.SP_FROG): lambda rules, state: rules.switches(state, Switch.SP_DOUBLE_DOORS, disabled_case=True),
+    (R.SP_PAINTING, R.SP_HEARTS): lambda rules, state: (
+        rules.has(state, KeyItem.CHALICE, KeyItem.BELL, ShopUpgrade.ALGUS_METEOR)
+    ),
     (R.SP_PAINTING, R.SP_SHAFT): lambda rules, state: (
         rules.has(state, KeyItem.CLAW) and rules.blue_doors(state, BlueDoor.SP, disabled_case=True)
     ),
+    (R.SP_SHAFT, R.SP_PAINTING): lambda rules, state: rules.blue_doors(state, BlueDoor.SP, disabled_case=True),
     (R.SP_SHAFT, R.SP_STAR): lambda rules, state: (
         rules.has(state, KeyItem.CLAW, KeyItem.BELL)
         and rules.switches(state, Crystal.SP_STAR, disabled_case=lambda rules, state: rules.can(state, Logic.CRYSTAL))
     ),
+    (R.SP_STAR, R.SP_SHAFT): lambda rules, state: (
+        rules.has(state, KeyItem.CHALICE, KeyItem.BELL, ShopUpgrade.ALGUS_METEOR)
+        and rules.switches(state, Crystal.SP_STAR, disabled_case=False)
+    ),
     (R.SP_STAR, R.SP_STAR_CONNECTION): lambda rules, state: rules.has(state, KeyItem.STAR),
+    (R.SP_STAR_CONNECTION, R.SP_STAR): lambda rules, state: rules.has(state, KeyItem.STAR),
     (R.SP_STAR_CONNECTION, R.SP_STAR_END): lambda rules, state: (
         rules.switches(
             state, Switch.SP_AFTER_STAR, disabled_case=lambda rules, state: rules.has(state, Character.ARIAS)
         )
+    ),
+    (R.SP_STAR_END, R.SP_STAR_CONNECTION): lambda rules, state: (
+        rules.switches(state, Switch.SP_AFTER_STAR, disabled_case=False)
     ),
 }
 
@@ -1784,6 +1800,7 @@ SWITCH_RULES: Dict[L, AstalonRule] = {
     L.CATH_CRYSTAL_ORBS: lambda rules, state: rules.can(state, Logic.CRYSTAL),
     L.CATH_FACE_LEFT: lambda rules, state: rules.has(state, KeyItem.BOW),
     L.CATH_FACE_RIGHT: lambda rules, state: rules.has(state, KeyItem.BOW),
+    L.SP_SWITCH_AFTER_STAR: lambda rules, state: rules.has(state, Character.ARIAS),
     L.SP_CRYSTAL_BLOCKS: lambda rules, state: rules.can(state, Logic.CRYSTAL),
     L.SP_CRYSTAL_STAR: lambda rules, state: rules.can(state, Logic.CRYSTAL),
 }
