@@ -335,6 +335,14 @@ class AlwaysRestoreCandles(Toggle):
     display_name = "Always Restore Candles"
 
 
+class ScaleCharacterStats(DefaultOnToggle):
+    """
+    Scales character starting attack and defense based on which sphere they're found in.
+    """
+
+    display_name = "Scale Character Stats"
+
+
 @dataclass
 class AstalonOptions(PerGameCommonOptions):
     start_inventory_from_pool: StartInventoryPool
@@ -368,4 +376,5 @@ class AstalonOptions(PerGameCommonOptions):
     open_early_doors: OpenEarlyDoors
     cheap_kyuli_ray: CheapKyuliRay
     always_restore_candles: AlwaysRestoreCandles
+    scale_character_stats: ScaleCharacterStats
     death_link: DeathLink

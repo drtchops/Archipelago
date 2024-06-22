@@ -1,3 +1,4 @@
+import logging
 from typing import TYPE_CHECKING, Any, ClassVar, Dict, List, Set
 
 from BaseClasses import CollectionState, Item, ItemClassification, Region, Tutorial
@@ -49,6 +50,9 @@ if TYPE_CHECKING:
 # ██░░▓▓▓░███░███░██░░██ INCREMENT THIS NUMBER EVERY TIME YOU SAY HI TO BUBSETTE
 # ████░░░░██████████░███ hi_bubsette = 3
 # ████████░░░░░░░░░░████
+
+
+logger = logging.getLogger(__name__)
 
 
 class AstalonWebWorld(WebWorld):
@@ -116,11 +120,12 @@ class AstalonWorld(World):
             self.required_gold_eyes = self.options.additional_eyes_required.value
             self.extra_gold_eyes = int(round(self.required_gold_eyes * (self.options.extra_eyes / 100)))
 
-    def create_location(self, name: str):
+    def create_location(self, name: str) -> AstalonLocation:
         data = location_table[name]
         region = self.multiworld.get_region(data.region.value, self.player)
         location = AstalonLocation(self.player, name, location_name_to_id[name], region)
         region.locations.append(location)
+        return location
 
     def create_regions(self) -> None:
         for region_name in astalon_regions:
@@ -326,7 +331,10 @@ class AstalonWorld(World):
 
         useful = [i for i in new_pool if i.classification != ItemClassification.progression]
         if len(useful) < count:
-            raise Exception("No space left for eye hunt. Lower your eye hunt goal or randomize more things.")
+            raise Exception(
+                f"Astalon player #{self.player} failed: No space left for eye hunt. "
+                "Lower your eye hunt goal or randomize more things."
+            )
         if len(useful) > count:
             useful = self.random.sample(useful, count)
         for u in useful:
@@ -351,12 +359,15 @@ class AstalonWorld(World):
         self.rules.set_indirect_conditions()
 
     @classmethod
-    def stage_post_fill(cls, multiworld: "MultiWorld"):
+    def stage_post_fill(cls, multiworld: "MultiWorld") -> None:
         # Cache spheres for hint calculation after fill completes.
         cls.cached_spheres = list(multiworld.get_spheres())
+        if len(cls.cached_spheres) > 2 and not cls.cached_spheres[-2]:
+            # remove unreachable locations
+            cls.cached_spheres = cls.cached_spheres[:-2]
 
     @classmethod
-    def stage_modify_multidata(cls, *_):
+    def stage_modify_multidata(cls, *_) -> None:
         # Clean up all references in cached spheres after generation completes.
         del cls.cached_spheres
 
@@ -388,32 +399,42 @@ class AstalonWorld(World):
             "allow_block_warping",
             "cheap_kyuli_ray",
             "always_restore_candles",
+            "scale_character_stats",
             "death_link",
         )
-
-        character_strengths: Dict[str, float] = {c.value: 0 for c in CHARACTERS}
-        spheres = self.cached_spheres
-        sphere_count = len(spheres)
-        found = 0
-        limit = 5 if self.options.randomize_characters else 2
-
-        for sphere_id, sphere in enumerate(spheres):
-            for location in sphere:
-                if location.item and location.item.player == self.player and location.item.name in character_strengths:
-                    character_strengths[location.item.name] = sphere_id / sphere_count
-                    found += 1
-                    if found >= limit:
-                        break
-            if found >= limit:
-                break
 
         return {
             "settings": settings,
             "starting_characters": [c.value for c in self.starting_characters],
-            "character_strengths": character_strengths,
+            "character_strengths": self._get_character_strengths(),
         }
 
-    def collect(self, state: "CollectionState", item: "Item"):
+    def _get_character_strengths(self) -> Dict[str, float]:
+        character_strengths: Dict[str, float] = {c.value: 0 for c in CHARACTERS}
+        if not self.options.scale_character_stats:
+            return character_strengths
+
+        spheres = self.cached_spheres
+        sphere_count = len(spheres)
+        found = len(self.starting_characters) if self.options.randomize_characters else 3
+        limit = 5
+        if found >= limit:
+            return character_strengths
+
+        for sphere_id, sphere in enumerate(spheres):
+            for location in sphere:
+                if location.item and location.item.player == self.player and location.item.name in character_strengths:
+                    scaling = (sphere_id + 1) / sphere_count
+                    logger.debug(f"{location.item.name} in sphere {sphere_id+1} / {sphere_count}, scaling {scaling}")
+                    character_strengths[location.item.name] = scaling
+                    found += 1
+                    if found >= limit:
+                        return character_strengths
+
+        logger.warning("Could not find all Astalon characters in spheres, something is likely wrong")
+        return character_strengths
+
+    def collect(self, state: "CollectionState", item: "Item") -> bool:
         if item.advancement:
             self.rules.clear_cache()
         return super().collect(state, item)
