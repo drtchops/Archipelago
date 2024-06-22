@@ -1,4 +1,4 @@
-from typing import Any, Dict, List
+from typing import TYPE_CHECKING, Any, ClassVar, Dict, List, Set
 
 from BaseClasses import CollectionState, Item, ItemClassification, Region, Tutorial
 from worlds.AutoWorld import WebWorld, World
@@ -33,6 +33,9 @@ from .locations import (
 from .options import ApexElevator, AstalonOptions, Goal, RandomizeCharacters
 from .regions import RegionName, astalon_regions
 from .rules import AstalonRules, Events
+
+if TYPE_CHECKING:
+    from BaseClasses import Location, MultiWorld
 
 # ██░░░██████░░███░░░███
 # ██░░░░██░░░▓▓░░░▓░░███
@@ -79,6 +82,8 @@ class AstalonWorld(World):
     required_gold_eyes: int = 0
     extra_gold_eyes: int = 0
     rules: AstalonRules
+
+    cached_spheres: ClassVar[List[Set["Location"]]]
 
     def generate_early(self) -> None:
         self.rules = AstalonRules(self)
@@ -265,7 +270,7 @@ class AstalonWorld(World):
                 for _ in range(0, data.quantity_in_item_pool):
                     itempool.append(self.create_item(item_name))
 
-        if self.options.randomize_characters != RandomizeCharacters.option_vanilla:
+        if self.options.randomize_characters:
             for character in CHARACTERS:
                 character_item = self.create_item(character.value)
                 if character in self.starting_characters:
@@ -345,6 +350,16 @@ class AstalonWorld(World):
         self.rules.set_location_rules()
         self.rules.set_indirect_conditions()
 
+    @classmethod
+    def stage_post_fill(cls, multiworld: "MultiWorld"):
+        # Cache spheres for hint calculation after fill completes.
+        cls.cached_spheres = list(multiworld.get_spheres())
+
+    @classmethod
+    def stage_modify_multidata(cls, *_):
+        # Clean up all references in cached spheres after generation completes.
+        del cls.cached_spheres
+
     def fill_slot_data(self) -> Dict[str, Any]:
         self.rules.clear_cache()
 
@@ -376,9 +391,26 @@ class AstalonWorld(World):
             "death_link",
         )
 
+        character_strengths: Dict[str, float] = {c.value: 0 for c in CHARACTERS}
+        spheres = self.cached_spheres
+        sphere_count = len(spheres)
+        found = 0
+        limit = 5 if self.options.randomize_characters else 2
+
+        for sphere_id, sphere in enumerate(spheres):
+            for location in sphere:
+                if location.item and location.item.player == self.player and location.item.name in character_strengths:
+                    character_strengths[location.item.name] = sphere_id / sphere_count
+                    found += 1
+                    if found >= limit:
+                        break
+            if found >= limit:
+                break
+
         return {
             "settings": settings,
             "starting_characters": [c.value for c in self.starting_characters],
+            "character_strengths": character_strengths,
         }
 
     def collect(self, state: "CollectionState", item: "Item"):
