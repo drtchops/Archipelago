@@ -7,6 +7,8 @@ from typing_extensions import TypeAlias
 
 from BaseClasses import Item, ItemClassification
 
+from .constants import BASE_ID, GAME_NAME
+
 if TYPE_CHECKING:
     from . import AstalonWorld
 
@@ -458,7 +460,7 @@ QOL_ITEMS: Tuple[ShopUpgrade, ...] = (
 
 
 class AstalonItem(Item):
-    game = "Astalon"
+    game = GAME_NAME
 
 
 @dataclass(frozen=True)
@@ -800,8 +802,7 @@ item_table: Dict[str, ItemData] = {
     # Familiar.GIL.value: ItemData(ItemClassification.filler, 1, ItemGroups.FAMILIAR),
 }
 
-base_id = 333000
-item_name_to_id: Dict[str, int] = {name: base_id + i for i, name in enumerate(item_table)}
+item_name_to_id: Dict[str, int] = {name: BASE_ID + i for i, name in enumerate(item_table)}
 
 
 def get_item_group(item_name: str):

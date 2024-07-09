@@ -4,6 +4,7 @@ from typing import TYPE_CHECKING, Any, ClassVar, Dict, List, Set
 from BaseClasses import CollectionState, Item, ItemClassification, Region, Tutorial
 from worlds.AutoWorld import WebWorld, World
 
+from .constants import GAME_NAME
 from .items import (
     CHARACTERS,
     EARLY_BLUE_DOORS,
@@ -74,7 +75,7 @@ class AstalonWorld(World):
     why do they call it astalon when you ass to the vanilla lawn ass from rando the lawn
     """
 
-    game = "Astalon"
+    game = GAME_NAME
     web = AstalonWebWorld()
     options_dataclass = AstalonOptions
     options: AstalonOptions  # type: ignore

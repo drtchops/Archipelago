@@ -5,6 +5,7 @@ from typing import Dict, Set
 
 from BaseClasses import Location
 
+from .constants import BASE_ID, GAME_NAME
 from .regions import RegionName
 
 
@@ -417,7 +418,7 @@ class LocationName(str, Enum):
 
 
 class AstalonLocation(Location):
-    game = "Astalon"
+    game = GAME_NAME
 
 
 @dataclass(frozen=True)
@@ -971,8 +972,7 @@ location_table: Dict[str, LocationData] = {
     # LocationName.CATA_GIL.value: LocationData(RegionName.CATA_DEV_ROOM, LocationGroup.FAMILIAR, Area.CATA),
 }
 
-base_id = 333000
-location_name_to_id: Dict[str, int] = {name: base_id + i for i, name in enumerate(location_table)}
+location_name_to_id: Dict[str, int] = {name: BASE_ID + i for i, name in enumerate(location_table)}
 
 
 def get_location_group(location_name: str) -> LocationGroup:

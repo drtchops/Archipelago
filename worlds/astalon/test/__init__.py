@@ -1,10 +1,11 @@
 from test.bases import WorldTestBase
 
 from .. import AstalonWorld
+from ..constants import GAME_NAME
 
 
 class AstalonTestBase(WorldTestBase):
-    game = "Astalon"
+    game = GAME_NAME
     world: AstalonWorld  # type: ignore
 
     def tearDown(self) -> None:
