@@ -1,0 +1,18 @@
+{
+  "manifest_version": 1,
+  "name": "TOEM",
+  "description": "Set off on a delightful expedition and use your photographic eye to uncover the mysteries of the magical TOEM in this hand-drawn adventure game. Chat with quirky characters, solve their problems by snapping neat photos, and make your way through a relaxing landscape!",
+  "platforms": ["PC"],
+  "repository_url": "https://github.com/drtchops/Archipelago",
+  "store_urls": [
+    "https://store.steampowered.com/app/1307580/TOEM_A_Photo_Adventure/"
+  ],
+  "license": "MIT",
+  "release_state": "Alpha",
+  "version": "0.1.0",
+  "ap_min_version": "0.5.0",
+  "is_unrated": false,
+  "is_adult_only": false,
+  "is_game_required_to_generate": false,
+  "world_dependencies": []
+}
