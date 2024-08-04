@@ -436,6 +436,6 @@ class AstalonWorld(World):
         return character_strengths
 
     def collect(self, state: "CollectionState", item: "Item") -> bool:
-        if item.advancement:
+        if item.advancement and getattr(self, "rules", None):
             self.rules.clear_cache()
         return super().collect(state, item)

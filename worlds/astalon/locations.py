@@ -927,7 +927,7 @@ location_table: Dict[str, LocationData] = {
     LocationName.TR_ELEVATOR.value: LocationData(RegionName.TR_START, LocationGroup.ELEVATOR, Area.TR),
     LocationName.TR_SWITCH_ADORNED_L.value: LocationData(RegionName.TR_BOTTOM, LocationGroup.SWITCH, Area.TR),
     LocationName.TR_SWITCH_ADORNED_M.value: LocationData(RegionName.TR_LEFT, LocationGroup.SWITCH, Area.TR),
-    LocationName.TR_SWITCH_ADORNED_R.value: LocationData(RegionName.TR_TOP_RIGHT, LocationGroup.SWITCH, Area.TR),
+    LocationName.TR_SWITCH_ADORNED_R.value: LocationData(RegionName.TR_DARK_ARIAS, LocationGroup.SWITCH, Area.TR),
     LocationName.TR_SWITCH_ELEVATOR.value: LocationData(RegionName.CATA_BOSS, LocationGroup.SWITCH, Area.TR),
     LocationName.TR_SWITCH_BOTTOM.value: LocationData(RegionName.TR_MIDDLE_RIGHT, LocationGroup.SWITCH, Area.TR),
     LocationName.TR_CRYSTAL_GOLD.value: LocationData(RegionName.TR_TOP_RIGHT, LocationGroup.SWITCH, Area.TR),

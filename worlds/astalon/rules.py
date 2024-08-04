@@ -1415,7 +1415,7 @@ KEY_ITEM_RULES: Dict[L, AstalonRule] = {
         rules.region(R.GT_BOTTOM).can_reach(state)
         and rules.region(R.GT_ASCENDANT_KEY).can_reach(state)
         and rules.region(R.GT_BUTT).can_reach(state)
-        and rules.has(state, Character.ALGUS, Character.KYULI, Character.BRAM, Character.ZEEK, KeyItem.SWORD)
+        and rules.has_any(state, Character.ALGUS, Character.KYULI, Character.BRAM, Character.ZEEK, KeyItem.SWORD)
     ),
     L.HOTP_BELL: lambda rules, state: (
         rules.switches(state, Switch.HOTP_BELL, disabled_case=True)
@@ -1565,6 +1565,9 @@ WHITE_KEY_RULES: Dict[L, AstalonRule] = {
         and rules.has(state, Character.KYULI)
     ),
     L.ROA_WHITE_KEY_SAVE: lambda rules, state: rules.switches(state, Switch.ROA_WORMS, disabled_case=True),
+    L.CATA_WHITE_KEY_PRISON: lambda rules, state: (
+        rules.can(state, Logic.EXTRA_HEIGHT) or rules.has_any(state, KeyItem.CLOAK, KeyItem.ICARUS)
+    ),
 }
 
 BLUE_KEY_RULES: Dict[L, AstalonRule] = {
