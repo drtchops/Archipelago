@@ -1,5 +1,5 @@
 import logging
-from typing import TYPE_CHECKING, Any, ClassVar, Dict, List, Set
+from typing import TYPE_CHECKING, Any, ClassVar, Dict, List, Optional, Set
 
 from BaseClasses import CollectionState, Item, ItemClassification, Region, Tutorial
 from worlds.AutoWorld import WebWorld, World
@@ -373,8 +373,6 @@ class AstalonWorld(World):
         del cls.cached_spheres
 
     def fill_slot_data(self) -> Dict[str, Any]:
-        self.rules.clear_cache()
-
         settings = self.options.as_dict(
             "campaign",
             "goal",
@@ -435,7 +433,7 @@ class AstalonWorld(World):
         logger.warning("Could not find all Astalon characters in spheres, something is likely wrong")
         return character_strengths
 
-    def collect(self, state: "CollectionState", item: "Item") -> bool:
+    def collect_item(self, state: "CollectionState", item: "Item", remove=False) -> Optional[str]:
         if item.advancement and getattr(self, "rules", None):
             self.rules.clear_cache()
-        return super().collect(state, item)
+        return super().collect_item(state, item, remove)

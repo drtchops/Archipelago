@@ -73,6 +73,8 @@ class AstalonRule(Protocol):
 class Has(Protocol):
     def __call__(self, state: CollectionState, item: Union[ItemName, Events], count: int = 1) -> bool: ...
 
+    def cache_clear(self): ...
+
 
 class Can(Protocol):
     def __call__(
@@ -82,6 +84,8 @@ class Can(Protocol):
         gold_block: bool = False,
         include_whiplash: bool = True,
     ) -> bool: ...
+
+    def cache_clear(self): ...
 
 
 class Togglable(Protocol[T]):
@@ -1829,11 +1833,11 @@ class AstalonRules:
         self.options = world.options
 
         if self.options.randomize_characters == RandomizeCharacters.option_vanilla:
-            self._has = self._vanilla_has
-            self.can = self._hard_vanilla_can if self.hard else self._easy_vanilla_can
+            self._has = lru_cache(maxsize=None)(self._vanilla_has)
+            self.can = lru_cache(maxsize=None)(self._hard_vanilla_can if self.hard else self._easy_vanilla_can)
         else:
-            self._has = self._rando_has
-            self.can = self._hard_rando_can if self.hard else self._easy_rando_can
+            self._has = lru_cache(maxsize=None)(self._rando_has)
+            self.can = lru_cache(maxsize=None)(self._hard_rando_can if self.hard else self._easy_rando_can)
 
         self.white_doors = self._enabled_togglable if self.options.randomize_white_keys else self._disabled_togglable
         self.blue_doors = self._enabled_togglable if self.options.randomize_blue_keys else self._disabled_togglable
@@ -1849,7 +1853,6 @@ class AstalonRules:
     def location(self, name: Union[L, Events]):
         return self.world.multiworld.get_location(name.value, self.player)
 
-    @lru_cache(maxsize=None)
     def _rando_has(self, state: CollectionState, item: Union[ItemName, Events], count: int = 1) -> bool:
         if item == KeyItem.CLOAK and not self._has(state, Character.ALGUS):
             return False
@@ -1891,7 +1894,6 @@ class AstalonRules:
 
         return state.has(item.value, self.player, count=count)
 
-    @lru_cache(maxsize=None)
     def _vanilla_has(self, state: CollectionState, item: Union[ItemName, Events], count: int = 1) -> bool:
         if item in VANILLA_CHARACTERS:
             return True
@@ -1960,7 +1962,6 @@ class AstalonRules:
         # TODO
         return self.region(R.ROA_START).can_reach(state)
 
-    @lru_cache(maxsize=None)
     def _easy_rando_can(self, state: CollectionState, logic: Logic, gold_block=False, include_whiplash=True) -> bool:
         if logic == Logic.ARIAS_JUMP:
             return False
@@ -1977,7 +1978,6 @@ class AstalonRules:
         if logic == Logic.BIG_MAGIC:
             return False
 
-    @lru_cache(maxsize=None)
     def _hard_rando_can(self, state: CollectionState, logic: Logic, gold_block=False, include_whiplash=True) -> bool:
         if logic == Logic.ARIAS_JUMP:
             return self.has(state, Character.ARIAS)
@@ -2000,7 +2000,6 @@ class AstalonRules:
         if logic == Logic.BIG_MAGIC:
             return self.has(state, KeyItem.BANISH, ShopUpgrade.ALGUS_ARCANIST)
 
-    @lru_cache(maxsize=None)
     def _easy_vanilla_can(self, state: CollectionState, logic: Logic, gold_block=False, include_whiplash=True) -> bool:
         if logic == Logic.ARIAS_JUMP:
             return False
@@ -2015,7 +2014,6 @@ class AstalonRules:
         if logic == Logic.BIG_MAGIC:
             return False
 
-    @lru_cache(maxsize=None)
     def _hard_vanilla_can(self, state: CollectionState, logic: Logic, gold_block=False, include_whiplash=True) -> bool:
         if logic == Logic.ARIAS_JUMP:
             return True
@@ -2072,8 +2070,8 @@ class AstalonRules:
         return self.options.difficulty >= Difficulty.option_hard
 
     def clear_cache(self):
-        self.can.cache_clear()  # type: ignore
-        self._has.cache_clear()  # type: ignore
+        self.can.cache_clear()
+        self._has.cache_clear()
 
     def set_region_rules(self) -> None:
         for (from_, to_), rule in ENTRANCE_RULES.items():
