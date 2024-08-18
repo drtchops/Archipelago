@@ -1,0 +1,13 @@
+﻿{
+    "name": "Astalon AP Tracker",
+    "game_name": "Astalon: Tears of the Earth",
+    "package_version": "0.2.1",
+    "package_uid": "ap_astalon",
+    "author": "Ouro",
+    "variants": {
+        "standard": {
+            "display_name": "Map Tracker",
+            "flags": ["ap"]
+        }
+    }
+}

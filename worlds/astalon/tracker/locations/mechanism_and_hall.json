@@ -1,0 +1,897 @@
+[
+    {
+        "name": "Mechanism + Hall of the Phantoms",
+        "chest_unopened_img": "images/items/chest_o.png",
+        "chest_opened_img": "images/items/chest_x.png",
+        "children": [
+            {
+                "sections": [
+                    {
+                        "ref": "World Map/Mechanism - Zeek Room/Mechanism - Zeek"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 1235,
+                        "y": 628
+                    }
+                ]
+            },
+            {
+                "sections": [
+                    {
+                        "ref": "World Map/Mechanism - Talaria Boots/Mechanism - Talaria Boots"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 1159,
+                        "y": 750
+                    }
+                ]
+            },
+            {
+                "sections": [
+                    {
+                        "ref": "World Map/Mechanism - Cloak of Levitation/Mechanism - Cloak of Levitation"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 862,
+                        "y": 385
+                    }
+                ]
+            },
+            {
+                "sections": [
+                    {
+                        "ref": "World Map/Mechanism - Zeek Room/Mechanism - Cyclops Idol"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 1208,
+                        "y": 628
+                    }
+                ]
+            },
+            {
+                "sections": [
+                    {
+                        "ref": "World Map/Mechanism - Gorgon Eye (Blue)/Mechanism - Gorgon Eye (Blue)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 745,
+                        "y": 466
+                    }
+                ]
+            },
+            {
+                "sections": [
+                    {
+                        "ref": "World Map/Mechanism - Old Man/Mechanism - Old Man"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 1337,
+                        "y": 466
+                    }
+                ]
+            },
+            {
+                "sections": [
+                    {
+                        "ref": "World Map/Mechanism - Attack +1 (Above Volantis)/Mechanism - Attack +1 (Above Volantis)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 745,
+                        "y": 425
+                    }
+                ]
+            },
+            {
+                "sections": [
+                    {
+                        "ref": "World Map/Mechanism - Attack +1 (Morning Star Blocks)/Mechanism - Attack +1 (Morning Star Blocks)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 1041,
+                        "y": 508
+                    }
+                ]
+            },
+            {
+                "sections": [
+                    {
+                        "ref": "World Map/Mechanism - Max HP +1 (Secret Switch)/Mechanism - Max HP +1 (Secret Switch)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 1160,
+                        "y": 466
+                    }
+                ]
+            },
+            {
+                "sections": [
+                    {
+                        "ref": "World Map/Mechanism - Max HP +1 (Morning Star Blocks)/Mechanism - Max HP +1 (Morning Star Blocks)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 745,
+                        "y": 508
+                    }
+                ]
+            },
+            {
+                "sections": [
+                    {
+                        "ref": "World Map/Mechanism - Max HP +3 (Above Checkpoint)/Mechanism - Max HP +3 (Above Checkpoint)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 1041,
+                        "y": 871
+                    }
+                ]
+            },
+            {
+                "sections": [
+                    {
+                        "ref": "World Map/Mechanism - White Key (Below Linus)/Mechanism - White Key (Below Linus)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 982,
+                        "y": 871
+                    }
+                ]
+            },
+            {
+                "sections": [
+                    {
+                        "ref": "World Map/Mechanism - White Key (Black Knight)/Mechanism - White Key (Black Knight)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 862,
+                        "y": 588
+                    }
+                ]
+            },
+            {
+                "sections": [
+                    {
+                        "ref": "World Map/Mechanism - White Key (Enemy Arena)/Mechanism - White Key (Enemy Arena)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 1219,
+                        "y": 385
+                    }
+                ]
+            },
+            {
+                "sections": [
+                    {
+                        "ref": "World Map/Mechanism - White Key (Top)/Mechanism - White Key (Top)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 1101,
+                        "y": 263
+                    }
+                ]
+            },
+            {
+                "sections": [
+                    {
+                        "ref": "World Map/Mechanism - Blue Key (Void Charm)/Mechanism - Blue Key (Void Charm)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 1101,
+                        "y": 953
+                    }
+                ]
+            },
+            {
+                "sections": [
+                    {
+                        "ref": "World Map/Mechanism - Blue Key (Snake Head)/Mechanism - Blue Key (Snake Head)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 1160,
+                        "y": 953
+                    }
+                ]
+            },
+            {
+                "sections": [
+                    {
+                        "ref": "World Map/Mechanism - Blue Key (Linus)/Mechanism - Blue Key (Linus)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 923,
+                        "y": 791
+                    }
+                ]
+            },
+            {
+                "sections": [
+                    {
+                        "ref": "World Map/Mechanism - Blue Key (Sacrifice)/Mechanism - Blue Key (Sacrifice)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 1041,
+                        "y": 750
+                    }
+                ]
+            },
+            {
+                "sections": [
+                    {
+                        "ref": "World Map/Mechanism - Blue Key (To Red Key)/Mechanism - Blue Key (To Red Key)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 745,
+                        "y": 709
+                    }
+                ]
+            },
+            {
+                "sections": [
+                    {
+                        "ref": "World Map/Mechanism - Blue Key (Arias)/Mechanism - Blue Key (Arias)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 1041,
+                        "y": 588
+                    }
+                ]
+            },
+            {
+                "sections": [
+                    {
+                        "ref": "World Map/Mechanism - Blue Key (Switch Blocks)/Mechanism - Blue Key (Switch Blocks)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 982,
+                        "y": 548
+                    }
+                ]
+            },
+            {
+                "sections": [
+                    {
+                        "ref": "World Map/Mechanism - Blue Key (Top Path)/Mechanism - Blue Key (Top Path)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 1160,
+                        "y": 508
+                    }
+                ]
+            },
+            {
+                "sections": [
+                    {
+                        "ref": "World Map/Mechanism - Blue Key (Old Man)/Mechanism - Blue Key (Old Man)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 1279,
+                        "y": 466
+                    }
+                ]
+            },
+            {
+                "sections": [
+                    {
+                        "ref": "World Map/Mechanism - Blue Key (Checkpoint)/Mechanism - Blue Key (Checkpoint)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 1101,
+                        "y": 345
+                    }
+                ]
+            },
+            {
+                "sections": [
+                    {
+                        "ref": "World Map/Mechanism - Blue Key (Pot)/Mechanism - Blue Key (Pot)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 1160,
+                        "y": 385
+                    }
+                ]
+            },
+            {
+                "sections": [
+                    {
+                        "ref": "World Map/Mechanism - Red Key/Mechanism - Red Key"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 626,
+                        "y": 669
+                    }
+                ]
+            },
+            {
+                "sections": [
+                    {
+                        "ref": "World Map/Gorgon Tomb - Sword of Mirrors/Gorgon Tomb - Sword of Mirrors"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 862,
+                        "y": 912
+                    }
+                ]
+            },
+            {
+                "sections": [
+                    {
+                        "ref": "World Map/Hall of the Phantoms - Athena's Bell/Hall of the Phantoms - Athena's Bell"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 327,
+                        "y": 629
+                    }
+                ]
+            },
+            {
+                "sections": [
+                    {
+                        "ref": "World Map/Hall of the Phantoms - Amulet of Sol/Hall of the Phantoms - Amulet of Sol"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 506,
+                        "y": 669
+                    }
+                ]
+            },
+            {
+                "sections": [
+                    {
+                        "ref": "World Map/Hall of the Phantoms - Griffon Claw/Hall of the Phantoms - Griffon Claw"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 804,
+                        "y": 345
+                    }
+                ]
+            },
+            {
+                "sections": [
+                    {
+                        "ref": "World Map/Hall of the Phantoms - Boreas Gauntlet/Hall of the Phantoms - Boreas Gauntlet"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 1041,
+                        "y": 102
+                    }
+                ]
+            },
+            {
+                "sections": [
+                    {
+                        "ref": "World Map/Hall of the Phantoms - Dead Maiden's Ring/Hall of the Phantoms - Dead Maiden's Ring"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 626,
+                        "y": 60
+                    }
+                ]
+            },
+            {
+                "sections": [
+                    {
+                        "ref": "World Map/Hall of the Phantoms - Old Man/Hall of the Phantoms - Old Man"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 269,
+                        "y": 344
+                    }
+                ]
+            },
+            {
+                "sections": [
+                    {
+                        "ref": "World Map/Hall of the Phantoms - Max HP +1 (Griffon Claw)/Hall of the Phantoms - Max HP +1 (Griffon Claw)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 626,
+                        "y": 344
+                    }
+                ]
+            },
+            {
+                "sections": [
+                    {
+                        "ref": "World Map/Hall of the Phantoms - Secret Ladder Room/Hall of the Phantoms - Max HP +2 (Secret Ladder)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 460,
+                        "y": 466
+                    }
+                ]
+            },
+            {
+                "sections": [
+                    {
+                        "ref": "World Map/Hall of the Phantoms - Max HP +2 (Boreas Gauntlet)/Hall of the Phantoms - Max HP +2 (Boreas Gauntlet)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 1041,
+                        "y": 223
+                    }
+                ]
+            },
+            {
+                "sections": [
+                    {
+                        "ref": "World Map/Hall of the Phantoms - Max HP +5 (Old Man)/Hall of the Phantoms - Max HP +5 (Old Man)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 388,
+                        "y": 223
+                    }
+                ]
+            },
+            {
+                "sections": [
+                    {
+                        "ref": "World Map/Hall of the Phantoms - Max HP +5 (Teleport Maze)/Hall of the Phantoms - Max HP +5 (Teleport Maze)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 626,
+                        "y": 425
+                    }
+                ]
+            },
+            {
+                "sections": [
+                    {
+                        "ref": "World Map/Hall of the Phantoms - Max HP +5 (Above Start)/Hall of the Phantoms - Max HP +5 (Above Start)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 684,
+                        "y": 385
+                    }
+                ]
+            },
+            {
+                "sections": [
+                    {
+                        "ref": "World Map/Hall of the Phantoms - White Key (Left of Start)/Hall of the Phantoms - White Key (Left of Start)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 506,
+                        "y": 466
+                    }
+                ]
+            },
+            {
+                "sections": [
+                    {
+                        "ref": "World Map/Hall of the Phantoms - White Key (Ghost)/Hall of the Phantoms - White Key (Ghost)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 566,
+                        "y": 548
+                    }
+                ]
+            },
+            {
+                "sections": [
+                    {
+                        "ref": "World Map/Hall of the Phantoms - White Key (Old Man)/Hall of the Phantoms - White Key (Old Man)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 388,
+                        "y": 385
+                    }
+                ]
+            },
+            {
+                "sections": [
+                    {
+                        "ref": "World Map/Hall of the Phantoms - White Key (Boss)/Hall of the Phantoms - White Key (Boss)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 684,
+                        "y": 223
+                    }
+                ]
+            },
+            {
+                "sections": [
+                    {
+                        "ref": "World Map/Hall of the Phantoms - Blue Key (Epimetheus)/Hall of the Phantoms - Blue Key (Epimetheus)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 684,
+                        "y": 588
+                    }
+                ]
+            },
+            {
+                "sections": [
+                    {
+                        "ref": "World Map/Hall of the Phantoms - Blue Key (Gold Hint)/Hall of the Phantoms - Blue Key (Gold Hint)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 626,
+                        "y": 629
+                    }
+                ]
+            },
+            {
+                "sections": [
+                    {
+                        "ref": "World Map/Hall of the Phantoms - Blue Key (Amulet of Sol)/Hall of the Phantoms - Blue Key (Amulet of Sol)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 566,
+                        "y": 669
+                    }
+                ]
+            },
+            {
+                "sections": [
+                    {
+                        "ref": "World Map/Hall of the Phantoms - Secret Ladder Room/Hall of the Phantoms - Blue Key (Secret Ladder)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 434,
+                        "y": 466
+                    }
+                ]
+            },
+            {
+                "sections": [
+                    {
+                        "ref": "World Map/Hall of the Phantoms - Blue Key (Spike Teleporters)/Hall of the Phantoms - Blue Key (Spike Teleporters)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 269,
+                        "y": 466
+                    }
+                ]
+            },
+            {
+                "sections": [
+                    {
+                        "ref": "World Map/Hall of the Phantoms - Blue Key (Teleport Maze)/Hall of the Phantoms - Blue Key (Teleport Maze)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 804,
+                        "y": 223
+                    }
+                ]
+            },
+            {
+                "sections": [
+                    {
+                        "ref": "World Map/Hall of the Phantoms - Red Key/Hall of the Phantoms - Red Key"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 506,
+                        "y": 588
+                    }
+                ]
+            },
+            {
+                "sections": [
+                    {
+                        "ref": "World Map/Cyclops Den - Prince's Crown/Cyclops Den - Prince's Crown"
+                    },
+                    {
+                        "ref": "World Map/Cyclops Den - Hidden Switch Room/Cyclops Den - Attack +1"
+                    },
+                    {
+                        "ref": "World Map/Cyclops Den - Hidden Switch Room/Cyclops Den - Max HP +1"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 1337,
+                        "y": 345
+                    }
+                ]
+            },
+            {
+                "sections": [
+                    {
+                        "ref": "World Map/Cathedral - Magic Block/Cathedral - Magic Block"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 91,
+                        "y": 101
+                    }
+                ]
+            },
+            {
+                "sections": [
+                    {
+                        "ref": "World Map/Cathedral - Attack +1/Cathedral - Attack +1"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 32,
+                        "y": 304
+                    }
+                ]
+            },
+            {
+                "sections": [
+                    {
+                        "ref": "World Map/Cathedral - Room Below Magic Block/Cathedral - Max HP +1 (Top Left)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 77,
+                        "y": 223
+                    }
+                ]
+            },
+            {
+                "sections": [
+                    {
+                        "ref": "World Map/Cathedral - Room Below Magic Block/Cathedral - Max HP +1 (Top Right)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 105,
+                        "y": 223
+                    }
+                ]
+            },
+            {
+                "sections": [
+                    {
+                        "ref": "World Map/Cathedral - Max HP +2 (Left Climb)/Cathedral - Max HP +2 (Left Climb)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 32,
+                        "y": 344
+                    }
+                ]
+            },
+            {
+                "sections": [
+                    {
+                        "ref": "World Map/Cathedral - Max HP +5 (Bell)/Cathedral - Max HP +5 (Bell)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 91,
+                        "y": 385
+                    }
+                ]
+            },
+            {
+                "sections": [
+                    {
+                        "ref": "World Map/Gorgon Tomb - Void Charm/Gorgon Tomb - Void Charm"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 1041,
+                        "y": 953
+                    }
+                ]
+            },
+            {
+                "sections": [
+                    {
+                        "ref": "World Map/Gorgon Tomb - Blue Key (Inside Wall)/Gorgon Tomb - Blue Key (Inside Wall)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 566,
+                        "y": 750
+                    }
+                ]
+            },
+            {
+                "sections": [
+                    {
+                        "ref": "World Map/Gorgon Tomb - Red Key/Gorgon Tomb - Red Key"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 626,
+                        "y": 709
+                    }
+                ]
+            },
+            {
+                "sections": [
+                    {
+                        "ref": "World Map/Gorgon Tomb - Gorgon Eye (Red)/Gorgon Tomb - Gorgon Eye (Red)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 745,
+                        "y": 750
+                    }
+                ]
+            },
+            {
+                "sections": [
+                    {
+                        "ref": "World Map/Ruins of Ash - White Key (Checkpoint)/Ruins of Ash - White Key (Checkpoint)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 923,
+                        "y": 142
+                    }
+                ]
+            }
+        ]
+    }
+]

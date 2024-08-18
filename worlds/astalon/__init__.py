@@ -1,5 +1,6 @@
 import logging
-from typing import TYPE_CHECKING, Any, ClassVar, Dict, List, Optional, Set
+from functools import cached_property
+from typing import TYPE_CHECKING, Any, ClassVar, Dict, List, Set
 
 from BaseClasses import CollectionState, Item, ItemClassification, Region, Tutorial
 from worlds.AutoWorld import WebWorld, World
@@ -90,31 +91,44 @@ class AstalonWorld(World):
 
     cached_spheres: ClassVar[List[Set["Location"]]]
 
+    # UT poptracker integration
+    tracker_world = {
+        "map_page_folder": "tracker",
+        "map_page_maps": "maps/maps.json",
+        "map_page_locations": [
+            "locations/locations.json",
+            "locations/catacombs.json",
+            "locations/mechanism_and_hall.json",
+            "locations/ruins.json",
+            "locations/tomb.json",
+        ],
+    }
+
     def generate_early(self) -> None:
         self.rules = AstalonRules(self)
 
         self.starting_characters = []
         if self.options.randomize_characters == RandomizeCharacters.option_solo:
             self.starting_characters.append(self.random.choice(CHARACTERS))
-        if self.options.randomize_characters == RandomizeCharacters.option_trio:
+        elif self.options.randomize_characters == RandomizeCharacters.option_trio:
             self.starting_characters.extend(CHARACTERS[:3])
-        if self.options.randomize_characters == RandomizeCharacters.option_all:
+        elif self.options.randomize_characters == RandomizeCharacters.option_all:
             self.starting_characters.extend(CHARACTERS)
-        if self.options.randomize_characters == RandomizeCharacters.option_random_selection:
+        elif self.options.randomize_characters == RandomizeCharacters.option_random_selection:
             for character in CHARACTERS:
                 if self.random.randint(0, 1):
                     self.starting_characters.append(character)
             if not self.starting_characters:
                 self.starting_characters.append(self.random.choice(CHARACTERS))
-        if self.options.randomize_characters == RandomizeCharacters.option_algus:
+        elif self.options.randomize_characters == RandomizeCharacters.option_algus:
             self.starting_characters.append(Character.ALGUS)
-        if self.options.randomize_characters == RandomizeCharacters.option_arias:
+        elif self.options.randomize_characters == RandomizeCharacters.option_arias:
             self.starting_characters.append(Character.ARIAS)
-        if self.options.randomize_characters == RandomizeCharacters.option_kyuli:
+        elif self.options.randomize_characters == RandomizeCharacters.option_kyuli:
             self.starting_characters.append(Character.KYULI)
-        if self.options.randomize_characters == RandomizeCharacters.option_bram:
+        elif self.options.randomize_characters == RandomizeCharacters.option_bram:
             self.starting_characters.append(Character.BRAM)
-        if self.options.randomize_characters == RandomizeCharacters.option_zeek:
+        elif self.options.randomize_characters == RandomizeCharacters.option_zeek:
             self.starting_characters.append(Character.ZEEK)
 
         if self.options.goal == Goal.option_eye_hunt:
@@ -344,7 +358,8 @@ class AstalonWorld(World):
 
         return new_pool
 
-    def get_filler_item_name(self) -> str:
+    @cached_property
+    def filler_item_names(self) -> List[str]:
         items = list(filler_items)
         if not self.options.randomize_white_keys:
             items.append(Key.WHITE.value)
@@ -352,7 +367,10 @@ class AstalonWorld(World):
             items.append(Key.BLUE.value)
         if not self.options.randomize_red_keys:
             items.append(Key.RED.value)
-        return self.random.choice(items)
+        return items
+
+    def get_filler_item_name(self) -> str:
+        return self.random.choice(self.filler_item_names)
 
     def set_rules(self) -> None:
         self.rules.set_region_rules()
@@ -433,7 +451,14 @@ class AstalonWorld(World):
         logger.warning("Could not find all Astalon characters in spheres, something is likely wrong")
         return character_strengths
 
-    def collect_item(self, state: "CollectionState", item: "Item", remove=False) -> Optional[str]:
-        if item.advancement and getattr(self, "rules", None):
+    def collect(self, state: "CollectionState", item: "Item") -> bool:
+        changed = super().collect(state, item)
+        if changed and getattr(self, "rules", None):
             self.rules.clear_cache()
-        return super().collect_item(state, item, remove)
+        return changed
+
+    def remove(self, state: "CollectionState", item: "Item") -> bool:
+        changed = super().remove(state, item)
+        if changed and getattr(self, "rules", None):
+            self.rules.clear_cache()
+        return changed

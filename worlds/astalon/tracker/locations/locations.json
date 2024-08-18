@@ -1,0 +1,4572 @@
+[
+    {
+        "name": "World Map",
+        "chest_unopened_img": "images/items/chest_o.png",
+        "chest_opened_img": "images/items/chest_x.png",
+        "children": [
+            {
+                "name": "Gorgon Tomb - Algus Tutorial",
+                "sections": [
+                    {
+                        "name": "Gorgon Tomb - Algus"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 507,
+                        "y": 1801
+                    }
+                ]
+            },
+            {
+                "name": "Gorgon Tomb - Arias Tutorial",
+                "sections": [
+                    {
+                        "name": "Gorgon Tomb - Arias"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 444,
+                        "y": 1760
+                    }
+                ]
+            },
+            {
+                "name": "Gorgon Tomb - Kyuli Tutorial",
+                "sections": [
+                    {
+                        "name": "Gorgon Tomb - Kyuli"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 568,
+                        "y": 1760
+                    }
+                ]
+            },
+            {
+                "name": "Gorgon Tomb - Gorgonheart",
+                "access_rules": ["$can_access_GT_LEFT"],
+                "sections": [
+                    {
+                        "name": "Gorgon Tomb - Gorgonheart"
+                    },
+                    {
+                        "name": "Gorgon Tomb - Switch (Gorgonheart)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 565,
+                        "y": 1640
+                    }
+                ]
+            },
+            {
+                "name": "Gorgon Tomb - Ring of the Ancients",
+                "access_rules": ["$can_access_GT_MID"],
+                "sections": [
+                    {
+                        "name": "Gorgon Tomb - Ring of the Ancients",
+                        "access_rules": ["eye_red"]
+                    },
+                    {
+                        "name": "Gorgon Tomb - Max HP +1 (Ring of the Ancients)",
+                        "access_rules": ["gt_blue_2,BLUE_ON", "$can_star,BLUE_ON", "$can_star,BLUE_OFF"],
+                        "visibility_rules": ["HP_ON"]
+                    },
+                    {
+                        "name": "Gorgon Tomb - Crystal (Ring of the Ancients)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 802,
+                        "y": 1640
+                    }
+                ]
+            },
+            {
+                "name": "Gorgon Tomb - Sword of Mirrors",
+                "access_rules": ["$can_access_GT_UPPER"],
+                "sections": [
+                    {
+                        "name": "Gorgon Tomb - Sword of Mirrors",
+                        "access_rules": ["gt_blue_5,BLUE_ON", "BLUE_OFF"]
+                    },
+                    {
+                        "name": "Gorgon Tomb - Switch (Sword)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 860,
+                        "y": 1599
+                    }
+                ]
+            },
+            {
+                "name": "Gorgon Tomb - Linus' Map",
+                "access_rules": ["$can_access_GT_MID"],
+                "sections": [
+                    {
+                        "name": "Gorgon Tomb - Linus' Map"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 682,
+                        "y": 1640
+                    }
+                ]
+            },
+            {
+                "name": "Gorgon Tomb - Ascendant Key",
+                "access_rules": ["$can_access_GT_LEFT"],
+                "sections": [
+                    {
+                        "name": "Gorgon Tomb - Ascendant Key",
+                        "access_rules": ["gt_blue_4,BLUE_ON", "BLUE_OFF"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 388,
+                        "y": 1478
+                    }
+                ]
+            },
+            {
+                "name": "Gorgon Tomb - Banish Spell",
+                "access_rules": ["$can_access_GT_LEFT"],
+                "sections": [
+                    {
+                        "name": "Gorgon Tomb - Banish Spell",
+                        "access_rules": ["gt_blue_4,BLUE_ON", "BLUE_OFF"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 505,
+                        "y": 1599
+                    }
+                ]
+            },
+            {
+                "name": "Gorgon Tomb - Void Charm",
+                "access_rules": ["$can_access_GT_MID"],
+                "sections": [
+                    {
+                        "name": "Gorgon Tomb - Void Charm",
+                        "access_rules": ["eye_red,RED_ON", "RED_OFF"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 1040,
+                        "y": 1640
+                    }
+                ]
+            },
+            {
+                "name": "Gorgon Tomb - Tauros",
+                "access_rules": ["$can_access_GT_BOSS"],
+                "sections": [
+                    {
+                        "name": "Gorgon Tomb - Gorgon Eye (Red)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 744,
+                        "y": 1438
+                    }
+                ]
+            },
+            {
+                "name": "Gorgon Tomb - Baby Gorgon",
+                "sections": [
+                    {
+                        "name": "Gorgon Tomb - Attack +1",
+                        "access_rules": ["eye_green,claw", "eye_green,zeek,bell"],
+                        "visibility_rules": ["ATTACK_ON"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 682,
+                        "y": 1722
+                    }
+                ]
+            },
+            {
+                "name": "Gorgon Tomb - Above Ascendant Key",
+                "access_rules": ["$can_access_GT_LEFT"],
+                "sections": [
+                    {
+                        "name": "Gorgon Tomb - Max HP +5 (Ascendant Key)",
+                        "access_rules": ["claw,gt_blue_4,BLUE_ON", "claw,BLUE_OFF"],
+                        "visibility_rules": ["HP_ON"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 388,
+                        "y": 1438
+                    }
+                ]
+            },
+            {
+                "name": "Gorgon Tomb - 1st Room",
+                "sections": [
+                    {
+                        "name": "Gorgon Tomb - White Key (1st Room)",
+                        "visibility_rules": ["WHITE_ON"]
+                    },
+                    {
+                        "name": "Gorgon Tomb - Switch (Gorgonheart Shortcut)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 565,
+                        "y": 1681
+                    }
+                ]
+            },
+            {
+                "name": "Gorgon Tomb - Right Side",
+                "access_rules": ["$can_access_GT_MID"],
+                "sections": [
+                    {
+                        "name": "Gorgon Tomb - White Key (Right Side)",
+                        "visibility_rules": ["WHITE_ON"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 920,
+                        "y": 1640
+                    }
+                ]
+            },
+            {
+                "name": "Gorgon Tomb - Before Boss",
+                "access_rules": ["$can_access_GT_LEFT"],
+                "sections": [
+                    {
+                        "name": "Gorgon Tomb - White Key (Before Boss)",
+                        "visibility_rules": ["WHITE_ON"]
+                    },
+                    {
+                        "name": "Gorgon Tomb - Switch (Spike Tunnel Access)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 505,
+                        "y": 1478
+                    }
+                ]
+            },
+            {
+                "name": "Gorgon Tomb - Bonesnakes",
+                "access_rules": ["$can_access_GT_MID"],
+                "sections": [
+                    {
+                        "name": "Gorgon Tomb - Blue Key (Bonesnakes)",
+                        "visibility_rules": ["BLUE_ON"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 860,
+                        "y": 1681
+                    }
+                ]
+            },
+            {
+                "name": "Gorgon Tomb - Butt",
+                "access_rules": ["$can_access_GT_LEFT"],
+                "sections": [
+                    {
+                        "name": "Gorgon Tomb - Blue Key (Butt)",
+                        "visibility_rules": ["BLUE_ON"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 505,
+                        "y": 1438
+                    }
+                ]
+            },
+            {
+                "name": "Gorgon Tomb - Beside Butt",
+                "access_rules": ["$can_access_GT_LEFT"],
+                "sections": [
+                    {
+                        "name": "Gorgon Tomb - Blue Key (Inside Wall)",
+                        "visibility_rules": ["BLUE_ON"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 565,
+                        "y": 1438
+                    }
+                ]
+            },
+            {
+                "name": "Gorgon Tomb - Pot Room",
+                "access_rules": ["$can_access_GT_MID"],
+                "sections": [
+                    {
+                        "name": "Gorgon Tomb - Blue Key (Pot)",
+                        "visibility_rules": ["BLUE_ON"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 860,
+                        "y": 1640
+                    }
+                ]
+            },
+            {
+                "name": "Gorgon Tomb - Red Key",
+                "access_rules": ["$can_access_GT_BOSS"],
+                "sections": [
+                    {
+                        "name": "Gorgon Tomb - Red Key",
+                        "access_rules": ["zeek"],
+                        "visibility_rules": ["RED_ON"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 623,
+                        "y": 1397
+                    }
+                ]
+            },
+            {
+                "name": "Gorgon Tomb - Elevator 2",
+                "sections": [
+                    {
+                        "name": "Gorgon Tomb - Elevator 2"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 685,
+                        "y": 1437
+                    }
+                ]
+            },
+            {
+                "name": "Gorgon Tomb - 2nd Room",
+                "sections": [
+                    {
+                        "name": "Gorgon Tomb - Switch (2nd Room)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 685,
+                        "y": 1681
+                    }
+                ]
+            },
+            {
+                "name": "Gorgon Tomb - 1st Cyclops",
+                "sections": [
+                    {
+                        "name": "Gorgon Tomb - Switch (1st Cyclops)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 625,
+                        "y": 1600
+                    }
+                ]
+            },
+            {
+                "name": "Gorgon Tomb - Butt Access",
+                "sections": [
+                    {
+                        "name": "Gorgon Tomb - Switch (Butt Access)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 565,
+                        "y": 1480
+                    }
+                ]
+            },
+            {
+                "name": "Gorgon Tomb - Upper Path",
+                "sections": [
+                    {
+                        "name": "Gorgon Tomb - Switch (Upper Path Blocks)"
+                    },
+                    {
+                        "name": "Gorgon Tomb - Switch (Upper Path Access)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 922,
+                        "y": 1600
+                    }
+                ]
+            },
+            {
+                "name": "Gorgon Tomb - Crosses",
+                "sections": [
+                    {
+                        "name": "Gorgon Tomb - Switch (Crosses)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 565,
+                        "y": 1600
+                    }
+                ]
+            },
+            {
+                "name": "Gorgon Tomb - Arias's Path",
+                "sections": [
+                    {
+                        "name": "Gorgon Tomb - Switch (Arias's Path)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 505,
+                        "y": 1515
+                    }
+                ]
+            },
+            {
+                "name": "Gorgon Tomb - Sword Access",
+                "sections": [
+                    {
+                        "name": "Gorgon Tomb - Switch (Sword Access)"
+                    },
+                    {
+                        "name": "Gorgon Tomb - Switch (Sword Backtrack)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 800,
+                        "y": 1600
+                    }
+                ]
+            },
+            {
+                "name": "Gorgon Tomb - Upper Arias Path",
+                "sections": [
+                    {
+                        "name": "Gorgon Tomb - Switch (Upper Arias)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 869,
+                        "y": 1515
+                    }
+                ]
+            },
+            {
+                "name": "Gorgon Tomb - Upper Ladder",
+                "sections": [
+                    {
+                        "name": "Gorgon Tomb - Crystal (Ladder)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 800,
+                        "y": 1515
+                    }
+                ]
+            },
+            {
+                "name": "Gorgon Tomb - Old Man Access",
+                "sections": [
+                    {
+                        "name": "Gorgon Tomb - Crystal (Old Man 1)"
+                    },
+                    {
+                        "name": "Gorgon Tomb - Crystal (Old Man 2)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 746,
+                        "y": 1515
+                    }
+                ]
+            },
+            {
+                "name": "Gorgon Tomb - Old Man Access",
+                "sections": [
+                    {
+                        "name": "Gorgon Tomb - Crystal (Old Man 1)"
+                    },
+                    {
+                        "name": "Gorgon Tomb - Crystal (Old Man 2)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 746,
+                        "y": 1515
+                    }
+                ]
+            },
+            {
+                "name": "Mechanism - Zeek",
+                "sections": [
+                    {
+                        "name": "Mechanism - Zeek"
+                    },
+                    {
+                        "name": "Mechanism - Cyclops Idol"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 1220,
+                        "y": 1320
+                    }
+                ]
+            },
+            {
+                "name": "Mechanism - Cloak of Levitation",
+                "access_rules": ["$can_access_MECH_UPPER"],
+                "sections": [
+                    {
+                        "name": "Mechanism - Cloak of Levitation",
+                        "access_rules": [
+                            "eye_blue,$DOOR_WHITE_MECH_ARENA,$DOOR_WHITE_MECH_TOP",
+                            "eye_blue,$DOOR_WHITE_MECH_ARENA,claw"
+                        ]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 860,
+                        "y": 1070
+                    }
+                ]
+            },
+            {
+                "name": "Mechanism - Volantis",
+                "access_rules": ["$can_access_MECH_UPPER"],
+                "sections": [
+                    {
+                        "name": "Mechanism - Gorgon Eye (Blue)",
+                        "access_rules": ["claw", "mech_white_3,mech_white_4,WHITE_ON", "WHITE_OFF"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 744,
+                        "y": 1155
+                    }
+                ]
+            },
+            {
+                "name": "Mechanism - Above Volantis",
+                "access_rules": ["$can_access_MECH_UPPER"],
+                "sections": [
+                    {
+                        "name": "Mechanism - Attack +1 (Above Volantis)",
+                        "access_rules": ["claw,eye_blue", "claw,eye_green,void", "claw,$can_star,bell"],
+                        "visibility_rules": ["ATTACK_ON"]
+                    },
+                    {
+                        "name": "Mechanism - Face (Above Volantis)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 744,
+                        "y": 1114
+                    }
+                ]
+            },
+            {
+                "name": "Mechanism - Split Path",
+                "access_rules": ["$can_access_MECH_UPPER"],
+                "sections": [
+                    {
+                        "name": "Mechanism - Attack +1 (Morning Star Blocks)",
+                        "access_rules": ["$can_star"],
+                        "visibility_rules": ["ATTACK_ON"]
+                    },
+                    {
+                        "name": "Mechanism - Switch (Split Path)"
+                    },
+                    {
+                        "name": "Mechanism - Crystal (Top Chains)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 1040,
+                        "y": 1195
+                    }
+                ]
+            },
+            {
+                "name": "Mechanism - Secret Switch Room",
+                "access_rules": ["$can_access_MECH_UPPER"],
+                "sections": [
+                    {
+                        "name": "Mechanism - Max HP +1 (Secret Switch)",
+                        "visibility_rules": ["HP_ON"]
+                    },
+                    {
+                        "name": "Mechanism - Switch (Upper Void)"
+                    },
+                    {
+                        "name": "Mechanism - Switch (Invisible)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 1159,
+                        "y": 1155
+                    }
+                ]
+            },
+            {
+                "name": "Mechanism - Max HP +1 (Morning Star Blocks)",
+                "access_rules": ["$can_access_MECH_UPPER"],
+                "sections": [
+                    {
+                        "name": "Mechanism - Max HP +1 (Morning Star Blocks)",
+                        "access_rules": ["$can_star,claw", "$can_star,$DOOR_WHITE_MECH_ARENA,$DOOR_WHITE_MECH_TOP"],
+                        "visibility_rules": ["HP_ON"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 744,
+                        "y": 1195
+                    }
+                ]
+            },
+            {
+                "name": "Mechanism - Max HP +3 (Above Checkpoint)",
+                "access_rules": ["$can_access_MECH_LOWER"],
+                "sections": [
+                    {
+                        "name": "Mechanism - Max HP +3 (Above Checkpoint)",
+                        "access_rules": ["claw,mech_blue_4,mech_blue_5,BLUE_ON", "claw,BLUE_OFF"],
+                        "visibility_rules": ["HP_ON"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 1040,
+                        "y": 1560
+                    }
+                ]
+            },
+            {
+                "name": "Mechanism - Below Linus",
+                "access_rules": ["$can_access_MECH_LOWER"],
+                "sections": [
+                    {
+                        "name": "Mechanism - White Key (Below Linus)",
+                        "visibility_rules": ["WHITE_ON"]
+                    },
+                    {
+                        "name": "Mechanism - Switch (Lower Key)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 982,
+                        "y": 1560
+                    }
+                ]
+            },
+            {
+                "name": "Mechanism - White Key (Black Knight)",
+                "access_rules": ["$can_access_MECH_LOWER"],
+                "sections": [
+                    {
+                        "name": "Mechanism - White Key (Black Knight)",
+                        "access_rules": [
+                            "mech_white_1,BLUE_OFF",
+                            "mech_white_1,BLUE_ON",
+                            "mech_blue_2,BLUE_ON",
+                            "WHITE_OFF,BLUE_OFF"
+                        ],
+                        "visibility_rules": ["WHITE_ON"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 860,
+                        "y": 1274
+                    }
+                ]
+            },
+            {
+                "name": "Mechanism - White Key (Enemy Arena)",
+                "access_rules": ["$can_access_MECH_UPPER"],
+                "sections": [
+                    {
+                        "name": "Mechanism - White Key (Enemy Arena)",
+                        "visibility_rules": ["WHITE_ON"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 1219,
+                        "y": 1070
+                    }
+                ]
+            },
+            {
+                "name": "Mechanism - White Key (Top)",
+                "access_rules": ["$can_access_MECH_UPPER"],
+                "sections": [
+                    {
+                        "name": "Mechanism - White Key (Top)",
+                        "access_rules": ["mech_white_3"],
+                        "visibility_rules": ["WHITE_ON"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 1098,
+                        "y": 953
+                    }
+                ]
+            },
+            {
+                "name": "Mechanism - Void Charm Access",
+                "access_rules": ["$can_access_GT_MID"],
+                "sections": [
+                    {
+                        "name": "Mechanism - Blue Key (Void Charm)",
+                        "access_rules": ["eye_red"],
+                        "visibility_rules": ["BLUE_ON"]
+                    },
+                    {
+                        "name": "Mechanism - Switch (Snake 1)"
+                    },
+                    {
+                        "name": "Mechanism - Switch (Snake 2)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 1098,
+                        "y": 1640
+                    }
+                ]
+            },
+            {
+                "name": "Mechanism - Blue Key (Snake Head)",
+                "access_rules": ["$can_access_MECH_LOWER"],
+                "sections": [
+                    {
+                        "name": "Mechanism - Blue Key (Snake Head)",
+                        "access_rules": ["mech_blue_4,mech_blue_5"],
+                        "visibility_rules": ["BLUE_ON"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 1159,
+                        "y": 1640
+                    }
+                ]
+            },
+            {
+                "name": "Mechanism - Blue Key (Linus)",
+                "access_rules": ["$can_access_MECH_LOWER"],
+                "sections": [
+                    {
+                        "name": "Mechanism - Blue Key (Linus)",
+                        "visibility_rules": ["BLUE_ON"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 920,
+                        "y": 1478
+                    }
+                ]
+            },
+            {
+                "name": "Mechanism - Blue Key (Sacrifice)",
+                "access_rules": ["$can_access_MECH_LOWER"],
+                "sections": [
+                    {
+                        "name": "Mechanism - Blue Key (Sacrifice)",
+                        "visibility_rules": ["BLUE_ON"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 1040,
+                        "y": 1438
+                    }
+                ]
+            },
+            {
+                "name": "Mechanism - Blue Key (To Red Key)",
+                "access_rules": ["$can_access_MECH_LOWER"],
+                "sections": [
+                    {
+                        "name": "Mechanism - Blue Key (To Red Key)",
+                        "visibility_rules": ["BLUE_ON"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 744,
+                        "y": 1397
+                    }
+                ]
+            },
+            {
+                "name": "Mechanism - Blue Key (Arias)",
+                "access_rules": ["$can_access_MECH_UPPER"],
+                "sections": [
+                    {
+                        "name": "Mechanism - Blue Key (Arias)",
+                        "visibility_rules": ["BLUE_ON"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 1040,
+                        "y": 1274
+                    }
+                ]
+            },
+            {
+                "name": "Mechanism - Chains Blocks",
+                "access_rules": ["$can_access_MECH_UPPER"],
+                "sections": [
+                    {
+                        "name": "Mechanism - Blue Key (Switch Blocks)",
+                        "visibility_rules": ["BLUE_ON"]
+                    },
+                    {
+                        "name": "Mechanism - Switch (Chains Gap)"
+                    },
+                    {
+                        "name": "Mechanism - Switch (Key Blocks)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 982,
+                        "y": 1235
+                    }
+                ]
+            },
+            {
+                "name": "Mechanism - Blue Key (Top Path)",
+                "access_rules": ["$can_access_MECH_UPPER"],
+                "sections": [
+                    {
+                        "name": "Mechanism - Blue Key (Top Path)",
+                        "visibility_rules": ["BLUE_ON"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 1159,
+                        "y": 1195
+                    }
+                ]
+            },
+            {
+                "name": "Mechanism - Blue Key (Old Man)",
+                "access_rules": ["$can_access_MECH_UPPER"],
+                "sections": [
+                    {
+                        "name": "Mechanism - Blue Key (Old Man)",
+                        "visibility_rules": ["BLUE_ON"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 1278,
+                        "y": 1155
+                    }
+                ]
+            },
+            {
+                "name": "Mechanism - Top Checkpoint",
+                "access_rules": ["$can_access_MECH_UPPER"],
+                "sections": [
+                    {
+                        "name": "Mechanism - Blue Key (Checkpoint)",
+                        "access_rules": ["mech_white_3,WHITE_ON", "WHITE_OFF"],
+                        "visibility_rules": ["BLUE_ON"]
+                    },
+                    {
+                        "name": "Mechanism - Crystal (Top)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 1098,
+                        "y": 1033
+                    }
+                ]
+            },
+            {
+                "name": "Mechanism - Pots",
+                "access_rules": ["$can_access_MECH_UPPER"],
+                "sections": [
+                    {
+                        "name": "Mechanism - Blue Key (Pot)",
+                        "access_rules": ["mech_white_3,WHITE_ON", "WHITE_OFF"],
+                        "visibility_rules": ["BLUE_ON"]
+                    },
+                    {
+                        "name": "Mechanism - Switch (Pots)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 1159,
+                        "y": 1070
+                    }
+                ]
+            },
+            {
+                "name": "Mechanism - Red Key",
+                "access_rules": ["$can_access_MECH_LOWER", "$can_access_MECH_UPPER,void"],
+                "sections": [
+                    {
+                        "name": "Mechanism - Red Key",
+                        "access_rules": ["$VOID_C"],
+                        "visibility_rules": ["RED_ON"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 623,
+                        "y": 1358
+                    }
+                ]
+            },
+            {
+                "name": "Mechanism - Elevator 1",
+                "sections": [
+                    {
+                        "name": "Mechanism - Elevator 1"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 983,
+                        "y": 1316
+                    }
+                ]
+            },
+            {
+                "name": "Mechanism - Elevator 2",
+                "sections": [
+                    {
+                        "name": "Mechanism - Elevator 2"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 803,
+                        "y": 1155
+                    }
+                ]
+            },
+            {
+                "name": "Mechanism - Watcher",
+                "sections": [
+                    {
+                        "name": "Mechanism - Switch (Watcher)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 860,
+                        "y": 1400
+                    }
+                ]
+            },
+            {
+                "name": "Mechanism - Before Chains",
+                "sections": [
+                    {
+                        "name": "Mechanism - Switch (Chains)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 925,
+                        "y": 1275
+                    }
+                ]
+            },
+            {
+                "name": "Mechanism - Boss Access",
+                "sections": [
+                    {
+                        "name": "Mechanism - Switch (Boss Access 1)"
+                    },
+                    {
+                        "name": "Mechanism - Switch (Boss Access 2)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 863,
+                        "y": 1195
+                    }
+                ]
+            },
+            {
+                "name": "Mechanism - Boots Access",
+                "sections": [
+                    {
+                        "name": "Mechanism - Switch (Boots Access)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 1100,
+                        "y": 1520
+                    }
+                ]
+            },
+            {
+                "name": "Mechanism - Upper GT Access",
+                "sections": [
+                    {
+                        "name": "Mechanism - Switch (Upper GT Access)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 980,
+                        "y": 1600
+                    }
+                ]
+            },
+            {
+                "name": "Mechanism - Upper Void Drop",
+                "sections": [
+                    {
+                        "name": "Mechanism - Switch (Upper Void Drop)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 1100,
+                        "y": 1113
+                    }
+                ]
+            },
+            {
+                "name": "Mechanism - Linus",
+                "sections": [
+                    {
+                        "name": "Mechanism - Switch (Linus)"
+                    },
+                    {
+                        "name": "Mechanism - Crystal (Linus)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 980,
+                        "y": 1480
+                    }
+                ]
+            },
+            {
+                "name": "Mechanism - Switch Hallway",
+                "sections": [
+                    {
+                        "name": "Mechanism - Switch (To Boss 1)"
+                    },
+                    {
+                        "name": "Mechanism - Switch (To Boss 2)"
+                    },
+                    {
+                        "name": "Mechanism - Crystal (To Boss 3)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 925,
+                        "y": 1195
+                    }
+                ]
+            },
+            {
+                "name": "Mechanism - Maze Backdoor",
+                "sections": [
+                    {
+                        "name": "Mechanism - Switch (Maze Backdoor)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 1040,
+                        "y": 1033
+                    }
+                ]
+            },
+            {
+                "name": "Mechanism - Block Stairs",
+                "sections": [
+                    {
+                        "name": "Mechanism - Switch (Block Stairs)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 980,
+                        "y": 1155
+                    }
+                ]
+            },
+            {
+                "name": "Mechanism - Arias Cyclops",
+                "sections": [
+                    {
+                        "name": "Mechanism - Switch (Arias Cyclops)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 1040,
+                        "y": 1075
+                    }
+                ]
+            },
+            {
+                "name": "Mechanism - Boots Lower",
+                "sections": [
+                    {
+                        "name": "Mechanism - Switch (Boots Lower)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 1160,
+                        "y": 1520
+                    }
+                ]
+            },
+            {
+                "name": "Mechanism - Arias's Path",
+                "sections": [
+                    {
+                        "name": "Mechanism - Switch (Arias)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 1100,
+                        "y": 1275
+                    }
+                ]
+            },
+            {
+                "name": "Mechanism - Cannon",
+                "sections": [
+                    {
+                        "name": "Mechanism - Switch (Cannon)"
+                    },
+                    {
+                        "name": "Mechanism - Crystal (Cannon)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 803,
+                        "y": 1400
+                    }
+                ]
+            },
+            {
+                "name": "Mechanism - Eyeball",
+                "sections": [
+                    {
+                        "name": "Mechanism - Switch (Eyeball)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 1217,
+                        "y": 1115
+                    }
+                ]
+            },
+            {
+                "name": "Mechanism - Lower",
+                "sections": [
+                    {
+                        "name": "Mechanism - Crystal (Lower)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 980,
+                        "y": 1520
+                    }
+                ]
+            },
+            {
+                "name": "Mechanism - Triple Crystals",
+                "sections": [
+                    {
+                        "name": "Mechanism - Crystal (Triple 1)"
+                    },
+                    {
+                        "name": "Mechanism - Crystal (Triple 2)"
+                    },
+                    {
+                        "name": "Mechanism - Crystal (Triple 3)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 1040,
+                        "y": 1115
+                    }
+                ]
+            },
+            {
+                "name": "Mechanism - Cloak Access",
+                "sections": [
+                    {
+                        "name": "Mechanism - Crystal (Cloak)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 922,
+                        "y": 1114
+                    }
+                ]
+            },
+            {
+                "name": "Mechanism - Slimes",
+                "sections": [
+                    {
+                        "name": "Mechanism - Crystal (Slimes)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 1040,
+                        "y": 1155
+                    }
+                ]
+            },
+            {
+                "name": "Mechanism - To CD",
+                "sections": [
+                    {
+                        "name": "Mechanism - Crystal (To CD)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 1220,
+                        "y": 1030
+                    }
+                ]
+            },
+            {
+                "name": "Mechanism - Beside Shortcut Campfire",
+                "sections": [
+                    {
+                        "name": "Mechanism - Crystal (Campfire)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 925,
+                        "y": 1350
+                    }
+                ]
+            },
+            {
+                "name": "Mechanism - 1st Room",
+                "sections": [
+                    {
+                        "name": "Mechanism - Crystal (1st Room)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 800,
+                        "y": 1440
+                    }
+                ]
+            },
+            {
+                "name": "Mechanism - To Old Man",
+                "sections": [
+                    {
+                        "name": "Mechanism - Crystal (Old Man)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 1275,
+                        "y": 1155
+                    }
+                ]
+            },
+            {
+                "name": "Mechanism - Beside Black Knight",
+                "sections": [
+                    {
+                        "name": "Mechanism - Crystal (Black Knight)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 925,
+                        "y": 1315
+                    }
+                ]
+            },
+            {
+                "name": "Hall of the Phantoms - Athena's Bell",
+                "access_rules": ["$can_access_HOTP_LOWER"],
+                "sections": [
+                    {
+                        "name": "Hall of the Phantoms - Athena's Bell"
+                    },
+                    {
+                        "name": "Hall of the Phantoms - Switch (Bell)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 328,
+                        "y": 1317
+                    }
+                ]
+            },
+            {
+                "name": "Hall of the Phantoms - Amulet of Sol",
+                "access_rules": ["$can_access_HOTP_BOTTOM", "$can_access_MECH_UPPER,void"],
+                "sections": [
+                    {
+                        "name": "Hall of the Phantoms - Amulet of Sol",
+                        "access_rules": ["claw,eye_blue,$VOID_C"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 505,
+                        "y": 1358
+                    }
+                ]
+            },
+            {
+                "name": "Hall of the Phantoms - Griffon Claw",
+                "access_rules": ["$can_access_HOTP_MID"],
+                "sections": [
+                    {
+                        "name": "Hall of the Phantoms - Griffon Claw",
+                        "access_rules": ["claw", "hotp_white_2,WHITE_ON", "WHITE_OFF"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 802,
+                        "y": 1033
+                    }
+                ]
+            },
+            {
+                "name": "Hall of the Phantoms - Boreas Gauntlet",
+                "access_rules": ["$can_access_HOTP_UPPER"],
+                "sections": [
+                    {
+                        "name": "Hall of the Phantoms - Boreas Gauntlet",
+                        "access_rules": ["claw,bell,banish"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 1040,
+                        "y": 788
+                    }
+                ]
+            },
+            {
+                "name": "Hall of the Phantoms - Dead Maiden's Ring",
+                "access_rules": ["$can_access_HOTP_UPPER"],
+                "sections": [
+                    {
+                        "name": "Hall of the Phantoms - Dead Maiden's Ring",
+                        "access_rules": [
+                            "claw,bell,banish,sword,hotp_blue_3,BLUE_ON",
+                            "claw,bell,banish,sword,BLUE_OFF"
+                        ]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 623,
+                        "y": 750
+                    }
+                ]
+            },
+            {
+                "name": "Hall of the Phantoms - Max HP +1 (Griffon Claw)",
+                "access_rules": ["$can_access_HOTP_MID"],
+                "sections": [
+                    {
+                        "name": "Hall of the Phantoms - Max HP +1 (Griffon Claw)",
+                        "visibility_rules": ["HP_ON"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 623,
+                        "y": 1033
+                    }
+                ]
+            },
+            {
+                "name": "Hall of the Phantoms - Secret Ladder Room",
+                "access_rules": ["$can_access_HOTP_MID"],
+                "sections": [
+                    {
+                        "name": "Hall of the Phantoms - Max HP +2 (Secret Ladder)",
+                        "visibility_rules": ["HP_ON"]
+                    },
+                    {
+                        "name": "Hall of the Phantoms - Blue Key (Secret Ladder)",
+                        "visibility_rules": ["BLUE_ON"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 446,
+                        "y": 1155
+                    }
+                ]
+            },
+            {
+                "name": "Hall of the Phantoms - Max HP +2 (Boreas Gauntlet)",
+                "access_rules": ["$can_access_HOTP_UPPER"],
+                "sections": [
+                    {
+                        "name": "Hall of the Phantoms - Max HP +2 (Boreas Gauntlet)",
+                        "access_rules": ["claw,zeek,bell"],
+                        "visibility_rules": ["HP_ON"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 1040,
+                        "y": 910
+                    }
+                ]
+            },
+            {
+                "name": "Hall of the Phantoms - Max HP +5 (Old Man)",
+                "access_rules": ["$can_access_HOTP_MID"],
+                "sections": [
+                    {
+                        "name": "Hall of the Phantoms - Max HP +5 (Old Man)",
+                        "access_rules": ["eye_green,claw,bell,banish", "eye_green,claw,chalice"],
+                        "visibility_rules": ["HP_ON"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 388,
+                        "y": 910
+                    }
+                ]
+            },
+            {
+                "name": "Hall of the Phantoms - Max HP +5 (Teleport Maze)",
+                "access_rules": ["$can_access_HOTP_START"],
+                "sections": [
+                    {
+                        "name": "Hall of the Phantoms - Max HP +5 (Teleport Maze)",
+                        "access_rules": ["bell"],
+                        "visibility_rules": ["HP_ON"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 623,
+                        "y": 1114
+                    }
+                ]
+            },
+            {
+                "name": "Hall of the Phantoms - Max HP +5 (Above Start)",
+                "access_rules": ["$can_access_HOTP_START"],
+                "sections": [
+                    {
+                        "name": "Hall of the Phantoms - Max HP +5 (Above Start)",
+                        "access_rules": ["bell"],
+                        "visibility_rules": ["HP_ON"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 682,
+                        "y": 1070
+                    }
+                ]
+            },
+            {
+                "name": "Hall of the Phantoms - White Key (Left of Start)",
+                "access_rules": ["$can_access_HOTP_START"],
+                "sections": [
+                    {
+                        "name": "Hall of the Phantoms - White Key (Left of Start)",
+                        "visibility_rules": ["WHITE_ON"]
+                    },
+                    {
+                        "name": "Hall of the Phantoms - Switch (Left Backtrack)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 505,
+                        "y": 1155
+                    }
+                ]
+            },
+            {
+                "name": "Hall of the Phantoms - White Key (Ghost)",
+                "access_rules": ["$can_access_HOTP_LOWER"],
+                "sections": [
+                    {
+                        "name": "Hall of the Phantoms - White Key (Ghost)",
+                        "visibility_rules": ["WHITE_ON"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 565,
+                        "y": 1235
+                    }
+                ]
+            },
+            {
+                "name": "Hall of the Phantoms - White Key (Old Man)",
+                "access_rules": ["$can_access_HOTP_MID"],
+                "sections": [
+                    {
+                        "name": "Hall of the Phantoms - White Key (Old Man)",
+                        "visibility_rules": ["WHITE_ON"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 388,
+                        "y": 1070
+                    }
+                ]
+            },
+            {
+                "name": "Hall of the Phantoms - White Key (Boss)",
+                "access_rules": ["$can_access_HOTP_UPPER"],
+                "sections": [
+                    {
+                        "name": "Hall of the Phantoms - White Key (Boss)",
+                        "visibility_rules": ["WHITE_ON"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 682,
+                        "y": 910
+                    }
+                ]
+            },
+            {
+                "name": "Hall of the Phantoms - Blue Key (Epimetheus)",
+                "access_rules": ["$can_access_HOTP_LOWER"],
+                "sections": [
+                    {
+                        "name": "Hall of the Phantoms - Blue Key (Epimetheus)",
+                        "access_rules": ["claw,mech_white_1,WHITE_ON", "claw,mech_blue_2", "claw,WHITE_OFF"],
+                        "visibility_rules": ["BLUE_ON"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 682,
+                        "y": 1274
+                    }
+                ]
+            },
+            {
+                "name": "Hall of the Phantoms - Blue Key (Gold Hint)",
+                "access_rules": ["$can_access_HOTP_LOWER"],
+                "sections": [
+                    {
+                        "name": "Hall of the Phantoms - Blue Key (Gold Hint)",
+                        "visibility_rules": ["BLUE_ON"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 623,
+                        "y": 1317
+                    }
+                ]
+            },
+            {
+                "name": "Hall of the Phantoms - Blue Key (Amulet of Sol)",
+                "access_rules": ["$can_access_HOTP_BOTTOM", "$can_access_MECH_UPPER,void"],
+                "sections": [
+                    {
+                        "name": "Hall of the Phantoms - Blue Key (Amulet of Sol)",
+                        "access_rules": ["$VOID_C"],
+                        "visibility_rules": ["BLUE_ON"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 565,
+                        "y": 1358
+                    }
+                ]
+            },
+            {
+                "name": "Hall of the Phantoms - Blue Key (Spike Teleporters)",
+                "access_rules": ["$can_access_HOTP_MID"],
+                "sections": [
+                    {
+                        "name": "Hall of the Phantoms - Blue Key (Spike Teleporters)",
+                        "visibility_rules": ["BLUE_ON"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 267,
+                        "y": 1155
+                    }
+                ]
+            },
+            {
+                "name": "Hall of the Phantoms - Blue Key (Teleport Maze)",
+                "access_rules": ["$can_access_HOTP_UPPER"],
+                "sections": [
+                    {
+                        "name": "Hall of the Phantoms - Blue Key (Teleport Maze)",
+                        "visibility_rules": ["BLUE_ON"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 802,
+                        "y": 910
+                    }
+                ]
+            },
+            {
+                "name": "Hall of the Phantoms - Red Key",
+                "access_rules": ["$can_access_HOTP_LOWER"],
+                "sections": [
+                    {
+                        "name": "Hall of the Phantoms - Red Key",
+                        "access_rules": ["eye_green,cloak"],
+                        "visibility_rules": ["RED_ON"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 505,
+                        "y": 1274
+                    }
+                ]
+            },
+            {
+                "name": "Hall of the Phantoms - Elevator",
+                "sections": [
+                    {
+                        "name": "Hall of the Phantoms - Elevator"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 325,
+                        "y": 1110
+                    }
+                ]
+            },
+            {
+                "name": "Hall of the Phantoms - Big Rock",
+                "sections": [
+                    {
+                        "name": "Hall of the Phantoms - Switch (Rock)"
+                    },
+                    {
+                        "name": "Hall of the Phantoms - Crystal (Rock Access)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 565,
+                        "y": 1400
+                    }
+                ]
+            },
+            {
+                "name": "Hall of the Phantoms - Below Start",
+                "sections": [
+                    {
+                        "name": "Hall of the Phantoms - Switch (Below Start)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 685,
+                        "y": 1200
+                    }
+                ]
+            },
+            {
+                "name": "Hall of the Phantoms - Left Switches",
+                "sections": [
+                    {
+                        "name": "Hall of the Phantoms - Switch (Left 1)"
+                    },
+                    {
+                        "name": "Hall of the Phantoms - Switch (Left 2)"
+                    },
+                    {
+                        "name": "Hall of the Phantoms - Switch (Left 3)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 565,
+                        "y": 1155
+                    }
+                ]
+            },
+            {
+                "name": "Hall of the Phantoms - Lower Shortcut",
+                "sections": [
+                    {
+                        "name": "Hall of the Phantoms - Switch (Lower Shortcut)"
+                    },
+                    {
+                        "name": "Hall of the Phantoms - Crystal (Lower)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 625,
+                        "y": 1235
+                    }
+                ]
+            },
+            {
+                "name": "Hall of the Phantoms - Ghost Blood",
+                "sections": [
+                    {
+                        "name": "Hall of the Phantoms - Switch (Ghost Blood)"
+                    },
+                    {
+                        "name": "Hall of the Phantoms - Switch (Eyeball Shortcut)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 390,
+                        "y": 1195
+                    }
+                ]
+            },
+            {
+                "name": "Hall of the Phantoms - Teleports",
+                "sections": [
+                    {
+                        "name": "Hall of the Phantoms - Switch (Teleports)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 390,
+                        "y": 1235
+                    }
+                ]
+            },
+            {
+                "name": "Hall of the Phantoms - Worm Pillar",
+                "sections": [
+                    {
+                        "name": "Hall of the Phantoms - Switch (Worm Pillar)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 390,
+                        "y": 1155
+                    }
+                ]
+            },
+            {
+                "name": "Hall of the Phantoms - To Claw",
+                "sections": [
+                    {
+                        "name": "Hall of the Phantoms - Switch (To Claw 1)"
+                    },
+                    {
+                        "name": "Hall of the Phantoms - Switch (To Claw 2)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 445,
+                        "y": 1075
+                    }
+                ]
+            },
+            {
+                "name": "Hall of the Phantoms - Claw Access",
+                "sections": [
+                    {
+                        "name": "Hall of the Phantoms - Switch (Claw Access)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 685,
+                        "y": 990
+                    }
+                ]
+            },
+            {
+                "name": "Hall of the Phantoms - Ghosts",
+                "sections": [
+                    {
+                        "name": "Hall of the Phantoms - Switch (Ghosts)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 625,
+                        "y": 1195
+                    }
+                ]
+            },
+            {
+                "name": "Hall of the Phantoms - Above Old Man",
+                "sections": [
+                    {
+                        "name": "Hall of the Phantoms - Switch (Above Old Man)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 385,
+                        "y": 950
+                    }
+                ]
+            },
+            {
+                "name": "Hall of the Phantoms - To Above Old Man",
+                "sections": [
+                    {
+                        "name": "Hall of the Phantoms - Switch (To Above Old Man)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 450,
+                        "y": 990
+                    }
+                ]
+            },
+            {
+                "name": "Hall of the Phantoms - Teleport Puzzle",
+                "sections": [
+                    {
+                        "name": "Hall of the Phantoms - Switch (Teleport Puzzle)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 800,
+                        "y": 870
+                    }
+                ]
+            },
+            {
+                "name": "Hall of the Phantoms - Bell Access 1",
+                "sections": [
+                    {
+                        "name": "Hall of the Phantoms - Switch (Bell Access)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 390,
+                        "y": 1315
+                    }
+                ]
+            },
+            {
+                "name": "Hall of the Phantoms - 1st Room",
+                "sections": [
+                    {
+                        "name": "Hall of the Phantoms - Switch (1st Room)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 680,
+                        "y": 1155
+                    }
+                ]
+            },
+            {
+                "name": "Hall of the Phantoms - Bottom",
+                "sections": [
+                    {
+                        "name": "Hall of the Phantoms - Crystal (Bottom)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 565,
+                        "y": 1315
+                    }
+                ]
+            },
+            {
+                "name": "Hall of the Phantoms - After Claw",
+                "sections": [
+                    {
+                        "name": "Hall of the Phantoms - Crystal (After Claw)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 625,
+                        "y": 950
+                    }
+                ]
+            },
+            {
+                "name": "Hall of the Phantoms - Dead Maiden 1",
+                "sections": [
+                    {
+                        "name": "Hall of the Phantoms - Crystal (Dead Maiden 1)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 565,
+                        "y": 830
+                    }
+                ]
+            },
+            {
+                "name": "Hall of the Phantoms - Dead Maiden 2",
+                "sections": [
+                    {
+                        "name": "Hall of the Phantoms - Crystal (Dead Maiden 2)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 565,
+                        "y": 780
+                    }
+                ]
+            },
+            {
+                "name": "Hall of the Phantoms - Bell Access 2",
+                "sections": [
+                    {
+                        "name": "Hall of the Phantoms - Crystal (Bell Access)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 445,
+                        "y": 1315
+                    }
+                ]
+            },
+            {
+                "name": "Hall of the Phantoms - Heart",
+                "sections": [
+                    {
+                        "name": "Hall of the Phantoms - Crystal (Heart)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 685,
+                        "y": 950
+                    }
+                ]
+            },
+            {
+                "name": "Hall of the Phantoms - Below Puzzle",
+                "sections": [
+                    {
+                        "name": "Hall of the Phantoms - Crystal (Below Puzzle)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 805,
+                        "y": 910
+                    }
+                ]
+            },
+            {
+                "name": "Hall of the Phantoms - Old Man Access",
+                "sections": [
+                    {
+                        "name": "Hall of the Phantoms - Face (Old Man)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 330,
+                        "y": 1030
+                    }
+                ]
+            },
+            {
+                "name": "Cyclops Den - Prince Alx",
+                "sections": [
+                    {
+                        "name": "Cyclops Den - Prince's Crown"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 1515,
+                        "y": 990
+                    }
+                ]
+            },
+            {
+                "name": "Cyclops Den - Hidden Switch Room",
+                "access_rules": ["$can_access_CD"],
+                "sections": [
+                    {
+                        "name": "Cyclops Den - Attack +1",
+                        "visibility_rules": ["ATTACK_ON"]
+                    },
+                    {
+                        "name": "Cyclops Den - Max HP +1",
+                        "visibility_rules": ["HP_ON"]
+                    },
+                    {
+                        "name": "Cyclops Den - Switch (Top)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 1278,
+                        "y": 670
+                    }
+                ]
+            },
+            {
+                "name": "Cyclops Den - 1",
+                "sections": [
+                    {
+                        "name": "Cyclops Den - Switch 1"
+                    },
+                    {
+                        "name": "Cyclops Den - Crystal (Backtrack)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 1335,
+                        "y": 950
+                    }
+                ]
+            },
+            {
+                "name": "Cyclops Den - 2",
+                "sections": [
+                    {
+                        "name": "Cyclops Den - Switch 2"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 1395,
+                        "y": 950
+                    }
+                ]
+            },
+            {
+                "name": "Cyclops Den - 3",
+                "sections": [
+                    {
+                        "name": "Cyclops Den - Switch 3"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 1395,
+                        "y": 910
+                    }
+                ]
+            },
+            {
+                "name": "Cyclops Den - Campfire 2",
+                "sections": [
+                    {
+                        "name": "Cyclops Den - Switch (Campfire)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 1215,
+                        "y": 870
+                    }
+                ]
+            },
+            {
+                "name": "Cyclops Den - Campfire 1",
+                "sections": [
+                    {
+                        "name": "Cyclops Den - Crystal (Start)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 1340,
+                        "y": 990
+                    }
+                ]
+            },
+            {
+                "name": "Cyclops Den - Campfire 3",
+                "sections": [
+                    {
+                        "name": "Cyclops Den - Crystal (Campfire)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 1215,
+                        "y": 790
+                    }
+                ]
+            },
+            {
+                "name": "Cyclops Den - Steps",
+                "sections": [
+                    {
+                        "name": "Cyclops Den - Crystal (Steps)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 1215,
+                        "y": 790
+                    }
+                ]
+            },
+            {
+                "name": "Cathedral - Magic Block",
+                "access_rules": ["$can_access_CATH"],
+                "sections": [
+                    {
+                        "name": "Cathedral - Magic Block"
+                    },
+                    {
+                        "name": "Cathedral - Crystal (Top Left)"
+                    },
+                    {
+                        "name": "Cathedral - Crystal (Top Right)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 90,
+                        "y": 788
+                    }
+                ]
+            },
+            {
+                "name": "Cathedral - Attack +1",
+                "access_rules": ["$can_access_CATH"],
+                "sections": [
+                    {
+                        "name": "Cathedral - Attack +1",
+                        "visibility_rules": ["ATTACK_ON"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 30,
+                        "y": 991
+                    }
+                ]
+            },
+            {
+                "name": "Cathedral - Room Below Magic Block",
+                "access_rules": ["$can_access_CATH"],
+                "sections": [
+                    {
+                        "name": "Cathedral - Max HP +1 (Top Left)",
+                        "visibility_rules": ["HP_ON"]
+                    },
+                    {
+                        "name": "Cathedral - Max HP +1 (Top Right)",
+                        "visibility_rules": ["HP_ON"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 90,
+                        "y": 910
+                    }
+                ]
+            },
+            {
+                "name": "Cathedral - Max HP +2 (Left Climb)",
+                "access_rules": ["$can_access_CATH"],
+                "sections": [
+                    {
+                        "name": "Cathedral - Max HP +2 (Left Climb)",
+                        "visibility_rules": ["HP_ON"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 30,
+                        "y": 1033
+                    }
+                ]
+            },
+            {
+                "name": "Cathedral - Max HP +5 (Bell)",
+                "access_rules": ["$can_access_CATH"],
+                "sections": [
+                    {
+                        "name": "Cathedral - Max HP +5 (Bell)",
+                        "visibility_rules": ["HP_ON"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 90,
+                        "y": 1070
+                    }
+                ]
+            },
+            {
+                "name": "Cathedral - Bottom",
+                "sections": [
+                    {
+                        "name": "Cathedral - Switch (Bottom)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 90,
+                        "y": 1195
+                    }
+                ]
+            },
+            {
+                "name": "Cathedral - Beside Shaft",
+                "sections": [
+                    {
+                        "name": "Cathedral - Switch (Beside Shaft)"
+                    },
+                    {
+                        "name": "Cathedral - Crystal (Shaft Access)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 30,
+                        "y": 1170
+                    }
+                ]
+            },
+            {
+                "name": "Cathedral - Top Campfire Access",
+                "sections": [
+                    {
+                        "name": "Cathedral - Switch (Top Campfire)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 150,
+                        "y": 950
+                    }
+                ]
+            },
+            {
+                "name": "Cathedral - 1st Room",
+                "sections": [
+                    {
+                        "name": "Cathedral - Crystal (1st Room)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 90,
+                        "y": 1240
+                    }
+                ]
+            },
+            {
+                "name": "Cathedral - Shaft",
+                "sections": [
+                    {
+                        "name": "Cathedral - Crystal (Shaft)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 30,
+                        "y": 1155
+                    }
+                ]
+            },
+            {
+                "name": "Cathedral - Spike Pit",
+                "sections": [
+                    {
+                        "name": "Cathedral - Crystal (Spike Pit)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 30,
+                        "y": 950
+                    }
+                ]
+            },
+            {
+                "name": "Cathedral - Orbs",
+                "sections": [
+                    {
+                        "name": "Cathedral - Crystal (Orbs)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 30,
+                        "y": 1030
+                    }
+                ]
+            },
+            {
+                "name": "Cathedral - Faces",
+                "sections": [
+                    {
+                        "name": "Cathedral - Face (Left)"
+                    },
+                    {
+                        "name": "Cathedral - Face (Right)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 30,
+                        "y": 1195
+                    }
+                ]
+            },
+            {
+                "name": "Caves - Item Chain 1st Room",
+                "access_rules": ["$can_access_CATA_UPPER"],
+                "sections": [
+                    {
+                        "name": "Caves - Attack +1 (Item Chain Red)",
+                        "access_rules": ["eye_red"],
+                        "visibility_rules": ["ATTACK_ON"]
+                    },
+                    {
+                        "name": "Caves - Attack +1 (Item Chain Blue)",
+                        "access_rules": ["eye_red,eye_blue"],
+                        "visibility_rules": ["ATTACK_ON"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 982,
+                        "y": 1800
+                    }
+                ]
+            },
+            {
+                "name": "Caves - Item Chain Second Room",
+                "access_rules": ["$can_access_CATA_UPPER"],
+                "sections": [
+                    {
+                        "name": "Caves - Attack +1 (Item Chain Green)",
+                        "access_rules": ["eye_red,eye_blue,$can_star", "eye_red,eye_blue,eye_green"],
+                        "visibility_rules": ["ATTACK_ON"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 1040,
+                        "y": 1800
+                    }
+                ]
+            },
+            {
+                "name": "Caves - 1st Room",
+                "access_rules": ["$can_access_GT_MID"],
+                "sections": [
+                    {
+                        "name": "Caves - Max HP +1 (1st Room)",
+                        "access_rules": ["[bow]", "[chalice]"],
+                        "visibility_rules": ["HP_ON"]
+                    },
+                    {
+                        "name": "Caves - Face (1st Room)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 920,
+                        "y": 1681
+                    }
+                ]
+            },
+            {
+                "name": "Caves - Cyclops Arena",
+                "access_rules": ["$can_access_CATA_UPPER"],
+                "sections": [
+                    {
+                        "name": "Caves - Max HP +1 (Cyclops Arena)",
+                        "access_rules": ["sword"],
+                        "visibility_rules": ["HP_ON"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 1098,
+                        "y": 1722
+                    }
+                ]
+            },
+            {
+                "name": "Caves - Max HP +5 (Item Chain)",
+                "access_rules": ["$can_access_CATA_UPPER"],
+                "sections": [
+                    {
+                        "name": "Caves - Max HP +5 (Item Chain)",
+                        "access_rules": ["eye_red,eye_blue,$can_star,claw"],
+                        "visibility_rules": ["HP_ON"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 1098,
+                        "y": 1762
+                    }
+                ]
+            },
+            {
+                "name": "Caves - Skeletons",
+                "sections": [
+                    {
+                        "name": "Caves - Switch (Skeletons)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 920,
+                        "y": 1760
+                    }
+                ]
+            },
+            {
+                "name": "Caves - Catacombs Access",
+                "sections": [
+                    {
+                        "name": "Caves - Switch (Catacombs Access 1)"
+                    },
+                    {
+                        "name": "Caves - Switch (Catacombs Access 2)"
+                    },
+                    {
+                        "name": "Caves - Switch (Catacombs Access 3)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 920,
+                        "y": 1840
+                    }
+                ]
+            },
+            {
+                "name": "Catacombs - Lunarian Bow",
+                "access_rules": ["$can_access_CATA_MID"],
+                "sections": [
+                    {
+                        "name": "Catacombs - Lunarian Bow",
+                        "access_rules": ["cata_blue_3,cata_blue_4,BLUE_ON", "BLUE_OFF"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 623,
+                        "y": 1925
+                    }
+                ]
+            },
+            {
+                "name": "Catacombs - Attack +1 (Climbable Root)",
+                "access_rules": ["$can_access_CATA_UPPER"],
+                "sections": [
+                    {
+                        "name": "Catacombs - Attack +1 (Climbable Root)",
+                        "visibility_rules": ["ATTACK_ON"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 802,
+                        "y": 1800
+                    }
+                ]
+            },
+            {
+                "name": "Catacombs - Poison Roots",
+                "access_rules": ["$can_access_CATA_ROOTS"],
+                "sections": [
+                    {
+                        "name": "Catacombs - Attack +1 (Poison Roots)",
+                        "visibility_rules": ["ATTACK_ON"]
+                    },
+                    {
+                        "name": "Catacombs - Max HP +2 (After Poison Roots)",
+                        "visibility_rules": ["HP_ON"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 1098,
+                        "y": 2125
+                    }
+                ]
+            },
+            {
+                "name": "Catacombs - Above Poison Roots",
+                "access_rules": ["$can_access_CATA_ROOTS"],
+                "sections": [
+                    {
+                        "name": "Catacombs - Max HP +1 (Above Poison Roots)",
+                        "access_rules": ["bell", "icarus,claw"],
+                        "visibility_rules": ["HP_ON"]
+                    },
+                    {
+                        "name": "Catacombs - Crystal (Poison Roots)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 982,
+                        "y": 2085
+                    }
+                ]
+            },
+            {
+                "name": "Catacombs - Max HP +2 (Before Poison Roots)",
+                "access_rules": ["$can_access_CATA_ROOTS"],
+                "sections": [
+                    {
+                        "name": "Catacombs - Max HP +2 (Before Poison Roots)",
+                        "visibility_rules": ["HP_ON"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 982,
+                        "y": 2125
+                    }
+                ]
+            },
+            {
+                "name": "Catacombs - Before Gemini Room",
+                "access_rules": ["$can_access_CATA_LOWER"],
+                "sections": [
+                    {
+                        "name": "Catacombs - Max HP +2 (Before Gemini Top)",
+                        "access_rules": ["claw"],
+                        "visibility_rules": ["HP_ON"]
+                    },
+                    {
+                        "name": "Catacombs - Max HP +2 (Before Gemini Bottom)",
+                        "access_rules": ["claw"],
+                        "visibility_rules": ["HP_ON"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 802,
+                        "y": 2205
+                    }
+                ]
+            },
+            {
+                "name": "Catacombs - Max HP +2 (Above Gemini)",
+                "access_rules": ["$can_access_CATA_LOWER"],
+                "sections": [
+                    {
+                        "name": "Catacombs - Max HP +2 (Above Gemini)",
+                        "access_rules": [
+                            "claw,gauntlet,bell",
+                            "claw,chalice",
+                            "$can_block,bell,gauntlet",
+                            "$can_block,bell,chalice"
+                        ],
+                        "visibility_rules": ["HP_ON"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 623,
+                        "y": 2088
+                    }
+                ]
+            },
+            {
+                "name": "Catacombs - White Key (On Head)",
+                "access_rules": ["$can_access_CATA_MID"],
+                "sections": [
+                    {
+                        "name": "Catacombs - White Key (On Head)",
+                        "visibility_rules": ["WHITE_ON"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 744,
+                        "y": 1884
+                    }
+                ]
+            },
+            {
+                "name": "Catacombs - White Key (Dev Room)",
+                "access_rules": ["$can_access_CATA_MID"],
+                "sections": [
+                    {
+                        "name": "Catacombs - White Key (Dev Room)",
+                        "access_rules": ["bow,zeek,bell"],
+                        "visibility_rules": ["WHITE_ON"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 1040,
+                        "y": 1964
+                    }
+                ]
+            },
+            {
+                "name": "Catacombs - White Key (Prison)",
+                "access_rules": ["$can_access_TR"],
+                "sections": [
+                    {
+                        "name": "Catacombs - White Key (Prison)",
+                        "visibility_rules": ["WHITE_ON"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 744,
+                        "y": 2205
+                    }
+                ]
+            },
+            {
+                "name": "Catacombs - Blue Key (Slime Water)",
+                "access_rules": ["$can_access_CATA_MID"],
+                "sections": [
+                    {
+                        "name": "Catacombs - Blue Key (Slime Water)",
+                        "visibility_rules": ["BLUE_ON"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 862,
+                        "y": 1964
+                    }
+                ]
+            },
+            {
+                "name": "Catacombs - Blue Key (Eyeballs)",
+                "access_rules": ["$can_access_CATA_LOWER"],
+                "sections": [
+                    {
+                        "name": "Catacombs - Blue Key (Eyeballs)",
+                        "visibility_rules": ["BLUE_ON"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 862,
+                        "y": 2125
+                    }
+                ]
+            },
+            {
+                "name": "Catacombs - Elevator 1",
+                "sections": [
+                    {
+                        "name": "Catacombs - Elevator 1"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 685,
+                        "y": 1845
+                    }
+                ]
+            },
+            {
+                "name": "Catacombs - Elevator 2",
+                "sections": [
+                    {
+                        "name": "Catacombs - Elevator 2"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 685,
+                        "y": 2170
+                    }
+                ]
+            },
+            {
+                "name": "Catacombs - Elevator 1 Access",
+                "sections": [
+                    {
+                        "name": "Catacombs - Switch (Elevator)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 745,
+                        "y": 1845
+                    }
+                ]
+            },
+            {
+                "name": "Catacombs - Vertical Shortcut Top",
+                "sections": [
+                    {
+                        "name": "Catacombs - Switch (Vertical Shortcut)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 745,
+                        "y": 1925
+                    }
+                ]
+            },
+            {
+                "name": "Catacombs - Top",
+                "sections": [
+                    {
+                        "name": "Catacombs - Switch (Top)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 805,
+                        "y": 1880
+                    }
+                ]
+            },
+            {
+                "name": "Catacombs - Griffon Wall",
+                "sections": [
+                    {
+                        "name": "Catacombs - Switch (Claw 1)"
+                    },
+                    {
+                        "name": "Catacombs - Switch (Claw 2)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 860,
+                        "y": 2005
+                    }
+                ]
+            },
+            {
+                "name": "Catacombs - Water Gate",
+                "sections": [
+                    {
+                        "name": "Catacombs - Switch (Water 1)"
+                    },
+                    {
+                        "name": "Catacombs - Switch (Water 2)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 805,
+                        "y": 2045
+                    }
+                ]
+            },
+            {
+                "name": "Catacombs - Dev Room Access",
+                "sections": [
+                    {
+                        "name": "Catacombs - Switch (Dev Room)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 980,
+                        "y": 2005
+                    }
+                ]
+            },
+            {
+                "name": "Catacombs - After Blue Door",
+                "sections": [
+                    {
+                        "name": "Catacombs - Switch (After Blue Door)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 805,
+                        "y": 2085
+                    }
+                ]
+            },
+            {
+                "name": "Catacombs - Shortcut Access",
+                "sections": [
+                    {
+                        "name": "Catacombs - Switch (Shortcut Access)"
+                    },
+                    {
+                        "name": "Catacombs - Switch (Ladder Blocks)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 745,
+                        "y": 2085
+                    }
+                ]
+            },
+            {
+                "name": "Catacombs - Mid Shortcut",
+                "sections": [
+                    {
+                        "name": "Catacombs - Switch (Mid Shortcut)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 745,
+                        "y": 1965
+                    }
+                ]
+            },
+            {
+                "name": "Catacombs - 1st Room",
+                "sections": [
+                    {
+                        "name": "Catacombs - Switch (1st Room)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 860,
+                        "y": 1840
+                    }
+                ]
+            },
+            {
+                "name": "Catacombs - Flames Access",
+                "sections": [
+                    {
+                        "name": "Catacombs - Switch (Flames 1)"
+                    },
+                    {
+                        "name": "Catacombs - Switch (Flames 2)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 685,
+                        "y": 2085
+                    }
+                ]
+            },
+            {
+                "name": "Catacombs - After Bow",
+                "sections": [
+                    {
+                        "name": "Catacombs - Face (After Bow)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 865,
+                        "y": 1925
+                    }
+                ]
+            },
+            {
+                "name": "Catacombs - Bow Access",
+                "sections": [
+                    {
+                        "name": "Catacombs - Face (Bow)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 685,
+                        "y": 1925
+                    }
+                ]
+            },
+            {
+                "name": "Catacombs - 4 Faces",
+                "sections": [
+                    {
+                        "name": "Catacombs - Face (x4)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 865,
+                        "y": 2165
+                    }
+                ]
+            },
+            {
+                "name": "Catacombs - Boss Campfire",
+                "sections": [
+                    {
+                        "name": "Catacombs - Face (Campfire)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 745,
+                        "y": 2165
+                    }
+                ]
+            },
+            {
+                "name": "Catacombs - Double Door",
+                "sections": [
+                    {
+                        "name": "Catacombs - Face (Double Door)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 920,
+                        "y": 2165
+                    }
+                ]
+            },
+            {
+                "name": "Catacombs - Bottom",
+                "sections": [
+                    {
+                        "name": "Catacombs - Face (Bottom)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 865,
+                        "y": 2205
+                    }
+                ]
+            },
+            {
+                "name": "Tower Roots - Bram",
+                "sections": [
+                    {
+                        "name": "Tower Roots - Bram"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 685,
+                        "y": 2330
+                    }
+                ]
+            },
+            {
+                "name": "Tower Roots - Adorned Key",
+                "access_rules": ["$can_access_TR_PROPER"],
+                "sections": [
+                    {
+                        "name": "Tower Roots - Adorned Key",
+                        "access_rules": ["eye_green,$can_star,zeek"]
+                    },
+                    {
+                        "name": "Tower Roots - Switch (Adorned Key Left)"
+                    },
+                    {
+                        "name": "Tower Roots - Switch (Adorned Key Middle)"
+                    },
+                    {
+                        "name": "Tower Roots - Switch (Adorned Key Right)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 862,
+                        "y": 2411
+                    }
+                ]
+            },
+            {
+                "name": "Tower Roots - Max HP +1 (Bottom)",
+                "access_rules": ["$can_access_TR_PROPER"],
+                "sections": [
+                    {
+                        "name": "Tower Roots - Max HP +1 (Bottom)",
+                        "visibility_rules": ["HP_ON"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 802,
+                        "y": 2452
+                    }
+                ]
+            },
+            {
+                "name": "Tower Roots - Max HP +2 (Top)",
+                "access_rules": ["$can_access_TR_PROPER"],
+                "sections": [
+                    {
+                        "name": "Tower Roots - Max HP +2 (Top)",
+                        "visibility_rules": ["HP_ON"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 862,
+                        "y": 2368
+                    }
+                ]
+            },
+            {
+                "name": "Tower Roots - Red Key",
+                "access_rules": ["$can_access_TR"],
+                "sections": [
+                    {
+                        "name": "Tower Roots - Red Key",
+                        "visibility_rules": ["RED_ON"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 565,
+                        "y": 2125
+                    }
+                ]
+            },
+            {
+                "name": "Tower Roots - Elevator",
+                "sections": [
+                    {
+                        "name": "Tower Roots - Elevator"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 685,
+                        "y": 2365
+                    }
+                ]
+            },
+            {
+                "name": "Tower Roots - Elevator Access",
+                "sections": [
+                    {
+                        "name": "Tower Roots - Switch (Elevator)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 565,
+                        "y": 2285
+                    }
+                ]
+            },
+            {
+                "name": "Tower Roots - Bottom",
+                "sections": [
+                    {
+                        "name": "Tower Roots - Switch (Bottom)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 920,
+                        "y": 2450
+                    }
+                ]
+            },
+            {
+                "name": "Tower Roots - Gold Access",
+                "sections": [
+                    {
+                        "name": "Tower Roots - Crystal (Gold)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 920,
+                        "y": 2365
+                    }
+                ]
+            },
+            {
+                "name": "Tower Roots - Dark Arias",
+                "sections": [
+                    {
+                        "name": "Tower Roots - Crystal (Dark Arias)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 920,
+                        "y": 2410
+                    }
+                ]
+            },
+            {
+                "name": "Ruins of Ash - Icarus Emblem",
+                "access_rules": ["$can_access_ROA_UPPER"],
+                "sections": [
+                    {
+                        "name": "Ruins of Ash - Icarus Emblem"
+                    },
+                    {
+                        "name": "Ruins of Ash - Switch (Icarus Emblem)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 802,
+                        "y": 266
+                    }
+                ]
+            },
+            {
+                "name": "Ruins of Ash - Gorgon Eye (Green)",
+                "access_rules": ["$can_access_ROA_UPPER"],
+                "sections": [
+                    {
+                        "name": "Ruins of Ash - Gorgon Eye (Green)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 682,
+                        "y": 60
+                    }
+                ]
+            },
+            {
+                "name": "Ruins of Ash - Attack +1",
+                "access_rules": ["$can_access_ROA_MID"],
+                "sections": [
+                    {
+                        "name": "Ruins of Ash - Attack +1",
+                        "access_rules": ["$can_star"],
+                        "visibility_rules": ["ATTACK_ON"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 682,
+                        "y": 590
+                    }
+                ]
+            },
+            {
+                "name": "Ruins of Ash - Top Ascend",
+                "access_rules": ["$can_access_ROA_MID"],
+                "sections": [
+                    {
+                        "name": "Ruins of Ash - Max HP +1 (Left of Ascent)",
+                        "visibility_rules": ["HP_ON"]
+                    },
+                    {
+                        "name": "Ruins of Ash - Switch (Ascend Shortcut)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 744,
+                        "y": 630
+                    }
+                ]
+            },
+            {
+                "name": "Ruins of Ash - Max HP +2 (Right Side)",
+                "access_rules": ["$can_access_ROA_MID"],
+                "sections": [
+                    {
+                        "name": "Ruins of Ash - Max HP +2 (Right Side)",
+                        "access_rules": [
+                            "gauntlet,$can_star",
+                            "chalice,$can_star",
+                            "gauntlet,roa_blue_1",
+                            "chalice,roa_blue_1"
+                        ],
+                        "visibility_rules": ["HP_ON"]
+                    },
+                    {
+                        "name": "Ruins of Ash - Crystal (Branch Right)"
+                    },
+                    {
+                        "name": "Ruins of Ash - Crystal (Branch Left)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 982,
+                        "y": 547
+                    }
+                ]
+            },
+            {
+                "name": "Ruins of Ash - After Solaria",
+                "access_rules": ["$can_access_APEX"],
+                "sections": [
+                    {
+                        "name": "Ruins of Ash - Max HP +5 (After Solaria)",
+                        "visibility_rules": ["HP_ON"]
+                    },
+                    {
+                        "name": "Ruins of Ash - Switch (Apex Access)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 744,
+                        "y": 60
+                    }
+                ]
+            },
+            {
+                "name": "Ruins of Ash - White Key (Checkpoint)",
+                "access_rules": ["$can_access_ROA_LOWER"],
+                "sections": [
+                    {
+                        "name": "Ruins of Ash - White Key (Checkpoint)",
+                        "visibility_rules": ["WHITE_ON"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 920,
+                        "y": 831
+                    }
+                ]
+            },
+            {
+                "name": "Ruins of Ash - White Key (Three Reapers)",
+                "access_rules": ["$can_access_ROA_LOWER"],
+                "sections": [
+                    {
+                        "name": "Ruins of Ash - White Key (Three Reapers)",
+                        "access_rules": ["roa_white_1"],
+                        "visibility_rules": ["WHITE_ON"]
+                    },
+                    {
+                        "name": "Ruins of Ash - Crystal (3 Reapers)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 802,
+                        "y": 710
+                    }
+                ]
+            },
+            {
+                "name": "Ruins of Ash - White Key (Torches)",
+                "access_rules": ["$can_access_ROA_MID"],
+                "sections": [
+                    {
+                        "name": "Ruins of Ash - White Key (Torches)",
+                        "visibility_rules": ["WHITE_ON"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 744,
+                        "y": 547
+                    }
+                ]
+            },
+            {
+                "name": "Ruins of Ash - White Key (Void Portal)",
+                "access_rules": ["$can_access_ROA_MID"],
+                "sections": [
+                    {
+                        "name": "Ruins of Ash - White Key (Void Portal)",
+                        "visibility_rules": ["WHITE_ON"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 744,
+                        "y": 388
+                    }
+                ]
+            },
+            {
+                "name": "Ruins of Ash - Blue Key (Face)",
+                "access_rules": ["$can_access_ROA_LOWER"],
+                "sections": [
+                    {
+                        "name": "Ruins of Ash - Blue Key (Face)",
+                        "access_rules": ["bow,roa_white_1,WHITE_ON", "bow,WHITE_OFF"],
+                        "visibility_rules": ["BLUE_ON"]
+                    },
+                    {
+                        "name": "Ruins of Ash - Face (Blue Key)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 744,
+                        "y": 751
+                    }
+                ]
+            },
+            {
+                "name": "Ruins of Ash - Blue Key (Flames)",
+                "access_rules": ["$can_access_ROA_LOWER"],
+                "sections": [
+                    {
+                        "name": "Ruins of Ash - Blue Key (Flames)",
+                        "access_rules": ["gauntlet,roa_white_1,WHITE_ON", "gauntlet,WHITE_OFF"],
+                        "visibility_rules": ["BLUE_ON"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 982,
+                        "y": 710
+                    }
+                ]
+            },
+            {
+                "name": "Ruins of Ash - Blue Key (Baby Gorgon)",
+                "access_rules": ["$can_access_ROA_MID"],
+                "sections": [
+                    {
+                        "name": "Ruins of Ash - Blue Key (Baby Gorgon)",
+                        "visibility_rules": ["BLUE_ON"]
+                    },
+                    {
+                        "name": "Ruins of Ash - Switch (Baby Gorgon)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 682,
+                        "y": 547
+                    }
+                ]
+            },
+            {
+                "name": "Ruins of Ash - Blue Key (Top)",
+                "access_rules": ["$can_access_ROA_UPPER"],
+                "sections": [
+                    {
+                        "name": "Ruins of Ash - Blue Key (Top)",
+                        "visibility_rules": ["BLUE_ON"]
+                    },
+                    {
+                        "name": "Ruins of Ash - Crystal (Centaur)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 802,
+                        "y": 103
+                    }
+                ]
+            },
+            {
+                "name": "Ruins of Ash - Bottom Ascend",
+                "access_rules": ["$can_access_ROA_LOWER"],
+                "sections": [
+                    {
+                        "name": "Ruins of Ash - Blue Key (Pot)",
+                        "access_rules": ["roa_white_1,WHITE_ON", "WHITE_OFF"],
+                        "visibility_rules": ["BLUE_ON"]
+                    },
+                    {
+                        "name": "Ruins of Ash - Switch (Ascend)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 802,
+                        "y": 749
+                    }
+                ]
+            },
+            {
+                "name": "Ruins of Ash - Red Key",
+                "access_rules": ["$can_access_ROA_UPPER"],
+                "sections": [
+                    {
+                        "name": "Ruins of Ash - Red Key",
+                        "access_rules": ["bow,cloak"],
+                        "visibility_rules": ["RED_ON"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 982,
+                        "y": 345
+                    }
+                ]
+            },
+            {
+                "name": "Ruins of Ash - Elevator 1",
+                "sections": [
+                    {
+                        "name": "Ruins of Ash - Elevator 1"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 740,
+                        "y": 830
+                    }
+                ]
+            },
+            {
+                "name": "Ruins of Ash - Elevator 2",
+                "sections": [
+                    {
+                        "name": "Ruins of Ash - Elevator 2"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 860,
+                        "y": 185
+                    }
+                ]
+            },
+            {
+                "name": "Ruins of Ash - After Worms",
+                "sections": [
+                    {
+                        "name": "Ruins of Ash - Switch (After Worms)"
+                    },
+                    {
+                        "name": "Ruins of Ash - Switch (1st Shortcut)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 805,
+                        "y": 790
+                    }
+                ]
+            },
+            {
+                "name": "Ruins of Ash - Right Path",
+                "sections": [
+                    {
+                        "name": "Ruins of Ash - Switch (Right Path)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 860,
+                        "y": 550
+                    }
+                ]
+            },
+            {
+                "name": "Ruins of Ash - Shaft",
+                "sections": [
+                    {
+                        "name": "Ruins of Ash - Switch (Shaft Left)"
+                    },
+                    {
+                        "name": "Ruins of Ash - Switch (Shaft Right)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 805,
+                        "y": 430
+                    }
+                ]
+            },
+            {
+                "name": "Ruins of Ash - Elevator 2 Access",
+                "sections": [
+                    {
+                        "name": "Ruins of Ash - Switch (Elevator)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 805,
+                        "y": 180
+                    }
+                ]
+            },
+            {
+                "name": "Ruins of Ash - Shaft Downwards",
+                "sections": [
+                    {
+                        "name": "Ruins of Ash - Switch (Shaft Downwards)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 805,
+                        "y": 345
+                    }
+                ]
+            },
+            {
+                "name": "Ruins of Ash - Spiders Top",
+                "sections": [
+                    {
+                        "name": "Ruins of Ash - Switch (Spiders)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 920,
+                        "y": 305
+                    }
+                ]
+            },
+            {
+                "name": "Ruins of Ash - Below Dark Room",
+                "sections": [
+                    {
+                        "name": "Ruins of Ash - Switch (Dark Room)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 685,
+                        "y": 305
+                    }
+                ]
+            },
+            {
+                "name": "Ruins of Ash - Spike Climb",
+                "sections": [
+                    {
+                        "name": "Ruins of Ash - Switch (Spike Climb)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 685,
+                        "y": 790
+                    }
+                ]
+            },
+            {
+                "name": "Ruins of Ash - Above Centaur",
+                "sections": [
+                    {
+                        "name": "Ruins of Ash - Switch (Above Centaur)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 745,
+                        "y": 305
+                    }
+                ]
+            },
+            {
+                "name": "Ruins of Ash - Blood Pot",
+                "sections": [
+                    {
+                        "name": "Ruins of Ash - Switch (Blood Pot)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 805,
+                        "y": 145
+                    }
+                ]
+            },
+            {
+                "name": "Ruins of Ash - Beside Worms",
+                "sections": [
+                    {
+                        "name": "Ruins of Ash - Switch (Worms)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 920,
+                        "y": 790
+                    }
+                ]
+            },
+            {
+                "name": "Ruins of Ash - Triple Switches",
+                "sections": [
+                    {
+                        "name": "Ruins of Ash - Switch (Triple 1)"
+                    },
+                    {
+                        "name": "Ruins of Ash - Switch (Triple 3)"
+                    },
+                    {
+                        "name": "Ruins of Ash - Crystal (Triple 2)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 805,
+                        "y": 630
+                    }
+                ]
+            },
+            {
+                "name": "Ruins of Ash - Boss Access",
+                "sections": [
+                    {
+                        "name": "Ruins of Ash - Switch (Boss Access)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 680,
+                        "y": 105
+                    }
+                ]
+            },
+            {
+                "name": "Ruins of Ash - Top Blood Pot",
+                "sections": [
+                    {
+                        "name": "Ruins of Ash - Switch (Blood Pot Left)"
+                    },
+                    {
+                        "name": "Ruins of Ash - Switch (Blood Pot Right)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 745,
+                        "y": 105
+                    }
+                ]
+            },
+            {
+                "name": "Ruins of Ash - Lower Void",
+                "sections": [
+                    {
+                        "name": "Ruins of Ash - Switch (Lower Void)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 920,
+                        "y": 745
+                    }
+                ]
+            },
+            {
+                "name": "Ruins of Ash - 1st Room",
+                "sections": [
+                    {
+                        "name": "Ruins of Ash - Crystal (1st Room)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 865,
+                        "y": 830
+                    }
+                ]
+            },
+            {
+                "name": "Ruins of Ash - Beside Baby Gorgon",
+                "sections": [
+                    {
+                        "name": "Ruins of Ash - Crystal (Baby Gorgon)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 920,
+                        "y": 710
+                    }
+                ]
+            },
+            {
+                "name": "Ruins of Ash - Ladder",
+                "sections": [
+                    {
+                        "name": "Ruins of Ash - Crystal (Ladder Right)"
+                    },
+                    {
+                        "name": "Ruins of Ash - Crystal (Ladder Left)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 805,
+                        "y": 550
+                    }
+                ]
+            },
+            {
+                "name": "Ruins of Ash - Spike Balls",
+                "sections": [
+                    {
+                        "name": "Ruins of Ash - Crystal (Spike Balls)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 865,
+                        "y": 380
+                    }
+                ]
+            },
+            {
+                "name": "Ruins of Ash - Left Ascend",
+                "sections": [
+                    {
+                        "name": "Ruins of Ash - Crystal (Left Ascend)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 740,
+                        "y": 670
+                    }
+                ]
+            },
+            {
+                "name": "Ruins of Ash - Shaft 2",
+                "sections": [
+                    {
+                        "name": "Ruins of Ash - Crystal (Shaft)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 805,
+                        "y": 385
+                    }
+                ]
+            },
+            {
+                "name": "Ruins of Ash - Spiders Bottom",
+                "sections": [
+                    {
+                        "name": "Ruins of Ash - Face (Spiders)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 920,
+                        "y": 345
+                    }
+                ]
+            },
+            {
+                "name": "Darkness - Max HP +4",
+                "access_rules": ["$can_access_DARK"],
+                "sections": [
+                    {
+                        "name": "Darkness - Max HP +4",
+                        "visibility_rules": ["HP_ON"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 565,
+                        "y": 60
+                    }
+                ]
+            },
+            {
+                "name": "Darkness - White Key",
+                "access_rules": ["$can_access_DARK"],
+                "sections": [
+                    {
+                        "name": "Darkness - White Key",
+                        "visibility_rules": ["WHITE_ON"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 505,
+                        "y": 60
+                    }
+                ]
+            },
+            {
+                "name": "Darkness - Switch",
+                "sections": [
+                    {
+                        "name": "Darkness - Switch"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 565,
+                        "y": 100
+                    }
+                ]
+            },
+            {
+                "name": "The Apex - Blood Chalice",
+                "access_rules": ["$can_access_APEX"],
+                "sections": [
+                    {
+                        "name": "The Apex - Blood Chalice",
+                        "access_rules": ["adorned_key,$can_star,apex_blue,BLUE_ON", "adorned_key,$can_star,BLUE_OFF"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 1159,
+                        "y": 145
+                    }
+                ]
+            },
+            {
+                "name": "The Apex - Max HP +1 (Blood Chalice)",
+                "access_rules": ["$can_access_APEX"],
+                "sections": [
+                    {
+                        "name": "The Apex - Max HP +1 (Blood Chalice)",
+                        "access_rules": ["apex_blue,BLUE_ON", "BLUE_OFF"],
+                        "visibility_rules": ["HP_ON"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 920,
+                        "y": 145
+                    }
+                ]
+            },
+            {
+                "name": "The Apex - Max HP +5 (After Heart)",
+                "access_rules": ["$can_access_APEX"],
+                "sections": [
+                    {
+                        "name": "The Apex - Max HP +5 (After Heart)",
+                        "visibility_rules": ["HP_ON"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 1040,
+                        "y": 60
+                    }
+                ]
+            },
+            {
+                "name": "The Apex - Blue Key",
+                "access_rules": ["$can_access_APEX"],
+                "sections": [
+                    {
+                        "name": "The Apex - Blue Key",
+                        "visibility_rules": ["BLUE_ON"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 860,
+                        "y": 60
+                    }
+                ]
+            },
+            {
+                "name": "The Apex - Elevator",
+                "sections": [
+                    {
+                        "name": "The Apex - Elevator"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 805,
+                        "y": 60
+                    }
+                ]
+            },
+            {
+                "name": "The Apex - Epimetheus",
+                "sections": [
+                    {
+                        "name": "The Apex - Switch"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 920,
+                        "y": 20
+                    }
+                ]
+            },
+            {
+                "name": "Victory!",
+                "access_rules": ["$can_access_APEX"],
+                "sections": [
+                    {
+                        "name": "GO Mode",
+                        "access_rules": ["$GO_MODE"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 802,
+                        "y": 22
+                    }
+                ]
+            },
+            {
+                "name": "Serpent Path - Morning Star",
+                "access_rules": ["$can_access_SP"],
+                "sections": [
+                    {
+                        "name": "Serpent Path - Morning Star",
+                        "access_rules": ["sp_blue,BLUE_ON", "BLUE_OFF"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 208,
+                        "y": 345
+                    }
+                ]
+            },
+            {
+                "name": "Serpent Path - Attack +1",
+                "access_rules": ["$can_access_SP"],
+                "sections": [
+                    {
+                        "name": "Serpent Path - Attack +1",
+                        "visibility_rules": ["ATTACK_ON"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 446,
+                        "y": 671
+                    }
+                ]
+            },
+            {
+                "name": "Serpent Path - Max HP +1",
+                "access_rules": ["$can_access_SP"],
+                "sections": [
+                    {
+                        "name": "Serpent Path - Max HP +1",
+                        "visibility_rules": ["HP_ON"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 267,
+                        "y": 710
+                    }
+                ]
+            },
+            {
+                "name": "Serpent Path - Blue Key (Bubbles)",
+                "access_rules": ["$can_access_SP"],
+                "sections": [
+                    {
+                        "name": "Serpent Path - Blue Key (Bubbles)",
+                        "visibility_rules": ["BLUE_ON"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 446,
+                        "y": 429
+                    }
+                ]
+            },
+            {
+                "name": "Serpent Path - Blue Key (Morning Star)",
+                "access_rules": ["$can_access_SP"],
+                "sections": [
+                    {
+                        "name": "Serpent Path - Blue Key (Morning Star)",
+                        "access_rules": ["$can_block", "sp_blue,$can_star"],
+                        "visibility_rules": ["BLUE_ON"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 388,
+                        "y": 388
+                    }
+                ]
+            },
+            {
+                "name": "Serpent Path - Blue Key (Painting)",
+                "access_rules": ["$can_access_SP"],
+                "sections": [
+                    {
+                        "name": "Serpent Path - Blue Key (Painting)",
+                        "visibility_rules": ["BLUE_ON"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 208,
+                        "y": 547
+                    }
+                ]
+            },
+            {
+                "name": "Serpent Path - Blue Key (Arias)",
+                "access_rules": ["$can_access_SP"],
+                "sections": [
+                    {
+                        "name": "Serpent Path - Blue Key (Arias)",
+                        "visibility_rules": ["BLUE_ON"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 328,
+                        "y": 671
+                    }
+                ]
+            },
+            {
+                "name": "Serpent Path - Double Doors",
+                "sections": [
+                    {
+                        "name": "Serpent Path - Switch (Double Doors)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 320,
+                        "y": 620
+                    }
+                ]
+            },
+            {
+                "name": "Serpent Path - Bubbles",
+                "sections": [
+                    {
+                        "name": "Serpent Path - Switch (Bubbles)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 320,
+                        "y": 550
+                    }
+                ]
+            },
+            {
+                "name": "Serpent Path - After Star",
+                "sections": [
+                    {
+                        "name": "Serpent Path - Switch (After Star)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 320,
+                        "y": 390
+                    }
+                ]
+            },
+            {
+                "name": "Serpent Path - Blocks",
+                "sections": [
+                    {
+                        "name": "Serpent Path - Crystal (Blocks)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 390,
+                        "y": 470
+                    }
+                ]
+            },
+            {
+                "name": "Serpent Path - Star Access",
+                "sections": [
+                    {
+                        "name": "Serpent Path - Crystal (Star)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 210,
+                        "y": 425
+                    }
+                ]
+            },
+            {
+                "name": "Epimetheus Shop",
+                "sections": [
+                    {
+                        "name": "Shop - Gift",
+                        "access_rules": ["$MODERATE_SHOP"],
+                        "visibility_rules": ["SHOP_ON"]
+                    },
+                    {
+                        "name": "Shop - Knowledge",
+                        "access_rules": ["$CHEAP_SHOP"],
+                        "visibility_rules": ["SHOP_ON"]
+                    },
+                    {
+                        "name": "Shop - Mercy",
+                        "access_rules": ["$EXPENSIVE_SHOP"],
+                        "visibility_rules": ["SHOP_ON"]
+                    },
+                    {
+                        "name": "Shop - Orb Seeker",
+                        "access_rules": ["$CHEAP_SHOP"],
+                        "visibility_rules": ["SHOP_ON"]
+                    },
+                    {
+                        "name": "Shop - Map Reveal",
+                        "access_rules": ["$can_access_TR,$can_access_ROA_UPPER"],
+                        "visibility_rules": ["SHOP_ON"]
+                    },
+                    {
+                        "name": "Shop - Cartographer",
+                        "access_rules": ["$CHEAP_SHOP"],
+                        "visibility_rules": ["SHOP_ON"]
+                    },
+                    {
+                        "name": "Shop - Death Orb",
+                        "access_rules": ["$MODERATE_SHOP"],
+                        "visibility_rules": ["SHOP_ON"]
+                    },
+                    {
+                        "name": "Shop - Death Point",
+                        "access_rules": ["$MODERATE_SHOP"],
+                        "visibility_rules": ["SHOP_ON"]
+                    },
+                    {
+                        "name": "Shop - Titan's Ego",
+                        "access_rules": ["$MODERATE_SHOP"],
+                        "visibility_rules": ["SHOP_ON"]
+                    },
+                    {
+                        "name": "Shop - Algus's Arcanist",
+                        "access_rules": ["$MODERATE_SHOP"],
+                        "visibility_rules": ["SHOP_ON"]
+                    },
+                    {
+                        "name": "Shop - Algus's Shock Field",
+                        "access_rules": ["$MODERATE_SHOP"],
+                        "visibility_rules": ["SHOP_ON"]
+                    },
+                    {
+                        "name": "Shop - Algus's Meteor Rain",
+                        "access_rules": ["$EXPENSIVE_SHOP"],
+                        "visibility_rules": ["SHOP_ON"]
+                    },
+                    {
+                        "name": "Shop - Arias's Gorgonslayer",
+                        "access_rules": ["$MODERATE_SHOP"],
+                        "visibility_rules": ["SHOP_ON"]
+                    },
+                    {
+                        "name": "Shop - Arias's Last Stand",
+                        "access_rules": ["$EXPENSIVE_SHOP"],
+                        "visibility_rules": ["SHOP_ON"]
+                    },
+                    {
+                        "name": "Shop - Arias's Lionheart",
+                        "access_rules": ["$MODERATE_SHOP"],
+                        "visibility_rules": ["SHOP_ON"]
+                    },
+                    {
+                        "name": "Shop - Kyuli's Assassin Strike",
+                        "access_rules": ["$CHEAP_SHOP"],
+                        "visibility_rules": ["SHOP_ON"]
+                    },
+                    {
+                        "name": "Shop - Kyuli's Bullseye",
+                        "access_rules": ["$MODERATE_SHOP"],
+                        "visibility_rules": ["SHOP_ON"]
+                    },
+                    {
+                        "name": "Shop - Kyuli's Shining Ray",
+                        "access_rules": ["$EXPENSIVE_SHOP"],
+                        "visibility_rules": ["SHOP_ON"]
+                    },
+                    {
+                        "name": "Shop - Zeek's Junkyard Hunt",
+                        "access_rules": ["$MODERATE_SHOP,zeek"],
+                        "visibility_rules": ["SHOP_ON"]
+                    },
+                    {
+                        "name": "Shop - Zeek's Orb Monger",
+                        "access_rules": ["$MODERATE_SHOP,zeek"],
+                        "visibility_rules": ["SHOP_ON"]
+                    },
+                    {
+                        "name": "Shop - Zeek's Bigger Loot",
+                        "access_rules": ["$CHEAP_SHOP,zeek"],
+                        "visibility_rules": ["SHOP_ON"]
+                    },
+                    {
+                        "name": "Shop - Bram's Golden Axe",
+                        "access_rules": ["$EXPENSIVE_SHOP,bram"],
+                        "visibility_rules": ["SHOP_ON"]
+                    },
+                    {
+                        "name": "Shop - Bram's Monster Hunter",
+                        "access_rules": ["$MODERATE_SHOP,bram"],
+                        "visibility_rules": ["SHOP_ON"]
+                    },
+                    {
+                        "name": "Shop - Bram's Whiplash",
+                        "access_rules": ["$MODERATE_SHOP,bram"],
+                        "visibility_rules": ["SHOP_ON"]
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 250,
+                        "y": 2230,
+                        "size": 80
+                    }
+                ]
+            }
+        ]
+    }
+]

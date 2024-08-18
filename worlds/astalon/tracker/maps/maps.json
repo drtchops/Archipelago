@@ -1,0 +1,32 @@
+[
+    {
+        "name": "world_map",
+        "location_size": 24,
+        "location_border_thickness": 2,
+        "img": "images/maps/world_map.png"
+    },
+    {
+        "name": "tomb",
+        "location_size": 15,
+        "location_border_thickness": 2,
+        "img": "images/maps/tomb.png"
+    },
+    {
+        "name": "mechanism_and_hall",
+        "location_size": 18,
+        "location_border_thickness": 3,
+        "img": "images/maps/mechanism_and_hall.png"
+    },
+    {
+        "name": "catacombs",
+        "location_size": 18,
+        "location_border_thickness": 2,
+        "img": "images/maps/catacombs.png"
+    },
+    {
+        "name": "ruins",
+        "location_size": 18,
+        "location_border_thickness": 2,
+        "img": "images/maps/ruins.png"
+    }
+]
