@@ -95,13 +95,7 @@ class AstalonWorld(World):
     tracker_world = {
         "map_page_folder": "tracker",
         "map_page_maps": "maps/maps.json",
-        "map_page_locations": [
-            "locations/locations.json",
-            "locations/catacombs.json",
-            "locations/mechanism_and_hall.json",
-            "locations/ruins.json",
-            "locations/tomb.json",
-        ],
+        "map_page_locations": "locations/locations.json",
     }
 
     def generate_early(self) -> None:

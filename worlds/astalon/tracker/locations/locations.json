@@ -16,6 +16,11 @@
                         "map": "world_map",
                         "x": 507,
                         "y": 1801
+                    },
+                    {
+                        "map": "tomb",
+                        "x": 150,
+                        "y": 425
                     }
                 ]
             },
@@ -31,6 +36,11 @@
                         "map": "world_map",
                         "x": 444,
                         "y": 1760
+                    },
+                    {
+                        "map": "tomb",
+                        "x": 90,
+                        "y": 385
                     }
                 ]
             },
@@ -46,6 +56,11 @@
                         "map": "world_map",
                         "x": 568,
                         "y": 1760
+                    },
+                    {
+                        "map": "tomb",
+                        "x": 210,
+                        "y": 385
                     }
                 ]
             },
@@ -65,6 +80,11 @@
                         "map": "world_map",
                         "x": 565,
                         "y": 1640
+                    },
+                    {
+                        "map": "tomb",
+                        "x": 211,
+                        "y": 266
                     }
                 ]
             },
@@ -90,6 +110,11 @@
                         "map": "world_map",
                         "x": 802,
                         "y": 1640
+                    },
+                    {
+                        "map": "tomb",
+                        "x": 436,
+                        "y": 266
                     }
                 ]
             },
@@ -110,6 +135,16 @@
                         "map": "world_map",
                         "x": 860,
                         "y": 1599
+                    },
+                    {
+                        "map": "tomb",
+                        "x": 508,
+                        "y": 225
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 862,
+                        "y": 912
                     }
                 ]
             },
@@ -126,6 +161,11 @@
                         "map": "world_map",
                         "x": 682,
                         "y": 1640
+                    },
+                    {
+                        "map": "tomb",
+                        "x": 329,
+                        "y": 266
                     }
                 ]
             },
@@ -143,6 +183,11 @@
                         "map": "world_map",
                         "x": 388,
                         "y": 1478
+                    },
+                    {
+                        "map": "tomb",
+                        "x": 33,
+                        "y": 103
                     }
                 ]
             },
@@ -160,6 +205,11 @@
                         "map": "world_map",
                         "x": 505,
                         "y": 1599
+                    },
+                    {
+                        "map": "tomb",
+                        "x": 152,
+                        "y": 225
                     }
                 ]
             },
@@ -177,6 +227,16 @@
                         "map": "world_map",
                         "x": 1040,
                         "y": 1640
+                    },
+                    {
+                        "map": "tomb",
+                        "x": 685,
+                        "y": 266
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 1041,
+                        "y": 953
                     }
                 ]
             },
@@ -193,6 +253,16 @@
                         "map": "world_map",
                         "x": 744,
                         "y": 1438
+                    },
+                    {
+                        "map": "tomb",
+                        "x": 389,
+                        "y": 63
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 745,
+                        "y": 750
                     }
                 ]
             },
@@ -210,6 +280,11 @@
                         "map": "world_map",
                         "x": 682,
                         "y": 1722
+                    },
+                    {
+                        "map": "tomb",
+                        "x": 329,
+                        "y": 347
                     }
                 ]
             },
@@ -228,6 +303,11 @@
                         "map": "world_map",
                         "x": 388,
                         "y": 1438
+                    },
+                    {
+                        "map": "tomb",
+                        "x": 33,
+                        "y": 63
                     }
                 ]
             },
@@ -247,6 +327,11 @@
                         "map": "world_map",
                         "x": 565,
                         "y": 1681
+                    },
+                    {
+                        "map": "tomb",
+                        "x": 211,
+                        "y": 306
                     }
                 ]
             },
@@ -264,6 +349,11 @@
                         "map": "world_map",
                         "x": 920,
                         "y": 1640
+                    },
+                    {
+                        "map": "tomb",
+                        "x": 568,
+                        "y": 266
                     }
                 ]
             },
@@ -284,6 +374,11 @@
                         "map": "world_map",
                         "x": 505,
                         "y": 1478
+                    },
+                    {
+                        "map": "tomb",
+                        "x": 152,
+                        "y": 103
                     }
                 ]
             },
@@ -301,6 +396,16 @@
                         "map": "world_map",
                         "x": 860,
                         "y": 1681
+                    },
+                    {
+                        "map": "tomb",
+                        "x": 508,
+                        "y": 306
+                    },
+                    {
+                        "map": "catacombs",
+                        "x": 447,
+                        "y": 23
                     }
                 ]
             },
@@ -318,6 +423,11 @@
                         "map": "world_map",
                         "x": 505,
                         "y": 1438
+                    },
+                    {
+                        "map": "tomb",
+                        "x": 152,
+                        "y": 63
                     }
                 ]
             },
@@ -335,6 +445,16 @@
                         "map": "world_map",
                         "x": 565,
                         "y": 1438
+                    },
+                    {
+                        "map": "tomb",
+                        "x": 211,
+                        "y": 63
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 566,
+                        "y": 750
                     }
                 ]
             },
@@ -352,6 +472,11 @@
                         "map": "world_map",
                         "x": 860,
                         "y": 1640
+                    },
+                    {
+                        "map": "tomb",
+                        "x": 508,
+                        "y": 266
                     }
                 ]
             },
@@ -370,6 +495,16 @@
                         "map": "world_map",
                         "x": 623,
                         "y": 1397
+                    },
+                    {
+                        "map": "tomb",
+                        "x": 270,
+                        "y": 22
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 626,
+                        "y": 709
                     }
                 ]
             },
@@ -385,6 +520,11 @@
                         "map": "world_map",
                         "x": 685,
                         "y": 1437
+                    },
+                    {
+                        "map": "tomb",
+                        "x": 325,
+                        "y": 60
                     }
                 ]
             },
@@ -400,6 +540,11 @@
                         "map": "world_map",
                         "x": 685,
                         "y": 1681
+                    },
+                    {
+                        "map": "tomb",
+                        "x": 270,
+                        "y": 305
                     }
                 ]
             },
@@ -415,6 +560,11 @@
                         "map": "world_map",
                         "x": 625,
                         "y": 1600
+                    },
+                    {
+                        "map": "tomb",
+                        "x": 270,
+                        "y": 225
                     }
                 ]
             },
@@ -430,6 +580,11 @@
                         "map": "world_map",
                         "x": 565,
                         "y": 1480
+                    },
+                    {
+                        "map": "tomb",
+                        "x": 210,
+                        "y": 105
                     }
                 ]
             },
@@ -448,6 +603,11 @@
                         "map": "world_map",
                         "x": 922,
                         "y": 1600
+                    },
+                    {
+                        "map": "tomb",
+                        "x": 570,
+                        "y": 225
                     }
                 ]
             },
@@ -463,6 +623,11 @@
                         "map": "world_map",
                         "x": 565,
                         "y": 1600
+                    },
+                    {
+                        "map": "tomb",
+                        "x": 210,
+                        "y": 225
                     }
                 ]
             },
@@ -478,6 +643,11 @@
                         "map": "world_map",
                         "x": 505,
                         "y": 1515
+                    },
+                    {
+                        "map": "tomb",
+                        "x": 150,
+                        "y": 145
                     }
                 ]
             },
@@ -496,6 +666,11 @@
                         "map": "world_map",
                         "x": 800,
                         "y": 1600
+                    },
+                    {
+                        "map": "tomb",
+                        "x": 450,
+                        "y": 225
                     }
                 ]
             },
@@ -511,6 +686,11 @@
                         "map": "world_map",
                         "x": 869,
                         "y": 1515
+                    },
+                    {
+                        "map": "tomb",
+                        "x": 505,
+                        "y": 145
                     }
                 ]
             },
@@ -526,6 +706,11 @@
                         "map": "world_map",
                         "x": 800,
                         "y": 1515
+                    },
+                    {
+                        "map": "tomb",
+                        "x": 450,
+                        "y": 145
                     }
                 ]
             },
@@ -544,24 +729,11 @@
                         "map": "world_map",
                         "x": 746,
                         "y": 1515
-                    }
-                ]
-            },
-            {
-                "name": "Gorgon Tomb - Old Man Access",
-                "sections": [
-                    {
-                        "name": "Gorgon Tomb - Crystal (Old Man 1)"
                     },
                     {
-                        "name": "Gorgon Tomb - Crystal (Old Man 2)"
-                    }
-                ],
-                "map_locations": [
-                    {
-                        "map": "world_map",
-                        "x": 746,
-                        "y": 1515
+                        "map": "tomb",
+                        "x": 390,
+                        "y": 145
                     }
                 ]
             },
@@ -580,6 +752,34 @@
                         "map": "world_map",
                         "x": 1220,
                         "y": 1320
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 1235,
+                        "y": 628
+                    }
+                ]
+            },
+            {
+                "name": "Mechanism - Talaria Boots",
+                "access_rules": ["$can_access_MECH_LOWER"],
+                "sections": [
+                    {
+                        "name": "Mechanism - Talaria Boots",
+                        "access_rules": ["mech_blue_4,BLUE_ON", "BLUE_OFF"],
+                        "item_count": 1
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 1159,
+                        "y": 1438
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 1159,
+                        "y": 750
                     }
                 ]
             },
@@ -600,6 +800,11 @@
                         "map": "world_map",
                         "x": 860,
                         "y": 1070
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 862,
+                        "y": 385
                     }
                 ]
             },
@@ -617,6 +822,11 @@
                         "map": "world_map",
                         "x": 744,
                         "y": 1155
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 745,
+                        "y": 466
                     }
                 ]
             },
@@ -638,6 +848,11 @@
                         "map": "world_map",
                         "x": 744,
                         "y": 1114
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 745,
+                        "y": 425
                     }
                 ]
             },
@@ -662,6 +877,11 @@
                         "map": "world_map",
                         "x": 1040,
                         "y": 1195
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 1041,
+                        "y": 508
                     }
                 ]
             },
@@ -685,6 +905,11 @@
                         "map": "world_map",
                         "x": 1159,
                         "y": 1155
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 1160,
+                        "y": 466
                     }
                 ]
             },
@@ -703,6 +928,11 @@
                         "map": "world_map",
                         "x": 744,
                         "y": 1195
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 745,
+                        "y": 508
                     }
                 ]
             },
@@ -721,6 +951,16 @@
                         "map": "world_map",
                         "x": 1040,
                         "y": 1560
+                    },
+                    {
+                        "map": "tomb",
+                        "x": 685,
+                        "y": 184
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 1041,
+                        "y": 871
                     }
                 ]
             },
@@ -741,6 +981,16 @@
                         "map": "world_map",
                         "x": 982,
                         "y": 1560
+                    },
+                    {
+                        "map": "tomb",
+                        "x": 626,
+                        "y": 184
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 982,
+                        "y": 871
                     }
                 ]
             },
@@ -764,6 +1014,11 @@
                         "map": "world_map",
                         "x": 860,
                         "y": 1274
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 862,
+                        "y": 588
                     }
                 ]
             },
@@ -781,6 +1036,11 @@
                         "map": "world_map",
                         "x": 1219,
                         "y": 1070
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 1219,
+                        "y": 385
                     }
                 ]
             },
@@ -799,6 +1059,11 @@
                         "map": "world_map",
                         "x": 1098,
                         "y": 953
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 1101,
+                        "y": 263
                     }
                 ]
             },
@@ -823,6 +1088,11 @@
                         "map": "world_map",
                         "x": 1098,
                         "y": 1640
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 1101,
+                        "y": 953
                     }
                 ]
             },
@@ -841,6 +1111,11 @@
                         "map": "world_map",
                         "x": 1159,
                         "y": 1640
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 1160,
+                        "y": 953
                     }
                 ]
             },
@@ -858,6 +1133,11 @@
                         "map": "world_map",
                         "x": 920,
                         "y": 1478
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 923,
+                        "y": 791
                     }
                 ]
             },
@@ -875,6 +1155,11 @@
                         "map": "world_map",
                         "x": 1040,
                         "y": 1438
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 1041,
+                        "y": 750
                     }
                 ]
             },
@@ -892,6 +1177,11 @@
                         "map": "world_map",
                         "x": 744,
                         "y": 1397
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 745,
+                        "y": 709
                     }
                 ]
             },
@@ -909,6 +1199,11 @@
                         "map": "world_map",
                         "x": 1040,
                         "y": 1274
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 1041,
+                        "y": 588
                     }
                 ]
             },
@@ -932,6 +1227,11 @@
                         "map": "world_map",
                         "x": 982,
                         "y": 1235
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 982,
+                        "y": 548
                     }
                 ]
             },
@@ -949,6 +1249,11 @@
                         "map": "world_map",
                         "x": 1159,
                         "y": 1195
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 1160,
+                        "y": 508
                     }
                 ]
             },
@@ -966,6 +1271,11 @@
                         "map": "world_map",
                         "x": 1278,
                         "y": 1155
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 1279,
+                        "y": 466
                     }
                 ]
             },
@@ -987,6 +1297,11 @@
                         "map": "world_map",
                         "x": 1098,
                         "y": 1033
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 1101,
+                        "y": 345
                     }
                 ]
             },
@@ -1008,6 +1323,11 @@
                         "map": "world_map",
                         "x": 1159,
                         "y": 1070
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 1160,
+                        "y": 385
                     }
                 ]
             },
@@ -1026,6 +1346,11 @@
                         "map": "world_map",
                         "x": 623,
                         "y": 1358
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 626,
+                        "y": 669
                     }
                 ]
             },
@@ -1134,6 +1459,11 @@
                         "map": "world_map",
                         "x": 980,
                         "y": 1600
+                    },
+                    {
+                        "map": "tomb",
+                        "x": 625,
+                        "y": 225
                     }
                 ]
             },
@@ -1311,6 +1641,11 @@
                         "map": "world_map",
                         "x": 980,
                         "y": 1520
+                    },
+                    {
+                        "map": "tomb",
+                        "x": 625,
+                        "y": 145
                     }
                 ]
             },
@@ -1407,6 +1742,11 @@
                         "map": "world_map",
                         "x": 800,
                         "y": 1440
+                    },
+                    {
+                        "map": "tomb",
+                        "x": 450,
+                        "y": 60
                     }
                 ]
             },
@@ -1456,6 +1796,11 @@
                         "map": "world_map",
                         "x": 328,
                         "y": 1317
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 327,
+                        "y": 629
                     }
                 ]
             },
@@ -1473,6 +1818,11 @@
                         "map": "world_map",
                         "x": 505,
                         "y": 1358
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 506,
+                        "y": 669
                     }
                 ]
             },
@@ -1490,6 +1840,11 @@
                         "map": "world_map",
                         "x": 802,
                         "y": 1033
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 804,
+                        "y": 345
                     }
                 ]
             },
@@ -1507,6 +1862,11 @@
                         "map": "world_map",
                         "x": 1040,
                         "y": 788
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 1041,
+                        "y": 102
                     }
                 ]
             },
@@ -1527,6 +1887,11 @@
                         "map": "world_map",
                         "x": 623,
                         "y": 750
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 626,
+                        "y": 60
                     }
                 ]
             },
@@ -1544,6 +1909,11 @@
                         "map": "world_map",
                         "x": 623,
                         "y": 1033
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 626,
+                        "y": 344
                     }
                 ]
             },
@@ -1565,6 +1935,11 @@
                         "map": "world_map",
                         "x": 446,
                         "y": 1155
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 450,
+                        "y": 466
                     }
                 ]
             },
@@ -1583,6 +1958,11 @@
                         "map": "world_map",
                         "x": 1040,
                         "y": 910
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 1041,
+                        "y": 223
                     }
                 ]
             },
@@ -1601,6 +1981,11 @@
                         "map": "world_map",
                         "x": 388,
                         "y": 910
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 388,
+                        "y": 223
                     }
                 ]
             },
@@ -1619,6 +2004,11 @@
                         "map": "world_map",
                         "x": 623,
                         "y": 1114
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 626,
+                        "y": 425
                     }
                 ]
             },
@@ -1637,6 +2027,11 @@
                         "map": "world_map",
                         "x": 682,
                         "y": 1070
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 684,
+                        "y": 385
                     }
                 ]
             },
@@ -1657,6 +2052,11 @@
                         "map": "world_map",
                         "x": 505,
                         "y": 1155
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 506,
+                        "y": 466
                     }
                 ]
             },
@@ -1674,6 +2074,11 @@
                         "map": "world_map",
                         "x": 565,
                         "y": 1235
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 566,
+                        "y": 548
                     }
                 ]
             },
@@ -1691,6 +2096,11 @@
                         "map": "world_map",
                         "x": 388,
                         "y": 1070
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 388,
+                        "y": 385
                     }
                 ]
             },
@@ -1708,6 +2118,11 @@
                         "map": "world_map",
                         "x": 682,
                         "y": 910
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 684,
+                        "y": 223
                     }
                 ]
             },
@@ -1726,6 +2141,11 @@
                         "map": "world_map",
                         "x": 682,
                         "y": 1274
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 684,
+                        "y": 588
                     }
                 ]
             },
@@ -1743,6 +2163,11 @@
                         "map": "world_map",
                         "x": 623,
                         "y": 1317
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 626,
+                        "y": 629
                     }
                 ]
             },
@@ -1761,6 +2186,11 @@
                         "map": "world_map",
                         "x": 565,
                         "y": 1358
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 566,
+                        "y": 669
                     }
                 ]
             },
@@ -1778,6 +2208,11 @@
                         "map": "world_map",
                         "x": 267,
                         "y": 1155
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 269,
+                        "y": 466
                     }
                 ]
             },
@@ -1795,6 +2230,11 @@
                         "map": "world_map",
                         "x": 802,
                         "y": 910
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 804,
+                        "y": 223
                     }
                 ]
             },
@@ -1813,6 +2253,11 @@
                         "map": "world_map",
                         "x": 505,
                         "y": 1274
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 506,
+                        "y": 588
                     }
                 ]
             },
@@ -2206,6 +2651,11 @@
                         "map": "world_map",
                         "x": 1515,
                         "y": 990
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 1337,
+                        "y": 345
                     }
                 ]
             },
@@ -2230,6 +2680,11 @@
                         "map": "world_map",
                         "x": 1278,
                         "y": 670
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 1337,
+                        "y": 345
                     }
                 ]
             },
@@ -2248,6 +2703,11 @@
                         "map": "world_map",
                         "x": 1335,
                         "y": 950
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 1337,
+                        "y": 345
                     }
                 ]
             },
@@ -2263,6 +2723,11 @@
                         "map": "world_map",
                         "x": 1395,
                         "y": 950
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 1337,
+                        "y": 345
                     }
                 ]
             },
@@ -2278,6 +2743,11 @@
                         "map": "world_map",
                         "x": 1395,
                         "y": 910
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 1337,
+                        "y": 345
                     }
                 ]
             },
@@ -2293,6 +2763,11 @@
                         "map": "world_map",
                         "x": 1215,
                         "y": 870
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 1337,
+                        "y": 345
                     }
                 ]
             },
@@ -2308,6 +2783,11 @@
                         "map": "world_map",
                         "x": 1340,
                         "y": 990
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 1337,
+                        "y": 345
                     }
                 ]
             },
@@ -2323,6 +2803,11 @@
                         "map": "world_map",
                         "x": 1215,
                         "y": 790
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 1337,
+                        "y": 345
                     }
                 ]
             },
@@ -2338,6 +2823,11 @@
                         "map": "world_map",
                         "x": 1215,
                         "y": 790
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 1337,
+                        "y": 345
                     }
                 ]
             },
@@ -2360,6 +2850,11 @@
                         "map": "world_map",
                         "x": 90,
                         "y": 788
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 91,
+                        "y": 101
                     }
                 ]
             },
@@ -2377,6 +2872,11 @@
                         "map": "world_map",
                         "x": 30,
                         "y": 991
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 32,
+                        "y": 304
                     }
                 ]
             },
@@ -2398,6 +2898,11 @@
                         "map": "world_map",
                         "x": 90,
                         "y": 910
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 90,
+                        "y": 223
                     }
                 ]
             },
@@ -2415,6 +2920,11 @@
                         "map": "world_map",
                         "x": 30,
                         "y": 1033
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 32,
+                        "y": 344
                     }
                 ]
             },
@@ -2432,6 +2942,11 @@
                         "map": "world_map",
                         "x": 90,
                         "y": 1070
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 91,
+                        "y": 385
                     }
                 ]
             },
@@ -2581,6 +3096,11 @@
                         "map": "world_map",
                         "x": 982,
                         "y": 1800
+                    },
+                    {
+                        "map": "catacombs",
+                        "x": 552,
+                        "y": 144
                     }
                 ]
             },
@@ -2599,6 +3119,11 @@
                         "map": "world_map",
                         "x": 1040,
                         "y": 1800
+                    },
+                    {
+                        "map": "catacombs",
+                        "x": 624,
+                        "y": 144
                     }
                 ]
             },
@@ -2620,6 +3145,16 @@
                         "map": "world_map",
                         "x": 920,
                         "y": 1681
+                    },
+                    {
+                        "map": "tomb",
+                        "x": 568,
+                        "y": 306
+                    },
+                    {
+                        "map": "catacombs",
+                        "x": 506,
+                        "y": 23
                     }
                 ]
             },
@@ -2638,6 +3173,11 @@
                         "map": "world_map",
                         "x": 1098,
                         "y": 1722
+                    },
+                    {
+                        "map": "catacombs",
+                        "x": 685,
+                        "y": 63
                     }
                 ]
             },
@@ -2656,6 +3196,11 @@
                         "map": "world_map",
                         "x": 1098,
                         "y": 1762
+                    },
+                    {
+                        "map": "catacombs",
+                        "x": 686,
+                        "y": 104
                     }
                 ]
             },
@@ -2709,6 +3254,11 @@
                         "map": "world_map",
                         "x": 623,
                         "y": 1925
+                    },
+                    {
+                        "map": "catacombs",
+                        "x": 208,
+                        "y": 266
                     }
                 ]
             },
@@ -2726,6 +3276,11 @@
                         "map": "world_map",
                         "x": 802,
                         "y": 1800
+                    },
+                    {
+                        "map": "catacombs",
+                        "x": 386,
+                        "y": 144
                     }
                 ]
             },
@@ -2747,6 +3302,11 @@
                         "map": "world_map",
                         "x": 1098,
                         "y": 2125
+                    },
+                    {
+                        "map": "catacombs",
+                        "x": 671,
+                        "y": 468
                     }
                 ]
             },
@@ -2768,6 +3328,11 @@
                         "map": "world_map",
                         "x": 982,
                         "y": 2085
+                    },
+                    {
+                        "map": "catacombs",
+                        "x": 565,
+                        "y": 429
                     }
                 ]
             },
@@ -2785,6 +3350,11 @@
                         "map": "world_map",
                         "x": 982,
                         "y": 2125
+                    },
+                    {
+                        "map": "catacombs",
+                        "x": 565,
+                        "y": 468
                     }
                 ]
             },
@@ -2808,6 +3378,11 @@
                         "map": "world_map",
                         "x": 802,
                         "y": 2205
+                    },
+                    {
+                        "map": "catacombs",
+                        "x": 374,
+                        "y": 550
                     }
                 ]
             },
@@ -2831,6 +3406,11 @@
                         "map": "world_map",
                         "x": 623,
                         "y": 2088
+                    },
+                    {
+                        "map": "catacombs",
+                        "x": 208,
+                        "y": 429
                     }
                 ]
             },
@@ -2848,6 +3428,11 @@
                         "map": "world_map",
                         "x": 744,
                         "y": 1884
+                    },
+                    {
+                        "map": "catacombs",
+                        "x": 328,
+                        "y": 226
                     }
                 ]
             },
@@ -2866,6 +3451,11 @@
                         "map": "world_map",
                         "x": 1040,
                         "y": 1964
+                    },
+                    {
+                        "map": "catacombs",
+                        "x": 624,
+                        "y": 307
                     }
                 ]
             },
@@ -2883,6 +3473,11 @@
                         "map": "world_map",
                         "x": 744,
                         "y": 2205
+                    },
+                    {
+                        "map": "catacombs",
+                        "x": 328,
+                        "y": 550
                     }
                 ]
             },
@@ -2900,6 +3495,11 @@
                         "map": "world_map",
                         "x": 862,
                         "y": 1964
+                    },
+                    {
+                        "map": "catacombs",
+                        "x": 447,
+                        "y": 307
                     }
                 ]
             },
@@ -2917,6 +3517,11 @@
                         "map": "world_map",
                         "x": 862,
                         "y": 2125
+                    },
+                    {
+                        "map": "catacombs",
+                        "x": 447,
+                        "y": 468
                     }
                 ]
             },
@@ -3229,6 +3834,11 @@
                         "map": "world_map",
                         "x": 685,
                         "y": 2330
+                    },
+                    {
+                        "map": "catacombs",
+                        "x": 271,
+                        "y": 672
                     }
                 ]
             },
@@ -3255,6 +3865,11 @@
                         "map": "world_map",
                         "x": 862,
                         "y": 2411
+                    },
+                    {
+                        "map": "catacombs",
+                        "x": 447,
+                        "y": 754
                     }
                 ]
             },
@@ -3272,6 +3887,11 @@
                         "map": "world_map",
                         "x": 802,
                         "y": 2452
+                    },
+                    {
+                        "map": "catacombs",
+                        "x": 386,
+                        "y": 794
                     }
                 ]
             },
@@ -3289,6 +3909,11 @@
                         "map": "world_map",
                         "x": 862,
                         "y": 2368
+                    },
+                    {
+                        "map": "catacombs",
+                        "x": 447,
+                        "y": 712
                     }
                 ]
             },
@@ -3306,6 +3931,11 @@
                         "map": "world_map",
                         "x": 565,
                         "y": 2125
+                    },
+                    {
+                        "map": "catacombs",
+                        "x": 149,
+                        "y": 468
                     }
                 ]
             },
@@ -3400,11 +4030,16 @@
                         "map": "world_map",
                         "x": 802,
                         "y": 266
+                    },
+                    {
+                        "map": "ruins",
+                        "x": 684,
+                        "y": 266
                     }
                 ]
             },
             {
-                "name": "Ruins of Ash - Gorgon Eye (Green)",
+                "name": "Ruins of Ash - Solaria",
                 "access_rules": ["$can_access_ROA_UPPER"],
                 "sections": [
                     {
@@ -3416,6 +4051,11 @@
                         "map": "world_map",
                         "x": 682,
                         "y": 60
+                    },
+                    {
+                        "map": "ruins",
+                        "x": 565,
+                        "y": 64
                     }
                 ]
             },
@@ -3434,6 +4074,11 @@
                         "map": "world_map",
                         "x": 682,
                         "y": 590
+                    },
+                    {
+                        "map": "ruins",
+                        "x": 565,
+                        "y": 588
                     }
                 ]
             },
@@ -3454,6 +4099,11 @@
                         "map": "world_map",
                         "x": 744,
                         "y": 630
+                    },
+                    {
+                        "map": "ruins",
+                        "x": 624,
+                        "y": 629
                     }
                 ]
             },
@@ -3483,6 +4133,11 @@
                         "map": "world_map",
                         "x": 982,
                         "y": 547
+                    },
+                    {
+                        "map": "ruins",
+                        "x": 863,
+                        "y": 549
                     }
                 ]
             },
@@ -3503,6 +4158,11 @@
                         "map": "world_map",
                         "x": 744,
                         "y": 60
+                    },
+                    {
+                        "map": "ruins",
+                        "x": 624,
+                        "y": 64
                     }
                 ]
             },
@@ -3520,11 +4180,21 @@
                         "map": "world_map",
                         "x": 920,
                         "y": 831
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 923,
+                        "y": 142
+                    },
+                    {
+                        "map": "ruins",
+                        "x": 804,
+                        "y": 830
                     }
                 ]
             },
             {
-                "name": "Ruins of Ash - White Key (Three Reapers)",
+                "name": "Ruins of Ash - Three Reapers",
                 "access_rules": ["$can_access_ROA_LOWER"],
                 "sections": [
                     {
@@ -3541,6 +4211,11 @@
                         "map": "world_map",
                         "x": 802,
                         "y": 710
+                    },
+                    {
+                        "map": "ruins",
+                        "x": 684,
+                        "y": 709
                     }
                 ]
             },
@@ -3558,6 +4233,11 @@
                         "map": "world_map",
                         "x": 744,
                         "y": 547
+                    },
+                    {
+                        "map": "ruins",
+                        "x": 624,
+                        "y": 549
                     }
                 ]
             },
@@ -3575,6 +4255,11 @@
                         "map": "world_map",
                         "x": 744,
                         "y": 388
+                    },
+                    {
+                        "map": "ruins",
+                        "x": 624,
+                        "y": 387
                     }
                 ]
             },
@@ -3596,6 +4281,11 @@
                         "map": "world_map",
                         "x": 744,
                         "y": 751
+                    },
+                    {
+                        "map": "ruins",
+                        "x": 624,
+                        "y": 749
                     }
                 ]
             },
@@ -3614,6 +4304,11 @@
                         "map": "world_map",
                         "x": 982,
                         "y": 710
+                    },
+                    {
+                        "map": "ruins",
+                        "x": 863,
+                        "y": 709
                     }
                 ]
             },
@@ -3634,6 +4329,11 @@
                         "map": "world_map",
                         "x": 682,
                         "y": 547
+                    },
+                    {
+                        "map": "ruins",
+                        "x": 565,
+                        "y": 549
                     }
                 ]
             },
@@ -3654,6 +4354,11 @@
                         "map": "world_map",
                         "x": 802,
                         "y": 103
+                    },
+                    {
+                        "map": "ruins",
+                        "x": 684,
+                        "y": 104
                     }
                 ]
             },
@@ -3675,6 +4380,11 @@
                         "map": "world_map",
                         "x": 802,
                         "y": 749
+                    },
+                    {
+                        "map": "ruins",
+                        "x": 684,
+                        "y": 749
                     }
                 ]
             },
@@ -3693,6 +4403,11 @@
                         "map": "world_map",
                         "x": 982,
                         "y": 345
+                    },
+                    {
+                        "map": "ruins",
+                        "x": 863,
+                        "y": 346
                     }
                 ]
             },
@@ -4088,6 +4803,11 @@
                         "map": "world_map",
                         "x": 565,
                         "y": 60
+                    },
+                    {
+                        "map": "ruins",
+                        "x": 447,
+                        "y": 64
                     }
                 ]
             },
@@ -4105,6 +4825,11 @@
                         "map": "world_map",
                         "x": 505,
                         "y": 60
+                    },
+                    {
+                        "map": "ruins",
+                        "x": 387,
+                        "y": 64
                     }
                 ]
             },
@@ -4137,6 +4862,11 @@
                         "map": "world_map",
                         "x": 1159,
                         "y": 145
+                    },
+                    {
+                        "map": "ruins",
+                        "x": 1043,
+                        "y": 143
                     }
                 ]
             },
@@ -4155,6 +4885,11 @@
                         "map": "world_map",
                         "x": 920,
                         "y": 145
+                    },
+                    {
+                        "map": "ruins",
+                        "x": 803,
+                        "y": 143
                     }
                 ]
             },
@@ -4172,6 +4907,11 @@
                         "map": "world_map",
                         "x": 1040,
                         "y": 60
+                    },
+                    {
+                        "map": "ruins",
+                        "x": 923,
+                        "y": 64
                     }
                 ]
             },
@@ -4189,6 +4929,11 @@
                         "map": "world_map",
                         "x": 860,
                         "y": 60
+                    },
+                    {
+                        "map": "ruins",
+                        "x": 744,
+                        "y": 64
                     }
                 ]
             },
@@ -4236,6 +4981,11 @@
                         "map": "world_map",
                         "x": 802,
                         "y": 22
+                    },
+                    {
+                        "map": "ruins",
+                        "x": 684,
+                        "y": 22
                     }
                 ]
             },
@@ -4253,6 +5003,11 @@
                         "map": "world_map",
                         "x": 208,
                         "y": 345
+                    },
+                    {
+                        "map": "ruins",
+                        "x": 91,
+                        "y": 346
                     }
                 ]
             },
@@ -4269,6 +5024,11 @@
                     {
                         "map": "world_map",
                         "x": 446,
+                        "y": 671
+                    },
+                    {
+                        "map": "ruins",
+                        "x": 330,
                         "y": 671
                     }
                 ]
@@ -4287,6 +5047,11 @@
                         "map": "world_map",
                         "x": 267,
                         "y": 710
+                    },
+                    {
+                        "map": "ruins",
+                        "x": 150,
+                        "y": 709
                     }
                 ]
             },
@@ -4304,6 +5069,11 @@
                         "map": "world_map",
                         "x": 446,
                         "y": 429
+                    },
+                    {
+                        "map": "ruins",
+                        "x": 330,
+                        "y": 427
                     }
                 ]
             },
@@ -4322,6 +5092,11 @@
                         "map": "world_map",
                         "x": 388,
                         "y": 388
+                    },
+                    {
+                        "map": "ruins",
+                        "x": 268,
+                        "y": 387
                     }
                 ]
             },
@@ -4339,6 +5114,11 @@
                         "map": "world_map",
                         "x": 208,
                         "y": 547
+                    },
+                    {
+                        "map": "ruins",
+                        "x": 91,
+                        "y": 549
                     }
                 ]
             },
@@ -4355,6 +5135,11 @@
                     {
                         "map": "world_map",
                         "x": 328,
+                        "y": 671
+                    },
+                    {
+                        "map": "ruins",
+                        "x": 210,
                         "y": 671
                     }
                 ]
