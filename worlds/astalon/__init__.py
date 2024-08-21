@@ -56,6 +56,14 @@ if TYPE_CHECKING:
 
 logger = logging.getLogger(__name__)
 
+CHARACTER_LOCATIONS = {
+    Character.ALGUS: LocationName.GT_ALGUS.value,
+    Character.ARIAS: LocationName.GT_ARIAS.value,
+    Character.KYULI: LocationName.GT_KYULI.value,
+    Character.ZEEK: LocationName.MECH_ZEEK.value,
+    Character.BRAM: LocationName.TR_BRAM.value,
+}
+
 
 class AstalonWebWorld(WebWorld):
     theme = "stone"
@@ -187,16 +195,10 @@ class AstalonWorld(World):
             self.create_event(Events.ZEEK, RegionName.MECH_ZEEK)
             self.create_event(Events.BRAM, RegionName.TR_BRAM)
         else:
-            if Character.ALGUS not in self.starting_characters:
-                self.create_location(LocationName.GT_ALGUS.value)
-            if Character.ARIAS not in self.starting_characters:
-                self.create_location(LocationName.GT_ARIAS.value)
-            if Character.KYULI not in self.starting_characters:
-                self.create_location(LocationName.GT_KYULI.value)
-            if Character.ZEEK not in self.starting_characters:
-                self.create_location(LocationName.MECH_ZEEK.value)
-            if Character.BRAM not in self.starting_characters:
-                self.create_location(LocationName.TR_BRAM.value)
+            is_ut = hasattr(self.multiworld, "generation_is_fake")
+            for character, location_name in CHARACTER_LOCATIONS.items():
+                if is_ut or character not in self.starting_characters:
+                    self.create_location(location_name)
 
         if not self.options.randomize_key_items:
             self.create_event(Events.EYE_RED, RegionName.GT_BOSS)
