@@ -1812,7 +1812,7 @@ SWITCH_RULES: Dict[L, AstalonRule] = {
     L.SP_CRYSTAL_STAR: lambda rules, state: rules.can(state, Logic.CRYSTAL),
 }
 
-VANILLA_CHARACTERS = {Character.ALGUS, Character.ARIAS, Character.KYULI}
+VANILLA_CHARACTERS = frozenset((Character.ALGUS, Character.ARIAS, Character.KYULI))
 
 
 class AstalonRules:
@@ -1856,9 +1856,9 @@ class AstalonRules:
     def _rando_has(self, state: CollectionState, item: Union[ItemName, Events], count: int = 1) -> bool:
         if item == KeyItem.CLOAK and not self._has(state, Character.ALGUS):
             return False
-        if item in {KeyItem.SWORD, KeyItem.BOOTS} and not self._has(state, Character.ARIAS):
+        if item in (KeyItem.SWORD, KeyItem.BOOTS) and not self._has(state, Character.ARIAS):
             return False
-        if item in {KeyItem.CLAW, KeyItem.BOW} and not self._has(state, Character.KYULI):
+        if item in (KeyItem.CLAW, KeyItem.BOW) and not self._has(state, Character.KYULI):
             return False
         if item == KeyItem.BLOCK and not self._has(state, Character.ZEEK):
             return False
@@ -1869,25 +1869,25 @@ class AstalonRules:
         if item == KeyItem.GAUNTLET and not self.has_any(state, Character.ARIAS, Character.BRAM):
             return False
 
-        if item in {ShopUpgrade.ALGUS_ARCANIST, ShopUpgrade.ALGUS_METEOR, ShopUpgrade.ALGUS_SHOCK} and not self._has(
+        if item in (ShopUpgrade.ALGUS_ARCANIST, ShopUpgrade.ALGUS_METEOR, ShopUpgrade.ALGUS_SHOCK) and not self._has(
             state, Character.ALGUS
         ):
             return False
-        if item in {
+        if item in (
             ShopUpgrade.ARIAS_GORGONSLAYER,
             ShopUpgrade.ARIAS_LAST_STAND,
             ShopUpgrade.ARIAS_LIONHEART,
-        } and not self._has(state, Character.ARIAS):
+        ) and not self._has(state, Character.ARIAS):
             return False
-        if item in {ShopUpgrade.KYULI_ASSASSIN, ShopUpgrade.KYULI_BULLSEYE, ShopUpgrade.KYULI_RAY} and not self._has(
+        if item in (ShopUpgrade.KYULI_ASSASSIN, ShopUpgrade.KYULI_BULLSEYE, ShopUpgrade.KYULI_RAY) and not self._has(
             state, Character.KYULI
         ):
             return False
-        if item in {ShopUpgrade.ZEEK_JUNKYARD, ShopUpgrade.ZEEK_ORBS, ShopUpgrade.ZEEK_LOOT} and not self._has(
+        if item in (ShopUpgrade.ZEEK_JUNKYARD, ShopUpgrade.ZEEK_ORBS, ShopUpgrade.ZEEK_LOOT) and not self._has(
             state, Character.ZEEK
         ):
             return False
-        if item in {ShopUpgrade.BRAM_AXE, ShopUpgrade.BRAM_HUNTER, ShopUpgrade.BRAM_WHIPLASH} and not self._has(
+        if item in (ShopUpgrade.BRAM_AXE, ShopUpgrade.BRAM_HUNTER, ShopUpgrade.BRAM_WHIPLASH) and not self._has(
             state, Character.BRAM
         ):
             return False
@@ -1903,11 +1903,11 @@ class AstalonRules:
         if item == KeyItem.STAR and not self._has(state, Character.BRAM):
             return False
 
-        if item in {ShopUpgrade.ZEEK_JUNKYARD, ShopUpgrade.ZEEK_ORBS, ShopUpgrade.ZEEK_LOOT} and not self._has(
+        if item in (ShopUpgrade.ZEEK_JUNKYARD, ShopUpgrade.ZEEK_ORBS, ShopUpgrade.ZEEK_LOOT) and not self._has(
             state, Character.ZEEK
         ):
             return False
-        if item in {ShopUpgrade.BRAM_AXE, ShopUpgrade.BRAM_HUNTER, ShopUpgrade.BRAM_WHIPLASH} and not self._has(
+        if item in (ShopUpgrade.BRAM_AXE, ShopUpgrade.BRAM_HUNTER, ShopUpgrade.BRAM_WHIPLASH) and not self._has(
             state, Character.BRAM
         ):
             return False

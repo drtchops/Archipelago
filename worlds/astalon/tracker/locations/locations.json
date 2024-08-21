@@ -3398,7 +3398,7 @@
                 ]
             },
             {
-                "name": "Caves - Item Chain Second Room",
+                "name": "Caves - Item Chain 2nd Room",
                 "access_rules": ["$can_access_CATA_UPPER"],
                 "sections": [
                     {
@@ -4617,11 +4617,11 @@
                 ]
             },
             {
-                "name": "Ruins of Ash - Three Reapers",
+                "name": "Ruins of Ash - 3 Reapers",
                 "access_rules": ["$can_access_ROA_LOWER"],
                 "sections": [
                     {
-                        "name": "Ruins of Ash - White Key (Three Reapers)",
+                        "name": "Ruins of Ash - White Key (3 Reapers)",
                         "access_rules": ["roa_white_1"],
                         "visibility_rules": ["WHITE_ON"]
                     },

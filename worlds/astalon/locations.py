@@ -219,7 +219,7 @@ class LocationName(str, Enum):
     ROA_HP_2_RIGHT = "Ruins of Ash - Max HP +2 (Right Side)"
     ROA_HP_5_SOLARIA = "Ruins of Ash - Max HP +5 (After Solaria)"
     ROA_WHITE_KEY_SAVE = "Ruins of Ash - White Key (Checkpoint)"
-    ROA_WHITE_KEY_REAPERS = "Ruins of Ash - White Key (Three Reapers)"
+    ROA_WHITE_KEY_REAPERS = "Ruins of Ash - White Key (3 Reapers)"
     ROA_WHITE_KEY_TORCHES = "Ruins of Ash - White Key (Torches)"
     ROA_WHITE_KEY_PORTAL = "Ruins of Ash - White Key (Void Portal)"
     ROA_BLUE_KEY_FACE = "Ruins of Ash - Blue Key (Face)"
