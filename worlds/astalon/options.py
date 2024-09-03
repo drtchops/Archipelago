@@ -187,6 +187,23 @@ class RandomizeElevator(Toggle):
     display_name = "Randomize Elevator"
 
 
+class RandomizeCandles(Toggle):
+    """
+    Choose whether to randomize the reward gained from breaking candles.
+    """
+
+    display_name = "Randomize Candles"
+
+
+class RandomizeOrbRocks(Toggle):
+    """
+    Choose whether to randomize the reward gained from breaking orb rocks.
+    """
+
+    visibility = Visibility.none
+    display_name = "Randomize Orb Rocks"
+
+
 class RandomizeFamiliars(Toggle):
     """
     NOT YET SUPPORTED
@@ -196,15 +213,6 @@ class RandomizeFamiliars(Toggle):
 
     visibility = Visibility.none
     display_name = "Randomize Familiars"
-
-
-class RandomizeOrbRocks(Toggle):
-    """
-    NOT YET SUPPORTED
-    """
-
-    visibility = Visibility.none
-    display_name = "Randomize Orb Rocks"
 
 
 class RandomizeMinibossRewards(Toggle):
@@ -361,8 +369,9 @@ class AstalonOptions(PerGameCommonOptions):
     randomize_shop: RandomizeShop
     randomize_elevator: RandomizeElevator
     randomize_switches: RandomizeSwitches
-    randomize_familiars: RandomizeFamiliars
+    randomize_candles: RandomizeCandles
     randomize_orb_rocks: RandomizeOrbRocks
+    randomize_familiars: RandomizeFamiliars
     randomize_miniboss_rewards: RandomizeMinibossRewards
     skip_cutscenes: SkipCutscenes
     start_with_qol: StartWithQOL

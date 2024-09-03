@@ -1,6 +1,6 @@
 import logging
 from functools import cached_property
-from typing import TYPE_CHECKING, Any, ClassVar, Dict, List, Set
+from typing import TYPE_CHECKING, Any, ClassVar, Dict, Final, List, Set, Tuple
 
 from BaseClasses import CollectionState, Item, ItemClassification, Region, Tutorial
 from worlds.AutoWorld import WebWorld, World
@@ -56,12 +56,22 @@ if TYPE_CHECKING:
 
 logger = logging.getLogger(__name__)
 
-CHARACTER_LOCATIONS = {
-    Character.ALGUS: LocationName.GT_ALGUS.value,
-    Character.ARIAS: LocationName.GT_ARIAS.value,
-    Character.KYULI: LocationName.GT_KYULI.value,
-    Character.ZEEK: LocationName.MECH_ZEEK.value,
-    Character.BRAM: LocationName.TR_BRAM.value,
+CHARACTER_LOCATIONS: Final[Tuple[Tuple[Character, str], ...]] = (
+    (Character.ALGUS, LocationName.GT_ALGUS.value),
+    (Character.ARIAS, LocationName.GT_ARIAS.value),
+    (Character.KYULI, LocationName.GT_KYULI.value),
+    (Character.ZEEK, LocationName.MECH_ZEEK.value),
+    (Character.BRAM, LocationName.TR_BRAM.value),
+)
+
+CHARACTER_STARTS: Final[Dict[int, Tuple[Character, ...]]] = {
+    RandomizeCharacters.option_trio: CHARACTERS[3:],
+    RandomizeCharacters.option_all: CHARACTERS,
+    RandomizeCharacters.option_algus: (Character.ALGUS,),
+    RandomizeCharacters.option_arias: (Character.ARIAS,),
+    RandomizeCharacters.option_kyuli: (Character.KYULI,),
+    RandomizeCharacters.option_zeek: (Character.ZEEK,),
+    RandomizeCharacters.option_bram: (Character.BRAM,),
 }
 
 
@@ -81,7 +91,9 @@ class AstalonWebWorld(WebWorld):
 
 class AstalonWorld(World):
     """
-    why do they call it astalon when you ass to the vanilla lawn ass from rando the lawn
+    Uphold your pact with the Titan of Death, Epimetheus!
+    Fight, climb and solve your way through a twisted tower as three unique adventurers,
+    on a mission to save their village from impending doom!
     """
 
     game = GAME_NAME
@@ -112,26 +124,14 @@ class AstalonWorld(World):
         self.starting_characters = []
         if self.options.randomize_characters == RandomizeCharacters.option_solo:
             self.starting_characters.append(self.random.choice(CHARACTERS))
-        elif self.options.randomize_characters == RandomizeCharacters.option_trio:
-            self.starting_characters.extend(CHARACTERS[:3])
-        elif self.options.randomize_characters == RandomizeCharacters.option_all:
-            self.starting_characters.extend(CHARACTERS)
         elif self.options.randomize_characters == RandomizeCharacters.option_random_selection:
             for character in CHARACTERS:
                 if self.random.randint(0, 1):
                     self.starting_characters.append(character)
             if not self.starting_characters:
                 self.starting_characters.append(self.random.choice(CHARACTERS))
-        elif self.options.randomize_characters == RandomizeCharacters.option_algus:
-            self.starting_characters.append(Character.ALGUS)
-        elif self.options.randomize_characters == RandomizeCharacters.option_arias:
-            self.starting_characters.append(Character.ARIAS)
-        elif self.options.randomize_characters == RandomizeCharacters.option_kyuli:
-            self.starting_characters.append(Character.KYULI)
-        elif self.options.randomize_characters == RandomizeCharacters.option_bram:
-            self.starting_characters.append(Character.BRAM)
-        elif self.options.randomize_characters == RandomizeCharacters.option_zeek:
-            self.starting_characters.append(Character.ZEEK)
+        elif int(self.options.randomize_characters) in CHARACTER_STARTS:
+            self.starting_characters.extend(CHARACTER_STARTS[int(self.options.randomize_characters)])
 
         if self.options.goal == Goal.option_eye_hunt:
             self.required_gold_eyes = self.options.additional_eyes_required.value
@@ -154,29 +154,30 @@ class AstalonWorld(World):
             if region_data.exits:
                 region.add_exits([e.value for e in region_data.exits])
 
-        logic_groups = set(g.value for g in LocationGroup)
+        logic_groups: Set[str] = set()
+        if self.options.randomize_key_items:
+            logic_groups.add(LocationGroup.ITEM.value)
+        if self.options.randomize_attack_pickups:
+            logic_groups.add(LocationGroup.ATTACK.value)
+        if self.options.randomize_health_pickups:
+            logic_groups.add(LocationGroup.HEALTH.value)
+        if self.options.randomize_white_keys:
+            logic_groups.add(LocationGroup.KEY_WHITE.value)
+        if self.options.randomize_blue_keys:
+            logic_groups.add(LocationGroup.KEY_BLUE.value)
+        if self.options.randomize_red_keys:
+            logic_groups.add(LocationGroup.KEY_RED.value)
+        if self.options.randomize_shop:
+            logic_groups.add(LocationGroup.SHOP.value)
+        if self.options.randomize_elevator:
+            logic_groups.add(LocationGroup.ELEVATOR.value)
+        if self.options.randomize_switches:
+            logic_groups.add(LocationGroup.SWITCH.value)
+        if self.options.randomize_candles:
+            logic_groups.add(LocationGroup.CANDLE.value)
+
         for group, location_names in location_name_groups.items():
             if group not in logic_groups:
-                continue
-            if group == LocationGroup.CHARACTER:
-                continue
-            if group == LocationGroup.ITEM and not self.options.randomize_key_items:
-                continue
-            if group == LocationGroup.ATTACK and not self.options.randomize_attack_pickups:
-                continue
-            if group == LocationGroup.HEALTH and not self.options.randomize_health_pickups:
-                continue
-            if group == LocationGroup.KEY_WHITE and not self.options.randomize_white_keys:
-                continue
-            if group == LocationGroup.KEY_BLUE and not self.options.randomize_blue_keys:
-                continue
-            if group == LocationGroup.KEY_RED and not self.options.randomize_red_keys:
-                continue
-            if group == LocationGroup.SHOP and not self.options.randomize_shop:
-                continue
-            if group == LocationGroup.ELEVATOR and not self.options.randomize_elevator:
-                continue
-            if group == LocationGroup.SWITCH and not self.options.randomize_switches:
                 continue
 
             for location_name in location_names:
@@ -196,7 +197,7 @@ class AstalonWorld(World):
             self.create_event(Events.BRAM, RegionName.TR_BRAM)
         else:
             is_ut = hasattr(self.multiworld, "generation_is_fake")
-            for character, location_name in CHARACTER_LOCATIONS.items():
+            for character, location_name in CHARACTER_LOCATIONS:
                 if is_ut or character not in self.starting_characters:
                     self.create_location(location_name)
 
@@ -245,29 +246,31 @@ class AstalonWorld(World):
     def create_items(self) -> None:
         itempool: List[Item] = []
 
-        logic_groups = set(g.value for g in ItemGroup)
+        logic_groups: Set[str] = set()
+        if self.options.randomize_key_items:
+            logic_groups.add(ItemGroup.EYE.value)
+            logic_groups.add(ItemGroup.ITEM.value)
+        if self.options.randomize_attack_pickups:
+            logic_groups.add(ItemGroup.ATTACK.value)
+        if self.options.randomize_health_pickups:
+            logic_groups.add(ItemGroup.HEALTH.value)
+        if self.options.randomize_white_keys:
+            logic_groups.add(ItemGroup.DOOR_WHITE.value)
+        if self.options.randomize_blue_keys:
+            logic_groups.add(ItemGroup.DOOR_BLUE.value)
+        if self.options.randomize_red_keys:
+            logic_groups.add(ItemGroup.DOOR_RED.value)
+        if self.options.randomize_shop:
+            logic_groups.add(ItemGroup.SHOP.value)
+        if self.options.randomize_elevator:
+            logic_groups.add(ItemGroup.ELEVATOR.value)
+        if self.options.randomize_switches:
+            logic_groups.add(ItemGroup.SWITCH.value)
+        if self.options.randomize_candles:
+            logic_groups.add(ItemGroup.HEAL.value)
+
         for group, item_names in item_name_groups.items():
             if group not in logic_groups:
-                continue
-            if group == ItemGroup.CHARACTER:
-                continue
-            if group in {ItemGroup.EYE, ItemGroup.ITEM} and not self.options.randomize_key_items:
-                continue
-            if group == ItemGroup.ATTACK and not self.options.randomize_attack_pickups:
-                continue
-            if group == ItemGroup.HEALTH and not self.options.randomize_health_pickups:
-                continue
-            if group == ItemGroup.DOOR_WHITE and not self.options.randomize_white_keys:
-                continue
-            if group == ItemGroup.DOOR_BLUE and not self.options.randomize_blue_keys:
-                continue
-            if group == ItemGroup.DOOR_RED and not self.options.randomize_red_keys:
-                continue
-            if group == ItemGroup.SHOP and not self.options.randomize_shop:
-                continue
-            if group == ItemGroup.ELEVATOR and not self.options.randomize_elevator:
-                continue
-            if group == ItemGroup.SWITCH and not self.options.randomize_switches:
                 continue
 
             for item_name in item_names:
@@ -355,7 +358,7 @@ class AstalonWorld(World):
         return new_pool
 
     @cached_property
-    def filler_item_names(self) -> List[str]:
+    def filler_item_names(self) -> Tuple[str, ...]:
         items = list(filler_items)
         if not self.options.randomize_white_keys:
             items.append(Key.WHITE.value)
@@ -363,7 +366,7 @@ class AstalonWorld(World):
             items.append(Key.BLUE.value)
         if not self.options.randomize_red_keys:
             items.append(Key.RED.value)
-        return items
+        return tuple(items)
 
     def get_filler_item_name(self) -> str:
         return self.random.choice(self.filler_item_names)
@@ -401,8 +404,9 @@ class AstalonWorld(World):
             "randomize_shop",
             "randomize_elevator",
             "randomize_switches",
-            "randomize_familiars",
+            "randomize_candles",
             "randomize_orb_rocks",
+            "randomize_familiars",
             "randomize_miniboss_rewards",
             "skip_cutscenes",
             "apex_elevator",

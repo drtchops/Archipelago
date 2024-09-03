@@ -37,6 +37,7 @@ class LocationGroup(str, Enum):
     SHOP = "Shop Upgrades"
     ELEVATOR = "Elevators"
     SWITCH = "Switches"
+    CANDLE = "Candles"
 
 
 class LocationName(str, Enum):
@@ -82,6 +83,10 @@ class LocationName(str, Enum):
     GT_CRYSTAL_ROTA = "Gorgon Tomb - Crystal (Ring of the Ancients)"
     GT_CRYSTAL_OLD_MAN_1 = "Gorgon Tomb - Crystal (Old Man 1)"
     GT_CRYSTAL_OLD_MAN_2 = "Gorgon Tomb - Crystal (Old Man 2)"
+    GT_CANDLE_LINUS = "Gorgon Tomb - Candle (Linus' Map)"
+    GT_CANDLE_1ST_CYCLOPS = "Gorgon Tomb - Candle (1st Cyclops)"
+    GT_CANDLE_BOSS = "Gorgon Tomb - Candle (Boss)"
+    GT_CANDLE_BOTTOM = "Gorgon Tomb - Candle (Bottom)"
 
     MECH_ZEEK = "Mechanism - Zeek"
     MECH_BOOTS = "Mechanism - Talaria Boots"
@@ -155,6 +160,22 @@ class LocationName(str, Enum):
     MECH_CRYSTAL_TOP_CHAINS = "Mechanism - Crystal (Top Chains)"
     MECH_CRYSTAL_BK = "Mechanism - Crystal (Black Knight)"
     MECH_FACE_ABOVE_VOLANTIS = "Mechanism - Face (Above Volantis)"
+    MECH_CANDLE_ROOTS = "Mechanism - Candle (Roots)"
+    MECH_CANDLE_BOTTOM = "Mechanism - Candle (Bottom)"
+    MECH_CANDLE_CHAINS = "Mechanism - Candle (Chains)"
+    MECH_CANDLE_RIGHT = "Mechanism - Candle (Right)"
+    MECH_CANDLE_POTS = "Mechanism - Candle (Pots)"
+    MECH_CANDLE_BOSS_1 = "Mechanism - Candle (Boss 1)"
+    MECH_CANDLE_BOSS_2 = "Mechanism - Candle (Boss 2)"
+    MECH_CANDLE_SLIMES = "Mechanism - Candle (Slimes)"
+    MECH_CANDLE_ZEEK = "Mechanism - Candle (Zeek)"
+    MECH_CANDLE_MAZE_BACKDOOR = "Mechanism - Candle (Maze Backdoor)"
+    MECH_CANDLE_CD_ACCESS_1 = "Mechanism - Candle (CD Access 1)"
+    MECH_CANDLE_CD_ACCESS_2 = "Mechanism - Candle (CD Access 2)"
+    MECH_CANDLE_CD_ACCESS_3 = "Mechanism - Candle (CD Access 3)"
+    MECH_CANDLE_1ST_ROOM = "Mechanism - Candle (1st Room)"
+    MECH_CANDLE_BK = "Mechanism - Candle (Black Knight)"
+    MECH_CANDLE_CAMPFIRE_R = "Mechanism - Candle (Right Campfire)"
 
     HOTP_BELL = "Hall of the Phantoms - Athena's Bell"
     HOTP_AMULET = "Hall of the Phantoms - Amulet of Sol"
@@ -211,6 +232,21 @@ class LocationName(str, Enum):
     HOTP_CRYSTAL_HEART = "Hall of the Phantoms - Crystal (Heart)"
     HOTP_CRYSTAL_BELOW_PUZZLE = "Hall of the Phantoms - Crystal (Below Puzzle)"
     HOTP_FACE_OLD_MAN = "Hall of the Phantoms - Face (Old Man)"
+    HOTP_CANDLE_1ST_ROOM = "Hall of the Phantoms - Candle (1st Room)"
+    HOTP_CANDLE_LOWER = "Hall of the Phantoms - Candle (Lower)"
+    HOTP_CANDLE_BELL = "Hall of the Phantoms - Candle (Bell)"
+    HOTP_CANDLE_EYEBALL = "Hall of the Phantoms - Candle (Eyeball)"
+    HOTP_CANDLE_OLD_MAN = "Hall of the Phantoms - Candle (Old Man)"
+    HOTP_CANDLE_BEFORE_CLAW = "Hall of the Phantoms - Candle (Before Claw)"
+    HOTP_CANDLE_CLAW_CAMPFIRE = "Hall of the Phantoms - Candle (Claw Campfire)"
+    HOTP_CANDLE_TP_PUZZLE = "Hall of the Phantoms - Candle (Teleport Puzzle)"
+    HOTP_CANDLE_BOSS = "Hall of the Phantoms - Candle (Boss)"
+    HOTP_CANDLE_TP_FALL = "Hall of the Phantoms - Candle (Teleport Fall)"
+    HOTP_CANDLE_UPPER_VOID_1 = "Hall of the Phantoms - Candle (Upper Void 1)"
+    HOTP_CANDLE_UPPER_VOID_2 = "Hall of the Phantoms - Candle (Upper Void 2)"
+    HOTP_CANDLE_UPPER_VOID_3 = "Hall of the Phantoms - Candle (Upper Void 3)"
+    HOTP_CANDLE_UPPER_VOID_4 = "Hall of the Phantoms - Candle (Upper Void 4)"
+    HOTP_CANDLE_ELEVATOR = "Hall of the Phantoms - Candle (Elevator)"
 
     ROA_ICARUS = "Ruins of Ash - Icarus Emblem"
     ROA_EYE_GREEN = "Ruins of Ash - Gorgon Eye (Green)"
@@ -268,6 +304,32 @@ class LocationName(str, Enum):
     ROA_CRYSTAL_TRIPLE_2 = "Ruins of Ash - Crystal (Triple 2)"
     ROA_FACE_SPIDERS = "Ruins of Ash - Face (Spiders)"
     ROA_FACE_BLUE_KEY = "Ruins of Ash - Face (Blue Key)"
+    ROA_CANDLE_1ST_ROOM = "Ruins of Ash - Candle (1st Room)"
+    ROA_CANDLE_3_REAPERS = "Ruins of Ash - Candle (3 Reapers)"
+    ROA_CANDLE_MIDDLE_CAMPFIRE = "Ruins of Ash - Candle (Middle Campfire)"
+    ROA_CANDLE_LADDER_BOTTOM = "Ruins of Ash - Candle (Ladder Bottom)"
+    ROA_CANDLE_SHAFT = "Ruins of Ash - Candle (Shaft)"
+    ROA_CANDLE_SHAFT_TOP = "Ruins of Ash - Candle (Shaft Top)"
+    ROA_CANDLE_ABOVE_CENTAUR = "Ruins of Ash - Candle (Above Centaur)"
+    ROA_CANDLE_BABY_GORGON = "Ruins of Ash - Candle (Baby Gorgon)"
+    ROA_CANDLE_TOP_CENTAUR = "Ruins of Ash - Candle (Top Centaur)"
+    ROA_CANDLE_HIDDEN_1 = "Ruins of Ash - Candle (Hidden 1)"
+    ROA_CANDLE_HIDDEN_2 = "Ruins of Ash - Candle (Hidden 2)"
+    ROA_CANDLE_HIDDEN_3 = "Ruins of Ash - Candle (Hidden 3)"
+    ROA_CANDLE_HIDDEN_4 = "Ruins of Ash - Candle (Hidden 4)"
+    ROA_CANDLE_HIDDEN_5 = "Ruins of Ash - Candle (Hidden 5)"
+    ROA_CANDLE_BOTTOM_ASCEND = "Ruins of Ash - Candle (Bottom Ascend)"
+    ROA_CANDLE_BRANCH = "Ruins of Ash - Candle (Branch)"
+    ROA_CANDLE_ICARUS_1 = "Ruins of Ash - Candle (Icarus 1)"
+    ROA_CANDLE_ICARUS_2 = "Ruins of Ash - Candle (Icarus 2)"
+    ROA_CANDLE_ELEVATOR = "Ruins of Ash - Candle (Elevator)"
+    ROA_CANDLE_ELEVATOR_CAMPFIRE = "Ruins of Ash - Candle (Elevator Campfire)"
+    ROA_CANDLE_BOSS_1 = "Ruins of Ash - Candle (Boss 1)"
+    ROA_CANDLE_BOSS_2 = "Ruins of Ash - Candle (Boss 2)"
+    ROA_CANDLE_SPIDERS = "Ruins of Ash - Candle (Spiders)"
+    ROA_CANDLE_SPIKE_BALLS = "Ruins of Ash - Candle (Spike Balls)"
+    ROA_CANDLE_LADDER_R = "Ruins of Ash - Candle (Ladder Right)"
+    ROA_CANDLE_ARENA = "Ruins of Ash - Candle (Enemy Arena)"
 
     DARK_HP_4 = "Darkness - Max HP +4"
     DARK_WHITE_KEY = "Darkness - White Key"
@@ -279,6 +341,14 @@ class LocationName(str, Enum):
     APEX_BLUE_KEY = "The Apex - Blue Key"
     APEX_ELEVATOR = "The Apex - Elevator"
     APEX_SWITCH = "The Apex - Switch"
+    APEX_CANDLE_ELEVATOR = "The Apex - Candle (Elevator)"
+    APEX_CANDLE_CHALICE_1 = "The Apex - Candle (Chalice 1)"
+    APEX_CANDLE_CHALICE_2 = "The Apex - Candle (Chalice 2)"
+    APEX_CANDLE_CHALICE_3 = "The Apex - Candle (Chalice 3)"
+    APEX_CANDLE_GARG_1 = "The Apex - Candle (Gargoyle 1)"
+    APEX_CANDLE_GARG_2 = "The Apex - Candle (Gargoyle 2)"
+    APEX_CANDLE_GARG_3 = "The Apex - Candle (Gargoyle 3)"
+    APEX_CANDLE_GARG_4 = "The Apex - Candle (Gargoyle 4)"
 
     CAVES_ATTACK_RED = "Caves - Attack +1 (Item Chain Red)"
     CAVES_ATTACK_BLUE = "Caves - Attack +1 (Item Chain Blue)"
@@ -331,6 +401,20 @@ class LocationName(str, Enum):
     CATA_FACE_CAMPFIRE = "Catacombs - Face (Campfire)"
     CATA_FACE_DOUBLE_DOOR = "Catacombs - Face (Double Door)"
     CATA_FACE_BOTTOM = "Catacombs - Face (Bottom)"
+    CATA_CANDLE_1ST_ROOM = "Catacombs - Candle (1st Room)"
+    CATA_CANDLE_ORB_MULTI = "Catacombs - Candle (Orb Multiplier)"
+    CATA_CANDLE_AFTER_BOW = "Catacombs - Candle (After Bow)"
+    CATA_CANDLE_DEV_ROOM = "Catacombs - Candle (Dev Room)"
+    CATA_CANDLE_GRIFFON = "Catacombs - Candle (Griffon)"
+    CATA_CANDLE_SHORTCUT = "Catacombs - Candle (Vertical Shortcut)"
+    CATA_CANDLE_PRISON = "Catacombs - Candle (Prison)"
+    CATA_CANDLE_ABOVE_ROOTS_1 = "Catacombs - Candle (Above Roots 1)"
+    CATA_CANDLE_ABOVE_ROOTS_2 = "Catacombs - Candle (Above Roots 2)"
+    CATA_CANDLE_ABOVE_ROOTS_3 = "Catacombs - Candle (Above Roots 3)"
+    CATA_CANDLE_ABOVE_ROOTS_4 = "Catacombs - Candle (Above Roots 4)"
+    CATA_CANDLE_ABOVE_ROOTS_5 = "Catacombs - Candle (Above Roots 5)"
+    CATA_CANDLE_VOID_R_1 = "Catacombs - Candle (Void Right 1)"
+    CATA_CANDLE_VOID_R_2 = "Catacombs - Candle (Void Right 2)"
 
     TR_BRAM = "Tower Roots - Bram"
     TR_ADORNED_KEY = "Tower Roots - Adorned Key"
@@ -345,6 +429,9 @@ class LocationName(str, Enum):
     TR_SWITCH_BOTTOM = "Tower Roots - Switch (Bottom)"
     TR_CRYSTAL_GOLD = "Tower Roots - Crystal (Gold)"
     TR_CRYSTAL_DARK_ARIAS = "Tower Roots - Crystal (Dark Arias)"
+    TR_CANDLE_1ST_ROOM_1 = "Tower Roots - Candle (1st Room 1)"
+    TR_CANDLE_1ST_ROOM_2 = "Tower Roots - Candle (1st Room 2)"
+    TR_CANDLE_1ST_ROOM_3 = "Tower Roots - Candle (1st Room 3)"
 
     CD_CROWN = "Cyclops Den - Prince's Crown"
     CD_ATTACK = "Cyclops Den - Attack +1"
@@ -358,6 +445,10 @@ class LocationName(str, Enum):
     CD_CRYSTAL_START = "Cyclops Den - Crystal (Start)"
     CD_CRYSTAL_CAMPFIRE = "Cyclops Den - Crystal (Campfire)"
     CD_CRYSTAL_STEPS = "Cyclops Den - Crystal (Steps)"
+    CD_CANDLE_1 = "Cyclops Den - Candle 1"
+    CD_CANDLE_CAMPFIRE_2_1 = "Cyclops Den - Candle (2nd Campfire 1)"
+    CD_CANDLE_CAMPFIRE_2_2 = "Cyclops Den - Candle (2nd Campfire 2)"
+    CD_CANDLE_TOP_CAMPFIRE = "Cyclops Den - Candle (Top Campfire)"
 
     CATH_BLOCK = "Cathedral - Magic Block"
     CATH_ATTACK = "Cathedral - Attack +1"
@@ -377,6 +468,8 @@ class LocationName(str, Enum):
     CATH_CRYSTAL_ORBS = "Cathedral - Crystal (Orbs)"
     CATH_FACE_LEFT = "Cathedral - Face (Left)"
     CATH_FACE_RIGHT = "Cathedral - Face (Right)"
+    CATH_CANDLE_TOP_1 = "Cathedral - Candle (Top 1)"
+    CATH_CANDLE_TOP_2 = "Cathedral - Candle (Top 2)"
 
     SP_STAR = "Serpent Path - Morning Star"
     SP_ATTACK = "Serpent Path - Attack +1"
@@ -679,7 +772,7 @@ location_table: Dict[str, LocationData] = {
     LocationName.MECH_SWITCH_TO_BOSS_2.value: LocationData(
         RegionName.MECH_BOSS_SWITCHES, LocationGroup.SWITCH, Area.MECH
     ),
-    LocationName.MECH_SWITCH_POTS.value: LocationData(RegionName.MECH_POTS, LocationGroup.SWITCH, Area.MECH),
+    LocationName.MECH_SWITCH_POTS.value: LocationData(RegionName.MECH_BELOW_POTS, LocationGroup.SWITCH, Area.MECH),
     LocationName.MECH_SWITCH_MAZE_BACKDOOR.value: LocationData(
         RegionName.HOTP_FALL_BOTTOM, LocationGroup.SWITCH, Area.MECH
     ),
@@ -703,7 +796,7 @@ location_table: Dict[str, LocationData] = {
     LocationName.MECH_SWITCH_SNAKE_2.value: LocationData(RegionName.MECH_SNAKE, LocationGroup.SWITCH, Area.MECH),
     LocationName.MECH_SWITCH_KEY_BLOCKS.value: LocationData(RegionName.MECH_CHAINS, LocationGroup.SWITCH, Area.MECH),
     LocationName.MECH_SWITCH_CANNON.value: LocationData(RegionName.MECH_START, LocationGroup.SWITCH, Area.MECH),
-    LocationName.MECH_SWITCH_EYEBALL.value: LocationData(RegionName.MECH_RIGHT, LocationGroup.SWITCH, Area.MECH),
+    LocationName.MECH_SWITCH_EYEBALL.value: LocationData(RegionName.MECH_BELOW_POTS, LocationGroup.SWITCH, Area.MECH),
     LocationName.MECH_SWITCH_INVISIBLE.value: LocationData(RegionName.MECH_RIGHT, LocationGroup.SWITCH, Area.MECH),
     LocationName.MECH_CRYSTAL_CANNON.value: LocationData(RegionName.MECH_START, LocationGroup.SWITCH, Area.MECH),
     LocationName.MECH_CRYSTAL_LINUS.value: LocationData(RegionName.MECH_START, LocationGroup.SWITCH, Area.MECH),
@@ -896,7 +989,7 @@ location_table: Dict[str, LocationData] = {
         RegionName.CATA_DOUBLE_SWITCH, LocationGroup.SWITCH, Area.CATA
     ),
     LocationName.CATA_SWITCH_DEV_ROOM.value: LocationData(
-        RegionName.CATA_DEV_ROOM_CONNECTION, LocationGroup.SWITCH, Area.CATA
+        RegionName.CATA_SNAKE_MUSHROOMS, LocationGroup.SWITCH, Area.CATA
     ),
     LocationName.CATA_SWITCH_AFTER_BLUE_DOOR.value: LocationData(
         RegionName.CATA_BLUE_EYE_DOOR, LocationGroup.SWITCH, Area.CATA
@@ -966,6 +1059,154 @@ location_table: Dict[str, LocationData] = {
     LocationName.SP_CRYSTAL_STAR.value: LocationData(RegionName.SP_SHAFT, LocationGroup.SWITCH, Area.SP),
     LocationName.MECH_CYCLOPS.value: LocationData(RegionName.MECH_ZEEK, LocationGroup.ITEM, Area.MECH),
     LocationName.CD_CROWN.value: LocationData(RegionName.CD_BOSS, LocationGroup.ITEM, Area.CD),
+    LocationName.GT_CANDLE_LINUS.value: LocationData(RegionName.GT_BOTTOM, LocationGroup.CANDLE, Area.GT),
+    LocationName.GT_CANDLE_1ST_CYCLOPS.value: LocationData(RegionName.GT_LEFT, LocationGroup.CANDLE, Area.GT),
+    LocationName.GT_CANDLE_BOSS.value: LocationData(RegionName.GT_BOSS, LocationGroup.CANDLE, Area.GT),
+    LocationName.GT_CANDLE_BOTTOM.value: LocationData(RegionName.GT_BOTTOM, LocationGroup.CANDLE, Area.GT),
+    LocationName.MECH_CANDLE_ROOTS.value: LocationData(RegionName.MECH_ROOTS, LocationGroup.CANDLE, Area.MECH),
+    LocationName.MECH_CANDLE_BOTTOM.value: LocationData(
+        RegionName.MECH_BOTTOM_CAMPFIRE, LocationGroup.CANDLE, Area.MECH
+    ),
+    LocationName.MECH_CANDLE_CHAINS.value: LocationData(RegionName.MECH_CHAINS_CANDLE, LocationGroup.CANDLE, Area.MECH),
+    LocationName.MECH_CANDLE_RIGHT.value: LocationData(RegionName.MECH_SPLIT_PATH, LocationGroup.CANDLE, Area.MECH),
+    LocationName.MECH_CANDLE_POTS.value: LocationData(RegionName.MECH_BELOW_POTS, LocationGroup.CANDLE, Area.MECH),
+    LocationName.MECH_CANDLE_BOSS_1.value: LocationData(
+        RegionName.MECH_BOSS_CONNECTION, LocationGroup.CANDLE, Area.MECH
+    ),
+    LocationName.MECH_CANDLE_BOSS_2.value: LocationData(RegionName.MECH_BOSS, LocationGroup.CANDLE, Area.MECH),
+    LocationName.MECH_CANDLE_SLIMES.value: LocationData(
+        RegionName.MECH_CLOAK_CONNECTION, LocationGroup.CANDLE, Area.MECH
+    ),
+    LocationName.MECH_CANDLE_ZEEK.value: LocationData(RegionName.MECH_ZEEK_CONNECTION, LocationGroup.CANDLE, Area.MECH),
+    LocationName.MECH_CANDLE_MAZE_BACKDOOR.value: LocationData(
+        RegionName.HOTP_FALL_BOTTOM, LocationGroup.CANDLE, Area.MECH
+    ),
+    LocationName.MECH_CANDLE_CD_ACCESS_1.value: LocationData(
+        RegionName.MECH_CD_ACCESS, LocationGroup.CANDLE, Area.MECH
+    ),
+    LocationName.MECH_CANDLE_CD_ACCESS_2.value: LocationData(
+        RegionName.MECH_CD_ACCESS, LocationGroup.CANDLE, Area.MECH
+    ),
+    LocationName.MECH_CANDLE_CD_ACCESS_3.value: LocationData(
+        RegionName.MECH_CD_ACCESS, LocationGroup.CANDLE, Area.MECH
+    ),
+    LocationName.MECH_CANDLE_1ST_ROOM.value: LocationData(RegionName.MECH_START, LocationGroup.CANDLE, Area.MECH),
+    LocationName.MECH_CANDLE_BK.value: LocationData(RegionName.MECH_BK, LocationGroup.CANDLE, Area.MECH),
+    LocationName.MECH_CANDLE_CAMPFIRE_R.value: LocationData(RegionName.MECH_RIGHT, LocationGroup.CANDLE, Area.MECH),
+    LocationName.HOTP_CANDLE_1ST_ROOM.value: LocationData(RegionName.HOTP_START, LocationGroup.CANDLE, Area.HOTP),
+    LocationName.HOTP_CANDLE_LOWER.value: LocationData(RegionName.HOTP_LOWER, LocationGroup.CANDLE, Area.HOTP),
+    LocationName.HOTP_CANDLE_BELL.value: LocationData(RegionName.HOTP_BELL_CAMPFIRE, LocationGroup.CANDLE, Area.HOTP),
+    LocationName.HOTP_CANDLE_EYEBALL.value: LocationData(RegionName.HOTP_EYEBALL, LocationGroup.CANDLE, Area.HOTP),
+    LocationName.HOTP_CANDLE_OLD_MAN.value: LocationData(RegionName.HOTP_ELEVATOR, LocationGroup.CANDLE, Area.HOTP),
+    LocationName.HOTP_CANDLE_BEFORE_CLAW.value: LocationData(RegionName.HOTP_TOP_LEFT, LocationGroup.CANDLE, Area.HOTP),
+    LocationName.HOTP_CANDLE_CLAW_CAMPFIRE.value: LocationData(
+        RegionName.HOTP_CLAW_CAMPFIRE, LocationGroup.CANDLE, Area.HOTP
+    ),
+    LocationName.HOTP_CANDLE_TP_PUZZLE.value: LocationData(
+        RegionName.HOTP_BOSS_CAMPFIRE, LocationGroup.CANDLE, Area.HOTP
+    ),
+    LocationName.HOTP_CANDLE_BOSS.value: LocationData(RegionName.HOTP_BOSS_CAMPFIRE, LocationGroup.CANDLE, Area.HOTP),
+    LocationName.HOTP_CANDLE_TP_FALL.value: LocationData(RegionName.HOTP_TP_FALL_TOP, LocationGroup.CANDLE, Area.HOTP),
+    LocationName.HOTP_CANDLE_UPPER_VOID_1.value: LocationData(
+        RegionName.HOTP_UPPER_VOID, LocationGroup.CANDLE, Area.HOTP
+    ),
+    LocationName.HOTP_CANDLE_UPPER_VOID_2.value: LocationData(
+        RegionName.HOTP_UPPER_VOID, LocationGroup.CANDLE, Area.HOTP
+    ),
+    LocationName.HOTP_CANDLE_UPPER_VOID_3.value: LocationData(
+        RegionName.HOTP_UPPER_VOID, LocationGroup.CANDLE, Area.HOTP
+    ),
+    LocationName.HOTP_CANDLE_UPPER_VOID_4.value: LocationData(
+        RegionName.HOTP_UPPER_VOID, LocationGroup.CANDLE, Area.HOTP
+    ),
+    LocationName.HOTP_CANDLE_ELEVATOR.value: LocationData(RegionName.HOTP_ELEVATOR, LocationGroup.CANDLE, Area.HOTP),
+    LocationName.ROA_CANDLE_1ST_ROOM.value: LocationData(RegionName.ROA_START, LocationGroup.CANDLE, Area.ROA),
+    LocationName.ROA_CANDLE_3_REAPERS.value: LocationData(RegionName.ROA_LEFT_ASCENT, LocationGroup.CANDLE, Area.ROA),
+    LocationName.ROA_CANDLE_MIDDLE_CAMPFIRE.value: LocationData(RegionName.ROA_MIDDLE, LocationGroup.CANDLE, Area.ROA),
+    LocationName.ROA_CANDLE_LADDER_BOTTOM.value: LocationData(RegionName.ROA_MIDDLE, LocationGroup.CANDLE, Area.ROA),
+    LocationName.ROA_CANDLE_SHAFT.value: LocationData(RegionName.ROA_UPPER_VOID, LocationGroup.CANDLE, Area.ROA),
+    LocationName.ROA_CANDLE_SHAFT_TOP.value: LocationData(RegionName.ROA_SP_CONNECTION, LocationGroup.CANDLE, Area.ROA),
+    LocationName.ROA_CANDLE_ABOVE_CENTAUR.value: LocationData(
+        RegionName.ROA_SP_CONNECTION, LocationGroup.CANDLE, Area.ROA
+    ),
+    LocationName.ROA_CANDLE_BABY_GORGON.value: LocationData(RegionName.ROA_ELEVATOR, LocationGroup.CANDLE, Area.ROA),
+    LocationName.ROA_CANDLE_TOP_CENTAUR.value: LocationData(RegionName.ROA_CENTAUR, LocationGroup.CANDLE, Area.ROA),
+    LocationName.ROA_CANDLE_HIDDEN_1.value: LocationData(RegionName.ROA_MIDDLE_LADDER, LocationGroup.CANDLE, Area.ROA),
+    LocationName.ROA_CANDLE_HIDDEN_2.value: LocationData(RegionName.ROA_MIDDLE_LADDER, LocationGroup.CANDLE, Area.ROA),
+    LocationName.ROA_CANDLE_HIDDEN_3.value: LocationData(RegionName.ROA_MIDDLE_LADDER, LocationGroup.CANDLE, Area.ROA),
+    LocationName.ROA_CANDLE_HIDDEN_4.value: LocationData(RegionName.ROA_MIDDLE_LADDER, LocationGroup.CANDLE, Area.ROA),
+    LocationName.ROA_CANDLE_HIDDEN_5.value: LocationData(RegionName.ROA_MIDDLE_LADDER, LocationGroup.CANDLE, Area.ROA),
+    LocationName.ROA_CANDLE_BOTTOM_ASCEND.value: LocationData(
+        RegionName.ROA_BOTTOM_ASCEND, LocationGroup.CANDLE, Area.ROA
+    ),
+    LocationName.ROA_CANDLE_BRANCH.value: LocationData(RegionName.ROA_RIGHT_BRANCH, LocationGroup.CANDLE, Area.ROA),
+    LocationName.ROA_CANDLE_ICARUS_1.value: LocationData(RegionName.ROA_ICARUS, LocationGroup.CANDLE, Area.ROA),
+    LocationName.ROA_CANDLE_ICARUS_2.value: LocationData(RegionName.ROA_ICARUS, LocationGroup.CANDLE, Area.ROA),
+    LocationName.ROA_CANDLE_ELEVATOR.value: LocationData(RegionName.ROA_ELEVATOR, LocationGroup.CANDLE, Area.ROA),
+    LocationName.ROA_CANDLE_ELEVATOR_CAMPFIRE.value: LocationData(
+        RegionName.ROA_ELEVATOR, LocationGroup.CANDLE, Area.ROA
+    ),
+    LocationName.ROA_CANDLE_BOSS_1.value: LocationData(RegionName.ROA_BOSS, LocationGroup.CANDLE, Area.ROA),
+    LocationName.ROA_CANDLE_BOSS_2.value: LocationData(RegionName.ROA_BOSS, LocationGroup.CANDLE, Area.ROA),
+    LocationName.ROA_CANDLE_SPIDERS.value: LocationData(RegionName.ROA_SPIDERS_1, LocationGroup.CANDLE, Area.ROA),
+    LocationName.ROA_CANDLE_SPIKE_BALLS.value: LocationData(RegionName.ROA_UPPER_VOID, LocationGroup.CANDLE, Area.ROA),
+    LocationName.ROA_CANDLE_LADDER_R.value: LocationData(RegionName.ROA_RIGHT_SWITCH_2, LocationGroup.CANDLE, Area.ROA),
+    LocationName.ROA_CANDLE_ARENA.value: LocationData(RegionName.ROA_ARENA, LocationGroup.CANDLE, Area.ROA),
+    LocationName.APEX_CANDLE_ELEVATOR.value: LocationData(RegionName.APEX, LocationGroup.CANDLE, Area.APEX),
+    LocationName.APEX_CANDLE_CHALICE_1.value: LocationData(
+        RegionName.APEX_CENTAUR_ACCESS, LocationGroup.CANDLE, Area.APEX
+    ),
+    LocationName.APEX_CANDLE_CHALICE_2.value: LocationData(
+        RegionName.APEX_CENTAUR_ACCESS, LocationGroup.CANDLE, Area.APEX
+    ),
+    LocationName.APEX_CANDLE_CHALICE_3.value: LocationData(
+        RegionName.APEX_CENTAUR_ACCESS, LocationGroup.CANDLE, Area.APEX
+    ),
+    LocationName.APEX_CANDLE_GARG_1.value: LocationData(RegionName.APEX, LocationGroup.CANDLE, Area.APEX),
+    LocationName.APEX_CANDLE_GARG_2.value: LocationData(RegionName.APEX, LocationGroup.CANDLE, Area.APEX),
+    LocationName.APEX_CANDLE_GARG_3.value: LocationData(RegionName.APEX, LocationGroup.CANDLE, Area.APEX),
+    LocationName.APEX_CANDLE_GARG_4.value: LocationData(RegionName.APEX, LocationGroup.CANDLE, Area.APEX),
+    LocationName.CATA_CANDLE_1ST_ROOM.value: LocationData(RegionName.CATA_START, LocationGroup.CANDLE, Area.CATA),
+    LocationName.CATA_CANDLE_ORB_MULTI.value: LocationData(RegionName.CATA_MULTI, LocationGroup.CANDLE, Area.CATA),
+    LocationName.CATA_CANDLE_AFTER_BOW.value: LocationData(
+        RegionName.CATA_BOW_CAMPFIRE, LocationGroup.CANDLE, Area.CATA
+    ),
+    LocationName.CATA_CANDLE_DEV_ROOM.value: LocationData(
+        RegionName.CATA_SNAKE_MUSHROOMS, LocationGroup.CANDLE, Area.CATA
+    ),
+    LocationName.CATA_CANDLE_GRIFFON.value: LocationData(
+        RegionName.CATA_DOUBLE_SWITCH, LocationGroup.CANDLE, Area.CATA
+    ),
+    LocationName.CATA_CANDLE_SHORTCUT.value: LocationData(
+        RegionName.CATA_VERTICAL_SHORTCUT, LocationGroup.CANDLE, Area.CATA
+    ),
+    LocationName.CATA_CANDLE_PRISON.value: LocationData(RegionName.CATA_BOSS, LocationGroup.CANDLE, Area.CATA),
+    LocationName.CATA_CANDLE_ABOVE_ROOTS_1.value: LocationData(
+        RegionName.CATA_ABOVE_ROOTS, LocationGroup.CANDLE, Area.CATA
+    ),
+    LocationName.CATA_CANDLE_ABOVE_ROOTS_2.value: LocationData(
+        RegionName.CATA_ABOVE_ROOTS, LocationGroup.CANDLE, Area.CATA
+    ),
+    LocationName.CATA_CANDLE_ABOVE_ROOTS_3.value: LocationData(
+        RegionName.CATA_ABOVE_ROOTS, LocationGroup.CANDLE, Area.CATA
+    ),
+    LocationName.CATA_CANDLE_ABOVE_ROOTS_4.value: LocationData(
+        RegionName.CATA_ABOVE_ROOTS, LocationGroup.CANDLE, Area.CATA
+    ),
+    LocationName.CATA_CANDLE_ABOVE_ROOTS_5.value: LocationData(
+        RegionName.CATA_ABOVE_ROOTS, LocationGroup.CANDLE, Area.CATA
+    ),
+    LocationName.CATA_CANDLE_VOID_R_1.value: LocationData(RegionName.CATA_VOID_R, LocationGroup.CANDLE, Area.CATA),
+    LocationName.CATA_CANDLE_VOID_R_2.value: LocationData(RegionName.CATA_VOID_R, LocationGroup.CANDLE, Area.CATA),
+    LocationName.TR_CANDLE_1ST_ROOM_1.value: LocationData(RegionName.TR_START, LocationGroup.CANDLE, Area.TR),
+    LocationName.TR_CANDLE_1ST_ROOM_2.value: LocationData(RegionName.TR_START, LocationGroup.CANDLE, Area.TR),
+    LocationName.TR_CANDLE_1ST_ROOM_3.value: LocationData(RegionName.TR_START, LocationGroup.CANDLE, Area.TR),
+    LocationName.CD_CANDLE_1.value: LocationData(RegionName.CD_START, LocationGroup.CANDLE, Area.CD),
+    LocationName.CD_CANDLE_CAMPFIRE_2_1.value: LocationData(RegionName.CD_MIDDLE, LocationGroup.CANDLE, Area.CD),
+    LocationName.CD_CANDLE_CAMPFIRE_2_2.value: LocationData(RegionName.CD_MIDDLE, LocationGroup.CANDLE, Area.CD),
+    LocationName.CD_CANDLE_TOP_CAMPFIRE.value: LocationData(RegionName.CD_TOP, LocationGroup.CANDLE, Area.CD),
+    LocationName.CATH_CANDLE_TOP_1.value: LocationData(RegionName.CATH_TOP, LocationGroup.CANDLE, Area.CATH),
+    LocationName.CATH_CANDLE_TOP_2.value: LocationData(RegionName.CATH_TOP, LocationGroup.CANDLE, Area.CATH),
     # LocationName.GT_OLD_MAN.value: LocationData(RegionName.GT_OLD_MAN, LocationGroup.FAMILIAR, Area.GT),
     # LocationName.MECH_OLD_MAN.value: LocationData(RegionName.MECH_OLD_MAN, LocationGroup.FAMILIAR, Area.MECH),
     # LocationName.HOTP_OLD_MAN.value: LocationData(RegionName.HOTP_OLD_MAN, LocationGroup.FAMILIAR, Area.HOTP),

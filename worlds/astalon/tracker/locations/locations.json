@@ -154,6 +154,9 @@
                 "sections": [
                     {
                         "name": "Gorgon Tomb - Linus' Map"
+                    },
+                    {
+                        "name": "Gorgon Tomb - Candle (Linus' Map)"
                     }
                 ],
                 "map_locations": [
@@ -438,6 +441,9 @@
                     {
                         "name": "Gorgon Tomb - Blue Key (Inside Wall)",
                         "visibility_rules": ["BLUE_ON"]
+                    },
+                    {
+                        "name": "Gorgon Tomb - Candle (Boss)"
                     }
                 ],
                 "map_locations": [
@@ -558,6 +564,9 @@
                 "sections": [
                     {
                         "name": "Gorgon Tomb - Switch (1st Cyclops)"
+                    },
+                    {
+                        "name": "Gorgon Tomb - Candle (1st Cyclops)"
                     }
                 ],
                 "map_locations": [
@@ -754,6 +763,26 @@
                         "map": "tomb",
                         "x": 390,
                         "y": 145
+                    }
+                ]
+            },
+            {
+                "name": "Gorgon Tomb - Before Bottom Campfire",
+                "sections": [
+                    {
+                        "name": "Gorgon Tomb - Candle (Bottom)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 685,
+                        "y": 1680
+                    },
+                    {
+                        "map": "tomb",
+                        "x": 330,
+                        "y": 305
                     }
                 ]
             },
@@ -1262,6 +1291,9 @@
                     {
                         "name": "Mechanism - Blue Key (Top Path)",
                         "visibility_rules": ["BLUE_ON"]
+                    },
+                    {
+                        "name": "Mechanism - Candle (Right Campfire)"
                     }
                 ],
                 "map_locations": [
@@ -1465,6 +1497,9 @@
                     },
                     {
                         "name": "Mechanism - Switch (Boss Access 2)"
+                    },
+                    {
+                        "name": "Mechanism - Candle (Boss 2)"
                     }
                 ],
                 "map_locations": [
@@ -1579,6 +1614,9 @@
                     },
                     {
                         "name": "Mechanism - Crystal (To Boss 3)"
+                    },
+                    {
+                        "name": "Mechanism - Candle (Boss 1)"
                     }
                 ],
                 "map_locations": [
@@ -1599,6 +1637,9 @@
                 "sections": [
                     {
                         "name": "Mechanism - Switch (Maze Backdoor)"
+                    },
+                    {
+                        "name": "Mechanism - Candle (Maze Backdoor)"
                     }
                 ],
                 "map_locations": [
@@ -1813,6 +1854,9 @@
                 "sections": [
                     {
                         "name": "Mechanism - Crystal (Slimes)"
+                    },
+                    {
+                        "name": "Mechanism - Candle (Slimes)"
                     }
                 ],
                 "map_locations": [
@@ -1873,6 +1917,9 @@
                 "sections": [
                     {
                         "name": "Mechanism - Crystal (1st Room)"
+                    },
+                    {
+                        "name": "Mechanism - Candle (1st Room)"
                     }
                 ],
                 "map_locations": [
@@ -1894,10 +1941,13 @@
                 ]
             },
             {
-                "name": "Mechanism - Beside Black Knight",
+                "name": "Mechanism - Before Black Knight",
                 "sections": [
                     {
                         "name": "Mechanism - Crystal (Black Knight)"
+                    },
+                    {
+                        "name": "Mechanism - Candle (Black Knight)"
                     }
                 ],
                 "map_locations": [
@@ -1910,6 +1960,152 @@
                         "map": "mechanism_and_hall",
                         "x": 925,
                         "y": 628
+                    }
+                ]
+            },
+            {
+                "name": "Mechanism - Beside Roots",
+                "sections": [
+                    {
+                        "name": "Mechanism - Candle (Roots)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 925,
+                        "y": 1400
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 925,
+                        "y": 710
+                    }
+                ]
+            },
+            {
+                "name": "Mechanism - Beside Bottom Campfire",
+                "sections": [
+                    {
+                        "name": "Mechanism - Candle (Bottom)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 1100,
+                        "y": 1600
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 1100,
+                        "y": 910
+                    }
+                ]
+            },
+            {
+                "name": "Mechanism - Chains Bottom",
+                "sections": [
+                    {
+                        "name": "Mechanism - Candle (Chains)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 980,
+                        "y": 1280
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 980,
+                        "y": 590
+                    }
+                ]
+            },
+            {
+                "name": "Mechanism - Right Cyclops",
+                "sections": [
+                    {
+                        "name": "Mechanism - Candle (Right)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 1160,
+                        "y": 1235
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 1160,
+                        "y": 550
+                    }
+                ]
+            },
+            {
+                "name": "Mechanism - Below Pots",
+                "sections": [
+                    {
+                        "name": "Mechanism - Candle (Pots)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 1160,
+                        "y": 1115
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 1160,
+                        "y": 425
+                    }
+                ]
+            },
+            {
+                "name": "Mechanism - Before Zeek",
+                "sections": [
+                    {
+                        "name": "Mechanism - Candle (Zeek)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 1100,
+                        "y": 1315
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 1100,
+                        "y": 630
+                    }
+                ]
+            },
+            {
+                "name": "Mechanism - Cyclops Den Access",
+                "sections": [
+                    {
+                        "name": "Mechanism - Candle (CD Access 1)"
+                    },
+                    {
+                        "name": "Mechanism - Candle (CD Access 2)"
+                    },
+                    {
+                        "name": "Mechanism - Candle (CD Access 3)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 1280,
+                        "y": 1030
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 1280,
+                        "y": 340
                     }
                 ]
             },
@@ -2717,6 +2913,9 @@
                 "sections": [
                     {
                         "name": "Hall of the Phantoms - Switch (1st Room)"
+                    },
+                    {
+                        "name": "Hall of the Phantoms - Candle (1st Room)"
                     }
                 ],
                 "map_locations": [
@@ -2877,6 +3076,9 @@
                 "sections": [
                     {
                         "name": "Hall of the Phantoms - Face (Old Man)"
+                    },
+                    {
+                        "name": "Hall of the Phantoms - Candle (Old Man)"
                     }
                 ],
                 "map_locations": [
@@ -2889,6 +3091,215 @@
                         "map": "mechanism_and_hall",
                         "x": 330,
                         "y": 343
+                    }
+                ]
+            },
+            {
+                "name": "Hall of the Phantoms - Lower",
+                "sections": [
+                    {
+                        "name": "Hall of the Phantoms - Candle (Lower)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 625,
+                        "y": 1275
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 625,
+                        "y": 590
+                    }
+                ]
+            },
+            {
+                "name": "Hall of the Phantoms - Before Bell",
+                "sections": [
+                    {
+                        "name": "Hall of the Phantoms - Candle (Bell)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 450,
+                        "y": 1275
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 450,
+                        "y": 590
+                    }
+                ]
+            },
+            {
+                "name": "Hall of the Phantoms - Eyeball",
+                "sections": [
+                    {
+                        "name": "Hall of the Phantoms - Candle (Eyeball)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 330,
+                        "y": 1195
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 330,
+                        "y": 510
+                    }
+                ]
+            },
+            {
+                "name": "Hall of the Phantoms - Before Claw",
+                "sections": [
+                    {
+                        "name": "Hall of the Phantoms - Candle (Before Claw)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 450,
+                        "y": 1030
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 450,
+                        "y": 345
+                    }
+                ]
+            },
+            {
+                "name": "Hall of the Phantoms - Claw Campfire",
+                "sections": [
+                    {
+                        "name": "Hall of the Phantoms - Candle (Claw Campfire)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 625,
+                        "y": 990
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 625,
+                        "y": 305
+                    }
+                ]
+            },
+            {
+                "name": "Hall of the Phantoms - Before Teleport Puzzle",
+                "sections": [
+                    {
+                        "name": "Hall of the Phantoms - Candle (Teleport Puzzle)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 685,
+                        "y": 870
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 685,
+                        "y": 180
+                    }
+                ]
+            },
+            {
+                "name": "Hall of the Phantoms - Boss Campfire",
+                "sections": [
+                    {
+                        "name": "Hall of the Phantoms - Candle (Boss)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 685,
+                        "y": 830
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 685,
+                        "y": 140
+                    }
+                ]
+            },
+            {
+                "name": "Hall of the Phantoms - Teleport Fall Top",
+                "sections": [
+                    {
+                        "name": "Hall of the Phantoms - Candle (Teleport Fall)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 925,
+                        "y": 870
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 925,
+                        "y": 180
+                    }
+                ]
+            },
+            {
+                "name": "Hall of the Phantoms - Below Upper Void",
+                "sections": [
+                    {
+                        "name": "Hall of the Phantoms - Candle (Upper Void 1)"
+                    },
+                    {
+                        "name": "Hall of the Phantoms - Candle (Upper Void 2)"
+                    },
+                    {
+                        "name": "Hall of the Phantoms - Candle (Upper Void 3)"
+                    },
+                    {
+                        "name": "Hall of the Phantoms - Candle (Upper Void 4)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 860,
+                        "y": 990
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 860,
+                        "y": 300
+                    }
+                ]
+            },
+            {
+                "name": "Hall of the Phantoms - Beside Elevator",
+                "sections": [
+                    {
+                        "name": "Hall of the Phantoms - Candle (Elevator)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 390,
+                        "y": 1115
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 390,
+                        "y": 425
                     }
                 ]
             },
@@ -2949,6 +3360,9 @@
                     },
                     {
                         "name": "Cyclops Den - Crystal (Backtrack)"
+                    },
+                    {
+                        "name": "Cyclops Den - Candle 1"
                     }
                 ],
                 "map_locations": [
@@ -3009,6 +3423,12 @@
                 "sections": [
                     {
                         "name": "Cyclops Den - Switch (Campfire)"
+                    },
+                    {
+                        "name": "Cyclops Den - Candle (2nd Campfire 1)"
+                    },
+                    {
+                        "name": "Cyclops Den - Candle (2nd Campfire 2)"
                     }
                 ],
                 "map_locations": [
@@ -3085,6 +3505,26 @@
                 ]
             },
             {
+                "name": "Cyclops Den - Top Campfire",
+                "sections": [
+                    {
+                        "name": "Cyclops Den - Candle (Top Campfire)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 1100,
+                        "y": 670
+                    },
+                    {
+                        "map": "mechanism_and_hall",
+                        "x": 1337,
+                        "y": 345
+                    }
+                ]
+            },
+            {
                 "name": "Cathedral - Magic Block",
                 "access_rules": ["$can_access_CATH"],
                 "sections": [
@@ -3096,6 +3536,12 @@
                     },
                     {
                         "name": "Cathedral - Crystal (Top Right)"
+                    },
+                    {
+                        "name": "Cathedral - Candle (Top 1)"
+                    },
+                    {
+                        "name": "Cathedral - Candle (Top 2)"
                     }
                 ],
                 "map_locations": [
@@ -3769,6 +4215,9 @@
                     {
                         "name": "Catacombs - White Key (Prison)",
                         "visibility_rules": ["WHITE_ON"]
+                    },
+                    {
+                        "name": "Catacombs - Candle (Prison)"
                     }
                 ],
                 "map_locations": [
@@ -3893,6 +4342,9 @@
                 "sections": [
                     {
                         "name": "Catacombs - Switch (Vertical Shortcut)"
+                    },
+                    {
+                        "name": "Catacombs - Candle (Vertical Shortcut)"
                     }
                 ],
                 "map_locations": [
@@ -3936,6 +4388,9 @@
                     },
                     {
                         "name": "Catacombs - Switch (Claw 2)"
+                    },
+                    {
+                        "name": "Catacombs - Candle (Griffon)"
                     }
                 ],
                 "map_locations": [
@@ -3979,6 +4434,9 @@
                 "sections": [
                     {
                         "name": "Catacombs - Switch (Dev Room)"
+                    },
+                    {
+                        "name": "Catacombs - Candle (Dev Room)"
                     }
                 ],
                 "map_locations": [
@@ -4062,6 +4520,9 @@
                 "sections": [
                     {
                         "name": "Catacombs - Switch (1st Room)"
+                    },
+                    {
+                        "name": "Catacombs - Candle (1st Room)"
                     }
                 ],
                 "map_locations": [
@@ -4105,6 +4566,9 @@
                 "sections": [
                     {
                         "name": "Catacombs - Face (After Bow)"
+                    },
+                    {
+                        "name": "Catacombs - Candle (After Bow)"
                     }
                 ],
                 "map_locations": [
@@ -4217,6 +4681,81 @@
                         "map": "catacombs",
                         "x": 452,
                         "y": 547
+                    }
+                ]
+            },
+            {
+                "name": "Catacombs - Orb Multiplier",
+                "sections": [
+                    {
+                        "name": "Catacombs - Candle (Orb Multiplier)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 625,
+                        "y": 1840
+                    },
+                    {
+                        "map": "catacombs",
+                        "x": 210,
+                        "y": 185
+                    }
+                ]
+            },
+            {
+                "name": "Catacombs - Above Roots",
+                "sections": [
+                    {
+                        "name": "Catacombs - Candle (Above Roots 1)"
+                    },
+                    {
+                        "name": "Catacombs - Candle (Above Roots 2)"
+                    },
+                    {
+                        "name": "Catacombs - Candle (Above Roots 3)"
+                    },
+                    {
+                        "name": "Catacombs - Candle (Above Roots 4)"
+                    },
+                    {
+                        "name": "Catacombs - Candle (Above Roots 5)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 625,
+                        "y": 1840
+                    },
+                    {
+                        "map": "catacombs",
+                        "x": 210,
+                        "y": 185
+                    }
+                ]
+            },
+            {
+                "name": "Catacombs - Void Right",
+                "sections": [
+                    {
+                        "name": "Catacombs - Candle (Void Right 1)"
+                    },
+                    {
+                        "name": "Catacombs - Candle (Void Right 2)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 980,
+                        "y": 2165
+                    },
+                    {
+                        "map": "catacombs",
+                        "x": 560,
+                        "y": 510
                     }
                 ]
             },
@@ -4438,6 +4977,32 @@
                 ]
             },
             {
+                "name": "Tower Roots - 1st Room",
+                "sections": [
+                    {
+                        "name": "Tower Roots - Candle (1st Room 1)"
+                    },
+                    {
+                        "name": "Tower Roots - Candle (1st Room 2)"
+                    },
+                    {
+                        "name": "Tower Roots - Candle (1st Room 3)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 745,
+                        "y": 2370
+                    },
+                    {
+                        "map": "catacombs",
+                        "x": 325,
+                        "y": 710
+                    }
+                ]
+            },
+            {
                 "name": "Ruins of Ash - Icarus Emblem",
                 "access_rules": ["$can_access_ROA_UPPER"],
                 "sections": [
@@ -4446,6 +5011,12 @@
                     },
                     {
                         "name": "Ruins of Ash - Switch (Icarus Emblem)"
+                    },
+                    {
+                        "name": "Ruins of Ash - Candle (Icarus 1)"
+                    },
+                    {
+                        "name": "Ruins of Ash - Candle (Icarus 2)"
                     }
                 ],
                 "map_locations": [
@@ -4549,6 +5120,9 @@
                     },
                     {
                         "name": "Ruins of Ash - Crystal (Branch Left)"
+                    },
+                    {
+                        "name": "Ruins of Ash - Candle (Branch)"
                     }
                 ],
                 "map_locations": [
@@ -4770,6 +5344,9 @@
                     },
                     {
                         "name": "Ruins of Ash - Crystal (Centaur)"
+                    },
+                    {
+                        "name": "Ruins of Ash - Candle (Top Centaur)"
                     }
                 ],
                 "map_locations": [
@@ -4796,6 +5373,9 @@
                     },
                     {
                         "name": "Ruins of Ash - Switch (Ascend)"
+                    },
+                    {
+                        "name": "Ruins of Ash - Candle (Bottom Ascend)"
                     }
                 ],
                 "map_locations": [
@@ -4864,6 +5444,9 @@
                 "sections": [
                     {
                         "name": "Ruins of Ash - Elevator 2"
+                    },
+                    {
+                        "name": "Ruins of Ash - Candle (Elevator)"
                     }
                 ],
                 "map_locations": [
@@ -5060,6 +5643,9 @@
                 "sections": [
                     {
                         "name": "Ruins of Ash - Switch (Above Centaur)"
+                    },
+                    {
+                        "name": "Ruins of Ash - Candle (Above Centaur)"
                     }
                 ],
                 "map_locations": [
@@ -5214,6 +5800,9 @@
                 "sections": [
                     {
                         "name": "Ruins of Ash - Crystal (1st Room)"
+                    },
+                    {
+                        "name": "Ruins of Ash - Candle (1st Room)"
                     }
                 ],
                 "map_locations": [
@@ -5262,6 +5851,9 @@
                     },
                     {
                         "name": "Ruins of Ash - Crystal (Ladder Left)"
+                    },
+                    {
+                        "name": "Ruins of Ash - Candle (Ladder Bottom)"
                     }
                 ],
                 "map_locations": [
@@ -5282,6 +5874,9 @@
                 "sections": [
                     {
                         "name": "Ruins of Ash - Crystal (Spike Balls)"
+                    },
+                    {
+                        "name": "Ruins of Ash - Candle (Spike Balls)"
                     }
                 ],
                 "map_locations": [
@@ -5322,6 +5917,9 @@
                 "sections": [
                     {
                         "name": "Ruins of Ash - Crystal (Shaft)"
+                    },
+                    {
+                        "name": "Ruins of Ash - Candle (Shaft)"
                     }
                 ],
                 "map_locations": [
@@ -5342,6 +5940,9 @@
                 "sections": [
                     {
                         "name": "Ruins of Ash - Face (Spiders)"
+                    },
+                    {
+                        "name": "Ruins of Ash - Candle (Spiders)"
                     }
                 ],
                 "map_locations": [
@@ -5354,6 +5955,201 @@
                         "map": "ruins",
                         "x": 802,
                         "y": 345
+                    }
+                ]
+            },
+            {
+                "name": "Ruins of Ash - Left Eyeball",
+                "sections": [
+                    {
+                        "name": "Ruins of Ash - Candle (3 Reapers)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 745,
+                        "y": 710
+                    },
+                    {
+                        "map": "ruins",
+                        "x": 630,
+                        "y": 710
+                    }
+                ]
+            },
+            {
+                "name": "Ruins of Ash - Middle Campfire",
+                "sections": [
+                    {
+                        "name": "Ruins of Ash - Candle (Middle Campfire)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 860,
+                        "y": 590
+                    },
+                    {
+                        "map": "ruins",
+                        "x": 740,
+                        "y": 590
+                    }
+                ]
+            },
+            {
+                "name": "Ruins of Ash - Shaft Top",
+                "sections": [
+                    {
+                        "name": "Ruins of Ash - Candle (Shaft Top)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 800,
+                        "y": 305
+                    },
+                    {
+                        "map": "ruins",
+                        "x": 685,
+                        "y": 305
+                    }
+                ]
+            },
+            {
+                "name": "Ruins of Ash - Baby Gorgon",
+                "sections": [
+                    {
+                        "name": "Ruins of Ash - Candle (Baby Gorgon)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 805,
+                        "y": 225
+                    },
+                    {
+                        "map": "ruins",
+                        "x": 685,
+                        "y": 225
+                    }
+                ]
+            },
+            {
+                "name": "Ruins of Ash - Hidden Candles",
+                "sections": [
+                    {
+                        "name": "Ruins of Ash - Candle (Hidden 1)"
+                    },
+                    {
+                        "name": "Ruins of Ash - Candle (Hidden 2)"
+                    },
+                    {
+                        "name": "Ruins of Ash - Candle (Hidden 3)"
+                    },
+                    {
+                        "name": "Ruins of Ash - Candle (Hidden 4)"
+                    },
+                    {
+                        "name": "Ruins of Ash - Candle (Hidden 5)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 920,
+                        "y": 470
+                    },
+                    {
+                        "map": "ruins",
+                        "x": 800,
+                        "y": 470
+                    }
+                ]
+            },
+            {
+                "name": "Ruins of Ash - Elevator Campfire",
+                "sections": [
+                    {
+                        "name": "Ruins of Ash - Candle (Elevator Campfire)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 865,
+                        "y": 225
+                    },
+                    {
+                        "map": "ruins",
+                        "x": 745,
+                        "y": 225
+                    }
+                ]
+            },
+            {
+                "name": "Ruins of Ash - Before Boss",
+                "sections": [
+                    {
+                        "name": "Ruins of Ash - Candle (Boss 1)"
+                    },
+                    {
+                        "name": "Ruins of Ash - Candle (Boss 2)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 625,
+                        "y": 60
+                    },
+                    {
+                        "map": "ruins",
+                        "x": 510,
+                        "y": 60
+                    }
+                ]
+            },
+            {
+                "name": "Ruins of Ash - Ladder",
+                "sections": [
+                    {
+                        "name": "Ruins of Ash - Candle (Ladder Right)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 800,
+                        "y": 510
+                    },
+                    {
+                        "map": "ruins",
+                        "x": 680,
+                        "y": 510
+                    }
+                ]
+            },
+            {
+                "name": "Ruins of Ash - Enemy Arena",
+                "sections": [
+                    {
+                        "name": "Ruins of Ash - Candle (Enemy Arena)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 865,
+                        "y": 710
+                    },
+                    {
+                        "map": "ruins",
+                        "x": 745,
+                        "y": 710
                     }
                 ]
             },
@@ -5495,6 +6291,9 @@
                     {
                         "name": "The Apex - Blue Key",
                         "visibility_rules": ["BLUE_ON"]
+                    },
+                    {
+                        "name": "The Apex - Candle"
                     }
                 ],
                 "map_locations": [
@@ -5547,6 +6346,78 @@
                         "map": "ruins",
                         "x": 802,
                         "y": 20
+                    }
+                ]
+            },
+            {
+                "name": "The Apex - Chalice Hallway 1",
+                "sections": [
+                    {
+                        "name": "The Apex - Candle (Chalice 1)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 980,
+                        "y": 140
+                    },
+                    {
+                        "map": "ruins",
+                        "x": 860,
+                        "y": 140
+                    }
+                ]
+            },
+            {
+                "name": "The Apex - Chalice Hallway 2",
+                "sections": [
+                    {
+                        "name": "The Apex - Candle (Chalice 2)"
+                    },
+                    {
+                        "name": "The Apex - Candle (Chalice 3)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 1040,
+                        "y": 140
+                    },
+                    {
+                        "map": "ruins",
+                        "x": 920,
+                        "y": 140
+                    }
+                ]
+            },
+            {
+                "name": "The Apex - Gargoyle",
+                "sections": [
+                    {
+                        "name": "The Apex - Candle (Gargoyle 1)"
+                    },
+                    {
+                        "name": "The Apex - Candle (Gargoyle 2)"
+                    },
+                    {
+                        "name": "The Apex - Candle (Gargoyle 3)"
+                    },
+                    {
+                        "name": "The Apex - Candle (Gargoyle 4)"
+                    }
+                ],
+                "map_locations": [
+                    {
+                        "map": "world_map",
+                        "x": 860,
+                        "y": 105
+                    },
+                    {
+                        "map": "ruins",
+                        "x": 740,
+                        "y": 105
                     }
                 ]
             },

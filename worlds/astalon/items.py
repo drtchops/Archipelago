@@ -28,6 +28,7 @@ class ItemGroup(str, Enum):
     SHOP = "Shop Upgrades"
     ELEVATOR = "Elevators"
     SWITCH = "Switches"
+    HEAL = "Heal"
 
 
 class Character(str, Enum):
@@ -396,6 +397,10 @@ class Face(str, Enum):
     CATH_R = "Face (Cathedral - Right)"
 
 
+class Heal(str, Enum):
+    HEAL_5 = "Heal HP +5"
+
+
 ItemName: TypeAlias = Union[
     Character,
     Eye,
@@ -412,6 +417,7 @@ ItemName: TypeAlias = Union[
     Switch,
     Crystal,
     Face,
+    Heal,
 ]
 
 
@@ -548,7 +554,11 @@ item_table: Dict[str, ItemData] = {
     BlueDoor.CATA_ROOTS.value: ItemData(ItemClassification.progression, 1, ItemGroup.DOOR_BLUE),
     BlueDoor.CATA_PRISON_CYCLOPS.value: ItemData(ItemClassification.filler, 1, ItemGroup.DOOR_BLUE),
     BlueDoor.CATA_PRISON_LEFT.value: ItemData(ItemClassification.filler, 1, ItemGroup.DOOR_BLUE),
-    BlueDoor.CATA_PRISON_RIGHT.value: ItemData(ItemClassification.filler, 1, ItemGroup.DOOR_BLUE),
+    BlueDoor.CATA_PRISON_RIGHT.value: ItemData(
+        lambda world: ItemClassification.progression if world.options.randomize_candles else ItemClassification.filler,
+        1,
+        ItemGroup.DOOR_BLUE,
+    ),
     BlueDoor.TR.value: ItemData(ItemClassification.progression, 1, ItemGroup.DOOR_BLUE),
     BlueDoor.SP.value: ItemData(ItemClassification.progression, 1, ItemGroup.DOOR_BLUE),
     RedDoor.ZEEK.value: ItemData(ItemClassification.progression, 1, ItemGroup.DOOR_RED),
@@ -798,6 +808,7 @@ item_table: Dict[str, ItemData] = {
     KeyItem.CYCLOPS.value: ItemData(ItemClassification.progression, 1, ItemGroup.ITEM),
     KeyItem.CROWN.value: ItemData(ItemClassification.progression, 1, ItemGroup.ITEM),
     Eye.GOLD.value: ItemData(ItemClassification.progression, 0, ItemGroup.EYE),
+    Heal.HEAL_5.value: ItemData(ItemClassification.filler, 92, ItemGroup.HEAL),
     # Familiar.MONSTER.value: ItemData(ItemClassification.useful, 3, ItemGroups.FAMILIAR),
     # Familiar.GIL.value: ItemData(ItemClassification.filler, 1, ItemGroups.FAMILIAR),
 }
@@ -815,4 +826,9 @@ item_name_groups: Dict[str, Set[str]] = {
     if group != ""
 }
 
-filler_items = list(item_name_groups[ItemGroup.ORBS.value])
+filler_items: Tuple[str, ...] = (
+    Orbs.ORBS_200.value,
+    Orbs.ORBS_500.value,
+    Orbs.ORBS_1000.value,
+    Heal.HEAL_5.value,
+)

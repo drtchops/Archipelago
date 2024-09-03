@@ -377,15 +377,17 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
             or rules.switches(state, Switch.MECH_CHAINS, disabled_case=False)
         )
     ),
+    (R.MECH_AFTER_BK, R.MECH_CHAINS_CANDLE): lambda rules, state: (
+        rules.has(state, KeyItem.CLAW) or rules.white_doors(state, WhiteDoor.MECH_BK, disabled_case=True)
+    ),
     (R.MECH_AFTER_BK, R.MECH_CHAINS): lambda rules, state: (
-        rules.has(state, KeyItem.CLAW)
-        or rules.white_doors(state, WhiteDoor.MECH_BK, disabled_case=True)
-        or rules.switches(state, Switch.MECH_CHAINS, disabled_case=False)
+        rules.switches(state, Switch.MECH_CHAINS, disabled_case=False)
     ),
     (R.MECH_AFTER_BK, R.MECH_BK): lambda rules, state: (
         rules.switches(state, Crystal.MECH_BK, disabled_case=(rules.hard and rules.has(state, ShopUpgrade.KYULI_RAY)))
     ),
     (R.MECH_AFTER_BK, R.HOTP_EPIMETHEUS): lambda rules, state: rules.has(state, KeyItem.CLAW),
+    (R.MECH_CHAINS, R.MECH_CHAINS_CANDLE): lambda rules, state: rules.has(state, KeyItem.CLAW),
     (R.MECH_CHAINS, R.MECH_ARIAS_EYEBALL): lambda rules, state: rules.has(state, Character.ARIAS),
     (R.MECH_CHAINS, R.MECH_SPLIT_PATH): lambda rules, state: (
         rules.switches(state, Switch.MECH_SPLIT_PATH, disabled_case=True)
@@ -404,7 +406,7 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
         )
     ),
     (R.MECH_CHAINS, R.MECH_AFTER_BK): lambda rules, state: (
-        rules.has(state, KeyItem.CLAW) or rules.switches(state, Switch.MECH_CHAINS, disabled_case=True)
+        rules.switches(state, Switch.MECH_CHAINS, disabled_case=True)
     ),
     (R.MECH_ARIAS_EYEBALL, R.MECH_ZEEK_CONNECTION): lambda rules, state: (
         rules.switches(state, Switch.MECH_ARIAS, disabled_case=True) or rules.has(state, KeyItem.STAR, KeyItem.BELL)
@@ -450,12 +452,9 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
         or rules.has(state, Character.KYULI, KeyItem.BLOCK, KeyItem.BELL)
     ),
     (R.MECH_RIGHT, R.MECH_SPLIT_PATH): lambda rules, state: rules.has(state, KeyItem.STAR),
-    (R.MECH_RIGHT, R.MECH_POTS): lambda rules, state: (
-        rules.switches(state, Switch.MECH_POTS, disabled_case=True)
-        and (
-            rules.white_doors(state, WhiteDoor.MECH_ARENA, disabled_case=True)
-            or rules.switches(state, Switch.MECH_EYEBALL, disabled_case=False)
-        )
+    (R.MECH_RIGHT, R.MECH_BELOW_POTS): lambda rules, state: (
+        rules.white_doors(state, WhiteDoor.MECH_ARENA, disabled_case=True)
+        or rules.switches(state, Switch.MECH_EYEBALL, disabled_case=False)
     ),
     (R.MECH_RIGHT, R.MECH_UPPER_VOID): lambda rules, state: (
         rules.switches(state, Switch.MECH_UPPER_VOID, disabled_case=False)
@@ -465,20 +464,19 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
         rules.switches(state, Switch.MECH_UPPER_VOID, disabled_case=True)
     ),
     (R.MECH_UPPER_VOID, R.MECH_LOWER_VOID): lambda rules, state: rules.has(state, KeyItem.VOID),
-    (R.MECH_POTS, R.MECH_RIGHT): lambda rules, state: (
-        rules.switches(state, Switch.MECH_POTS, disabled_case=False)
-        and (
-            rules.white_doors(state, WhiteDoor.MECH_ARENA, disabled_case=True)
-            or rules.switches(state, Switch.MECH_EYEBALL, disabled_case=True)
-        )
+    (R.MECH_BELOW_POTS, R.MECH_RIGHT): lambda rules, state: (
+        rules.white_doors(state, WhiteDoor.MECH_ARENA, disabled_case=True)
+        or rules.switches(state, Switch.MECH_EYEBALL, disabled_case=True)
     ),
+    (R.MECH_BELOW_POTS, R.MECH_POTS): lambda rules, state: rules.switches(state, Switch.MECH_POTS, disabled_case=True),
+    (R.MECH_POTS, R.MECH_BELOW_POTS): lambda rules, state: rules.switches(state, Switch.MECH_POTS, disabled_case=False),
     (R.MECH_POTS, R.MECH_TOP): lambda rules, state: rules.switches(state, Switch.MECH_POTS, disabled_case=True),
     (R.MECH_TOP, R.MECH_POTS): lambda rules, state: rules.switches(state, Switch.MECH_POTS, disabled_case=False),
     (R.MECH_TOP, R.MECH_TP_CONNECTION): lambda rules, state: (
         rules.has(state, KeyItem.CLAW) or rules.white_doors(state, WhiteDoor.MECH_TOP, disabled_case=True)
     ),
-    (R.MECH_TOP, R.CD_START): lambda rules, state: (
-        rules.has(state, KeyItem.CYCLOPS, Eye.BLUE)
+    (R.MECH_TOP, R.MECH_CD_ACCESS): lambda rules, state: (
+        rules.has(state, Eye.BLUE)
         and rules.blue_doors(state, BlueDoor.MECH_CD, disabled_case=True)
         and (
             rules.switches(
@@ -489,6 +487,7 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
             or rules.has(state, Character.KYULI, KeyItem.BLOCK, KeyItem.BELL)
         )
     ),
+    (R.MECH_CD_ACCESS, R.CD_START): lambda rules, state: rules.has(state, KeyItem.CYCLOPS),
     (R.MECH_TOP, R.MECH_TRIPLE_SWITCHES): lambda rules, state: (
         rules.can(state, Logic.CRYSTAL)
         and rules.switches(
@@ -1069,12 +1068,12 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
     (R.APEX, R.HOTP_BOSS): lambda rules, state: rules.elevator(state, Elevator.ROA_1),
     (R.APEX, R.ROA_ELEVATOR): lambda rules, state: rules.elevator(state, Elevator.ROA_2),
     (R.APEX, R.GT_BOSS): lambda rules, state: rules.elevator(state, Elevator.GT_2),
-    (R.APEX, R.APEX_CENTAUR): lambda rules, state: (
-        rules.blue_doors(state, BlueDoor.APEX, disabled_case=True)
-        and rules.has(state, KeyItem.STAR, KeyItem.ADORNED_KEY)
+    (R.APEX, R.APEX_CENTAUR_ACCESS): lambda rules, state: (
+        rules.blue_doors(state, BlueDoor.APEX, disabled_case=True) and rules.has(state, KeyItem.STAR)
     ),
     (R.APEX, R.MECH_ZEEK_CONNECTION): lambda rules, state: rules.elevator(state, Elevator.MECH_1),
     (R.APEX, R.MECH_BOSS): lambda rules, state: rules.elevator(state, Elevator.MECH_2),
+    (R.APEX_CENTAUR_ACCESS, R.APEX_CENTAUR): lambda rules, state: rules.has(state, KeyItem.ADORNED_KEY),
     (R.CAVES_START, R.CAVES_EPIMETHEUS): lambda rules, state: (
         rules.blue_doors(state, BlueDoor.CAVES, disabled_case=True)
     ),
@@ -1187,6 +1186,7 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
         rules.switches(state, Switch.CATA_WATER_1, Switch.CATA_WATER_2, disabled_case=True)
     ),
     (R.CATA_ROOTS_CAMPFIRE, R.CATA_BLUE_EYE_DOOR): lambda rules, state: rules.has(state, Eye.BLUE),
+    (R.CATA_ROOTS_CAMPFIRE, R.CATA_ABOVE_ROOTS): lambda rules, state: rules.has(state, KeyItem.CLAW),
     (R.CATA_ROOTS_CAMPFIRE, R.CATA_POISON_ROOTS): lambda rules, state: (
         rules.blue_doors(state, BlueDoor.CATA_ROOTS, disabled_case=True) and rules.has(state, Character.KYULI)
     ),
@@ -1689,9 +1689,6 @@ SWITCH_RULES: Dict[L, AstalonRule] = {
     L.MECH_SWITCH_CANNON: lambda rules, state: (
         rules.switches(state, Crystal.MECH_CANNON, disabled_case=lambda rules, state: rules.can(state, Logic.CRYSTAL))
     ),
-    L.MECH_SWITCH_EYEBALL: lambda rules, state: (
-        rules.white_doors(state, WhiteDoor.MECH_ARENA, disabled_case=True) or rules.region(R.MECH_POTS).can_reach(state)
-    ),
     L.MECH_SWITCH_ARIAS: lambda rules, state: rules.has(state, Character.ARIAS),
     L.MECH_CRYSTAL_CANNON: lambda rules, state: rules.can(state, Logic.CRYSTAL),
     L.MECH_CRYSTAL_LINUS: lambda rules, state: rules.can(state, Logic.CRYSTAL),
@@ -1810,6 +1807,13 @@ SWITCH_RULES: Dict[L, AstalonRule] = {
     L.SP_SWITCH_AFTER_STAR: lambda rules, state: rules.has(state, Character.ARIAS),
     L.SP_CRYSTAL_BLOCKS: lambda rules, state: rules.can(state, Logic.CRYSTAL),
     L.SP_CRYSTAL_STAR: lambda rules, state: rules.can(state, Logic.CRYSTAL),
+}
+
+CANDLE_RULES: Dict[L, AstalonRule] = {
+    L.CATA_CANDLE_DEV_ROOM: lambda rules, state: (
+        rules.has(state, KeyItem.CLAW) or rules.switches(state, Switch.CATA_DEV_ROOM, disabled_case=True)
+    ),
+    L.CATA_CANDLE_PRISON: lambda rules, state: rules.blue_doors(state, BlueDoor.CATA_PRISON_RIGHT, disabled_case=True),
 }
 
 VANILLA_CHARACTERS = frozenset((Character.ALGUS, Character.ARIAS, Character.KYULI))
@@ -2041,6 +2045,7 @@ class AstalonRules:
             RED_KEY_RULES,
             SHOP_RULES,
             SWITCH_RULES,
+            CANDLE_RULES,
         )
         for rules in all_rules:
             if location in rules:
@@ -2111,6 +2116,10 @@ class AstalonRules:
 
         if self.options.randomize_switches:
             for location, rule in SWITCH_RULES.items():
+                set_rule(self.location(location), partial(rule, self))
+
+        if self.options.randomize_candles:
+            for location, rule in CANDLE_RULES.items():
                 set_rule(self.location(location), partial(rule, self))
 
         for (character, location), rule in CHARACTER_RULES.items():

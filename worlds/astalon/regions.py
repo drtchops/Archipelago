@@ -54,6 +54,7 @@ class RegionName(str, Enum):
     MECH_MUSIC = "Mechanism - Music"
     MECH_BK = "Mechanism - BK"
     MECH_AFTER_BK = "Mechanism - After BK"
+    MECH_CHAINS_CANDLE = "Mechanism - Chains Candle"
     MECH_CHAINS = "Mechanism - Chains"
     MECH_ARIAS_EYEBALL = "Mechanism - Arias Eyeball"
     MECH_TRIPLE_SWITCHES = "Mechanism - Triple Switches"
@@ -63,8 +64,10 @@ class RegionName(str, Enum):
     MECH_RIGHT = "Mechanism - Right"
     MECH_OLD_MAN = "Mechanism - Old Man"
     MECH_UPPER_VOID = "Mechanism - Upper Void"
+    MECH_BELOW_POTS = "Mechanism - Below Pots"
     MECH_POTS = "Mechanism - Pots"
     MECH_TOP = "Mechanism - Top"
+    MECH_CD_ACCESS = "Mechanism - Cyclops Den Access"
     MECH_TP_CONNECTION = "Mechanism - Teleport Connection"
     MECH_CHARACTER_SWAPS = "Mechanism - Character Swaps"
     MECH_CLOAK_CONNECTION = "Mechanism - Cloak Connection"
@@ -156,6 +159,7 @@ class RegionName(str, Enum):
     DARK_END = "Darkness - End"
 
     APEX = "The Apex"
+    APEX_CENTAUR_ACCESS = "The Apex - Centaur Access"
     APEX_CENTAUR = "The Apex - Centaur"
     APEX_HEART = "The Apex - Heart"
 
@@ -181,6 +185,7 @@ class RegionName(str, Enum):
     CATA_DEV_ROOM = "Catacombs - Dev Room"
     CATA_DOUBLE_SWITCH = "Catacombs - Double Switch"
     CATA_ROOTS_CAMPFIRE = "Catacombs - Roots Campfire"
+    CATA_ABOVE_ROOTS = "Catacombs - Above Roots"
     CATA_POISON_ROOTS = "Catacombs - Poison Roots"
     CATA_BLUE_EYE_DOOR = "Catacombs - Blue Eye Door"
     CATA_FLAMES_FORK = "Catacombs - Flames Fork"
@@ -513,15 +518,23 @@ astalon_regions: Dict[RegionName, RegionData] = {
     RegionName.MECH_AFTER_BK: RegionData(
         exits={
             RegionName.MECH_BK,
+            RegionName.MECH_CHAINS_CANDLE,
             RegionName.MECH_CHAINS,
             RegionName.HOTP_EPIMETHEUS,
         },
         multiplier=True,
         statue=True,
     ),
+    RegionName.MECH_CHAINS_CANDLE: RegionData(
+        exits={
+            RegionName.MECH_AFTER_BK,
+            RegionName.MECH_CHAINS,
+        },
+    ),
     RegionName.MECH_CHAINS: RegionData(
         exits={
             RegionName.MECH_AFTER_BK,
+            RegionName.MECH_CHAINS_CANDLE,
             RegionName.MECH_ARIAS_EYEBALL,
             RegionName.MECH_SPLIT_PATH,
             RegionName.MECH_BOSS_SWITCHES,
@@ -565,7 +578,7 @@ astalon_regions: Dict[RegionName, RegionData] = {
             RegionName.MECH_SPLIT_PATH,
             RegionName.MECH_OLD_MAN,
             RegionName.MECH_UPPER_VOID,
-            RegionName.MECH_POTS,
+            RegionName.MECH_BELOW_POTS,
         },
         campfire=True,
     ),
@@ -577,9 +590,15 @@ astalon_regions: Dict[RegionName, RegionData] = {
         },
         portal=True,
     ),
-    RegionName.MECH_POTS: RegionData(
+    RegionName.MECH_BELOW_POTS: RegionData(
         exits={
             RegionName.MECH_RIGHT,
+            RegionName.MECH_POTS,
+        }
+    ),
+    RegionName.MECH_POTS: RegionData(
+        exits={
+            RegionName.MECH_BELOW_POTS,
             RegionName.MECH_TOP,
         },
     ),
@@ -588,9 +607,12 @@ astalon_regions: Dict[RegionName, RegionData] = {
             RegionName.MECH_TRIPLE_SWITCHES,
             RegionName.MECH_POTS,
             RegionName.MECH_TP_CONNECTION,
-            RegionName.CD_START,
+            RegionName.MECH_CD_ACCESS,
         },
         campfire=True,
+    ),
+    RegionName.MECH_CD_ACCESS: RegionData(
+        exits={RegionName.CD_START},
     ),
     RegionName.MECH_TP_CONNECTION: RegionData(
         exits={
@@ -1157,7 +1179,7 @@ astalon_regions: Dict[RegionName, RegionData] = {
             RegionName.ROA_ELEVATOR,
             RegionName.FINAL_BOSS,
             RegionName.ROA_APEX_CONNECTION,
-            RegionName.APEX_CENTAUR,
+            RegionName.APEX_CENTAUR_ACCESS,
             RegionName.APEX_HEART,
             RegionName.CATA_ELEVATOR,
             RegionName.CATA_BOSS,
@@ -1167,6 +1189,7 @@ astalon_regions: Dict[RegionName, RegionData] = {
         elevator=True,
         statue=True,
     ),
+    RegionName.APEX_CENTAUR_ACCESS: RegionData(exits={RegionName.APEX_CENTAUR}),
     RegionName.APEX_CENTAUR: RegionData(boss=True),
     RegionName.APEX_HEART: RegionData(),
     RegionName.CAVES_START: RegionData(
@@ -1288,11 +1311,13 @@ astalon_regions: Dict[RegionName, RegionData] = {
     RegionName.CATA_ROOTS_CAMPFIRE: RegionData(
         exits={
             RegionName.CATA_DOUBLE_SWITCH,
+            RegionName.CATA_ABOVE_ROOTS,
             RegionName.CATA_POISON_ROOTS,
             RegionName.CATA_BLUE_EYE_DOOR,
         },
         campfire=True,
     ),
+    RegionName.CATA_ABOVE_ROOTS: RegionData(),
     RegionName.CATA_POISON_ROOTS: RegionData(),
     RegionName.CATA_BLUE_EYE_DOOR: RegionData(
         exits={
