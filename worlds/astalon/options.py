@@ -190,6 +190,8 @@ class RandomizeElevator(Toggle):
 class RandomizeCandles(Toggle):
     """
     Choose whether to randomize the reward gained from breaking candles.
+    Breaking a candle the first time will complete a check,
+    restoring and breaking it subsequent times will restore health as normal.
     """
 
     display_name = "Randomize Candles"
