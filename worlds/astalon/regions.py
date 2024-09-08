@@ -94,7 +94,10 @@ class RegionName(str, Enum):
     HOTP_BELL = "Hall of the Phantoms - Bell"
     HOTP_CATH_CONNECTION = "Hall of the Phantoms - Cathedral Connection"
     HOTP_LOWER_ARIAS = "Hall of the Phantoms - Lower Arias"
+    HOTP_GHOST_BLOOD = "Hall of the Phantoms - Ghost Blood"
     HOTP_EYEBALL = "Hall of the Phantoms - Eyeball"
+    HOTP_SPIKE_TP_SECRET = "Hall of the Phantoms - Spike Teleporters Secret"
+    HOTP_WORM_SHORTCUT = "Hall of the Phantoms - Worm Pillar Shortcut"
     HOTP_ELEVATOR = "Hall of the Phantoms - Elevator"
     HOTP_OLD_MAN = "Hall of the Phantoms - Old Man"
     HOTP_CLAW_LEFT = "Hall of the Phantoms - Claw Left"
@@ -771,12 +774,26 @@ astalon_regions: Dict[RegionName, RegionData] = {
     RegionName.HOTP_LOWER_ARIAS: RegionData(
         exits=(
             RegionName.HOTP_BELL_CAMPFIRE,
+            RegionName.HOTP_GHOST_BLOOD,
+        ),
+    ),
+    RegionName.HOTP_GHOST_BLOOD: RegionData(
+        exits=(
+            RegionName.HOTP_LOWER_ARIAS,
             RegionName.HOTP_EYEBALL,
+            RegionName.HOTP_WORM_SHORTCUT,
         ),
     ),
     RegionName.HOTP_EYEBALL: RegionData(
         exits=(
-            RegionName.HOTP_LOWER_ARIAS,
+            RegionName.HOTP_SPIKE_TP_SECRET,
+            RegionName.HOTP_ELEVATOR,
+        ),
+    ),
+    RegionName.HOTP_SPIKE_TP_SECRET: RegionData(),
+    RegionName.HOTP_WORM_SHORTCUT: RegionData(
+        exits=(
+            RegionName.HOTP_GHOST_BLOOD,
             RegionName.HOTP_ELEVATOR,
         ),
     ),
@@ -786,7 +803,8 @@ astalon_regions: Dict[RegionName, RegionData] = {
             RegionName.MECH_ZEEK_CONNECTION,
             RegionName.MECH_BOSS,
             RegionName.HOTP_START_LEFT,
-            RegionName.HOTP_EYEBALL,
+            RegionName.HOTP_SPIKE_TP_SECRET,
+            RegionName.HOTP_WORM_SHORTCUT,
             RegionName.HOTP_OLD_MAN,
             RegionName.HOTP_CLAW_LEFT,
             RegionName.HOTP_TOP_LEFT,
@@ -1017,6 +1035,7 @@ astalon_regions: Dict[RegionName, RegionData] = {
         exits=(
             RegionName.ROA_LEFT_ASCENT,
             RegionName.ROA_TRIPLE_SWITCH,
+            RegionName.ROA_MIDDLE,
         ),
     ),
     RegionName.ROA_TRIPLE_SWITCH: RegionData(
@@ -1028,6 +1047,7 @@ astalon_regions: Dict[RegionName, RegionData] = {
     RegionName.ROA_MIDDLE: RegionData(
         exits=(
             RegionName.ROA_RIGHT_BRANCH,
+            RegionName.ROA_TOP_ASCENT,
             RegionName.ROA_TRIPLE_SWITCH,
             RegionName.ROA_LEFT_BABY_GORGON,
             RegionName.ROA_LEFT_SWITCH,

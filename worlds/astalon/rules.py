@@ -696,16 +696,24 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
         )
     ),
     (R.HOTP_LOWER_ARIAS, R.HOTP_BELL_CAMPFIRE): lambda rules, state: rules.has(state, Character.ARIAS),
-    (R.HOTP_LOWER_ARIAS, R.HOTP_EYEBALL): lambda rules, state: (
+    (R.HOTP_LOWER_ARIAS, R.HOTP_GHOST_BLOOD): lambda rules, state: (
         rules.switches(state, Switch.HOTP_TELEPORTS, disabled_case=True)
         or (
             rules.has(state, KeyItem.BLOCK, KeyItem.BELL)
             and (rules.has(state, Character.KYULI) or rules.can(state, Logic.ARIAS_JUMP))
         )
     ),
-    (R.HOTP_EYEBALL, R.HOTP_ELEVATOR): lambda rules, state: (
-        rules.switches(state, Switch.HOTP_EYEBALL_SHORTCUT, Switch.HOTP_WORM_PILLAR, disabled_case=False)
-        or rules.switches(state, Switch.HOTP_GHOST_BLOOD, disabled_case=True)
+    (R.HOTP_GHOST_BLOOD, R.HOTP_EYEBALL): lambda rules, state: (
+        rules.switches(state, Switch.HOTP_GHOST_BLOOD, disabled_case=True)
+    ),
+    (R.HOTP_GHOST_BLOOD, R.HOTP_WORM_SHORTCUT): lambda rules, state: (
+        rules.switches(state, Switch.HOTP_EYEBALL_SHORTCUT, disabled_case=False)
+    ),
+    (R.HOTP_WORM_SHORTCUT, R.HOTP_GHOST_BLOOD): lambda rules, state: (
+        rules.switches(state, Switch.HOTP_EYEBALL_SHORTCUT, disabled_case=True)
+    ),
+    (R.HOTP_WORM_SHORTCUT, R.HOTP_ELEVATOR): lambda rules, state: (
+        rules.switches(state, Switch.HOTP_WORM_PILLAR, disabled_case=False)
     ),
     (R.HOTP_ELEVATOR, R.HOTP_OLD_MAN): lambda rules, state: (
         rules.has(state, KeyItem.CLOAK)
@@ -718,10 +726,10 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
     (R.HOTP_ELEVATOR, R.HOTP_START_LEFT): lambda rules, state: (
         rules.switches(state, Switch.HOTP_LEFT_BACKTRACK, disabled_case=True)
     ),
-    (R.HOTP_ELEVATOR, R.HOTP_EYEBALL): lambda rules, state: (
-        rules.switches(state, Switch.HOTP_EYEBALL_SHORTCUT, Switch.HOTP_WORM_PILLAR, disabled_case=True)
-        and rules.switches(state, Switch.HOTP_GHOST_BLOOD, disabled_case=False)
+    (R.HOTP_ELEVATOR, R.HOTP_WORM_SHORTCUT): lambda rules, state: (
+        rules.switches(state, Switch.HOTP_WORM_PILLAR, disabled_case=True)
     ),
+    (R.HOTP_ELEVATOR, R.HOTP_SPIKE_TP_SECRET): lambda rules, state: rules.has(state, KeyItem.CHALICE),
     (R.HOTP_ELEVATOR, R.HOTP_CLAW_LEFT): lambda rules, state: (
         (rules.switches(state, Switch.HOTP_TO_CLAW_2, disabled_case=True) and rules.can(state, Logic.EXTRA_HEIGHT))
         or (
@@ -934,6 +942,9 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
     (R.ROA_TOP_ASCENT, R.ROA_LEFT_ASCENT): lambda rules, state: (
         rules.switches(state, Switch.ROA_ASCEND_SHORTCUT, disabled_case=False)
     ),
+    (R.ROA_TOP_ASCENT, R.ROA_MIDDLE): lambda rules, state: (
+        rules.can(state, Logic.EXTRA_HEIGHT) and rules.switches(state, Switch.ROA_ASCEND_SHORTCUT, disabled_case=False)
+    ),
     (R.ROA_TRIPLE_SWITCH, R.ROA_MIDDLE): lambda rules, state: (
         rules.switches(
             state,
@@ -958,6 +969,9 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
                 rules.reachable(state, L.ROA_CRYSTAL_LADDER_L) and rules.reachable(state, L.ROA_CRYSTAL_LADDER_R)
             ),
         )
+    ),
+    (R.ROA_MIDDLE, R.ROA_TOP_ASCENT): lambda rules, state: (
+        rules.switches(state, Switch.ROA_ASCEND_SHORTCUT, disabled_case=True)
     ),
     (R.ROA_MIDDLE, R.ROA_TRIPLE_SWITCH): lambda rules, state: (
         rules.switches(state, Switch.ROA_TRIPLE_1, Switch.ROA_TRIPLE_3, disabled_case=False)
@@ -1381,12 +1395,13 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
     (R.SP_STAR, R.SP_STAR_CONNECTION): lambda rules, state: rules.has(state, KeyItem.STAR),
     (R.SP_STAR_CONNECTION, R.SP_STAR): lambda rules, state: rules.has(state, KeyItem.STAR),
     (R.SP_STAR_CONNECTION, R.SP_STAR_END): lambda rules, state: (
-        rules.switches(
+        rules.has(state, KeyItem.STAR)
+        and rules.switches(
             state, Switch.SP_AFTER_STAR, disabled_case=lambda rules, state: rules.has(state, Character.ARIAS)
         )
     ),
     (R.SP_STAR_END, R.SP_STAR_CONNECTION): lambda rules, state: (
-        rules.switches(state, Switch.SP_AFTER_STAR, disabled_case=False)
+        rules.has(state, KeyItem.STAR) and rules.switches(state, Switch.SP_AFTER_STAR, disabled_case=False)
     ),
 }
 
@@ -1723,9 +1738,6 @@ SWITCH_RULES: Dict[L, AstalonRule] = {
         rules.switches(state, Switch.HOTP_LEFT_1, Switch.HOTP_LEFT_2, disabled_case=True)
         or (rules.has(state, KeyItem.STAR) and rules.region(R.HOTP_START_LEFT).can_reach(state))
     ),
-    L.HOTP_SWITCH_EYEBALL_SHORTCUT: lambda rules, state: (
-        rules.switches(state, Switch.HOTP_WORM_PILLAR, disabled_case=False)
-    ),
     L.HOTP_CRYSTAL_ROCK_ACCESS: lambda rules, state: rules.can(state, Logic.CRYSTAL),
     L.HOTP_CRYSTAL_BOTTOM: lambda rules, state: rules.can(state, Logic.CRYSTAL),
     L.HOTP_CRYSTAL_LOWER: lambda rules, state: rules.can(state, Logic.CRYSTAL),
@@ -1810,6 +1822,13 @@ SWITCH_RULES: Dict[L, AstalonRule] = {
 }
 
 CANDLE_RULES: Dict[L, AstalonRule] = {
+    L.ROA_CANDLE_ARENA: lambda rules, state: (
+        rules.can(state, Logic.EXTRA_HEIGHT)
+        or rules.has(state, ShopUpgrade.BRAM_AXE)
+        or rules.region(R.ROA_FLAMES_CONNECTION).can_reach(state)
+    ),
+    L.ROA_CANDLE_HIDDEN_4: lambda rules, state: rules.has_any(state, Character.KYULI, ShopUpgrade.BRAM_AXE),
+    L.ROA_CANDLE_HIDDEN_5: lambda rules, state: rules.has(state, Character.KYULI),
     L.CATA_CANDLE_DEV_ROOM: lambda rules, state: (
         rules.has(state, KeyItem.CLAW) or rules.switches(state, Switch.CATA_DEV_ROOM, disabled_case=True)
     ),

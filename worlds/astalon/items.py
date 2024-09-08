@@ -487,9 +487,9 @@ item_table: Dict[str, ItemData] = {
     Eye.RED.value: ItemData(ItemClassification.progression, 1, ItemGroup.EYE),
     Eye.BLUE.value: ItemData(ItemClassification.progression, 1, ItemGroup.EYE),
     Eye.GREEN.value: ItemData(ItemClassification.progression, 1, ItemGroup.EYE),
-    Key.WHITE.value: ItemData(ItemClassification.useful, 0, ItemGroup.KEY),
-    Key.BLUE.value: ItemData(ItemClassification.useful, 0, ItemGroup.KEY),
-    Key.RED.value: ItemData(ItemClassification.useful, 0, ItemGroup.KEY),
+    Key.WHITE.value: ItemData(ItemClassification.filler, 0, ItemGroup.KEY),
+    Key.BLUE.value: ItemData(ItemClassification.filler, 0, ItemGroup.KEY),
+    Key.RED.value: ItemData(ItemClassification.filler, 0, ItemGroup.KEY),
     KeyItem.GORGONHEART.value: ItemData(ItemClassification.filler, 1, ItemGroup.ITEM),
     KeyItem.ANCIENTS_RING.value: ItemData(ItemClassification.filler, 1, ItemGroup.ITEM),
     KeyItem.MAIDEN_RING.value: ItemData(ItemClassification.filler, 1, ItemGroup.ITEM),
@@ -511,7 +511,7 @@ item_table: Dict[str, ItemData] = {
     KeyItem.BLOCK.value: ItemData(ItemClassification.progression, 1, ItemGroup.ITEM),
     KeyItem.STAR.value: ItemData(ItemClassification.progression, 1, ItemGroup.ITEM),
     Upgrade.ATTACK_1.value: ItemData(ItemClassification.useful, 12, ItemGroup.ATTACK),
-    Upgrade.MAX_HP_1.value: ItemData(ItemClassification.useful, 14, ItemGroup.HEALTH),
+    Upgrade.MAX_HP_1.value: ItemData(ItemClassification.filler, 14, ItemGroup.HEALTH),
     Upgrade.MAX_HP_2.value: ItemData(ItemClassification.useful, 10, ItemGroup.HEALTH),
     Upgrade.MAX_HP_3.value: ItemData(ItemClassification.useful, 1, ItemGroup.HEALTH),
     Upgrade.MAX_HP_4.value: ItemData(ItemClassification.useful, 1, ItemGroup.HEALTH),
@@ -539,7 +539,7 @@ item_table: Dict[str, ItemData] = {
     WhiteDoor.CATA_PRISON.value: ItemData(ItemClassification.progression, 1, ItemGroup.DOOR_WHITE),
     BlueDoor.GT_HUNTER.value: ItemData(ItemClassification.useful, 1, ItemGroup.DOOR_BLUE),
     BlueDoor.GT_RING.value: ItemData(ItemClassification.progression, 1, ItemGroup.DOOR_BLUE),
-    BlueDoor.GT_ORBS.value: ItemData(ItemClassification.useful, 1, ItemGroup.DOOR_BLUE),
+    BlueDoor.GT_ORBS.value: ItemData(ItemClassification.filler, 1, ItemGroup.DOOR_BLUE),
     BlueDoor.GT_ASCENDANT.value: ItemData(ItemClassification.progression, 1, ItemGroup.DOOR_BLUE),
     BlueDoor.GT_SWORD.value: ItemData(ItemClassification.progression, 1, ItemGroup.DOOR_BLUE),
     BlueDoor.MECH_RED.value: ItemData(ItemClassification.progression, 1, ItemGroup.DOOR_BLUE),
@@ -814,15 +814,13 @@ item_table: Dict[str, ItemData] = {
     Face.CATH_R.value: ItemData(ItemClassification.progression, 1, ItemGroup.SWITCH),
     KeyItem.CYCLOPS.value: ItemData(ItemClassification.progression, 1, ItemGroup.ITEM),
     KeyItem.CROWN.value: ItemData(ItemClassification.progression, 1, ItemGroup.ITEM),
-    Eye.GOLD.value: ItemData(ItemClassification.progression, 0, ItemGroup.EYE),
+    Eye.GOLD.value: ItemData(ItemClassification.progression_skip_balancing, 0, ItemGroup.EYE),
     Heal.HEAL_5.value: ItemData(ItemClassification.filler, 92, ItemGroup.HEAL),
     Trap.CUTSCENE.value: ItemData(ItemClassification.trap, 0, ItemGroup.TRAP),
     Trap.ROCKS.value: ItemData(ItemClassification.trap, 0, ItemGroup.TRAP),
-    # Familiar.MONSTER.value: ItemData(ItemClassification.useful, 3, ItemGroups.FAMILIAR),
-    # Familiar.GIL.value: ItemData(ItemClassification.filler, 1, ItemGroups.FAMILIAR),
 }
 
-item_name_to_id: Dict[str, int] = {name: BASE_ID + i for i, name in enumerate(item_table)}
+item_name_to_id: Dict[str, int] = {name: i for i, name in enumerate(item_table, start=BASE_ID)}
 
 
 def get_item_group(item_name: str):

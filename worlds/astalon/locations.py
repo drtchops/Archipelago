@@ -603,7 +603,7 @@ location_table: Dict[str, LocationData] = {
     ),
     LocationName.HOTP_BLUE_KEY_LADDER.value: LocationData(RegionName.HOTP_ELEVATOR, LocationGroup.KEY_BLUE, Area.HOTP),
     LocationName.HOTP_BLUE_KEY_TELEPORTS.value: LocationData(
-        RegionName.HOTP_ELEVATOR, LocationGroup.KEY_BLUE, Area.HOTP
+        RegionName.HOTP_SPIKE_TP_SECRET, LocationGroup.KEY_BLUE, Area.HOTP
     ),
     LocationName.HOTP_BLUE_KEY_MAZE.value: LocationData(RegionName.HOTP_TP_PUZZLE, LocationGroup.KEY_BLUE, Area.HOTP),
     LocationName.HOTP_RED_KEY.value: LocationData(RegionName.HOTP_RED_KEY, LocationGroup.KEY_RED, Area.HOTP),
@@ -840,7 +840,9 @@ location_table: Dict[str, LocationData] = {
     LocationName.HOTP_SWITCH_LEFT_1.value: LocationData(RegionName.HOTP_START_MID, LocationGroup.SWITCH, Area.HOTP),
     LocationName.HOTP_SWITCH_LOWER_SHORTCUT.value: LocationData(RegionName.HOTP_LOWER, LocationGroup.SWITCH, Area.HOTP),
     LocationName.HOTP_SWITCH_BELL.value: LocationData(RegionName.HOTP_BELL, LocationGroup.SWITCH, Area.HOTP),
-    LocationName.HOTP_SWITCH_GHOST_BLOOD.value: LocationData(RegionName.HOTP_EYEBALL, LocationGroup.SWITCH, Area.HOTP),
+    LocationName.HOTP_SWITCH_GHOST_BLOOD.value: LocationData(
+        RegionName.HOTP_GHOST_BLOOD, LocationGroup.SWITCH, Area.HOTP
+    ),
     LocationName.HOTP_SWITCH_TELEPORTS.value: LocationData(
         RegionName.HOTP_LOWER_ARIAS, LocationGroup.SWITCH, Area.HOTP
     ),
@@ -860,7 +862,7 @@ location_table: Dict[str, LocationData] = {
     ),
     LocationName.HOTP_SWITCH_TP_PUZZLE.value: LocationData(RegionName.HOTP_TP_PUZZLE, LocationGroup.SWITCH, Area.HOTP),
     LocationName.HOTP_SWITCH_EYEBALL_SHORTCUT.value: LocationData(
-        RegionName.HOTP_ELEVATOR, LocationGroup.SWITCH, Area.HOTP
+        RegionName.HOTP_WORM_SHORTCUT, LocationGroup.SWITCH, Area.HOTP
     ),
     LocationName.HOTP_SWITCH_BELL_ACCESS.value: LocationData(
         RegionName.HOTP_BELL_CAMPFIRE, LocationGroup.SWITCH, Area.HOTP
@@ -1207,10 +1209,6 @@ location_table: Dict[str, LocationData] = {
     LocationName.CD_CANDLE_TOP_CAMPFIRE.value: LocationData(RegionName.CD_TOP, LocationGroup.CANDLE, Area.CD),
     LocationName.CATH_CANDLE_TOP_1.value: LocationData(RegionName.CATH_TOP, LocationGroup.CANDLE, Area.CATH),
     LocationName.CATH_CANDLE_TOP_2.value: LocationData(RegionName.CATH_TOP, LocationGroup.CANDLE, Area.CATH),
-    # LocationName.GT_OLD_MAN.value: LocationData(RegionName.GT_OLD_MAN, LocationGroup.FAMILIAR, Area.GT),
-    # LocationName.MECH_OLD_MAN.value: LocationData(RegionName.MECH_OLD_MAN, LocationGroup.FAMILIAR, Area.MECH),
-    # LocationName.HOTP_OLD_MAN.value: LocationData(RegionName.HOTP_OLD_MAN, LocationGroup.FAMILIAR, Area.HOTP),
-    # LocationName.CATA_GIL.value: LocationData(RegionName.CATA_DEV_ROOM, LocationGroup.FAMILIAR, Area.CATA),
 }
 
 location_name_to_id: Dict[str, int] = {name: BASE_ID + i for i, name in enumerate(location_table)}

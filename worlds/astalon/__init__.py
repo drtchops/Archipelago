@@ -244,9 +244,11 @@ class AstalonWorld(World):
         )
         region.locations.append(location)
 
+    def create_trap(self) -> AstalonItem:
+        return self.create_item(self.get_trap_item_name())
+
     def create_items(self) -> None:
         itempool: List[Item] = []
-        useful_items: List[Item] = []
         filler_items: List[Item] = []
 
         logic_groups: Set[str] = set()
@@ -291,12 +293,10 @@ class AstalonWorld(World):
                 data = item_table[item_name]
                 for _ in range(0, data.quantity_in_item_pool):
                     item = self.create_item(item_name)
-                    if ItemClassification.progression in item.classification:
-                        itempool.append(item)
-                    elif ItemClassification.useful in item.classification:
-                        useful_items.append(item)
-                    else:
+                    if item.classification == ItemClassification.filler:
                         filler_items.append(item)
+                    else:
+                        itempool.append(item)
 
         if self.options.randomize_characters:
             for character in CHARACTERS:
@@ -330,44 +330,33 @@ class AstalonWorld(World):
             itempool.append(self.create_item(Eye.GOLD.value))
 
         total_locations = len(self.multiworld.get_unfilled_locations(self.player))
-        total_items = len(itempool) + len(useful_items) + len(filler_items)
 
-        if total_items > total_locations:
-            remove_count = total_items - total_locations
-            if remove_count > len(filler_items) + len(useful_items):
+        while len(itempool) + len(filler_items) < total_locations:
+            filler_items.append(self.create_filler())
+
+        if len(itempool) + len(filler_items) > total_locations:
+            # should only happen when doing eye hunt with too few things randomized
+            remove_count = len(itempool) + len(filler_items) - total_locations
+            if remove_count > len(filler_items):
                 raise Exception(
-                    f"Astalon player #{self.player} failed: No space left for eye hunt. "
-                    "Lower your eye hunt goal or randomize more things."
+                    f"Astalon player {self.player_name} failed: No space for eye hunt. "
+                    "Lower your eye hunt goal or enable candle randomizer."
                 )
 
-            if remove_count >= len(filler_items):
-                remove_count -= len(filler_items)
+            if remove_count == len(filler_items):
                 filler_items = []
             else:
                 filler_items = self.random.sample(filler_items, len(filler_items) - remove_count)
-                remove_count = 0
 
-            if remove_count > 0:
-                if remove_count == len(useful_items):
-                    useful_items = []
-                else:
-                    useful_items = self.random.sample(useful_items, len(useful_items) - remove_count)
-
-        if filler_items:
+        if filler_items and self.options.trap_percentage > 0:
             total_filler = len(filler_items)
             trap_count = int(round(total_filler * (self.options.trap_percentage / 100)))
             if trap_count > 0:
                 filler_items = self.random.sample(filler_items, len(filler_items) - trap_count)
                 for _ in range(trap_count):
-                    filler_items.append(self.create_item(self.get_trap_item_name()))
+                    filler_items.append(self.create_trap())
 
-        itempool.extend(useful_items)
-        itempool.extend(filler_items)
-
-        while len(itempool) < total_locations:
-            itempool.append(self.create_filler())
-
-        self.multiworld.itempool += itempool
+        self.multiworld.itempool += itempool + filler_items
 
     @cached_property
     def filler_item_names(self) -> Tuple[str, ...]:
