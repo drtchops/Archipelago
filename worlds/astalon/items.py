@@ -29,6 +29,7 @@ class ItemGroup(str, Enum):
     ELEVATOR = "Elevators"
     SWITCH = "Switches"
     HEAL = "Heal"
+    TRAP = "Trap"
 
 
 class Character(str, Enum):
@@ -401,6 +402,11 @@ class Heal(str, Enum):
     HEAL_5 = "Heal HP +5"
 
 
+class Trap(str, Enum):
+    CUTSCENE = "Cutscene Trap"
+    ROCKS = "Rocks Trap"
+
+
 ItemName: TypeAlias = Union[
     Character,
     Eye,
@@ -418,6 +424,7 @@ ItemName: TypeAlias = Union[
     Crystal,
     Face,
     Heal,
+    Trap,
 ]
 
 
@@ -809,6 +816,8 @@ item_table: Dict[str, ItemData] = {
     KeyItem.CROWN.value: ItemData(ItemClassification.progression, 1, ItemGroup.ITEM),
     Eye.GOLD.value: ItemData(ItemClassification.progression, 0, ItemGroup.EYE),
     Heal.HEAL_5.value: ItemData(ItemClassification.filler, 92, ItemGroup.HEAL),
+    Trap.CUTSCENE.value: ItemData(ItemClassification.trap, 0, ItemGroup.TRAP),
+    Trap.ROCKS.value: ItemData(ItemClassification.trap, 0, ItemGroup.TRAP),
     # Familiar.MONSTER.value: ItemData(ItemClassification.useful, 3, ItemGroups.FAMILIAR),
     # Familiar.GIL.value: ItemData(ItemClassification.filler, 1, ItemGroups.FAMILIAR),
 }
@@ -831,4 +840,9 @@ filler_items: Tuple[str, ...] = (
     Orbs.ORBS_500.value,
     Orbs.ORBS_1000.value,
     Heal.HEAL_5.value,
+)
+
+trap_items: Tuple[str, ...] = (
+    Trap.CUTSCENE.value,
+    Trap.ROCKS.value,
 )

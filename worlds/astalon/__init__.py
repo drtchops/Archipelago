@@ -24,6 +24,7 @@ from .items import (
     item_name_groups,
     item_name_to_id,
     item_table,
+    trap_items,
 )
 from .locations import (
     AstalonLocation,
@@ -245,6 +246,8 @@ class AstalonWorld(World):
 
     def create_items(self) -> None:
         itempool: List[Item] = []
+        useful_items: List[Item] = []
+        filler_items: List[Item] = []
 
         logic_groups: Set[str] = set()
         if self.options.randomize_key_items:
@@ -287,7 +290,13 @@ class AstalonWorld(World):
 
                 data = item_table[item_name]
                 for _ in range(0, data.quantity_in_item_pool):
-                    itempool.append(self.create_item(item_name))
+                    item = self.create_item(item_name)
+                    if ItemClassification.progression in item.classification:
+                        itempool.append(item)
+                    elif ItemClassification.useful in item.classification:
+                        useful_items.append(item)
+                    else:
+                        filler_items.append(item)
 
         if self.options.randomize_characters:
             for character in CHARACTERS:
@@ -321,41 +330,44 @@ class AstalonWorld(World):
             itempool.append(self.create_item(Eye.GOLD.value))
 
         total_locations = len(self.multiworld.get_unfilled_locations(self.player))
+        total_items = len(itempool) + len(useful_items) + len(filler_items)
 
-        if len(itempool) > total_locations:
-            remove_count = len(itempool) - total_locations
-            itempool = self.remove_filler(itempool, remove_count)
+        if total_items > total_locations:
+            remove_count = total_items - total_locations
+            if remove_count > len(filler_items) + len(useful_items):
+                raise Exception(
+                    f"Astalon player #{self.player} failed: No space left for eye hunt. "
+                    "Lower your eye hunt goal or randomize more things."
+                )
+
+            if remove_count >= len(filler_items):
+                remove_count -= len(filler_items)
+                filler_items = []
+            else:
+                filler_items = self.random.sample(filler_items, len(filler_items) - remove_count)
+                remove_count = 0
+
+            if remove_count > 0:
+                if remove_count == len(useful_items):
+                    useful_items = []
+                else:
+                    useful_items = self.random.sample(useful_items, len(useful_items) - remove_count)
+
+        if filler_items:
+            total_filler = len(filler_items)
+            trap_count = int(round(total_filler * (self.options.trap_percentage / 100)))
+            if trap_count > 0:
+                filler_items = self.random.sample(filler_items, len(filler_items) - trap_count)
+                for _ in range(trap_count):
+                    filler_items.append(self.create_item(self.get_trap_item_name()))
+
+        itempool.extend(useful_items)
+        itempool.extend(filler_items)
 
         while len(itempool) < total_locations:
             itempool.append(self.create_filler())
 
         self.multiworld.itempool += itempool
-
-    def remove_filler(self, itempool: List[Item], count: int) -> List[Item]:
-        new_pool = list(itempool)
-
-        filler = [i for i in new_pool if i.classification == ItemClassification.filler]
-        if len(filler) > count:
-            filler = self.random.sample(filler, count)
-        for f in filler:
-            new_pool.remove(f)
-            count -= 1
-        if count <= 0:
-            return new_pool
-
-        useful = [i for i in new_pool if i.classification != ItemClassification.progression]
-        if len(useful) < count:
-            raise Exception(
-                f"Astalon player #{self.player} failed: No space left for eye hunt. "
-                "Lower your eye hunt goal or randomize more things."
-            )
-        if len(useful) > count:
-            useful = self.random.sample(useful, count)
-        for u in useful:
-            new_pool.remove(u)
-            count -= 1
-
-        return new_pool
 
     @cached_property
     def filler_item_names(self) -> Tuple[str, ...]:
@@ -370,6 +382,9 @@ class AstalonWorld(World):
 
     def get_filler_item_name(self) -> str:
         return self.random.choice(self.filler_item_names)
+
+    def get_trap_item_name(self) -> str:
+        return self.random.choice(trap_items)
 
     def set_rules(self) -> None:
         self.rules.set_region_rules()

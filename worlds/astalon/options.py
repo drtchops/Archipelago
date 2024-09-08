@@ -353,6 +353,26 @@ class ScaleCharacterStats(DefaultOnToggle):
     display_name = "Scale Character Stats"
 
 
+class TrapPercentage(NamedRange):
+    """
+    Set what percentage of the filler in the item pool will be replaced by trap items.
+    Has no effect if no filler items need to be created.
+    """
+
+    display_name = "Trap Percentage"
+    range_start = 0
+    range_end = 100
+    default = 10
+
+    special_range_names = {
+        "none": 0,
+        "tenth": 10,
+        "quarter": 25,
+        "half": 50,
+        "all": 100,
+    }
+
+
 @dataclass
 class AstalonOptions(PerGameCommonOptions):
     start_inventory_from_pool: StartInventoryPool
@@ -388,4 +408,5 @@ class AstalonOptions(PerGameCommonOptions):
     cheap_kyuli_ray: CheapKyuliRay
     always_restore_candles: AlwaysRestoreCandles
     scale_character_stats: ScaleCharacterStats
+    trap_percentage: TrapPercentage
     death_link: DeathLink
