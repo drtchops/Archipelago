@@ -65,7 +65,7 @@ CHARACTER_LOCATIONS: Final[Tuple[Tuple[Character, str], ...]] = (
 )
 
 CHARACTER_STARTS: Final[Dict[int, Tuple[Character, ...]]] = {
-    RandomizeCharacters.option_trio: CHARACTERS[3:],
+    RandomizeCharacters.option_trio: CHARACTERS[:3],
     RandomizeCharacters.option_all: CHARACTERS,
     RandomizeCharacters.option_algus: (Character.ALGUS,),
     RandomizeCharacters.option_arias: (Character.ARIAS,),

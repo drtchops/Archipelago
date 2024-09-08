@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from enum import Enum
-from typing import Dict, Optional, Set
+from typing import Dict, Tuple
 
 
 class RegionName(str, Enum):
@@ -251,7 +251,7 @@ class RegionName(str, Enum):
 
 @dataclass(frozen=True)
 class RegionData:
-    exits: Optional[Set[RegionName]] = None
+    exits: Tuple[RegionName, ...] = ()
     boss: bool = False
     campfire: bool = False
     elevator: bool = False
@@ -263,19 +263,19 @@ class RegionData:
 
 astalon_regions: Dict[RegionName, RegionData] = {
     RegionName.MENU: RegionData(
-        exits={
+        exits=(
             RegionName.ENTRANCE,
             RegionName.SHOP,
-        },
+        ),
     ),
     RegionName.SHOP: RegionData(
-        exits={
+        exits=(
             RegionName.SHOP_ALGUS,
             RegionName.SHOP_ARIAS,
             RegionName.SHOP_KYULI,
             RegionName.SHOP_ZEEK,
             RegionName.SHOP_BRAM,
-        },
+        ),
     ),
     RegionName.SHOP_ALGUS: RegionData(),
     RegionName.SHOP_ARIAS: RegionData(),
@@ -284,7 +284,7 @@ astalon_regions: Dict[RegionName, RegionData] = {
     RegionName.SHOP_BRAM: RegionData(),
     RegionName.FINAL_BOSS: RegionData(boss=True),
     RegionName.ENTRANCE: RegionData(
-        exits={
+        exits=(
             RegionName.BESTIARY,
             RegionName.GT_BABY_GORGON,
             RegionName.GT_BOTTOM,
@@ -300,7 +300,7 @@ astalon_regions: Dict[RegionName, RegionData] = {
             RegionName.CATA_ELEVATOR,
             RegionName.CATA_BOSS,
             RegionName.TR_START,
-        },
+        ),
         campfire=True,
         elevator=True,
         multiplier=True,
@@ -309,68 +309,68 @@ astalon_regions: Dict[RegionName, RegionData] = {
     RegionName.BESTIARY: RegionData(),
     RegionName.GT_BABY_GORGON: RegionData(),
     RegionName.GT_BOTTOM: RegionData(
-        exits={
+        exits=(
             RegionName.GT_VOID,
             RegionName.GT_GORGONHEART,
             RegionName.GT_UPPER_PATH,
             RegionName.CAVES_START,
-        },
+        ),
         campfire=True,
     ),
     RegionName.GT_VOID: RegionData(
-        exits={
+        exits=(
             RegionName.GT_BOTTOM,
             RegionName.MECH_SNAKE,
-        },
+        ),
         portal=True,
     ),
     RegionName.GT_GORGONHEART: RegionData(
-        exits={
+        exits=(
             RegionName.GT_BOTTOM,
             RegionName.GT_ORBS_DOOR,
             RegionName.GT_LEFT,
-        },
+        ),
     ),
     RegionName.GT_ORBS_DOOR: RegionData(),
     RegionName.GT_LEFT: RegionData(
-        exits={
+        exits=(
             RegionName.GT_GORGONHEART,
             RegionName.GT_ORBS_HEIGHT,
             RegionName.GT_ASCENDANT_KEY,
             RegionName.GT_TOP_LEFT,
             RegionName.GT_TOP_RIGHT,
-        },
+        ),
         campfire=True,
     ),
     RegionName.GT_ORBS_HEIGHT: RegionData(),
     RegionName.GT_ASCENDANT_KEY: RegionData(),
     RegionName.GT_TOP_LEFT: RegionData(
-        exits={
+        exits=(
             RegionName.GT_LEFT,
             RegionName.GT_BUTT,
-        },
+        ),
     ),
     RegionName.GT_TOP_RIGHT: RegionData(
-        exits={
+        exits=(
             RegionName.GT_LEFT,
             RegionName.GT_SPIKE_TUNNEL,
-        },
+        ),
     ),
     RegionName.GT_SPIKE_TUNNEL: RegionData(
-        exits={
+        exits=(
             RegionName.GT_TOP_RIGHT,
             RegionName.GT_BUTT,
-        },
+        ),
     ),
     RegionName.GT_BUTT: RegionData(
-        exits={
+        exits=(
             RegionName.GT_TOP_LEFT,
             RegionName.GT_SPIKE_TUNNEL,
             RegionName.GT_BOSS,
-        },
+        ),
     ),
     RegionName.GT_BOSS: RegionData(
-        exits={
+        exits=(
             RegionName.GT_BUTT,
             RegionName.MECH_START,
             RegionName.MECH_ZEEK_CONNECTION,
@@ -382,49 +382,49 @@ astalon_regions: Dict[RegionName, RegionData] = {
             RegionName.CATA_ELEVATOR,
             RegionName.CATA_BOSS,
             RegionName.TR_START,
-        },
+        ),
         boss=True,
         campfire=True,
         elevator=True,
     ),
     RegionName.GT_LADDER_SWITCH: RegionData(),
     RegionName.GT_UPPER_ARIAS: RegionData(
-        exits={
+        exits=(
             RegionName.GT_OLD_MAN_FORK,
             RegionName.MECH_SWORD_CONNECTION,
-        },
+        ),
     ),
     RegionName.GT_OLD_MAN_FORK: RegionData(
-        exits={
+        exits=(
             RegionName.GT_UPPER_ARIAS,
             RegionName.GT_OLD_MAN,
             RegionName.GT_SWORD_FORK,
-        },
+        ),
     ),
     RegionName.GT_OLD_MAN: RegionData(),
     RegionName.GT_SWORD_FORK: RegionData(
-        exits={
+        exits=(
             RegionName.GT_SWORD,
             RegionName.GT_ARIAS_SWORD_SWITCH,
-        },
+        ),
     ),
     RegionName.GT_SWORD: RegionData(),
     RegionName.GT_ARIAS_SWORD_SWITCH: RegionData(),
     RegionName.GT_UPPER_PATH: RegionData(
-        exits={
+        exits=(
             RegionName.GT_BOTTOM,
             RegionName.GT_UPPER_PATH_CONNECTION,
-        },
+        ),
     ),
     RegionName.GT_UPPER_PATH_CONNECTION: RegionData(
-        exits={
+        exits=(
             RegionName.GT_UPPER_PATH,
             RegionName.MECH_SWORD_CONNECTION,
             RegionName.MECH_BOTTOM_CAMPFIRE,
-        },
+        ),
     ),
     RegionName.MECH_START: RegionData(
-        exits={
+        exits=(
             RegionName.GT_BOSS,
             RegionName.GT_LADDER_SWITCH,
             RegionName.MECH_SACRIFICE,
@@ -432,124 +432,122 @@ astalon_regions: Dict[RegionName, RegionData] = {
             RegionName.MECH_LOWER_VOID,
             RegionName.MECH_BK,
             RegionName.MECH_WATCHER,
-        },
+        ),
         campfire=True,
     ),
     RegionName.MECH_SACRIFICE: RegionData(),
     RegionName.MECH_LINUS: RegionData(
-        exits={
+        exits=(
             RegionName.MECH_START,
             RegionName.MECH_SWORD_CONNECTION,
-        },
+        ),
     ),
     RegionName.MECH_SWORD_CONNECTION: RegionData(
-        exits={
+        exits=(
             RegionName.GT_UPPER_ARIAS,
             RegionName.GT_UPPER_PATH_CONNECTION,
             RegionName.MECH_LINUS,
             RegionName.MECH_LOWER_ARIAS,
             RegionName.MECH_BOOTS_CONNECTION,
             RegionName.MECH_BOTTOM_CAMPFIRE,
-        },
+        ),
         campfire=True,
     ),
     RegionName.MECH_LOWER_ARIAS: RegionData(),
     RegionName.MECH_BOOTS_CONNECTION: RegionData(
-        exits={
+        exits=(
             RegionName.MECH_SWORD_CONNECTION,
             RegionName.MECH_BOOTS_LOWER,
             RegionName.MECH_BOTTOM_CAMPFIRE,
-        },
+        ),
     ),
     RegionName.MECH_BOOTS_LOWER: RegionData(
-        exits={
-            RegionName.MECH_BOOTS_UPPER,
-        },
+        exits=(RegionName.MECH_BOOTS_UPPER,),
     ),
     RegionName.MECH_BOOTS_UPPER: RegionData(),
     RegionName.MECH_BOTTOM_CAMPFIRE: RegionData(
-        exits={
+        exits=(
             RegionName.GT_UPPER_PATH_CONNECTION,
             RegionName.MECH_SWORD_CONNECTION,
             RegionName.MECH_BOOTS_CONNECTION,
             RegionName.MECH_SNAKE,
-        },
+        ),
         campfire=True,
     ),
     RegionName.MECH_SNAKE: RegionData(
-        exits={
+        exits=(
             RegionName.GT_VOID,
             RegionName.MECH_BOTTOM_CAMPFIRE,
-        },
+        ),
     ),
     RegionName.MECH_LOWER_VOID: RegionData(
-        exits={
+        exits=(
             RegionName.MECH_START,
             RegionName.MECH_UPPER_VOID,
             RegionName.HOTP_MECH_VOID_CONNECTION,
-        },
+        ),
         portal=True,
     ),
     RegionName.MECH_WATCHER: RegionData(
-        exits={
+        exits=(
             RegionName.MECH_START,
             RegionName.MECH_ROOTS,
-        },
+        ),
     ),
     RegionName.MECH_ROOTS: RegionData(
-        exits={
+        exits=(
             RegionName.MECH_WATCHER,
             RegionName.MECH_MUSIC,
             RegionName.MECH_BK,
             RegionName.MECH_ZEEK_CONNECTION,
-        },
+        ),
     ),
     RegionName.MECH_MUSIC: RegionData(),
     RegionName.MECH_BK: RegionData(
-        exits={
+        exits=(
             RegionName.MECH_START,
             RegionName.MECH_ROOTS,
             RegionName.MECH_AFTER_BK,
             RegionName.MECH_TRIPLE_SWITCHES,
-        },
+        ),
         boss=True,
         campfire=True,
     ),
     RegionName.MECH_AFTER_BK: RegionData(
-        exits={
+        exits=(
             RegionName.MECH_BK,
             RegionName.MECH_CHAINS_CANDLE,
             RegionName.MECH_CHAINS,
             RegionName.HOTP_EPIMETHEUS,
-        },
+        ),
         multiplier=True,
         statue=True,
     ),
     RegionName.MECH_CHAINS_CANDLE: RegionData(
-        exits={
+        exits=(
             RegionName.MECH_AFTER_BK,
             RegionName.MECH_CHAINS,
-        },
+        ),
     ),
     RegionName.MECH_CHAINS: RegionData(
-        exits={
+        exits=(
             RegionName.MECH_AFTER_BK,
             RegionName.MECH_CHAINS_CANDLE,
             RegionName.MECH_ARIAS_EYEBALL,
             RegionName.MECH_SPLIT_PATH,
             RegionName.MECH_BOSS_SWITCHES,
             RegionName.MECH_BOSS_CONNECTION,
-        },
+        ),
     ),
     RegionName.MECH_ARIAS_EYEBALL: RegionData(
-        exits={
+        exits=(
             RegionName.MECH_CHAINS,
             RegionName.MECH_ZEEK_CONNECTION,
-        },
+        ),
     ),
     RegionName.MECH_TRIPLE_SWITCHES: RegionData(),
     RegionName.MECH_ZEEK_CONNECTION: RegionData(
-        exits={
+        exits=(
             RegionName.GT_BOSS,
             RegionName.MECH_ROOTS,
             RegionName.MECH_ARIAS_EYEBALL,
@@ -562,101 +560,101 @@ astalon_regions: Dict[RegionName, RegionData] = {
             RegionName.CATA_ELEVATOR,
             RegionName.CATA_BOSS,
             RegionName.TR_START,
-        },
+        ),
         elevator=True,
     ),
     RegionName.MECH_ZEEK: RegionData(),
     RegionName.MECH_SPLIT_PATH: RegionData(
-        exits={
+        exits=(
             RegionName.MECH_CHAINS,
             RegionName.MECH_RIGHT,
-        },
+        ),
     ),
     RegionName.MECH_RIGHT: RegionData(
-        exits={
+        exits=(
             RegionName.MECH_TRIPLE_SWITCHES,
             RegionName.MECH_SPLIT_PATH,
             RegionName.MECH_OLD_MAN,
             RegionName.MECH_UPPER_VOID,
             RegionName.MECH_BELOW_POTS,
-        },
+        ),
         campfire=True,
     ),
     RegionName.MECH_OLD_MAN: RegionData(),
     RegionName.MECH_UPPER_VOID: RegionData(
-        exits={
+        exits=(
             RegionName.MECH_LOWER_VOID,
             RegionName.MECH_RIGHT,
-        },
+        ),
         portal=True,
     ),
     RegionName.MECH_BELOW_POTS: RegionData(
-        exits={
+        exits=(
             RegionName.MECH_RIGHT,
             RegionName.MECH_POTS,
-        }
+        ),
     ),
     RegionName.MECH_POTS: RegionData(
-        exits={
+        exits=(
             RegionName.MECH_BELOW_POTS,
             RegionName.MECH_TOP,
-        },
+        ),
     ),
     RegionName.MECH_TOP: RegionData(
-        exits={
+        exits=(
             RegionName.MECH_TRIPLE_SWITCHES,
             RegionName.MECH_POTS,
             RegionName.MECH_TP_CONNECTION,
             RegionName.MECH_CD_ACCESS,
-        },
+        ),
         campfire=True,
     ),
     RegionName.MECH_CD_ACCESS: RegionData(
-        exits={RegionName.CD_START},
+        exits=(RegionName.CD_START,),
     ),
     RegionName.MECH_TP_CONNECTION: RegionData(
-        exits={
+        exits=(
             RegionName.MECH_TOP,
             RegionName.MECH_CHARACTER_SWAPS,
             RegionName.HOTP_FALL_BOTTOM,
-        },
+        ),
     ),
     RegionName.MECH_CHARACTER_SWAPS: RegionData(
-        exits={
+        exits=(
             RegionName.MECH_TP_CONNECTION,
             RegionName.MECH_CLOAK_CONNECTION,
-        },
+        ),
     ),
     RegionName.MECH_CLOAK_CONNECTION: RegionData(
-        exits={
+        exits=(
             RegionName.MECH_CHARACTER_SWAPS,
             RegionName.MECH_CLOAK,
             RegionName.MECH_BOSS_SWITCHES,
-        },
+        ),
     ),
     RegionName.MECH_CLOAK: RegionData(),
     RegionName.MECH_BOSS_SWITCHES: RegionData(
-        exits={
+        exits=(
             RegionName.MECH_CHAINS,
             RegionName.MECH_CLOAK_CONNECTION,
             RegionName.MECH_BOSS_CONNECTION,
-        },
+        ),
     ),
     RegionName.MECH_BOSS_CONNECTION: RegionData(
-        exits={
+        exits=(
             RegionName.MECH_CHAINS,
             RegionName.MECH_BRAM_TUNNEL,
             RegionName.MECH_BOSS,
-        },
+        ),
     ),
     RegionName.MECH_BRAM_TUNNEL: RegionData(
-        exits={
+        exits=(
             RegionName.MECH_BOSS_CONNECTION,
             RegionName.HOTP_START_BOTTOM,
-        },
+        ),
     ),
     RegionName.MECH_BOSS: RegionData(
-        exits={
+        exits=(
             RegionName.GT_BOSS,
             RegionName.MECH_TRIPLE_SWITCHES,
             RegionName.MECH_ZEEK_CONNECTION,
@@ -669,121 +667,121 @@ astalon_regions: Dict[RegionName, RegionData] = {
             RegionName.CATA_ELEVATOR,
             RegionName.CATA_BOSS,
             RegionName.TR_START,
-        },
+        ),
         boss=True,
         campfire=True,
         elevator=True,
     ),
     RegionName.HOTP_START: RegionData(
-        exits={
+        exits=(
             RegionName.MECH_BOSS,
             RegionName.HOTP_START_MID,
             RegionName.HOTP_START_BOTTOM,
-        },
+        ),
     ),
     RegionName.HOTP_START_MID: RegionData(
-        exits={
+        exits=(
             RegionName.HOTP_START,
             RegionName.HOTP_LOWER_VOID,
             RegionName.HOTP_START_LEFT,
             RegionName.HOTP_START_BOTTOM_MID,
-        },
+        ),
     ),
     RegionName.HOTP_LOWER_VOID: RegionData(
-        exits={
+        exits=(
             RegionName.HOTP_START_MID,
             RegionName.HOTP_UPPER_VOID,
-        },
+        ),
         portal=True,
     ),
     RegionName.HOTP_START_LEFT: RegionData(
-        exits={
+        exits=(
             RegionName.HOTP_START_MID,
             RegionName.HOTP_ELEVATOR,
-        },
+        ),
     ),
     RegionName.HOTP_START_BOTTOM: RegionData(
-        exits={
+        exits=(
             RegionName.MECH_BRAM_TUNNEL,
             RegionName.HOTP_START,
             RegionName.HOTP_START_BOTTOM_MID,
             RegionName.HOTP_LOWER,
-        },
+        ),
     ),
     RegionName.HOTP_START_BOTTOM_MID: RegionData(
-        exits={
+        exits=(
             RegionName.HOTP_START_MID,
             RegionName.HOTP_START_BOTTOM,
-        },
+        ),
     ),
     RegionName.HOTP_LOWER: RegionData(
-        exits={
+        exits=(
             RegionName.HOTP_START_BOTTOM,
             RegionName.HOTP_EPIMETHEUS,
             RegionName.HOTP_MECH_VOID_CONNECTION,
             RegionName.HOTP_TP_TUTORIAL,
-        },
+        ),
     ),
     RegionName.HOTP_EPIMETHEUS: RegionData(
-        exits={
+        exits=(
             RegionName.MECH_AFTER_BK,
             RegionName.HOTP_LOWER,
-        },
+        ),
         campfire=True,
     ),
     RegionName.HOTP_MECH_VOID_CONNECTION: RegionData(
-        exits={
+        exits=(
             RegionName.MECH_LOWER_VOID,
             RegionName.HOTP_LOWER,
             RegionName.HOTP_AMULET_CONNECTION,
-        },
+        ),
     ),
     RegionName.HOTP_AMULET_CONNECTION: RegionData(
-        exits={
+        exits=(
             RegionName.GT_BUTT,
             RegionName.HOTP_MECH_VOID_CONNECTION,
             RegionName.HOTP_AMULET,
-        },
+        ),
     ),
     RegionName.HOTP_AMULET: RegionData(),
     RegionName.HOTP_TP_TUTORIAL: RegionData(
-        exits={
+        exits=(
             RegionName.HOTP_LOWER,
             RegionName.HOTP_BELL_CAMPFIRE,
-        },
+        ),
     ),
     RegionName.HOTP_BELL_CAMPFIRE: RegionData(
-        exits={
+        exits=(
             RegionName.HOTP_TP_TUTORIAL,
             RegionName.HOTP_RED_KEY,
             RegionName.HOTP_BELL,
             RegionName.HOTP_CATH_CONNECTION,
             RegionName.HOTP_LOWER_ARIAS,
-        },
+        ),
         campfire=True,
     ),
     RegionName.HOTP_RED_KEY: RegionData(),
     RegionName.HOTP_BELL: RegionData(),
     RegionName.HOTP_CATH_CONNECTION: RegionData(
-        exits={
+        exits=(
             RegionName.HOTP_BELL,
             RegionName.CATH_START,
-        },
+        ),
     ),
     RegionName.HOTP_LOWER_ARIAS: RegionData(
-        exits={
+        exits=(
             RegionName.HOTP_BELL_CAMPFIRE,
             RegionName.HOTP_EYEBALL,
-        },
+        ),
     ),
     RegionName.HOTP_EYEBALL: RegionData(
-        exits={
+        exits=(
             RegionName.HOTP_LOWER_ARIAS,
             RegionName.HOTP_ELEVATOR,
-        },
+        ),
     ),
     RegionName.HOTP_ELEVATOR: RegionData(
-        exits={
+        exits=(
             RegionName.GT_BOSS,
             RegionName.MECH_ZEEK_CONNECTION,
             RegionName.MECH_BOSS,
@@ -798,100 +796,96 @@ astalon_regions: Dict[RegionName, RegionData] = {
             RegionName.CATA_ELEVATOR,
             RegionName.CATA_BOSS,
             RegionName.TR_START,
-        },
+        ),
         elevator=True,
     ),
     RegionName.HOTP_OLD_MAN: RegionData(),
     RegionName.HOTP_CLAW_LEFT: RegionData(
-        exits={
+        exits=(
             RegionName.HOTP_ELEVATOR,
             RegionName.HOTP_TOP_LEFT,
             RegionName.HOTP_CLAW,
-        },
+        ),
     ),
     RegionName.HOTP_TOP_LEFT: RegionData(
-        exits={
+        exits=(
             RegionName.HOTP_ELEVATOR,
             RegionName.HOTP_CLAW_LEFT,
             RegionName.HOTP_ABOVE_OLD_MAN,
             RegionName.HOTP_CLAW_CAMPFIRE,
-        },
+        ),
     ),
     RegionName.HOTP_ABOVE_OLD_MAN: RegionData(),
     RegionName.HOTP_CLAW_CAMPFIRE: RegionData(
-        exits={
+        exits=(
             RegionName.HOTP_TOP_LEFT,
             RegionName.HOTP_CLAW,
             RegionName.HOTP_HEART,
-        },
+        ),
         campfire=True,
     ),
     RegionName.HOTP_CLAW: RegionData(
-        exits={
+        exits=(
             RegionName.HOTP_CLAW_LEFT,
             RegionName.HOTP_CLAW_CAMPFIRE,
-        },
+        ),
     ),
     RegionName.HOTP_HEART: RegionData(
-        exits={
+        exits=(
             RegionName.HOTP_CLAW_CAMPFIRE,
             RegionName.HOTP_UPPER_ARIAS,
             RegionName.HOTP_BOSS_CAMPFIRE,
-        },
+        ),
     ),
     RegionName.HOTP_UPPER_ARIAS: RegionData(
-        exits={
+        exits=(
             RegionName.HOTP_HEART,
             RegionName.HOTP_BOSS_CAMPFIRE,
-        },
+        ),
     ),
     RegionName.HOTP_BOSS_CAMPFIRE: RegionData(
-        exits={
+        exits=(
             RegionName.MECH_TRIPLE_SWITCHES,
             RegionName.HOTP_HEART,
             RegionName.HOTP_MAIDEN,
             RegionName.HOTP_TP_PUZZLE,
             RegionName.HOTP_BOSS,
-        },
+        ),
         campfire=True,
     ),
     RegionName.HOTP_MAIDEN: RegionData(statue=True),
     RegionName.HOTP_TP_PUZZLE: RegionData(
-        exits={
-            RegionName.HOTP_TP_FALL_TOP,
-        },
+        exits=(RegionName.HOTP_TP_FALL_TOP,),
     ),
     RegionName.HOTP_TP_FALL_TOP: RegionData(
-        exits={
+        exits=(
             RegionName.HOTP_BOSS_CAMPFIRE,
             RegionName.HOTP_TP_PUZZLE,
             RegionName.HOTP_GAUNTLET_CONNECTION,
             RegionName.HOTP_FALL_BOTTOM,
-        },
+        ),
     ),
     RegionName.HOTP_GAUNTLET_CONNECTION: RegionData(
-        exits={
-            RegionName.HOTP_GAUNTLET,
-        },
+        exits=(RegionName.HOTP_GAUNTLET,),
     ),
     RegionName.HOTP_GAUNTLET: RegionData(),
     RegionName.HOTP_FALL_BOTTOM: RegionData(
-        exits={
+        exits=(
             RegionName.MECH_TP_CONNECTION,
             RegionName.HOTP_TP_FALL_TOP,
             RegionName.HOTP_UPPER_VOID,
-        },
+        ),
     ),
     RegionName.HOTP_UPPER_VOID: RegionData(
-        exits={
+        exits=(
             RegionName.HOTP_LOWER_VOID,
             RegionName.HOTP_TP_FALL_TOP,
             RegionName.HOTP_FALL_BOTTOM,
-        },
+        ),
         portal=True,
     ),
     RegionName.HOTP_BOSS: RegionData(
-        exits={
+        exits=(
             RegionName.GT_BOSS,
             RegionName.MECH_ZEEK_CONNECTION,
             RegionName.MECH_BOSS,
@@ -903,89 +897,89 @@ astalon_regions: Dict[RegionName, RegionData] = {
             RegionName.CATA_ELEVATOR,
             RegionName.CATA_BOSS,
             RegionName.TR_START,
-        },
+        ),
         boss=True,
         elevator=True,
     ),
     RegionName.ROA_START: RegionData(
-        exits={
+        exits=(
             RegionName.HOTP_BOSS,
             RegionName.ROA_WORMS,
-        },
+        ),
         campfire=True,
     ),
     RegionName.ROA_WORMS: RegionData(
-        exits={
+        exits=(
             RegionName.ROA_START,
             RegionName.ROA_WORMS_CONNECTION,
             RegionName.ROA_LOWER_VOID_CONNECTION,
-        },
+        ),
     ),
     RegionName.ROA_WORMS_CONNECTION: RegionData(
-        exits={
+        exits=(
             RegionName.ROA_WORMS,
             RegionName.ROA_HEARTS,
-        },
+        ),
     ),
     RegionName.ROA_HEARTS: RegionData(
-        exits={
+        exits=(
             RegionName.ROA_WORMS_CONNECTION,
             RegionName.ROA_SPIKE_CLIMB,
             RegionName.ROA_BOTTOM_ASCEND,
-        },
+        ),
     ),
     RegionName.ROA_SPIKE_CLIMB: RegionData(
-        exits={
+        exits=(
             RegionName.ROA_HEARTS,
             RegionName.ROA_BOTTOM_ASCEND,
-        },
+        ),
     ),
     RegionName.ROA_BOTTOM_ASCEND: RegionData(
-        exits={
+        exits=(
             RegionName.ROA_HEARTS,
             RegionName.ROA_SPIKE_CLIMB,
             RegionName.ROA_TRIPLE_REAPER,
             RegionName.ROA_TOP_ASCENT,
-        },
+        ),
     ),
     RegionName.ROA_TRIPLE_REAPER: RegionData(
-        exits={
+        exits=(
             RegionName.ROA_BOTTOM_ASCEND,
             RegionName.ROA_ARENA,
-        },
+        ),
     ),
     RegionName.ROA_ARENA: RegionData(
-        exits={
+        exits=(
             RegionName.ROA_TRIPLE_REAPER,
             RegionName.ROA_LOWER_VOID_CONNECTION,
             RegionName.ROA_FLAMES_CONNECTION,
-        },
+        ),
     ),
     RegionName.ROA_LOWER_VOID_CONNECTION: RegionData(
-        exits={
+        exits=(
             RegionName.ROA_WORMS,
             RegionName.ROA_ARENA,
             RegionName.ROA_LOWER_VOID,
             RegionName.ROA_ARIAS_BABY_GORGON,
             RegionName.ROA_FLAMES_CONNECTION,
-        },
+        ),
     ),
     RegionName.ROA_LOWER_VOID: RegionData(
-        exits={
+        exits=(
             RegionName.ROA_LOWER_VOID_CONNECTION,
             RegionName.ROA_UPPER_VOID,
-        },
+        ),
         portal=True,
     ),
     RegionName.ROA_ARIAS_BABY_GORGON: RegionData(
-        exits={
+        exits=(
             RegionName.ROA_LOWER_VOID_CONNECTION,
             RegionName.ROA_FLAMES_CONNECTION,
             RegionName.ROA_FLAMES,
-        },
+        ),
     ),
     RegionName.ROA_FLAMES_CONNECTION: RegionData(
-        exits={
+        exits=(
             RegionName.ROA_ARENA,
             RegionName.ROA_LOWER_VOID_CONNECTION,
             RegionName.ROA_ARIAS_BABY_GORGON,
@@ -993,122 +987,118 @@ astalon_regions: Dict[RegionName, RegionData] = {
             RegionName.ROA_WORM_CLIMB,
             RegionName.ROA_LEFT_ASCENT,
             RegionName.ROA_LEFT_ASCENT_CRYSTAL,
-        },
+        ),
     ),
     RegionName.ROA_FLAMES: RegionData(
-        exits={
-            RegionName.ROA_ARIAS_BABY_GORGON,
-        },
+        exits=(RegionName.ROA_ARIAS_BABY_GORGON,),
     ),
     RegionName.ROA_WORM_CLIMB: RegionData(
-        exits={
+        exits=(
             RegionName.ROA_FLAMES_CONNECTION,
             RegionName.ROA_RIGHT_BRANCH,
-        },
+        ),
     ),
     RegionName.ROA_RIGHT_BRANCH: RegionData(
-        exits={
+        exits=(
             RegionName.ROA_WORM_CLIMB,
             RegionName.ROA_MIDDLE,
-        },
+        ),
     ),
     RegionName.ROA_LEFT_ASCENT: RegionData(
-        exits={
+        exits=(
             RegionName.ROA_FLAMES_CONNECTION,
             RegionName.ROA_LEFT_ASCENT_CRYSTAL,
             RegionName.ROA_TOP_ASCENT,
-        },
+        ),
         campfire=True,
     ),
     RegionName.ROA_LEFT_ASCENT_CRYSTAL: RegionData(),
     RegionName.ROA_TOP_ASCENT: RegionData(
-        exits={
+        exits=(
             RegionName.ROA_LEFT_ASCENT,
             RegionName.ROA_TRIPLE_SWITCH,
-        },
+        ),
     ),
     RegionName.ROA_TRIPLE_SWITCH: RegionData(
-        exits={
+        exits=(
             RegionName.ROA_TOP_ASCENT,
             RegionName.ROA_MIDDLE,
-        },
+        ),
     ),
     RegionName.ROA_MIDDLE: RegionData(
-        exits={
+        exits=(
             RegionName.ROA_RIGHT_BRANCH,
             RegionName.ROA_TRIPLE_SWITCH,
             RegionName.ROA_LEFT_BABY_GORGON,
             RegionName.ROA_LEFT_SWITCH,
             RegionName.ROA_RIGHT_SWITCH_1,
             RegionName.ROA_MIDDLE_LADDER,
-        },
+        ),
         campfire=True,
     ),
     RegionName.ROA_LEFT_BABY_GORGON: RegionData(),
     RegionName.ROA_LEFT_SWITCH: RegionData(),
     RegionName.ROA_RIGHT_SWITCH_1: RegionData(
-        exits={
-            RegionName.ROA_RIGHT_SWITCH_2,
-        },
+        exits=(RegionName.ROA_RIGHT_SWITCH_2,),
     ),
     RegionName.ROA_RIGHT_SWITCH_2: RegionData(),
     RegionName.ROA_MIDDLE_LADDER: RegionData(
-        exits={
+        exits=(
             RegionName.ROA_MIDDLE,
             RegionName.ROA_UPPER_VOID,
-        },
+        ),
     ),
     RegionName.ROA_UPPER_VOID: RegionData(
-        exits={
+        exits=(
             RegionName.ROA_LOWER_VOID,
             RegionName.ROA_MIDDLE_LADDER,
             RegionName.ROA_SPIKE_BALLS,
             RegionName.ROA_SP_CONNECTION,
-        },
+        ),
         portal=True,
     ),
     RegionName.ROA_SPIKE_BALLS: RegionData(
-        exits={
+        exits=(
             RegionName.ROA_UPPER_VOID,
             RegionName.ROA_SPIKE_SPINNERS,
-        },
+        ),
     ),
     RegionName.ROA_SPIKE_SPINNERS: RegionData(
-        exits={
+        exits=(
             RegionName.ROA_SPIKE_BALLS,
             RegionName.ROA_SPIDERS_1,
-        },
+        ),
     ),
     RegionName.ROA_SPIDERS_1: RegionData(
-        exits={
+        exits=(
             RegionName.ROA_SPIKE_SPINNERS,
             RegionName.ROA_RED_KEY,
             RegionName.ROA_SPIDERS_2,
-        },
+        ),
     ),
     RegionName.ROA_RED_KEY: RegionData(),
     RegionName.ROA_SPIDERS_2: RegionData(
-        exits={
+        exits=(
             RegionName.ROA_SPIDERS_1,
             RegionName.ROA_BLOOD_POT_HALLWAY,
-        },
+        ),
     ),
     RegionName.ROA_BLOOD_POT_HALLWAY: RegionData(
-        exits={
+        exits=(
             RegionName.ROA_SPIDERS_2,
             RegionName.ROA_SP_CONNECTION,
-        },
+        ),
     ),
     RegionName.ROA_SP_CONNECTION: RegionData(
-        exits={
+        exits=(
             RegionName.ROA_UPPER_VOID,
             RegionName.ROA_BLOOD_POT_HALLWAY,
             RegionName.ROA_ELEVATOR,
             RegionName.SP_START,
-        },
+        ),
     ),
     RegionName.ROA_ELEVATOR: RegionData(
-        exits={
+        exits=(
             RegionName.GT_BOSS,
             RegionName.MECH_ZEEK_CONNECTION,
             RegionName.MECH_BOSS,
@@ -1121,56 +1111,52 @@ astalon_regions: Dict[RegionName, RegionData] = {
             RegionName.CATA_ELEVATOR,
             RegionName.CATA_BOSS,
             RegionName.TR_START,
-        },
+        ),
         campfire=True,
         elevator=True,
     ),
     RegionName.ROA_ICARUS: RegionData(),
     RegionName.ROA_DARK_CONNECTION: RegionData(
-        exits={
+        exits=(
             RegionName.ROA_ELEVATOR,
             RegionName.DARK_START,
             RegionName.ROA_CENTAUR,
-        },
+        ),
     ),
     RegionName.DARK_START: RegionData(
-        exits={
-            RegionName.DARK_END,
-        },
+        exits=(RegionName.DARK_END,),
     ),
     RegionName.DARK_END: RegionData(
-        exits={
-            RegionName.ROA_CENTAUR,
-        },
+        exits=(RegionName.ROA_CENTAUR,),
     ),
     RegionName.ROA_CENTAUR: RegionData(
-        exits={
+        exits=(
             RegionName.ROA_DARK_CONNECTION,
             RegionName.ROA_BOSS_CONNECTION,
-        },
+        ),
     ),
     RegionName.ROA_BOSS_CONNECTION: RegionData(
-        exits={
+        exits=(
             RegionName.ROA_CENTAUR,
             RegionName.ROA_BOSS,
-        },
+        ),
     ),
     RegionName.ROA_BOSS: RegionData(
-        exits={
+        exits=(
             RegionName.ROA_BOSS_CONNECTION,
             RegionName.ROA_APEX_CONNECTION,
-        },
+        ),
         boss=True,
         campfire=True,
     ),
     RegionName.ROA_APEX_CONNECTION: RegionData(
-        exits={
+        exits=(
             RegionName.ROA_BOSS,
             RegionName.APEX,
-        },
+        ),
     ),
     RegionName.APEX: RegionData(
-        exits={
+        exits=(
             RegionName.GT_BOSS,
             RegionName.MECH_ZEEK_CONNECTION,
             RegionName.MECH_BOSS,
@@ -1184,64 +1170,64 @@ astalon_regions: Dict[RegionName, RegionData] = {
             RegionName.CATA_ELEVATOR,
             RegionName.CATA_BOSS,
             RegionName.TR_START,
-        },
+        ),
         campfire=True,
         elevator=True,
         statue=True,
     ),
-    RegionName.APEX_CENTAUR_ACCESS: RegionData(exits={RegionName.APEX_CENTAUR}),
+    RegionName.APEX_CENTAUR_ACCESS: RegionData(
+        exits=(RegionName.APEX_CENTAUR,),
+    ),
     RegionName.APEX_CENTAUR: RegionData(boss=True),
     RegionName.APEX_HEART: RegionData(),
     RegionName.CAVES_START: RegionData(
-        exits={
+        exits=(
             RegionName.GT_BOTTOM,
             RegionName.CAVES_EPIMETHEUS,
-        },
+        ),
     ),
     RegionName.CAVES_EPIMETHEUS: RegionData(
-        exits={
+        exits=(
             RegionName.CAVES_START,
             RegionName.CAVES_UPPER,
-        },
+        ),
         statue=True,
     ),
     RegionName.CAVES_UPPER: RegionData(
-        exits={
+        exits=(
             RegionName.CAVES_EPIMETHEUS,
             RegionName.CAVES_ARENA,
             RegionName.CAVES_LOWER,
-        },
+        ),
     ),
     RegionName.CAVES_ARENA: RegionData(),
     RegionName.CAVES_LOWER: RegionData(
-        exits={
+        exits=(
             RegionName.CAVES_UPPER,
             RegionName.CAVES_ITEM_CHAIN,
             RegionName.CATA_START,
-        },
+        ),
         campfire=True,
     ),
     RegionName.CAVES_ITEM_CHAIN: RegionData(),
     RegionName.CATA_START: RegionData(
-        exits={
+        exits=(
             RegionName.CAVES_LOWER,
             RegionName.CATA_CLIMBABLE_ROOT,
-        },
+        ),
     ),
     RegionName.CATA_CLIMBABLE_ROOT: RegionData(
-        exits={
-            RegionName.CATA_TOP,
-        },
+        exits=(RegionName.CATA_TOP,),
     ),
     RegionName.CATA_TOP: RegionData(
-        exits={
+        exits=(
             RegionName.CATA_CLIMBABLE_ROOT,
             RegionName.CATA_ELEVATOR,
             RegionName.CATA_BOW_CAMPFIRE,
-        },
+        ),
     ),
     RegionName.CATA_ELEVATOR: RegionData(
-        exits={
+        exits=(
             RegionName.GT_BOSS,
             RegionName.MECH_ZEEK_CONNECTION,
             RegionName.MECH_BOSS,
@@ -1253,122 +1239,120 @@ astalon_regions: Dict[RegionName, RegionData] = {
             RegionName.CATA_MULTI,
             RegionName.CATA_BOSS,
             RegionName.TR_START,
-        },
+        ),
         elevator=True,
     ),
     RegionName.CATA_MULTI: RegionData(multiplier=True),
     RegionName.CATA_BOW_CAMPFIRE: RegionData(
-        exits={
+        exits=(
             RegionName.CATA_TOP,
             RegionName.CATA_BOW_CONNECTION,
             RegionName.CATA_EYEBALL_BONES,
-        },
+        ),
         campfire=True,
     ),
     RegionName.CATA_BOW_CONNECTION: RegionData(
-        exits={
+        exits=(
             RegionName.CATA_BOW_CAMPFIRE,
             RegionName.CATA_BOW,
             RegionName.CATA_VERTICAL_SHORTCUT,
-        },
+        ),
     ),
     RegionName.CATA_BOW: RegionData(),
     RegionName.CATA_VERTICAL_SHORTCUT: RegionData(
-        exits={
+        exits=(
             RegionName.CATA_BOW_CONNECTION,
             RegionName.CATA_BLUE_EYE_DOOR,
             RegionName.CATA_FLAMES_FORK,
-        },
+        ),
     ),
     RegionName.CATA_EYEBALL_BONES: RegionData(
-        exits={
+        exits=(
             RegionName.CATA_BOW_CAMPFIRE,
             RegionName.CATA_SNAKE_MUSHROOMS,
-        },
+        ),
     ),
     RegionName.CATA_SNAKE_MUSHROOMS: RegionData(
-        exits={
+        exits=(
             RegionName.CATA_EYEBALL_BONES,
             RegionName.CATA_DEV_ROOM_CONNECTION,
             RegionName.CATA_DOUBLE_SWITCH,
-        },
+        ),
     ),
     RegionName.CATA_DEV_ROOM_CONNECTION: RegionData(
-        exits={
-            RegionName.CATA_DEV_ROOM,
-        },
+        exits=(RegionName.CATA_DEV_ROOM,),
     ),
     RegionName.CATA_DEV_ROOM: RegionData(
         campfire=True,
         statue=True,
     ),
     RegionName.CATA_DOUBLE_SWITCH: RegionData(
-        exits={
+        exits=(
             RegionName.CATA_SNAKE_MUSHROOMS,
             RegionName.CATA_ROOTS_CAMPFIRE,
-        },
+        ),
     ),
     RegionName.CATA_ROOTS_CAMPFIRE: RegionData(
-        exits={
+        exits=(
             RegionName.CATA_DOUBLE_SWITCH,
             RegionName.CATA_ABOVE_ROOTS,
             RegionName.CATA_POISON_ROOTS,
             RegionName.CATA_BLUE_EYE_DOOR,
-        },
+        ),
         campfire=True,
     ),
     RegionName.CATA_ABOVE_ROOTS: RegionData(),
     RegionName.CATA_POISON_ROOTS: RegionData(),
     RegionName.CATA_BLUE_EYE_DOOR: RegionData(
-        exits={
+        exits=(
             RegionName.CATA_ROOTS_CAMPFIRE,
             RegionName.CATA_FLAMES_FORK,
-        },
+        ),
     ),
     RegionName.CATA_FLAMES_FORK: RegionData(
-        exits={
+        exits=(
             RegionName.CATA_VERTICAL_SHORTCUT,
             RegionName.CATA_BLUE_EYE_DOOR,
             RegionName.CATA_FLAMES,
             RegionName.CATA_CENTAUR,
-        },
+        ),
     ),
     RegionName.CATA_FLAMES: RegionData(),
     RegionName.CATA_CENTAUR: RegionData(
-        exits={
+        exits=(
             RegionName.CATA_FLAMES_FORK,
             RegionName.CATA_4_FACES,
             RegionName.CATA_BOSS,
-        },
+        ),
     ),
     RegionName.CATA_4_FACES: RegionData(
-        exits={
+        exits=(
             RegionName.CATA_CENTAUR,
             RegionName.CATA_DOUBLE_DOOR,
-        },
+        ),
     ),
     RegionName.CATA_DOUBLE_DOOR: RegionData(
-        exits={
+        exits=(
             RegionName.CATA_4_FACES,
             RegionName.CATA_VOID_R,
-        },
+        ),
     ),
     RegionName.CATA_VOID_R: RegionData(
-        exits={
+        exits=(
             RegionName.CATA_DOUBLE_DOOR,
             RegionName.CATA_VOID_L,
-        },
+        ),
         portal=True,
     ),
     RegionName.CATA_VOID_L: RegionData(
-        exits={
+        exits=(
             RegionName.CATA_VOID_R,
             RegionName.CATA_BOSS,
-        },
+        ),
         portal=True,
     ),
     RegionName.CATA_BOSS: RegionData(
-        exits={
+        exits=(
             RegionName.GT_BOSS,
             RegionName.MECH_ZEEK_CONNECTION,
             RegionName.MECH_BOSS,
@@ -1381,13 +1365,13 @@ astalon_regions: Dict[RegionName, RegionData] = {
             RegionName.CATA_VOID_L,
             RegionName.TR_START,
             RegionName.TR_START,
-        },
+        ),
         boss=True,
         campfire=True,
         elevator=True,
     ),
     RegionName.TR_START: RegionData(
-        exits={
+        exits=(
             RegionName.GT_BOSS,
             RegionName.MECH_ZEEK_CONNECTION,
             RegionName.MECH_BOSS,
@@ -1400,222 +1384,180 @@ astalon_regions: Dict[RegionName, RegionData] = {
             RegionName.CATA_BOSS,
             RegionName.TR_BRAM,
             RegionName.TR_LEFT,
-        },
+        ),
         campfire=True,
         elevator=True,
     ),
     RegionName.TR_BRAM: RegionData(),
     RegionName.TR_LEFT: RegionData(
-        exits={
+        exits=(
             RegionName.TR_BOTTOM_LEFT,
             RegionName.TR_TOP_RIGHT,
-        },
+        ),
     ),
     RegionName.TR_BOTTOM_LEFT: RegionData(
-        exits={
-            RegionName.TR_BOTTOM,
-        },
+        exits=(RegionName.TR_BOTTOM,),
     ),
     RegionName.TR_TOP_RIGHT: RegionData(
-        exits={
+        exits=(
             RegionName.TR_GOLD,
             RegionName.TR_MIDDLE_RIGHT,
-        },
+        ),
     ),
     RegionName.TR_GOLD: RegionData(),
     RegionName.TR_MIDDLE_RIGHT: RegionData(
-        exits={
+        exits=(
             RegionName.TR_DARK_ARIAS,
             RegionName.TR_BOTTOM,
-        },
+        ),
     ),
     RegionName.TR_DARK_ARIAS: RegionData(boss=True),
     RegionName.TR_BOTTOM: RegionData(
-        exits={
-            RegionName.TR_BOTTOM_LEFT,
-        },
+        exits=(RegionName.TR_BOTTOM_LEFT,),
     ),
     RegionName.CD_START: RegionData(
-        exits={
+        exits=(
             RegionName.CD_2,
             RegionName.CD_BOSS,
-        },
+        ),
         campfire=True,
     ),
     RegionName.CD_2: RegionData(
-        exits={
-            RegionName.CD_3,
-        },
+        exits=(RegionName.CD_3,),
     ),
     RegionName.CD_3: RegionData(
-        exits={
-            RegionName.CD_MIDDLE,
-        },
+        exits=(RegionName.CD_MIDDLE,),
     ),
     RegionName.CD_MIDDLE: RegionData(
-        exits={
+        exits=(
             RegionName.CD_ARIAS_ROUTE,
             RegionName.CD_KYULI_ROUTE,
-        },
+        ),
         campfire=True,
     ),
     RegionName.CD_ARIAS_ROUTE: RegionData(),
     RegionName.CD_KYULI_ROUTE: RegionData(
-        exits={
-            RegionName.CD_CAMPFIRE_3,
-        },
+        exits=(RegionName.CD_CAMPFIRE_3,),
     ),
     RegionName.CD_CAMPFIRE_3: RegionData(
-        exits={
-            RegionName.CD_ARENA,
-        },
+        exits=(RegionName.CD_ARENA,),
         campfire=True,
     ),
     RegionName.CD_ARENA: RegionData(
-        exits={
-            RegionName.CD_STEPS,
-        },
+        exits=(RegionName.CD_STEPS,),
     ),
     RegionName.CD_STEPS: RegionData(
-        exits={
-            RegionName.CD_TOP,
-        },
+        exits=(RegionName.CD_TOP,),
     ),
     RegionName.CD_TOP: RegionData(campfire=True),
     RegionName.CD_BOSS: RegionData(boss=True),
     RegionName.CATH_START: RegionData(
-        exits={
+        exits=(
             RegionName.CATH_START_RIGHT,
             RegionName.CATH_START_LEFT,
-        },
+        ),
         portal=True,
     ),
     RegionName.CATH_START_RIGHT: RegionData(
-        exits={
-            RegionName.CATH_START_TOP_LEFT,
-        },
+        exits=(RegionName.CATH_START_TOP_LEFT,),
     ),
     RegionName.CATH_START_TOP_LEFT: RegionData(
-        exits={
-            RegionName.CATH_START_LEFT,
-        },
+        exits=(RegionName.CATH_START_LEFT,),
     ),
     RegionName.CATH_START_LEFT: RegionData(
-        exits={
-            RegionName.CATH_TP,
-        },
+        exits=(RegionName.CATH_TP,),
     ),
     RegionName.CATH_TP: RegionData(
-        exits={
-            RegionName.CATH_LEFT_SHAFT,
-        },
+        exits=(RegionName.CATH_LEFT_SHAFT,),
     ),
     RegionName.CATH_LEFT_SHAFT: RegionData(
-        exits={
+        exits=(
             RegionName.CATH_UNDER_CAMPFIRE,
             RegionName.CATH_SHAFT_ACCESS,
-        },
+        ),
     ),
     RegionName.CATH_UNDER_CAMPFIRE: RegionData(
-        exits={
-            RegionName.CATH_CAMPFIRE_1,
-        },
+        exits=(RegionName.CATH_CAMPFIRE_1,),
     ),
     RegionName.CATH_CAMPFIRE_1: RegionData(
-        exits={
-            RegionName.CATH_SHAFT_ACCESS,
-        },
+        exits=(RegionName.CATH_SHAFT_ACCESS,),
         campfire=True,
     ),
     RegionName.CATH_SHAFT_ACCESS: RegionData(
-        exits={
-            RegionName.CATH_ORB_ROOM,
-        },
+        exits=(RegionName.CATH_ORB_ROOM,),
     ),
     RegionName.CATH_ORB_ROOM: RegionData(
-        exits={
+        exits=(
             RegionName.CATH_GOLD_BLOCK,
             RegionName.CATH_RIGHT_SHAFT_CONNECTION,
-        },
+        ),
     ),
     RegionName.CATH_GOLD_BLOCK: RegionData(),
     RegionName.CATH_RIGHT_SHAFT_CONNECTION: RegionData(
-        exits={
-            RegionName.CATH_RIGHT_SHAFT,
-        },
+        exits=(RegionName.CATH_RIGHT_SHAFT,),
     ),
     RegionName.CATH_RIGHT_SHAFT: RegionData(
-        exits={
-            RegionName.CATH_TOP,
-        },
+        exits=(RegionName.CATH_TOP,),
     ),
     RegionName.CATH_TOP: RegionData(
-        exits={
+        exits=(
             RegionName.CATH_CAMPFIRE_2,
             RegionName.CATH_UPPER_SPIKE_PIT,
-        },
+        ),
     ),
     RegionName.CATH_CAMPFIRE_2: RegionData(campfire=True),
     RegionName.CATH_UPPER_SPIKE_PIT: RegionData(),
     RegionName.SP_START: RegionData(
-        exits={
+        exits=(
             RegionName.SP_CAMPFIRE_1,
             RegionName.SP_STAR_END,
-        },
+        ),
     ),
     RegionName.SP_CAMPFIRE_1: RegionData(
-        exits={
-            RegionName.SP_HEARTS,
-        },
+        exits=(RegionName.SP_HEARTS,),
         campfire=True,
     ),
     RegionName.SP_HEARTS: RegionData(
-        exits={
+        exits=(
             RegionName.SP_CAMPFIRE_1,
             RegionName.SP_PAINTING,
             RegionName.SP_ORBS,
             RegionName.SP_FROG,
-        },
+        ),
     ),
     RegionName.SP_PAINTING: RegionData(
-        exits={
+        exits=(
             RegionName.SP_HEARTS,
             RegionName.SP_SHAFT,
-        },
+        ),
     ),
     RegionName.SP_SHAFT: RegionData(
-        exits={
+        exits=(
             RegionName.SP_PAINTING,
             RegionName.SP_STAR,
-        },
+        ),
     ),
     RegionName.SP_STAR: RegionData(
-        exits={
+        exits=(
             RegionName.SP_SHAFT,
             RegionName.SP_STAR_CONNECTION,
-        },
+        ),
     ),
     RegionName.SP_STAR_CONNECTION: RegionData(
-        exits={
+        exits=(
             RegionName.SP_STAR,
             RegionName.SP_STAR_END,
-        },
+        ),
     ),
     RegionName.SP_STAR_END: RegionData(
-        exits={
-            RegionName.SP_STAR_CONNECTION,
-        },
+        exits=(RegionName.SP_STAR_CONNECTION,),
     ),
     RegionName.SP_ORBS: RegionData(),
     RegionName.SP_FROG: RegionData(
-        exits={
-            RegionName.SP_CAMPFIRE_2,
-        },
+        exits=(RegionName.SP_CAMPFIRE_2,),
     ),
     RegionName.SP_CAMPFIRE_2: RegionData(
-        exits={
-            RegionName.HOTP_MAIDEN,
-        },
+        exits=(RegionName.HOTP_MAIDEN,),
         campfire=True,
     ),
 }
