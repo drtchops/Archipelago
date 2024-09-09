@@ -5294,6 +5294,9 @@
                         "name": "Ruins of Ash - Blue Key (Flames)",
                         "access_rules": ["gauntlet,roa_white_1,WHITE_ON", "gauntlet,WHITE_OFF"],
                         "visibility_rules": ["BLUE_ON"]
+                    },
+                    {
+                        "name": "Ruins of Ash - Switch (Baby Gorgon)"
                     }
                 ],
                 "map_locations": [
@@ -5316,9 +5319,6 @@
                     {
                         "name": "Ruins of Ash - Blue Key (Baby Gorgon)",
                         "visibility_rules": ["BLUE_ON"]
-                    },
-                    {
-                        "name": "Ruins of Ash - Switch (Baby Gorgon)"
                     }
                 ],
                 "map_locations": [

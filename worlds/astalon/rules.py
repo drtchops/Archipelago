@@ -915,7 +915,7 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
         and rules.can(state, Logic.EXTRA_HEIGHT)
     ),
     (R.ROA_FLAMES_CONNECTION, R.ROA_ARIAS_BABY_GORGON): lambda rules, state: (
-        rules.hard and rules.has_any(state, ShopUpgrade.BRAM_WHIPLASH, ShopUpgrade.KYULI_RAY)
+        rules.hard and rules.has_any(state, ShopUpgrade.BRAM_AXE, ShopUpgrade.KYULI_RAY)
     ),
     (R.ROA_FLAMES_CONNECTION, R.ROA_FLAMES): lambda rules, state: (
         rules.has(state, KeyItem.GAUNTLET, KeyItem.BELL) and rules.can(state, Logic.EXTRA_HEIGHT)
