@@ -1152,7 +1152,9 @@ location_table: Dict[str, LocationData] = {
     LocationName.ROA_CANDLE_BOSS_2.value: LocationData(RegionName.ROA_BOSS, LocationGroup.CANDLE, Area.ROA),
     LocationName.ROA_CANDLE_SPIDERS.value: LocationData(RegionName.ROA_SPIDERS_1, LocationGroup.CANDLE, Area.ROA),
     LocationName.ROA_CANDLE_SPIKE_BALLS.value: LocationData(RegionName.ROA_UPPER_VOID, LocationGroup.CANDLE, Area.ROA),
-    LocationName.ROA_CANDLE_LADDER_R.value: LocationData(RegionName.ROA_RIGHT_SWITCH_2, LocationGroup.CANDLE, Area.ROA),
+    LocationName.ROA_CANDLE_LADDER_R.value: LocationData(
+        RegionName.ROA_RIGHT_SWITCH_CANDLE, LocationGroup.CANDLE, Area.ROA
+    ),
     LocationName.ROA_CANDLE_ARENA.value: LocationData(RegionName.ROA_ARENA, LocationGroup.CANDLE, Area.ROA),
     LocationName.APEX_CANDLE_ELEVATOR.value: LocationData(RegionName.APEX, LocationGroup.CANDLE, Area.APEX),
     LocationName.APEX_CANDLE_CHALICE_1.value: LocationData(
@@ -1171,7 +1173,7 @@ location_table: Dict[str, LocationData] = {
     LocationName.CATA_CANDLE_1ST_ROOM.value: LocationData(RegionName.CATA_START, LocationGroup.CANDLE, Area.CATA),
     LocationName.CATA_CANDLE_ORB_MULTI.value: LocationData(RegionName.CATA_MULTI, LocationGroup.CANDLE, Area.CATA),
     LocationName.CATA_CANDLE_AFTER_BOW.value: LocationData(
-        RegionName.CATA_BOW_CAMPFIRE, LocationGroup.CANDLE, Area.CATA
+        RegionName.CATA_EYEBALL_BONES, LocationGroup.CANDLE, Area.CATA
     ),
     LocationName.CATA_CANDLE_DEV_ROOM.value: LocationData(
         RegionName.CATA_SNAKE_MUSHROOMS, LocationGroup.CANDLE, Area.CATA

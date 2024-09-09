@@ -141,6 +141,7 @@ class RegionName(str, Enum):
     ROA_LEFT_SWITCH = "Ruins of Ash - Left Switch"
     ROA_RIGHT_SWITCH_1 = "Ruins of Ash - Right Switch 1"
     ROA_RIGHT_SWITCH_2 = "Ruins of Ash - Right Switch 2"
+    ROA_RIGHT_SWITCH_CANDLE = "Ruins of Ash - Right Switch Candle"
     ROA_MIDDLE_LADDER = "Ruins of Ash - Middle Ladder"
     ROA_UPPER_VOID = "Ruins of Ash - Upper Void"
     ROA_SPIKE_BALLS = "Ruins of Ash - Spike Balls"
@@ -1061,10 +1062,14 @@ astalon_regions: Dict[RegionName, RegionData] = {
     RegionName.ROA_RIGHT_SWITCH_1: RegionData(
         exits=(RegionName.ROA_RIGHT_SWITCH_2,),
     ),
-    RegionName.ROA_RIGHT_SWITCH_2: RegionData(),
+    RegionName.ROA_RIGHT_SWITCH_2: RegionData(
+        exits=(RegionName.ROA_RIGHT_SWITCH_CANDLE,),
+    ),
+    RegionName.ROA_RIGHT_SWITCH_CANDLE: RegionData(),
     RegionName.ROA_MIDDLE_LADDER: RegionData(
         exits=(
             RegionName.ROA_MIDDLE,
+            RegionName.ROA_RIGHT_SWITCH_CANDLE,
             RegionName.ROA_UPPER_VOID,
         ),
     ),

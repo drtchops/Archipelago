@@ -833,6 +833,14 @@ item_name_groups: Dict[str, Set[str]] = {
     if group != ""
 }
 
+item_name_groups["Map Progression"] = {
+    name
+    for name, data in item_table.items()
+    if name != Eye.GOLD.value
+    and not callable(data.classification)
+    and ItemClassification.progression in data.classification
+}
+
 filler_items: Tuple[str, ...] = (
     Orbs.ORBS_200.value,
     Orbs.ORBS_500.value,

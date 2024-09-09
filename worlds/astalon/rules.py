@@ -981,6 +981,9 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
     (R.ROA_MIDDLE_LADDER, R.ROA_UPPER_VOID): lambda rules, state: (
         rules.switches(state, Switch.ROA_SHAFT_L, Switch.ROA_SHAFT_R, disabled_case=True)
     ),
+    (R.ROA_MIDDLE_LADDER, R.ROA_RIGHT_SWITCH_CANDLE): lambda rules, state: (
+        rules.has_any(state, Character.ALGUS, ShopUpgrade.BRAM_AXE, ShopUpgrade.BRAM_WHIPLASH)
+    ),
     (R.ROA_UPPER_VOID, R.ROA_LOWER_VOID): lambda rules, state: rules.has(state, KeyItem.VOID),
     (R.ROA_UPPER_VOID, R.ROA_SP_CONNECTION): lambda rules, state: (
         rules.switches(state, Crystal.ROA_SHAFT, Switch.ROA_SHAFT_DOWNWARDS, disabled_case=False)
@@ -1997,7 +2000,7 @@ class AstalonRules:
         if logic == Logic.BLOCK_IN_WALL:
             return False
         if logic == Logic.CRYSTAL:
-            return self.has(state, Character.ALGUS) or self.has(state, Character.ZEEK, KeyItem.BANISH)
+            return self.has(state, Character.ALGUS) or self.has_any(state, KeyItem.BLOCK, KeyItem.BANISH)
         if logic == Logic.BIG_MAGIC:
             return False
 
@@ -2017,7 +2020,7 @@ class AstalonRules:
         if logic == Logic.CRYSTAL:
             return (
                 self.has_any(state, Character.ALGUS, ShopUpgrade.KYULI_RAY)
-                or self.has(state, Character.ZEEK, KeyItem.BANISH)
+                or self.has_any(state, KeyItem.BLOCK, KeyItem.BANISH)
                 or (include_whiplash and self.has(state, ShopUpgrade.BRAM_WHIPLASH))
             )
         if logic == Logic.BIG_MAGIC:
