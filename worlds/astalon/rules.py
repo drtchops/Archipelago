@@ -140,6 +140,7 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
         rules.switches(state, Crystal.GT_ROTA, disabled_case=False)
         or rules.can(state, Logic.ARIAS_JUMP)
         or (rules.has(state, KeyItem.STAR) and rules.blue_doors(state, BlueDoor.GT_RING, disabled_case=True))
+        or rules.has(state, KeyItem.BLOCK)
     ),
     (R.GT_BOTTOM, R.CAVES_START): lambda rules, state: (
         rules.has(state, Character.KYULI)
