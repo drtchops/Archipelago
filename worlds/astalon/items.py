@@ -427,6 +427,7 @@ ItemName: TypeAlias = Union[
     Trap,
 ]
 
+ProgressionItem: TypeAlias = Union[Character, Eye, KeyItem, ShopUpgrade]
 
 CHARACTERS: Tuple[Character, ...] = (
     Character.ALGUS,

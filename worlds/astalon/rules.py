@@ -14,6 +14,7 @@ from .items import (
     Face,
     ItemName,
     KeyItem,
+    ProgressionItem,
     RedDoor,
     ShopUpgrade,
     Switch,
@@ -90,6 +91,45 @@ class Can(Protocol):
 
 class Togglable(Protocol[T]):
     def __call__(self, state: CollectionState, *items: T, disabled_case: Union[bool, AstalonRule]) -> bool: ...
+
+
+RANDO_ITEM_DEPS: Dict[Union[ItemName, Events], Tuple[ProgressionItem, ...]] = {
+    KeyItem.CLOAK: (Character.ALGUS,),
+    KeyItem.SWORD: (Character.ARIAS,),
+    KeyItem.BOOTS: (Character.ARIAS,),
+    KeyItem.CLAW: (Character.KYULI,),
+    KeyItem.BOW: (Character.KYULI,),
+    KeyItem.BLOCK: (Character.ZEEK,),
+    KeyItem.STAR: (Character.BRAM,),
+    KeyItem.BANISH: (Character.ALGUS, Character.ZEEK),
+    KeyItem.GAUNTLET: (Character.ARIAS, Character.BRAM),
+    ShopUpgrade.ALGUS_ARCANIST: (Character.ALGUS,),
+    ShopUpgrade.ALGUS_METEOR: (Character.ALGUS,),
+    ShopUpgrade.ALGUS_SHOCK: (Character.ALGUS,),
+    ShopUpgrade.ARIAS_GORGONSLAYER: (Character.ARIAS,),
+    ShopUpgrade.ARIAS_LAST_STAND: (Character.ARIAS,),
+    ShopUpgrade.ARIAS_LIONHEART: (Character.ARIAS,),
+    ShopUpgrade.KYULI_ASSASSIN: (Character.KYULI,),
+    ShopUpgrade.KYULI_BULLSEYE: (Character.KYULI,),
+    ShopUpgrade.KYULI_RAY: (Character.KYULI,),
+    ShopUpgrade.ZEEK_JUNKYARD: (Character.ZEEK,),
+    ShopUpgrade.ZEEK_ORBS: (Character.ZEEK,),
+    ShopUpgrade.ZEEK_LOOT: (Character.ZEEK,),
+    ShopUpgrade.BRAM_AXE: (Character.BRAM,),
+    ShopUpgrade.BRAM_HUNTER: (Character.BRAM,),
+    ShopUpgrade.BRAM_WHIPLASH: (Character.BRAM,),
+}
+
+VANILLA_ITEM_DEPS: Dict[Union[ItemName, Events], ItemName] = {
+    KeyItem.BLOCK: Character.ZEEK,
+    KeyItem.STAR: Character.BRAM,
+    ShopUpgrade.ZEEK_JUNKYARD: Character.ZEEK,
+    ShopUpgrade.ZEEK_ORBS: Character.ZEEK,
+    ShopUpgrade.ZEEK_LOOT: Character.ZEEK,
+    ShopUpgrade.BRAM_AXE: Character.BRAM,
+    ShopUpgrade.BRAM_HUNTER: Character.BRAM,
+    ShopUpgrade.BRAM_WHIPLASH: Character.BRAM,
+}
 
 
 ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
@@ -1872,51 +1912,17 @@ class AstalonRules:
         self.switches = self._enabled_togglable if self.options.randomize_switches else self._disabled_togglable
 
     def region(self, name: R):
-        return self.world.multiworld.get_region(name.value, self.player)
+        return self.world.get_region(name.value)
 
     def entrance(self, from_: R, to_: R):
-        return self.world.multiworld.get_entrance(f"{from_.value} -> {to_.value}", self.player)
+        return self.world.get_entrance(f"{from_.value} -> {to_.value}")
 
     def location(self, name: Union[L, Events]):
-        return self.world.multiworld.get_location(name.value, self.player)
+        return self.world.get_location(name.value)
 
     def _rando_has(self, state: CollectionState, item: Union[ItemName, Events], count: int = 1) -> bool:
-        if item == KeyItem.CLOAK and not self._has(state, Character.ALGUS):
-            return False
-        if item in (KeyItem.SWORD, KeyItem.BOOTS) and not self._has(state, Character.ARIAS):
-            return False
-        if item in (KeyItem.CLAW, KeyItem.BOW) and not self._has(state, Character.KYULI):
-            return False
-        if item == KeyItem.BLOCK and not self._has(state, Character.ZEEK):
-            return False
-        if item == KeyItem.STAR and not self._has(state, Character.BRAM):
-            return False
-        if item == KeyItem.BANISH and not self.has_any(state, Character.ALGUS, Character.ZEEK):
-            return False
-        if item == KeyItem.GAUNTLET and not self.has_any(state, Character.ARIAS, Character.BRAM):
-            return False
-
-        if item in (ShopUpgrade.ALGUS_ARCANIST, ShopUpgrade.ALGUS_METEOR, ShopUpgrade.ALGUS_SHOCK) and not self._has(
-            state, Character.ALGUS
-        ):
-            return False
-        if item in (
-            ShopUpgrade.ARIAS_GORGONSLAYER,
-            ShopUpgrade.ARIAS_LAST_STAND,
-            ShopUpgrade.ARIAS_LIONHEART,
-        ) and not self._has(state, Character.ARIAS):
-            return False
-        if item in (ShopUpgrade.KYULI_ASSASSIN, ShopUpgrade.KYULI_BULLSEYE, ShopUpgrade.KYULI_RAY) and not self._has(
-            state, Character.KYULI
-        ):
-            return False
-        if item in (ShopUpgrade.ZEEK_JUNKYARD, ShopUpgrade.ZEEK_ORBS, ShopUpgrade.ZEEK_LOOT) and not self._has(
-            state, Character.ZEEK
-        ):
-            return False
-        if item in (ShopUpgrade.BRAM_AXE, ShopUpgrade.BRAM_HUNTER, ShopUpgrade.BRAM_WHIPLASH) and not self._has(
-            state, Character.BRAM
-        ):
+        deps = RANDO_ITEM_DEPS.get(item, ())
+        if deps and not self.has_any(state, *deps):
             return False
 
         return state.has(item.value, self.player, count=count)
@@ -1925,30 +1931,20 @@ class AstalonRules:
         if item in VANILLA_CHARACTERS:
             return True
 
-        if item == KeyItem.BLOCK and not self._has(state, Character.ZEEK):
-            return False
-        if item == KeyItem.STAR and not self._has(state, Character.BRAM):
-            return False
-
-        if item in (ShopUpgrade.ZEEK_JUNKYARD, ShopUpgrade.ZEEK_ORBS, ShopUpgrade.ZEEK_LOOT) and not self._has(
-            state, Character.ZEEK
-        ):
-            return False
-        if item in (ShopUpgrade.BRAM_AXE, ShopUpgrade.BRAM_HUNTER, ShopUpgrade.BRAM_WHIPLASH) and not self._has(
-            state, Character.BRAM
-        ):
+        dep = VANILLA_ITEM_DEPS.get(item)
+        if dep and not self._has(state, dep):
             return False
 
         return state.has(item.value, self.player, count=count)
 
-    def has(self, state: CollectionState, *items: Union[Character, Eye, KeyItem, ShopUpgrade], count: int = 1) -> bool:
+    def has(self, state: CollectionState, *items: ProgressionItem, count: int = 1) -> bool:
         # cover extra logic instead of calling state.has_all
         for item in items:
             if not self._has(state, item, count=count):
                 return False
         return True
 
-    def has_any(self, state: CollectionState, *items: Union[Character, Eye, KeyItem, ShopUpgrade]) -> bool:
+    def has_any(self, state: CollectionState, *items: ProgressionItem) -> bool:
         # cover extra logic instead of calling state.has_any
         for item in items:
             if self._has(state, item):
@@ -1971,11 +1967,11 @@ class AstalonRules:
         return disabled_case(self, state)
 
     def elevator(self, state: CollectionState, destination: Elevator) -> bool:
-        if not self._has(state, KeyItem.ASCENDANT_KEY):
+        if not state.has(KeyItem.ASCENDANT_KEY.value, self.player):
             return False
-        if self.options.apex_elevator == ApexElevator.option_vanilla and destination == Elevator.APEX:
+        if self.free_apex and destination == Elevator.APEX:
             return True
-        return bool(self.options.randomize_elevator) and self._has(state, destination)
+        return self.elevator_rando and state.has(destination.value, self.player)
 
     def cheap_shop(self, state: CollectionState) -> bool:
         # TODO
@@ -2096,6 +2092,14 @@ class AstalonRules:
     @cached_property
     def hard(self):
         return self.options.difficulty >= Difficulty.option_hard
+
+    @cached_property
+    def free_apex(self):
+        return self.options.apex_elevator == ApexElevator.option_vanilla
+
+    @cached_property
+    def elevator_rando(self):
+        return bool(self.options.randomize_elevator)
 
     def clear_cache(self):
         self.can.cache_clear()
