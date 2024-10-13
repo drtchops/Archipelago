@@ -62,6 +62,7 @@ class Logic(Enum):
     BLOCK_IN_WALL = auto()
     CRYSTAL = auto()
     BIG_MAGIC = auto()
+    KILL_GHOSTS = auto()
 
 
 T = TypeVar("T", bound=Enum, contravariant=True)  # noqa: PLC0105
@@ -857,7 +858,7 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
         rules.has(state, Character.KYULI) or (rules.has(state, KeyItem.BLOCK) and rules.can(state, Logic.COMBO_HEIGHT))
     ),
     (R.HOTP_GAUNTLET_CONNECTION, R.HOTP_GAUNTLET): lambda rules, state: (
-        rules.has(state, KeyItem.CLAW, KeyItem.BANISH, KeyItem.BELL)
+        rules.has(state, KeyItem.CLAW, KeyItem.BELL) and rules.can(state, Logic.KILL_GHOSTS)
     ),
     (R.HOTP_FALL_BOTTOM, R.HOTP_TP_FALL_TOP): lambda rules, state: rules.has(state, KeyItem.CLAW),
     (R.HOTP_FALL_BOTTOM, R.HOTP_UPPER_VOID): lambda rules, state: rules.has(state, Eye.GREEN),
@@ -1144,7 +1145,8 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
         rules.blue_doors(state, BlueDoor.CAVES, disabled_case=True)
     ),
     (R.CAVES_UPPER, R.CAVES_ARENA): lambda rules, state: (
-        rules.has_any(state, KeyItem.SWORD, ShopUpgrade.ALGUS_METEOR, ShopUpgrade.KYULI_RAY)
+        rules.has_any(state, KeyItem.SWORD, ShopUpgrade.KYULI_RAY)
+        or (rules.has(state, ShopUpgrade.ALGUS_METEOR) and (rules.hard or rules.has(state, KeyItem.CHALICE)))
     ),
     (R.CAVES_UPPER, R.CAVES_LOWER): lambda rules, state: (
         rules.switches(state, Switch.CAVES_SKELETONS, disabled_case=True)
@@ -1257,6 +1259,7 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
     ),
     (R.CATA_FLAMES_FORK, R.CATA_VERTICAL_SHORTCUT): lambda rules, state: (
         rules.switches(state, Switch.CATA_SHORTCUT_ACCESS, Switch.CATA_AFTER_BLUE_DOOR, disabled_case=True)
+        or (rules.hard and rules.has(state, KeyItem.CLAW))
     ),
     (R.CATA_FLAMES_FORK, R.CATA_BLUE_EYE_DOOR): lambda rules, state: (
         rules.white_doors(state, WhiteDoor.CATA_BLUE, disabled_case=True)
@@ -1282,7 +1285,8 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
         rules.switches(state, Face.CATA_X4, disabled_case=False)
     ),
     (R.CATA_DOUBLE_DOOR, R.CATA_VOID_R): lambda rules, state: (
-        rules.has(state, KeyItem.BANISH, KeyItem.BELL)
+        rules.has(state, KeyItem.BELL)
+        and rules.can(state, Logic.KILL_GHOSTS)
         and rules.switches(
             state, Face.CATA_DOUBLE_DOOR, disabled_case=lambda rules, state: rules.has(state, KeyItem.BOW)
         )
@@ -1328,7 +1332,9 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
     (R.TR_START, R.MECH_BOSS): lambda rules, state: rules.elevator(state, Elevator.MECH_2),
     (R.TR_START, R.TR_BRAM): lambda rules, state: rules.has(state, Eye.BLUE),
     (R.TR_LEFT, R.TR_TOP_RIGHT): lambda rules, state: rules.has(state, KeyItem.STAR, KeyItem.BELL),
-    (R.TR_LEFT, R.TR_BOTTOM_LEFT): lambda rules, state: rules.has(state, KeyItem.BANISH, KeyItem.BELL),
+    (R.TR_LEFT, R.TR_BOTTOM_LEFT): lambda rules, state: (
+        rules.has(state, KeyItem.BELL) and rules.can(state, Logic.KILL_GHOSTS)
+    ),
     (R.TR_BOTTOM_LEFT, R.TR_BOTTOM): lambda rules, state: rules.has(state, Eye.BLUE),
     (R.TR_TOP_RIGHT, R.TR_GOLD): lambda rules, state: (
         rules.has(state, Character.ZEEK, KeyItem.BELL)
@@ -1422,7 +1428,7 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
     (R.SP_HEARTS, R.SP_ORBS): lambda rules, state: rules.has(state, KeyItem.STAR, KeyItem.BELL, Character.KYULI),
     (R.SP_HEARTS, R.SP_FROG): lambda rules, state: rules.switches(state, Switch.SP_DOUBLE_DOORS, disabled_case=True),
     (R.SP_PAINTING, R.SP_HEARTS): lambda rules, state: (
-        rules.has(state, KeyItem.CHALICE, KeyItem.BELL, ShopUpgrade.ALGUS_METEOR)
+        rules.has(state, KeyItem.BELL, ShopUpgrade.ALGUS_METEOR) and (rules.hard or rules.has(state, KeyItem.CHALICE))
     ),
     (R.SP_PAINTING, R.SP_SHAFT): lambda rules, state: (
         rules.has(state, KeyItem.CLAW) and rules.blue_doors(state, BlueDoor.SP, disabled_case=True)
@@ -1433,7 +1439,8 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
         and rules.switches(state, Crystal.SP_STAR, disabled_case=lambda rules, state: rules.can(state, Logic.CRYSTAL))
     ),
     (R.SP_STAR, R.SP_SHAFT): lambda rules, state: (
-        rules.has(state, KeyItem.CHALICE, KeyItem.BELL, ShopUpgrade.ALGUS_METEOR)
+        rules.has(state, KeyItem.BELL, ShopUpgrade.ALGUS_METEOR)
+        and (rules.hard or rules.has(state, KeyItem.CHALICE))
         and rules.switches(state, Crystal.SP_STAR, disabled_case=False)
     ),
     (R.SP_STAR, R.SP_STAR_CONNECTION): lambda rules, state: rules.has(state, KeyItem.STAR),
@@ -1560,7 +1567,10 @@ HEALTH_RULES: Dict[L, AstalonRule] = {
     L.HOTP_HP_2_GAUNTLET: lambda rules, state: rules.has(state, KeyItem.CLAW, Character.ZEEK, KeyItem.BELL),
     L.HOTP_HP_5_OLD_MAN: lambda rules, state: (
         rules.has(state, KeyItem.CLAW)
-        and (rules.has(state, KeyItem.BELL, KeyItem.BANISH) or rules.has(state, KeyItem.CHALICE))
+        and (
+            (rules.has(state, KeyItem.BELL) and rules.can(state, Logic.KILL_GHOSTS))
+            or rules.has(state, KeyItem.CHALICE)
+        )
         and rules.switches(state, Switch.HOTP_ABOVE_OLD_MAN, disabled_case=True)
     ),
     L.HOTP_HP_5_START: lambda rules, state: (
@@ -1584,7 +1594,8 @@ HEALTH_RULES: Dict[L, AstalonRule] = {
         or rules.switches(state, Face.CAVES_1ST_ROOM, disabled_case=lambda rules, state: rules.has(state, KeyItem.BOW))
     ),
     L.CAVES_HP_1_CYCLOPS: lambda rules, state: (
-        rules.has_any(state, KeyItem.SWORD, ShopUpgrade.ALGUS_METEOR, ShopUpgrade.KYULI_RAY)
+        rules.has_any(state, KeyItem.SWORD, ShopUpgrade.KYULI_RAY)
+        or (rules.has(state, ShopUpgrade.ALGUS_METEOR) and (rules.hard or rules.has(state, KeyItem.CHALICE)))
     ),
     L.CATA_HP_1_ABOVE_POISON: lambda rules, state: (
         rules.has(state, Character.KYULI)
@@ -1788,7 +1799,8 @@ SWITCH_RULES: Dict[L, AstalonRule] = {
     L.HOTP_CRYSTAL_AFTER_CLAW: lambda rules, state: rules.can(state, Logic.CRYSTAL),
     L.HOTP_CRYSTAL_MAIDEN_1: lambda rules, state: rules.can(state, Logic.CRYSTAL),
     L.HOTP_CRYSTAL_MAIDEN_2: lambda rules, state: (
-        rules.can(state, Logic.CRYSTAL) and rules.switches(state, Crystal.HOTP_MAIDEN_1, disabled_case=True)
+        rules.can(state, Logic.CRYSTAL)
+        and (rules.switches(state, Crystal.HOTP_MAIDEN_1, disabled_case=True) or rules.has(state, Character.KYULI))
     ),
     L.HOTP_CRYSTAL_BELL_ACCESS: lambda rules, state: rules.can(state, Logic.CRYSTAL),
     L.HOTP_CRYSTAL_HEART: lambda rules, state: rules.can(state, Logic.CRYSTAL),
@@ -2000,6 +2012,10 @@ class AstalonRules:
             return self.has(state, Character.ALGUS) or self.has_any(state, KeyItem.BLOCK, KeyItem.BANISH)
         if logic == Logic.BIG_MAGIC:
             return False
+        if logic == Logic.KILL_GHOSTS:
+            return self.has_any(state, KeyItem.BANISH, KeyItem.BLOCK) or self.has(
+                state, ShopUpgrade.ALGUS_METEOR, KeyItem.CHALICE
+            )
 
     def _hard_rando_can(self, state: CollectionState, logic: Logic, gold_block=False, include_whiplash=True) -> bool:
         if logic == Logic.ARIAS_JUMP:
@@ -2022,6 +2038,8 @@ class AstalonRules:
             )
         if logic == Logic.BIG_MAGIC:
             return self.has(state, KeyItem.BANISH, ShopUpgrade.ALGUS_ARCANIST)
+        if logic == Logic.KILL_GHOSTS:
+            return self.has_any(state, KeyItem.BANISH, KeyItem.BLOCK, ShopUpgrade.ALGUS_METEOR)
 
     def _easy_vanilla_can(self, state: CollectionState, logic: Logic, gold_block=False, include_whiplash=True) -> bool:
         if logic == Logic.ARIAS_JUMP:
@@ -2036,6 +2054,10 @@ class AstalonRules:
             return True
         if logic == Logic.BIG_MAGIC:
             return False
+        if logic == Logic.KILL_GHOSTS:
+            return self.has_any(state, KeyItem.BANISH, KeyItem.BLOCK) or self.has(
+                state, ShopUpgrade.ALGUS_METEOR, KeyItem.CHALICE
+            )
 
     def _hard_vanilla_can(self, state: CollectionState, logic: Logic, gold_block=False, include_whiplash=True) -> bool:
         if logic == Logic.ARIAS_JUMP:
@@ -2050,6 +2072,8 @@ class AstalonRules:
             return True
         if logic == Logic.BIG_MAGIC:
             return self.has(state, KeyItem.BANISH, ShopUpgrade.ALGUS_ARCANIST)
+        if logic == Logic.KILL_GHOSTS:
+            return self.has_any(state, KeyItem.BANISH, KeyItem.BLOCK, ShopUpgrade.ALGUS_METEOR)
 
     def reachable(self, state: CollectionState, location: L) -> bool:
         data = location_table[location]

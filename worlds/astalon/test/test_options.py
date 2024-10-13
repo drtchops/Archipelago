@@ -68,6 +68,7 @@ class AllHardTest(AstalonTestBase):
         "randomize_shop": "true",
         "randomize_elevator": "true",
         "randomize_switches": "true",
+        "randomize_candles": "true",
         "start_with_qol": "true",
         "apex_elevator": "vanilla",
         "open_early_doors": "true",
@@ -86,6 +87,7 @@ class VanillaTest(AstalonTestBase):
         "randomize_shop": "false",
         "randomize_elevator": "false",
         "randomize_switches": "false",
+        "randomize_candles": "false",
         "start_with_qol": "false",
         "open_early_doors": "false",
     }

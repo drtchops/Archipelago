@@ -556,7 +556,11 @@ item_table: Dict[str, ItemData] = {
     BlueDoor.ROA_BLOOD.value: ItemData(ItemClassification.filler, 1, ItemGroup.DOOR_BLUE),
     BlueDoor.APEX.value: ItemData(ItemClassification.progression, 1, ItemGroup.DOOR_BLUE),
     BlueDoor.CAVES.value: ItemData(ItemClassification.progression, 1, ItemGroup.DOOR_BLUE),
-    BlueDoor.CATA_ORBS.value: ItemData(ItemClassification.useful, 1, ItemGroup.DOOR_BLUE),
+    BlueDoor.CATA_ORBS.value: ItemData(
+        lambda world: ItemClassification.progression if world.options.randomize_candles else ItemClassification.useful,
+        1,
+        ItemGroup.DOOR_BLUE,
+    ),
     BlueDoor.CATA_SAVE.value: ItemData(ItemClassification.progression, 1, ItemGroup.DOOR_BLUE),
     BlueDoor.CATA_BOW.value: ItemData(ItemClassification.progression, 1, ItemGroup.DOOR_BLUE),
     BlueDoor.CATA_ROOTS.value: ItemData(ItemClassification.progression, 1, ItemGroup.DOOR_BLUE),
