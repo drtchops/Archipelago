@@ -15,14 +15,15 @@ Depending on settings, the following things may be randomized:
 - Keys/doors
   - Collecting keys will complete location checks and you will receive individual door unlocks as items
   - You can enable each color individually
-- Switches
+- Switches/magic crystals/faces
   - Activating switches will complete location checks and you will receive corresponding block toggles or door opens as items
 - Elevator destinations
 - Unique shop upgrades
+- Candles
 
 ## What is the goal?
 
-The goal is to complete the main Tears of the Earth campaign. New Game Plus and the other campaigns not supported.
+The goal is to complete the main Tears of the Earth campaign. New Game Plus and the other campaigns are not supported.
 
 ## What Astalon items can appear in other players' worlds?
 
@@ -40,7 +41,8 @@ Items for other worlds will appear as a blue orb if they're a progression item, 
 - There are multiple connections between Mechanism and Hall of the Phantoms
 - If you have Blood Chalice you can damage boost through some obstacles
 - If you have Icarus Emblem or Talaria Boots you can clear some gaps you otherwise couldn't
-- Kyuli's shiring ray attack and Bram's whiplash upgrade can activate Algus's crystal switches
+- Kyuli's Shining Ray, Bram's Whiplash upgrade, and Zeek's Magic Block can activate Algus's crystal switches
 - Banish Spell and the Arcanist upgrade makes Algus's attacks larger, allowing you to hit otherwise inaccessible crystals
+- Algus's Meteor Rain and Zeek's Magic Block can kill ghosts without Banish Spell
 - Zeek can get blocks stuck in walls, providing extra height
 - Athena's Bell is logically required to fight the final boss on easy difficulty

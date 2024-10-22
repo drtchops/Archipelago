@@ -11,8 +11,9 @@
 
 ## Optional Software
 
-- [PopTracker](https://github.com/black-sliver/PopTracker/releases)
-- [Astalon Pack for PopTracker](https://github.com/Ouro-dev/astalon-poptracker/releases/latest)
+- [Universal Tracker](https://github.com/FarisTheAncient/Archipelago/releases)
+  - Includes integrated map tracking
+- (Outdated) [PopTracker](https://github.com/black-sliver/PopTracker/releases) & [Astalon Pack for PopTracker](https://github.com/Ouro-dev/astalon-poptracker/releases/latest)
   - The current latest release v0.2.1 does not fully support Astalon mod versions past v0.10.0
 
 ## Installation
@@ -22,15 +23,15 @@
 
 After installing, your game folder should contain a `BepInEx` folder, like this:
 
-<!-- ![Contents of the Astalon Tears of the Earth folder after installing BepInEx](/static/generated/docs/Astalon/game_dir.png) -->
+<!-- ![Contents of the Astalon Tears of the Earth folder after installing BepInEx, there's a BepInEx folder beside the Astalon_Data folder](/static/generated/docs/Astalon/game_dir.png) -->
 
-![Contents of the Astalon Tears of the Earth folder after installing BepInEx](./game_dir.png)
+![Contents of the Astalon Tears of the Earth folder after installing BepInEx, there's a BepInEx folder beside the Astalon_Data folder](./game_dir.png)
 
 Inside of `BepInEx/plugins` should look like this:
 
-<!-- ![Contents of the plugins folder after installing the randomizer mod](/static/generated/docs/Astalon/plugins_dir.png) -->
+<!-- ![Contents of the plugins folder after installing the randomizer mod, there's an Archipelago.dll file among others](/static/generated/docs/Astalon/plugins_dir.png) -->
 
-![Contents of the plugins folder after installing the randomizer mod](./plugins_dir.png)
+![Contents of the plugins folder after installing the randomizer mod, there's an Archipelago.dll file among others](./plugins_dir.png)
 
 ## Connecting
 
@@ -44,11 +45,11 @@ Inside of `BepInEx/plugins` should look like this:
 
 You can load an existing save and it will automatically reconnect to the same AP server. If you need to change the port, manually connect to the new server on the main menu before loading your save.
 
-Once you've loaded in and connected you will receive any items that were sent since you last played. Quitting to the main menu will disconnect you automatically.
+Once you're loaded in and connected you will receive any items that were sent since you last played. Quitting to the main menu will disconnect you automatically.
 
 ## In-Game Controls
 
-Once you've connected to AP you can press F1 to open a set of debug options at the bottom of the screen. If you're softlocked you can use this menu to die and respawn or warp to a previously used campfire.
+Once you've connected to AP you can press F1 to open a set of debug options. If you're softlocked you can use this menu to die and respawn or warp to a previously used campfire.
 
 ## Disabling the Mod
 
@@ -66,7 +67,8 @@ Since Astalon is still an unsupported game, creating a game on Archipelago is a 
 1. Install the latest version of Archipelago onto your computer
    - Setup guide: <https://archipelago.gg/tutorial/Archipelago/setup/en>
    - This guide covers Archipelago in detail, what you're most interested in is `Installing the Archipelago Software`
-2. Download the `astalon.apworld` from the mod's latest release and put it in `Archipelago/lib/worlds`
+2. Download the `astalon.apworld` from the mod's latest release and double click it to install
+   - If it doesn't automatically install, you can manually place it in `Archipelago/custom_worlds`
    - You can find this folder by opening the Archipelago Launcher and clicking Browse Files
 3. Download the `Astalon.yaml` from the mod's latest release, put it in `Archipelago/Players`, open it in a text editor, and change any options as desired
    - There is a guide describing how the Archipelago YAML format works: <https://archipelago.gg/tutorial/Archipelago/advanced_settings/en>
