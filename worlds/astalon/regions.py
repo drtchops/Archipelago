@@ -13,8 +13,8 @@ class RegionName(str, Enum):
     SHOP_BRAM = "Shop - Bram"
     FINAL_BOSS = "Final Boss"
 
-    ENTRANCE = "Entrance"
-    BESTIARY = "Bestiary"
+    GT_ENTRANCE = "Gorgon Tomb - Entrance"
+    GT_BESTIARY = "Gorgon Tomb - Bestiary"
     GT_BABY_GORGON = "Gorgon Tomb - Baby Gorgon"
     GT_BOTTOM = "Gorgon Tomb - Bottom"
     GT_VOID = "Gorgon Tomb - Void"
@@ -268,7 +268,7 @@ class RegionData:
 astalon_regions: Dict[RegionName, RegionData] = {
     RegionName.MENU: RegionData(
         exits=(
-            RegionName.ENTRANCE,
+            RegionName.GT_ENTRANCE,
             RegionName.SHOP,
         ),
     ),
@@ -287,9 +287,9 @@ astalon_regions: Dict[RegionName, RegionData] = {
     RegionName.SHOP_ZEEK: RegionData(),
     RegionName.SHOP_BRAM: RegionData(),
     RegionName.FINAL_BOSS: RegionData(boss=True),
-    RegionName.ENTRANCE: RegionData(
+    RegionName.GT_ENTRANCE: RegionData(
         exits=(
-            RegionName.BESTIARY,
+            RegionName.GT_BESTIARY,
             RegionName.GT_BABY_GORGON,
             RegionName.GT_BOTTOM,
             RegionName.GT_VOID,
@@ -310,7 +310,7 @@ astalon_regions: Dict[RegionName, RegionData] = {
         multiplier=True,
         portal=True,
     ),
-    RegionName.BESTIARY: RegionData(),
+    RegionName.GT_BESTIARY: RegionData(),
     RegionName.GT_BABY_GORGON: RegionData(),
     RegionName.GT_BOTTOM: RegionData(
         exits=(

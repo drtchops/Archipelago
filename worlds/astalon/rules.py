@@ -139,8 +139,10 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
     (R.SHOP, R.SHOP_KYULI): lambda rules, state: rules.has(state, Character.KYULI),
     (R.SHOP, R.SHOP_ZEEK): lambda rules, state: rules.has(state, Character.ZEEK),
     (R.SHOP, R.SHOP_BRAM): lambda rules, state: rules.has(state, Character.BRAM),
-    (R.ENTRANCE, R.BESTIARY): lambda rules, state: (rules.blue_doors(state, BlueDoor.GT_HUNTER, disabled_case=True)),
-    (R.ENTRANCE, R.GT_BABY_GORGON): lambda rules, state: (
+    (R.GT_ENTRANCE, R.GT_BESTIARY): lambda rules, state: (
+        rules.blue_doors(state, BlueDoor.GT_HUNTER, disabled_case=True)
+    ),
+    (R.GT_ENTRANCE, R.GT_BABY_GORGON): lambda rules, state: (
         rules.has(state, Eye.GREEN)
         and (
             rules.has(state, KeyItem.CLAW)
@@ -151,28 +153,28 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
             )
         )
     ),
-    (R.ENTRANCE, R.GT_BOTTOM): lambda rules, state: (
+    (R.GT_ENTRANCE, R.GT_BOTTOM): lambda rules, state: (
         rules.switches(
             state,
             Switch.GT_2ND_ROOM,
             disabled_case=lambda rules, state: rules.white_doors(state, WhiteDoor.GT_START, disabled_case=True),
         )
     ),
-    (R.ENTRANCE, R.GT_VOID): lambda rules, state: rules.has(state, KeyItem.VOID),
-    (R.ENTRANCE, R.GT_GORGONHEART): lambda rules, state: (
+    (R.GT_ENTRANCE, R.GT_VOID): lambda rules, state: rules.has(state, KeyItem.VOID),
+    (R.GT_ENTRANCE, R.GT_GORGONHEART): lambda rules, state: (
         rules.switches(state, Switch.GT_GH_SHORTCUT, disabled_case=False)
         or rules.has_any(state, KeyItem.ICARUS, KeyItem.BOOTS)
     ),
-    (R.ENTRANCE, R.GT_BOSS): lambda rules, state: rules.elevator(state, Elevator.GT_2),
-    (R.ENTRANCE, R.MECH_ZEEK_CONNECTION): lambda rules, state: rules.elevator(state, Elevator.MECH_1),
-    (R.ENTRANCE, R.MECH_BOSS): lambda rules, state: rules.elevator(state, Elevator.MECH_2),
-    (R.ENTRANCE, R.HOTP_ELEVATOR): lambda rules, state: rules.elevator(state, Elevator.HOTP),
-    (R.ENTRANCE, R.HOTP_BOSS): lambda rules, state: rules.elevator(state, Elevator.ROA_1),
-    (R.ENTRANCE, R.ROA_ELEVATOR): lambda rules, state: rules.elevator(state, Elevator.ROA_2),
-    (R.ENTRANCE, R.APEX): lambda rules, state: rules.elevator(state, Elevator.APEX),
-    (R.ENTRANCE, R.CATA_ELEVATOR): lambda rules, state: rules.elevator(state, Elevator.CATA_1),
-    (R.ENTRANCE, R.CATA_BOSS): lambda rules, state: rules.elevator(state, Elevator.CATA_2),
-    (R.ENTRANCE, R.TR_START): lambda rules, state: rules.elevator(state, Elevator.TR),
+    (R.GT_ENTRANCE, R.GT_BOSS): lambda rules, state: rules.elevator(state, Elevator.GT_2),
+    (R.GT_ENTRANCE, R.MECH_ZEEK_CONNECTION): lambda rules, state: rules.elevator(state, Elevator.MECH_1),
+    (R.GT_ENTRANCE, R.MECH_BOSS): lambda rules, state: rules.elevator(state, Elevator.MECH_2),
+    (R.GT_ENTRANCE, R.HOTP_ELEVATOR): lambda rules, state: rules.elevator(state, Elevator.HOTP),
+    (R.GT_ENTRANCE, R.HOTP_BOSS): lambda rules, state: rules.elevator(state, Elevator.ROA_1),
+    (R.GT_ENTRANCE, R.ROA_ELEVATOR): lambda rules, state: rules.elevator(state, Elevator.ROA_2),
+    (R.GT_ENTRANCE, R.APEX): lambda rules, state: rules.elevator(state, Elevator.APEX),
+    (R.GT_ENTRANCE, R.CATA_ELEVATOR): lambda rules, state: rules.elevator(state, Elevator.CATA_1),
+    (R.GT_ENTRANCE, R.CATA_BOSS): lambda rules, state: rules.elevator(state, Elevator.CATA_2),
+    (R.GT_ENTRANCE, R.TR_START): lambda rules, state: rules.elevator(state, Elevator.TR),
     (R.GT_BOTTOM, R.GT_VOID): lambda rules, state: rules.has(state, Eye.RED),
     (R.GT_BOTTOM, R.GT_GORGONHEART): lambda rules, state: (
         rules.white_doors(state, WhiteDoor.GT_MAP, disabled_case=True)
