@@ -389,8 +389,8 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
     (R.MECH_WATCHER, R.MECH_ROOTS): lambda rules, state: (
         rules.has(state, KeyItem.CLAW) or rules.switches(state, Switch.MECH_WATCHER, disabled_case=True)
     ),
-    (R.MECH_ROOTS, R.MECH_ZEEK_CONNECTION): lambda rules, state: rules.has(
-        state, KeyItem.CLAW, KeyItem.BLOCK, KeyItem.BELL
+    (R.MECH_ROOTS, R.MECH_ZEEK_CONNECTION): lambda rules, state: (
+        rules.has(state, KeyItem.CLAW, KeyItem.BLOCK, KeyItem.BELL)
     ),
     (R.MECH_ROOTS, R.MECH_MUSIC): lambda rules, state: (
         rules.blue_doors(state, BlueDoor.MECH_MUSIC, disabled_case=True)
@@ -1716,7 +1716,7 @@ SWITCH_RULES: Dict[L, AstalonRule] = {
     L.GT_SWITCH_BUTT_ACCESS: lambda rules, state: rules.can(state, Logic.EXTRA_HEIGHT),
     L.GT_SWITCH_UPPER_PATH_ACCESS: lambda rules, state: (
         rules.switches(state, Switch.GT_UPPER_PATH_BLOCKS, disabled_case=True)
-        or rules.has(state, Character.KYULI, KeyItem.BLOCK, Character.ZEEK)
+        or rules.has(state, Character.KYULI, KeyItem.BLOCK, Character.ZEEK, KeyItem.BELL)
     ),
     L.GT_CRYSTAL_LADDER: lambda rules, state: rules.can(state, Logic.CRYSTAL),
     L.GT_CRYSTAL_ROTA: lambda rules, state: (
