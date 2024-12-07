@@ -51,7 +51,7 @@ if TYPE_CHECKING:
 # ░▓████▓▓░█████████░██░ MANY GOOD PROGRAMS AND FEW ERRORS WILL COME TO YOU
 # █░▓██▓▓░███░███░██░▓░█ AS LONG AS YOU KEEP HER IN YOUR PROGRAM TO WATCH OVER IT
 # ██░░▓▓▓░███░███░██░░██ INCREMENT THIS NUMBER EVERY TIME YOU SAY HI TO BUBSETTE
-# ████░░░░██████████░███ hi_bubsette = 3
+# ████░░░░██████████░███ hi_bubsette = 4
 # ████████░░░░░░░░░░████
 
 
@@ -466,3 +466,63 @@ class AstalonWorld(World):
         if changed and getattr(self, "rules", None):
             self.rules.clear_cache()
         return changed
+
+
+cache_characters = [c.value for c in Character]
+cache_characters.append("Bell")
+
+
+class AstalonLogicMixin(LogicMixin):
+    multiworld: MultiWorld
+    _astalon_cache: Dict[int, Dict[str, List[str]]]
+    """cache of player: character {region} for bell logic"""
+
+    _astalon_stale: Dict[int, bool]
+
+    def init_mixin(self, multiworld) -> None:
+        players = multiworld.get_game_players(GAME_NAME)
+        self._astalon_cache = {
+            player: {c: {"Menu"} for c in cache_characters}
+            for player in players
+            }
+        self._astalon_stale = {player: True for player in players}
+
+    def copy_mixin(self, other) -> CollectionState:
+        players = self.multiworld.get_game_players(GAME_NAME)
+        other._astalon_cache = {
+            player: {c: self._astalon_cache[player][c].copy() for c in cache_characters}
+            for player in players
+            }
+        return other
+
+    def _astalon_sweep(self, player):
+        if not self._astalon_stale[player]:
+            return
+        self._astalon_stale[player] = False
+        # (region can_reach dependencies will be covered by indirect connections)
+        while self._hk_per_player_sweepable_entrances[player]:
+            # random pop but i don't really care
+            entrance_name = self._hk_per_player_sweepable_entrances[player].pop()
+            entrance = self.multiworld.get_entrance(entrance_name, player)
+            if entrance.parent_region in self.reachable_regions[player]:
+                # let normal sweep find new regions
+                entrance.can_reach(self)
+
+    def _astalon_character_in_region(self, character: str, parent_region: str, player: int,
+                                     target_region: Optional[str] = None) -> bool:
+        """
+        Check if the relevant character has access to parent_region and proliferate to target_region if reachable
+        target_region can be omitted if evaluating a Location that does not need proliferation
+        call at the end of the clause otherwise state may be proliferated while the access_rule is still false
+        """
+        if self._astalon_stale[player]:
+            self._astalon_sweep(player)
+        if not self.has(character, player):
+            return False
+        for c in ("Bell", character):
+            if region in self._astalon_cache[player][c]:
+                if target_region:
+                    self._astalon_cache[player][c].append(target_region)
+                return True
+
+        return False
