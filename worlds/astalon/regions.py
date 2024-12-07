@@ -2,6 +2,8 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import Dict, Tuple
 
+from BaseClasses import Entrance, Region
+
 
 class RegionName(str, Enum):
     MENU = "Menu"
@@ -251,6 +253,19 @@ class RegionName(str, Enum):
     SP_ORBS = "Serpent Path - Orbs"
     SP_FROG = "Serpent Path - Frog"
     SP_CAMPFIRE_2 = "Serpent Path - Campfire 2"
+
+
+class AstalonEntrance(Entrance):
+    def can_reach(self, state) -> bool:
+        ret = super().can_reach(state)
+        if ret:
+            characters = state._astalon_cache[self.player][self.parent_region].copy()
+            state._astalon_cache[self.player][self.target_region] = characters
+        return ret
+
+
+class AstalonRegion(Region):
+    entrance_type = AstalonEntrance
 
 
 @dataclass(frozen=True)
