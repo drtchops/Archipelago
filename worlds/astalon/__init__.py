@@ -90,6 +90,23 @@ class AstalonWebWorld(WebWorld):
     ]
 
 
+def map_page_index(data: Any) -> int:
+    if data in (1, 99):
+        # tomb
+        return 1
+    elif data in (2, 3, 7, 11):
+        # mechanism_and_hall
+        return 2
+    elif data in (4, 19, 21):
+        # catacombs
+        return 3
+    elif data in (5, 6, 8, 13):
+        # ruins
+        return 4
+    # world map
+    return 0
+
+
 class AstalonWorld(World):
     """
     Uphold your pact with the Titan of Death, Epimetheus!
@@ -117,6 +134,8 @@ class AstalonWorld(World):
         "map_page_folder": "tracker",
         "map_page_maps": "maps/maps.json",
         "map_page_locations": "locations/locations.json",
+        "map_page_setting_key": "astalon_area",
+        "map_page_index": map_page_index,
     }
 
     def generate_early(self) -> None:
