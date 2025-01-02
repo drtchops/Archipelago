@@ -190,6 +190,7 @@ class RegionName(str, Enum):
     CATA_DEV_ROOM = "Catacombs - Dev Room"
     CATA_DOUBLE_SWITCH = "Catacombs - Double Switch"
     CATA_ROOTS_CAMPFIRE = "Catacombs - Roots Campfire"
+    CATA_BELOW_ROOTS_CAMPFIRE = "Catacombs - Below Roots Campfire"
     CATA_ABOVE_ROOTS = "Catacombs - Above Roots"
     CATA_POISON_ROOTS = "Catacombs - Poison Roots"
     CATA_BLUE_EYE_DOOR = "Catacombs - Blue Eye Door"
@@ -1326,17 +1327,23 @@ astalon_regions: Dict[RegionName, RegionData] = {
     RegionName.CATA_ROOTS_CAMPFIRE: RegionData(
         exits=(
             RegionName.CATA_DOUBLE_SWITCH,
+            RegionName.CATA_BELOW_ROOTS_CAMPFIRE,
+        ),
+        campfire=True,
+    ),
+    RegionName.CATA_BELOW_ROOTS_CAMPFIRE: RegionData(
+        exits=(
+            RegionName.CATA_ROOTS_CAMPFIRE,
             RegionName.CATA_ABOVE_ROOTS,
             RegionName.CATA_POISON_ROOTS,
             RegionName.CATA_BLUE_EYE_DOOR,
-        ),
-        campfire=True,
+        )
     ),
     RegionName.CATA_ABOVE_ROOTS: RegionData(),
     RegionName.CATA_POISON_ROOTS: RegionData(),
     RegionName.CATA_BLUE_EYE_DOOR: RegionData(
         exits=(
-            RegionName.CATA_ROOTS_CAMPFIRE,
+            RegionName.CATA_BELOW_ROOTS_CAMPFIRE,
             RegionName.CATA_FLAMES_FORK,
         ),
     ),

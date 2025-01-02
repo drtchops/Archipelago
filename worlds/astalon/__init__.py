@@ -216,7 +216,7 @@ class AstalonWorld(World):
             self.create_event(Events.ZEEK, RegionName.MECH_ZEEK)
             self.create_event(Events.BRAM, RegionName.TR_BRAM)
         else:
-            is_ut = hasattr(self.multiworld, "generation_is_fake")
+            is_ut = getattr(self.multiworld, "generation_is_fake", False)
             for character, location_name in CHARACTER_LOCATIONS:
                 if is_ut or character not in self.starting_characters:
                     self.create_location(location_name)

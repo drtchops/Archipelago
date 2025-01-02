@@ -1249,15 +1249,16 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
     (R.CATA_DOUBLE_SWITCH, R.CATA_ROOTS_CAMPFIRE): lambda rules, state: (
         rules.switches(state, Switch.CATA_WATER_1, Switch.CATA_WATER_2, disabled_case=True)
     ),
-    (R.CATA_ROOTS_CAMPFIRE, R.CATA_BLUE_EYE_DOOR): lambda rules, state: rules.has(state, Eye.BLUE),
-    (R.CATA_ROOTS_CAMPFIRE, R.CATA_ABOVE_ROOTS): lambda rules, state: rules.has(state, KeyItem.CLAW),
-    (R.CATA_ROOTS_CAMPFIRE, R.CATA_POISON_ROOTS): lambda rules, state: (
-        rules.blue_doors(state, BlueDoor.CATA_ROOTS, disabled_case=True) and rules.has(state, Character.KYULI)
-    ),
     (R.CATA_ROOTS_CAMPFIRE, R.CATA_DOUBLE_SWITCH): lambda rules, state: (
         rules.switches(state, Switch.CATA_WATER_1, Switch.CATA_WATER_2, disabled_case=False)
     ),
-    (R.CATA_BLUE_EYE_DOOR, R.CATA_ROOTS_CAMPFIRE): lambda rules, state: rules.has(state, Eye.BLUE),
+    (R.CATA_BELOW_ROOTS_CAMPFIRE, R.CATA_ROOTS_CAMPFIRE): lambda rules, state: rules.has(state, KeyItem.CLAW),
+    (R.CATA_BELOW_ROOTS_CAMPFIRE, R.CATA_BLUE_EYE_DOOR): lambda rules, state: rules.has(state, Eye.BLUE),
+    (R.CATA_BELOW_ROOTS_CAMPFIRE, R.CATA_ABOVE_ROOTS): lambda rules, state: rules.has(state, KeyItem.CLAW),
+    (R.CATA_BELOW_ROOTS_CAMPFIRE, R.CATA_POISON_ROOTS): lambda rules, state: (
+        rules.blue_doors(state, BlueDoor.CATA_ROOTS, disabled_case=True) and rules.has(state, Character.KYULI)
+    ),
+    (R.CATA_BLUE_EYE_DOOR, R.CATA_BELOW_ROOTS_CAMPFIRE): lambda rules, state: rules.has(state, Eye.BLUE),
     (R.CATA_BLUE_EYE_DOOR, R.CATA_FLAMES_FORK): lambda rules, state: (
         rules.white_doors(state, WhiteDoor.CATA_BLUE, disabled_case=True)
     ),
