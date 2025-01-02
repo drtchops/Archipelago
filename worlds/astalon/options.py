@@ -294,12 +294,21 @@ class CostMultiplier(NamedRange):
     }
 
 
-class FastBloodChalice(DefaultOnToggle):
+class FastBloodChalice(Choice):
     """
-    Makes the Blood Chalice regeneration rate 5x faster so you spend less time standing around.
+    Choose when the Blood Chalice health regeneration rate is 5x faster.
+    Off: Regen is always at the vanilla speed
+    Campfires: Regen is faster when near campfires
+    Not Bosses: Regen is faster when not inside a boss room
+    Always: Regen is always at the faster speed
     """
 
-    display_name = "Free Blood Chalice"
+    display_name = "Fast Blood Chalice"
+    option_off = 0
+    option_campfires = 1
+    option_not_bosses = 2
+    option_always = 3
+    default = 1
 
 
 class CampfireWarp(DefaultOnToggle):
