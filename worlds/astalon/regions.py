@@ -74,6 +74,7 @@ class RegionName(str, Enum):
     MECH_CLOAK = "Mechanism - Cloak"
     MECH_BOSS_SWITCHES = "Mechanism - Boss Switches"
     MECH_BOSS_CONNECTION = "Mechanism - Boss Connection"
+    MECH_BRAM_TUNNEL_CONNECTION = "Mechanism - Bram Tunnel Connection"
     MECH_BRAM_TUNNEL = "Mechanism - Bram Tunnel"
     MECH_BOSS = "Mechanism - Boss"
 
@@ -641,19 +642,24 @@ astalon_regions: Dict[RegionName, RegionData] = {
         exits=(
             RegionName.MECH_CHAINS,
             RegionName.MECH_CLOAK_CONNECTION,
-            RegionName.MECH_BOSS_CONNECTION,
         ),
     ),
     RegionName.MECH_BOSS_CONNECTION: RegionData(
         exits=(
             RegionName.MECH_CHAINS,
-            RegionName.MECH_BRAM_TUNNEL,
+            RegionName.MECH_BRAM_TUNNEL_CONNECTION,
             RegionName.MECH_BOSS,
         ),
     ),
-    RegionName.MECH_BRAM_TUNNEL: RegionData(
+    RegionName.MECH_BRAM_TUNNEL_CONNECTION: RegionData(
         exits=(
             RegionName.MECH_BOSS_CONNECTION,
+            RegionName.MECH_BRAM_TUNNEL,
+        )
+    ),
+    RegionName.MECH_BRAM_TUNNEL: RegionData(
+        exits=(
+            RegionName.MECH_BRAM_TUNNEL_CONNECTION,
             RegionName.HOTP_START_BOTTOM,
         ),
     ),

@@ -441,6 +441,7 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
     ),
     (R.MECH_CHAINS, R.MECH_BOSS_CONNECTION): lambda rules, state: (
         rules.has(state, KeyItem.CLAW)
+        or rules.switches(state, Switch.MECH_TO_BOSS_2, disabled_case=False)
         or rules.switches(
             state,
             Crystal.MECH_TO_BOSS_3,
@@ -582,9 +583,6 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
             state, Crystal.MECH_CLOAK, disabled_case=lambda rules, state: rules.can(state, Logic.CRYSTAL)
         )
     ),
-    (R.MECH_BOSS_SWITCHES, R.MECH_BOSS_CONNECTION): lambda rules, state: (
-        rules.switches(state, Switch.MECH_TO_BOSS_1, Switch.MECH_TO_BOSS_2, disabled_case=True)
-    ),
     (R.MECH_BOSS_SWITCHES, R.MECH_CLOAK_CONNECTION): lambda rules, state: (
         rules.switches(state, Switch.MECH_BLOCK_STAIRS, disabled_case=False)
         or rules.switches(
@@ -601,10 +599,14 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
             and (rules.has(state, Character.KYULI) or rules.can(state, Logic.ARIAS_JUMP))
         )
     ),
-    (R.MECH_BOSS_CONNECTION, R.MECH_BRAM_TUNNEL): lambda rules, state: (
-        rules.switches(state, Switch.MECH_BOSS_1, disabled_case=True) and rules.has(state, KeyItem.STAR)
+    (R.MECH_BOSS_CONNECTION, R.MECH_BRAM_TUNNEL_CONNECTION): lambda rules, state: (
+        rules.switches(state, Switch.MECH_BOSS_1, disabled_case=True)
     ),
-    (R.MECH_BRAM_TUNNEL, R.MECH_BOSS_CONNECTION): lambda rules, state: rules.has(state, KeyItem.STAR),
+    (R.MECH_BRAM_TUNNEL_CONNECTION, R.MECH_BOSS_CONNECTION): lambda rules, state: (
+        rules.switches(state, Switch.MECH_BOSS_1, disabled_case=False)
+    ),
+    (R.MECH_BRAM_TUNNEL_CONNECTION, R.MECH_BRAM_TUNNEL): lambda rules, state: rules.has(state, KeyItem.STAR),
+    (R.MECH_BRAM_TUNNEL, R.MECH_BRAM_TUNNEL_CONNECTION): lambda rules, state: rules.has(state, KeyItem.STAR),
     (R.MECH_BRAM_TUNNEL, R.HOTP_START_BOTTOM): lambda rules, state: rules.has(state, KeyItem.STAR),
     (R.MECH_BOSS, R.CATA_ELEVATOR): lambda rules, state: rules.elevator(state, Elevator.CATA_1),
     (R.MECH_BOSS, R.CATA_BOSS): lambda rules, state: rules.elevator(state, Elevator.CATA_2),
