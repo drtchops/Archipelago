@@ -592,6 +592,9 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
     (R.MECH_BOSS_SWITCHES, R.MECH_CHAINS): lambda rules, state: (
         rules.switches(state, Switch.MECH_TO_BOSS_1, disabled_case=True)
     ),
+    (R.MECH_BOSS_SWITCHES, R.MECH_BOSS_CONNECTION): lambda rules, state: (
+        rules.switches(state, Switch.MECH_TO_BOSS_1, Switch.MECH_TO_BOSS_2, disabled_case=True)
+    ),
     (R.MECH_BOSS_CONNECTION, R.MECH_BOSS): lambda rules, state: (
         rules.switches(state, Switch.MECH_BOSS_2, disabled_case=True)
         or (

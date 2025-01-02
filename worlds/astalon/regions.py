@@ -643,6 +643,7 @@ astalon_regions: Dict[RegionName, RegionData] = {
         exits=(
             RegionName.MECH_CHAINS,
             RegionName.MECH_CLOAK_CONNECTION,
+            RegionName.MECH_BOSS_CONNECTION,
         ),
     ),
     RegionName.MECH_BOSS_CONNECTION: RegionData(
