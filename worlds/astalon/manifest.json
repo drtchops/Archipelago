@@ -1,6 +1,7 @@
 {
     "manifest_version": 1,
-    "name": "Astalon",
+    "package_name": "astalon",
+    "display_name": "Astalon: Tears of the Earth",
     "description": "Uphold your pact with the Titan of Death, Epimetheus! Fight, climb and solve your way through a twisted tower as three unique adventurers, on a mission to save their village from impending doom!",
     "platforms": ["PC"],
     "repository_url": "https://github.com/drtchops/Archipelago",
@@ -11,10 +12,7 @@
     ],
     "license": "MIT",
     "release_state": "Alpha",
-    "version": "0.18.2",
+    "version": "0.19.0",
     "ap_min_version": "0.5.0",
-    "is_unrated": false,
-    "is_adult_only": false,
-    "is_game_required_to_generate": false,
-    "world_dependencies": []
+    "is_game_required_to_generate": false
 }

@@ -3,6 +3,7 @@ from functools import cached_property
 from typing import TYPE_CHECKING, Any, ClassVar, Dict, Final, List, Set, Tuple
 
 from BaseClasses import CollectionState, Item, ItemClassification, Region, Tutorial
+from Options import OptionError
 from worlds.AutoWorld import WebWorld, World
 
 from .constants import GAME_NAME
@@ -357,7 +358,7 @@ class AstalonWorld(World):
             # should only happen when doing eye hunt with too few things randomized
             remove_count = len(itempool) + len(filler_items) - total_locations
             if remove_count > len(filler_items):
-                raise Exception(
+                raise OptionError(
                     f"Astalon player {self.player_name} failed: No space for eye hunt. "
                     "Lower your eye hunt goal or enable candle randomizer."
                 )
