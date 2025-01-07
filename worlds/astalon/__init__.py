@@ -135,8 +135,8 @@ class AstalonWorld(World):
         "map_page_folder": "tracker",
         "map_page_maps": "maps/maps.json",
         "map_page_locations": "locations/locations.json",
-        # "map_page_setting_key": "astalon_area",
-        # "map_page_index": map_page_index,
+        "map_page_setting_key": "astalon_area",
+        "map_page_index": map_page_index,
     }
 
     def generate_early(self) -> None:

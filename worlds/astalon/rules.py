@@ -1230,7 +1230,10 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
     ),
     (R.CATA_VERTICAL_SHORTCUT, R.CATA_BOW_CONNECTION): lambda rules, state: (
         rules.switches(state, Switch.CATA_VERTICAL_SHORTCUT, disabled_case=True)
-        and (rules.switches(state, Switch.CATA_MID_SHORTCUT, disabled_case=True) or rules.has(state, Character.KYULI))
+        and (
+            rules.switches(state, Switch.CATA_MID_SHORTCUT, disabled_case=True)
+            or rules.has(state, Character.KYULI, KeyItem.ICARUS)
+        )
     ),
     (R.CATA_EYEBALL_BONES, R.CATA_SNAKE_MUSHROOMS): lambda rules, state: rules.has(state, Eye.RED),
     (R.CATA_SNAKE_MUSHROOMS, R.CATA_DEV_ROOM_CONNECTION): lambda rules, state: rules.has(
