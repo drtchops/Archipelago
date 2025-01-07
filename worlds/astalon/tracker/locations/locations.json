@@ -2552,6 +2552,9 @@
                     {
                         "name": "Hall of the Phantoms - Blue Key (Teleport Maze)",
                         "visibility_rules": ["BLUE_ON"]
+                    },
+                    {
+                        "name": "Hall of the Phantoms - Crystal (Below Puzzle)"
                     }
                 ],
                 "map_locations": [
@@ -3048,26 +3051,6 @@
                         "map": "mechanism_and_hall",
                         "x": 685,
                         "y": 263
-                    }
-                ]
-            },
-            {
-                "name": "Hall of the Phantoms - Below Puzzle",
-                "sections": [
-                    {
-                        "name": "Hall of the Phantoms - Crystal (Below Puzzle)"
-                    }
-                ],
-                "map_locations": [
-                    {
-                        "map": "world_map",
-                        "x": 805,
-                        "y": 910
-                    },
-                    {
-                        "map": "mechanism_and_hall",
-                        "x": 805,
-                        "y": 223
                     }
                 ]
             },
