@@ -436,7 +436,6 @@ class AstalonWorld(World):
             "options": self.options.as_dict(
                 *[field.name for field in dataclasses.fields(self.options)],
                 casing="snake",
-                toggles_as_bools=True,
             ),
             "starting_characters": [c.value for c in self.starting_characters],
             "character_strengths": self._get_character_strengths(),
