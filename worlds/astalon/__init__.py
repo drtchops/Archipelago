@@ -1,3 +1,4 @@
+import dataclasses
 import logging
 from functools import cached_property
 from typing import TYPE_CHECKING, Any, ClassVar, Dict, Final, List, Set, Tuple
@@ -138,6 +139,7 @@ class AstalonWorld(World):
         "map_page_setting_key": "astalon_area",
         "map_page_index": map_page_index,
     }
+    ut_can_gen_without_yaml = True
 
     def generate_early(self) -> None:
         self.rules = AstalonRules(self)
@@ -157,6 +159,23 @@ class AstalonWorld(World):
         if self.options.goal == Goal.option_eye_hunt:
             self.required_gold_eyes = self.options.additional_eyes_required.value
             self.extra_gold_eyes = int(round(self.required_gold_eyes * (self.options.extra_eyes / 100)))
+
+        re_gen_passthrough = getattr(self.multiworld, "re_gen_passthrough", {})
+        if re_gen_passthrough and GAME_NAME in re_gen_passthrough:
+            slot_data: Dict[str, Any] = re_gen_passthrough[GAME_NAME]
+
+            slot_options: Dict[str, Any] = slot_data.get("options", {})
+            for key, value in slot_options.items():
+                opt = getattr(self.options, key, None)
+                if opt:
+                    opt.value = value
+
+            if "starting_characters" in slot_data:
+                self.starting_characters = [Character(c) for c in slot_data["starting_characters"]]
+            if "required_gold_eyes" in slot_data:
+                self.required_gold_eyes = slot_data["required_gold_eyes"]
+            if "extra_gold_eyes" in slot_data:
+                self.extra_gold_eyes = slot_data["extra_gold_eyes"]
 
     def create_location(self, name: str) -> AstalonLocation:
         data = location_table[name]
@@ -217,9 +236,8 @@ class AstalonWorld(World):
             self.create_event(Events.ZEEK, RegionName.MECH_ZEEK)
             self.create_event(Events.BRAM, RegionName.TR_BRAM)
         else:
-            is_ut = getattr(self.multiworld, "generation_is_fake", False)
             for character, location_name in CHARACTER_LOCATIONS:
-                if is_ut or character not in self.starting_characters:
+                if character not in self.starting_characters:
                     self.create_location(location_name)
 
         if not self.options.randomize_key_items:
@@ -414,41 +432,21 @@ class AstalonWorld(World):
         del cls.cached_spheres
 
     def fill_slot_data(self) -> Dict[str, Any]:
-        settings = self.options.as_dict(
-            "campaign",
-            "goal",
-            "additional_eyes_required",
-            "randomize_characters",
-            "randomize_key_items",
-            "randomize_health_pickups",
-            "randomize_attack_pickups",
-            "randomize_white_keys",
-            "randomize_blue_keys",
-            "randomize_red_keys",
-            "randomize_shop",
-            "randomize_elevator",
-            "randomize_switches",
-            "randomize_candles",
-            "randomize_orb_rocks",
-            "randomize_familiars",
-            "randomize_miniboss_rewards",
-            "skip_cutscenes",
-            "apex_elevator",
-            "cost_multiplier",
-            "fast_blood_chalice",
-            "campfire_warp",
-            "allow_block_warping",
-            "cheap_kyuli_ray",
-            "always_restore_candles",
-            "scale_character_stats",
-            "death_link",
-        )
-
         return {
-            "settings": settings,
+            "options": self.options.as_dict(
+                *[field.name for field in dataclasses.fields(self.options)],
+                casing="snake",
+                toggles_as_bools=True,
+            ),
             "starting_characters": [c.value for c in self.starting_characters],
             "character_strengths": self._get_character_strengths(),
+            "required_gold_eyes": self.required_gold_eyes,
+            "extra_gold_eyes": self.extra_gold_eyes,
         }
+
+    @staticmethod
+    def interpret_slot_data(slot_data: Dict[str, Any]):
+        return slot_data
 
     def _get_character_strengths(self) -> Dict[str, float]:
         character_strengths: Dict[str, float] = {c.value: 0 for c in CHARACTERS}
@@ -466,7 +464,7 @@ class AstalonWorld(World):
             for location in sphere:
                 if location.item and location.item.player == self.player and location.item.name in character_strengths:
                     scaling = (sphere_id + 1) / sphere_count
-                    logger.debug(f"{location.item.name} in sphere {sphere_id+1} / {sphere_count}, scaling {scaling}")
+                    logger.debug(f"{location.item.name} in sphere {sphere_id + 1} / {sphere_count}, scaling {scaling}")
                     character_strengths[location.item.name] = scaling
                     found += 1
                     if found >= limit:
