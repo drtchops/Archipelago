@@ -56,7 +56,7 @@ class Events(str, Enum):
 
 
 class Logic(Enum):
-    ARIAS_JUMP = auto()
+    UPPIES = auto()
     EXTRA_HEIGHT = auto()
     COMBO_HEIGHT = auto()
     BLOCK_IN_WALL = auto()
@@ -181,7 +181,7 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
     ),
     (R.GT_BOTTOM, R.GT_UPPER_PATH): lambda rules, state: (
         rules.switches(state, Crystal.GT_ROTA, disabled_case=False)
-        or rules.can(state, Logic.ARIAS_JUMP)
+        or rules.can(state, Logic.UPPIES)
         or (rules.has(state, KeyItem.STAR) and rules.blue_doors(state, BlueDoor.GT_RING, disabled_case=True))
         or rules.has(state, KeyItem.BLOCK)
     ),
@@ -599,7 +599,7 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
         rules.switches(state, Switch.MECH_BOSS_2, disabled_case=True)
         or (
             rules.has(state, KeyItem.BLOCK, KeyItem.BELL)
-            and (rules.has(state, Character.KYULI) or rules.can(state, Logic.ARIAS_JUMP))
+            and (rules.has(state, Character.KYULI) or rules.can(state, Logic.UPPIES))
         )
     ),
     (R.MECH_BOSS_CONNECTION, R.MECH_BRAM_TUNNEL_CONNECTION): lambda rules, state: (
@@ -718,7 +718,7 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
         )
     ),
     (R.HOTP_BELL_CAMPFIRE, R.HOTP_LOWER_ARIAS): lambda rules, state: (
-        rules.has(state, Character.ARIAS) and (rules.has(state, KeyItem.BELL) or rules.can(state, Logic.ARIAS_JUMP))
+        rules.has(state, Character.ARIAS) and (rules.has(state, KeyItem.BELL) or rules.can(state, Logic.UPPIES))
     ),
     (R.HOTP_BELL_CAMPFIRE, R.HOTP_RED_KEY): lambda rules, state: rules.has(state, Eye.GREEN, KeyItem.CLOAK),
     (R.HOTP_BELL_CAMPFIRE, R.HOTP_CATH_CONNECTION): lambda rules, state: rules.has(state, Eye.GREEN),
@@ -733,7 +733,7 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
             )
             or (
                 rules.has(state, KeyItem.BELL, KeyItem.BLOCK)
-                and (rules.has(state, Character.KYULI) or rules.can(state, Logic.ARIAS_JUMP))
+                and (rules.has(state, Character.KYULI) or rules.can(state, Logic.UPPIES))
             )
             or (rules.hard and rules.has(state, KeyItem.CLAW))
         )
@@ -749,7 +749,7 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
         rules.switches(state, Switch.HOTP_TELEPORTS, disabled_case=True)
         or (
             rules.has(state, KeyItem.BLOCK, KeyItem.BELL)
-            and (rules.has(state, Character.KYULI) or rules.can(state, Logic.ARIAS_JUMP))
+            and (rules.has(state, Character.KYULI) or rules.can(state, Logic.UPPIES))
         )
     ),
     (R.HOTP_GHOST_BLOOD, R.HOTP_EYEBALL): lambda rules, state: (
@@ -801,7 +801,7 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
         rules.has(state, Eye.GREEN)
         and (
             rules.switches(state, Switch.HOTP_TO_ABOVE_OLD_MAN, disabled_case=True)
-            or (rules.has(state, KeyItem.BLOCK, KeyItem.BELL) and rules.can(state, Logic.ARIAS_JUMP))
+            or (rules.has(state, KeyItem.BLOCK, KeyItem.BELL) and rules.can(state, Logic.UPPIES))
         )
     ),
     (R.HOTP_CLAW_CAMPFIRE, R.HOTP_CLAW): lambda rules, state: (
@@ -1349,7 +1349,7 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
     (R.TR_BOTTOM_LEFT, R.TR_BOTTOM): lambda rules, state: rules.has(state, Eye.BLUE),
     (R.TR_TOP_RIGHT, R.TR_GOLD): lambda rules, state: (
         rules.has(state, Character.ZEEK, KeyItem.BELL)
-        and (rules.has_any(state, Character.KYULI, KeyItem.BLOCK) or rules.can(state, Logic.ARIAS_JUMP))
+        and (rules.has_any(state, Character.KYULI, KeyItem.BLOCK) or rules.can(state, Logic.UPPIES))
     ),
     (R.TR_TOP_RIGHT, R.TR_MIDDLE_RIGHT): lambda rules, state: (
         rules.switches(
@@ -2009,7 +2009,7 @@ class AstalonRules:
         return self.region(R.ROA_START).can_reach(state)
 
     def _easy_rando_can(self, state: CollectionState, logic: Logic, gold_block=False, include_whiplash=True) -> bool:
-        if logic == Logic.ARIAS_JUMP:
+        if logic == Logic.UPPIES:
             return False
         if logic == Logic.EXTRA_HEIGHT:
             return self.has_any(state, Character.KYULI, KeyItem.BLOCK) or (
@@ -2029,16 +2029,16 @@ class AstalonRules:
             )
 
     def _hard_rando_can(self, state: CollectionState, logic: Logic, gold_block=False, include_whiplash=True) -> bool:
-        if logic == Logic.ARIAS_JUMP:
-            return self.has(state, Character.ARIAS)
+        if logic == Logic.UPPIES:
+            return self.has_any(state, Character.ARIAS, Character.BRAM)
         if logic == Logic.EXTRA_HEIGHT:
             return (
                 self.has_any(state, Character.KYULI, KeyItem.BLOCK)
                 or (gold_block and self.has(state, Character.ZEEK))
-                or self.can(state, Logic.ARIAS_JUMP)
+                or self.can(state, Logic.UPPIES)
             )
         if logic == Logic.COMBO_HEIGHT:
-            return self.can(state, Logic.ARIAS_JUMP) and self.has(state, KeyItem.BELL, KeyItem.BLOCK)
+            return self.can(state, Logic.UPPIES) and self.has(state, KeyItem.BELL, KeyItem.BLOCK)
         if logic == Logic.BLOCK_IN_WALL:
             return self.has(state, KeyItem.BLOCK) or (gold_block and self.has(state, Character.ZEEK))
         if logic == Logic.CRYSTAL:
@@ -2053,7 +2053,7 @@ class AstalonRules:
             return self.has_any(state, KeyItem.BANISH, KeyItem.BLOCK, ShopUpgrade.ALGUS_METEOR)
 
     def _easy_vanilla_can(self, state: CollectionState, logic: Logic, gold_block=False, include_whiplash=True) -> bool:
-        if logic == Logic.ARIAS_JUMP:
+        if logic == Logic.UPPIES:
             return False
         if logic == Logic.EXTRA_HEIGHT:
             return True
@@ -2071,7 +2071,7 @@ class AstalonRules:
             )
 
     def _hard_vanilla_can(self, state: CollectionState, logic: Logic, gold_block=False, include_whiplash=True) -> bool:
-        if logic == Logic.ARIAS_JUMP:
+        if logic == Logic.UPPIES:
             return True
         if logic == Logic.EXTRA_HEIGHT:
             return True
