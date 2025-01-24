@@ -1220,7 +1220,7 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
         rules.switches(state, Face.CATA_AFTER_BOW, disabled_case=lambda rules, state: rules.has(state, KeyItem.BOW))
     ),
     (R.CATA_BOW_CONNECTION, R.CATA_BOW): lambda rules, state: (
-        rules.blue_doors(state, BlueDoor.CATA_BOW, disabled_case=True)
+        rules.blue_doors(state, BlueDoor.CATA_BOW, disabled_case=True) and rules.has(state, Character.KYULI)
     ),
     (R.CATA_BOW_CONNECTION, R.CATA_BOW_CAMPFIRE): lambda rules, state: (
         rules.blue_doors(state, BlueDoor.CATA_SAVE, disabled_case=True)
