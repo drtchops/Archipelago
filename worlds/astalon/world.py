@@ -1,7 +1,7 @@
 import dataclasses
 import logging
 from functools import cached_property
-from typing import TYPE_CHECKING, Any, ClassVar, Dict, Final, List, Set, Tuple
+from typing import TYPE_CHECKING, Any, ClassVar, Dict, Final, List, Optional, Set, Tuple
 
 from BaseClasses import CollectionState, Item, ItemClassification, Region, Tutorial
 from Options import OptionError
@@ -42,6 +42,8 @@ from .rules import AstalonRules, Events
 
 if TYPE_CHECKING:
     from BaseClasses import Location, MultiWorld
+    from Options import Option
+
 
 # ██░░░██████░░███░░░███
 # ██░░░░██░░░▓▓░░░▓░░███
@@ -142,8 +144,6 @@ class AstalonWorld(World):
     ut_can_gen_without_yaml = True
 
     def generate_early(self) -> None:
-        self.rules = AstalonRules(self)
-
         self.starting_characters = []
         if self.options.randomize_characters == RandomizeCharacters.option_solo:
             self.starting_characters.append(self.random.choice(CHARACTERS))
@@ -166,9 +166,9 @@ class AstalonWorld(World):
 
             slot_options: Dict[str, Any] = slot_data.get("options", {})
             for key, value in slot_options.items():
-                opt = getattr(self.options, key, None)
-                if opt:
-                    opt.value = value
+                opt: Optional[Option] = getattr(self.options, key, None)
+                if opt is not None:
+                    setattr(self.options, key, opt.from_any(value))
 
             if "starting_characters" in slot_data:
                 self.starting_characters = [Character(c) for c in slot_data["starting_characters"]]
@@ -176,6 +176,8 @@ class AstalonWorld(World):
                 self.required_gold_eyes = slot_data["required_gold_eyes"]
             if "extra_gold_eyes" in slot_data:
                 self.extra_gold_eyes = slot_data["extra_gold_eyes"]
+
+        self.rules = AstalonRules(self)
 
     def create_location(self, name: str) -> AstalonLocation:
         data = location_table[name]
@@ -433,6 +435,7 @@ class AstalonWorld(World):
 
     def fill_slot_data(self) -> Dict[str, Any]:
         return {
+            "version": "0.21.1",
             "options": self.options.as_dict(
                 *[field.name for field in dataclasses.fields(self.options)],
                 casing="snake",
@@ -445,6 +448,7 @@ class AstalonWorld(World):
 
     @staticmethod
     def interpret_slot_data(slot_data: Dict[str, Any]):
+        # Allow UT to work without a yaml
         return slot_data
 
     def _get_character_strengths(self) -> Dict[str, float]:
