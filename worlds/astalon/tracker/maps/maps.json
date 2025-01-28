@@ -28,5 +28,11 @@
         "location_size": 18,
         "location_border_thickness": 2,
         "img": "images/maps/ruins.png"
+    },
+    {
+        "name": "cyclops",
+        "location_size": 18,
+        "location_border_thickness": 2,
+        "img": "images/maps/cyclops.png"
     }
 ]

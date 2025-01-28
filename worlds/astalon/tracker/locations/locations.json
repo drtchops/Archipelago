@@ -2106,6 +2106,11 @@
                         "map": "mechanism_and_hall",
                         "x": 1280,
                         "y": 340
+                    },
+                    {
+                        "map": "cyclops",
+                        "x": 210,
+                        "y": 385
                     }
                 ]
             },
@@ -3300,8 +3305,8 @@
                         "y": 990
                     },
                     {
-                        "map": "mechanism_and_hall",
-                        "x": 1337,
+                        "map": "cyclops",
+                        "x": 450,
                         "y": 345
                     }
                 ]
@@ -3329,9 +3334,9 @@
                         "y": 670
                     },
                     {
-                        "map": "mechanism_and_hall",
-                        "x": 1337,
-                        "y": 345
+                        "map": "cyclops",
+                        "x": 210,
+                        "y": 25
                     }
                 ]
             },
@@ -3355,9 +3360,9 @@
                         "y": 950
                     },
                     {
-                        "map": "mechanism_and_hall",
-                        "x": 1337,
-                        "y": 345
+                        "map": "cyclops",
+                        "x": 265,
+                        "y": 305
                     }
                 ]
             },
@@ -3375,9 +3380,9 @@
                         "y": 950
                     },
                     {
-                        "map": "mechanism_and_hall",
-                        "x": 1337,
-                        "y": 345
+                        "map": "cyclops",
+                        "x": 325,
+                        "y": 305
                     }
                 ]
             },
@@ -3395,9 +3400,9 @@
                         "y": 910
                     },
                     {
-                        "map": "mechanism_and_hall",
-                        "x": 1337,
-                        "y": 345
+                        "map": "cyclops",
+                        "x": 325,
+                        "y": 265
                     }
                 ]
             },
@@ -3421,9 +3426,9 @@
                         "y": 870
                     },
                     {
-                        "map": "mechanism_and_hall",
-                        "x": 1337,
-                        "y": 345
+                        "map": "cyclops",
+                        "x": 150,
+                        "y": 225
                     }
                 ]
             },
@@ -3441,8 +3446,8 @@
                         "y": 990
                     },
                     {
-                        "map": "mechanism_and_hall",
-                        "x": 1337,
+                        "map": "cyclops",
+                        "x": 270,
                         "y": 345
                     }
                 ]
@@ -3461,9 +3466,9 @@
                         "y": 790
                     },
                     {
-                        "map": "mechanism_and_hall",
-                        "x": 1337,
-                        "y": 345
+                        "map": "cyclops",
+                        "x": 150,
+                        "y": 140
                     }
                 ]
             },
@@ -3477,13 +3482,13 @@
                 "map_locations": [
                     {
                         "map": "world_map",
-                        "x": 1215,
-                        "y": 790
+                        "x": 1160,
+                        "y": 750
                     },
                     {
-                        "map": "mechanism_and_hall",
-                        "x": 1337,
-                        "y": 345
+                        "map": "cyclops",
+                        "x": 90,
+                        "y": 100
                     }
                 ]
             },
@@ -3501,9 +3506,9 @@
                         "y": 670
                     },
                     {
-                        "map": "mechanism_and_hall",
-                        "x": 1337,
-                        "y": 345
+                        "map": "cyclops",
+                        "x": 30,
+                        "y": 25
                     }
                 ]
             },

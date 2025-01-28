@@ -98,7 +98,7 @@ def map_page_index(data: Any) -> int:
     if data in (1, 99):
         # tomb
         return 1
-    elif data in (2, 3, 7, 11):
+    elif data in (2, 3, 7):
         # mechanism_and_hall
         return 2
     elif data in (4, 19, 21):
@@ -107,6 +107,9 @@ def map_page_index(data: Any) -> int:
     elif data in (5, 6, 8, 13):
         # ruins
         return 4
+    elif data == 11:
+        # cyclops
+        return 5
     # world map
     return 0
 
@@ -435,7 +438,7 @@ class AstalonWorld(World):
 
     def fill_slot_data(self) -> Dict[str, Any]:
         return {
-            "version": "0.21.1",
+            "version": "0.21.2",
             "options": self.options.as_dict(
                 *[field.name for field in dataclasses.fields(self.options)],
                 casing="snake",
