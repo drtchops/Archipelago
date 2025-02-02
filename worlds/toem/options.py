@@ -4,6 +4,8 @@ from Options import PerGameCommonOptions, StartInventoryPool, Toggle
 
 
 class RandomizeThing(Toggle):
+    """Placeholder"""
+
     display_name = "Randomize Thing"
     default = 1
 
