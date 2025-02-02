@@ -428,7 +428,11 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
         rules.switches(state, Switch.MECH_CHAINS, disabled_case=False)
     ),
     (R.MECH_AFTER_BK, R.MECH_BK): lambda rules, state: (
-        rules.switches(state, Crystal.MECH_BK, disabled_case=(rules.hard and rules.has(state, ShopUpgrade.KYULI_RAY)))
+        rules.switches(
+            state,
+            Crystal.MECH_BK,
+            disabled_case=lambda rules, state: (rules.hard and rules.has(state, ShopUpgrade.KYULI_RAY)),
+        )
     ),
     (R.MECH_AFTER_BK, R.HOTP_EPIMETHEUS): lambda rules, state: rules.has(state, KeyItem.CLAW),
     (R.MECH_CHAINS, R.MECH_CHAINS_CANDLE): lambda rules, state: rules.has(state, KeyItem.CLAW),
@@ -445,7 +449,7 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
         or rules.switches(
             state,
             Crystal.MECH_TO_BOSS_3,
-            disabled_case=(
+            disabled_case=lambda rules, state: (
                 rules.hard and (rules.can(state, Logic.BIG_MAGIC) or rules.has(state, ShopUpgrade.KYULI_RAY))
             ),
         )
@@ -695,7 +699,9 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
     ),
     (R.HOTP_LOWER, R.HOTP_MECH_VOID_CONNECTION): lambda rules, state: (
         rules.switches(
-            state, Crystal.HOTP_BOTTOM, disabled_case=(rules.hard and rules.has(state, ShopUpgrade.KYULI_RAY))
+            state,
+            Crystal.HOTP_BOTTOM,
+            disabled_case=lambda rules, state: (rules.hard and rules.has(state, ShopUpgrade.KYULI_RAY)),
         )
     ),
     (R.HOTP_EPIMETHEUS, R.MECH_AFTER_BK): lambda rules, state: rules.has(state, KeyItem.CLAW),
@@ -821,7 +827,7 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
         rules.switches(
             state,
             Crystal.HOTP_AFTER_CLAW,
-            disabled_case=(
+            disabled_case=lambda rules, state: (
                 rules.hard
                 and (
                     rules.has(state, KeyItem.CLOAK)
@@ -885,7 +891,7 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
             state,
             Crystal.ROA_1ST_ROOM,
             # this should be more complicated
-            disabled_case=(rules.has(state, KeyItem.BELL) and rules.can(state, Logic.CRYSTAL)),
+            disabled_case=lambda rules, state: (rules.has(state, KeyItem.BELL) and rules.can(state, Logic.CRYSTAL)),
         )
     ),
     (R.ROA_WORMS, R.ROA_START): lambda rules, state: (
@@ -959,7 +965,7 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
         rules.switches(
             state,
             Crystal.ROA_LEFT_ASCEND,
-            disabled_case=(rules.can(state, Logic.CRYSTAL) and rules.has(state, KeyItem.BELL)),
+            disabled_case=lambda rules, state: (rules.can(state, Logic.CRYSTAL) and rules.has(state, KeyItem.BELL)),
         )
         and rules.can(state, Logic.EXTRA_HEIGHT)
     ),
@@ -1094,7 +1100,7 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
         rules.switches(
             state,
             Crystal.ROA_CENTAUR,
-            disabled_case=(
+            disabled_case=lambda rules, state: (
                 rules.has(state, KeyItem.BELL, Character.ARIAS)
                 and (rules.can(state, Logic.CRYSTAL) or rules.has(state, KeyItem.STAR))
             ),
@@ -1355,7 +1361,9 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
         rules.switches(
             state,
             Crystal.TR_GOLD,
-            disabled_case=(rules.has(state, KeyItem.BELL, KeyItem.CLAW) and rules.can(state, Logic.CRYSTAL)),
+            disabled_case=lambda rules, state: (
+                rules.has(state, KeyItem.BELL, KeyItem.CLAW) and rules.can(state, Logic.CRYSTAL)
+            ),
         )
     ),
     (R.TR_MIDDLE_RIGHT, R.TR_DARK_ARIAS): lambda rules, state: rules.has(state, Eye.GREEN),
@@ -1414,7 +1422,7 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
         rules.switches(
             state,
             Crystal.CATH_ORBS,
-            disabled_case=(rules.can(state, Logic.CRYSTAL) and rules.has(state, KeyItem.BELL)),
+            disabled_case=lambda rules, state: (rules.can(state, Logic.CRYSTAL) and rules.has(state, KeyItem.BELL)),
         )
     ),
     (R.CATH_RIGHT_SHAFT_CONNECTION, R.CATH_RIGHT_SHAFT): lambda rules, state: rules.has(
@@ -1614,7 +1622,7 @@ HEALTH_RULES: Dict[L, AstalonRule] = {
             rules.switches(
                 state,
                 Crystal.CATA_POISON_ROOTS,
-                disabled_case=(rules.can(state, Logic.CRYSTAL) and rules.has(state, KeyItem.BELL)),
+                disabled_case=lambda rules, state: (rules.can(state, Logic.CRYSTAL) and rules.has(state, KeyItem.BELL)),
             )
             or rules.has(state, KeyItem.ICARUS, KeyItem.CLAW)
         )
