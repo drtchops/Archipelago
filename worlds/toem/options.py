@@ -1,16 +1,26 @@
 from dataclasses import dataclass
 
-from Options import PerGameCommonOptions, StartInventoryPool, Toggle
+from Options import PerGameCommonOptions, StartInventoryPool, Toggle, Visibility
 
 
-class RandomizeThing(Toggle):
-    """Placeholder"""
+class IncludeAchievements(Toggle):
+    """Include achievements as locations."""
 
-    display_name = "Randomize Thing"
-    default = 1
+    display_name = "Include Achievements"
+    default = 0
+    visibility = Visibility.none
+
+
+class IncludeBasto(Toggle):
+    """Include the post-game section Basto."""
+
+    display_name = "Include Basto"
+    default = 0
+    visibility = Visibility.none
 
 
 @dataclass
 class ToemOptions(PerGameCommonOptions):
     start_inventory_from_pool: StartInventoryPool
-    randomize_thing: RandomizeThing
+    include_achievements: IncludeAchievements
+    include_basto: IncludeBasto

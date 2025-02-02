@@ -1,20 +1,31 @@
 import dataclasses
-from typing import Any, Dict, List
+from typing import TYPE_CHECKING, Any, Dict, List, Optional, Set, Tuple
 
 from BaseClasses import Item, ItemClassification, Region, Tutorial
 from worlds.AutoWorld import WebWorld, World
 
-from .constants import GAME_NAME
+from .constants import GAME_NAME, Area
 from .items import ItemGroup, ToemItem, filler_items, item_name_groups, item_name_to_id, item_table
-from .locations import LocationGroup, ToemLocation, location_name_groups, location_name_to_id, location_table
+from .locations import (
+    LocationGroup,
+    LocationName,
+    ToemLocation,
+    location_name_groups,
+    location_name_to_id,
+    location_table,
+)
 from .options import ToemOptions
 from .regions import RegionName, toem_regions
 from .rules import EventName, set_location_rules, set_region_rules
 
+if TYPE_CHECKING:
+    from BaseClasses import Entrance, Location
+    from Options import Option
+
 
 class ToemWebWorld(WebWorld):
     theme = "grassFlowers"
-    tutorials = [
+    tutorials = [  # noqa: RUF012
         Tutorial(
             tutorial_name="Setup Guide",
             description="A guide to setting up the TOEM randomizer.",
@@ -36,27 +47,65 @@ class ToemWorld(World):
     item_name_to_id = item_name_to_id
     location_name_to_id = location_name_to_id
 
-    def create_location(self, name: str) -> ToemLocation:
+    # UT integration
+    ut_can_gen_without_yaml = True
+
+    _regions: "Dict[RegionName, Region]"
+    _locations: "Dict[LocationName, Location]"
+    _entrances: "Dict[Tuple[RegionName, RegionName], Entrance]"
+
+    def generate_early(self) -> None:
+        re_gen_passthrough = getattr(self.multiworld, "re_gen_passthrough", {})
+        if re_gen_passthrough and GAME_NAME in re_gen_passthrough:
+            slot_data: Dict[str, Any] = re_gen_passthrough[GAME_NAME]
+
+            slot_options: Dict[str, Any] = slot_data.get("options", {})
+            for key, value in slot_options.items():
+                opt: Optional[Option] = getattr(self.options, key, None)
+                if opt is not None:
+                    setattr(self.options, key, opt.from_any(value))
+
+        self._regions = {}
+        self._locations = {}
+        self._entrances = {}
+
+    def create_location(self, name: str) -> ToemLocation | None:
         data = location_table[name]
-        region = self.get_region(data.region.value)
+        if not self.options.include_basto and data.area == Area.BASTO:
+            return
+
+        region = self._regions[data.region]
         location = ToemLocation(self.player, name, location_name_to_id[name], region)
         region.locations.append(location)
+        self._locations[LocationName(name)] = location
         return location
 
     def create_regions(self) -> None:
         for region_name in toem_regions:
             region = Region(region_name.value, self.player, self.multiworld)
             self.multiworld.regions.append(region)
+            self._regions[region_name] = region
 
         for region_name, exits in toem_regions.items():
-            region = self.get_region(region_name.value)
-            if exits:
-                region.add_exits([e.value for e in exits])
+            region = self._regions[region_name]
+            for exit_region_name in exits:
+                entrance = region.connect(self._regions[exit_region_name])
+                self._entrances[(region_name, exit_region_name)] = entrance
+
+        logic_groups: Set[str] = {
+            LocationGroup.QUEST.value,
+            LocationGroup.COMPENDIUM.value,
+            LocationGroup.ITEM.value,
+        }
+        if self.options.include_achievements:
+            logic_groups.add(LocationGroup.ACHIEVEMENT.value)
 
         for group, location_names in location_name_groups.items():
-            if group == LocationGroup.QUEST:
-                for location_name in location_names:
-                    self.create_location(location_name)
+            if group not in logic_groups:
+                continue
+
+            for location_name in location_names:
+                self.create_location(location_name)
 
         self.create_event(EventName.VICTORY, RegionName.MOUNTAIN_TOP)
         self.multiworld.completion_condition[self.player] = lambda state: (
@@ -77,9 +126,22 @@ class ToemWorld(World):
     def create_items(self) -> None:
         itempool: List[Item] = []
 
-        for item_name, item_data in item_table.items():
-            if item_data.group == ItemGroup.STAMP:
-                for _ in range(item_data.quantity):
+        logic_groups: Set[str] = {
+            ItemGroup.STAMP.value,
+            ItemGroup.PHOTO.value,
+            ItemGroup.ITEM.value,
+        }
+
+        for group, item_names in item_name_groups.items():
+            if group not in logic_groups:
+                continue
+
+            for item_name in item_names:
+                data = item_table[item_name]
+                if not self.options.include_basto and data.area == Area.BASTO:
+                    continue
+
+                for _ in range(data.quantity):
                     itempool.append(self.create_item(item_name))
 
         total_locations = len(self.multiworld.get_unfilled_locations(self.player))
@@ -103,3 +165,8 @@ class ToemWorld(World):
                 casing="snake",
             ),
         }
+
+    @staticmethod
+    def interpret_slot_data(slot_data: Dict[str, Any]):
+        # Allow UT to work without a yaml
+        return slot_data

@@ -1,5 +1,5 @@
 from enum import Enum
-from typing import Dict, Optional, Set
+from typing import Dict, Tuple
 
 
 class RegionName(str, Enum):
@@ -13,13 +13,13 @@ class RegionName(str, Enum):
     BASTO = "Basto"
 
 
-toem_regions: Dict[RegionName, Optional[Set[RegionName]]] = {
-    RegionName.MENU: {RegionName.HOMELANDA},
-    RegionName.HOMELANDA: {RegionName.OAKLAVILLE},
-    RegionName.OAKLAVILLE: {RegionName.STANHAMN},
-    RegionName.STANHAMN: {RegionName.LOGCITY},
-    RegionName.LOGCITY: {RegionName.KIIRUBERG},
-    RegionName.KIIRUBERG: {RegionName.MOUNTAIN_TOP},
-    RegionName.MOUNTAIN_TOP: {RegionName.BASTO},
-    RegionName.BASTO: None,
+toem_regions: Dict[RegionName, Tuple[RegionName, ...]] = {
+    RegionName.MENU: (RegionName.HOMELANDA,),
+    RegionName.HOMELANDA: (RegionName.OAKLAVILLE,),
+    RegionName.OAKLAVILLE: (RegionName.STANHAMN,),
+    RegionName.STANHAMN: (RegionName.LOGCITY,),
+    RegionName.LOGCITY: (RegionName.KIIRUBERG,),
+    RegionName.KIIRUBERG: (RegionName.MOUNTAIN_TOP,),
+    RegionName.MOUNTAIN_TOP: (RegionName.BASTO,),
+    RegionName.BASTO: (),
 }

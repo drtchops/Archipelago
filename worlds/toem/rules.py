@@ -21,7 +21,7 @@ Rule = Callable[[int, CollectionState], bool]
 
 ENTRANCE_RULES: Dict[Tuple[RegionName, RegionName], Rule] = {
     (RegionName.HOMELANDA, RegionName.OAKLAVILLE): lambda player, state: (
-        state.has(ItemName.HOMELANDA_STAMP.value, player, 2)
+        state.has(ItemName.HOMELANDA_STAMP.value, player, 1)
     ),
     (RegionName.OAKLAVILLE, RegionName.STANHAMN): lambda player, state: (
         state.has(ItemName.OAKLAVILLE_STAMP.value, player, 8)
@@ -48,10 +48,10 @@ LOCATION_RULES: Dict[LocationName, Rule] = {
 
 
 def set_region_rules(world: "ToemWorld"):
-    for (from_, to_), rule in ENTRANCE_RULES.items():
-        set_rule(world.get_entrance(f"{from_.value} -> {to_.value}"), partial(rule, world.player))
+    for connection, rule in ENTRANCE_RULES.items():
+        set_rule(world._entrances[connection], partial(rule, world.player))
 
 
 def set_location_rules(world: "ToemWorld"):
     for location_name, rule in LOCATION_RULES.items():
-        set_rule(world.get_location(location_name.value), partial(rule, world.player))
+        set_rule(world._locations[location_name], partial(rule, world.player))
