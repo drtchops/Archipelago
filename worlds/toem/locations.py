@@ -28,8 +28,12 @@ class LocationName(str, Enum):
     COMP_TATO = "Compendium - Tato"
 
     ITEM_BACKPACK = "Item - Backpack"
+    ITEM_CASSETTE_PLAYER = "Item - Cassette Player"
+    ITEM_ALBUM = "Item - Album"
     ITEM_CAMERA = "Item - Camera"
     ITEM_CLOGS = "Item - Clogs"
+
+    TAPE_PHOTO_OF_HOME = "Casette - Jamal Green - Photo of Home"
 
     CHEEVO_BEGINNING = "Achievement - The beginning"
     CHEEVO_HOME_SWEET_HOME = "Achievement - Home sweet home"
@@ -75,6 +79,8 @@ class LocationName(str, Enum):
     ITEM_GHOST_GLASSES = "Item - Ghost glasses"
     ITEM_SOAKED_SOCK = "Item - Soaked sock"
     ITEM_MONSTER_MASK = "Item - Monster mask"
+
+    TAPE_SQUIRREL_PHOTO = "Launchable Socks - Squirrel Photography"
 
     CHEEVO_CALM_FOREST = "Achievement - The calm forest"
     CHEEVO_MAJESTIC_HOTEL = "Achievement - A majestic hotel"
