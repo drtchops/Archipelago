@@ -24,6 +24,7 @@ from .locations import LocationGroup, location_table
 from .locations import LocationName as L
 from .options import ApexElevator, AstalonOptions, Difficulty, Goal, RandomizeCharacters
 from .regions import RegionName as R
+from .rules2.main_campaign import MAIN_ENTRANCE_RULES
 
 if TYPE_CHECKING:
     from . import AstalonWorld
@@ -230,15 +231,16 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
     (R.GT_SPIKE_TUNNEL, R.GT_TOP_RIGHT): lambda rules, state: (
         rules.switches(state, Switch.GT_SPIKE_TUNNEL, disabled_case=False)
     ),
-    (R.GT_SPIKE_TUNNEL, R.GT_BUTT): lambda rules, state: (
-        rules.can(state, Logic.EXTRA_HEIGHT) and rules.has(state, KeyItem.STAR, KeyItem.BELL)
+    (R.GT_SPIKE_TUNNEL, R.GT_SPIKE_TUNNEL_SWITCH): lambda rules, state: rules.can(state, Logic.EXTRA_HEIGHT),
+    (R.GT_SPIKE_TUNNEL_SWITCH, R.GT_BUTT): lambda rules, state: (
+        rules.has(state, KeyItem.STAR) and (rules.hard or rules.has(state, KeyItem.BELL))
     ),
     (R.GT_BUTT, R.GT_TOP_LEFT): lambda rules, state: (
         rules.switches(state, Switch.GT_BUTT_ACCESS, disabled_case=False)
     ),
-    (R.GT_BUTT, R.GT_SPIKE_TUNNEL): lambda rules, state: rules.has(state, KeyItem.STAR),
-    (R.GT_BUTT, R.GT_BOSS): lambda rules, state: (rules.white_doors(state, WhiteDoor.GT_TAUROS, disabled_case=True)),
-    (R.GT_BOSS, R.GT_BUTT): lambda rules, state: (rules.white_doors(state, WhiteDoor.GT_TAUROS, disabled_case=False)),
+    (R.GT_BUTT, R.GT_SPIKE_TUNNEL_SWITCH): lambda rules, state: rules.has(state, KeyItem.STAR),
+    (R.GT_BUTT, R.GT_BOSS): lambda rules, state: rules.white_doors(state, WhiteDoor.GT_TAUROS, disabled_case=True),
+    (R.GT_BOSS, R.GT_BUTT): lambda rules, state: rules.white_doors(state, WhiteDoor.GT_TAUROS, disabled_case=False),
     (R.GT_BOSS, R.MECH_START): lambda rules, state: rules.has(state, Eye.RED),
     (R.GT_BOSS, R.MECH_ZEEK_CONNECTION): lambda rules, state: rules.elevator(state, Elevator.MECH_1),
     (R.GT_BOSS, R.MECH_BOSS): lambda rules, state: rules.elevator(state, Elevator.MECH_2),
@@ -302,7 +304,9 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
     (R.GT_UPPER_PATH_CONNECTION, R.MECH_BOTTOM_CAMPFIRE): lambda rules, state: (
         rules.switches(state, Switch.MECH_TO_UPPER_GT, disabled_case=False)
     ),
-    (R.MECH_START, R.GT_LADDER_SWITCH): lambda rules, state: rules.has(state, Eye.RED),
+    (R.MECH_START, R.GT_LADDER_SWITCH): lambda rules, state: (
+        rules.has(state, Eye.RED) and rules.can(state, Logic.CRYSTAL)
+    ),
     (R.MECH_START, R.MECH_BK): lambda rules, state: (
         rules.blue_doors(state, BlueDoor.MECH_SHORTCUT, disabled_case=True) and rules.can(state, Logic.EXTRA_HEIGHT)
     ),
@@ -1735,7 +1739,6 @@ SWITCH_RULES: Dict[L, AstalonRule] = {
         rules.switches(state, Switch.GT_UPPER_PATH_BLOCKS, disabled_case=True)
         or rules.has(state, Character.KYULI, KeyItem.BLOCK, Character.ZEEK, KeyItem.BELL)
     ),
-    L.GT_CRYSTAL_LADDER: lambda rules, state: rules.can(state, Logic.CRYSTAL),
     L.GT_CRYSTAL_ROTA: lambda rules, state: (
         rules.can(state, Logic.CRYSTAL)
         and (
@@ -2115,6 +2118,8 @@ class AstalonRules:
         return True
 
     def register_indirect_condition(self, dependency: Union[L, R], from_region: R, to_region: R):
+        if (from_region, to_region) in MAIN_ENTRANCE_RULES:
+            return
         if isinstance(dependency, L):
             data = location_table[dependency]
             if data.group == LocationGroup.KEY_RED and self.options.randomize_red_keys:
@@ -2150,7 +2155,8 @@ class AstalonRules:
 
     def set_region_rules(self) -> None:
         for (from_, to_), rule in ENTRANCE_RULES.items():
-            set_rule(self.entrance(from_, to_), partial(rule, self))
+            if (from_, to_) not in MAIN_ENTRANCE_RULES:
+                set_rule(self.entrance(from_, to_), partial(rule, self))
 
     def set_location_rules(self) -> None:
         if self.options.randomize_key_items:

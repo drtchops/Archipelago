@@ -26,6 +26,7 @@ class RegionName(str, Enum):
     GT_TOP_LEFT = "Gorgon Tomb - Top Left"
     GT_TOP_RIGHT = "Gorgon Tomb - Top Right"
     GT_SPIKE_TUNNEL = "Gorgon Tomb - Spike Tunnel"
+    GT_SPIKE_TUNNEL_SWITCH = "Gorgon Tomb - Spike Tunnel Switch"
     GT_BUTT = "Gorgon Tomb - Butt"
     GT_BOSS = "Gorgon Tomb - Boss"
     GT_LADDER_SWITCH = "Gorgon Tomb - Ladder Switch"
@@ -365,13 +366,19 @@ astalon_regions: Dict[RegionName, RegionData] = {
     RegionName.GT_SPIKE_TUNNEL: RegionData(
         exits=(
             RegionName.GT_TOP_RIGHT,
+            RegionName.GT_SPIKE_TUNNEL_SWITCH,
+        ),
+    ),
+    RegionName.GT_SPIKE_TUNNEL_SWITCH: RegionData(
+        exits=(
+            RegionName.GT_SPIKE_TUNNEL,
             RegionName.GT_BUTT,
         ),
     ),
     RegionName.GT_BUTT: RegionData(
         exits=(
             RegionName.GT_TOP_LEFT,
-            RegionName.GT_SPIKE_TUNNEL,
+            RegionName.GT_SPIKE_TUNNEL_SWITCH,
             RegionName.GT_BOSS,
         ),
     ),

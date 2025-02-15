@@ -203,3 +203,7 @@ Thumbs.db
 
 # Ruff
 ruff.toml
+
+# Tox
+tox.ini
+tox.toml

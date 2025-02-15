@@ -37,17 +37,15 @@ from .locations import (
     location_name_to_id,
     location_table,
 )
-from .logic import False_, hit, miss
 from .options import ApexElevator, AstalonOptions, Goal, RandomizeCharacters
 from .regions import RegionName, astalon_regions
 from .rules import AstalonRules, Events
-from .rules2 import ENTRANCE_RULES2
+from .rules2.base import Tracker
+from .rules2.main_campaign import MAIN_ENTRANCE_RULES
 
 if TYPE_CHECKING:
     from BaseClasses import Entrance, Location, MultiWorld
     from Options import Option
-
-    from .logic import Rule
 
 
 # ██░░░██████░░███░░░███
@@ -154,13 +152,13 @@ class AstalonWorld(World):
     _regions: "Dict[RegionName, Region]"
     _locations: "Dict[LocationName, Location]"
     _entrances: "Dict[Tuple[RegionName, RegionName], Entrance]"
-    _rule_deps: "Dict[str, List[Rule]]"
+    _rule_deps: "Dict[str, Set[int]]"
 
     def generate_early(self) -> None:
         self._regions = {}
         self._locations = {}
         self._entrances = {}
-        self._rule_deps = defaultdict(list)
+        self._rule_deps = defaultdict(set)
 
         self.starting_characters = []
         if self.options.randomize_characters == RandomizeCharacters.option_solo:
@@ -215,16 +213,20 @@ class AstalonWorld(World):
             region = self._regions[region_name]
             for exit_region_name in region_data.exits:
                 region_pair = (region_name, exit_region_name)
-                rule = ENTRANCE_RULES2.get(region_pair)
+                rule = MAIN_ENTRANCE_RULES.get(region_pair)
                 if rule is not None:
-                    rule = rule.actualize(self.player, self.options)
-                    if isinstance(rule, False_):
-                        print(f"no matching rules for {region_pair}")
+                    rule = rule.actualize(self)
+                    if rule.falsy:
+                        print(f"No matching rules for {region_name.value} -> {exit_region_name.value}")
                         continue
                     for item_name, rules in rule.deps().items():
-                        self._rule_deps[item_name] += rules
+                        self._rule_deps[item_name] |= rules
+
                 entrance = region.connect(self._regions[exit_region_name], rule=rule.test if rule else None)
                 self._entrances[region_pair] = entrance
+                if rule:
+                    for indirect_region in rule.indirect():
+                        self.multiworld.register_indirect_condition(self._regions[indirect_region], entrance)
 
         logic_groups: Set[str] = set()
         if self.options.randomize_key_items:
@@ -451,8 +453,8 @@ class AstalonWorld(World):
 
     @classmethod
     def stage_post_fill(cls, multiworld: "MultiWorld") -> None:
-        print("hits", hit)
-        print("misses", miss)
+        print("hits", Tracker.hits)
+        print("misses", Tracker.misses)
         # Cache spheres for hint calculation after fill completes.
         cls.cached_spheres = list(multiworld.get_spheres())
         if len(cls.cached_spheres) > 2 and not cls.cached_spheres[-2]:
@@ -513,8 +515,7 @@ class AstalonWorld(World):
             if getattr(self, "rules", None):
                 self.rules.clear_cache()
             if getattr(self, "_rule_deps", None):
-                for r in self._rule_deps[item.name]:
-                    r.stale = True
+                state._astalon_computed_rules[self.player] -= self._rule_deps[item.name]  # type: ignore
         return changed
 
     def remove(self, state: "CollectionState", item: "Item") -> bool:
@@ -523,6 +524,5 @@ class AstalonWorld(World):
             if getattr(self, "rules", None):
                 self.rules.clear_cache()
             if getattr(self, "_rule_deps", None):
-                for r in self._rule_deps[item.name]:
-                    r.stale = True
+                state._astalon_computed_rules[self.player] -= self._rule_deps[item.name]  # type: ignore
         return changed

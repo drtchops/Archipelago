@@ -719,7 +719,9 @@ location_table: Dict[str, LocationData] = {
     LocationName.GT_SWITCH_2ND_ROOM.value: LocationData(RegionName.GT_ENTRANCE, LocationGroup.SWITCH, Area.GT),
     LocationName.GT_SWITCH_1ST_CYCLOPS.value: LocationData(RegionName.GT_GORGONHEART, LocationGroup.SWITCH, Area.GT),
     LocationName.GT_SWITCH_SPIKE_TUNNEL.value: LocationData(RegionName.GT_TOP_LEFT, LocationGroup.SWITCH, Area.GT),
-    LocationName.GT_SWITCH_BUTT_ACCESS.value: LocationData(RegionName.GT_SPIKE_TUNNEL, LocationGroup.SWITCH, Area.GT),
+    LocationName.GT_SWITCH_BUTT_ACCESS.value: LocationData(
+        RegionName.GT_SPIKE_TUNNEL_SWITCH, LocationGroup.SWITCH, Area.GT
+    ),
     LocationName.GT_SWITCH_GH.value: LocationData(RegionName.GT_GORGONHEART, LocationGroup.SWITCH, Area.GT),
     LocationName.GT_SWITCH_UPPER_PATH_BLOCKS.value: LocationData(
         RegionName.GT_UPPER_PATH_CONNECTION, LocationGroup.SWITCH, Area.GT
