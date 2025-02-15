@@ -2158,7 +2158,7 @@ class AstalonRules:
                 set_rule(self.location(location), partial(rule, self))
         else:
             for event, location in KEY_ITEM_EVENTS.items():
-                set_rule(self.location(event), lambda state: self.reachable(state, location))
+                set_rule(self.location(event), lambda state, loc=location: self.reachable(state, loc))
 
         if self.options.randomize_attack_pickups:
             for location, rule in ATTACK_RULES.items():

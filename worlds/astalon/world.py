@@ -1,5 +1,6 @@
 import dataclasses
 import logging
+from collections import defaultdict
 from functools import cached_property
 from typing import TYPE_CHECKING, Any, ClassVar, Dict, Final, List, Optional, Set, Tuple
 
@@ -36,13 +37,17 @@ from .locations import (
     location_name_to_id,
     location_table,
 )
+from .logic import False_, hit, miss
 from .options import ApexElevator, AstalonOptions, Goal, RandomizeCharacters
 from .regions import RegionName, astalon_regions
 from .rules import AstalonRules, Events
+from .rules2 import ENTRANCE_RULES2
 
 if TYPE_CHECKING:
-    from BaseClasses import Location, MultiWorld
+    from BaseClasses import Entrance, Location, MultiWorld
     from Options import Option
+
+    from .logic import Rule
 
 
 # ██░░░██████░░███░░░███
@@ -82,7 +87,7 @@ CHARACTER_STARTS: Final[Dict[int, Tuple[Character, ...]]] = {
 
 class AstalonWebWorld(WebWorld):
     theme = "stone"
-    tutorials = [
+    tutorials = [  # noqa: RUF012
         Tutorial(
             tutorial_name="Setup Guide",
             description="A guide to setting up the Astalon randomizer.",
@@ -137,7 +142,7 @@ class AstalonWorld(World):
     cached_spheres: ClassVar[List[Set["Location"]]]
 
     # UT poptracker integration
-    tracker_world = {
+    tracker_world: ClassVar = {
         "map_page_folder": "tracker",
         "map_page_maps": "maps/maps.json",
         "map_page_locations": "locations/locations.json",
@@ -146,7 +151,17 @@ class AstalonWorld(World):
     }
     ut_can_gen_without_yaml = True
 
+    _regions: "Dict[RegionName, Region]"
+    _locations: "Dict[LocationName, Location]"
+    _entrances: "Dict[Tuple[RegionName, RegionName], Entrance]"
+    _rule_deps: "Dict[str, List[Rule]]"
+
     def generate_early(self) -> None:
+        self._regions = {}
+        self._locations = {}
+        self._entrances = {}
+        self._rule_deps = defaultdict(list)
+
         self.starting_characters = []
         if self.options.randomize_characters == RandomizeCharacters.option_solo:
             self.starting_characters.append(self.random.choice(CHARACTERS))
@@ -184,20 +199,32 @@ class AstalonWorld(World):
 
     def create_location(self, name: str) -> AstalonLocation:
         data = location_table[name]
-        region = self.multiworld.get_region(data.region.value, self.player)
+        region = self._regions[data.region]
         location = AstalonLocation(self.player, name, location_name_to_id[name], region)
         region.locations.append(location)
+        self._locations[LocationName(name)] = location
         return location
 
     def create_regions(self) -> None:
         for region_name in astalon_regions:
             region = Region(region_name.value, self.player, self.multiworld)
             self.multiworld.regions.append(region)
+            self._regions[region_name] = region
 
         for region_name, region_data in astalon_regions.items():
-            region = self.multiworld.get_region(region_name.value, self.player)
-            if region_data.exits:
-                region.add_exits([e.value for e in region_data.exits])
+            region = self._regions[region_name]
+            for exit_region_name in region_data.exits:
+                region_pair = (region_name, exit_region_name)
+                rule = ENTRANCE_RULES2.get(region_pair)
+                if rule is not None:
+                    rule = rule.actualize(self.player, self.options)
+                    if isinstance(rule, False_):
+                        print(f"no matching rules for {region_pair}")
+                        continue
+                    for item_name, rules in rule.deps().items():
+                        self._rule_deps[item_name] += rules
+                entrance = region.connect(self._regions[exit_region_name], rule=rule.test if rule else None)
+                self._entrances[region_pair] = entrance
 
         logic_groups: Set[str] = set()
         if self.options.randomize_key_items:
@@ -280,11 +307,10 @@ class AstalonWorld(World):
         return AstalonItem(name, classification, self.item_name_to_id[name], self.player)
 
     def create_event(self, event: Events, region_name: RegionName) -> None:
-        region = self.multiworld.get_region(region_name.value, self.player)
+        item = AstalonItem(event.value, ItemClassification.progression_skip_balancing, None, self.player)
+        region = self._regions[region_name]
         location = AstalonLocation(self.player, event.value, None, region)
-        location.place_locked_item(
-            AstalonItem(event.value, ItemClassification.progression_skip_balancing, None, self.player)
-        )
+        location.place_locked_item(item)
         region.locations.append(location)
 
     def create_trap(self) -> AstalonItem:
@@ -425,6 +451,8 @@ class AstalonWorld(World):
 
     @classmethod
     def stage_post_fill(cls, multiworld: "MultiWorld") -> None:
+        print("hits", hit)
+        print("misses", miss)
         # Cache spheres for hint calculation after fill completes.
         cls.cached_spheres = list(multiworld.get_spheres())
         if len(cls.cached_spheres) > 2 and not cls.cached_spheres[-2]:
@@ -481,12 +509,20 @@ class AstalonWorld(World):
 
     def collect(self, state: "CollectionState", item: "Item") -> bool:
         changed = super().collect(state, item)
-        if changed and getattr(self, "rules", None):
-            self.rules.clear_cache()
+        if changed:
+            if getattr(self, "rules", None):
+                self.rules.clear_cache()
+            if getattr(self, "_rule_deps", None):
+                for r in self._rule_deps[item.name]:
+                    r.stale = True
         return changed
 
     def remove(self, state: "CollectionState", item: "Item") -> bool:
         changed = super().remove(state, item)
-        if changed and getattr(self, "rules", None):
-            self.rules.clear_cache()
+        if changed:
+            if getattr(self, "rules", None):
+                self.rules.clear_cache()
+            if getattr(self, "_rule_deps", None):
+                for r in self._rule_deps[item.name]:
+                    r.stale = True
         return changed

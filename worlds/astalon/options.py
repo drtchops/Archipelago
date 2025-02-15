@@ -284,7 +284,7 @@ class CostMultiplier(NamedRange):
     range_end = 200
     default = 50
 
-    special_range_names = {
+    special_range_names = {  # noqa: RUF012
         "zero": 0,
         "tenth": 10,
         "quarter": 25,
@@ -373,7 +373,7 @@ class TrapPercentage(NamedRange):
     range_end = 100
     default = 10
 
-    special_range_names = {
+    special_range_names = {  # noqa: RUF012
         "none": 0,
         "tenth": 10,
         "quarter": 25,
