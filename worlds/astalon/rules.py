@@ -732,7 +732,6 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
     ),
     (R.HOTP_BELL_CAMPFIRE, R.HOTP_RED_KEY): lambda rules, state: rules.has(state, Eye.GREEN, KeyItem.CLOAK),
     (R.HOTP_BELL_CAMPFIRE, R.HOTP_CATH_CONNECTION): lambda rules, state: rules.has(state, Eye.GREEN),
-    (R.HOTP_BELL_CAMPFIRE, R.HOTP_TP_TUTORIAL): lambda rules, state: False,  # until skulls are included
     (R.HOTP_BELL_CAMPFIRE, R.HOTP_BELL): lambda rules, state: (
         rules.switches(state, Switch.HOTP_BELL_ACCESS, disabled_case=True)
         and (
@@ -921,7 +920,6 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
         rules.switches(state, Switch.ROA_AFTER_WORMS, disabled_case=False)
         or (rules.has(state, KeyItem.STAR, KeyItem.BELL) and rules.can(state, Logic.EXTRA_HEIGHT))
     ),
-    (R.ROA_SPIKE_CLIMB, R.ROA_HEARTS): lambda rules, state: False,  # until enemy arenas are included
     (R.ROA_SPIKE_CLIMB, R.ROA_BOTTOM_ASCEND): lambda rules, state: rules.has(state, KeyItem.CLAW),
     (R.ROA_BOTTOM_ASCEND, R.ROA_TOP_ASCENT): lambda rules, state: (
         rules.white_doors(state, WhiteDoor.ROA_ASCEND, disabled_case=True)
@@ -950,7 +948,6 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
     (R.ROA_LOWER_VOID_CONNECTION, R.ROA_LOWER_VOID): lambda rules, state: (
         rules.switches(state, Switch.ROA_LOWER_VOID, disabled_case=False)
     ),
-    (R.ROA_LOWER_VOID_CONNECTION, R.ROA_ARENA): lambda rules, state: False,  # until arenas are included
     (R.ROA_LOWER_VOID, R.ROA_UPPER_VOID): lambda rules, state: rules.has(state, KeyItem.VOID),
     (R.ROA_LOWER_VOID, R.ROA_LOWER_VOID_CONNECTION): lambda rules, state: (
         rules.switches(state, Switch.ROA_LOWER_VOID, disabled_case=True)
@@ -1312,7 +1309,6 @@ ENTRANCE_RULES: Dict[Tuple[R, R], AstalonRule] = {
             state, Face.CATA_DOUBLE_DOOR, disabled_case=lambda rules, state: rules.has(state, KeyItem.BOW)
         )
     ),
-    (R.CATA_VOID_R, R.CATA_DOUBLE_DOOR): lambda rules, state: False,  # until arenas are included
     (R.CATA_VOID_R, R.CATA_VOID_L): lambda rules, state: rules.has(state, KeyItem.VOID),
     (R.CATA_VOID_L, R.CATA_VOID_R): lambda rules, state: rules.has(state, KeyItem.VOID),
     (R.CATA_VOID_L, R.CATA_BOSS): lambda rules, state: (

@@ -4,8 +4,8 @@ from copy import copy
 from enum import Enum
 from typing import TYPE_CHECKING, Any, ClassVar, Dict, List, Self, Set, Tuple, Union
 
-from ..items import Character, KeyItem, ShopUpgrade
-from ..options import RandomizeCharacters
+from ..items import Character, Eye, KeyItem, ShopUpgrade
+from ..options import Goal, RandomizeCharacters
 from ..regions import RegionName
 
 if TYPE_CHECKING:
@@ -435,7 +435,7 @@ class CanReach(Rule):
 
 
 @dataclasses.dataclass(init=False)
-class ToggleRule(Has):
+class ToggleRule(HasAll):
     option_name: ClassVar[str]
     otherwise: bool = False
 
@@ -443,12 +443,17 @@ class ToggleRule(Has):
         if not self._pass_opts(world.options):
             return False_(player=world.player)
 
-        rule = Has(self.item, opts=((self.option_name, 1),))
+        if len(self.items) == 1:
+            rule = Has(self.items[0], opts=((self.option_name, 1),))
+        else:
+            rule = HasAll(*self.items, opts=((self.option_name, 1),))
+
         if self.otherwise:
             return Or(
                 rule,
                 True_(opts=((self.option_name, 0),)),
             ).actualize(world)
+
         return rule.actualize(world)
 
 
@@ -458,14 +463,13 @@ class HasWhite(ToggleRule):
 
     def __init__(
         self,
-        door: "WhiteDoor",
-        *,
+        *doors: "WhiteDoor",
         otherwise=False,
         player: int = -1,
         opts: Tuple[Tuple[str, Any], ...] = (),
     ) -> None:
         self.otherwise = otherwise
-        super().__init__(door, player=player, opts=opts)
+        super().__init__(*doors, player=player, opts=opts)
 
 
 @dataclasses.dataclass(init=False)
@@ -474,14 +478,13 @@ class HasBlue(ToggleRule):
 
     def __init__(
         self,
-        door: "BlueDoor",
-        *,
+        *doors: "BlueDoor",
         otherwise=False,
         player: int = -1,
         opts: Tuple[Tuple[str, Any], ...] = (),
     ) -> None:
         self.otherwise = otherwise
-        super().__init__(door, player=player, opts=opts)
+        super().__init__(*doors, player=player, opts=opts)
 
 
 @dataclasses.dataclass(init=False)
@@ -490,14 +493,13 @@ class HasRed(ToggleRule):
 
     def __init__(
         self,
-        door: "RedDoor",
-        *,
+        *doors: "RedDoor",
         otherwise=False,
         player: int = -1,
         opts: Tuple[Tuple[str, Any], ...] = (),
     ) -> None:
         self.otherwise = otherwise
-        super().__init__(door, player=player, opts=opts)
+        super().__init__(*doors, player=player, opts=opts)
 
 
 @dataclasses.dataclass(init=False)
@@ -506,17 +508,27 @@ class HasSwitch(ToggleRule):
 
     def __init__(
         self,
-        switch: "Union[Switch, Crystal, Face]",
-        *,
+        *switches: "Union[Switch, Crystal, Face]",
         otherwise=False,
         player: int = -1,
         opts: Tuple[Tuple[str, Any], ...] = (),
     ) -> None:
         self.otherwise = otherwise
-        super().__init__(switch, player=player, opts=opts)
+        super().__init__(*switches, player=player, opts=opts)
 
 
 @dataclasses.dataclass(init=False)
 class HasElevator(HasAll):
     def __init__(self, elevator: "Elevator", *, player: int = -1, opts: Tuple[Tuple[str, Any], ...] = ()) -> None:
         super().__init__(KeyItem.ASCENDANT_KEY, elevator, player=player, opts=(*opts, ("randomize_elevator", 1)))
+
+
+@dataclasses.dataclass()
+class HasGoal(Rule):
+    def actualize(self, world: "AstalonWorld") -> "Rule":
+        if not self._pass_opts(world.options):
+            return False_(player=world.player)
+
+        if world.options.goal != Goal.option_eye_hunt:
+            return True_(player=world.player)
+        return Has(Eye.GOLD, count=world.required_gold_eyes, player=world.player)

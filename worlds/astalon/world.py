@@ -447,7 +447,7 @@ class AstalonWorld(World):
         return self.random.choice(trap_items)
 
     def set_rules(self) -> None:
-        self.rules.set_region_rules()
+        # self.rules.set_region_rules()
         self.rules.set_location_rules()
         self.rules.set_indirect_conditions()
 

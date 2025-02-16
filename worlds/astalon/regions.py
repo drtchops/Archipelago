@@ -771,7 +771,6 @@ astalon_regions: Dict[RegionName, RegionData] = {
     ),
     RegionName.HOTP_BELL_CAMPFIRE: RegionData(
         exits=(
-            RegionName.HOTP_TP_TUTORIAL,
             RegionName.HOTP_RED_KEY,
             RegionName.HOTP_BELL,
             RegionName.HOTP_CATH_CONNECTION,
@@ -963,10 +962,7 @@ astalon_regions: Dict[RegionName, RegionData] = {
         ),
     ),
     RegionName.ROA_SPIKE_CLIMB: RegionData(
-        exits=(
-            RegionName.ROA_HEARTS,
-            RegionName.ROA_BOTTOM_ASCEND,
-        ),
+        exits=(RegionName.ROA_BOTTOM_ASCEND,),
     ),
     RegionName.ROA_BOTTOM_ASCEND: RegionData(
         exits=(
@@ -992,7 +988,6 @@ astalon_regions: Dict[RegionName, RegionData] = {
     RegionName.ROA_LOWER_VOID_CONNECTION: RegionData(
         exits=(
             RegionName.ROA_WORMS,
-            RegionName.ROA_ARENA,
             RegionName.ROA_LOWER_VOID,
             RegionName.ROA_ARIAS_BABY_GORGON,
             RegionName.ROA_FLAMES_CONNECTION,
@@ -1384,10 +1379,7 @@ astalon_regions: Dict[RegionName, RegionData] = {
         ),
     ),
     RegionName.CATA_VOID_R: RegionData(
-        exits=(
-            RegionName.CATA_DOUBLE_DOOR,
-            RegionName.CATA_VOID_L,
-        ),
+        exits=(RegionName.CATA_VOID_L,),
         portal=True,
     ),
     RegionName.CATA_VOID_L: RegionData(
