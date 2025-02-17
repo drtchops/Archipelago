@@ -40,7 +40,6 @@ from .locations import (
 from .options import ApexElevator, AstalonOptions, Goal, RandomizeCharacters
 from .regions import RegionName, astalon_regions
 from .rules import AstalonRules, Events
-from .rules2.base import Tracker
 from .rules2.main_campaign import MAIN_ENTRANCE_RULES, MAIN_LOCATION_RULES
 
 if TYPE_CHECKING:
@@ -472,8 +471,6 @@ class AstalonWorld(World):
 
     @classmethod
     def stage_post_fill(cls, multiworld: "MultiWorld") -> None:
-        print("hits", Tracker.hits)
-        print("misses", Tracker.misses)
         # Cache spheres for hint calculation after fill completes.
         cls.cached_spheres = list(multiworld.get_spheres())
         if len(cls.cached_spheres) > 2 and not cls.cached_spheres[-2]:

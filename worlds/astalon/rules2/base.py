@@ -21,19 +21,6 @@ if TYPE_CHECKING:
     from ..world import AstalonWorld
 
 
-class Tracker:
-    hits: ClassVar = 0
-    misses: ClassVar = 0
-
-    @classmethod
-    def hit(cls):
-        cls.hits += 1
-
-    @classmethod
-    def miss(cls):
-        cls.misses += 1
-
-
 ITEM_DEPS: "Dict[str, Tuple[Character, ...]]" = {
     KeyItem.CLOAK.value: (Character.ALGUS,),
     KeyItem.SWORD.value: (Character.ARIAS,),
@@ -73,7 +60,9 @@ class Rule:
     result: bool = dataclasses.field(default=False, repr=False, init=False)
     player: int = -1
     opts: Tuple[Tuple[str, Any], ...] = ()
-    cacheable: bool = True
+    cacheable: bool = dataclasses.field(
+        default=False, repr=False, init=False
+    )  # TODO: fix caching and reenable
 
     truthy: ClassVar = False
     falsy: ClassVar = False
@@ -109,10 +98,7 @@ class Rule:
 
     def test(self, state) -> bool:
         if self.stale(state):
-            Tracker.miss()
             self.evaluate(state)
-        else:
-            Tracker.hit()
         return self.result
 
     def clone(self, world: "AstalonWorld") -> Self:
@@ -133,6 +119,9 @@ class Rule:
 
     def indirect(self) -> "Tuple[RegionName, ...]":
         return ()
+
+    def serialize(self) -> str:
+        return f"{self.__class__.__name__}()"
 
 
 @dataclasses.dataclass()
@@ -228,6 +217,9 @@ class And(NestedRule):
         new_rule.cacheable = all(child.cacheable for child in new_children)
         return new_rule
 
+    def serialize(self) -> str:
+        return f"({' + '.join(child.serialize() for child in self.children)})"
+
 
 @dataclasses.dataclass(init=False)
 class Or(NestedRule):
@@ -281,6 +273,9 @@ class Or(NestedRule):
         new_rule.cacheable = all(child.cacheable for child in new_children)
         return new_rule
 
+    def serialize(self) -> str:
+        return f"({' | '.join(child.serialize() for child in self.children)})"
+
 
 @dataclasses.dataclass(init=False)
 class Has(Rule):
@@ -324,6 +319,9 @@ class Has(Rule):
 
     def deps(self) -> Dict[str, Set[int]]:
         return {self.item: {id(self)}}
+
+    def serialize(self) -> str:
+        return f"Has({self.item})"
 
 
 @dataclasses.dataclass(init=False)
@@ -398,6 +396,9 @@ class HasAll(Rule):
     def deps(self) -> Dict[str, Set[int]]:
         return {item: {id(self)} for item in self.items}
 
+    def serialize(self) -> str:
+        return f"HasAll({', '.join(self.items)})"
+
 
 @dataclasses.dataclass(init=False)
 class HasAny(Rule):
@@ -470,6 +471,9 @@ class HasAny(Rule):
     def deps(self) -> Dict[str, Set[int]]:
         return {item: {id(self)} for item in self.items}
 
+    def serialize(self) -> str:
+        return f"HasAny({', '.join(self.items)})"
+
 
 @dataclasses.dataclass(init=False)
 class CanReachLocation(Rule):
@@ -488,6 +492,9 @@ class CanReachLocation(Rule):
 
     def _evaluate(self, state: "CollectionState") -> bool:
         return state.can_reach_location(self.location, self.player)
+
+    def serialize(self) -> str:
+        return f"CanReachLocation({self.location})"
 
 
 @dataclasses.dataclass(init=False)
@@ -511,6 +518,9 @@ class CanReachRegion(Rule):
     def indirect(self) -> "Tuple[RegionName, ...]":
         return (RegionName(self.region),)
 
+    def serialize(self) -> str:
+        return f"CanReachLocation({self.region})"
+
 
 @dataclasses.dataclass(init=False)
 class CanReachEntrance(Rule):
@@ -532,6 +542,9 @@ class CanReachEntrance(Rule):
 
     def _evaluate(self, state: "CollectionState") -> bool:
         return state.can_reach_entrance(self.entrance, self.player)
+
+    def serialize(self) -> str:
+        return f"CanReachLocation({self.entrance})"
 
 
 @dataclasses.dataclass(init=False)
