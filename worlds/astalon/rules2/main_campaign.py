@@ -1,10 +1,12 @@
 from typing import Dict, Tuple
 
 from ..items import BlueDoor, Character, Crystal, Elevator, Eye, Face, KeyItem, RedDoor, ShopUpgrade, Switch, WhiteDoor
+from ..locations import LocationName as L
 from ..regions import RegionName as R
 from .base import (
     And,
-    CanReach,
+    CanReachEntrance,
+    CanReachRegion,
     False_,
     Has,
     HasAll,
@@ -25,13 +27,9 @@ hard = (("difficulty", 1),)
 characters_off = (("randomize_characters", 0),)
 characters_on = (("randomize_characters__gt", 0),)
 white_off = (("randomize_white_keys", 0),)
-white_on = (("randomize_white_keys", 1),)
 blue_off = (("randomize_blue_keys", 0),)
-blue_on = (("randomize_blue_keys", 1),)
 red_off = (("randomize_red_keys", 0),)
-red_on = (("randomize_red_keys", 1),)
 switch_off = (("randomize_switches", 0),)
-switch_on = (("randomize_switches", 1),)
 
 true = True_()
 false = False_()
@@ -42,11 +40,15 @@ can_extra_height_gold_block = Or(HasAny(Character.KYULI, Character.ZEEK), can_up
 can_combo_height = And(can_uppies, HasAll(KeyItem.BELL, KeyItem.BLOCK))
 can_block_in_wall = HasAll(Character.ZEEK, KeyItem.BLOCK, opts=hard)
 can_crystal = Or(
+    HasAny(Character.ALGUS, KeyItem.BLOCK, ShopUpgrade.BRAM_WHIPLASH),
+    HasAll(Character.ZEEK, KeyItem.BANISH),
+    Has(ShopUpgrade.KYULI_RAY, opts=hard),
+)
+can_crystal_wo_whiplash = Or(
     HasAny(Character.ALGUS, KeyItem.BLOCK),
     HasAll(Character.ZEEK, KeyItem.BANISH),
     Has(ShopUpgrade.KYULI_RAY, opts=hard),
 )
-can_crystal_whiplash = Or(can_crystal, Has(ShopUpgrade.BRAM_WHIPLASH))
 can_big_magic = HasAll(Character.ALGUS, KeyItem.BANISH, ShopUpgrade.ALGUS_ARCANIST, opts=hard)
 can_kill_ghosts = Or(
     HasAny(KeyItem.BANISH, KeyItem.BLOCK),
@@ -55,7 +57,7 @@ can_kill_ghosts = Or(
 )
 
 otherwise_crystal = Or(
-    HasAny(Character.ALGUS, KeyItem.BLOCK),
+    HasAny(Character.ALGUS, KeyItem.BLOCK, ShopUpgrade.BRAM_WHIPLASH),
     HasAll(Character.ZEEK, KeyItem.BANISH),
     Has(ShopUpgrade.KYULI_RAY, opts=hard),
     opts=switch_off,
@@ -67,6 +69,10 @@ elevator_apex = Or(
     HasElevator(Elevator.APEX, opts=(("apex_elevator", 1),)),
     Has(KeyItem.ASCENDANT_KEY, opts=(("apex_elevator", 0),)),
 )
+# TODO: better implementations
+shop_cheap = CanReachRegion(R.GT_LEFT)
+shop_moderate = CanReachRegion(R.MECH_START)
+shop_expensive = CanReachRegion(R.ROA_START)
 
 MAIN_ENTRANCE_RULES: Dict[Tuple[R, R], Rule] = {
     (R.SHOP, R.SHOP_ALGUS): Has(Character.ALGUS),
@@ -129,11 +135,11 @@ MAIN_ENTRANCE_RULES: Dict[Tuple[R, R], Rule] = {
     (R.GT_LEFT, R.GT_TOP_RIGHT): can_extra_height,
     (R.GT_TOP_LEFT, R.GT_BUTT): Or(
         HasSwitch(Switch.GT_BUTT_ACCESS),
-        CanReach(R.GT_SPIKE_TUNNEL_SWITCH, opts=switch_off),
+        CanReachRegion(R.GT_SPIKE_TUNNEL_SWITCH, opts=switch_off),
     ),
     (R.GT_TOP_RIGHT, R.GT_SPIKE_TUNNEL): Or(
         HasSwitch(Switch.GT_SPIKE_TUNNEL),
-        CanReach(R.GT_TOP_LEFT, opts=switch_off),
+        CanReachRegion(R.GT_TOP_LEFT, opts=switch_off),
     ),
     (R.GT_SPIKE_TUNNEL, R.GT_TOP_RIGHT): HasSwitch(Switch.GT_SPIKE_TUNNEL),
     (R.GT_SPIKE_TUNNEL, R.GT_SPIKE_TUNNEL_SWITCH): can_extra_height,
@@ -157,16 +163,16 @@ MAIN_ENTRANCE_RULES: Dict[Tuple[R, R], Rule] = {
     (R.GT_BOSS, R.TR_START): HasElevator(Elevator.TR),
     (R.GT_UPPER_ARIAS, R.GT_OLD_MAN_FORK): Or(
         HasSwitch(Crystal.GT_LADDER),
-        CanReach(R.GT_LADDER_SWITCH, opts=switch_off),
+        CanReachRegion(R.GT_LADDER_SWITCH, opts=switch_off),
     ),
     (R.GT_UPPER_ARIAS, R.MECH_SWORD_CONNECTION): Or(
         Has(Character.ARIAS),
         HasSwitch(Switch.GT_UPPER_ARIAS),
-        CanReach(R.GT_ARIAS_SWORD_SWITCH, opts=switch_off),
+        CanReachRegion(R.GT_ARIAS_SWORD_SWITCH, opts=switch_off),
     ),
     (R.GT_OLD_MAN_FORK, R.GT_UPPER_ARIAS): Or(
         HasSwitch(Crystal.GT_LADDER),
-        CanReach(R.GT_LADDER_SWITCH, opts=switch_off),
+        CanReachRegion(R.GT_LADDER_SWITCH, opts=switch_off),
     ),
     (R.GT_OLD_MAN_FORK, R.GT_SWORD_FORK): HasBlue(BlueDoor.GT_SWORD, otherwise=True),
     (R.GT_OLD_MAN_FORK, R.GT_OLD_MAN): Or(
@@ -278,7 +284,7 @@ MAIN_ENTRANCE_RULES: Dict[Tuple[R, R], Rule] = {
     (R.MECH_ZEEK_CONNECTION, R.TR_START): HasElevator(Elevator.TR),
     (R.MECH_ZEEK_CONNECTION, R.HOTP_BOSS): HasElevator(Elevator.ROA_1),
     (R.MECH_ZEEK_CONNECTION, R.ROA_ELEVATOR): HasElevator(Elevator.ROA_2),
-    (R.MECH_ZEEK_CONNECTION, R.MECH_ZEEK): Or(HasRed(RedDoor.ZEEK), CanReach(R.MECH_LOWER_VOID, opts=red_off)),
+    (R.MECH_ZEEK_CONNECTION, R.MECH_ZEEK): Or(HasRed(RedDoor.ZEEK), CanReachRegion(R.MECH_LOWER_VOID, opts=red_off)),
     (R.MECH_ZEEK_CONNECTION, R.APEX): elevator_apex,
     (R.MECH_ZEEK_CONNECTION, R.GT_BOSS): HasElevator(Elevator.GT_2),
     (R.MECH_ZEEK_CONNECTION, R.MECH_BOSS): HasElevator(Elevator.MECH_2),
@@ -423,7 +429,7 @@ MAIN_ENTRANCE_RULES: Dict[Tuple[R, R], Rule] = {
     (R.HOTP_START_BOTTOM, R.HOTP_START_BOTTOM_MID): HasAll(KeyItem.BLOCK, KeyItem.BELL, KeyItem.STAR),
     (R.HOTP_START_BOTTOM, R.HOTP_LOWER): Or(
         HasSwitch(Switch.HOTP_BELOW_START),
-        CanReach(R.HOTP_START_BOTTOM_MID, opts=switch_off),
+        CanReachRegion(R.HOTP_START_BOTTOM_MID, opts=switch_off),
     ),
     (R.HOTP_START_BOTTOM_MID, R.HOTP_START_MID): HasSwitch(Switch.HOTP_GHOSTS),
     (R.HOTP_START_BOTTOM_MID, R.HOTP_START_BOTTOM): Has(KeyItem.STAR),
@@ -465,7 +471,7 @@ MAIN_ENTRANCE_RULES: Dict[Tuple[R, R], Rule] = {
     ),
     (R.HOTP_CATH_CONNECTION, R.CATH_START): And(
         HasAll(KeyItem.VOID, KeyItem.CLAW),
-        Or(HasRed(RedDoor.CATH), CanReach(R.HOTP_RED_KEY, opts=red_off)),
+        Or(HasRed(RedDoor.CATH), CanReachRegion(R.HOTP_RED_KEY, opts=red_off)),
     ),
     (R.HOTP_LOWER_ARIAS, R.HOTP_BELL_CAMPFIRE): Has(Character.ARIAS),
     (R.HOTP_LOWER_ARIAS, R.HOTP_GHOST_BLOOD): Or(
@@ -633,7 +639,7 @@ MAIN_ENTRANCE_RULES: Dict[Tuple[R, R], Rule] = {
     (R.ROA_MIDDLE, R.ROA_MIDDLE_LADDER): Or(
         # this could allow more
         HasSwitch(Crystal.ROA_LADDER_L, Crystal.ROA_LADDER_R),
-        And(can_crystal, CanReach(R.ROA_LEFT_SWITCH), CanReach(R.ROA_RIGHT_SWITCH_2), opts=switch_off),
+        And(can_crystal, CanReachRegion(R.ROA_LEFT_SWITCH), CanReachRegion(R.ROA_RIGHT_SWITCH_2), opts=switch_off),
     ),
     (R.ROA_MIDDLE, R.ROA_TOP_ASCENT): HasSwitch(Switch.ROA_ASCEND_SHORTCUT, otherwise=True),
     (R.ROA_MIDDLE, R.ROA_TRIPLE_SWITCH): HasSwitch(Switch.ROA_TRIPLE_1, Switch.ROA_TRIPLE_3),
@@ -656,7 +662,7 @@ MAIN_ENTRANCE_RULES: Dict[Tuple[R, R], Rule] = {
     (R.ROA_SPIDERS_2, R.ROA_BLOOD_POT_HALLWAY): HasSwitch(Switch.ROA_SPIDERS, otherwise=True),
     (R.ROA_SP_CONNECTION, R.SP_START): Or(
         HasRed(RedDoor.SP),
-        CanReach(R.ROA_RED_KEY, opts=red_off),  # TODO: double check
+        CanReachRegion(R.ROA_RED_KEY, opts=red_off),  # TODO: double check
     ),
     (R.ROA_SP_CONNECTION, R.ROA_ELEVATOR): And(
         # can probably make it without claw
@@ -768,7 +774,7 @@ MAIN_ENTRANCE_RULES: Dict[Tuple[R, R], Rule] = {
     ),
     (R.CATA_DEV_ROOM_CONNECTION, R.CATA_DEV_ROOM): Or(
         HasRed(RedDoor.DEV_ROOM),
-        CanReach(R.GT_BOSS, opts=red_off),  # TODO
+        CanReachRegion(R.GT_BOSS, opts=red_off),  # TODO
     ),
     (R.CATA_DOUBLE_SWITCH, R.CATA_SNAKE_MUSHROOMS): HasSwitch(Switch.CATA_CLAW_2),
     (R.CATA_DOUBLE_SWITCH, R.CATA_ROOTS_CAMPFIRE): HasSwitch(Switch.CATA_WATER_1, Switch.CATA_WATER_2, otherwise=True),
@@ -823,7 +829,7 @@ MAIN_ENTRANCE_RULES: Dict[Tuple[R, R], Rule] = {
     (R.TR_START, R.ROA_ELEVATOR): HasElevator(Elevator.ROA_2),
     (R.TR_START, R.TR_LEFT): And(
         HasBlue(BlueDoor.TR, otherwise=True),
-        Or(HasRed(RedDoor.TR), CanReach(R.TR_START, opts=red_off)),  # TODO
+        Or(HasRed(RedDoor.TR), CanReachRegion(R.TR_START, opts=red_off)),  # TODO
     ),
     (R.TR_START, R.APEX): elevator_apex,
     (R.TR_START, R.GT_BOSS): HasElevator(Elevator.GT_2),
@@ -845,7 +851,7 @@ MAIN_ENTRANCE_RULES: Dict[Tuple[R, R], Rule] = {
     (R.TR_MIDDLE_RIGHT, R.TR_BOTTOM): HasSwitch(Switch.TR_BOTTOM, otherwise=True),
     (R.TR_BOTTOM, R.TR_BOTTOM_LEFT): Has(Eye.BLUE),
     (R.CD_START, R.CD_2): Or(HasSwitch(Switch.CD_1, otherwise=True), HasSwitch(Crystal.CD_BACKTRACK)),
-    (R.CD_START, R.CD_BOSS): And(CanReach(R.CD_ARIAS_ROUTE), CanReach(R.CD_TOP)),
+    (R.CD_START, R.CD_BOSS): And(CanReachRegion(R.CD_ARIAS_ROUTE), CanReachRegion(R.CD_TOP)),
     (R.CD_3, R.CD_MIDDLE): HasSwitch(Switch.CD_3, otherwise=True),
     (R.CD_MIDDLE, R.CD_KYULI_ROUTE): HasSwitch(Switch.CD_CAMPFIRE, otherwise=True),
     (R.CD_MIDDLE, R.CD_ARIAS_ROUTE): Has(Character.ARIAS),
@@ -853,7 +859,7 @@ MAIN_ENTRANCE_RULES: Dict[Tuple[R, R], Rule] = {
     (R.CD_CAMPFIRE_3, R.CD_ARENA): Or(HasSwitch(Crystal.CD_CAMPFIRE), otherwise_crystal),
     (R.CD_STEPS, R.CD_TOP): Or(HasSwitch(Crystal.CD_STEPS), otherwise_crystal),
     (R.CATH_START, R.CATH_START_LEFT): And(
-        Or(HasSwitch(Crystal.CATH_1ST_ROOM), CanReach(R.CATA_START, opts=switch_off)),  # TODO
+        Or(HasSwitch(Crystal.CATH_1ST_ROOM), CanReachRegion(R.CATA_START, opts=switch_off)),  # TODO
         Has(KeyItem.CLAW),
     ),
     (R.CATH_START_RIGHT, R.CATH_START_TOP_LEFT): HasSwitch(Switch.CATH_BOTTOM, otherwise=True),
@@ -900,4 +906,256 @@ MAIN_ENTRANCE_RULES: Dict[Tuple[R, R], Rule] = {
     (R.SP_STAR_END, R.SP_STAR_CONNECTION): And(Has(KeyItem.STAR), HasSwitch(Switch.SP_AFTER_STAR)),
 }
 
-MAIN_LOCATION_RULES = {}
+MAIN_LOCATION_RULES: Dict[L, Rule] = {
+    L.GT_GORGONHEART: Or(
+        HasSwitch(Switch.GT_GH, otherwise=True),
+        HasAny(Character.KYULI, KeyItem.ICARUS, KeyItem.BLOCK, KeyItem.CLOAK, KeyItem.BOOTS),
+    ),
+    L.GT_ANCIENTS_RING: Has(Eye.RED),
+    L.GT_BANISH: And(
+        CanReachRegion(R.GT_BOTTOM),
+        CanReachRegion(R.GT_ASCENDANT_KEY),
+        CanReachRegion(R.GT_BUTT),
+        HasAny(Character.ALGUS, Character.KYULI, Character.BRAM, Character.ZEEK, KeyItem.SWORD),
+    ),
+    L.HOTP_BELL: Or(HasSwitch(Switch.HOTP_BELL, otherwise=True), Has(Character.KYULI), can_combo_height),
+    L.HOTP_CLAW: can_extra_height,
+    L.HOTP_MAIDEN_RING: Or(HasSwitch(Crystal.HOTP_MAIDEN_1, Crystal.HOTP_MAIDEN_2), otherwise_crystal),
+    L.TR_ADORNED_KEY: Or(
+        HasSwitch(Switch.TR_ADORNED_L, Switch.TR_ADORNED_M, Switch.TR_ADORNED_R),
+        And(
+            CanReachRegion(R.TR_BOTTOM), CanReachRegion(R.TR_LEFT), CanReachRegion(R.TR_DARK_ARIAS), opts=switch_off
+        ),  # TODO
+    ),
+    L.CATH_BLOCK: Or(HasSwitch(Crystal.CATH_TOP_L, Crystal.CATH_TOP_R), otherwise_crystal),
+    L.MECH_ZEEK: Has(KeyItem.CROWN),
+    L.MECH_ATTACK_VOLANTIS: Has(KeyItem.CLAW),
+    L.MECH_ATTACK_STAR: Has(KeyItem.STAR),
+    L.ROA_ATTACK: And(HasAll(KeyItem.STAR, KeyItem.BELL), can_extra_height),
+    L.CAVES_ATTACK_RED: Has(Eye.RED),
+    L.CAVES_ATTACK_BLUE: HasAll(Eye.RED, Eye.BLUE),
+    L.CAVES_ATTACK_GREEN: And(HasAll(Eye.RED, Eye.BLUE), HasAny(Eye.GREEN, KeyItem.STAR)),
+    L.CD_ATTACK: Or(HasSwitch(Switch.CD_TOP, otherwise=True), HasAll(KeyItem.BLOCK, KeyItem.BELL, Character.KYULI)),
+    L.GT_HP_1_RING: Or(
+        Has(KeyItem.STAR), And(CanReachRegion(R.GT_UPPER_PATH), HasBlue(BlueDoor.GT_RING, otherwise=True))
+    ),
+    L.GT_HP_5_KEY: Has(KeyItem.CLAW),
+    L.MECH_HP_1_SWITCH: HasSwitch(Switch.MECH_INVISIBLE, otherwise=True),
+    L.MECH_HP_3_CLAW: Has(KeyItem.CLAW),
+    L.HOTP_HP_2_GAUNTLET: HasAll(KeyItem.CLAW, Character.ZEEK, KeyItem.BELL),
+    L.HOTP_HP_5_OLD_MAN: And(
+        Has(KeyItem.CLAW),
+        Or(And(Has(KeyItem.BELL), can_kill_ghosts), Has(KeyItem.CHALICE)),
+        HasSwitch(Switch.HOTP_ABOVE_OLD_MAN, otherwise=True),
+    ),
+    L.HOTP_HP_5_START: And(Has(KeyItem.CLAW), HasBlue(BlueDoor.HOTP_START, otherwise=True)),
+    L.ROA_HP_2_RIGHT: And(
+        HasAny(KeyItem.GAUNTLET, KeyItem.CHALICE, KeyItem.STAR),
+        HasAll(KeyItem.BELL, Character.KYULI),
+        Or(HasSwitch(Crystal.ROA_BRANCH_L, Crystal.ROA_BRANCH_R), otherwise_crystal),
+    ),
+    L.ROA_HP_5_SOLARIA: Has(Character.KYULI),
+    L.APEX_HP_1_CHALICE: HasBlue(BlueDoor.APEX, otherwise=True),
+    L.APEX_HP_5_HEART: HasAny(Character.KYULI, KeyItem.BLOCK),
+    L.CAVES_HP_1_START: Or(Has(KeyItem.CHALICE), HasSwitch(Face.CAVES_1ST_ROOM), otherwise_bow),
+    L.CAVES_HP_1_CYCLOPS: Or(
+        HasAny(KeyItem.SWORD, ShopUpgrade.KYULI_RAY),
+        And(Has(ShopUpgrade.ALGUS_METEOR), chalice_on_easy),
+    ),
+    L.CATA_HP_1_ABOVE_POISON: And(
+        Has(Character.KYULI),
+        Or(
+            HasSwitch(Crystal.CATA_POISON_ROOTS),
+            And(can_crystal, Has(KeyItem.BELL), opts=switch_off),
+            HasAll(KeyItem.ICARUS, KeyItem.CLAW),
+        ),
+    ),
+    L.CATA_HP_2_GEMINI_BOTTOM: And(Has(Character.KYULI), Or(HasSwitch(Face.CATA_BOTTOM), otherwise_bow)),
+    L.CATA_HP_2_GEMINI_TOP: Has(Character.KYULI),
+    L.CATA_HP_2_ABOVE_GEMINI: And(
+        Or(Has(KeyItem.CLAW), HasAll(KeyItem.BLOCK, KeyItem.BELL)),
+        Or(HasAll(KeyItem.GAUNTLET, KeyItem.BELL), Has(KeyItem.CHALICE)),
+    ),
+    L.CAVES_HP_5_CHAIN: HasAll(Eye.RED, Eye.BLUE, KeyItem.STAR, KeyItem.CLAW, KeyItem.BELL),
+    L.CD_HP_1: Or(HasSwitch(Switch.CD_TOP, otherwise=True), HasAll(KeyItem.BLOCK, KeyItem.BELL, Character.KYULI)),
+    L.CATH_HP_1_TOP_LEFT: HasAny(KeyItem.CLOAK, KeyItem.ICARUS),
+    L.CATH_HP_1_TOP_RIGHT: HasAny(KeyItem.CLOAK, KeyItem.ICARUS),
+    L.CATH_HP_2_CLAW: Has(KeyItem.CLAW),
+    L.CATH_HP_5_BELL: HasAny(Character.KYULI, KeyItem.BLOCK, KeyItem.ICARUS, KeyItem.CLOAK),
+    L.MECH_WHITE_KEY_LINUS: HasSwitch(Switch.MECH_LOWER_KEY, otherwise=True),
+    L.MECH_WHITE_KEY_TOP: And(Or(HasSwitch(Crystal.MECH_TOP), otherwise_crystal), Has(Character.KYULI)),
+    L.ROA_WHITE_KEY_SAVE: HasSwitch(Switch.ROA_WORMS, otherwise=True),
+    L.CATA_WHITE_KEY_PRISON: Or(can_extra_height, HasAny(KeyItem.CLOAK, KeyItem.ICARUS)),
+    L.MECH_BLUE_KEY_BLOCKS: HasSwitch(Switch.MECH_KEY_BLOCKS, otherwise=True),
+    L.MECH_BLUE_KEY_SAVE: Has(KeyItem.CLAW),
+    L.MECH_BLUE_KEY_POT: Or(Has(Character.KYULI), can_combo_height),
+    L.HOTP_BLUE_KEY_STATUE: Has(KeyItem.CLAW),
+    L.HOTP_BLUE_KEY_AMULET: Or(Has(Character.KYULI), can_combo_height),
+    L.HOTP_BLUE_KEY_LADDER: can_extra_height,
+    L.HOTP_BLUE_KEY_MAZE: Or(HasSwitch(Crystal.HOTP_BELOW_PUZZLE), otherwise_crystal),
+    L.ROA_BLUE_KEY_FACE: Or(HasSwitch(Face.ROA_BLUE_KEY), otherwise_bow),
+    L.ROA_BLUE_KEY_FLAMES: Or(
+        HasAll(KeyItem.BLOCK, Character.KYULI, KeyItem.BELL),
+        CanReachEntrance(R.ROA_FLAMES, R.ROA_ARIAS_BABY_GORGON),
+    ),
+    L.ROA_BLUE_KEY_TOP: can_extra_height,
+    L.SP_BLUE_KEY_ARIAS: Has(Character.ARIAS),
+    L.GT_RED_KEY: HasAll(Character.ZEEK, Character.KYULI),
+    L.ROA_RED_KEY: HasAll(KeyItem.CLOAK, KeyItem.CLAW, KeyItem.BELL),
+    L.TR_RED_KEY: Has(KeyItem.CLAW),
+    L.SHOP_GIFT: shop_moderate,
+    L.SHOP_KNOWLEDGE: shop_cheap,
+    L.SHOP_MERCY: shop_expensive,
+    L.SHOP_ORB_SEEKER: shop_cheap,
+    L.SHOP_CARTOGRAPHER: shop_cheap,
+    L.SHOP_DEATH_ORB: shop_moderate,
+    L.SHOP_DEATH_POINT: shop_moderate,
+    L.SHOP_TITANS_EGO: shop_moderate,
+    L.SHOP_ALGUS_ARCANIST: shop_moderate,
+    L.SHOP_ALGUS_SHOCK: shop_moderate,
+    L.SHOP_ALGUS_METEOR: shop_expensive,
+    L.SHOP_ARIAS_GORGONSLAYER: shop_moderate,
+    L.SHOP_ARIAS_LAST_STAND: shop_expensive,
+    L.SHOP_ARIAS_LIONHEART: shop_moderate,
+    L.SHOP_KYULI_ASSASSIN: shop_cheap,
+    L.SHOP_KYULI_BULLSEYE: shop_moderate,
+    L.SHOP_KYULI_RAY: shop_expensive,
+    L.SHOP_ZEEK_JUNKYARD: shop_moderate,
+    L.SHOP_ZEEK_ORBS: shop_moderate,
+    L.SHOP_ZEEK_LOOT: shop_cheap,
+    L.SHOP_BRAM_AXE: shop_expensive,
+    L.SHOP_BRAM_HUNTER: shop_moderate,
+    L.SHOP_BRAM_WHIPLASH: shop_moderate,
+    L.GT_SWITCH_2ND_ROOM: HasWhite(WhiteDoor.GT_START, otherwise=True),
+    L.GT_SWITCH_BUTT_ACCESS: can_extra_height,
+    L.GT_SWITCH_UPPER_PATH_ACCESS: Or(
+        HasSwitch(Switch.GT_UPPER_PATH_BLOCKS, otherwise=True),
+        HasAll(Character.KYULI, KeyItem.BLOCK, Character.ZEEK, KeyItem.BELL),
+    ),
+    L.GT_CRYSTAL_ROTA: And(
+        can_crystal,
+        Or(
+            Has(KeyItem.BELL),
+            And(
+                CanReachEntrance(R.MECH_BOTTOM_CAMPFIRE, R.GT_UPPER_PATH_CONNECTION),
+                CanReachEntrance(R.GT_UPPER_PATH_CONNECTION, R.GT_UPPER_PATH),
+            ),
+        ),
+    ),
+    L.GT_CRYSTAL_OLD_MAN_1: And(
+        can_crystal,
+        Or(
+            Has(KeyItem.BELL),
+            HasSwitch(Switch.GT_UPPER_ARIAS),
+            CanReachRegion(R.GT_ARIAS_SWORD_SWITCH, opts=switch_off),
+        ),
+    ),
+    L.GT_CRYSTAL_OLD_MAN_2: And(
+        can_crystal,
+        HasSwitch(Crystal.GT_OLD_MAN_1, otherwise=True),
+        Or(
+            Has(KeyItem.BELL),
+            HasSwitch(Switch.GT_UPPER_ARIAS),
+            CanReachRegion(R.GT_ARIAS_SWORD_SWITCH, opts=switch_off),
+        ),
+    ),
+    L.MECH_SWITCH_BOSS_ACCESS_2: Or(HasSwitch(Switch.MECH_BOSS_1, otherwise=True), CanReachRegion(R.MECH_BRAM_TUNNEL)),
+    L.MECH_SWITCH_BOOTS_ACCESS: HasAny(Eye.RED, KeyItem.STAR),
+    L.MECH_SWITCH_UPPER_VOID_DROP: Has(KeyItem.CLAW),
+    L.MECH_SWITCH_CANNON: Or(HasSwitch(Crystal.MECH_CANNON), otherwise_crystal),
+    L.MECH_SWITCH_ARIAS: Has(Character.ARIAS),
+    L.MECH_CRYSTAL_CANNON: can_crystal,
+    L.MECH_CRYSTAL_LINUS: can_crystal,
+    L.MECH_CRYSTAL_LOWER: can_crystal,
+    L.MECH_CRYSTAL_TO_BOSS_3: can_crystal,
+    L.MECH_CRYSTAL_TOP: can_crystal,
+    L.MECH_CRYSTAL_CLOAK: And(can_crystal, Has(Eye.BLUE)),
+    L.MECH_CRYSTAL_SLIMES: can_crystal,
+    L.MECH_CRYSTAL_TO_CD: And(can_crystal, Has(Eye.BLUE), HasBlue(BlueDoor.MECH_CD, otherwise=True)),
+    L.MECH_CRYSTAL_CAMPFIRE: can_crystal,
+    L.MECH_CRYSTAL_1ST_ROOM: can_crystal,
+    L.MECH_CRYSTAL_OLD_MAN: can_crystal,
+    L.MECH_CRYSTAL_TOP_CHAINS: can_crystal,
+    L.MECH_CRYSTAL_BK: can_crystal,
+    L.MECH_FACE_ABOVE_VOLANTIS: HasAll(KeyItem.BOW, KeyItem.CLAW),
+    L.HOTP_SWITCH_LOWER_SHORTCUT: Or(HasSwitch(Crystal.HOTP_LOWER), otherwise_crystal),
+    L.HOTP_SWITCH_TO_CLAW_2: Or(
+        HasSwitch(Switch.HOTP_TO_CLAW_1, otherwise=True),
+        And(HasSwitch(Switch.HOTP_TO_CLAW_2, otherwise=True), can_extra_height),
+        Has(KeyItem.CLAW),
+    ),
+    L.HOTP_SWITCH_CLAW_ACCESS: Or(Has(Character.KYULI), can_block_in_wall),
+    L.HOTP_SWITCH_LEFT_3: Or(
+        HasSwitch(Switch.HOTP_LEFT_1, Switch.HOTP_LEFT_2, otherwise=True),
+        And(Has(KeyItem.STAR), CanReachRegion(R.HOTP_START_LEFT)),
+    ),
+    L.HOTP_CRYSTAL_ROCK_ACCESS: can_crystal,
+    L.HOTP_CRYSTAL_BOTTOM: can_crystal,
+    L.HOTP_CRYSTAL_LOWER: can_crystal,
+    L.HOTP_CRYSTAL_AFTER_CLAW: can_crystal,
+    L.HOTP_CRYSTAL_MAIDEN_1: can_crystal,
+    L.HOTP_CRYSTAL_MAIDEN_2: And(
+        can_crystal,
+        Or(HasSwitch(Crystal.HOTP_MAIDEN_1, otherwise=True), Has(Character.KYULI)),
+    ),
+    L.HOTP_CRYSTAL_BELL_ACCESS: can_crystal,
+    L.HOTP_CRYSTAL_HEART: can_crystal,
+    L.HOTP_CRYSTAL_BELOW_PUZZLE: can_crystal,
+    L.HOTP_FACE_OLD_MAN: Has(KeyItem.BOW),
+    L.ROA_SWITCH_SPIKE_CLIMB: Has(KeyItem.CLAW),
+    L.ROA_SWITCH_TRIPLE_3: Or(HasSwitch(Crystal.ROA_TRIPLE_2), otherwise_crystal),
+    L.ROA_CRYSTAL_1ST_ROOM: And(can_crystal, HasAll(Character.KYULI, KeyItem.BELL)),
+    L.ROA_CRYSTAL_BABY_GORGON: can_crystal,
+    L.ROA_CRYSTAL_LADDER_R: can_crystal_wo_whiplash,
+    L.ROA_CRYSTAL_LADDER_L: can_crystal_wo_whiplash,
+    L.ROA_CRYSTAL_CENTAUR: And(can_crystal, HasAll(KeyItem.BELL, Character.ARIAS)),
+    L.ROA_CRYSTAL_SPIKE_BALLS: can_crystal,
+    L.ROA_CRYSTAL_SHAFT: can_crystal,
+    L.ROA_CRYSTAL_BRANCH_R: And(can_crystal, HasAll(Character.KYULI, KeyItem.BELL)),
+    L.ROA_CRYSTAL_BRANCH_L: And(can_crystal, HasAll(Character.KYULI, KeyItem.BELL)),
+    L.ROA_CRYSTAL_3_REAPERS: can_crystal,
+    L.ROA_CRYSTAL_TRIPLE_2: And(can_crystal, HasSwitch(Switch.ROA_TRIPLE_1, otherwise=True)),
+    L.ROA_FACE_SPIDERS: Has(KeyItem.BOW),
+    L.ROA_FACE_BLUE_KEY: Has(KeyItem.BOW),
+    L.DARK_SWITCH: Has(KeyItem.CLAW),
+    L.CAVES_FACE_1ST_ROOM: Has(KeyItem.BOW),
+    L.CATA_SWITCH_CLAW_2: HasSwitch(Switch.CATA_CLAW_1, otherwise=True),
+    L.CATA_SWITCH_FLAMES_2: HasSwitch(Switch.CATA_FLAMES_1, otherwise=True),
+    L.CATA_CRYSTAL_POISON_ROOTS: can_crystal,
+    L.CATA_FACE_AFTER_BOW: Has(KeyItem.BOW),
+    L.CATA_FACE_BOW: Has(KeyItem.BOW),
+    L.CATA_FACE_X4: Has(KeyItem.BOW),
+    L.CATA_FACE_CAMPFIRE: Has(KeyItem.BOW),
+    L.CATA_FACE_DOUBLE_DOOR: Has(KeyItem.BOW),
+    L.CATA_FACE_BOTTOM: Has(KeyItem.BOW),
+    L.TR_SWITCH_ADORNED_L: Has(KeyItem.CLAW),
+    L.TR_SWITCH_ADORNED_M: Has(Eye.RED),
+    L.TR_SWITCH_ADORNED_R: And(
+        HasSwitch(Crystal.TR_DARK_ARIAS, otherwise=True),
+        HasAll(Character.ZEEK, KeyItem.BELL, KeyItem.CLAW),
+    ),
+    L.TR_CRYSTAL_GOLD: And(can_crystal, HasAll(KeyItem.BELL, KeyItem.CLAW)),
+    L.TR_CRYSTAL_DARK_ARIAS: And(can_crystal, HasAll(Character.ZEEK, KeyItem.BELL, KeyItem.CLAW)),
+    L.CD_SWITCH_1: Or(HasSwitch(Crystal.CD_START), otherwise_crystal),
+    L.CD_CRYSTAL_BACKTRACK: can_crystal,
+    L.CD_CRYSTAL_START: can_crystal,
+    L.CD_CRYSTAL_CAMPFIRE: can_crystal,
+    L.CD_CRYSTAL_STEPS: can_crystal,
+    L.CATH_CRYSTAL_1ST_ROOM: can_crystal,
+    L.CATH_CRYSTAL_SHAFT: can_crystal,
+    L.CATH_CRYSTAL_SPIKE_PIT: can_crystal,
+    L.CATH_CRYSTAL_TOP_L: can_crystal,
+    L.CATH_CRYSTAL_TOP_R: can_crystal,
+    L.CATH_CRYSTAL_SHAFT_ACCESS: can_crystal,
+    L.CATH_CRYSTAL_ORBS: can_crystal,
+    L.CATH_FACE_LEFT: Has(KeyItem.BOW),
+    L.CATH_FACE_RIGHT: Has(KeyItem.BOW),
+    L.SP_SWITCH_AFTER_STAR: Has(Character.ARIAS),
+    L.SP_CRYSTAL_BLOCKS: can_crystal,
+    L.SP_CRYSTAL_STAR: can_crystal,
+    L.ROA_CANDLE_ARENA: Or(can_extra_height, Has(ShopUpgrade.BRAM_AXE), CanReachRegion(R.ROA_FLAMES_CONNECTION)),
+    L.ROA_CANDLE_HIDDEN_4: HasAny(Character.KYULI, ShopUpgrade.BRAM_AXE),
+    L.ROA_CANDLE_HIDDEN_5: Has(Character.KYULI),
+    L.CATA_CANDLE_DEV_ROOM: Or(Has(KeyItem.CLAW), HasSwitch(Switch.CATA_DEV_ROOM, otherwise=True)),
+    L.CATA_CANDLE_PRISON: HasBlue(BlueDoor.CATA_PRISON_RIGHT, otherwise=True),
+}

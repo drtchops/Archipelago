@@ -24,7 +24,6 @@ from .locations import LocationGroup, location_table
 from .locations import LocationName as L
 from .options import ApexElevator, AstalonOptions, Difficulty, Goal, RandomizeCharacters
 from .regions import RegionName as R
-from .rules2.main_campaign import MAIN_ENTRANCE_RULES
 
 if TYPE_CHECKING:
     from . import AstalonWorld
@@ -2114,8 +2113,6 @@ class AstalonRules:
         return True
 
     def register_indirect_condition(self, dependency: Union[L, R], from_region: R, to_region: R):
-        if (from_region, to_region) in MAIN_ENTRANCE_RULES:
-            return
         if isinstance(dependency, L):
             data = location_table[dependency]
             if data.group == LocationGroup.KEY_RED and self.options.randomize_red_keys:
@@ -2151,8 +2148,7 @@ class AstalonRules:
 
     def set_region_rules(self) -> None:
         for (from_, to_), rule in ENTRANCE_RULES.items():
-            if (from_, to_) not in MAIN_ENTRANCE_RULES:
-                set_rule(self.entrance(from_, to_), partial(rule, self))
+            set_rule(self.entrance(from_, to_), partial(rule, self))
 
     def set_location_rules(self) -> None:
         if self.options.randomize_key_items:

@@ -4,6 +4,8 @@ from copy import copy
 from enum import Enum
 from typing import TYPE_CHECKING, Any, ClassVar, Dict, List, Self, Set, Tuple, Union
 
+from BaseClasses import CollectionState
+
 from ..items import Character, Eye, KeyItem, ShopUpgrade
 from ..options import Goal, RandomizeCharacters
 from ..regions import RegionName
@@ -13,6 +15,7 @@ if TYPE_CHECKING:
     from Options import CommonOptions, Option
 
     from ..items import BlueDoor, Crystal, Elevator, Face, ItemName, RedDoor, Switch, WhiteDoor
+    from ..locations import LocationName
     from ..world import AstalonWorld
 
 
@@ -420,11 +423,29 @@ class HasAny(Rule):
 
 
 @dataclasses.dataclass(init=False)
-class CanReach(Rule):
+class CanReachLocation(Rule):
+    location: str
+
+    def __init__(
+        self,
+        location: "LocationName | str",
+        *,
+        player: int = -1,
+        opts: Tuple[Tuple[str, Any], ...] = (),
+    ) -> None:
+        self.location = location.value if isinstance(location, Enum) else location
+        super().__init__(player=player, opts=opts)
+
+    def _evaluate(self, state: "CollectionState") -> bool:
+        return state.can_reach_location(self.location, self.player)
+
+
+@dataclasses.dataclass(init=False)
+class CanReachRegion(Rule):
     region: str
 
-    def __init__(self, region: "RegionName", *, player: int = -1, opts: Tuple[Tuple[str, Any], ...] = ()) -> None:
-        self.region = region.value if hasattr(region, "value") else region
+    def __init__(self, region: "RegionName | str", *, player: int = -1, opts: Tuple[Tuple[str, Any], ...] = ()) -> None:
+        self.region = region.value if isinstance(region, Enum) else region
         super().__init__(player=player, opts=opts)
 
     def _evaluate(self, state: "CollectionState") -> bool:
@@ -432,6 +453,27 @@ class CanReach(Rule):
 
     def indirect(self) -> "Tuple[RegionName, ...]":
         return (RegionName(self.region),)
+
+
+@dataclasses.dataclass(init=False)
+class CanReachEntrance(Rule):
+    entrance: str
+
+    def __init__(
+        self,
+        from_region: "RegionName | str",
+        to_region: "RegionName | str",
+        *,
+        player: int = -1,
+        opts: Tuple[Tuple[str, Any], ...] = (),
+    ) -> None:
+        from_region = from_region.value if isinstance(from_region, Enum) else from_region
+        to_region = to_region.value if isinstance(to_region, Enum) else to_region
+        self.entrance = f"{from_region} -> {to_region}"
+        super().__init__(player=player, opts=opts)
+
+    def _evaluate(self, state: "CollectionState") -> bool:
+        return state.can_reach_entrance(self.entrance, self.player)
 
 
 @dataclasses.dataclass(init=False)

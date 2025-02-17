@@ -41,7 +41,7 @@ from .options import ApexElevator, AstalonOptions, Goal, RandomizeCharacters
 from .regions import RegionName, astalon_regions
 from .rules import AstalonRules, Events
 from .rules2.base import Tracker
-from .rules2.main_campaign import MAIN_ENTRANCE_RULES
+from .rules2.main_campaign import MAIN_ENTRANCE_RULES, MAIN_LOCATION_RULES
 
 if TYPE_CHECKING:
     from BaseClasses import Entrance, Location, MultiWorld
@@ -193,14 +193,23 @@ class AstalonWorld(World):
             if "extra_gold_eyes" in slot_data:
                 self.extra_gold_eyes = slot_data["extra_gold_eyes"]
 
-        self.rules = AstalonRules(self)
+        # self.rules = AstalonRules(self)
 
     def create_location(self, name: str) -> AstalonLocation:
+        location_name = LocationName(name)
         data = location_table[name]
         region = self._regions[data.region]
         location = AstalonLocation(self.player, name, location_name_to_id[name], region)
+        rule = MAIN_LOCATION_RULES.get(location_name)
+        if rule is not None:
+            rule = rule.actualize(self)
+            if rule.falsy:
+                print(f"No matching rules for {name}")
+            for item_name, rules in rule.deps().items():
+                self._rule_deps[item_name] |= rules
+            location.access_rule = rule.test
         region.locations.append(location)
-        self._locations[LocationName(name)] = location
+        self._locations[location_name] = location
         return location
 
     def create_regions(self) -> None:
@@ -446,10 +455,10 @@ class AstalonWorld(World):
     def get_trap_item_name(self) -> str:
         return self.random.choice(trap_items)
 
-    def set_rules(self) -> None:
-        # self.rules.set_region_rules()
-        self.rules.set_location_rules()
-        self.rules.set_indirect_conditions()
+    # def set_rules(self) -> None:
+    #     self.rules.set_region_rules()
+    #     self.rules.set_location_rules()
+    #     self.rules.set_indirect_conditions()
 
     @classmethod
     def stage_post_fill(cls, multiworld: "MultiWorld") -> None:
@@ -512,8 +521,8 @@ class AstalonWorld(World):
     def collect(self, state: "CollectionState", item: "Item") -> bool:
         changed = super().collect(state, item)
         if changed:
-            if getattr(self, "rules", None):
-                self.rules.clear_cache()
+            # if getattr(self, "rules", None):
+            #     self.rules.clear_cache()
             if getattr(self, "_rule_deps", None):
                 state._astalon_computed_rules[self.player] -= self._rule_deps[item.name]  # type: ignore
         return changed
@@ -521,8 +530,8 @@ class AstalonWorld(World):
     def remove(self, state: "CollectionState", item: "Item") -> bool:
         changed = super().remove(state, item)
         if changed:
-            if getattr(self, "rules", None):
-                self.rules.clear_cache()
+            # if getattr(self, "rules", None):
+            #     self.rules.clear_cache()
             if getattr(self, "_rule_deps", None):
                 state._astalon_computed_rules[self.player] -= self._rule_deps[item.name]  # type: ignore
         return changed
