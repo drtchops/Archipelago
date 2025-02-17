@@ -731,7 +731,7 @@ MAIN_ENTRANCE_RULES: Dict[Tuple[R, R], Rule] = {
     (R.ROA_SPIDERS_2, R.ROA_BLOOD_POT_HALLWAY): HasSwitch(Switch.ROA_SPIDERS, otherwise=True),
     (R.ROA_SP_CONNECTION, R.SP_START): Or(
         HasRed(RedDoor.SP),
-        CanReachRegion(R.ROA_RED_KEY, opts=red_off),  # TODO: double check
+        And(HasAll(KeyItem.CLOAK, KeyItem.CLAW, KeyItem.BELL), CanReachRegion(R.ROA_RED_KEY), opts=red_off),
     ),
     (R.ROA_SP_CONNECTION, R.ROA_ELEVATOR): And(
         # can probably make it without claw
@@ -849,7 +849,7 @@ MAIN_ENTRANCE_RULES: Dict[Tuple[R, R], Rule] = {
     ),
     (R.CATA_DEV_ROOM_CONNECTION, R.CATA_DEV_ROOM): Or(
         HasRed(RedDoor.DEV_ROOM),
-        CanReachRegion(R.GT_BOSS, opts=red_off),  # TODO
+        And(HasAll(Character.ZEEK, Character.KYULI), CanReachRegion(R.GT_BOSS), opts=red_off),
     ),
     (R.CATA_DOUBLE_SWITCH, R.CATA_SNAKE_MUSHROOMS): HasSwitch(Switch.CATA_CLAW_2),
     (R.CATA_DOUBLE_SWITCH, R.CATA_ROOTS_CAMPFIRE): HasSwitch(
@@ -911,7 +911,7 @@ MAIN_ENTRANCE_RULES: Dict[Tuple[R, R], Rule] = {
     (R.TR_START, R.ROA_ELEVATOR): HasElevator(Elevator.ROA_2),
     (R.TR_START, R.TR_LEFT): And(
         HasBlue(BlueDoor.TR, otherwise=True),
-        Or(HasRed(RedDoor.TR), CanReachRegion(R.TR_START, opts=red_off)),  # TODO
+        Or(HasRed(RedDoor.TR), And(Has(KeyItem.CLAW), CanReachRegion(R.CATA_BOSS), opts=red_off)),
     ),
     (R.TR_START, R.APEX): elevator_apex,
     (R.TR_START, R.GT_BOSS): HasElevator(Elevator.GT_2),
@@ -941,7 +941,10 @@ MAIN_ENTRANCE_RULES: Dict[Tuple[R, R], Rule] = {
     (R.CD_CAMPFIRE_3, R.CD_ARENA): Or(HasSwitch(Crystal.CD_CAMPFIRE), otherwise_crystal),
     (R.CD_STEPS, R.CD_TOP): Or(HasSwitch(Crystal.CD_STEPS), otherwise_crystal),
     (R.CATH_START, R.CATH_START_LEFT): And(
-        Or(HasSwitch(Crystal.CATH_1ST_ROOM), CanReachRegion(R.CATA_START, opts=switch_off)),  # TODO
+        Or(
+            HasSwitch(Crystal.CATH_1ST_ROOM),
+            And(can_crystal, CanReachRegion(R.CATH_START_TOP_LEFT), opts=switch_off),
+        ),
         Has(KeyItem.CLAW),
     ),
     (R.CATH_START_RIGHT, R.CATH_START_TOP_LEFT): HasSwitch(Switch.CATH_BOTTOM, otherwise=True),
@@ -1009,11 +1012,12 @@ MAIN_LOCATION_RULES: Dict[L, Rule] = {
     L.TR_ADORNED_KEY: Or(
         HasSwitch(Switch.TR_ADORNED_L, Switch.TR_ADORNED_M, Switch.TR_ADORNED_R),
         And(
+            HasAll(KeyItem.CLAW, Eye.RED, Character.ZEEK, KeyItem.BELL),
             CanReachRegion(R.TR_BOTTOM),
             CanReachRegion(R.TR_LEFT),
             CanReachRegion(R.TR_DARK_ARIAS),
             opts=switch_off,
-        ),  # TODO
+        ),
     ),
     L.CATH_BLOCK: Or(HasSwitch(Crystal.CATH_TOP_L, Crystal.CATH_TOP_R), otherwise_crystal),
     L.MECH_ZEEK: Has(KeyItem.CROWN),

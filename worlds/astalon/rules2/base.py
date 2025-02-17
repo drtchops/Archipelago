@@ -2,7 +2,9 @@ import dataclasses
 import itertools
 from copy import copy
 from enum import Enum
-from typing import TYPE_CHECKING, Any, ClassVar, Dict, List, Self, Set, Tuple, Union
+from typing import TYPE_CHECKING, Any, ClassVar, Dict, List, Set, Tuple, Union
+
+from typing_extensions import Self
 
 from BaseClasses import CollectionState
 
@@ -129,7 +131,7 @@ class Rule:
     def deps(self) -> "Dict[str, Set[int]]":
         return {}
 
-    def indirect(self) -> "tuple[RegionName, ...]":
+    def indirect(self) -> "Tuple[RegionName, ...]":
         return ()
 
 
@@ -287,7 +289,7 @@ class Has(Rule):
 
     def __init__(
         self,
-        item: "ItemName | str",
+        item: "Union[ItemName, str]",
         count: int = 1,
         *,
         player: int = -1,
@@ -330,7 +332,7 @@ class HasAll(Rule):
 
     def __init__(
         self,
-        *items: "ItemName | str",
+        *items: "Union[ItemName, str]",
         player: int = -1,
         opts: Tuple[Tuple[str, Any], ...] = (),
     ) -> None:
@@ -403,7 +405,7 @@ class HasAny(Rule):
 
     def __init__(
         self,
-        *items: "ItemName | str",
+        *items: "Union[ItemName, str]",
         player: int = -1,
         opts: Tuple[Tuple[str, Any], ...] = (),
     ) -> None:
@@ -475,7 +477,7 @@ class CanReachLocation(Rule):
 
     def __init__(
         self,
-        location: "LocationName | str",
+        location: "Union[LocationName, str]",
         *,
         player: int = -1,
         opts: Tuple[Tuple[str, Any], ...] = (),
@@ -494,7 +496,7 @@ class CanReachRegion(Rule):
 
     def __init__(
         self,
-        region: "RegionName | str",
+        region: "Union[RegionName, str]",
         *,
         player: int = -1,
         opts: Tuple[Tuple[str, Any], ...] = (),
@@ -516,8 +518,8 @@ class CanReachEntrance(Rule):
 
     def __init__(
         self,
-        from_region: "RegionName | str",
-        to_region: "RegionName | str",
+        from_region: "Union[RegionName, str]",
+        to_region: "Union[RegionName, str]",
         *,
         player: int = -1,
         opts: Tuple[Tuple[str, Any], ...] = (),

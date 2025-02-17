@@ -132,7 +132,8 @@ class AstalonWorld(World):
     location_name_groups = location_name_groups
     item_name_to_id = item_name_to_id
     location_name_to_id = location_name_to_id
-    starting_characters: List[Character]
+
+    starting_characters: "List[Character]"
     required_gold_eyes: int = 0
     extra_gold_eyes: int = 0
     rules: AstalonRules
@@ -193,13 +194,11 @@ class AstalonWorld(World):
             if "extra_gold_eyes" in slot_data:
                 self.extra_gold_eyes = slot_data["extra_gold_eyes"]
 
-        # self.rules = AstalonRules(self)
-
     def create_location(self, name: str) -> AstalonLocation:
         location_name = LocationName(name)
         data = location_table[name]
         region = self._regions[data.region]
-        location = AstalonLocation(self.player, name, location_name_to_id[name], region)
+        location = AstalonLocation(self.player, name, location_name_to_id.get(name), region)
         rule = MAIN_LOCATION_RULES.get(location_name)
         if rule is not None:
             rule = rule.actualize(self)
@@ -276,36 +275,45 @@ class AstalonWorld(World):
                 self.create_location(location_name)
 
         if self.options.randomize_characters == RandomizeCharacters.option_vanilla:
-            self.create_event(Events.ZEEK, RegionName.MECH_ZEEK)
-            self.create_event(Events.BRAM, RegionName.TR_BRAM)
+            self.create_event(Events.ZEEK, LocationName.MECH_ZEEK)
+            self.create_event(Events.BRAM, LocationName.TR_BRAM)
         else:
             for character, location_name in CHARACTER_LOCATIONS:
                 if character not in self.starting_characters:
                     self.create_location(location_name)
 
         if not self.options.randomize_key_items:
-            self.create_event(Events.EYE_RED, RegionName.GT_BOSS)
-            self.create_event(Events.EYE_BLUE, RegionName.MECH_BOSS)
-            self.create_event(Events.EYE_GREEN, RegionName.ROA_BOSS)
-            self.create_event(Events.SWORD, RegionName.GT_SWORD)
-            self.create_event(Events.ASCENDANT_KEY, RegionName.GT_ASCENDANT_KEY)
-            self.create_event(Events.ADORNED_KEY, RegionName.TR_BOTTOM)
-            self.create_event(Events.BANISH, RegionName.GT_LEFT)
-            self.create_event(Events.VOID, RegionName.GT_VOID)
-            self.create_event(Events.BOOTS, RegionName.MECH_BOOTS_UPPER)
-            self.create_event(Events.CLOAK, RegionName.MECH_CLOAK)
-            self.create_event(Events.CYCLOPS, RegionName.MECH_ZEEK)
-            self.create_event(Events.BELL, RegionName.HOTP_BELL)
-            self.create_event(Events.CLAW, RegionName.HOTP_CLAW)
-            self.create_event(Events.GAUNTLET, RegionName.HOTP_GAUNTLET)
-            self.create_event(Events.ICARUS, RegionName.ROA_ICARUS)
-            self.create_event(Events.CHALICE, RegionName.APEX_CENTAUR)
-            self.create_event(Events.BOW, RegionName.CATA_BOW)
-            self.create_event(Events.CROWN, RegionName.CD_BOSS)
-            self.create_event(Events.BLOCK, RegionName.CATH_TOP)
-            self.create_event(Events.STAR, RegionName.SP_STAR)
+            self.create_event(Events.EYE_RED, LocationName.GT_EYE_RED)
+            self.create_event(Events.EYE_BLUE, LocationName.MECH_EYE_BLUE)
+            self.create_event(Events.EYE_GREEN, LocationName.ROA_EYE_GREEN)
+            self.create_event(Events.SWORD, LocationName.GT_SWORD)
+            self.create_event(Events.ASCENDANT_KEY, LocationName.GT_ASCENDANT_KEY)
+            self.create_event(Events.ADORNED_KEY, LocationName.TR_ADORNED_KEY)
+            self.create_event(Events.BANISH, LocationName.GT_BANISH)
+            self.create_event(Events.VOID, LocationName.GT_VOID)
+            self.create_event(Events.BOOTS, LocationName.MECH_BOOTS)
+            self.create_event(Events.CLOAK, LocationName.MECH_CLOAK)
+            self.create_event(Events.CYCLOPS, LocationName.MECH_ZEEK)
+            self.create_event(Events.BELL, LocationName.HOTP_BELL)
+            self.create_event(Events.CLAW, LocationName.HOTP_CLAW)
+            self.create_event(Events.GAUNTLET, LocationName.HOTP_GAUNTLET)
+            self.create_event(Events.ICARUS, LocationName.ROA_ICARUS)
+            self.create_event(Events.CHALICE, LocationName.APEX_CHALICE)
+            self.create_event(Events.BOW, LocationName.CATA_BOW)
+            self.create_event(Events.CROWN, LocationName.CD_CROWN)
+            self.create_event(Events.BLOCK, LocationName.CATH_BLOCK)
+            self.create_event(Events.STAR, LocationName.SP_STAR)
 
-        self.create_event(Events.VICTORY, RegionName.FINAL_BOSS)
+        victory_region = self._regions[RegionName.FINAL_BOSS]
+        victory_location = AstalonLocation(self.player, Events.VICTORY.value, None, victory_region)
+        victory_item = AstalonItem(
+            Events.VICTORY.value,
+            ItemClassification.progression_skip_balancing,
+            None,
+            self.player,
+        )
+        victory_location.place_locked_item(victory_item)
+        victory_region.locations.append(victory_location)
         self.multiworld.completion_condition[self.player] = lambda state: state.has(
             Events.VICTORY.value,
             self.player,
@@ -320,12 +328,11 @@ class AstalonWorld(World):
             classification = item_data.classification
         return AstalonItem(name, classification, self.item_name_to_id[name], self.player)
 
-    def create_event(self, event: Events, region_name: RegionName) -> None:
+    def create_event(self, event: Events, location_name: LocationName) -> None:
         item = AstalonItem(event.value, ItemClassification.progression_skip_balancing, None, self.player)
-        region = self._regions[region_name]
-        location = AstalonLocation(self.player, event.value, None, region)
+        location = self.create_location(location_name.value)
+        location.address = None
         location.place_locked_item(item)
-        region.locations.append(location)
 
     def create_trap(self) -> AstalonItem:
         return self.create_item(self.get_trap_item_name())
@@ -530,8 +537,6 @@ class AstalonWorld(World):
     def collect(self, state: "CollectionState", item: "Item") -> bool:
         changed = super().collect(state, item)
         if changed:
-            # if getattr(self, "rules", None):
-            #     self.rules.clear_cache()
             if getattr(self, "_rule_deps", None):
                 state._astalon_computed_rules[self.player] -= self._rule_deps[item.name]  # type: ignore
         return changed
@@ -539,8 +544,6 @@ class AstalonWorld(World):
     def remove(self, state: "CollectionState", item: "Item") -> bool:
         changed = super().remove(state, item)
         if changed:
-            # if getattr(self, "rules", None):
-            #     self.rules.clear_cache()
             if getattr(self, "_rule_deps", None):
                 state._astalon_computed_rules[self.player] -= self._rule_deps[item.name]  # type: ignore
         return changed
