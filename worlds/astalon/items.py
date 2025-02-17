@@ -557,7 +557,9 @@ item_table: Dict[str, ItemData] = {
     BlueDoor.APEX.value: ItemData(ItemClassification.progression, 1, ItemGroup.DOOR_BLUE),
     BlueDoor.CAVES.value: ItemData(ItemClassification.progression, 1, ItemGroup.DOOR_BLUE),
     BlueDoor.CATA_ORBS.value: ItemData(
-        lambda world: ItemClassification.progression if world.options.randomize_candles else ItemClassification.useful,
+        lambda world: ItemClassification.progression
+        if world.options.randomize_candles
+        else ItemClassification.useful,
         1,
         ItemGroup.DOOR_BLUE,
     ),
@@ -567,7 +569,9 @@ item_table: Dict[str, ItemData] = {
     BlueDoor.CATA_PRISON_CYCLOPS.value: ItemData(ItemClassification.filler, 1, ItemGroup.DOOR_BLUE),
     BlueDoor.CATA_PRISON_LEFT.value: ItemData(ItemClassification.filler, 1, ItemGroup.DOOR_BLUE),
     BlueDoor.CATA_PRISON_RIGHT.value: ItemData(
-        lambda world: ItemClassification.progression if world.options.randomize_candles else ItemClassification.filler,
+        lambda world: ItemClassification.progression
+        if world.options.randomize_candles
+        else ItemClassification.filler,
         1,
         ItemGroup.DOOR_BLUE,
     ),
@@ -625,12 +629,16 @@ item_table: Dict[str, ItemData] = {
     Switch.GT_UPPER_PATH_BLOCKS.value: ItemData(ItemClassification.progression, 1, ItemGroup.SWITCH),
     Switch.GT_UPPER_PATH_ACCESS.value: ItemData(ItemClassification.progression, 1, ItemGroup.SWITCH),
     Switch.GT_CROSSES.value: ItemData(
-        lambda world: ItemClassification.filler if world.options.open_early_doors else ItemClassification.progression,
+        lambda world: ItemClassification.filler
+        if world.options.open_early_doors
+        else ItemClassification.progression,
         1,
         ItemGroup.SWITCH,
     ),
     Switch.GT_GH_SHORTCUT.value: ItemData(
-        lambda world: ItemClassification.filler if world.options.open_early_doors else ItemClassification.progression,
+        lambda world: ItemClassification.filler
+        if world.options.open_early_doors
+        else ItemClassification.progression,
         1,
         ItemGroup.SWITCH,
     ),

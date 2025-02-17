@@ -306,7 +306,10 @@ class AstalonWorld(World):
             self.create_event(Events.STAR, RegionName.SP_STAR)
 
         self.create_event(Events.VICTORY, RegionName.FINAL_BOSS)
-        self.multiworld.completion_condition[self.player] = lambda state: state.has(Events.VICTORY.value, self.player)
+        self.multiworld.completion_condition[self.player] = lambda state: state.has(
+            Events.VICTORY.value,
+            self.player,
+        )
 
     def create_item(self, name: str) -> AstalonItem:
         item_data = item_table[name]
@@ -507,9 +510,15 @@ class AstalonWorld(World):
 
         for sphere_id, sphere in enumerate(spheres):
             for location in sphere:
-                if location.item and location.item.player == self.player and location.item.name in character_strengths:
+                if (
+                    location.item
+                    and location.item.player == self.player
+                    and location.item.name in character_strengths
+                ):
                     scaling = (sphere_id + 1) / sphere_count
-                    logger.debug(f"{location.item.name} in sphere {sphere_id + 1} / {sphere_count}, scaling {scaling}")
+                    logger.debug(
+                        f"{location.item.name} in sphere {sphere_id + 1} / {sphere_count}, scaling {scaling}"
+                    )
                     character_strengths[location.item.name] = scaling
                     found += 1
                     if found >= limit:

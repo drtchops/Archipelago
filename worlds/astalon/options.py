@@ -172,7 +172,8 @@ class RandomizeShop(Toggle):
 class RandomizeSwitches(Toggle):
     """
     Choose whether to randomize all ground switches, magic crystals, and face switches in the world.
-    Activating a switch will complete a check and the corresponding doors or blocks will toggle from a received item.
+    Activating a switch will complete a check and the corresponding doors or blocks
+    will toggle from a received item.
     """
 
     display_name = "Randomize Switches"

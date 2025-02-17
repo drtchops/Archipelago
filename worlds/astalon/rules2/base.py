@@ -71,6 +71,7 @@ class Rule:
     result: bool = dataclasses.field(default=False, repr=False, init=False)
     player: int = -1
     opts: Tuple[Tuple[str, Any], ...] = ()
+    cacheable: bool = True
 
     truthy: ClassVar = False
     falsy: ClassVar = False
@@ -101,8 +102,11 @@ class Rule:
         self.result = self._evaluate(state)
         state._astalon_computed_rules[self.player].add(id(self))  # type: ignore
 
+    def stale(self, state: "CollectionState") -> bool:
+        return not self.cacheable or id(self) not in state._astalon_computed_rules[self.player]  # type: ignore
+
     def test(self, state) -> bool:
-        if id(self) not in state._astalon_computed_rules[self.player]:
+        if self.stale(state):
             Tracker.miss()
             self.evaluate(state)
         else:
@@ -150,8 +154,8 @@ class NestedRule(Rule):
     children: "Tuple[Rule, ...]"
 
     def __init__(self, *children: "Rule", player: int = -1, opts: Tuple[Tuple[str, Any], ...] = ()) -> None:
-        self.children = children
         super().__init__(player=player, opts=opts)
+        self.children = children
 
     def deps(self) -> "Dict[str, Set[int]]":
         combined_deps: Dict[str, Set[int]] = {}
@@ -219,6 +223,7 @@ class And(NestedRule):
 
         new_rule = self.clone(world)
         new_rule.children = tuple(new_children)
+        new_rule.cacheable = all(child.cacheable for child in new_children)
         return new_rule
 
 
@@ -271,6 +276,7 @@ class Or(NestedRule):
 
         new_rule = self.clone(world)
         new_rule.children = tuple(new_children)
+        new_rule.cacheable = all(child.cacheable for child in new_children)
         return new_rule
 
 
@@ -287,9 +293,9 @@ class Has(Rule):
         player: int = -1,
         opts: Tuple[Tuple[str, Any], ...] = (),
     ) -> None:
+        super().__init__(player=player, opts=opts)
         self.item = item.value if isinstance(item, Enum) else item
         self.count = count
-        super().__init__(player=player, opts=opts)
 
     def _evaluate(self, state: "CollectionState") -> bool:
         return state.has(self.item, self.player, count=self.count)
@@ -306,6 +312,10 @@ class Has(Rule):
             return self.clone(world)
 
         if deps := ITEM_DEPS.get(self.item):
+            if world.options.randomize_characters == RandomizeCharacters.option_vanilla and (
+                len(deps) > 1 or (len(deps) == 1 and deps[0] in VANILLA_CHARACTERS)
+            ):
+                return self.clone(world)
             return Or(*[HasAll(d, self.item) for d in deps]).actualize(world)
 
         return self.clone(world)
@@ -318,9 +328,14 @@ class Has(Rule):
 class HasAll(Rule):
     items: Tuple[str, ...]
 
-    def __init__(self, *items: "ItemName | str", player: int = -1, opts: Tuple[Tuple[str, Any], ...] = ()) -> None:
-        self.items = tuple(item.value if isinstance(item, Enum) else item for item in items)
+    def __init__(
+        self,
+        *items: "ItemName | str",
+        player: int = -1,
+        opts: Tuple[Tuple[str, Any], ...] = (),
+    ) -> None:
         super().__init__(player=player, opts=opts)
+        self.items = tuple(item.value if isinstance(item, Enum) else item for item in items)
 
     def _evaluate(self, state: "CollectionState") -> bool:
         return state.has_all(self.items, self.player)
@@ -339,14 +354,26 @@ class HasAll(Rule):
         new_clauses: List[Rule] = []
         new_items: List[str] = []
         for item in self.items:
+            if (
+                item in VANILLA_CHARACTERS
+                and world.options.randomize_characters == RandomizeCharacters.option_vanilla
+            ):
+                continue
             deps = ITEM_DEPS.get(item, [])
-            if not deps or any(d.value in self.items for d in deps):
+            if not deps:
                 new_items.append(item)
                 continue
 
-            if len(deps) > 1 and world.options.randomize_characters != RandomizeCharacters.option_vanilla:
-                new_clauses.append(Or(*[HasAll(d, item, player=world.player) for d in deps], player=world.player))
-            elif (
+            if len(deps) > 1:
+                if world.options.randomize_characters == RandomizeCharacters.option_vanilla:
+                    new_items.append(item)
+                else:
+                    new_clauses.append(
+                        Or(*[HasAll(d, item, player=world.player) for d in deps], player=world.player)
+                    )
+                continue
+
+            if (
                 len(deps) == 1
                 and deps[0] not in self.items
                 and not (
@@ -355,8 +382,11 @@ class HasAll(Rule):
                 )
             ):
                 new_items.append(deps[0])
-                new_items.append(item)
 
+            new_items.append(item)
+
+        if len(new_clauses) == 0 and len(new_items) == 0:
+            return True_(player=world.player)
         if len(new_items) == 1:
             new_clauses.append(Has(new_items[0], player=world.player))
         elif len(new_items) > 1:
@@ -371,9 +401,14 @@ class HasAll(Rule):
 class HasAny(Rule):
     items: Tuple[str, ...]
 
-    def __init__(self, *items: "ItemName | str", player: int = -1, opts: Tuple[Tuple[str, Any], ...] = ()) -> None:
-        self.items = tuple(item.value if isinstance(item, Enum) else item for item in items)
+    def __init__(
+        self,
+        *items: "ItemName | str",
+        player: int = -1,
+        opts: Tuple[Tuple[str, Any], ...] = (),
+    ) -> None:
         super().__init__(player=player, opts=opts)
+        self.items = tuple(item.value if isinstance(item, Enum) else item for item in items)
 
     def _evaluate(self, state: "CollectionState") -> bool:
         return state.has_any(self.items, self.player)
@@ -392,17 +427,27 @@ class HasAny(Rule):
         new_clauses: List[Rule] = []
         new_items: List[str] = []
         for item in self.items:
-            if item in VANILLA_CHARACTERS and world.options.randomize_characters == RandomizeCharacters.option_vanilla:
+            if (
+                item in VANILLA_CHARACTERS
+                and world.options.randomize_characters == RandomizeCharacters.option_vanilla
+            ):
                 return True_(player=world.player)
 
             deps = ITEM_DEPS.get(item, [])
-            if not deps or any(d.value in self.items for d in deps):
+            if not deps:
                 new_items.append(item)
                 continue
 
-            if len(deps) > 1 and world.options.randomize_characters != RandomizeCharacters.option_vanilla:
-                new_clauses.append(Or(*[HasAll(d, item, player=world.player) for d in deps], player=world.player))
-            elif (
+            if len(deps) > 1:
+                if world.options.randomize_characters == RandomizeCharacters.option_vanilla:
+                    new_items.append(item)
+                else:
+                    new_clauses.append(
+                        Or(*[HasAll(d, item, player=world.player) for d in deps], player=world.player)
+                    )
+                continue
+
+            if (
                 len(deps) == 1
                 and deps[0] not in self.items
                 and not (
@@ -411,6 +456,8 @@ class HasAny(Rule):
                 )
             ):
                 new_clauses.append(HasAll(deps[0], item, player=world.player))
+            else:
+                new_items.append(item)
 
         if len(new_items) == 1:
             new_clauses.append(Has(new_items[0], player=world.player))
@@ -433,8 +480,9 @@ class CanReachLocation(Rule):
         player: int = -1,
         opts: Tuple[Tuple[str, Any], ...] = (),
     ) -> None:
-        self.location = location.value if isinstance(location, Enum) else location
         super().__init__(player=player, opts=opts)
+        self.location = location.value if isinstance(location, Enum) else location
+        self.cacheable = False
 
     def _evaluate(self, state: "CollectionState") -> bool:
         return state.can_reach_location(self.location, self.player)
@@ -444,9 +492,16 @@ class CanReachLocation(Rule):
 class CanReachRegion(Rule):
     region: str
 
-    def __init__(self, region: "RegionName | str", *, player: int = -1, opts: Tuple[Tuple[str, Any], ...] = ()) -> None:
-        self.region = region.value if isinstance(region, Enum) else region
+    def __init__(
+        self,
+        region: "RegionName | str",
+        *,
+        player: int = -1,
+        opts: Tuple[Tuple[str, Any], ...] = (),
+    ) -> None:
         super().__init__(player=player, opts=opts)
+        self.region = region.value if isinstance(region, Enum) else region
+        self.cacheable = False
 
     def _evaluate(self, state: "CollectionState") -> bool:
         return state.can_reach_region(self.region, self.player)
@@ -467,10 +522,11 @@ class CanReachEntrance(Rule):
         player: int = -1,
         opts: Tuple[Tuple[str, Any], ...] = (),
     ) -> None:
+        super().__init__(player=player, opts=opts)
         from_region = from_region.value if isinstance(from_region, Enum) else from_region
         to_region = to_region.value if isinstance(to_region, Enum) else to_region
         self.entrance = f"{from_region} -> {to_region}"
-        super().__init__(player=player, opts=opts)
+        self.cacheable = False
 
     def _evaluate(self, state: "CollectionState") -> bool:
         return state.can_reach_entrance(self.entrance, self.player)
@@ -510,8 +566,8 @@ class HasWhite(ToggleRule):
         player: int = -1,
         opts: Tuple[Tuple[str, Any], ...] = (),
     ) -> None:
-        self.otherwise = otherwise
         super().__init__(*doors, player=player, opts=opts)
+        self.otherwise = otherwise
 
 
 @dataclasses.dataclass(init=False)
@@ -525,8 +581,8 @@ class HasBlue(ToggleRule):
         player: int = -1,
         opts: Tuple[Tuple[str, Any], ...] = (),
     ) -> None:
-        self.otherwise = otherwise
         super().__init__(*doors, player=player, opts=opts)
+        self.otherwise = otherwise
 
 
 @dataclasses.dataclass(init=False)
@@ -540,8 +596,8 @@ class HasRed(ToggleRule):
         player: int = -1,
         opts: Tuple[Tuple[str, Any], ...] = (),
     ) -> None:
-        self.otherwise = otherwise
         super().__init__(*doors, player=player, opts=opts)
+        self.otherwise = otherwise
 
 
 @dataclasses.dataclass(init=False)
@@ -555,14 +611,25 @@ class HasSwitch(ToggleRule):
         player: int = -1,
         opts: Tuple[Tuple[str, Any], ...] = (),
     ) -> None:
-        self.otherwise = otherwise
         super().__init__(*switches, player=player, opts=opts)
+        self.otherwise = otherwise
 
 
 @dataclasses.dataclass(init=False)
 class HasElevator(HasAll):
-    def __init__(self, elevator: "Elevator", *, player: int = -1, opts: Tuple[Tuple[str, Any], ...] = ()) -> None:
-        super().__init__(KeyItem.ASCENDANT_KEY, elevator, player=player, opts=(*opts, ("randomize_elevator", 1)))
+    def __init__(
+        self,
+        elevator: "Elevator",
+        *,
+        player: int = -1,
+        opts: Tuple[Tuple[str, Any], ...] = (),
+    ) -> None:
+        super().__init__(
+            KeyItem.ASCENDANT_KEY,
+            elevator,
+            player=player,
+            opts=(*opts, ("randomize_elevator", 1)),
+        )
 
 
 @dataclasses.dataclass()

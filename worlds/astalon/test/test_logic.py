@@ -6,7 +6,7 @@ from . import AstalonTestBase
 
 
 class VanillaCharacterTest(AstalonTestBase):
-    options = {
+    options = {  # noqa: RUF012
         "randomize_characters": "vanilla",
         "randomize_white_keys": "false",
         "randomize_blue_keys": "true",
@@ -33,7 +33,7 @@ class VanillaCharacterTest(AstalonTestBase):
 
 
 class AllCharacterTest(AstalonTestBase):
-    options = {
+    options = {  # noqa: RUF012
         "randomize_characters": "all",
         "randomize_white_keys": "false",
         "randomize_blue_keys": "true",
@@ -48,7 +48,7 @@ class AllCharacterTest(AstalonTestBase):
 
 
 class SoloCharacterTest(AstalonTestBase):
-    options = {
+    options = {  # noqa: RUF012
         "randomize_characters": "solo",
         "randomize_health_pickups": "true",
         "randomize_attack_pickups": "true",
