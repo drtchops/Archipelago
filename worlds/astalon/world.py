@@ -293,7 +293,7 @@ class AstalonWorld(World):
             self.create_event(Events.VOID, LocationName.GT_VOID)
             self.create_event(Events.BOOTS, LocationName.MECH_BOOTS)
             self.create_event(Events.CLOAK, LocationName.MECH_CLOAK)
-            self.create_event(Events.CYCLOPS, LocationName.MECH_ZEEK)
+            self.create_event(Events.CYCLOPS, LocationName.MECH_CYCLOPS)
             self.create_event(Events.BELL, LocationName.HOTP_BELL)
             self.create_event(Events.CLAW, LocationName.HOTP_CLAW)
             self.create_event(Events.GAUNTLET, LocationName.HOTP_GAUNTLET)
