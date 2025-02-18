@@ -203,3 +203,10 @@ Thumbs.db
 
 # Ruff
 ruff.toml
+
+# Tox
+tox.ini
+tox.toml
+
+# UT
+worlds/tracker
