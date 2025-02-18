@@ -225,7 +225,8 @@ class HasInstance(RuleInstance):
         return {self.item: {id(self)}}
 
     def serialize(self) -> str:
-        return f"Has({self.item})"
+        count_display = f", count={self.count}" if self.count > 1 else ""
+        return f"Has({self.item}{count_display})"
 
 
 @dataclasses.dataclass(frozen=True)

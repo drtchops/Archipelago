@@ -7,6 +7,7 @@ from typing import TYPE_CHECKING, Any, ClassVar, Dict, Final, List, Optional, Se
 from BaseClasses import CollectionState, Item, ItemClassification, Region, Tutorial
 from Options import OptionError
 from worlds.AutoWorld import WebWorld, World
+from worlds.LauncherComponents import Component, Type, components, icon_paths, launch_subprocess
 
 from .constants import GAME_NAME
 from .items import (
@@ -63,6 +64,8 @@ if TYPE_CHECKING:
 
 logger = logging.getLogger(__name__)
 
+TRACKER_ENABLED = True
+
 CHARACTER_LOCATIONS: Final[Tuple[Tuple[Character, str], ...]] = (
     (Character.ALGUS, LocationName.GT_ALGUS.value),
     (Character.ARIAS, LocationName.GT_ARIAS.value),
@@ -80,6 +83,26 @@ CHARACTER_STARTS: Final[Dict[int, Tuple[Character, ...]]] = {
     RandomizeCharacters.option_zeek: (Character.ZEEK,),
     RandomizeCharacters.option_bram: (Character.BRAM,),
 }
+
+
+if TRACKER_ENABLED:
+    # import os
+
+    # from .. import user_folder
+
+    # Best effort to detect if universal tracker is installed
+    # if any("tracker.apworld" in f.name for f in os.scandir(user_folder)):
+
+    def launch_client():
+        from .client import launch
+
+        launch_subprocess(launch, name="Astalon Tracker")
+
+    components.append(
+        Component("Astalon Tracker", func=launch_client, component_type=Type.CLIENT, icon="astalon")
+    )
+
+    icon_paths["astalon"] = f"ap:{__name__}/astalon.png"
 
 
 class AstalonWebWorld(WebWorld):
