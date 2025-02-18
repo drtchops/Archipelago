@@ -37,10 +37,10 @@ from .locations import (
     location_name_to_id,
     location_table,
 )
+from .logic import MAIN_ENTRANCE_RULES, MAIN_LOCATION_RULES
 from .options import ApexElevator, AstalonOptions, Goal, RandomizeCharacters
 from .regions import RegionName, astalon_regions
-from .rules import AstalonRules, Events
-from .rules2.main_campaign import MAIN_ENTRANCE_RULES, MAIN_LOCATION_RULES
+from .rules import Events
 
 if TYPE_CHECKING:
     from BaseClasses import Entrance, Location, MultiWorld
@@ -135,7 +135,6 @@ class AstalonWorld(World):
     starting_characters: "List[Character]"
     required_gold_eyes: int = 0
     extra_gold_eyes: int = 0
-    rules: AstalonRules
 
     cached_spheres: ClassVar[List[Set["Location"]]]
 
@@ -200,8 +199,8 @@ class AstalonWorld(World):
         location = AstalonLocation(self.player, name, location_name_to_id.get(name), region)
         rule = MAIN_LOCATION_RULES.get(location_name)
         if rule is not None:
-            rule = rule.actualize(self)
-            if rule.falsy:
+            rule = rule.resolve(self)
+            if rule.always_false:
                 print(f"No matching rules for {name}")
             for item_name, rules in rule.deps().items():
                 self._rule_deps[item_name] |= rules
@@ -222,8 +221,8 @@ class AstalonWorld(World):
                 region_pair = (region_name, exit_region_name)
                 rule = MAIN_ENTRANCE_RULES.get(region_pair)
                 if rule is not None:
-                    rule = rule.actualize(self)
-                    if rule.falsy:
+                    rule = rule.resolve(self)
+                    if rule.always_false:
                         print(f"No matching rules for {region_name.value} -> {exit_region_name.value}")
                         continue
                     for item_name, rules in rule.deps().items():
@@ -533,14 +532,16 @@ class AstalonWorld(World):
 
     def collect(self, state: "CollectionState", item: "Item") -> bool:
         changed = super().collect(state, item)
-        if changed:
-            if getattr(self, "_rule_deps", None):
-                state._astalon_computed_rules[self.player] -= self._rule_deps[item.name]  # type: ignore
+        if changed and getattr(self, "_rule_deps", None):
+            player_results: Dict[int, bool] = state._astalon_rule_results[self.player]  # type: ignore
+            for rule_id in self._rule_deps[item.name]:
+                player_results.pop(rule_id, None)
         return changed
 
     def remove(self, state: "CollectionState", item: "Item") -> bool:
         changed = super().remove(state, item)
-        if changed:
-            if getattr(self, "_rule_deps", None):
-                state._astalon_computed_rules[self.player] -= self._rule_deps[item.name]  # type: ignore
+        if changed and getattr(self, "_rule_deps", None):
+            player_results: Dict[int, bool] = state._astalon_rule_results[self.player]  # type: ignore
+            for rule_id in self._rule_deps[item.name]:
+                player_results.pop(rule_id, None)
         return changed

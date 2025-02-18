@@ -15,7 +15,7 @@ from ..items import (
 )
 from ..locations import LocationName as L
 from ..regions import RegionName as R
-from .base import (
+from .factories import (
     And,
     CanReachEntrance,
     CanReachRegion,
@@ -30,14 +30,14 @@ from .base import (
     HasSwitch,
     HasWhite,
     Or,
-    Rule,
+    RuleFactory,
     True_,
 )
 
 easy = (("difficulty", 0),)
 hard = (("difficulty", 1),)
 characters_off = (("randomize_characters", 0),)
-characters_on = (("randomize_characters__gt", 0),)
+characters_on = (("randomize_characters__ge", 1),)
 white_off = (("randomize_white_keys", 0),)
 blue_off = (("randomize_blue_keys", 0),)
 red_off = (("randomize_red_keys", 0),)
@@ -90,7 +90,7 @@ shop_cheap = CanReachRegion(R.GT_LEFT)
 shop_moderate = CanReachRegion(R.MECH_START)
 shop_expensive = CanReachRegion(R.ROA_START)
 
-MAIN_ENTRANCE_RULES: Dict[Tuple[R, R], Rule] = {
+MAIN_ENTRANCE_RULES: Dict[Tuple[R, R], RuleFactory] = {
     (R.SHOP, R.SHOP_ALGUS): Has(Character.ALGUS),
     (R.SHOP, R.SHOP_ARIAS): Has(Character.ARIAS),
     (R.SHOP, R.SHOP_KYULI): Has(Character.KYULI),
@@ -994,7 +994,7 @@ MAIN_ENTRANCE_RULES: Dict[Tuple[R, R], Rule] = {
     (R.SP_STAR_END, R.SP_STAR_CONNECTION): And(Has(KeyItem.STAR), HasSwitch(Switch.SP_AFTER_STAR)),
 }
 
-MAIN_LOCATION_RULES: Dict[L, Rule] = {
+MAIN_LOCATION_RULES: Dict[L, RuleFactory] = {
     L.GT_GORGONHEART: Or(
         HasSwitch(Switch.GT_GH, otherwise=True),
         HasAny(Character.KYULI, KeyItem.ICARUS, KeyItem.BLOCK, KeyItem.CLOAK, KeyItem.BOOTS),
