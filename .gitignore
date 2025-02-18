@@ -207,3 +207,6 @@ ruff.toml
 # Tox
 tox.ini
 tox.toml
+
+# UT
+worlds/tracker
