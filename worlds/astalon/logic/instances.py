@@ -2,10 +2,10 @@ import dataclasses
 import itertools
 from typing import TYPE_CHECKING, ClassVar, Dict, List, Optional, Set, Tuple
 
+from ..regions import RegionName
+
 if TYPE_CHECKING:
     from BaseClasses import CollectionState
-
-    from ..regions import RegionName
 
 
 @dataclasses.dataclass(kw_only=True, frozen=True)
@@ -282,6 +282,9 @@ class CanReachRegionInstance(RuleInstance):
 
     def _evaluate(self, state: "CollectionState") -> bool:
         return state.can_reach_region(self.region, self.player)
+
+    def indirect(self) -> "Tuple[RegionName, ...]":
+        return (RegionName(self.region),)
 
     def serialize(self) -> str:
         return f"CanReachRegion({self.region})"
