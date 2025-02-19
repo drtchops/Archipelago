@@ -5,10 +5,12 @@ from worlds.AutoWorld import LogicMixin
 from ..constants import GAME_NAME
 
 if TYPE_CHECKING:
-    from BaseClasses import MultiWorld
+    from BaseClasses import CollectionState, MultiWorld
+else:
+    CollectionState = object
 
 
-class AstalonLogicMixin(LogicMixin):
+class AstalonLogicMixin(LogicMixin, CollectionState):
     multiworld: "MultiWorld"
 
     _astalon_rule_results: Dict[int, Dict[int, bool]]

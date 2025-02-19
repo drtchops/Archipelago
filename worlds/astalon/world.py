@@ -171,15 +171,9 @@ class AstalonWorld(World):
     }
     ut_can_gen_without_yaml = True
 
-    _regions: "Dict[RegionName, Region]"
-    _locations: "Dict[LocationName, Location]"
-    _entrances: "Dict[Tuple[RegionName, RegionName], Entrance]"
     _rule_deps: "Dict[str, Set[int]]"
 
     def generate_early(self) -> None:
-        self._regions = {}
-        self._locations = {}
-        self._entrances = {}
         self._rule_deps = defaultdict(set)
 
         self.starting_characters = []
@@ -218,7 +212,7 @@ class AstalonWorld(World):
     def create_location(self, name: str) -> AstalonLocation:
         location_name = LocationName(name)
         data = location_table[name]
-        region = self._regions[data.region]
+        region = self._region(data.region)
         location = AstalonLocation(self.player, name, location_name_to_id.get(name), region)
         rule = MAIN_LOCATION_RULES.get(location_name)
         if rule is not None:
@@ -229,17 +223,15 @@ class AstalonWorld(World):
                 self._rule_deps[item_name] |= rules
             location.access_rule = rule.test
         region.locations.append(location)
-        self._locations[location_name] = location
         return location
 
     def create_regions(self) -> None:
         for region_name in astalon_regions:
             region = Region(region_name.value, self.player, self.multiworld)
             self.multiworld.regions.append(region)
-            self._regions[region_name] = region
 
         for region_name, region_data in astalon_regions.items():
-            region = self._regions[region_name]
+            region = self._region(region_name)
             for exit_region_name in region_data.exits:
                 region_pair = (region_name, exit_region_name)
                 rule = MAIN_ENTRANCE_RULES.get(region_pair)
@@ -251,11 +243,10 @@ class AstalonWorld(World):
                     for item_name, rules in rule.deps().items():
                         self._rule_deps[item_name] |= rules
 
-                entrance = region.connect(self._regions[exit_region_name], rule=rule.test if rule else None)
-                self._entrances[region_pair] = entrance
+                entrance = region.connect(self._region(exit_region_name), rule=rule.test if rule else None)
                 if rule:
                     for indirect_region in rule.indirect():
-                        self.multiworld.register_indirect_condition(self._regions[indirect_region], entrance)
+                        self.multiworld.register_indirect_condition(self._region(indirect_region), entrance)
 
         logic_groups: Set[str] = set()
         if self.options.randomize_key_items:
@@ -325,7 +316,7 @@ class AstalonWorld(World):
             self.create_event(Events.BLOCK, LocationName.CATH_BLOCK)
             self.create_event(Events.STAR, LocationName.SP_STAR)
 
-        victory_region = self._regions[RegionName.FINAL_BOSS]
+        victory_region = self._region(RegionName.FINAL_BOSS)
         victory_location = AstalonLocation(self.player, Events.VICTORY.value, None, victory_region)
         victory_item = AstalonItem(
             Events.VICTORY.value,
@@ -568,3 +559,12 @@ class AstalonWorld(World):
             for rule_id in self._rule_deps[item.name]:
                 player_results.pop(rule_id, None)
         return changed
+
+    def _location(self, location: "LocationName") -> "Location":
+        return self.multiworld.get_location(location.value, self.player)
+
+    def _region(self, region: "RegionName") -> "Region":
+        return self.multiworld.get_region(region.value, self.player)
+
+    def _entrance(self, from_: "RegionName", to_: "RegionName") -> "Entrance":
+        return self.multiworld.get_entrance(f"{from_.value} -> {to_.value}", self.player)

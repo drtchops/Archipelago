@@ -82,7 +82,7 @@ class AstalonCommandProcessor(ClientCommandProcessor):  # type: ignore
                 for p in path:
                     logger.info(p.name)
                     if hasattr(p.access_rule, "__self__"):
-                        logger.info("    " + p.access_rule.__self__.serialize())
+                        logger.info("    " + p.access_rule.__self__.serialize())  # type: ignore
                     else:
                         logger.info("    TRUE")
                 return
