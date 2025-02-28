@@ -58,7 +58,7 @@ class TrueInstance(RuleInstance):
         return True
 
     def serialize(self) -> str:
-        return "TRUE"
+        return "True"
 
 
 @dataclasses.dataclass(frozen=True)
@@ -74,7 +74,7 @@ class FalseInstance(RuleInstance):
         return False
 
     def serialize(self) -> str:
-        return "FALSE"
+        return "False"
 
 
 @dataclasses.dataclass(frozen=True)
@@ -266,10 +266,14 @@ class HasAnyInstance(RuleInstance):
 @dataclasses.dataclass(frozen=True)
 class CanReachLocationInstance(RuleInstance):
     location: str
+    parent_region: str
     cacheable: bool = dataclasses.field(repr=False, default=False, init=False)
 
     def _evaluate(self, state: "CollectionState") -> bool:
         return state.can_reach_location(self.location, self.player)
+
+    def indirect(self) -> "Tuple[RegionName, ...]":
+        return (RegionName(self.parent_region),)
 
     def serialize(self) -> str:
         return f"CanReachLocation({self.location})"

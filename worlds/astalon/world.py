@@ -86,23 +86,23 @@ CHARACTER_STARTS: Final[Dict[int, Tuple[Character, ...]]] = {
 
 
 if TRACKER_ENABLED:
-    # import os
+    import os
 
-    # from .. import user_folder
+    from .. import user_folder
 
     # Best effort to detect if universal tracker is installed
-    # if any("tracker.apworld" in f.name for f in os.scandir(user_folder)):
+    if any("tracker.apworld" in f.name for f in os.scandir(user_folder)):
 
-    def launch_client():
-        from .client import launch
+        def launch_client():
+            from .client import launch
 
-        launch_subprocess(launch, name="Astalon Tracker")
+            launch_subprocess(launch, name="Astalon Tracker")
 
-    components.append(
-        Component("Astalon Tracker", func=launch_client, component_type=Type.CLIENT, icon="astalon")
-    )
+        components.append(
+            Component("Astalon Tracker", func=launch_client, component_type=Type.CLIENT, icon="astalon")
+        )
 
-    icon_paths["astalon"] = f"ap:{__name__}/astalon.png"
+        icon_paths["astalon"] = f"ap:{__name__}/astalon.png"
 
 
 class AstalonWebWorld(WebWorld):

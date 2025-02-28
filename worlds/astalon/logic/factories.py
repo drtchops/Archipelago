@@ -102,10 +102,16 @@ class RuleFactory:
 class True_(RuleFactory):
     instance_cls = TrueInstance
 
+    def serialize(self) -> str:
+        return "True"
+
 
 @dataclasses.dataclass()
 class False_(RuleFactory):
     instance_cls = FalseInstance
+
+    def serialize(self) -> str:
+        return "False"
 
 
 @dataclasses.dataclass(init=False)
@@ -317,7 +323,10 @@ class CanReachLocation(RuleFactory):
     instance_cls = CanReachLocationInstance
 
     def _instantiate(self, world: "AstalonWorld") -> "RuleInstance":
-        return CanReachLocationInstance(self.location.value, player=world.player)
+        location = world.get_location(self.location.value)
+        if not location.parent_region:
+            raise ValueError(f"Location {location.name} has no parent region")
+        return CanReachLocationInstance(location.name, location.parent_region.name, player=world.player)
 
     def serialize(self) -> str:
         return f"CanReachLocation({self.location.value})"
@@ -333,7 +342,7 @@ class CanReachRegion(RuleFactory):
         return CanReachRegionInstance(self.region.value, player=world.player)
 
     def serialize(self) -> str:
-        return f"CanReachLocation({self.region.value})"
+        return f"CanReachRegion({self.region.value})"
 
 
 @dataclasses.dataclass()
@@ -348,7 +357,7 @@ class CanReachEntrance(RuleFactory):
         return CanReachEntranceInstance(entrance, player=world.player)
 
     def serialize(self) -> str:
-        return f"CanReachLocation({self.from_region.value} -> {self.to_region.value})"
+        return f"CanReachEntrance({self.from_region.value} -> {self.to_region.value})"
 
 
 @dataclasses.dataclass(init=False)
