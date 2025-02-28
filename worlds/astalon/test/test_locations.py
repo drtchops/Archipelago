@@ -4,13 +4,17 @@ from . import AstalonTestBase
 
 
 class LocationsTest(AstalonTestBase):
-    options = {
+    options = {  # noqa: RUF012
         "difficulty": "hard",
         "randomize_characters": "vanilla",
         "randomize_white_keys": "false",
         "randomize_blue_keys": "true",
         "randomize_red_keys": "true",
     }
+
+    @property
+    def run_default_tests(self) -> bool:
+        return False
 
     def test_access_ring_hp_star(self) -> None:
         location = LocationName.GT_HP_1_RING.value

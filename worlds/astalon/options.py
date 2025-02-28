@@ -172,7 +172,8 @@ class RandomizeShop(Toggle):
 class RandomizeSwitches(Toggle):
     """
     Choose whether to randomize all ground switches, magic crystals, and face switches in the world.
-    Activating a switch will complete a check and the corresponding doors or blocks will toggle from a received item.
+    Activating a switch will complete a check and the corresponding doors or blocks
+    will toggle from a received item.
     """
 
     display_name = "Randomize Switches"
@@ -284,7 +285,7 @@ class CostMultiplier(NamedRange):
     range_end = 200
     default = 50
 
-    special_range_names = {
+    special_range_names = {  # noqa: RUF012
         "zero": 0,
         "tenth": 10,
         "quarter": 25,
@@ -373,7 +374,7 @@ class TrapPercentage(NamedRange):
     range_end = 100
     default = 10
 
-    special_range_names = {
+    special_range_names = {  # noqa: RUF012
         "none": 0,
         "tenth": 10,
         "quarter": 25,
