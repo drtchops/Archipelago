@@ -3,16 +3,20 @@ import urllib.parse
 from collections import deque
 from typing import TYPE_CHECKING, Dict, List, Optional
 
-from CommonClient import get_base_parser, gui_enabled, logger, server_loop
+from CommonClient import CommonContext, get_base_parser, gui_enabled, logger, server_loop
 from MultiServer import mark_raw
 from Utils import get_intended_text
 
 from .constants import GAME_NAME
+from .items import item_table
+from .locations import location_table
 from .regions import RegionName
 
 if TYPE_CHECKING:
     from BaseClasses import CollectionState, Entrance, Location, MultiWorld, Region
+    from NetUtils import JSONMessagePart
 
+    from .logic import RuleInstance
     from .world import AstalonWorld
 
 try:
@@ -21,7 +25,7 @@ try:
 
     tracker_loaded = True
 except ImportError:
-    from CommonClient import ClientCommandProcessor, CommonContext
+    from CommonClient import ClientCommandProcessor
 
     class TrackerGameContextMixin:
         """Expecting the TrackerGameContext to have these methods."""
@@ -44,6 +48,24 @@ except ImportError:
 
 class AstalonCommandProcessor(ClientCommandProcessor):  # type: ignore
     ctx: "AstalonClientContext"
+
+    def _print_rule(self, rule: "Optional[RuleInstance]"):
+        if rule:
+            if self.ctx.ui:
+                messages: List[JSONMessagePart] = [{"type": "text", "text": "    "}]
+                messages.extend(rule.explain())
+                self.ctx.ui.print_json(messages)
+            else:
+                logger.info("    " + rule.serialize())
+        else:
+            if self.ctx.ui:
+                messages: List[JSONMessagePart] = [
+                    {"type": "text", "text": "    "},
+                    {"type": "color", "color": "green", "text": "True"},
+                ]
+                self.ctx.ui.print_json(messages)
+            else:
+                logger.info("    True")
 
     @mark_raw
     def _cmd_route(self, input_text: str = ""):
@@ -113,18 +135,25 @@ class AstalonCommandProcessor(ClientCommandProcessor):  # type: ignore
             region = visited[region]
         path.reverse()
         for p in path:
-            logger.info(p.name)
-            if hasattr(p.access_rule, "__self__"):
-                logger.info("    " + p.access_rule.__self__.serialize())  # type: ignore
+            if self.ctx.ui:
+                self.ctx.ui.print_json(
+                    [{"type": "entrance_name", "text": p.name, "player": self.ctx.player_id}]
+                )
             else:
-                logger.info("    True")
+                logger.info(p.name)
+            self._print_rule(getattr(p.access_rule, "__self__", None))
 
         if goal_location:
-            logger.info(f"-> {goal_location.name}")
-            if hasattr(goal_location.access_rule, "__self__"):
-                logger.info("    " + goal_location.access_rule.__self__.serialize())  # type: ignore
+            if self.ctx.ui:
+                self.ctx.ui.print_json(
+                    [
+                        {"type": "text", "text": "-> "},
+                        {"type": "location_name", "text": goal_location.name, "player": self.ctx.player_id},
+                    ]
+                )
             else:
-                logger.info("    True")
+                logger.info(f"-> {goal_location.name}")
+            self._print_rule(getattr(goal_location.access_rule, "__self__", None))
 
     if not tracker_loaded:
         del _cmd_route
@@ -136,11 +165,59 @@ class AstalonClientContext(TrackerGameContext):
 
     def make_gui(self):
         ui = super().make_gui()  # before the kivy imports so kvui gets loaded first
+        from kvui import KivyJSONtoTextParser
+
+        class AstalonJSONtoTextParser(KivyJSONtoTextParser):
+            ctx: "CommonContext"
+
+            def _handle_item_name(self, node: "JSONMessagePart"):
+                flags = node.get("flags", 0)
+                item_types = []
+                if flags & 0b001:  # advancement
+                    item_types.append("progression")
+                if flags & 0b010:  # useful
+                    item_types.append("useful")
+                if flags & 0b100:  # trap
+                    item_types.append("trap")
+                if not item_types:
+                    item_types.append("normal")
+                tooltip = "Item Class: " + ", ".join(item_types)
+
+                player = node.get("player", 0)
+                slot_info = self.ctx.slot_info.get(player)
+                item_name = node.get("text", "")
+                metadata = item_table.get(item_name)
+                if slot_info and slot_info.game == GAME_NAME and metadata and metadata.description:
+                    tooltip += f"<br>{metadata.description}"
+
+                node.setdefault("refs", []).append(tooltip)  # type: ignore
+                return super(KivyJSONtoTextParser, self)._handle_item_name(node)
+
+            def _handle_location_name(self, node: "JSONMessagePart"):
+                player = node.get("player", 0)
+                slot_info = self.ctx.slot_info.get(player)
+                location_name = node.get("text", "")
+                metadata = location_table.get(location_name)
+                if slot_info and slot_info.game == GAME_NAME and metadata:
+                    parts = []
+                    if metadata.room:
+                        parts.append(f"{metadata.area.value} ({metadata.room})")
+                    else:
+                        parts.append(metadata.area.value)
+                    parts.append(f"Region: {metadata.region.value}")
+                    if metadata.description:
+                        parts.append(metadata.description)
+                    node.setdefault("refs", []).append("<br>".join(parts))  # type: ignore
+                return super()._handle_location_name(node)
 
         class AstalonManager(ui):
             # core appends ap version so this works
             base_title = f"Astalon Tracker with UT {UT_VERSION} for AP version"
-            ctx: AstalonClientContext
+            ctx: "AstalonClientContext"
+
+            def __init__(self, ctx: "CommonContext"):
+                super().__init__(ctx)
+                self.json_to_kivy_parser = AstalonJSONtoTextParser(ctx)
 
             def build(self):
                 container = super().build()

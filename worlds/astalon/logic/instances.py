@@ -6,6 +6,7 @@ from ..regions import RegionName
 
 if TYPE_CHECKING:
     from BaseClasses import CollectionState
+    from NetUtils import JSONMessagePart
 
 
 @dataclasses.dataclass(kw_only=True, frozen=True)
@@ -44,6 +45,9 @@ class RuleInstance:
     def serialize(self) -> str:
         return f"{self.__class__.__name__}()"
 
+    def explain(self) -> "List[JSONMessagePart]":
+        return [{"type": "text", "text": self.__class__.__name__}]
+
 
 @dataclasses.dataclass(frozen=True)
 class TrueInstance(RuleInstance):
@@ -60,6 +64,9 @@ class TrueInstance(RuleInstance):
     def serialize(self) -> str:
         return "True"
 
+    def explain(self) -> "List[JSONMessagePart]":
+        return [{"type": "color", "color": "green", "text": "True"}]
+
 
 @dataclasses.dataclass(frozen=True)
 class FalseInstance(RuleInstance):
@@ -75,6 +82,9 @@ class FalseInstance(RuleInstance):
 
     def serialize(self) -> str:
         return "False"
+
+    def explain(self) -> "List[JSONMessagePart]":
+        return [{"type": "color", "color": "salmon", "text": "False"}]
 
 
 @dataclasses.dataclass(frozen=True)
@@ -108,6 +118,15 @@ class AndInstance(NestedRuleInstance):
 
     def serialize(self) -> str:
         return f"({' + '.join(child.serialize() for child in self.children)})"
+
+    def explain(self) -> "List[JSONMessagePart]":
+        messages: List[JSONMessagePart] = [{"type": "text", "text": "("}]
+        for i, child in enumerate(self.children):
+            if i > 0:
+                messages.append({"type": "text", "text": " & "})
+            messages.extend(child.explain())
+        messages.append({"type": "text", "text": ")"})
+        return messages
 
     def simplify(self) -> "RuleInstance":
         children_to_process = list(self.children)
@@ -165,6 +184,15 @@ class OrInstance(NestedRuleInstance):
 
     def serialize(self) -> str:
         return f"({' | '.join(child.serialize() for child in self.children)})"
+
+    def explain(self) -> "List[JSONMessagePart]":
+        messages: List[JSONMessagePart] = [{"type": "text", "text": "("}]
+        for i, child in enumerate(self.children):
+            if i > 0:
+                messages.append({"type": "text", "text": " | "})
+            messages.extend(child.explain())
+        messages.append({"type": "text", "text": ")"})
+        return messages
 
     def simplify(self) -> "RuleInstance":
         children_to_process = list(self.children)
@@ -228,6 +256,14 @@ class HasInstance(RuleInstance):
         count_display = f", count={self.count}" if self.count > 1 else ""
         return f"Has({self.item}{count_display})"
 
+    def explain(self) -> "List[JSONMessagePart]":
+        messages: List[JSONMessagePart] = [{"type": "text", "text": "Has "}]
+        if self.count > 1:
+            messages.append({"type": "color", "color": "cyan", "text": str(self.count)})
+            messages.append({"type": "text", "text": "x "})
+        messages.append({"type": "item_name", "flags": 0b001, "text": self.item, "player": self.player})
+        return messages
+
 
 @dataclasses.dataclass(frozen=True)
 class HasAllInstance(RuleInstance):
@@ -244,6 +280,19 @@ class HasAllInstance(RuleInstance):
 
     def serialize(self) -> str:
         return f"HasAll({', '.join(self.items)})"
+
+    def explain(self) -> "List[JSONMessagePart]":
+        messages: List[JSONMessagePart] = [
+            {"type": "text", "text": "Has "},
+            {"type": "color", "color": "cyan", "text": "all"},
+            {"type": "text", "text": " of ("},
+        ]
+        for i, item in enumerate(self.items):
+            if i > 0:
+                messages.append({"type": "text", "text": ", "})
+            messages.append({"type": "item_name", "flags": 0b001, "text": item, "player": self.player})
+        messages.append({"type": "text", "text": ")"})
+        return messages
 
 
 @dataclasses.dataclass(frozen=True)
@@ -262,6 +311,19 @@ class HasAnyInstance(RuleInstance):
     def serialize(self) -> str:
         return f"HasAny({', '.join(self.items)})"
 
+    def explain(self) -> "List[JSONMessagePart]":
+        messages: List[JSONMessagePart] = [
+            {"type": "text", "text": "Has "},
+            {"type": "color", "color": "cyan", "text": "any"},
+            {"type": "text", "text": " of ("},
+        ]
+        for i, item in enumerate(self.items):
+            if i > 0:
+                messages.append({"type": "text", "text": ", "})
+            messages.append({"type": "item_name", "flags": 0b001, "text": item, "player": self.player})
+        messages.append({"type": "text", "text": ")"})
+        return messages
+
 
 @dataclasses.dataclass(frozen=True)
 class CanReachLocationInstance(RuleInstance):
@@ -278,6 +340,12 @@ class CanReachLocationInstance(RuleInstance):
     def serialize(self) -> str:
         return f"CanReachLocation({self.location})"
 
+    def explain(self) -> "List[JSONMessagePart]":
+        return [
+            {"type": "text", "text": "Reached Location "},
+            {"type": "location_name", "text": self.location, "player": self.player},
+        ]
+
 
 @dataclasses.dataclass(frozen=True)
 class CanReachRegionInstance(RuleInstance):
@@ -293,6 +361,12 @@ class CanReachRegionInstance(RuleInstance):
     def serialize(self) -> str:
         return f"CanReachRegion({self.region})"
 
+    def explain(self) -> "List[JSONMessagePart]":
+        return [
+            {"type": "text", "text": "Reached Region "},
+            {"type": "color", "color": "yellow", "text": self.region},
+        ]
+
 
 @dataclasses.dataclass(frozen=True)
 class CanReachEntranceInstance(RuleInstance):
@@ -304,3 +378,9 @@ class CanReachEntranceInstance(RuleInstance):
 
     def serialize(self) -> str:
         return f"CanReachEntrance({self.entrance})"
+
+    def explain(self) -> "List[JSONMessagePart]":
+        return [
+            {"type": "text", "text": "Reached Entrance "},
+            {"type": "entrance_name", "text": self.entrance, "player": self.player},
+        ]

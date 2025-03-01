@@ -43,6 +43,14 @@ from .options import ApexElevator, AstalonOptions, Goal, RandomizeCharacters
 from .regions import RegionName, astalon_regions
 from .rules import Events
 
+try:
+    # Best effort to detect if universal tracker is installed
+    from worlds import tracker  # noqa: F401
+
+    TRACKER_ENABLED = True
+except ImportError:
+    TRACKER_ENABLED = False
+
 if TYPE_CHECKING:
     from BaseClasses import Entrance, Location, MultiWorld
     from Options import Option
@@ -64,8 +72,6 @@ if TYPE_CHECKING:
 
 logger = logging.getLogger(__name__)
 
-TRACKER_ENABLED = True
-
 CHARACTER_LOCATIONS: Final[Tuple[Tuple[Character, str], ...]] = (
     (Character.ALGUS, LocationName.GT_ALGUS.value),
     (Character.ARIAS, LocationName.GT_ARIAS.value),
@@ -86,23 +92,17 @@ CHARACTER_STARTS: Final[Dict[int, Tuple[Character, ...]]] = {
 
 
 if TRACKER_ENABLED:
-    import os
 
-    from .. import user_folder
+    def launch_client():
+        from .client import launch
 
-    # Best effort to detect if universal tracker is installed
-    if any("tracker.apworld" in f.name for f in os.scandir(user_folder)):
+        launch_subprocess(launch, name="Astalon Tracker")
 
-        def launch_client():
-            from .client import launch
+    components.append(
+        Component("Astalon Tracker", func=launch_client, component_type=Type.CLIENT, icon="astalon")
+    )
 
-            launch_subprocess(launch, name="Astalon Tracker")
-
-        components.append(
-            Component("Astalon Tracker", func=launch_client, component_type=Type.CLIENT, icon="astalon")
-        )
-
-        icon_paths["astalon"] = f"ap:{__name__}/astalon.png"
+    icon_paths["astalon"] = f"ap:{__name__}/astalon.png"
 
 
 class AstalonWebWorld(WebWorld):
