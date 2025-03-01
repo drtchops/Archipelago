@@ -468,11 +468,6 @@ class AstalonWorld(World):
     def get_trap_item_name(self) -> str:
         return self.random.choice(trap_items)
 
-    # def set_rules(self) -> None:
-    #     self.rules.set_region_rules()
-    #     self.rules.set_location_rules()
-    #     self.rules.set_indirect_conditions()
-
     @classmethod
     def stage_post_fill(cls, multiworld: "MultiWorld") -> None:
         # Cache spheres for hint calculation after fill completes.
