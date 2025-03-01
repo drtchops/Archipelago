@@ -20,6 +20,7 @@ from .items import (
     AstalonItem,
     Character,
     Elevator,
+    Events,
     Eye,
     ItemGroup,
     Key,
@@ -41,7 +42,6 @@ from .locations import (
 from .logic import MAIN_ENTRANCE_RULES, MAIN_LOCATION_RULES
 from .options import ApexElevator, AstalonOptions, Goal, RandomizeCharacters
 from .regions import RegionName, astalon_regions
-from .rules import Events
 
 if TYPE_CHECKING:
     from BaseClasses import Entrance, Location, MultiWorld

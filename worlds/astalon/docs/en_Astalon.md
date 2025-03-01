@@ -37,7 +37,7 @@ Items for other worlds will appear as a blue orb if they're a progression item, 
 
 ## Are there any unexpected bits of logic the randomizer uses?
 
-- Arias can get more height from jumping while slashing his sword
+- Arias and Bram can get more height from jumping while attacking
 - There are multiple connections between Mechanism and Hall of the Phantoms
 - If you have Blood Chalice you can damage boost through some obstacles
 - If you have Icarus Emblem or Talaria Boots you can clear some gaps you otherwise couldn't

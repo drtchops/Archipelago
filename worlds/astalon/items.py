@@ -473,6 +473,32 @@ QOL_ITEMS: Tuple[ShopUpgrade, ...] = (
 )
 
 
+class Events(str, Enum):
+    VICTORY = "Victory"
+    EYE_RED = Eye.RED.value
+    EYE_BLUE = Eye.BLUE.value
+    EYE_GREEN = Eye.GREEN.value
+    SWORD = KeyItem.SWORD.value
+    ASCENDANT_KEY = KeyItem.ASCENDANT_KEY.value
+    ADORNED_KEY = KeyItem.ADORNED_KEY.value
+    BANISH = KeyItem.BANISH.value
+    VOID = KeyItem.VOID.value
+    BOOTS = KeyItem.BOOTS.value
+    CLOAK = KeyItem.CLOAK.value
+    CYCLOPS = KeyItem.CYCLOPS.value
+    BELL = KeyItem.BELL.value
+    CLAW = KeyItem.CLAW.value
+    GAUNTLET = KeyItem.GAUNTLET.value
+    ICARUS = KeyItem.ICARUS.value
+    CHALICE = KeyItem.CHALICE.value
+    BOW = KeyItem.BOW.value
+    CROWN = KeyItem.CROWN.value
+    BLOCK = KeyItem.BLOCK.value
+    STAR = KeyItem.STAR.value
+    ZEEK = Character.ZEEK.value
+    BRAM = Character.BRAM.value
+
+
 class AstalonItem(Item):
     game = GAME_NAME
 
