@@ -67,96 +67,99 @@ class AstalonCommandProcessor(ClientCommandProcessor):  # type: ignore
             else:
                 logger.info("    True")
 
-    @mark_raw
-    def _cmd_route(self, input_text: str = ""):
-        """Explain the route to get to a location or region"""
-        world = self.ctx.get_world()
-        if not world:
-            return
+    if tracker_loaded:
 
-        goal_location: Location | None = None
-        goal_region: Region | None = None
-        region_name = ""
-        location_name, usable, response = get_intended_text(input_text, world.location_names)
-        if usable:
-            goal_location = world.get_location(location_name)
-            goal_region = goal_location.parent_region
-            if not goal_region:
-                logger.warning(f"Location {location_name} has no parent region")
+        @mark_raw
+        def _cmd_route(self, input_text: str = ""):
+            """Explain the route to get to a location or region"""
+            world = self.ctx.get_world()
+            if not world:
                 return
-        else:
-            region_name, usable, _ = get_intended_text(
-                input_text,
-                [r.name for r in world.multiworld.get_regions(world.player)],
-            )
+
+            goal_location: Location | None = None
+            goal_region: Region | None = None
+            region_name = ""
+            location_name, usable, response = get_intended_text(input_text, world.location_names)
             if usable:
-                goal_region = world.get_region(region_name)
+                goal_location = world.get_location(location_name)
+                goal_region = goal_location.parent_region
+                if not goal_region:
+                    logger.warning(f"Location {location_name} has no parent region")
+                    return
             else:
-                logger.warning(response)
+                region_name, usable, _ = get_intended_text(
+                    input_text,
+                    [r.name for r in world.multiworld.get_regions(world.player)],
+                )
+                if usable:
+                    goal_region = world.get_region(region_name)
+                else:
+                    logger.warning(response)
+                    return
+
+            state = get_updated_state(self.ctx)
+            if goal_location and not goal_location.can_reach(state):
+                logger.warning(f"Location {goal_location.name} cannot be reached")
+                return
+            if goal_region and not goal_region.can_reach(state):
+                logger.warning(f"Region {goal_region.name} cannot be reached")
                 return
 
-        state = get_updated_state(self.ctx)
-        if goal_location and not goal_location.can_reach(state):
-            logger.warning(f"Location {goal_location.name} cannot be reached")
-            return
-        if goal_region and not goal_region.can_reach(state):
-            logger.warning(f"Region {goal_region.name} cannot be reached")
-            return
+            start = world.get_region(RegionName.GT_ENTRANCE.value)
+            visited: Dict[Region, Optional[Region]] = {start: None}
+            q: deque[Region] = deque()
+            q.append(start)
 
-        start = world.get_region(RegionName.GT_ENTRANCE.value)
-        visited: Dict[Region, Optional[Region]] = {start: None}
-        q: deque[Region] = deque()
-        q.append(start)
+            found = False
+            region = None
+            while q:
+                region = q.popleft()
+                if region == goal_region:
+                    found = True
+                    break
 
-        found = False
-        region = None
-        while q:
-            region = q.popleft()
-            if region == goal_region:
-                found = True
-                break
+                for entrance in region.get_exits():
+                    exit_region: Region = entrance.connected_region
+                    if exit_region and exit_region not in visited and entrance.can_reach(state):
+                        visited[exit_region] = region
+                        q.append(exit_region)
 
-            for entrance in region.get_exits():
-                exit_region: Region = entrance.connected_region
-                if exit_region and exit_region not in visited and entrance.can_reach(state):
-                    visited[exit_region] = region
-                    q.append(exit_region)
+            if not found:
+                logger.warning(f"Could not find path to {location_name or region_name}")
 
-        if not found:
-            logger.warning(f"Could not find path to {location_name or region_name}")
+            path: List[Entrance] = []
+            prev = None
+            while region:
+                if prev:
+                    entrance = world.get_entrance(f"{region.name} -> {prev.name}")
+                    path.append(entrance)
+                prev = region
+                region = visited[region]
+            path.reverse()
+            for p in path:
+                if self.ctx.ui:
+                    self.ctx.ui.print_json(
+                        [{"type": "entrance_name", "text": p.name, "player": self.ctx.player_id}]
+                    )
+                else:
+                    logger.info(p.name)
+                self._print_rule(getattr(p.access_rule, "__self__", None))
 
-        path: List[Entrance] = []
-        prev = None
-        while region:
-            if prev:
-                entrance = world.get_entrance(f"{region.name} -> {prev.name}")
-                path.append(entrance)
-            prev = region
-            region = visited[region]
-        path.reverse()
-        for p in path:
-            if self.ctx.ui:
-                self.ctx.ui.print_json(
-                    [{"type": "entrance_name", "text": p.name, "player": self.ctx.player_id}]
-                )
-            else:
-                logger.info(p.name)
-            self._print_rule(getattr(p.access_rule, "__self__", None))
-
-        if goal_location:
-            if self.ctx.ui:
-                self.ctx.ui.print_json(
-                    [
-                        {"type": "text", "text": "-> "},
-                        {"type": "location_name", "text": goal_location.name, "player": self.ctx.player_id},
-                    ]
-                )
-            else:
-                logger.info(f"-> {goal_location.name}")
-            self._print_rule(getattr(goal_location.access_rule, "__self__", None))
-
-    if not tracker_loaded:
-        del _cmd_route
+            if goal_location:
+                if self.ctx.ui:
+                    self.ctx.ui.print_json(
+                        [
+                            {"type": "text", "text": "-> "},
+                            {
+                                "type": "location_name",
+                                "text": goal_location.name,
+                                "player": self.ctx.player_id,
+                            },
+                        ]
+                    )
+                else:
+                    logger.info(f"-> {goal_location.name}")
+                self._print_rule(getattr(goal_location.access_rule, "__self__", None))
 
 
 class AstalonClientContext(TrackerGameContext):
