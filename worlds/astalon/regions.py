@@ -26,6 +26,7 @@ class RegionName(str, Enum):
     GT_TOP_LEFT = "Gorgon Tomb - Top Left"
     GT_TOP_RIGHT = "Gorgon Tomb - Top Right"
     GT_SPIKE_TUNNEL = "Gorgon Tomb - Spike Tunnel"
+    GT_SPIKE_TUNNEL_SWITCH = "Gorgon Tomb - Spike Tunnel Switch"
     GT_BUTT = "Gorgon Tomb - Butt"
     GT_BOSS = "Gorgon Tomb - Boss"
     GT_LADDER_SWITCH = "Gorgon Tomb - Ladder Switch"
@@ -365,13 +366,19 @@ astalon_regions: Dict[RegionName, RegionData] = {
     RegionName.GT_SPIKE_TUNNEL: RegionData(
         exits=(
             RegionName.GT_TOP_RIGHT,
+            RegionName.GT_SPIKE_TUNNEL_SWITCH,
+        ),
+    ),
+    RegionName.GT_SPIKE_TUNNEL_SWITCH: RegionData(
+        exits=(
+            RegionName.GT_SPIKE_TUNNEL,
             RegionName.GT_BUTT,
         ),
     ),
     RegionName.GT_BUTT: RegionData(
         exits=(
             RegionName.GT_TOP_LEFT,
-            RegionName.GT_SPIKE_TUNNEL,
+            RegionName.GT_SPIKE_TUNNEL_SWITCH,
             RegionName.GT_BOSS,
         ),
     ),
@@ -764,7 +771,6 @@ astalon_regions: Dict[RegionName, RegionData] = {
     ),
     RegionName.HOTP_BELL_CAMPFIRE: RegionData(
         exits=(
-            RegionName.HOTP_TP_TUTORIAL,
             RegionName.HOTP_RED_KEY,
             RegionName.HOTP_BELL,
             RegionName.HOTP_CATH_CONNECTION,
@@ -956,10 +962,7 @@ astalon_regions: Dict[RegionName, RegionData] = {
         ),
     ),
     RegionName.ROA_SPIKE_CLIMB: RegionData(
-        exits=(
-            RegionName.ROA_HEARTS,
-            RegionName.ROA_BOTTOM_ASCEND,
-        ),
+        exits=(RegionName.ROA_BOTTOM_ASCEND,),
     ),
     RegionName.ROA_BOTTOM_ASCEND: RegionData(
         exits=(
@@ -985,7 +988,6 @@ astalon_regions: Dict[RegionName, RegionData] = {
     RegionName.ROA_LOWER_VOID_CONNECTION: RegionData(
         exits=(
             RegionName.ROA_WORMS,
-            RegionName.ROA_ARENA,
             RegionName.ROA_LOWER_VOID,
             RegionName.ROA_ARIAS_BABY_GORGON,
             RegionName.ROA_FLAMES_CONNECTION,
@@ -1377,10 +1379,7 @@ astalon_regions: Dict[RegionName, RegionData] = {
         ),
     ),
     RegionName.CATA_VOID_R: RegionData(
-        exits=(
-            RegionName.CATA_DOUBLE_DOOR,
-            RegionName.CATA_VOID_L,
-        ),
+        exits=(RegionName.CATA_VOID_L,),
         portal=True,
     ),
     RegionName.CATA_VOID_L: RegionData(
@@ -1403,7 +1402,6 @@ astalon_regions: Dict[RegionName, RegionData] = {
             RegionName.CATA_CENTAUR,
             RegionName.CATA_VOID_L,
             RegionName.TR_START,
-            RegionName.TR_START,
         ),
         boss=True,
         campfire=True,
@@ -1419,7 +1417,6 @@ astalon_regions: Dict[RegionName, RegionData] = {
             RegionName.ROA_ELEVATOR,
             RegionName.APEX,
             RegionName.CATA_ELEVATOR,
-            RegionName.CATA_BOSS,
             RegionName.CATA_BOSS,
             RegionName.TR_BRAM,
             RegionName.TR_LEFT,

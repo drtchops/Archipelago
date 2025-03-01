@@ -6,7 +6,7 @@ class DefaultTest(AstalonTestBase):
 
 
 class KeysTest(AstalonTestBase):
-    options = {
+    options = {  # noqa: RUF012
         "randomize_white_keys": "true",
         "randomize_blue_keys": "true",
         "randomize_red_keys": "true",
@@ -14,14 +14,14 @@ class KeysTest(AstalonTestBase):
 
 
 class SwitchesTest(AstalonTestBase):
-    options = {
+    options = {  # noqa: RUF012
         "randomize_elevator": "true",
         "randomize_switches": "true",
     }
 
 
 class SwitchesOnlyTest(AstalonTestBase):
-    options = {
+    options = {  # noqa: RUF012
         "difficulty": "hard",
         "randomize_characters": "vanilla",
         "randomize_key_items": "false",
@@ -37,7 +37,7 @@ class SwitchesOnlyTest(AstalonTestBase):
 
 
 class AllEasyTest(AstalonTestBase):
-    options = {
+    options = {  # noqa: RUF012
         "difficulty": "easy",
         "randomize_characters": "solo",
         "randomize_key_items": "true",
@@ -56,7 +56,7 @@ class AllEasyTest(AstalonTestBase):
 
 
 class AllHardTest(AstalonTestBase):
-    options = {
+    options = {  # noqa: RUF012
         "difficulty": "hard",
         "randomize_characters": "solo",
         "randomize_key_items": "true",
@@ -76,7 +76,7 @@ class AllHardTest(AstalonTestBase):
 
 
 class VanillaTest(AstalonTestBase):
-    options = {
+    options = {  # noqa: RUF012
         "randomize_characters": "vanilla",
         "randomize_key_items": "false",
         "randomize_health_pickups": "false",
@@ -94,7 +94,7 @@ class VanillaTest(AstalonTestBase):
 
 
 class EyeHuntTest(AstalonTestBase):
-    options = {
+    options = {  # noqa: RUF012
         "goal": "eye_hunt",
         "additional_eyes_required": "6",
         "extra_eyes": "33",
