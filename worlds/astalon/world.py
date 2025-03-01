@@ -209,7 +209,7 @@ class AstalonWorld(World):
         if rule is not None:
             rule = rule.resolve(self)
             if rule.always_false:
-                print(f"No matching rules for {name}")
+                logger.debug(f"No matching rules for {name}")
             for item_name, rules in rule.deps().items():
                 self._rule_deps[item_name] |= rules
             location.access_rule = rule.test
@@ -229,7 +229,7 @@ class AstalonWorld(World):
                 if rule is not None:
                     rule = rule.resolve(self)
                     if rule.always_false:
-                        print(f"No matching rules for {region_name.value} -> {exit_region_name.value}")
+                        logger.debug(f"No matching rules for {region_name.value} -> {exit_region_name.value}")
                         continue
                     for item_name, rules in rule.deps().items():
                         self._rule_deps[item_name] |= rules
