@@ -9,7 +9,7 @@ from Options import OptionError
 from worlds.AutoWorld import WebWorld, World
 from worlds.LauncherComponents import Component, Type, components, icon_paths, launch_subprocess
 
-from .constants import GAME_NAME
+from .constants import GAME_NAME, VERSION
 from .items import (
     CHARACTERS,
     EARLY_BLUE_DOORS,
@@ -483,7 +483,7 @@ class AstalonWorld(World):
 
     def fill_slot_data(self) -> Dict[str, Any]:
         return {
-            "version": "0.21.2",
+            "version": VERSION,
             "options": self.options.as_dict(
                 *[field.name for field in dataclasses.fields(self.options)],
                 casing="snake",

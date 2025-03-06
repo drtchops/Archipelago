@@ -616,7 +616,7 @@ MAIN_ENTRANCE_RULES: Dict[Tuple[R, R], RuleFactory] = {
     (R.ROA_START, R.ROA_WORMS): Or(
         HasSwitch(Crystal.ROA_1ST_ROOM),
         # this should be more complicated
-        And(Has(KeyItem.BELL), can_crystal),
+        And(Has(KeyItem.BELL), can_crystal, opts=switch_off),
     ),
     (R.ROA_WORMS, R.ROA_START): Or(
         HasSwitch(Switch.ROA_WORMS, otherwise=True),
