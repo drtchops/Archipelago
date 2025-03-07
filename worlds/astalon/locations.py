@@ -857,7 +857,7 @@ ALL_LOCATIONS: Tuple[LocationData, ...] = (
     ),
     LocationData(
         LocationName.MECH_SWITCH_BOSS_ACCESS_2,
-        RegionName.MECH_BOSS_CONNECTION,
+        RegionName.MECH_BRAM_TUNNEL_CONNECTION,
         LocationGroup.SWITCH,
         Area.MECH,
     ),

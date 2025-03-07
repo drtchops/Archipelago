@@ -7,7 +7,7 @@ from CommonClient import CommonContext, get_base_parser, gui_enabled, logger, se
 from MultiServer import mark_raw
 from Utils import get_intended_text
 
-from .constants import GAME_NAME
+from .constants import GAME_NAME, VERSION
 from .items import item_table
 from .locations import location_table
 from .regions import RegionName
@@ -215,7 +215,7 @@ class AstalonClientContext(TrackerGameContext):
 
         class AstalonManager(ui):
             # core appends ap version so this works
-            base_title = f"Astalon Tracker with UT {UT_VERSION} for AP version"
+            base_title = f"Astalon Tracker v{VERSION} with UT {UT_VERSION} for AP version"
             ctx: "AstalonClientContext"
 
             def __init__(self, ctx: "CommonContext"):

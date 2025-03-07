@@ -1154,10 +1154,6 @@ MAIN_LOCATION_RULES: Dict[L, RuleFactory] = {
             CanReachRegion(R.GT_ARIAS_SWORD_SWITCH, opts=switch_off),
         ),
     ),
-    L.MECH_SWITCH_BOSS_ACCESS_2: Or(
-        HasSwitch(Switch.MECH_BOSS_1, otherwise=True),
-        CanReachRegion(R.MECH_BRAM_TUNNEL),
-    ),
     L.MECH_SWITCH_BOOTS_ACCESS: HasAny(Eye.RED, KeyItem.STAR),
     L.MECH_SWITCH_UPPER_VOID_DROP: Has(KeyItem.CLAW),
     L.MECH_SWITCH_CANNON: Or(HasSwitch(Crystal.MECH_CANNON), otherwise_crystal),
@@ -1204,8 +1200,14 @@ MAIN_LOCATION_RULES: Dict[L, RuleFactory] = {
     L.ROA_SWITCH_TRIPLE_3: Or(HasSwitch(Crystal.ROA_TRIPLE_2), otherwise_crystal),
     L.ROA_CRYSTAL_1ST_ROOM: And(can_crystal, HasAll(Character.KYULI, KeyItem.BELL)),
     L.ROA_CRYSTAL_BABY_GORGON: can_crystal,
-    L.ROA_CRYSTAL_LADDER_R: can_crystal_wo_whiplash,
-    L.ROA_CRYSTAL_LADDER_L: can_crystal_wo_whiplash,
+    L.ROA_CRYSTAL_LADDER_R: And(
+        can_crystal_wo_whiplash,
+        Or(Has(KeyItem.BELL), Has(ShopUpgrade.KYULI_RAY, opts=hard)),
+    ),
+    L.ROA_CRYSTAL_LADDER_L: And(
+        can_crystal_wo_whiplash,
+        Or(Has(KeyItem.BELL), Has(ShopUpgrade.KYULI_RAY, opts=hard)),
+    ),
     L.ROA_CRYSTAL_CENTAUR: And(can_crystal, HasAll(KeyItem.BELL, Character.ARIAS)),
     L.ROA_CRYSTAL_SPIKE_BALLS: can_crystal,
     L.ROA_CRYSTAL_SHAFT: can_crystal,
