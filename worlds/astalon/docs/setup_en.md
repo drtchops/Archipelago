@@ -27,11 +27,11 @@ After installing, your game folder should contain a `BepInEx` folder, like this:
 
 ![Contents of the Astalon Tears of the Earth folder after installing BepInEx, there's a BepInEx folder beside the Astalon_Data folder](./game_dir.png)
 
-Inside of `BepInEx/plugins` should look like this:
+Inside of `BepInEx/plugins/Archipelago.Astalon` should look like this:
 
-<!-- ![Contents of the plugins folder after installing the randomizer mod, there's an Archipelago.dll file among others](/static/generated/docs/Astalon/plugins_dir.png) -->
+<!-- ![Contents of the Archipelago.Astalon folder after installing the randomizer mod, there's an Archipelago.Astalon.dll file among others](/static/generated/docs/Astalon/plugins_dir.png) -->
 
-![Contents of the plugins folder after installing the randomizer mod, there's an Archipelago.dll file among others](./plugins_dir.png)
+![Contents of the Archipelago.Astalon folder after installing the randomizer mod, there's an Archipelago.Astalon.dll file among others](./plugins_dir.png)
 
 ## Connecting
 
