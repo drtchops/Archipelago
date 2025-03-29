@@ -174,7 +174,7 @@ MAIN_ENTRANCE_RULES: Dict[Tuple[R, R], RuleFactory] = {
     ),
     (R.GT_BUTT, R.GT_TOP_LEFT): HasSwitch(Switch.GT_BUTT_ACCESS),
     (R.GT_BUTT, R.GT_SPIKE_TUNNEL_SWITCH): Has(KeyItem.STAR),
-    (R.GT_BUTT, R.GT_BOSS): HasWhite(WhiteDoor.GT_TAUROS, otherwise=True),
+    (R.GT_BUTT, R.GT_BOSS): Or(HasWhite(WhiteDoor.GT_TAUROS), CanReachRegion(R.GT_TOP_RIGHT, opts=white_off)),
     (R.GT_BOSS, R.GT_BUTT): HasWhite(WhiteDoor.GT_TAUROS),
     (R.GT_BOSS, R.MECH_START): Has(Eye.RED),
     (R.GT_BOSS, R.MECH_ZEEK_CONNECTION): HasElevator(Elevator.MECH_1),
@@ -216,7 +216,14 @@ MAIN_ENTRANCE_RULES: Dict[Tuple[R, R], RuleFactory] = {
     (R.MECH_START, R.MECH_BK): And(HasBlue(BlueDoor.MECH_SHORTCUT, otherwise=True), can_extra_height),
     (R.MECH_START, R.MECH_WATCHER): And(
         Or(HasSwitch(Switch.MECH_CANNON), otherwise_crystal),
-        HasWhite(WhiteDoor.MECH_2ND, otherwise=True),
+        Or(
+            HasWhite(WhiteDoor.MECH_2ND),
+            And(
+                CanReachRegion(R.MECH_SWORD_CONNECTION),
+                HasSwitch(Switch.MECH_LOWER_KEY, otherwise=True),
+                opts=white_off,
+            ),
+        ),
     ),
     (R.MECH_START, R.MECH_LINUS): Or(HasSwitch(Crystal.MECH_LINUS), otherwise_crystal),
     (R.MECH_START, R.MECH_LOWER_VOID): HasBlue(BlueDoor.MECH_RED, otherwise=True),
@@ -259,7 +266,14 @@ MAIN_ENTRANCE_RULES: Dict[Tuple[R, R], RuleFactory] = {
     (R.MECH_LOWER_VOID, R.HOTP_MECH_VOID_CONNECTION): Has(Eye.BLUE),
     (R.MECH_WATCHER, R.MECH_START): And(
         HasSwitch(Switch.MECH_CANNON),
-        HasWhite(WhiteDoor.MECH_2ND, otherwise=True),
+        Or(
+            HasWhite(WhiteDoor.MECH_2ND),
+            And(
+                CanReachRegion(R.MECH_SWORD_CONNECTION),
+                HasSwitch(Switch.MECH_LOWER_KEY, otherwise=True),
+                opts=white_off,
+            ),
+        ),
     ),
     (R.MECH_WATCHER, R.MECH_ROOTS): Or(Has(KeyItem.CLAW), HasSwitch(Switch.MECH_WATCHER, otherwise=True)),
     (R.MECH_ROOTS, R.MECH_ZEEK_CONNECTION): HasAll(KeyItem.CLAW, KeyItem.BLOCK, KeyItem.BELL),
@@ -357,14 +371,20 @@ MAIN_ENTRANCE_RULES: Dict[Tuple[R, R], RuleFactory] = {
     (R.MECH_UPPER_VOID, R.MECH_RIGHT): HasSwitch(Switch.MECH_UPPER_VOID, otherwise=True),
     (R.MECH_UPPER_VOID, R.MECH_LOWER_VOID): Has(KeyItem.VOID),
     (R.MECH_BELOW_POTS, R.MECH_RIGHT): Or(
-        HasWhite(WhiteDoor.MECH_ARENA, otherwise=True),
+        HasWhite(WhiteDoor.MECH_ARENA),
         HasSwitch(Switch.MECH_EYEBALL, otherwise=True),
     ),
     (R.MECH_BELOW_POTS, R.MECH_POTS): HasSwitch(Switch.MECH_POTS, otherwise=True),
     (R.MECH_POTS, R.MECH_BELOW_POTS): HasSwitch(Switch.MECH_POTS),
     (R.MECH_POTS, R.MECH_TOP): HasSwitch(Switch.MECH_POTS, otherwise=True),
     (R.MECH_TOP, R.MECH_POTS): HasSwitch(Switch.MECH_POTS),
-    (R.MECH_TOP, R.MECH_TP_CONNECTION): Or(Has(KeyItem.CLAW), HasWhite(WhiteDoor.MECH_TOP, otherwise=True)),
+    (R.MECH_TOP, R.MECH_TP_CONNECTION): Or(
+        Has(KeyItem.CLAW),
+        Or(
+            HasWhite(WhiteDoor.MECH_TOP),
+            And(can_extra_height, Or(HasSwitch(Crystal.MECH_TOP), otherwise_crystal), opts=white_off),
+        ),
+    ),
     (R.MECH_TOP, R.MECH_CD_ACCESS): And(
         Has(Eye.BLUE),
         HasBlue(BlueDoor.MECH_CD, otherwise=True),
@@ -378,15 +398,16 @@ MAIN_ENTRANCE_RULES: Dict[Tuple[R, R], RuleFactory] = {
     (R.MECH_TOP, R.MECH_TRIPLE_SWITCHES): And(
         can_crystal,
         Or(HasSwitch(Switch.MECH_ARIAS_CYCLOPS), Has(Character.ARIAS, opts=switch_off)),
-        HasWhite(WhiteDoor.MECH_TOP, otherwise=True),
+        Or(
+            HasWhite(WhiteDoor.MECH_TOP),
+            And(can_extra_height, Or(HasSwitch(Crystal.MECH_TOP), otherwise_crystal), opts=white_off),
+            HasAll(KeyItem.CLAW, KeyItem.BELL),
+        ),
     ),
     (R.MECH_TP_CONNECTION, R.HOTP_FALL_BOTTOM): Or(Has(KeyItem.CLAW), HasSwitch(Switch.MECH_MAZE_BACKDOOR)),
-    (R.MECH_TP_CONNECTION, R.MECH_TOP): Or(Has(KeyItem.CLAW), HasWhite(WhiteDoor.MECH_TOP, otherwise=True)),
+    (R.MECH_TP_CONNECTION, R.MECH_TOP): Or(Has(KeyItem.CLAW), HasWhite(WhiteDoor.MECH_TOP)),
     (R.MECH_TP_CONNECTION, R.MECH_CHARACTER_SWAPS): Or(
-        And(
-            Has(Character.ARIAS),
-            Or(HasWhite(WhiteDoor.MECH_TOP, otherwise=True), Has(KeyItem.BELL)),
-        ),
+        HasAll(Character.ARIAS, KeyItem.BELL),
         HasSwitch(Switch.MECH_ARIAS_CYCLOPS),
     ),
     (R.MECH_CHARACTER_SWAPS, R.MECH_CLOAK_CONNECTION): And(
@@ -446,7 +467,10 @@ MAIN_ENTRANCE_RULES: Dict[Tuple[R, R], RuleFactory] = {
     (R.HOTP_START, R.MECH_BOSS): Has(Eye.BLUE),
     (R.HOTP_START, R.HOTP_START_BOTTOM): Or(
         Has(KeyItem.STAR),
-        And(HasWhite(WhiteDoor.HOTP_START, otherwise=True), Has(Eye.BLUE)),
+        And(
+            Or(HasWhite(WhiteDoor.HOTP_START), CanReachRegion(R.HOTP_START_LEFT, opts=white_off)),
+            Has(Eye.BLUE),
+        ),
     ),
     (R.HOTP_START, R.HOTP_START_MID): HasSwitch(Switch.HOTP_1ST_ROOM, otherwise=True),
     (R.HOTP_START_MID, R.HOTP_START_LEFT): Or(
@@ -464,7 +488,7 @@ MAIN_ENTRANCE_RULES: Dict[Tuple[R, R], RuleFactory] = {
     (R.HOTP_START_BOTTOM, R.MECH_BRAM_TUNNEL): Has(KeyItem.STAR),
     (R.HOTP_START_BOTTOM, R.HOTP_START): Or(
         Has(KeyItem.STAR),
-        And(HasWhite(WhiteDoor.HOTP_START, otherwise=True), Has(Eye.BLUE)),
+        And(HasWhite(WhiteDoor.HOTP_START), Has(Eye.BLUE)),
     ),
     (R.HOTP_START_BOTTOM, R.HOTP_START_BOTTOM_MID): HasAll(KeyItem.BLOCK, KeyItem.BELL, KeyItem.STAR),
     (R.HOTP_START_BOTTOM, R.HOTP_LOWER): Or(
@@ -587,7 +611,10 @@ MAIN_ENTRANCE_RULES: Dict[Tuple[R, R], RuleFactory] = {
         Or(Has(KeyItem.SWORD), HasAll(Character.KYULI, KeyItem.BLOCK, KeyItem.BELL)),
     ),
     (R.HOTP_BOSS_CAMPFIRE, R.HOTP_TP_PUZZLE): Has(Eye.GREEN),
-    (R.HOTP_BOSS_CAMPFIRE, R.HOTP_BOSS): HasWhite(WhiteDoor.HOTP_BOSS, otherwise=True),
+    (R.HOTP_BOSS_CAMPFIRE, R.HOTP_BOSS): Or(
+        HasWhite(WhiteDoor.HOTP_BOSS),
+        Has(Character.ARIAS, opts=white_off),
+    ),
     (R.HOTP_TP_PUZZLE, R.HOTP_TP_FALL_TOP): Or(
         Has(KeyItem.STAR),
         HasSwitch(Switch.HOTP_TP_PUZZLE, otherwise=True),
@@ -623,10 +650,13 @@ MAIN_ENTRANCE_RULES: Dict[Tuple[R, R], RuleFactory] = {
         HasSwitch(Crystal.ROA_1ST_ROOM),
         otherwise_crystal,
     ),
-    (R.ROA_WORMS, R.ROA_WORMS_CONNECTION): HasWhite(WhiteDoor.ROA_WORMS, otherwise=True),
+    (R.ROA_WORMS, R.ROA_WORMS_CONNECTION): Or(
+        HasWhite(WhiteDoor.ROA_WORMS),
+        HasSwitch(Switch.ROA_WORMS, otherwise=True, opts=white_off),
+    ),
     (R.ROA_WORMS, R.ROA_LOWER_VOID_CONNECTION): Has(KeyItem.CLAW),
     (R.ROA_HEARTS, R.ROA_BOTTOM_ASCEND): HasSwitch(Switch.ROA_1ST_SHORTCUT),
-    (R.ROA_WORMS_CONNECTION, R.ROA_WORMS): HasWhite(WhiteDoor.ROA_WORMS, otherwise=True),
+    (R.ROA_WORMS_CONNECTION, R.ROA_WORMS): HasWhite(WhiteDoor.ROA_WORMS),
     (R.ROA_WORMS_CONNECTION, R.ROA_HEARTS): Or(
         HasSwitch(Switch.ROA_AFTER_WORMS, otherwise=True),
         Has(KeyItem.STAR),
@@ -666,7 +696,7 @@ MAIN_ENTRANCE_RULES: Dict[Tuple[R, R], RuleFactory] = {
         Has(KeyItem.CLAW),
     ),
     (R.ROA_FLAMES_CONNECTION, R.ROA_LEFT_ASCENT): And(
-        Or(HasSwitch(Crystal.ROA_LEFT_ASCEND), And(can_crystal, Has(KeyItem.BELL))),
+        Or(HasSwitch(Crystal.ROA_LEFT_ASCEND), And(can_crystal, Has(KeyItem.BELL), opts=switch_off)),
         can_extra_height,
     ),
     (R.ROA_FLAMES_CONNECTION, R.ROA_ARIAS_BABY_GORGON): HasAny(
@@ -1078,7 +1108,7 @@ MAIN_LOCATION_RULES: Dict[L, RuleFactory] = {
     L.CATH_HP_2_CLAW: Has(KeyItem.CLAW),
     L.CATH_HP_5_BELL: HasAny(Character.KYULI, KeyItem.BLOCK, KeyItem.ICARUS, KeyItem.CLOAK),
     L.MECH_WHITE_KEY_LINUS: HasSwitch(Switch.MECH_LOWER_KEY, otherwise=True),
-    L.MECH_WHITE_KEY_TOP: And(Or(HasSwitch(Crystal.MECH_TOP), otherwise_crystal), Has(Character.KYULI)),
+    L.MECH_WHITE_KEY_TOP: And(Or(HasSwitch(Crystal.MECH_TOP), otherwise_crystal), can_extra_height),
     L.ROA_WHITE_KEY_SAVE: HasSwitch(Switch.ROA_WORMS, otherwise=True),
     L.CATA_WHITE_KEY_PRISON: Or(can_extra_height, HasAny(KeyItem.CLOAK, KeyItem.ICARUS)),
     L.MECH_BLUE_KEY_BLOCKS: HasSwitch(Switch.MECH_KEY_BLOCKS, otherwise=True),
