@@ -266,14 +266,7 @@ MAIN_ENTRANCE_RULES: Dict[Tuple[R, R], RuleFactory] = {
     (R.MECH_LOWER_VOID, R.HOTP_MECH_VOID_CONNECTION): Has(Eye.BLUE),
     (R.MECH_WATCHER, R.MECH_START): And(
         HasSwitch(Switch.MECH_CANNON),
-        Or(
-            HasWhite(WhiteDoor.MECH_2ND),
-            And(
-                CanReachRegion(R.MECH_SWORD_CONNECTION),
-                HasSwitch(Switch.MECH_LOWER_KEY, otherwise=True),
-                opts=white_off,
-            ),
-        ),
+        HasWhite(WhiteDoor.MECH_2ND),
     ),
     (R.MECH_WATCHER, R.MECH_ROOTS): Or(Has(KeyItem.CLAW), HasSwitch(Switch.MECH_WATCHER, otherwise=True)),
     (R.MECH_ROOTS, R.MECH_ZEEK_CONNECTION): HasAll(KeyItem.CLAW, KeyItem.BLOCK, KeyItem.BELL),
@@ -407,7 +400,10 @@ MAIN_ENTRANCE_RULES: Dict[Tuple[R, R], RuleFactory] = {
     (R.MECH_TP_CONNECTION, R.HOTP_FALL_BOTTOM): Or(Has(KeyItem.CLAW), HasSwitch(Switch.MECH_MAZE_BACKDOOR)),
     (R.MECH_TP_CONNECTION, R.MECH_TOP): Or(Has(KeyItem.CLAW), HasWhite(WhiteDoor.MECH_TOP)),
     (R.MECH_TP_CONNECTION, R.MECH_CHARACTER_SWAPS): Or(
-        HasAll(Character.ARIAS, KeyItem.BELL),
+        And(
+            Has(Character.ARIAS),
+            Or(HasWhite(WhiteDoor.MECH_TOP, otherwise=True), Has(KeyItem.BELL)),
+        ),
         HasSwitch(Switch.MECH_ARIAS_CYCLOPS),
     ),
     (R.MECH_CHARACTER_SWAPS, R.MECH_CLOAK_CONNECTION): And(
