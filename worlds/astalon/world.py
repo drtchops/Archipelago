@@ -47,6 +47,8 @@ if TYPE_CHECKING:
     from BaseClasses import Entrance, Location, MultiWorld
     from Options import Option
 
+    from .logic import RuleInstance
+
 
 # ██░░░██████░░███░░░███
 # ██░░░░██░░░▓▓░░░▓░░███
@@ -162,9 +164,11 @@ class AstalonWorld(World):
     }
     ut_can_gen_without_yaml = True
 
+    rule_cache: "Dict[int, RuleInstance]"
     _rule_deps: "Dict[str, Set[int]]"
 
     def generate_early(self) -> None:
+        self.rule_cache = {}
         self._rule_deps = defaultdict(set)
 
         self.starting_characters = []

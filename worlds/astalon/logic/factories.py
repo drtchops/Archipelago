@@ -92,7 +92,12 @@ class RuleFactory:
     def resolve(self, world: "AstalonWorld") -> "RuleInstance":
         if not self._pass_opts(world.options):
             return FalseInstance(player=world.player)
-        return self._instantiate(world)
+
+        instance = self._instantiate(world)
+        rule_hash = hash(instance)
+        if rule_hash not in world.rule_cache:
+            world.rule_cache[rule_hash] = instance
+        return world.rule_cache[rule_hash]
 
     def serialize(self) -> str:
         return f"{self.__class__.__name__}()"
