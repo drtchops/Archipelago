@@ -1,9 +1,10 @@
+import copy
 import dataclasses
 import operator
 from typing import TYPE_CHECKING, Any, ClassVar, Dict, List, Tuple, Union
 
-from ..items import Character, Eye, KeyItem, ShopUpgrade
-from ..options import Goal, RandomizeCharacters
+from ..items import Character, Events, Eye, KeyItem, ShopUpgrade
+from ..options import Difficulty, Goal, RandomizeCharacters
 from .instances import (
     AndInstance,
     CanReachEntranceInstance,
@@ -90,6 +91,15 @@ class RuleFactory:
         return self.instance_cls(player=world.player)
 
     def resolve(self, world: "AstalonWorld") -> "RuleInstance":
+        is_ut = getattr(world.multiworld, "generation_is_fake", False)
+        if (
+            is_ut
+            and self.opts == (("difficulty", 1),)
+            and world.options.difficulty.value == Difficulty.option_easy
+        ):
+            new_rule = copy.copy(self)
+            new_rule.opts = tuple(o for o in self.opts if o != ("difficulty", 1))
+            return And(new_rule, Has(Events.FAKE_OOL_ITEM)).resolve(world)
         if not self._pass_opts(world.options):
             return FalseInstance(player=world.player)
 
@@ -152,7 +162,7 @@ class Or(NestedRuleFactory):
 
 @dataclasses.dataclass()
 class Has(RuleFactory):
-    item: "ItemName"
+    item: "ItemName | Events"
     count: int = 1
 
     instance_cls = HasInstance
@@ -185,11 +195,11 @@ class Has(RuleFactory):
 
 @dataclasses.dataclass(init=False)
 class HasAll(RuleFactory):
-    items: "Tuple[ItemName, ...]"
+    items: "Tuple[ItemName | Events, ...]"
 
     instance_cls = HasAllInstance
 
-    def __init__(self, *items: "ItemName", opts: Tuple[Tuple[str, Any], ...] = ()) -> None:
+    def __init__(self, *items: "ItemName | Events", opts: Tuple[Tuple[str, Any], ...] = ()) -> None:
         super().__init__(opts=opts)
         self.items = items
 
@@ -254,11 +264,11 @@ class HasAll(RuleFactory):
 
 @dataclasses.dataclass(init=False)
 class HasAny(RuleFactory):
-    items: "Tuple[ItemName, ...]"
+    items: "Tuple[ItemName | Events, ...]"
 
     instance_cls = HasAnyInstance
 
-    def __init__(self, *items: "ItemName", opts: Tuple[Tuple[str, Any], ...] = ()) -> None:
+    def __init__(self, *items: "ItemName | Events", opts: Tuple[Tuple[str, Any], ...] = ()) -> None:
         super().__init__(opts=opts)
         self.items = items
 

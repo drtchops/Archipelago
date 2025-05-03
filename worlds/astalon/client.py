@@ -59,11 +59,12 @@ class AstalonCommandProcessor(ClientCommandProcessor):  # type: ignore
                 logger.info("    " + rule.serialize())
         else:
             if self.ctx.ui:
-                messages: List[JSONMessagePart] = [
-                    {"type": "text", "text": "    "},
-                    {"type": "color", "color": "green", "text": "True"},
-                ]
-                self.ctx.ui.print_json(messages)
+                self.ctx.ui.print_json(
+                    [
+                        {"type": "text", "text": "    "},
+                        {"type": "color", "color": "green", "text": "True"},
+                    ]
+                )
             else:
                 logger.info("    True")
 

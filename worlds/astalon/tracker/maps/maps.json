@@ -9,6 +9,7 @@
         "name": "tomb",
         "location_size": 15,
         "location_border_thickness": 2,
+        "location_icon_size": 25,
         "img": "images/maps/tomb.png"
     },
     {

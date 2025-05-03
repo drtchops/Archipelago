@@ -42,6 +42,7 @@ from .locations import (
 from .logic import MAIN_ENTRANCE_RULES, MAIN_LOCATION_RULES
 from .options import ApexElevator, AstalonOptions, Goal, RandomizeCharacters
 from .regions import RegionName, astalon_regions
+from .tracker import TRACKER_WORLD
 
 if TYPE_CHECKING:
     from BaseClasses import Entrance, Location, MultiWorld
@@ -85,7 +86,7 @@ CHARACTER_STARTS: Final[Dict[int, Tuple[Character, ...]]] = {
 }
 
 
-def launch_client():
+def launch_client() -> None:
     from .client import launch
 
     launch_subprocess(launch, name="Astalon Tracker")
@@ -95,7 +96,7 @@ components.append(
     Component("Astalon Tracker", func=launch_client, component_type=Type.CLIENT, icon="astalon")
 )
 
-icon_paths["astalon"] = f"ap:{__name__}/astalon.png"
+icon_paths["astalon"] = f"ap:{__name__}/images/pil.png"
 
 
 class AstalonWebWorld(WebWorld):
@@ -110,26 +111,6 @@ class AstalonWebWorld(WebWorld):
             authors=["DrTChops"],
         )
     ]
-
-
-def map_page_index(data: Any) -> int:
-    if data in (1, 99):
-        # tomb
-        return 1
-    elif data in (2, 3, 7):
-        # mechanism_and_hall
-        return 2
-    elif data in (4, 19, 21):
-        # catacombs
-        return 3
-    elif data in (5, 6, 8, 13):
-        # ruins
-        return 4
-    elif data == 11:
-        # cyclops
-        return 5
-    # world map
-    return 0
 
 
 class AstalonWorld(World):
@@ -155,14 +136,9 @@ class AstalonWorld(World):
     cached_spheres: ClassVar[List[Set["Location"]]]
 
     # UT poptracker integration
-    tracker_world: ClassVar = {
-        "map_page_folder": "tracker",
-        "map_page_maps": "maps/maps.json",
-        "map_page_locations": "locations/locations.json",
-        "map_page_setting_key": "{player}_{team}_astalon_area",
-        "map_page_index": map_page_index,
-    }
+    tracker_world: ClassVar = TRACKER_WORLD
     ut_can_gen_without_yaml = True
+    glitches_item_name = Events.FAKE_OOL_ITEM.value
 
     rule_cache: "Dict[int, RuleInstance]"
     _rule_deps: "Dict[str, Set[int]]"
@@ -327,6 +303,9 @@ class AstalonWorld(World):
         )
 
     def create_item(self, name: str) -> AstalonItem:
+        if name == Events.FAKE_OOL_ITEM:
+            return AstalonItem(name, ItemClassification.progression, None, self.player)
+
         item_data = item_table[name]
         classification: ItemClassification
         if callable(item_data.classification):
