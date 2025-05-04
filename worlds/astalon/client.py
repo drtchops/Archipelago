@@ -144,12 +144,16 @@ class AstalonClientContext(TrackerGameContext):
 
     def make_gui(self):
         ui = super().make_gui()  # before the kivy imports so kvui gets loaded first
+
+        from kivy.utils import escape_markup
+
         from kvui import KivyJSONtoTextParser
+        from worlds.tracker.TrackerClient import get_ut_color
 
         class AstalonJSONtoTextParser(KivyJSONtoTextParser):
             ctx: "CommonContext"
 
-            def _handle_item_name(self, node: "JSONMessagePart"):
+            def _handle_item_name(self, node: "JSONMessagePart") -> str:
                 flags = node.get("flags", 0)
                 item_types = []
                 if flags & 0b001:  # advancement
@@ -172,7 +176,7 @@ class AstalonClientContext(TrackerGameContext):
                 node.setdefault("refs", []).append(tooltip)  # type: ignore
                 return super(KivyJSONtoTextParser, self)._handle_item_name(node)
 
-            def _handle_location_name(self, node: "JSONMessagePart"):
+            def _handle_location_name(self, node: "JSONMessagePart") -> str:
                 player = node.get("player", 0)
                 slot_info = self.ctx.slot_info.get(player)
                 location_name = node.get("text", "")
@@ -188,6 +192,18 @@ class AstalonClientContext(TrackerGameContext):
                         parts.append(metadata.description)
                     node.setdefault("refs", []).append("<br>".join(parts))  # type: ignore
                 return super()._handle_location_name(node)
+
+            def _handle_color(self, node: "JSONMessagePart") -> str:
+                colors = node["color"].split(";")  # type: ignore
+                node["text"] = escape_markup(node["text"])  # type: ignore
+                for color in colors:
+                    color_code = get_ut_color(color)
+                    if color_code == "DD00FF":
+                        color_code = self.color_codes.get(color, None)
+                    if color_code:
+                        node["text"] = f"[color={color_code}]{node['text']}[/color]"
+                        return self._handle_text(node)
+                return self._handle_text(node)
 
         class AstalonManager(ui):
             # core appends ap version so this works

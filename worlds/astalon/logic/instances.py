@@ -14,7 +14,7 @@ def _printjson_item(item: str, player: int, state: "CollectionState | None" = No
     if state:
         color = "green" if state.has(item, player) else "salmon"
         if item == Events.FAKE_OOL_ITEM:
-            color = "yellow"
+            color = "glitched"
         return {"type": "color", "color": color, "text": item}
     else:
         return {"type": "item_name", "flags": 0b001, "text": item, "player": player}
@@ -413,12 +413,12 @@ class HardLogicInstance(RuleInstance):
         return self.child.indirect()
 
     def serialize(self) -> str:
-        return f"HardLogic({self.child.serialize()})"
+        return f"HardLogic[{self.child.serialize()}]"
 
     def explain(self, state: "CollectionState | None" = None) -> "List[JSONMessagePart]":
         messages: "list[JSONMessagePart]" = [
-            {"type": "color", "color": "yellow", "text": "Hard Logic ("},
+            {"type": "color", "color": "glitched", "text": "Hard Logic ["},
         ]
         messages.extend(self.child.explain(state))
-        messages.append({"type": "color", "color": "yellow", "text": ")"})
+        messages.append({"type": "color", "color": "glitched", "text": "]"})
         return messages

@@ -478,4 +478,4 @@ class HardLogic(RuleFactory):
         return FalseInstance(player=world.player)
 
     def serialize(self) -> str:
-        return f"HardLogic({self.child.serialize()})"
+        return f"HardLogic[{self.child.serialize()}]"
