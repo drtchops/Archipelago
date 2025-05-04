@@ -20,6 +20,7 @@ from .factories import (
     CanReachEntrance,
     CanReachRegion,
     False_,
+    HardLogic,
     Has,
     HasAll,
     HasAny,
@@ -46,10 +47,11 @@ switch_off = (("randomize_switches", 0),)
 true = True_()
 false = False_()
 
-can_uppies = Or(
-    True_(opts=characters_off),
-    HasAny(Character.ARIAS, Character.BRAM, opts=characters_on),
-    opts=hard,
+can_uppies = HardLogic(
+    Or(
+        True_(opts=characters_off),
+        HasAny(Character.ARIAS, Character.BRAM, opts=characters_on),
+    )
 )
 can_extra_height = Or(HasAny(Character.KYULI, KeyItem.BLOCK), can_uppies)
 can_extra_height_gold_block = Or(HasAny(Character.KYULI, Character.ZEEK), can_uppies)

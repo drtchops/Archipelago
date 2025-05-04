@@ -11,6 +11,7 @@ from .instances import (
     CanReachLocationInstance,
     CanReachRegionInstance,
     FalseInstance,
+    HardLogicInstance,
     HasAllInstance,
     HasAnyInstance,
     HasInstance,
@@ -463,3 +464,18 @@ class HasGoal(RuleFactory):
         if world.options.goal != Goal.option_eye_hunt:
             return TrueInstance(player=world.player)
         return HasInstance(Eye.GOLD.value, count=world.required_gold_eyes, player=world.player)
+
+
+@dataclasses.dataclass()
+class HardLogic(RuleFactory):
+    child: "RuleFactory"
+
+    def _instantiate(self, world: "AstalonWorld") -> "RuleInstance":
+        if getattr(world.multiworld, "generation_is_fake", False):
+            return HardLogicInstance(self.child.resolve(world), player=world.player)
+        elif world.options.difficulty.value == Difficulty.option_hard:
+            return self.child.resolve(world)
+        return FalseInstance(player=world.player)
+
+    def serialize(self) -> str:
+        return f"HardLogic({self.child.serialize()})"

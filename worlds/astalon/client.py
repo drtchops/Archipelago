@@ -1,7 +1,6 @@
 import asyncio
 import urllib.parse
-from collections import deque
-from typing import TYPE_CHECKING, Dict, List, Optional
+from typing import TYPE_CHECKING, List, Optional
 
 from CommonClient import CommonContext, get_base_parser, gui_enabled, logger, server_loop
 from MultiServer import mark_raw
@@ -10,7 +9,6 @@ from Utils import get_intended_text
 from .constants import GAME_NAME, VERSION
 from .items import item_table
 from .locations import location_table
-from .regions import RegionName
 
 if TYPE_CHECKING:
     from BaseClasses import CollectionState, Entrance, Location, MultiWorld, Region
@@ -49,11 +47,11 @@ except ImportError:
 class AstalonCommandProcessor(ClientCommandProcessor):  # type: ignore
     ctx: "AstalonClientContext"
 
-    def _print_rule(self, rule: "Optional[RuleInstance]"):
+    def _print_rule(self, rule: "Optional[RuleInstance]", state: "CollectionState") -> None:
         if rule:
             if self.ctx.ui:
                 messages: List[JSONMessagePart] = [{"type": "text", "text": "    "}]
-                messages.extend(rule.explain())
+                messages.extend(rule.explain(state))
                 self.ctx.ui.print_json(messages)
             else:
                 logger.info("    " + rule.serialize())
@@ -71,7 +69,7 @@ class AstalonCommandProcessor(ClientCommandProcessor):  # type: ignore
     if tracker_loaded:
 
         @mark_raw
-        def _cmd_route(self, input_text: str = ""):
+        def _cmd_route(self, input_text: str = "") -> None:
             """Explain the route to get to a location or region"""
             world = self.ctx.get_world()
             if not world:
@@ -102,40 +100,17 @@ class AstalonCommandProcessor(ClientCommandProcessor):  # type: ignore
             if goal_location and not goal_location.can_reach(state):
                 logger.warning(f"Location {goal_location.name} cannot be reached")
                 return
-            if goal_region and not goal_region.can_reach(state):
+            if goal_region and goal_region not in state.path:
                 logger.warning(f"Region {goal_region.name} cannot be reached")
                 return
 
-            start = world.get_region(RegionName.GT_ENTRANCE.value)
-            visited: Dict[Region, Optional[Region]] = {start: None}
-            q: deque[Region] = deque()
-            q.append(start)
-
-            found = False
-            region = None
-            while q:
-                region = q.popleft()
-                if region == goal_region:
-                    found = True
-                    break
-
-                for entrance in region.get_exits():
-                    exit_region: Region = entrance.connected_region
-                    if exit_region and exit_region not in visited and entrance.can_reach(state):
-                        visited[exit_region] = region
-                        q.append(exit_region)
-
-            if not found:
-                logger.warning(f"Could not find path to {location_name or region_name}")
-
             path: List[Entrance] = []
-            prev = None
-            while region:
-                if prev:
-                    entrance = world.get_entrance(f"{region.name} -> {prev.name}")
-                    path.append(entrance)
-                prev = region
-                region = visited[region]
+            name, connection = state.path[goal_region]
+            while connection != ("Menu", None) and connection is not None:
+                name, connection = connection
+                if "->" in name and "Menu" not in name:
+                    path.append(world.get_entrance(name))
+
             path.reverse()
             for p in path:
                 if self.ctx.ui:
@@ -144,7 +119,7 @@ class AstalonCommandProcessor(ClientCommandProcessor):  # type: ignore
                     )
                 else:
                     logger.info(p.name)
-                self._print_rule(getattr(p.access_rule, "__self__", None))
+                self._print_rule(getattr(p.access_rule, "__self__", None), state)
 
             if goal_location:
                 if self.ctx.ui:
@@ -160,7 +135,7 @@ class AstalonCommandProcessor(ClientCommandProcessor):  # type: ignore
                     )
                 else:
                     logger.info(f"-> {goal_location.name}")
-                self._print_rule(getattr(goal_location.access_rule, "__self__", None))
+                self._print_rule(getattr(goal_location.access_rule, "__self__", None), state)
 
 
 class AstalonClientContext(TrackerGameContext):

@@ -135,7 +135,7 @@ class AstalonWorld(World):
 
     cached_spheres: ClassVar[List[Set["Location"]]]
 
-    # UT poptracker integration
+    # UT integration
     tracker_world: ClassVar = TRACKER_WORLD
     ut_can_gen_without_yaml = True
     glitches_item_name = Events.FAKE_OOL_ITEM.value

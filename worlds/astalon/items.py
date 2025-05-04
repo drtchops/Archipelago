@@ -497,7 +497,7 @@ class Events(str, Enum):
     STAR = KeyItem.STAR.value
     ZEEK = Character.ZEEK.value
     BRAM = Character.BRAM.value
-    FAKE_OOL_ITEM = "Fake OoL Item"
+    FAKE_OOL_ITEM = "Hard Logic"
 
 
 class AstalonItem(Item):
