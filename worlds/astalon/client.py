@@ -148,7 +148,11 @@ class AstalonClientContext(TrackerGameContext):
         from kivy.utils import escape_markup
 
         from kvui import KivyJSONtoTextParser
-        from worlds.tracker.TrackerClient import get_ut_color
+
+        try:
+            from worlds.tracker.TrackerClient import get_ut_color
+        except ImportError:
+            get_ut_color = None
 
         class AstalonJSONtoTextParser(KivyJSONtoTextParser):
             ctx: "CommonContext"
@@ -174,6 +178,8 @@ class AstalonClientContext(TrackerGameContext):
                     tooltip += f"<br>{metadata.description}"
 
                 node.setdefault("refs", []).append(tooltip)  # type: ignore
+                if node.get("color"):
+                    return self._handle_color(node)
                 return super(KivyJSONtoTextParser, self)._handle_item_name(node)
 
             def _handle_location_name(self, node: "JSONMessagePart") -> str:
@@ -197,8 +203,10 @@ class AstalonClientContext(TrackerGameContext):
                 colors = node["color"].split(";")  # type: ignore
                 node["text"] = escape_markup(node["text"])  # type: ignore
                 for color in colors:
-                    color_code = get_ut_color(color)
-                    if color_code == "DD00FF":
+                    color_code = None
+                    if get_ut_color:
+                        color_code = get_ut_color(color)
+                    if not color_code or color_code == "DD00FF":
                         color_code = self.color_codes.get(color, None)
                     if color_code:
                         node["text"] = f"[color={color_code}]{node['text']}[/color]"

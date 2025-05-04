@@ -11,13 +11,13 @@ if TYPE_CHECKING:
 
 
 def _printjson_item(item: str, player: int, state: "CollectionState | None" = None) -> "JSONMessagePart":
+    message: JSONMessagePart = {"type": "item_name", "flags": 0b001, "text": item, "player": player}
     if state:
         color = "green" if state.has(item, player) else "salmon"
         if item == Events.FAKE_OOL_ITEM:
             color = "glitched"
-        return {"type": "color", "color": color, "text": item}
-    else:
-        return {"type": "item_name", "flags": 0b001, "text": item, "player": player}
+        message["color"] = color
+    return message
 
 
 @dataclasses.dataclass(kw_only=True, frozen=True)
