@@ -2,7 +2,7 @@ import dataclasses
 import logging
 from collections import defaultdict
 from functools import cached_property
-from typing import TYPE_CHECKING, Any, ClassVar, Dict, Final, List, Optional, Set, Tuple
+from typing import TYPE_CHECKING, Any, ClassVar, Final
 
 from BaseClasses import CollectionState, Item, ItemClassification, Region, Tutorial
 from Options import OptionError
@@ -67,7 +67,7 @@ if TYPE_CHECKING:
 
 logger = logging.getLogger(__name__)
 
-CHARACTER_LOCATIONS: Final[Tuple[Tuple[Character, str], ...]] = (
+CHARACTER_LOCATIONS: Final[tuple[tuple[Character, str], ...]] = (
     (Character.ALGUS, LocationName.GT_ALGUS.value),
     (Character.ARIAS, LocationName.GT_ARIAS.value),
     (Character.KYULI, LocationName.GT_KYULI.value),
@@ -75,7 +75,7 @@ CHARACTER_LOCATIONS: Final[Tuple[Tuple[Character, str], ...]] = (
     (Character.BRAM, LocationName.TR_BRAM.value),
 )
 
-CHARACTER_STARTS: Final[Dict[int, Tuple[Character, ...]]] = {
+CHARACTER_STARTS: Final[dict[int, tuple[Character, ...]]] = {
     RandomizeCharacters.option_trio: CHARACTERS[:3],
     RandomizeCharacters.option_all: CHARACTERS,
     RandomizeCharacters.option_algus: (Character.ALGUS,),
@@ -129,19 +129,19 @@ class AstalonWorld(World):
     item_name_to_id = item_name_to_id
     location_name_to_id = location_name_to_id
 
-    starting_characters: "List[Character]"
+    starting_characters: "list[Character]"
     required_gold_eyes: int = 0
     extra_gold_eyes: int = 0
 
-    cached_spheres: ClassVar[List[Set["Location"]]]
+    cached_spheres: ClassVar[list[set["Location"]]]
 
     # UT integration
     tracker_world: ClassVar = TRACKER_WORLD
     ut_can_gen_without_yaml = True
     glitches_item_name = Events.FAKE_OOL_ITEM.value
 
-    rule_cache: "Dict[int, RuleInstance]"
-    _rule_deps: "Dict[str, Set[int]]"
+    rule_cache: "dict[int, RuleInstance]"
+    _rule_deps: "dict[str, set[int]]"
 
     def generate_early(self) -> None:
         self.rule_cache = {}
@@ -165,11 +165,11 @@ class AstalonWorld(World):
 
         re_gen_passthrough = getattr(self.multiworld, "re_gen_passthrough", {})
         if re_gen_passthrough and GAME_NAME in re_gen_passthrough:
-            slot_data: Dict[str, Any] = re_gen_passthrough[GAME_NAME]
+            slot_data: dict[str, Any] = re_gen_passthrough[GAME_NAME]
 
-            slot_options: Dict[str, Any] = slot_data.get("options", {})
+            slot_options: dict[str, Any] = slot_data.get("options", {})
             for key, value in slot_options.items():
-                opt: Optional[Option] = getattr(self.options, key, None)
+                opt: Option | None = getattr(self.options, key, None)
                 if opt is not None:
                     setattr(self.options, key, opt.from_any(value))
 
@@ -219,7 +219,7 @@ class AstalonWorld(World):
                     for indirect_region in rule.indirect():
                         self.multiworld.register_indirect_condition(self._region(indirect_region), entrance)
 
-        logic_groups: Set[str] = set()
+        logic_groups: set[str] = set()
         if self.options.randomize_key_items:
             logic_groups.add(LocationGroup.ITEM.value)
         if self.options.randomize_attack_pickups:
@@ -324,10 +324,10 @@ class AstalonWorld(World):
         return self.create_item(self.get_trap_item_name())
 
     def create_items(self) -> None:
-        itempool: List[Item] = []
-        filler_items: List[Item] = []
+        itempool: list[Item] = []
+        filler_items: list[Item] = []
 
-        logic_groups: Set[str] = set()
+        logic_groups: set[str] = set()
         if self.options.randomize_key_items:
             logic_groups.add(ItemGroup.EYE.value)
             logic_groups.add(ItemGroup.ITEM.value)
@@ -435,7 +435,7 @@ class AstalonWorld(World):
         self.multiworld.itempool += itempool + filler_items
 
     @cached_property
-    def filler_item_names(self) -> Tuple[str, ...]:
+    def filler_item_names(self) -> tuple[str, ...]:
         items = list(filler_items)
         if not self.options.randomize_white_keys:
             items.append(Key.WHITE.value)
@@ -464,7 +464,7 @@ class AstalonWorld(World):
         # Clean up all references in cached spheres after generation completes.
         del cls.cached_spheres
 
-    def fill_slot_data(self) -> Dict[str, Any]:
+    def fill_slot_data(self) -> dict[str, Any]:
         return {
             "version": VERSION,
             "options": self.options.as_dict(
@@ -478,12 +478,12 @@ class AstalonWorld(World):
         }
 
     @staticmethod
-    def interpret_slot_data(slot_data: Dict[str, Any]):
+    def interpret_slot_data(slot_data: dict[str, Any]):
         # Allow UT to work without a yaml
         return slot_data
 
-    def _get_character_strengths(self) -> Dict[str, float]:
-        character_strengths: Dict[str, float] = {c.value: 0 for c in CHARACTERS}
+    def _get_character_strengths(self) -> dict[str, float]:
+        character_strengths: dict[str, float] = {c.value: 0 for c in CHARACTERS}
         if not self.options.scale_character_stats:
             return character_strengths
 
@@ -516,7 +516,7 @@ class AstalonWorld(World):
     def collect(self, state: "CollectionState", item: "Item") -> bool:
         changed = super().collect(state, item)
         if changed and getattr(self, "_rule_deps", None):
-            player_results: Dict[int, bool] = state._astalon_rule_results[self.player]  # type: ignore
+            player_results: dict[int, bool] = state._astalon_rule_results[self.player]  # type: ignore
             for rule_id in self._rule_deps[item.name]:
                 player_results.pop(rule_id, None)
         return changed
@@ -524,7 +524,7 @@ class AstalonWorld(World):
     def remove(self, state: "CollectionState", item: "Item") -> bool:
         changed = super().remove(state, item)
         if changed and getattr(self, "_rule_deps", None):
-            player_results: Dict[int, bool] = state._astalon_rule_results[self.player]  # type: ignore
+            player_results: dict[int, bool] = state._astalon_rule_results[self.player]  # type: ignore
             for rule_id in self._rule_deps[item.name]:
                 player_results.pop(rule_id, None)
         return changed

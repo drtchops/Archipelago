@@ -1,5 +1,3 @@
-from typing import Dict, Tuple
-
 from ..items import (
     BlueDoor,
     Character,
@@ -92,7 +90,7 @@ shop_cheap = CanReachRegion(R.GT_LEFT)
 shop_moderate = CanReachRegion(R.MECH_START)
 shop_expensive = CanReachRegion(R.ROA_START)
 
-MAIN_ENTRANCE_RULES: Dict[Tuple[R, R], RuleFactory] = {
+MAIN_ENTRANCE_RULES: dict[tuple[R, R], RuleFactory] = {
     (R.SHOP, R.SHOP_ALGUS): Has(Character.ALGUS),
     (R.SHOP, R.SHOP_ARIAS): Has(Character.ARIAS),
     (R.SHOP, R.SHOP_KYULI): Has(Character.KYULI),
@@ -1022,7 +1020,7 @@ MAIN_ENTRANCE_RULES: Dict[Tuple[R, R], RuleFactory] = {
     (R.SP_STAR_END, R.SP_STAR_CONNECTION): And(Has(KeyItem.STAR), HasSwitch(Switch.SP_AFTER_STAR)),
 }
 
-MAIN_LOCATION_RULES: Dict[L, RuleFactory] = {
+MAIN_LOCATION_RULES: dict[L, RuleFactory] = {
     L.GT_GORGONHEART: Or(
         HasSwitch(Switch.GT_GH, otherwise=True),
         HasAny(Character.KYULI, KeyItem.ICARUS, KeyItem.BLOCK, KeyItem.CLOAK, KeyItem.BOOTS),

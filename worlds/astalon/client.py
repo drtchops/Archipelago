@@ -1,6 +1,6 @@
 import asyncio
 import urllib.parse
-from typing import TYPE_CHECKING, List, Optional
+from typing import TYPE_CHECKING
 
 from CommonClient import CommonContext, get_base_parser, gui_enabled, logger, server_loop
 from MultiServer import mark_raw
@@ -47,10 +47,10 @@ except ImportError:
 class AstalonCommandProcessor(ClientCommandProcessor):  # type: ignore
     ctx: "AstalonClientContext"
 
-    def _print_rule(self, rule: "Optional[RuleInstance]", state: "CollectionState") -> None:
+    def _print_rule(self, rule: "RuleInstance | None", state: "CollectionState") -> None:
         if rule:
             if self.ctx.ui:
-                messages: List[JSONMessagePart] = [{"type": "text", "text": "    "}]
+                messages: list[JSONMessagePart] = [{"type": "text", "text": "    "}]
                 messages.extend(rule.explain(state))
                 self.ctx.ui.print_json(messages)
             else:
@@ -104,7 +104,7 @@ class AstalonCommandProcessor(ClientCommandProcessor):  # type: ignore
                 logger.warning(f"Region {goal_region.name} cannot be reached")
                 return
 
-            path: List[Entrance] = []
+            path: list[Entrance] = []
             name, connection = state.path[goal_region]
             while connection != ("Menu", None) and connection is not None:
                 name, connection = connection
@@ -210,7 +210,7 @@ class AstalonClientContext(TrackerGameContext):
             base_title = f"Astalon Tracker v{VERSION} with UT {UT_VERSION} for AP version"
             ctx: "AstalonClientContext"
 
-            def __init__(self, ctx: "CommonContext"):
+            def __init__(self, ctx: "CommonContext") -> None:
                 super().__init__(ctx)
                 self.json_to_kivy_parser = AstalonJSONtoTextParser(ctx)
 
@@ -223,7 +223,7 @@ class AstalonClientContext(TrackerGameContext):
 
         return AstalonManager
 
-    def get_world(self) -> "Optional[AstalonWorld]":
+    def get_world(self) -> "AstalonWorld | None":
         if self.player_id is None:
             logger.warning("Internal logic was not able to load, check your yamls and relaunch.")
             return
@@ -239,7 +239,7 @@ def get_updated_state(ctx: "TrackerGameContext") -> "CollectionState":
     return updateTracker(ctx).state  # type: ignore
 
 
-async def main(args):
+async def main(args) -> None:
     ctx = AstalonClientContext(args.connect, args.password)
 
     ctx.auth = args.name
@@ -258,7 +258,7 @@ async def main(args):
     await ctx.shutdown()
 
 
-def launch(*args):
+def launch(*args) -> None:
     parser = get_base_parser(description="Gameless Archipelago Client, for text interfacing.")
     parser.add_argument("--name", default=None, help="Slot Name to connect as.")
     parser.add_argument("url", nargs="?", help="Archipelago connection url")
