@@ -1,4 +1,3 @@
-import copy
 import dataclasses
 import operator
 from typing import TYPE_CHECKING, Any, ClassVar
@@ -92,15 +91,6 @@ class RuleFactory:
         return self.instance_cls(player=world.player)
 
     def resolve(self, world: "AstalonWorld") -> "RuleInstance":
-        is_ut = getattr(world.multiworld, "generation_is_fake", False)
-        if (
-            is_ut
-            and self.opts == (("difficulty", 1),)
-            and world.options.difficulty.value == Difficulty.option_easy
-        ):
-            new_rule = copy.copy(self)
-            new_rule.opts = tuple(o for o in self.opts if o != ("difficulty", 1))
-            return And(new_rule, Has(Events.FAKE_OOL_ITEM)).resolve(world)
         if not self._pass_opts(world.options):
             return FalseInstance(player=world.player)
 
