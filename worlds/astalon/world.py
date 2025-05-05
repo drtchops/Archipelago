@@ -128,6 +128,7 @@ class AstalonWorld(World):
     location_name_groups = location_name_groups
     item_name_to_id = item_name_to_id
     location_name_to_id = location_name_to_id
+    required_client_version = (0, 6, 0)
 
     starting_characters: "list[Character]"
     required_gold_eyes: int = 0
