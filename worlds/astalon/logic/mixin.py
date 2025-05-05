@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Dict
+from typing import TYPE_CHECKING
 
 from worlds.AutoWorld import LogicMixin
 
@@ -13,7 +13,7 @@ else:
 class AstalonLogicMixin(LogicMixin, CollectionState):
     multiworld: "MultiWorld"
 
-    _astalon_rule_results: Dict[int, Dict[int, bool]]
+    _astalon_rule_results: dict[int, dict[int, bool]]
 
     def init_mixin(self, multiworld: "MultiWorld") -> None:
         players = multiworld.get_game_players(GAME_NAME)

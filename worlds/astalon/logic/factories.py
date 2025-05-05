@@ -1,15 +1,16 @@
 import dataclasses
 import operator
-from typing import TYPE_CHECKING, Any, ClassVar, Dict, List, Tuple, Union
+from typing import TYPE_CHECKING, Any, ClassVar
 
-from ..items import Character, Eye, KeyItem, ShopUpgrade
-from ..options import Goal, RandomizeCharacters
+from ..items import Character, Events, Eye, KeyItem, ShopUpgrade
+from ..options import Difficulty, Goal, RandomizeCharacters
 from .instances import (
     AndInstance,
     CanReachEntranceInstance,
     CanReachLocationInstance,
     CanReachRegionInstance,
     FalseInstance,
+    HardLogicInstance,
     HasAllInstance,
     HasAnyInstance,
     HasInstance,
@@ -28,7 +29,7 @@ if TYPE_CHECKING:
     from .instances import RuleInstance
 
 
-ITEM_DEPS: "Dict[str, Tuple[Character, ...]]" = {
+ITEM_DEPS: "dict[str, tuple[Character, ...]]" = {
     KeyItem.CLOAK.value: (Character.ALGUS,),
     KeyItem.SWORD.value: (Character.ARIAS,),
     KeyItem.BOOTS.value: (Character.ARIAS,),
@@ -72,7 +73,7 @@ characters_on = ("randomize_characters__ge", 1)
 
 @dataclasses.dataclass()
 class RuleFactory:
-    opts: Tuple[Tuple[str, Any], ...] = dataclasses.field(default=(), kw_only=True)
+    opts: tuple[tuple[str, Any], ...] = dataclasses.field(default=(), kw_only=True)
 
     instance_cls: "ClassVar[type[RuleInstance]]"
 
@@ -121,7 +122,7 @@ class False_(RuleFactory):
 
 @dataclasses.dataclass(init=False)
 class NestedRuleFactory(RuleFactory):
-    children: "Tuple[RuleFactory, ...]"
+    children: "tuple[RuleFactory, ...]"
 
     instance_cls = NestedRuleInstance
 
@@ -129,7 +130,7 @@ class NestedRuleFactory(RuleFactory):
         children = [c.resolve(world) for c in self.children]
         return self.instance_cls(tuple(children), player=world.player).simplify()  # type: ignore
 
-    def __init__(self, *children: "RuleFactory", opts: Tuple[Tuple[str, Any], ...] = ()) -> None:
+    def __init__(self, *children: "RuleFactory", opts: tuple[tuple[str, Any], ...] = ()) -> None:
         super().__init__(opts=opts)
         self.children = children
 
@@ -152,7 +153,7 @@ class Or(NestedRuleFactory):
 
 @dataclasses.dataclass()
 class Has(RuleFactory):
-    item: "ItemName"
+    item: "ItemName | Events"
     count: int = 1
 
     instance_cls = HasInstance
@@ -185,11 +186,11 @@ class Has(RuleFactory):
 
 @dataclasses.dataclass(init=False)
 class HasAll(RuleFactory):
-    items: "Tuple[ItemName, ...]"
+    items: "tuple[ItemName | Events, ...]"
 
     instance_cls = HasAllInstance
 
-    def __init__(self, *items: "ItemName", opts: Tuple[Tuple[str, Any], ...] = ()) -> None:
+    def __init__(self, *items: "ItemName | Events", opts: tuple[tuple[str, Any], ...] = ()) -> None:
         super().__init__(opts=opts)
         self.items = items
 
@@ -199,8 +200,8 @@ class HasAll(RuleFactory):
         if len(self.items) == 1:
             return Has(self.items[0]).resolve(world)
 
-        new_clauses: List[RuleInstance] = []
-        new_items: List[str] = []
+        new_clauses: list[RuleInstance] = []
+        new_items: list[str] = []
         for item in self.items:
             if (
                 item in VANILLA_CHARACTERS
@@ -254,11 +255,11 @@ class HasAll(RuleFactory):
 
 @dataclasses.dataclass(init=False)
 class HasAny(RuleFactory):
-    items: "Tuple[ItemName, ...]"
+    items: "tuple[ItemName | Events, ...]"
 
     instance_cls = HasAnyInstance
 
-    def __init__(self, *items: "ItemName", opts: Tuple[Tuple[str, Any], ...] = ()) -> None:
+    def __init__(self, *items: "ItemName | Events", opts: tuple[tuple[str, Any], ...] = ()) -> None:
         super().__init__(opts=opts)
         self.items = items
 
@@ -268,8 +269,8 @@ class HasAny(RuleFactory):
         if len(self.items) == 1:
             return Has(self.items[0]).resolve(world)
 
-        new_clauses: List[RuleInstance] = []
-        new_items: List[str] = []
+        new_clauses: list[RuleInstance] = []
+        new_items: list[str] = []
         for item in self.items:
             if (
                 item in VANILLA_CHARACTERS
@@ -393,7 +394,7 @@ class HasWhite(ToggleRule):
         self,
         *doors: "WhiteDoor",
         otherwise: bool = False,
-        opts: Tuple[Tuple[str, Any], ...] = (),
+        opts: tuple[tuple[str, Any], ...] = (),
     ) -> None:
         super().__init__(*doors, opts=opts)
         self.otherwise = otherwise
@@ -407,7 +408,7 @@ class HasBlue(ToggleRule):
         self,
         *doors: "BlueDoor",
         otherwise: bool = False,
-        opts: Tuple[Tuple[str, Any], ...] = (),
+        opts: tuple[tuple[str, Any], ...] = (),
     ) -> None:
         super().__init__(*doors, opts=opts)
         self.otherwise = otherwise
@@ -421,7 +422,7 @@ class HasRed(ToggleRule):
         self,
         *doors: "RedDoor",
         otherwise: bool = False,
-        opts: Tuple[Tuple[str, Any], ...] = (),
+        opts: tuple[tuple[str, Any], ...] = (),
     ) -> None:
         super().__init__(*doors, opts=opts)
         self.otherwise = otherwise
@@ -433,9 +434,9 @@ class HasSwitch(ToggleRule):
 
     def __init__(
         self,
-        *switches: "Union[Switch, Crystal, Face]",
+        *switches: "Switch | Crystal | Face",
         otherwise: bool = False,
-        opts: Tuple[Tuple[str, Any], ...] = (),
+        opts: tuple[tuple[str, Any], ...] = (),
     ) -> None:
         super().__init__(*switches, opts=opts)
         self.otherwise = otherwise
@@ -443,7 +444,7 @@ class HasSwitch(ToggleRule):
 
 @dataclasses.dataclass(init=False)
 class HasElevator(HasAll):
-    def __init__(self, elevator: "Elevator", *, opts: Tuple[Tuple[str, Any], ...] = ()) -> None:
+    def __init__(self, elevator: "Elevator", *, opts: tuple[tuple[str, Any], ...] = ()) -> None:
         super().__init__(KeyItem.ASCENDANT_KEY, elevator, opts=(*opts, ("randomize_elevator", 1)))
 
 
@@ -453,3 +454,18 @@ class HasGoal(RuleFactory):
         if world.options.goal != Goal.option_eye_hunt:
             return TrueInstance(player=world.player)
         return HasInstance(Eye.GOLD.value, count=world.required_gold_eyes, player=world.player)
+
+
+@dataclasses.dataclass()
+class HardLogic(RuleFactory):
+    child: "RuleFactory"
+
+    def _instantiate(self, world: "AstalonWorld") -> "RuleInstance":
+        if getattr(world.multiworld, "generation_is_fake", False):
+            return HardLogicInstance(self.child.resolve(world), player=world.player)
+        elif world.options.difficulty.value == Difficulty.option_hard:
+            return self.child.resolve(world)
+        return FalseInstance(player=world.player)
+
+    def serialize(self) -> str:
+        return f"HardLogic[{self.child.serialize()}]"

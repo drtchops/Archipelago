@@ -1,7 +1,8 @@
+from collections.abc import Callable
 from dataclasses import dataclass
 from enum import Enum
 from itertools import groupby
-from typing import TYPE_CHECKING, Callable, Dict, Set, Tuple, Union
+from typing import TYPE_CHECKING
 
 from typing_extensions import TypeAlias
 
@@ -407,29 +408,30 @@ class Trap(str, Enum):
     ROCKS = "Rocks Trap"
 
 
-ItemName: TypeAlias = Union[
-    Character,
-    Eye,
-    Key,
-    KeyItem,
-    Familiar,
-    Upgrade,
-    Orbs,
-    WhiteDoor,
-    BlueDoor,
-    RedDoor,
-    ShopUpgrade,
-    Elevator,
-    Switch,
-    Crystal,
-    Face,
-    Heal,
-    Trap,
-]
+ItemName: TypeAlias = (
+    Character
+    | Eye
+    | Key
+    | KeyItem
+    | Familiar
+    | Upgrade
+    | Orbs
+    | WhiteDoor
+    | BlueDoor
+    | RedDoor
+    | ShopUpgrade
+    | Elevator
+    | Switch
+    | Crystal
+    | Face
+    | Heal
+    | Trap
+)
 
-ProgressionItem: TypeAlias = Union[Character, Eye, KeyItem, ShopUpgrade]
 
-CHARACTERS: Tuple[Character, ...] = (
+ProgressionItem: TypeAlias = Character | Eye | KeyItem | ShopUpgrade
+
+CHARACTERS: tuple[Character, ...] = (
     Character.ALGUS,
     Character.ARIAS,
     Character.KYULI,
@@ -437,18 +439,18 @@ CHARACTERS: Tuple[Character, ...] = (
     Character.BRAM,
 )
 
-EARLY_WHITE_DOORS: Tuple[WhiteDoor, ...] = (
+EARLY_WHITE_DOORS: tuple[WhiteDoor, ...] = (
     WhiteDoor.GT_START,
     WhiteDoor.GT_MAP,
     WhiteDoor.GT_TAUROS,
 )
 
-EARLY_BLUE_DOORS: Tuple[BlueDoor, ...] = (
+EARLY_BLUE_DOORS: tuple[BlueDoor, ...] = (
     BlueDoor.GT_ASCENDANT,
     BlueDoor.CAVES,
 )
 
-EARLY_SWITCHES: Tuple[Switch, ...] = (
+EARLY_SWITCHES: tuple[Switch, ...] = (
     Switch.GT_2ND_ROOM,
     Switch.GT_1ST_CYCLOPS,
     Switch.GT_SPIKE_TUNNEL,
@@ -461,9 +463,9 @@ EARLY_SWITCHES: Tuple[Switch, ...] = (
     Switch.CAVES_CATA_3,
 )
 
-EARLY_ITEMS: Set[ItemName] = set([*EARLY_WHITE_DOORS, *EARLY_BLUE_DOORS, *EARLY_SWITCHES])
+EARLY_ITEMS: set[ItemName] = set([*EARLY_WHITE_DOORS, *EARLY_BLUE_DOORS, *EARLY_SWITCHES])
 
-QOL_ITEMS: Tuple[ShopUpgrade, ...] = (
+QOL_ITEMS: tuple[ShopUpgrade, ...] = (
     ShopUpgrade.KNOWLEDGE,
     ShopUpgrade.ORB_SEEKER,
     ShopUpgrade.TITANS_EGO,
@@ -497,6 +499,7 @@ class Events(str, Enum):
     STAR = KeyItem.STAR.value
     ZEEK = Character.ZEEK.value
     BRAM = Character.BRAM.value
+    FAKE_OOL_ITEM = "Hard Logic"
 
 
 class AstalonItem(Item):
@@ -506,13 +509,13 @@ class AstalonItem(Item):
 @dataclass(frozen=True)
 class ItemData:
     name: ItemName
-    classification: Union[ItemClassification, Callable[["AstalonWorld"], ItemClassification]]
+    classification: ItemClassification | Callable[["AstalonWorld"], ItemClassification]
     quantity_in_item_pool: int
     group: ItemGroup
     description: str = ""
 
 
-ALL_ITEMS: Tuple[ItemData, ...] = (
+ALL_ITEMS: tuple[ItemData, ...] = (
     ItemData(Eye.RED, ItemClassification.progression, 1, ItemGroup.EYE),
     ItemData(Eye.BLUE, ItemClassification.progression, 1, ItemGroup.EYE),
     ItemData(Eye.GREEN, ItemClassification.progression, 1, ItemGroup.EYE),
@@ -872,14 +875,14 @@ ALL_ITEMS: Tuple[ItemData, ...] = (
 )
 
 item_table = {item.name.value: item for item in ALL_ITEMS}
-item_name_to_id: Dict[str, int] = {data.name.value: i for i, data in enumerate(ALL_ITEMS, start=BASE_ID)}
+item_name_to_id: dict[str, int] = {data.name.value: i for i, data in enumerate(ALL_ITEMS, start=BASE_ID)}
 
 
 def get_item_group(item_name: str):
     return item_table[item_name].group
 
 
-item_name_groups: Dict[str, Set[str]] = {
+item_name_groups: dict[str, set[str]] = {
     group.value: set(item for item in item_names)
     for group, item_names in groupby(sorted(item_table, key=get_item_group), get_item_group)
     if group != ""
@@ -893,14 +896,14 @@ item_name_groups["Map Progression"] = {
     and ItemClassification.progression in data.classification
 }
 
-filler_items: Tuple[str, ...] = (
+filler_items: tuple[str, ...] = (
     Orbs.ORBS_200.value,
     Orbs.ORBS_500.value,
     Orbs.ORBS_1000.value,
     Heal.HEAL_5.value,
 )
 
-trap_items: Tuple[str, ...] = (
+trap_items: tuple[str, ...] = (
     Trap.CUTSCENE.value,
     Trap.ROCKS.value,
 )

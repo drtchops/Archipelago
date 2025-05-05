@@ -1,12 +1,23 @@
 import dataclasses
 import itertools
-from typing import TYPE_CHECKING, ClassVar, Dict, List, Optional, Set, Tuple
+from typing import TYPE_CHECKING, ClassVar
 
+from ..items import Events
 from ..regions import RegionName
 
 if TYPE_CHECKING:
     from BaseClasses import CollectionState
     from NetUtils import JSONMessagePart
+
+
+def _printjson_item(item: str, player: int, state: "CollectionState | None" = None) -> "JSONMessagePart":
+    message: JSONMessagePart = {"type": "item_name", "flags": 0b001, "text": item, "player": player}
+    if state:
+        color = "green" if state.has(item, player) else "salmon"
+        if item == Events.FAKE_OOL_ITEM:
+            color = "glitched"
+        message["color"] = color
+    return message
 
 
 @dataclasses.dataclass(kw_only=True, frozen=True)
@@ -28,24 +39,24 @@ class RuleInstance:
             state._astalon_rule_results[self.player][id(self)] = result  # type: ignore
         return result
 
-    def test(self, state) -> bool:
+    def test(self, state: "CollectionState") -> bool:
         cached_result = None
         if self.cacheable:
-            cached_result = state._astalon_rule_results[self.player].get(id(self))
+            cached_result = state._astalon_rule_results[self.player].get(id(self))  # type: ignore
         if cached_result is not None:
             return cached_result
         return self.evaluate(state)
 
-    def deps(self) -> "Dict[str, Set[int]]":
+    def deps(self) -> "dict[str, set[int]]":
         return {}
 
-    def indirect(self) -> "Tuple[RegionName, ...]":
+    def indirect(self) -> "tuple[RegionName, ...]":
         return ()
 
     def serialize(self) -> str:
         return f"{self.__class__.__name__}()"
 
-    def explain(self) -> "List[JSONMessagePart]":
+    def explain(self, state: "CollectionState | None" = None) -> "list[JSONMessagePart]":
         return [{"type": "text", "text": self.__class__.__name__}]
 
 
@@ -64,7 +75,7 @@ class TrueInstance(RuleInstance):
     def serialize(self) -> str:
         return "True"
 
-    def explain(self) -> "List[JSONMessagePart]":
+    def explain(self, state: "CollectionState | None" = None) -> "list[JSONMessagePart]":
         return [{"type": "color", "color": "green", "text": "True"}]
 
 
@@ -83,16 +94,16 @@ class FalseInstance(RuleInstance):
     def serialize(self) -> str:
         return "False"
 
-    def explain(self) -> "List[JSONMessagePart]":
+    def explain(self, state: "CollectionState | None" = None) -> "list[JSONMessagePart]":
         return [{"type": "color", "color": "salmon", "text": "False"}]
 
 
 @dataclasses.dataclass(frozen=True)
 class NestedRuleInstance(RuleInstance):
-    children: "Tuple[RuleInstance, ...]"
+    children: "tuple[RuleInstance, ...]"
 
-    def deps(self) -> "Dict[str, Set[int]]":
-        combined_deps: Dict[str, Set[int]] = {}
+    def deps(self) -> "dict[str, set[int]]":
+        combined_deps: dict[str, set[int]] = {}
         for child in self.children:
             for item_name, rules in child.deps().items():
                 if item_name in combined_deps:
@@ -101,7 +112,7 @@ class NestedRuleInstance(RuleInstance):
                     combined_deps[item_name] = {id(self), *rules}
         return combined_deps
 
-    def indirect(self) -> "Tuple[RegionName, ...]":
+    def indirect(self) -> "tuple[RegionName, ...]":
         return tuple(itertools.chain.from_iterable(child.indirect() for child in self.children))
 
     def simplify(self) -> "RuleInstance":
@@ -119,20 +130,20 @@ class AndInstance(NestedRuleInstance):
     def serialize(self) -> str:
         return f"({' + '.join(child.serialize() for child in self.children)})"
 
-    def explain(self) -> "List[JSONMessagePart]":
-        messages: List[JSONMessagePart] = [{"type": "text", "text": "("}]
+    def explain(self, state: "CollectionState | None" = None) -> "list[JSONMessagePart]":
+        messages: list[JSONMessagePart] = [{"type": "text", "text": "("}]
         for i, child in enumerate(self.children):
             if i > 0:
                 messages.append({"type": "text", "text": " & "})
-            messages.extend(child.explain())
+            messages.extend(child.explain(state))
         messages.append({"type": "text", "text": ")"})
         return messages
 
     def simplify(self) -> "RuleInstance":
         children_to_process = list(self.children)
-        clauses: List[RuleInstance] = []
-        items: List[str] = []
-        true_rule: Optional[RuleInstance] = None
+        clauses: list[RuleInstance] = []
+        items: list[str] = []
+        true_rule: RuleInstance | None = None
 
         while children_to_process:
             child = children_to_process.pop(0)
@@ -185,19 +196,19 @@ class OrInstance(NestedRuleInstance):
     def serialize(self) -> str:
         return f"({' | '.join(child.serialize() for child in self.children)})"
 
-    def explain(self) -> "List[JSONMessagePart]":
-        messages: List[JSONMessagePart] = [{"type": "text", "text": "("}]
+    def explain(self, state: "CollectionState | None" = None) -> "list[JSONMessagePart]":
+        messages: list[JSONMessagePart] = [{"type": "text", "text": "("}]
         for i, child in enumerate(self.children):
             if i > 0:
                 messages.append({"type": "text", "text": " | "})
-            messages.extend(child.explain())
+            messages.extend(child.explain(state))
         messages.append({"type": "text", "text": ")"})
         return messages
 
     def simplify(self) -> "RuleInstance":
         children_to_process = list(self.children)
-        clauses: List[RuleInstance] = []
-        items: List[str] = []
+        clauses: list[RuleInstance] = []
+        items: list[str] = []
 
         while children_to_process:
             child = children_to_process.pop(0)
@@ -249,25 +260,25 @@ class HasInstance(RuleInstance):
     def _evaluate(self, state: "CollectionState") -> bool:
         return state.has(self.item, self.player, count=self.count)
 
-    def deps(self) -> Dict[str, Set[int]]:
+    def deps(self) -> dict[str, set[int]]:
         return {self.item: {id(self)}}
 
     def serialize(self) -> str:
         count_display = f", count={self.count}" if self.count > 1 else ""
         return f"Has({self.item}{count_display})"
 
-    def explain(self) -> "List[JSONMessagePart]":
-        messages: List[JSONMessagePart] = [{"type": "text", "text": "Has "}]
+    def explain(self, state: "CollectionState | None" = None) -> "list[JSONMessagePart]":
+        messages: list[JSONMessagePart] = [{"type": "text", "text": "Has "}]
         if self.count > 1:
             messages.append({"type": "color", "color": "cyan", "text": str(self.count)})
             messages.append({"type": "text", "text": "x "})
-        messages.append({"type": "item_name", "flags": 0b001, "text": self.item, "player": self.player})
+        messages.append(_printjson_item(self.item, self.player, state))
         return messages
 
 
 @dataclasses.dataclass(frozen=True)
 class HasAllInstance(RuleInstance):
-    items: Tuple[str, ...]
+    items: tuple[str, ...]
 
     def __hash__(self) -> int:
         return super().__hash__()
@@ -275,14 +286,14 @@ class HasAllInstance(RuleInstance):
     def _evaluate(self, state: "CollectionState") -> bool:
         return state.has_all(self.items, self.player)
 
-    def deps(self) -> Dict[str, Set[int]]:
+    def deps(self) -> dict[str, set[int]]:
         return {item: {id(self)} for item in self.items}
 
     def serialize(self) -> str:
         return f"HasAll({', '.join(self.items)})"
 
-    def explain(self) -> "List[JSONMessagePart]":
-        messages: List[JSONMessagePart] = [
+    def explain(self, state: "CollectionState | None" = None) -> "list[JSONMessagePart]":
+        messages: list[JSONMessagePart] = [
             {"type": "text", "text": "Has "},
             {"type": "color", "color": "cyan", "text": "all"},
             {"type": "text", "text": " of ("},
@@ -290,14 +301,14 @@ class HasAllInstance(RuleInstance):
         for i, item in enumerate(self.items):
             if i > 0:
                 messages.append({"type": "text", "text": ", "})
-            messages.append({"type": "item_name", "flags": 0b001, "text": item, "player": self.player})
+            messages.append(_printjson_item(item, self.player, state))
         messages.append({"type": "text", "text": ")"})
         return messages
 
 
 @dataclasses.dataclass(frozen=True)
 class HasAnyInstance(RuleInstance):
-    items: Tuple[str, ...]
+    items: tuple[str, ...]
 
     def __hash__(self) -> int:
         return super().__hash__()
@@ -305,14 +316,14 @@ class HasAnyInstance(RuleInstance):
     def _evaluate(self, state: "CollectionState") -> bool:
         return state.has_any(self.items, self.player)
 
-    def deps(self) -> Dict[str, Set[int]]:
+    def deps(self) -> dict[str, set[int]]:
         return {item: {id(self)} for item in self.items}
 
     def serialize(self) -> str:
         return f"HasAny({', '.join(self.items)})"
 
-    def explain(self) -> "List[JSONMessagePart]":
-        messages: List[JSONMessagePart] = [
+    def explain(self, state: "CollectionState | None" = None) -> "list[JSONMessagePart]":
+        messages: list[JSONMessagePart] = [
             {"type": "text", "text": "Has "},
             {"type": "color", "color": "cyan", "text": "any"},
             {"type": "text", "text": " of ("},
@@ -320,7 +331,7 @@ class HasAnyInstance(RuleInstance):
         for i, item in enumerate(self.items):
             if i > 0:
                 messages.append({"type": "text", "text": ", "})
-            messages.append({"type": "item_name", "flags": 0b001, "text": item, "player": self.player})
+            messages.append(_printjson_item(item, self.player, state))
         messages.append({"type": "text", "text": ")"})
         return messages
 
@@ -334,13 +345,13 @@ class CanReachLocationInstance(RuleInstance):
     def _evaluate(self, state: "CollectionState") -> bool:
         return state.can_reach_location(self.location, self.player)
 
-    def indirect(self) -> "Tuple[RegionName, ...]":
+    def indirect(self) -> "tuple[RegionName, ...]":
         return (RegionName(self.parent_region),)
 
     def serialize(self) -> str:
         return f"CanReachLocation({self.location})"
 
-    def explain(self) -> "List[JSONMessagePart]":
+    def explain(self, state: "CollectionState | None" = None) -> "list[JSONMessagePart]":
         return [
             {"type": "text", "text": "Reached Location "},
             {"type": "location_name", "text": self.location, "player": self.player},
@@ -355,13 +366,13 @@ class CanReachRegionInstance(RuleInstance):
     def _evaluate(self, state: "CollectionState") -> bool:
         return state.can_reach_region(self.region, self.player)
 
-    def indirect(self) -> "Tuple[RegionName, ...]":
+    def indirect(self) -> "tuple[RegionName, ...]":
         return (RegionName(self.region),)
 
     def serialize(self) -> str:
         return f"CanReachRegion({self.region})"
 
-    def explain(self) -> "List[JSONMessagePart]":
+    def explain(self, state: "CollectionState | None" = None) -> "list[JSONMessagePart]":
         return [
             {"type": "text", "text": "Reached Region "},
             {"type": "color", "color": "yellow", "text": self.region},
@@ -379,8 +390,35 @@ class CanReachEntranceInstance(RuleInstance):
     def serialize(self) -> str:
         return f"CanReachEntrance({self.entrance})"
 
-    def explain(self) -> "List[JSONMessagePart]":
+    def explain(self, state: "CollectionState | None" = None) -> "list[JSONMessagePart]":
         return [
             {"type": "text", "text": "Reached Entrance "},
             {"type": "entrance_name", "text": self.entrance, "player": self.player},
         ]
+
+
+@dataclasses.dataclass(frozen=True)
+class HardLogicInstance(RuleInstance):
+    child: RuleInstance
+
+    def _evaluate(self, state: "CollectionState") -> bool:
+        return state.has(Events.FAKE_OOL_ITEM.value, self.player)
+
+    def deps(self) -> "dict[str, set[int]]":
+        deps = self.child.deps()
+        deps.setdefault(Events.FAKE_OOL_ITEM.value, set()).add(id(self))
+        return deps
+
+    def indirect(self) -> "tuple[RegionName, ...]":
+        return self.child.indirect()
+
+    def serialize(self) -> str:
+        return f"HardLogic[{self.child.serialize()}]"
+
+    def explain(self, state: "CollectionState | None" = None) -> "list[JSONMessagePart]":
+        messages: "list[JSONMessagePart]" = [
+            {"type": "color", "color": "glitched", "text": "Hard Logic ["},
+        ]
+        messages.extend(self.child.explain(state))
+        messages.append({"type": "color", "color": "glitched", "text": "]"})
+        return messages

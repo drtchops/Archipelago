@@ -1,6 +1,5 @@
 from dataclasses import dataclass
 from enum import Enum
-from typing import Dict, Tuple
 
 
 class RegionName(str, Enum):
@@ -258,7 +257,7 @@ class RegionName(str, Enum):
 
 @dataclass(frozen=True)
 class RegionData:
-    exits: Tuple[RegionName, ...] = ()
+    exits: tuple[RegionName, ...] = ()
     boss: bool = False
     campfire: bool = False
     elevator: bool = False
@@ -268,7 +267,7 @@ class RegionData:
     orbs: int = 0
 
 
-astalon_regions: Dict[RegionName, RegionData] = {
+astalon_regions: dict[RegionName, RegionData] = {
     RegionName.MENU: RegionData(
         exits=(
             RegionName.GT_ENTRANCE,

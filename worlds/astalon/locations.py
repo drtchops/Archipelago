@@ -1,7 +1,6 @@
 from dataclasses import dataclass
 from enum import Enum
 from itertools import groupby
-from typing import Dict, Set, Tuple
 
 from BaseClasses import Location
 
@@ -524,7 +523,7 @@ class LocationData:
     room: str = ""
 
 
-ALL_LOCATIONS: Tuple[LocationData, ...] = (
+ALL_LOCATIONS: tuple[LocationData, ...] = (
     LocationData(LocationName.GT_GORGONHEART, RegionName.GT_GORGONHEART, LocationGroup.ITEM, Area.GT),
     LocationData(LocationName.GT_ANCIENTS_RING, RegionName.GT_BOTTOM, LocationGroup.ITEM, Area.GT),
     LocationData(LocationName.GT_SWORD, RegionName.GT_SWORD, LocationGroup.ITEM, Area.GT),
@@ -1465,7 +1464,7 @@ ALL_LOCATIONS: Tuple[LocationData, ...] = (
 )
 
 location_table = {location.name.value: location for location in ALL_LOCATIONS}
-location_name_to_id: Dict[str, int] = {
+location_name_to_id: dict[str, int] = {
     data.name.value: i for i, data in enumerate(ALL_LOCATIONS, start=BASE_ID)
 }
 
@@ -1478,7 +1477,7 @@ def get_location_area(location_name: str) -> Area:
     return location_table[location_name].area
 
 
-location_name_groups: Dict[str, Set[str]] = {
+location_name_groups: dict[str, set[str]] = {
     group.value: set(location for location in location_names)
     for group, location_names in groupby(sorted(location_table, key=get_location_group), get_location_group)
 }

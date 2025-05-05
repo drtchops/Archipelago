@@ -2,7 +2,7 @@ import dataclasses
 import logging
 from collections import defaultdict
 from functools import cached_property
-from typing import TYPE_CHECKING, Any, ClassVar, Dict, Final, List, Optional, Set, Tuple
+from typing import TYPE_CHECKING, Any, ClassVar, Final
 
 from BaseClasses import CollectionState, Item, ItemClassification, Region, Tutorial
 from Options import OptionError
@@ -42,9 +42,10 @@ from .locations import (
 from .logic import MAIN_ENTRANCE_RULES, MAIN_LOCATION_RULES
 from .options import ApexElevator, AstalonOptions, Goal, RandomizeCharacters
 from .regions import RegionName, astalon_regions
+from .tracker import TRACKER_WORLD
 
 if TYPE_CHECKING:
-    from BaseClasses import Entrance, Location, MultiWorld
+    from BaseClasses import Location, MultiWorld
     from Options import Option
 
     from .logic import RuleInstance
@@ -66,7 +67,7 @@ if TYPE_CHECKING:
 
 logger = logging.getLogger(__name__)
 
-CHARACTER_LOCATIONS: Final[Tuple[Tuple[Character, str], ...]] = (
+CHARACTER_LOCATIONS: Final[tuple[tuple[Character, str], ...]] = (
     (Character.ALGUS, LocationName.GT_ALGUS.value),
     (Character.ARIAS, LocationName.GT_ARIAS.value),
     (Character.KYULI, LocationName.GT_KYULI.value),
@@ -74,7 +75,7 @@ CHARACTER_LOCATIONS: Final[Tuple[Tuple[Character, str], ...]] = (
     (Character.BRAM, LocationName.TR_BRAM.value),
 )
 
-CHARACTER_STARTS: Final[Dict[int, Tuple[Character, ...]]] = {
+CHARACTER_STARTS: Final[dict[int, tuple[Character, ...]]] = {
     RandomizeCharacters.option_trio: CHARACTERS[:3],
     RandomizeCharacters.option_all: CHARACTERS,
     RandomizeCharacters.option_algus: (Character.ALGUS,),
@@ -85,7 +86,7 @@ CHARACTER_STARTS: Final[Dict[int, Tuple[Character, ...]]] = {
 }
 
 
-def launch_client():
+def launch_client() -> None:
     from .client import launch
 
     launch_subprocess(launch, name="Astalon Tracker")
@@ -95,7 +96,7 @@ components.append(
     Component("Astalon Tracker", func=launch_client, component_type=Type.CLIENT, icon="astalon")
 )
 
-icon_paths["astalon"] = f"ap:{__name__}/astalon.png"
+icon_paths["astalon"] = f"ap:{__name__}/images/pil.png"
 
 
 class AstalonWebWorld(WebWorld):
@@ -110,26 +111,6 @@ class AstalonWebWorld(WebWorld):
             authors=["DrTChops"],
         )
     ]
-
-
-def map_page_index(data: Any) -> int:
-    if data in (1, 99):
-        # tomb
-        return 1
-    elif data in (2, 3, 7):
-        # mechanism_and_hall
-        return 2
-    elif data in (4, 19, 21):
-        # catacombs
-        return 3
-    elif data in (5, 6, 8, 13):
-        # ruins
-        return 4
-    elif data == 11:
-        # cyclops
-        return 5
-    # world map
-    return 0
 
 
 class AstalonWorld(World):
@@ -147,25 +128,21 @@ class AstalonWorld(World):
     location_name_groups = location_name_groups
     item_name_to_id = item_name_to_id
     location_name_to_id = location_name_to_id
+    required_client_version = (0, 6, 0)
 
-    starting_characters: "List[Character]"
+    starting_characters: "list[Character]"
     required_gold_eyes: int = 0
     extra_gold_eyes: int = 0
 
-    cached_spheres: ClassVar[List[Set["Location"]]]
+    cached_spheres: ClassVar[list[set["Location"]]]
 
-    # UT poptracker integration
-    tracker_world: ClassVar = {
-        "map_page_folder": "tracker",
-        "map_page_maps": "maps/maps.json",
-        "map_page_locations": "locations/locations.json",
-        "map_page_setting_key": "{player}_{team}_astalon_area",
-        "map_page_index": map_page_index,
-    }
+    # UT integration
+    tracker_world: ClassVar = TRACKER_WORLD
     ut_can_gen_without_yaml = True
+    glitches_item_name = Events.FAKE_OOL_ITEM.value
 
-    rule_cache: "Dict[int, RuleInstance]"
-    _rule_deps: "Dict[str, Set[int]]"
+    rule_cache: "dict[int, RuleInstance]"
+    _rule_deps: "dict[str, set[int]]"
 
     def generate_early(self) -> None:
         self.rule_cache = {}
@@ -185,15 +162,15 @@ class AstalonWorld(World):
 
         if self.options.goal == Goal.option_eye_hunt:
             self.required_gold_eyes = self.options.additional_eyes_required.value
-            self.extra_gold_eyes = int(round(self.required_gold_eyes * (self.options.extra_eyes / 100)))
+            self.extra_gold_eyes = round(self.required_gold_eyes * (self.options.extra_eyes / 100))
 
         re_gen_passthrough = getattr(self.multiworld, "re_gen_passthrough", {})
         if re_gen_passthrough and GAME_NAME in re_gen_passthrough:
-            slot_data: Dict[str, Any] = re_gen_passthrough[GAME_NAME]
+            slot_data: dict[str, Any] = re_gen_passthrough[GAME_NAME]
 
-            slot_options: Dict[str, Any] = slot_data.get("options", {})
+            slot_options: dict[str, Any] = slot_data.get("options", {})
             for key, value in slot_options.items():
-                opt: Optional[Option] = getattr(self.options, key, None)
+                opt: Option | None = getattr(self.options, key, None)
                 if opt is not None:
                     setattr(self.options, key, opt.from_any(value))
 
@@ -207,7 +184,7 @@ class AstalonWorld(World):
     def create_location(self, name: str) -> AstalonLocation:
         location_name = LocationName(name)
         data = location_table[name]
-        region = self._region(data.region)
+        region = self.get_region(data.region.value)
         location = AstalonLocation(self.player, name, location_name_to_id.get(name), region)
         rule = MAIN_LOCATION_RULES.get(location_name)
         if rule is not None:
@@ -226,7 +203,7 @@ class AstalonWorld(World):
             self.multiworld.regions.append(region)
 
         for region_name, region_data in astalon_regions.items():
-            region = self._region(region_name)
+            region = self.get_region(region_name.value)
             for exit_region_name in region_data.exits:
                 region_pair = (region_name, exit_region_name)
                 rule = MAIN_ENTRANCE_RULES.get(region_pair)
@@ -238,12 +215,17 @@ class AstalonWorld(World):
                     for item_name, rules in rule.deps().items():
                         self._rule_deps[item_name] |= rules
 
-                entrance = region.connect(self._region(exit_region_name), rule=rule.test if rule else None)
+                entrance = region.connect(
+                    self.get_region(exit_region_name.value), rule=rule.test if rule else None
+                )
                 if rule:
                     for indirect_region in rule.indirect():
-                        self.multiworld.register_indirect_condition(self._region(indirect_region), entrance)
+                        self.multiworld.register_indirect_condition(
+                            self.get_region(indirect_region.value),
+                            entrance,
+                        )
 
-        logic_groups: Set[str] = set()
+        logic_groups: set[str] = set()
         if self.options.randomize_key_items:
             logic_groups.add(LocationGroup.ITEM.value)
         if self.options.randomize_attack_pickups:
@@ -311,7 +293,7 @@ class AstalonWorld(World):
             self.create_event(Events.BLOCK, LocationName.CATH_BLOCK)
             self.create_event(Events.STAR, LocationName.SP_STAR)
 
-        victory_region = self._region(RegionName.FINAL_BOSS)
+        victory_region = self.get_region(RegionName.FINAL_BOSS.value)
         victory_location = AstalonLocation(self.player, Events.VICTORY.value, None, victory_region)
         victory_item = AstalonItem(
             Events.VICTORY.value,
@@ -327,6 +309,9 @@ class AstalonWorld(World):
         )
 
     def create_item(self, name: str) -> AstalonItem:
+        if name == Events.FAKE_OOL_ITEM:
+            return AstalonItem(name, ItemClassification.progression, None, self.player)
+
         item_data = item_table[name]
         classification: ItemClassification
         if callable(item_data.classification):
@@ -345,10 +330,10 @@ class AstalonWorld(World):
         return self.create_item(self.get_trap_item_name())
 
     def create_items(self) -> None:
-        itempool: List[Item] = []
-        filler_items: List[Item] = []
+        itempool: list[Item] = []
+        filler_items: list[Item] = []
 
-        logic_groups: Set[str] = set()
+        logic_groups: set[str] = set()
         if self.options.randomize_key_items:
             logic_groups.add(ItemGroup.EYE.value)
             logic_groups.add(ItemGroup.ITEM.value)
@@ -447,7 +432,7 @@ class AstalonWorld(World):
 
         if filler_items and self.options.trap_percentage > 0:
             total_filler = len(filler_items)
-            trap_count = int(round(total_filler * (self.options.trap_percentage / 100)))
+            trap_count = round(total_filler * (self.options.trap_percentage / 100))
             if trap_count > 0:
                 filler_items = self.random.sample(filler_items, len(filler_items) - trap_count)
                 for _ in range(trap_count):
@@ -456,7 +441,7 @@ class AstalonWorld(World):
         self.multiworld.itempool += itempool + filler_items
 
     @cached_property
-    def filler_item_names(self) -> Tuple[str, ...]:
+    def filler_item_names(self) -> tuple[str, ...]:
         items = list(filler_items)
         if not self.options.randomize_white_keys:
             items.append(Key.WHITE.value)
@@ -485,7 +470,7 @@ class AstalonWorld(World):
         # Clean up all references in cached spheres after generation completes.
         del cls.cached_spheres
 
-    def fill_slot_data(self) -> Dict[str, Any]:
+    def fill_slot_data(self) -> dict[str, Any]:
         return {
             "version": VERSION,
             "options": self.options.as_dict(
@@ -499,12 +484,12 @@ class AstalonWorld(World):
         }
 
     @staticmethod
-    def interpret_slot_data(slot_data: Dict[str, Any]):
-        # Allow UT to work without a yaml
+    def interpret_slot_data(slot_data: dict[str, Any]) -> dict[str, Any]:
+        # Trigger a 2nd gen with passed along slot data
         return slot_data
 
-    def _get_character_strengths(self) -> Dict[str, float]:
-        character_strengths: Dict[str, float] = {c.value: 0 for c in CHARACTERS}
+    def _get_character_strengths(self) -> dict[str, float]:
+        character_strengths: dict[str, float] = {c.value: 0 for c in CHARACTERS}
         if not self.options.scale_character_stats:
             return character_strengths
 
@@ -537,7 +522,7 @@ class AstalonWorld(World):
     def collect(self, state: "CollectionState", item: "Item") -> bool:
         changed = super().collect(state, item)
         if changed and getattr(self, "_rule_deps", None):
-            player_results: Dict[int, bool] = state._astalon_rule_results[self.player]  # type: ignore
+            player_results: dict[int, bool] = state._astalon_rule_results[self.player]  # type: ignore
             for rule_id in self._rule_deps[item.name]:
                 player_results.pop(rule_id, None)
         return changed
@@ -545,16 +530,7 @@ class AstalonWorld(World):
     def remove(self, state: "CollectionState", item: "Item") -> bool:
         changed = super().remove(state, item)
         if changed and getattr(self, "_rule_deps", None):
-            player_results: Dict[int, bool] = state._astalon_rule_results[self.player]  # type: ignore
+            player_results: dict[int, bool] = state._astalon_rule_results[self.player]  # type: ignore
             for rule_id in self._rule_deps[item.name]:
                 player_results.pop(rule_id, None)
         return changed
-
-    def _location(self, location: "LocationName") -> "Location":
-        return self.multiworld.get_location(location.value, self.player)
-
-    def _region(self, region: "RegionName") -> "Region":
-        return self.multiworld.get_region(region.value, self.player)
-
-    def _entrance(self, from_: "RegionName", to_: "RegionName") -> "Entrance":
-        return self.multiworld.get_entrance(f"{from_.value} -> {to_.value}", self.player)
