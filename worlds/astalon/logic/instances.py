@@ -402,7 +402,7 @@ class HardLogicInstance(RuleInstance):
     child: RuleInstance
 
     def _evaluate(self, state: "CollectionState") -> bool:
-        return state.has(Events.FAKE_OOL_ITEM.value, self.player)
+        return state.has(Events.FAKE_OOL_ITEM.value, self.player) and self.child.test(state)
 
     def deps(self) -> "dict[str, set[int]]":
         deps = self.child.deps()
