@@ -45,7 +45,7 @@ from .regions import RegionName, astalon_regions
 from .tracker import TRACKER_WORLD
 
 if TYPE_CHECKING:
-    from BaseClasses import Entrance, Location, MultiWorld
+    from BaseClasses import Location, MultiWorld
     from Options import Option
 
     from .logic import RuleInstance
@@ -161,7 +161,7 @@ class AstalonWorld(World):
 
         if self.options.goal == Goal.option_eye_hunt:
             self.required_gold_eyes = self.options.additional_eyes_required.value
-            self.extra_gold_eyes = int(round(self.required_gold_eyes * (self.options.extra_eyes / 100)))
+            self.extra_gold_eyes = round(self.required_gold_eyes * (self.options.extra_eyes / 100))
 
         re_gen_passthrough = getattr(self.multiworld, "re_gen_passthrough", {})
         if re_gen_passthrough and GAME_NAME in re_gen_passthrough:
@@ -183,7 +183,7 @@ class AstalonWorld(World):
     def create_location(self, name: str) -> AstalonLocation:
         location_name = LocationName(name)
         data = location_table[name]
-        region = self._region(data.region)
+        region = self.get_region(data.region.value)
         location = AstalonLocation(self.player, name, location_name_to_id.get(name), region)
         rule = MAIN_LOCATION_RULES.get(location_name)
         if rule is not None:
@@ -202,7 +202,7 @@ class AstalonWorld(World):
             self.multiworld.regions.append(region)
 
         for region_name, region_data in astalon_regions.items():
-            region = self._region(region_name)
+            region = self.get_region(region_name.value)
             for exit_region_name in region_data.exits:
                 region_pair = (region_name, exit_region_name)
                 rule = MAIN_ENTRANCE_RULES.get(region_pair)
@@ -214,10 +214,15 @@ class AstalonWorld(World):
                     for item_name, rules in rule.deps().items():
                         self._rule_deps[item_name] |= rules
 
-                entrance = region.connect(self._region(exit_region_name), rule=rule.test if rule else None)
+                entrance = region.connect(
+                    self.get_region(exit_region_name.value), rule=rule.test if rule else None
+                )
                 if rule:
                     for indirect_region in rule.indirect():
-                        self.multiworld.register_indirect_condition(self._region(indirect_region), entrance)
+                        self.multiworld.register_indirect_condition(
+                            self.get_region(indirect_region.value),
+                            entrance,
+                        )
 
         logic_groups: set[str] = set()
         if self.options.randomize_key_items:
@@ -287,7 +292,7 @@ class AstalonWorld(World):
             self.create_event(Events.BLOCK, LocationName.CATH_BLOCK)
             self.create_event(Events.STAR, LocationName.SP_STAR)
 
-        victory_region = self._region(RegionName.FINAL_BOSS)
+        victory_region = self.get_region(RegionName.FINAL_BOSS.value)
         victory_location = AstalonLocation(self.player, Events.VICTORY.value, None, victory_region)
         victory_item = AstalonItem(
             Events.VICTORY.value,
@@ -426,7 +431,7 @@ class AstalonWorld(World):
 
         if filler_items and self.options.trap_percentage > 0:
             total_filler = len(filler_items)
-            trap_count = int(round(total_filler * (self.options.trap_percentage / 100)))
+            trap_count = round(total_filler * (self.options.trap_percentage / 100))
             if trap_count > 0:
                 filler_items = self.random.sample(filler_items, len(filler_items) - trap_count)
                 for _ in range(trap_count):
@@ -478,8 +483,8 @@ class AstalonWorld(World):
         }
 
     @staticmethod
-    def interpret_slot_data(slot_data: dict[str, Any]):
-        # Allow UT to work without a yaml
+    def interpret_slot_data(slot_data: dict[str, Any]) -> dict[str, Any]:
+        # Trigger a 2nd gen with passed along slot data
         return slot_data
 
     def _get_character_strengths(self) -> dict[str, float]:
@@ -528,12 +533,3 @@ class AstalonWorld(World):
             for rule_id in self._rule_deps[item.name]:
                 player_results.pop(rule_id, None)
         return changed
-
-    def _location(self, location: "LocationName") -> "Location":
-        return self.multiworld.get_location(location.value, self.player)
-
-    def _region(self, region: "RegionName") -> "Region":
-        return self.multiworld.get_region(region.value, self.player)
-
-    def _entrance(self, from_: "RegionName", to_: "RegionName") -> "Entrance":
-        return self.multiworld.get_entrance(f"{from_.value} -> {to_.value}", self.player)

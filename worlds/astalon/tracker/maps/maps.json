@@ -3,6 +3,7 @@
         "name": "world_map",
         "location_size": 24,
         "location_border_thickness": 2,
+        "location_icon_size": 85,
         "img": "images/maps/world_map.png"
     },
     {
@@ -16,24 +17,28 @@
         "name": "mechanism_and_hall",
         "location_size": 18,
         "location_border_thickness": 3,
+        "location_icon_size": 25,
         "img": "images/maps/mechanism_and_hall.png"
     },
     {
         "name": "catacombs",
         "location_size": 18,
         "location_border_thickness": 2,
+        "location_icon_size": 25,
         "img": "images/maps/catacombs.png"
     },
     {
         "name": "ruins",
         "location_size": 18,
         "location_border_thickness": 2,
+        "location_icon_size": 25,
         "img": "images/maps/ruins.png"
     },
     {
         "name": "cyclops",
         "location_size": 18,
         "location_border_thickness": 2,
+        "location_icon_size": 25,
         "img": "images/maps/cyclops.png"
     }
 ]

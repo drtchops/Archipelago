@@ -30,22 +30,26 @@ CHARACTER_ICONS = {
 }
 
 MAP_OFFSETS = (
-    (0, 0),
-    (-3936, 25010),
-    (0, 0),
-    (0, 0),
-    (0, 0),
-    (0, 0),
+    (-1800, 17180),  # world map
+    (-4152, 25130),  # gt
+    (-1560, 21080),  # mech and hotp
+    (-5448 + 876, 26840),  # catacombs
+    (-2424, 17000),  # ruins
+    (-9336, 20840),  # cyclops
 )
-MAP_SCALE_X = 432 / 59
-MAP_SCALE_Y = -240 / 40
+ROOM_WIDTH = 432
+ROOM_HEIGHT = 240
+MAP_SCALE_X = ROOM_WIDTH / 59.346
+MAP_SCALE_Y = -ROOM_HEIGHT / 40.475
 
 
-def location_icon_coords(index: int, coords: dict[str, Any]) -> tuple[int, int, str]:
+def location_icon_coords(index: int, coords: dict[str, Any]) -> tuple[int, int, str] | None:
     print("location_icon_coords", index, coords)
+    if not coords:
+        return None
     dx, dy = MAP_OFFSETS[index]
-    x = int((coords.get("X", 0) + dx) / MAP_SCALE_X)
-    y = int((coords.get("Y", 0) + dy) / MAP_SCALE_Y)
+    x = int((coords.get("X", 0) + (ROOM_WIDTH / 2) + dx) / MAP_SCALE_X)
+    y = int((coords.get("Y", 0) - (ROOM_HEIGHT / 2) + dy) / MAP_SCALE_Y)
     icon = CHARACTER_ICONS.get(coords.get("Character", 1), "algus")
     print(x, y)
     return x, y, f"images/icons/{icon}.png"
