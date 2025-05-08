@@ -45,7 +45,7 @@ You may also want to adjust your world's behaviour in other functions to reduce 
     def create_regions(self) -> None:
         is_ut = getattr(self.multiworld, "generation_is_fake", False)
         if self.randomly_rolled_property == 1 or is_ut:
-            # This location will always be created by UT regardless of options
+            # This location will always be created by UT regardless of what UT happens to roll
             self.create_location(...)
 ```
 
@@ -63,7 +63,7 @@ You can also make it so a YAML is not required to generate for your world. To do
         }
 ```
 
-To make implementation simpler, instead of the large amount of adjustments you'd likely have to make in `interpret_slot_data`, you can instead turn it into a static method that simply returns the slot data. This will inform UT that instead of doing an initial generation when it opens, it will do a regen once connected to the multiworld.
+To make implementation simpler, instead of the large amount of adjustments you'd likely have to make in `interpret_slot_data`, you can instead turn it into a static method that simply returns the slot data. This will inform UT that instead of doing an initial generation when it opens, it will do a regeneration once connected to the multiworld.
 
 ```python
     @staticmethod
@@ -72,7 +72,7 @@ To make implementation simpler, instead of the large amount of adjustments you'd
         return slot_data
 ```
 
-During the regen, you can access the slot data via `re_gen_passthrough` on the multiworld object. Early in gen you can inspect this object to set any instance attributes or options needed from the slot data so your later functions will behave as expected.
+During the regeneration, you can access the slot data via `re_gen_passthrough` on the multiworld object. Early in the generation you can inspect this object to set any instance attributes or options needed from the slot data so your later functions will behave as expected.
 
 ```python
     def generate_early(self) -> None:
