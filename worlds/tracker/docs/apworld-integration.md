@@ -1,14 +1,14 @@
 # APWorld integration
 
-This document describes the changes you need to make to fully integrate your APWorld with Universal Tracker. It assumes you are already familiar with the basics of how UT works. If you haven't already, read through the [re-gen-passthrough](re-gen-passthrough.md) document.
+This document describes the changes you need to make to fully integrate your APWorld with Universal Tracker (UT). It assumes you are already familiar with the basics of how UT works. If you haven't already, read through the [re-gen-passthrough](re-gen-passthrough.md) document.
 
 The examples listed in this document are high-level. For reference implementations for these different features take a look at the [UT Integration Library](https://discord.com/channels/731205301247803413/1367996449270530080/1367997223991902219) thread in the AP discord.
 
 ## Providing information during generation
 
-UT does not have access to the seed used during the original generation. This means that any randomization that is not a direct result of YAML options or AP items will not be the same when UT runs and must be provided in slot data. This can include entrance rando (GER or otherwise), level order, starting location, or any similar options that don't use items directly.
+UT does not have access to the seed used during the original generation. This means that any randomization that is not a direct result of YAML options or AP items will not be the same when UT runs and must be provided in slot data. This can include entrance rando, level order, starting location, or similar options that don't use items directly.
 
-Best practice is to store these random results on your world instance and pass them into the result of `fill_slot_data`.
+Best practice is to pass these randomized results into `fill_slot_data`.
 
 ```python
     def fill_slot_data(self) -> dict[str, Any]:
@@ -21,7 +21,7 @@ Best practice is to store these random results on your world instance and pass t
 
 ## Loading provided information
 
-You can access the slot data from the original generation by defining an `interpret_slot_data` function in your world. UT will call this function once connected to the multiworld with the slot data it recieved for that slot. Using this data, you can adjust any world state that affects your rules, such as world instance attributes or entrance connections.
+You can access the slot data from the original generation by defining an `interpret_slot_data` function in your world. UT will call this function once connected to the multiworld with the slot data it received from that slot. Using this data, you can adjust any world state that affects your rules, such as world instance attributes or entrance connections.
 
 ```python
     def interpret_slot_data(self, slot_data: dict[str, Any]) -> None:
@@ -51,15 +51,13 @@ You may also want to adjust your world's behaviour in other functions to reduce 
 
 ## Generating without a YAML
 
-You can also make it so a YAML is not required to generate for your world. To do so, you must first store all options that affect generation in your slot data.
+You can also make it so a YAML is not required to generate for your world. To do so, you must first store all options that affect generation in your slot data. Take care not to include options that don't affect generation and aren't useful for the game client.
 
 ```python
     def fill_slot_data(self) -> dict[str, Any]:
-        # Store all defined options
-        option_fields = [field.name for field in dataclasses.fields(self.options)]
         return {
             # Keep other randomized results as above
-            "options": self.options.as_dict(*option_fields),
+            "options": self.options.as_dict("randomize_things", "randomize_stuff", "logic_difficulty"),
         }
 ```
 
@@ -90,7 +88,7 @@ During the regeneration, you can access the slot data via `re_gen_passthrough` o
                     setattr(self.options, key, opt.from_any(value))
 ```
 
-The last thing to do is inform UT that your world can generate without a YAML.
+The last thing you can do is inform UT that your world can generate without a YAML. This is not necessary to do, but it may be convenient. It does mean that someone cannot edit their local YAML to see what would have been in logic had they chosen different options.
 
 ```python
 class MyWorld(World):
