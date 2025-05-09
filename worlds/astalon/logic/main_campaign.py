@@ -674,19 +674,25 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], RuleFactory] = {
     (R.ROA_ARENA, R.ROA_FLAMES_CONNECTION): Has(KeyItem.CLAW),
     (R.ROA_ARENA, R.ROA_TRIPLE_REAPER): HasSwitch(Crystal.ROA_3_REAPERS),
     (R.ROA_ARENA, R.ROA_LOWER_VOID_CONNECTION): Has(Character.KYULI),
-    (R.ROA_LOWER_VOID_CONNECTION, R.ROA_ARIAS_BABY_GORGON): And(
-        Has(Character.ARIAS),
-        Or(HasSwitch(Crystal.ROA_BABY_GORGON), otherwise_crystal),
-    ),
-    (R.ROA_LOWER_VOID_CONNECTION, R.ROA_FLAMES_CONNECTION): HasAll(KeyItem.STAR, KeyItem.BELL),
     (R.ROA_LOWER_VOID_CONNECTION, R.ROA_LOWER_VOID): HasSwitch(Switch.ROA_LOWER_VOID),
+    (R.ROA_LOWER_VOID_CONNECTION, R.ROA_ARIAS_BABY_GORGON_CONNECTION): Or(
+        Has(Character.KYULI),
+        can_uppies,
+        can_block_in_wall,
+    ),
     (R.ROA_LOWER_VOID, R.ROA_UPPER_VOID): Has(KeyItem.VOID),
     (R.ROA_LOWER_VOID, R.ROA_LOWER_VOID_CONNECTION): HasSwitch(Switch.ROA_LOWER_VOID, otherwise=True),
+    (R.ROA_ARIAS_BABY_GORGON_CONNECTION, R.ROA_ARIAS_BABY_GORGON): And(
+        Has(Character.ARIAS),
+        Or(HardLogic(True_()), Has(KeyItem.BELL, opts=easy)),
+        Or(HasSwitch(Crystal.ROA_BABY_GORGON), otherwise_crystal),
+    ),
+    (R.ROA_ARIAS_BABY_GORGON_CONNECTION, R.ROA_FLAMES_CONNECTION): HasAll(KeyItem.STAR, KeyItem.BELL),
     (R.ROA_ARIAS_BABY_GORGON, R.ROA_FLAMES): And(
         HasSwitch(Switch.ROA_BABY_GORGON),
         HasAll(KeyItem.BLOCK, Character.KYULI, KeyItem.BELL),
     ),
-    (R.ROA_ARIAS_BABY_GORGON, R.ROA_LOWER_VOID_CONNECTION): And(
+    (R.ROA_ARIAS_BABY_GORGON, R.ROA_ARIAS_BABY_GORGON_CONNECTION): And(
         Has(Character.ARIAS),
         HasSwitch(Crystal.ROA_BABY_GORGON),
     ),
@@ -698,11 +704,11 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], RuleFactory] = {
         Or(HasSwitch(Crystal.ROA_LEFT_ASCEND), And(can_crystal, Has(KeyItem.BELL), opts=switch_off)),
         can_extra_height,
     ),
+    (R.ROA_FLAMES_CONNECTION, R.ROA_ARIAS_BABY_GORGON_CONNECTION): HasAll(KeyItem.STAR),
     (R.ROA_FLAMES_CONNECTION, R.ROA_ARIAS_BABY_GORGON): HardLogic(
         HasAny(ShopUpgrade.BRAM_AXE, ShopUpgrade.KYULI_RAY),
     ),
     (R.ROA_FLAMES_CONNECTION, R.ROA_FLAMES): And(HasAll(KeyItem.GAUNTLET, KeyItem.BELL), can_extra_height),
-    (R.ROA_FLAMES_CONNECTION, R.ROA_LOWER_VOID_CONNECTION): Has(KeyItem.STAR),
     (R.ROA_FLAMES_CONNECTION, R.ROA_LEFT_ASCENT_CRYSTAL): And(
         HasAll(KeyItem.BELL, Character.KYULI),
         can_crystal,

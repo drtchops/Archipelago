@@ -128,6 +128,7 @@ class RegionName(str, Enum):
     ROA_ARENA = "Ruins of Ash - Arena"
     ROA_LOWER_VOID_CONNECTION = "Ruins of Ash - Lower Void Connection"
     ROA_LOWER_VOID = "Ruins of Ash - Lower Void"
+    ROA_ARIAS_BABY_GORGON_CONNECTION = "Ruins of Ash - Arias Baby Gorgon Connection"
     ROA_ARIAS_BABY_GORGON = "Ruins of Ash - Arias Baby Gorgon"
     ROA_FLAMES_CONNECTION = "Ruins of Ash - Flames Connection"
     ROA_FLAMES = "Ruins of Ash - Flames"
@@ -988,8 +989,7 @@ astalon_regions: dict[RegionName, RegionData] = {
         exits=(
             RegionName.ROA_WORMS,
             RegionName.ROA_LOWER_VOID,
-            RegionName.ROA_ARIAS_BABY_GORGON,
-            RegionName.ROA_FLAMES_CONNECTION,
+            RegionName.ROA_ARIAS_BABY_GORGON_CONNECTION,
         ),
     ),
     RegionName.ROA_LOWER_VOID: RegionData(
@@ -999,9 +999,16 @@ astalon_regions: dict[RegionName, RegionData] = {
         ),
         portal=True,
     ),
-    RegionName.ROA_ARIAS_BABY_GORGON: RegionData(
+    RegionName.ROA_ARIAS_BABY_GORGON_CONNECTION: RegionData(
         exits=(
             RegionName.ROA_LOWER_VOID_CONNECTION,
+            RegionName.ROA_ARIAS_BABY_GORGON,
+            RegionName.ROA_FLAMES_CONNECTION,
+        ),
+    ),
+    RegionName.ROA_ARIAS_BABY_GORGON: RegionData(
+        exits=(
+            RegionName.ROA_ARIAS_BABY_GORGON_CONNECTION,
             RegionName.ROA_FLAMES_CONNECTION,
             RegionName.ROA_FLAMES,
         ),
@@ -1010,6 +1017,7 @@ astalon_regions: dict[RegionName, RegionData] = {
         exits=(
             RegionName.ROA_ARENA,
             RegionName.ROA_LOWER_VOID_CONNECTION,
+            RegionName.ROA_ARIAS_BABY_GORGON_CONNECTION,
             RegionName.ROA_ARIAS_BABY_GORGON,
             RegionName.ROA_FLAMES,
             RegionName.ROA_WORM_CLIMB,
