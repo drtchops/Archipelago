@@ -2,6 +2,9 @@ from typing import Any
 
 
 def map_page_index(data: Any) -> int:
+    """Converts the area id provided by the game mod to a map index."""
+    if not isinstance(data, int):
+        return 0
     if data in (1, 99):
         # tomb
         return 1
@@ -43,8 +46,9 @@ MAP_SCALE_X = ROOM_WIDTH / 59.346
 MAP_SCALE_Y = -ROOM_HEIGHT / 40.475
 
 
-def location_icon_coords(index: int, coords: dict[str, Any]) -> tuple[int, int, str] | None:
-    if not coords:
+def location_icon_coords(index: int | None, coords: dict[str, Any]) -> tuple[int, int, str] | None:
+    """Converts player coordinates provided by the game mod into image coordinates for the map page."""
+    if index is None or not coords:
         return None
 
     dx, dy = MAP_OFFSETS[index]
