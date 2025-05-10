@@ -968,7 +968,10 @@
                 "sections": [
                     {
                         "name": "Mechanism - Max HP +1 (Morning Star Blocks)",
-                        "access_rules": ["$can_star,claw", "$can_star,$DOOR_WHITE_MECH_ARENA,$DOOR_WHITE_MECH_TOP"],
+                        "access_rules": [
+                            "$can_star,claw",
+                            "$can_star,$DOOR_WHITE_MECH_ARENA,$DOOR_WHITE_MECH_TOP"
+                        ],
                         "visibility_rules": ["HP_ON"]
                     }
                 ],
@@ -1897,6 +1900,9 @@
                 "sections": [
                     {
                         "name": "Mechanism - Crystal (Campfire)"
+                    },
+                    {
+                        "name": "Mechanism - Candle (Black Knight)"
                     }
                 ],
                 "map_locations": [
@@ -1945,9 +1951,6 @@
                 "sections": [
                     {
                         "name": "Mechanism - Crystal (Black Knight)"
-                    },
-                    {
-                        "name": "Mechanism - Candle (Black Knight)"
                     }
                 ],
                 "map_locations": [
@@ -6211,7 +6214,10 @@
                 "sections": [
                     {
                         "name": "The Apex - Blood Chalice",
-                        "access_rules": ["adorned_key,$can_star,apex_blue,BLUE_ON", "adorned_key,$can_star,BLUE_OFF"]
+                        "access_rules": [
+                            "adorned_key,$can_star,apex_blue,BLUE_ON",
+                            "adorned_key,$can_star,BLUE_OFF"
+                        ]
                     }
                 ],
                 "map_locations": [
