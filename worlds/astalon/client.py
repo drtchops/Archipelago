@@ -69,7 +69,7 @@ class AstalonCommandProcessor(ClientCommandProcessor):  # type: ignore
     if tracker_loaded:
 
         @mark_raw
-        def _cmd_route(self, input_text: str = "") -> None:
+        def _cmd_route(self, location_or_region: str = "") -> None:
             """Explain the route to get to a location or region"""
             world = self.ctx.get_world()
             if not world:
@@ -80,14 +80,14 @@ class AstalonCommandProcessor(ClientCommandProcessor):  # type: ignore
                 logger.info("Route is disabled during Race Mode")
                 return
 
-            if not input_text:
+            if not location_or_region:
                 logger.info("Provide a location or region to route to using /route [name]")
                 return
 
             goal_location: Location | None = None
             goal_region: Region | None = None
             region_name = ""
-            location_name, usable, response = get_intended_text(input_text, world.location_names)
+            location_name, usable, response = get_intended_text(location_or_region, world.location_names)
             if usable:
                 goal_location = world.get_location(location_name)
                 goal_region = goal_location.parent_region
@@ -96,7 +96,7 @@ class AstalonCommandProcessor(ClientCommandProcessor):  # type: ignore
                     return
             else:
                 region_name, usable, _ = get_intended_text(
-                    input_text,
+                    location_or_region,
                     [r.name for r in world.multiworld.get_regions(world.player)],
                 )
                 if usable:
@@ -234,7 +234,7 @@ class AstalonClientContext(TrackerGameContext):
             def build(self):
                 container = super().build()
                 if not tracker_loaded:
-                    logger.info("To enable the tracker page, install Universal Tracker.")
+                    logger.info("To enable the tracker and map pages, install Universal Tracker.")
 
                 return container
 

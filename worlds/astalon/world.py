@@ -5,7 +5,7 @@ from functools import cached_property
 from typing import TYPE_CHECKING, Any, ClassVar, Final
 
 from BaseClasses import CollectionState, Item, ItemClassification, Region, Tutorial
-from Options import OptionError
+from Options import OptionError, PerGameCommonOptions
 from worlds.AutoWorld import WebWorld, World
 from worlds.LauncherComponents import Component, Type, components, icon_paths, launch_subprocess
 
@@ -471,12 +471,14 @@ class AstalonWorld(World):
         del cls.cached_spheres
 
     def fill_slot_data(self) -> dict[str, Any]:
+        option_fields = [
+            field.name
+            for field in dataclasses.fields(self.options)
+            if field not in dataclasses.fields(PerGameCommonOptions) or field.name == "exclude_locations"
+        ]
         return {
             "version": VERSION,
-            "options": self.options.as_dict(
-                *[field.name for field in dataclasses.fields(self.options)],
-                casing="snake",
-            ),
+            "options": self.options.as_dict(*option_fields, casing="snake"),
             "starting_characters": [c.value for c in self.starting_characters],
             "character_strengths": self._get_character_strengths(),
             "required_gold_eyes": self.required_gold_eyes,
