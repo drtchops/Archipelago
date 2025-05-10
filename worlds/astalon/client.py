@@ -73,6 +73,15 @@ class AstalonCommandProcessor(ClientCommandProcessor):  # type: ignore
             """Explain the route to get to a location or region"""
             world = self.ctx.get_world()
             if not world:
+                logger.info("Not yet loaded into a game")
+                return
+
+            if self.ctx.stored_data and self.ctx.stored_data.get("_read_race_mode"):
+                logger.info("Route is disabled during Race Mode")
+                return
+
+            if not input_text:
+                logger.info("Provide a location or region to route to using /route [name]")
                 return
 
             goal_location: Location | None = None
