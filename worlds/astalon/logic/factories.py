@@ -461,10 +461,10 @@ class HardLogic(RuleFactory):
     child: "RuleFactory"
 
     def _instantiate(self, world: "AstalonWorld") -> "RuleInstance":
+        if world.options.difficulty.value == Difficulty.option_hard:
+            return self.child.resolve(world)
         if getattr(world.multiworld, "generation_is_fake", False):
             return HardLogicInstance(self.child.resolve(world), player=world.player)
-        elif world.options.difficulty.value == Difficulty.option_hard:
-            return self.child.resolve(world)
         return FalseInstance(player=world.player)
 
     def serialize(self) -> str:
