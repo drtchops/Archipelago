@@ -1,7 +1,7 @@
 from ..items import BlueDoor, Events, KeyItem, RedDoor
 from ..locations import LocationName
 from ..regions import RegionName
-from . import AstalonTestBase
+from .bases import AstalonTestBase
 
 
 class VanillaCharacterTest(AstalonTestBase):

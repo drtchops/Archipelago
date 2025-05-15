@@ -1,6 +1,6 @@
 from ..items import BlueDoor, Eye, KeyItem
 from ..locations import LocationName
-from . import AstalonTestBase
+from .bases import AstalonTestBase
 
 
 class LocationsTest(AstalonTestBase):

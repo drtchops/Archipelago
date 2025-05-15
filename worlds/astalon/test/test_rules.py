@@ -1,7 +1,7 @@
 from ..items import BlueDoor, Character, Crystal, KeyItem
 from ..logic.factories import And, Has, HasAny, HasBlue, HasSwitch, Or, True_
 from ..logic.instances import HasAllInstance, HasInstance, OrInstance
-from . import AstalonTestBase
+from .bases import AstalonTestBase
 
 
 class RuleHashTest(AstalonTestBase):

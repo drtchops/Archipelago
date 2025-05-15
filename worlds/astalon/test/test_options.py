@@ -1,4 +1,4 @@
-from . import AstalonTestBase
+from .bases import AstalonTestBase
 
 
 class DefaultTest(AstalonTestBase):
