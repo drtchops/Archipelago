@@ -474,7 +474,7 @@ class AstalonWorld(World):
         option_fields = [
             field.name
             for field in dataclasses.fields(self.options)
-            if field not in dataclasses.fields(PerGameCommonOptions) or field.name == "exclude_locations"
+            if field not in dataclasses.fields(PerGameCommonOptions)
         ]
         return {
             "version": VERSION,
