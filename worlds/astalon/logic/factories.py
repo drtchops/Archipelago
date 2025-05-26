@@ -453,7 +453,11 @@ class HasGoal(RuleFactory):
     def _instantiate(self, world: "AstalonWorld") -> "RuleInstance":
         if world.options.goal != Goal.option_eye_hunt:
             return TrueInstance(player=world.player)
-        return HasInstance(Eye.GOLD.value, count=world.required_gold_eyes, player=world.player)
+        return HasInstance(
+            Eye.GOLD.value,
+            count=world.options.additional_eyes_required.value,
+            player=world.player,
+        )
 
 
 @dataclasses.dataclass()

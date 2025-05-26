@@ -1,11 +1,10 @@
-import dataclasses
 import logging
 from collections import defaultdict
 from functools import cached_property
 from typing import TYPE_CHECKING, Any, ClassVar, Final
 
 from BaseClasses import CollectionState, Item, ItemClassification, Region, Tutorial
-from Options import OptionError, PerGameCommonOptions
+from Options import OptionError
 from worlds.AutoWorld import WebWorld, World
 from worlds.LauncherComponents import Component, Type, components, icon_paths, launch_subprocess
 
@@ -131,7 +130,6 @@ class AstalonWorld(World):
     required_client_version = (0, 6, 0)
 
     starting_characters: "list[Character]"
-    required_gold_eyes: int = 0
     extra_gold_eyes: int = 0
 
     cached_spheres: ClassVar[list[set["Location"]]]
@@ -144,11 +142,13 @@ class AstalonWorld(World):
     rule_cache: "dict[int, RuleInstance]"
     _rule_deps: "dict[str, set[int]]"
 
-    def generate_early(self) -> None:
+    def __init__(self, multiworld: "MultiWorld", player: int) -> None:
+        super().__init__(multiworld, player)
         self.rule_cache = {}
         self._rule_deps = defaultdict(set)
-
         self.starting_characters = []
+
+    def generate_early(self) -> None:
         if self.options.randomize_characters == RandomizeCharacters.option_solo:
             self.starting_characters.append(self.random.choice(CHARACTERS))
         elif self.options.randomize_characters == RandomizeCharacters.option_random_selection:
@@ -161,8 +161,9 @@ class AstalonWorld(World):
             self.starting_characters.extend(CHARACTER_STARTS[int(self.options.randomize_characters)])
 
         if self.options.goal == Goal.option_eye_hunt:
-            self.required_gold_eyes = self.options.additional_eyes_required.value
-            self.extra_gold_eyes = round(self.required_gold_eyes * (self.options.extra_eyes / 100))
+            self.extra_gold_eyes = round(
+                self.options.additional_eyes_required.value * (self.options.extra_eyes / 100)
+            )
 
         re_gen_passthrough = getattr(self.multiworld, "re_gen_passthrough", {})
         if re_gen_passthrough and GAME_NAME in re_gen_passthrough:
@@ -176,8 +177,6 @@ class AstalonWorld(World):
 
             if "starting_characters" in slot_data:
                 self.starting_characters = [Character(c) for c in slot_data["starting_characters"]]
-            if "required_gold_eyes" in slot_data:
-                self.required_gold_eyes = slot_data["required_gold_eyes"]
             if "extra_gold_eyes" in slot_data:
                 self.extra_gold_eyes = slot_data["extra_gold_eyes"]
 
@@ -408,7 +407,7 @@ class AstalonWorld(World):
                 for red_door in EARLY_SWITCHES:
                     self.multiworld.push_precollected(self.create_item(red_door.value))
 
-        for _ in range(0, self.required_gold_eyes + self.extra_gold_eyes):
+        for _ in range(0, self.options.additional_eyes_required.value + self.extra_gold_eyes):
             itempool.append(self.create_item(Eye.GOLD.value))
 
         total_locations = len(self.multiworld.get_unfilled_locations(self.player))
@@ -471,17 +470,36 @@ class AstalonWorld(World):
         del cls.cached_spheres
 
     def fill_slot_data(self) -> dict[str, Any]:
-        option_fields = [
-            field.name
-            for field in dataclasses.fields(self.options)
-            if field not in dataclasses.fields(PerGameCommonOptions)
-        ]
         return {
             "version": VERSION,
-            "options": self.options.as_dict(*option_fields, casing="snake"),
+            "options": self.options.as_dict(
+                "difficulty",
+                "goal",
+                "additional_eyes_required",
+                "randomize_characters",
+                "randomize_key_items",
+                "randomize_health_pickups",
+                "randomize_attack_pickups",
+                "randomize_white_keys",
+                "randomize_blue_keys",
+                "randomize_red_keys",
+                "randomize_shop",
+                "randomize_elevator",
+                "randomize_switches",
+                "randomize_candles",
+                "skip_cutscenes",
+                "apex_elevator",
+                "cost_multiplier",
+                "fast_blood_chalice",
+                "campfire_warp",
+                "allow_block_warping",
+                "cheap_kyuli_ray",
+                "always_restore_candles",
+                "scale_character_stats",
+                "death_link",
+            ),
             "starting_characters": [c.value for c in self.starting_characters],
             "character_strengths": self._get_character_strengths(),
-            "required_gold_eyes": self.required_gold_eyes,
             "extra_gold_eyes": self.extra_gold_eyes,
         }
 

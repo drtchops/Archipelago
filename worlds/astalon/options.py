@@ -387,7 +387,7 @@ class TrapPercentage(NamedRange):
 class AstalonOptions(PerGameCommonOptions):
     start_inventory_from_pool: StartInventoryPool
     difficulty: Difficulty
-    campaign: Campaign
+    # campaign: Campaign
     goal: Goal
     additional_eyes_required: AdditionalEyesRequired
     extra_eyes: ExtraEyes
@@ -402,9 +402,9 @@ class AstalonOptions(PerGameCommonOptions):
     randomize_elevator: RandomizeElevator
     randomize_switches: RandomizeSwitches
     randomize_candles: RandomizeCandles
-    randomize_orb_rocks: RandomizeOrbRocks
-    randomize_familiars: RandomizeFamiliars
-    randomize_miniboss_rewards: RandomizeMinibossRewards
+    # randomize_orb_rocks: RandomizeOrbRocks
+    # randomize_familiars: RandomizeFamiliars
+    # randomize_miniboss_rewards: RandomizeMinibossRewards
     skip_cutscenes: SkipCutscenes
     start_with_qol: StartWithQOL
     start_with_ascendant_key: StartWithAscendantKey
