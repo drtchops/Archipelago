@@ -588,7 +588,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], RuleFactory] = {
         HasSwitch(Crystal.HOTP_AFTER_CLAW),
         HardLogic(
             Or(
-                Has(KeyItem.CLOAK),
+                HasAll(KeyItem.CLOAK, KeyItem.BANISH, ShopUpgrade.ALGUS_ARCANIST),
                 HasAll(Character.ALGUS, KeyItem.ICARUS),
                 Has(ShopUpgrade.KYULI_RAY),
             ),
