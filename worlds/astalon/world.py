@@ -407,8 +407,9 @@ class AstalonWorld(World):
                 for red_door in EARLY_SWITCHES:
                     self.multiworld.push_precollected(self.create_item(red_door.value))
 
-        for _ in range(0, self.options.additional_eyes_required.value + self.extra_gold_eyes):
-            itempool.append(self.create_item(Eye.GOLD.value))
+        if self.options.goal.value == Goal.option_eye_hunt:
+            for _ in range(0, self.options.additional_eyes_required.value + self.extra_gold_eyes):
+                itempool.append(self.create_item(Eye.GOLD.value))
 
         total_locations = len(self.multiworld.get_unfilled_locations(self.player))
 
