@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 from Options import (
     Choice,
-    DeathLink,
+    DeathLinkMixin,
     DefaultOnToggle,
     NamedRange,
     PerGameCommonOptions,
@@ -383,8 +383,19 @@ class TrapPercentage(NamedRange):
     }
 
 
+class TagLink(Toggle):
+    """
+    Determines if the Tag Link is enabled.
+    If enabled, if you have another player's character you will tag to that charater as well.
+    If you don't have that character, you will randomly tag to another character.
+    If you only have one character, nothing will happen.
+    """
+
+    display_name = "Tag Link"
+
+
 @dataclass
-class AstalonOptions(PerGameCommonOptions):
+class AstalonOptions(DeathLinkMixin, PerGameCommonOptions):
     start_inventory_from_pool: StartInventoryPool
     difficulty: Difficulty
     # campaign: Campaign
@@ -419,4 +430,4 @@ class AstalonOptions(PerGameCommonOptions):
     always_restore_candles: AlwaysRestoreCandles
     scale_character_stats: ScaleCharacterStats
     trap_percentage: TrapPercentage
-    death_link: DeathLink
+    tag_link: TagLink

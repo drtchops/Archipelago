@@ -497,6 +497,7 @@ class AstalonWorld(World):
                 "cheap_kyuli_ray",
                 "always_restore_candles",
                 "scale_character_stats",
+                "tag_link",
                 "death_link",
             ),
             "starting_characters": [c.value for c in self.starting_characters],
