@@ -142,7 +142,7 @@ class AndInstance(NestedRuleInstance):
     def simplify(self) -> "RuleInstance":
         children_to_process = list(self.children)
         clauses: list[RuleInstance] = []
-        items: list[str] = []
+        items: set[str] = set()
         true_rule: RuleInstance | None = None
 
         while children_to_process:
@@ -159,9 +159,9 @@ class AndInstance(NestedRuleInstance):
                 continue
 
             if isinstance(child, HasInstance) and child.count == 1:
-                items.append(child.item)
+                items.add(child.item)
             elif isinstance(child, HasAllInstance):
-                items.extend(child.items)
+                items.update(child.items)
             else:
                 clauses.append(child)
 
@@ -169,9 +169,9 @@ class AndInstance(NestedRuleInstance):
             return true_rule or FalseInstance(player=self.player)
         if items:
             if len(items) == 1:
-                item_rule = HasInstance(items[0], player=self.player)
+                item_rule = HasInstance(items.pop(), player=self.player)
             else:
-                item_rule = HasAllInstance(tuple(items), player=self.player)
+                item_rule = HasAllInstance(tuple(sorted(items)), player=self.player)
             if not clauses:
                 return item_rule
             clauses.append(item_rule)
@@ -208,7 +208,7 @@ class OrInstance(NestedRuleInstance):
     def simplify(self) -> "RuleInstance":
         children_to_process = list(self.children)
         clauses: list[RuleInstance] = []
-        items: list[str] = []
+        items: set[str] = set()
 
         while children_to_process:
             child = children_to_process.pop(0)
@@ -223,9 +223,9 @@ class OrInstance(NestedRuleInstance):
                 continue
 
             if isinstance(child, HasInstance) and child.count == 1:
-                items.append(child.item)
+                items.add(child.item)
             elif isinstance(child, HasAnyInstance):
-                items.extend(child.items)
+                items.update(child.items)
             else:
                 clauses.append(child)
 
@@ -233,9 +233,9 @@ class OrInstance(NestedRuleInstance):
             return FalseInstance(player=self.player)
         if items:
             if len(items) == 1:
-                item_rule = HasInstance(items[0], player=self.player)
+                item_rule = HasInstance(items.pop(), player=self.player)
             else:
-                item_rule = HasAnyInstance(tuple(items), player=self.player)
+                item_rule = HasAnyInstance(tuple(sorted(items)), player=self.player)
             if not clauses:
                 return item_rule
             clauses.append(item_rule)

@@ -409,7 +409,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], RuleFactory] = {
     ),
     (R.MECH_CHARACTER_SWAPS, R.MECH_CLOAK_CONNECTION): And(
         Or(
-            HasSwitch(Crystal.MECH_TRIPLE_1, Crystal.MECH_TRIPLE_1, Crystal.MECH_TRIPLE_1),
+            HasSwitch(Crystal.MECH_TRIPLE_1, Crystal.MECH_TRIPLE_2, Crystal.MECH_TRIPLE_3),
             otherwise_crystal,
         ),
         can_extra_height,
@@ -1092,7 +1092,7 @@ MAIN_LOCATION_RULES: dict[L, RuleFactory] = {
         Or(
             HasSwitch(Crystal.CATA_POISON_ROOTS),
             And(can_crystal, Has(KeyItem.BELL), opts=switch_off),
-            HasAll(KeyItem.ICARUS, KeyItem.CLAW),
+            HardLogic(HasAll(KeyItem.ICARUS, KeyItem.CLAW)),
         ),
     ),
     L.CATA_HP_2_GEMINI_BOTTOM: And(Has(Character.KYULI), Or(HasSwitch(Face.CATA_BOTTOM), otherwise_bow)),

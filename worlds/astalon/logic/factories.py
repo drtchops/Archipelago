@@ -191,6 +191,9 @@ class HasAll(RuleFactory):
     instance_cls = HasAllInstance
 
     def __init__(self, *items: "ItemName | Events", opts: tuple[tuple[str, Any], ...] = ()) -> None:
+        if len(items) != len(set(items)):
+            raise ValueError(f"Duplicate items detected, likely typo, items: {items}")
+
         super().__init__(opts=opts)
         self.items = items
 
@@ -260,6 +263,9 @@ class HasAny(RuleFactory):
     instance_cls = HasAnyInstance
 
     def __init__(self, *items: "ItemName | Events", opts: tuple[tuple[str, Any], ...] = ()) -> None:
+        if len(items) != len(set(items)):
+            raise ValueError(f"Duplicate items detected, likely typo, items: {items}")
+
         super().__init__(opts=opts)
         self.items = items
 

@@ -59,7 +59,7 @@ class RuleResolutionTest(AstalonTestBase):
         expected = OrInstance(
             (
                 HasAllInstance(
-                    ("Bram", "Morning Star", "Blue Door (Gorgon Tomb - Ring of the Ancients)"),
+                    ("Blue Door (Gorgon Tomb - Ring of the Ancients)", "Bram", "Morning Star"),
                     player=self.player,
                 ),
                 HasAllInstance(("Zeek", "Magic Block"), player=self.player),
