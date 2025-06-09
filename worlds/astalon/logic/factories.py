@@ -73,16 +73,16 @@ characters_on = ("randomize_characters__ge", 1)
 
 @dataclasses.dataclass()
 class RuleFactory:
-    opts: tuple[tuple[str, Any], ...] = dataclasses.field(default=(), kw_only=True)
+    options: dict[str, Any] = dataclasses.field(default_factory=dict, kw_only=True)
 
     instance_cls: "ClassVar[type[RuleInstance]]"
 
-    def _pass_opts(self, options: "CommonOptions") -> bool:
-        for key, value in self.opts:
+    def _passes_options(self, options: "CommonOptions") -> bool:
+        for key, value in self.options.items():
             parts = key.split("__", maxsplit=1)
             option_name = parts[0]
             operator = parts[1] if len(parts) > 1 else "eq"
-            opt: Option = getattr(options, option_name)
+            opt: Option[Any] = getattr(options, option_name)
             if not OPERATORS[operator](opt.value, value):
                 return False
         return True
@@ -91,7 +91,7 @@ class RuleFactory:
         return self.instance_cls(player=world.player)
 
     def resolve(self, world: "AstalonWorld") -> "RuleInstance":
-        if not self._pass_opts(world.options):
+        if not self._passes_options(world.options):
             return FalseInstance(player=world.player)
 
         instance = self._instantiate(world)
@@ -130,8 +130,8 @@ class NestedRuleFactory(RuleFactory):
         children = [c.resolve(world) for c in self.children]
         return self.instance_cls(tuple(children), player=world.player).simplify()  # type: ignore
 
-    def __init__(self, *children: "RuleFactory", opts: tuple[tuple[str, Any], ...] = ()) -> None:
-        super().__init__(opts=opts)
+    def __init__(self, *children: "RuleFactory", options: dict[str, Any] | None = None) -> None:
+        super().__init__(options=options or {})
         self.children = children
 
 
@@ -190,11 +190,11 @@ class HasAll(RuleFactory):
 
     instance_cls = HasAllInstance
 
-    def __init__(self, *items: "ItemName | Events", opts: tuple[tuple[str, Any], ...] = ()) -> None:
+    def __init__(self, *items: "ItemName | Events", options: dict[str, Any] | None = None) -> None:
         if len(items) != len(set(items)):
             raise ValueError(f"Duplicate items detected, likely typo, items: {items}")
 
-        super().__init__(opts=opts)
+        super().__init__(options=options or {})
         self.items = items
 
     def _instantiate(self, world: "AstalonWorld") -> "RuleInstance":
@@ -206,10 +206,7 @@ class HasAll(RuleFactory):
         new_clauses: list[RuleInstance] = []
         new_items: list[str] = []
         for item in self.items:
-            if (
-                item in VANILLA_CHARACTERS
-                and world.options.randomize_characters == RandomizeCharacters.option_vanilla
-            ):
+            if item in VANILLA_CHARACTERS and world.options.randomize_characters == RandomizeCharacters.option_vanilla:
                 continue
             deps = ITEM_DEPS.get(item, [])
             if not deps:
@@ -262,11 +259,11 @@ class HasAny(RuleFactory):
 
     instance_cls = HasAnyInstance
 
-    def __init__(self, *items: "ItemName | Events", opts: tuple[tuple[str, Any], ...] = ()) -> None:
+    def __init__(self, *items: "ItemName | Events", options: dict[str, Any] | None = None) -> None:
         if len(items) != len(set(items)):
             raise ValueError(f"Duplicate items detected, likely typo, items: {items}")
 
-        super().__init__(opts=opts)
+        super().__init__(options=options or {})
         self.items = items
 
     def _instantiate(self, world: "AstalonWorld") -> "RuleInstance":
@@ -278,10 +275,7 @@ class HasAny(RuleFactory):
         new_clauses: list[RuleInstance] = []
         new_items: list[str] = []
         for item in self.items:
-            if (
-                item in VANILLA_CHARACTERS
-                and world.options.randomize_characters == RandomizeCharacters.option_vanilla
-            ):
+            if item in VANILLA_CHARACTERS and world.options.randomize_characters == RandomizeCharacters.option_vanilla:
                 return TrueInstance(player=world.player)
 
             deps = ITEM_DEPS.get(item, [])
@@ -379,14 +373,14 @@ class ToggleRule(HasAll):
 
     def _instantiate(self, world: "AstalonWorld") -> "RuleInstance":
         if len(self.items) == 1:
-            rule = Has(self.items[0], opts=((self.option_name, 1),))
+            rule = Has(self.items[0], options={self.option_name: 1})
         else:
-            rule = HasAll(*self.items, opts=((self.option_name, 1),))
+            rule = HasAll(*self.items, options={self.option_name: 1})
 
         if self.otherwise:
             return Or(
                 rule,
-                True_(opts=((self.option_name, 0),)),
+                True_(options={self.option_name: 0}),
             ).resolve(world)
 
         return rule.resolve(world)
@@ -400,9 +394,9 @@ class HasWhite(ToggleRule):
         self,
         *doors: "WhiteDoor",
         otherwise: bool = False,
-        opts: tuple[tuple[str, Any], ...] = (),
+        options: dict[str, Any] | None = None,
     ) -> None:
-        super().__init__(*doors, opts=opts)
+        super().__init__(*doors, options=options)
         self.otherwise = otherwise
 
 
@@ -414,9 +408,9 @@ class HasBlue(ToggleRule):
         self,
         *doors: "BlueDoor",
         otherwise: bool = False,
-        opts: tuple[tuple[str, Any], ...] = (),
+        options: dict[str, Any] | None = None,
     ) -> None:
-        super().__init__(*doors, opts=opts)
+        super().__init__(*doors, options=options)
         self.otherwise = otherwise
 
 
@@ -428,9 +422,9 @@ class HasRed(ToggleRule):
         self,
         *doors: "RedDoor",
         otherwise: bool = False,
-        opts: tuple[tuple[str, Any], ...] = (),
+        options: dict[str, Any] | None = None,
     ) -> None:
-        super().__init__(*doors, opts=opts)
+        super().__init__(*doors, options=options)
         self.otherwise = otherwise
 
 
@@ -442,16 +436,17 @@ class HasSwitch(ToggleRule):
         self,
         *switches: "Switch | Crystal | Face",
         otherwise: bool = False,
-        opts: tuple[tuple[str, Any], ...] = (),
+        options: dict[str, Any] | None = None,
     ) -> None:
-        super().__init__(*switches, opts=opts)
+        super().__init__(*switches, options=options)
         self.otherwise = otherwise
 
 
 @dataclasses.dataclass(init=False)
 class HasElevator(HasAll):
-    def __init__(self, elevator: "Elevator", *, opts: tuple[tuple[str, Any], ...] = ()) -> None:
-        super().__init__(KeyItem.ASCENDANT_KEY, elevator, opts=(*opts, ("randomize_elevator", 1)))
+    def __init__(self, elevator: "Elevator", *, options: dict[str, Any] | None = None) -> None:
+        options = options or {}
+        super().__init__(KeyItem.ASCENDANT_KEY, elevator, options={**options, "randomize_elevator": 1})
 
 
 @dataclasses.dataclass()

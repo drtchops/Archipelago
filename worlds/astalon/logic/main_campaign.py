@@ -33,21 +33,21 @@ from .factories import (
     True_,
 )
 
-easy = (("difficulty", 0),)
-characters_off = (("randomize_characters", 0),)
-characters_on = (("randomize_characters__ge", 1),)
-white_off = (("randomize_white_keys", 0),)
-blue_off = (("randomize_blue_keys", 0),)
-red_off = (("randomize_red_keys", 0),)
-switch_off = (("randomize_switches", 0),)
+easy = {"difficulty": 0}
+characters_off = {"randomize_characters": 0}
+characters_on = {"randomize_characters__ge": 1}
+white_off = {"randomize_white_keys": 0}
+blue_off = {"randomize_blue_keys": 0}
+red_off = {"randomize_red_keys": 0}
+switch_off = {"randomize_switches": 0}
 
 true = True_()
 false = False_()
 
 can_uppies = HardLogic(
     Or(
-        True_(opts=characters_off),
-        HasAny(Character.ARIAS, Character.BRAM, opts=characters_on),
+        True_(options=characters_off),
+        HasAny(Character.ARIAS, Character.BRAM, options=characters_on),
     )
 )
 can_extra_height = Or(HasAny(Character.KYULI, KeyItem.BLOCK), can_uppies)
@@ -67,7 +67,7 @@ can_crystal_wo_whiplash = Or(
 can_big_magic = HardLogic(HasAll(Character.ALGUS, KeyItem.BANISH, ShopUpgrade.ALGUS_ARCANIST))
 can_kill_ghosts = Or(
     HasAny(KeyItem.BANISH, KeyItem.BLOCK),
-    HasAll(ShopUpgrade.ALGUS_METEOR, KeyItem.CHALICE, opts=easy),
+    HasAll(ShopUpgrade.ALGUS_METEOR, KeyItem.CHALICE, options=easy),
     HardLogic(Has(ShopUpgrade.ALGUS_METEOR)),
 )
 
@@ -75,14 +75,14 @@ otherwise_crystal = Or(
     HasAny(Character.ALGUS, KeyItem.BLOCK, ShopUpgrade.BRAM_WHIPLASH),
     HasAll(Character.ZEEK, KeyItem.BANISH),
     HardLogic(Has(ShopUpgrade.KYULI_RAY)),
-    opts=switch_off,
+    options=switch_off,
 )
-otherwise_bow = Has(KeyItem.BOW, opts=switch_off)
-chalice_on_easy = Or(HardLogic(True_()), Has(KeyItem.CHALICE, opts=easy))
+otherwise_bow = Has(KeyItem.BOW, options=switch_off)
+chalice_on_easy = Or(HardLogic(True_()), Has(KeyItem.CHALICE, options=easy))
 
 elevator_apex = Or(
-    HasElevator(Elevator.APEX, opts=(("apex_elevator", 1),)),
-    Has(KeyItem.ASCENDANT_KEY, opts=(("apex_elevator", 0),)),
+    HasElevator(Elevator.APEX, options={"apex_elevator": 1}),
+    Has(KeyItem.ASCENDANT_KEY, options={"apex_elevator": 0}),
 )
 # TODO: better implementations
 shop_cheap = CanReachRegion(R.GT_LEFT)
@@ -110,7 +110,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], RuleFactory] = {
     ),
     (R.GT_ENTRANCE, R.GT_BOTTOM): Or(
         HasSwitch(Switch.GT_2ND_ROOM),
-        HasWhite(WhiteDoor.GT_START, otherwise=True, opts=switch_off),
+        HasWhite(WhiteDoor.GT_START, otherwise=True, options=switch_off),
     ),
     (R.GT_ENTRANCE, R.GT_VOID): Has(KeyItem.VOID),
     (R.GT_ENTRANCE, R.GT_GORGONHEART): Or(
@@ -160,21 +160,21 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], RuleFactory] = {
     (R.GT_LEFT, R.GT_TOP_RIGHT): can_extra_height,
     (R.GT_TOP_LEFT, R.GT_BUTT): Or(
         HasSwitch(Switch.GT_BUTT_ACCESS),
-        CanReachRegion(R.GT_SPIKE_TUNNEL_SWITCH, opts=switch_off),
+        CanReachRegion(R.GT_SPIKE_TUNNEL_SWITCH, options=switch_off),
     ),
     (R.GT_TOP_RIGHT, R.GT_SPIKE_TUNNEL): Or(
         HasSwitch(Switch.GT_SPIKE_TUNNEL),
-        CanReachRegion(R.GT_TOP_LEFT, opts=switch_off),
+        CanReachRegion(R.GT_TOP_LEFT, options=switch_off),
     ),
     (R.GT_SPIKE_TUNNEL, R.GT_TOP_RIGHT): HasSwitch(Switch.GT_SPIKE_TUNNEL),
     (R.GT_SPIKE_TUNNEL, R.GT_SPIKE_TUNNEL_SWITCH): can_extra_height,
     (R.GT_SPIKE_TUNNEL_SWITCH, R.GT_BUTT): Or(
         HardLogic(Has(KeyItem.STAR)),
-        HasAll(KeyItem.STAR, KeyItem.BELL, opts=easy),
+        HasAll(KeyItem.STAR, KeyItem.BELL, options=easy),
     ),
     (R.GT_BUTT, R.GT_TOP_LEFT): HasSwitch(Switch.GT_BUTT_ACCESS),
     (R.GT_BUTT, R.GT_SPIKE_TUNNEL_SWITCH): Has(KeyItem.STAR),
-    (R.GT_BUTT, R.GT_BOSS): Or(HasWhite(WhiteDoor.GT_TAUROS), CanReachRegion(R.GT_TOP_RIGHT, opts=white_off)),
+    (R.GT_BUTT, R.GT_BOSS): Or(HasWhite(WhiteDoor.GT_TAUROS), CanReachRegion(R.GT_TOP_RIGHT, options=white_off)),
     (R.GT_BOSS, R.GT_BUTT): HasWhite(WhiteDoor.GT_TAUROS),
     (R.GT_BOSS, R.MECH_START): Has(Eye.RED),
     (R.GT_BOSS, R.MECH_ZEEK_CONNECTION): HasElevator(Elevator.MECH_1),
@@ -188,16 +188,16 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], RuleFactory] = {
     (R.GT_BOSS, R.TR_START): HasElevator(Elevator.TR),
     (R.GT_UPPER_ARIAS, R.GT_OLD_MAN_FORK): Or(
         HasSwitch(Crystal.GT_LADDER),
-        CanReachRegion(R.GT_LADDER_SWITCH, opts=switch_off),
+        CanReachRegion(R.GT_LADDER_SWITCH, options=switch_off),
     ),
     (R.GT_UPPER_ARIAS, R.MECH_SWORD_CONNECTION): Or(
         Has(Character.ARIAS),
         HasSwitch(Switch.GT_UPPER_ARIAS),
-        CanReachRegion(R.GT_ARIAS_SWORD_SWITCH, opts=switch_off),
+        CanReachRegion(R.GT_ARIAS_SWORD_SWITCH, options=switch_off),
     ),
     (R.GT_OLD_MAN_FORK, R.GT_UPPER_ARIAS): Or(
         HasSwitch(Crystal.GT_LADDER),
-        CanReachRegion(R.GT_LADDER_SWITCH, opts=switch_off),
+        CanReachRegion(R.GT_LADDER_SWITCH, options=switch_off),
     ),
     (R.GT_OLD_MAN_FORK, R.GT_SWORD_FORK): HasBlue(BlueDoor.GT_SWORD, otherwise=True),
     (R.GT_OLD_MAN_FORK, R.GT_OLD_MAN): Or(
@@ -221,7 +221,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], RuleFactory] = {
             And(
                 CanReachRegion(R.MECH_SWORD_CONNECTION),
                 HasSwitch(Switch.MECH_LOWER_KEY, otherwise=True),
-                opts=white_off,
+                options=white_off,
             ),
         ),
     ),
@@ -249,7 +249,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], RuleFactory] = {
     (R.MECH_BOOTS_CONNECTION, R.MECH_BOTTOM_CAMPFIRE): HasBlue(BlueDoor.MECH_VOID, otherwise=True),
     (R.MECH_BOOTS_CONNECTION, R.MECH_BOOTS_LOWER): Or(
         HasSwitch(Switch.MECH_BOOTS),
-        HasAny(Eye.RED, KeyItem.STAR, opts=switch_off),
+        HasAny(Eye.RED, KeyItem.STAR, options=switch_off),
     ),
     (R.MECH_BOOTS_LOWER, R.MECH_BOOTS_UPPER): Or(
         HasSwitch(Switch.MECH_BOOTS_LOWER, otherwise=True),
@@ -295,7 +295,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], RuleFactory] = {
     (R.MECH_AFTER_BK, R.MECH_CHAINS): HasSwitch(Switch.MECH_CHAINS),
     (R.MECH_AFTER_BK, R.MECH_BK): Or(
         HasSwitch(Crystal.MECH_BK),
-        HardLogic(Has(ShopUpgrade.KYULI_RAY), opts=switch_off),
+        HardLogic(Has(ShopUpgrade.KYULI_RAY), options=switch_off),
     ),
     (R.MECH_AFTER_BK, R.HOTP_EPIMETHEUS): Has(KeyItem.CLAW),
     (R.MECH_CHAINS, R.MECH_CHAINS_CANDLE): Has(KeyItem.CLAW),
@@ -306,7 +306,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], RuleFactory] = {
         Has(KeyItem.CLAW),
         HasSwitch(Switch.MECH_BOSS_2),
         HasSwitch(Crystal.MECH_TO_BOSS_3),
-        HardLogic(Or(can_big_magic, Has(ShopUpgrade.KYULI_RAY)), opts=switch_off),
+        HardLogic(Or(can_big_magic, Has(ShopUpgrade.KYULI_RAY)), options=switch_off),
     ),
     (R.MECH_CHAINS, R.MECH_AFTER_BK): HasSwitch(Switch.MECH_CHAINS, otherwise=True),
     (R.MECH_ARIAS_EYEBALL, R.MECH_ZEEK_CONNECTION): Or(
@@ -330,7 +330,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], RuleFactory] = {
     (R.MECH_ZEEK_CONNECTION, R.ROA_ELEVATOR): HasElevator(Elevator.ROA_2),
     (R.MECH_ZEEK_CONNECTION, R.MECH_ZEEK): Or(
         HasRed(RedDoor.ZEEK),
-        CanReachRegion(R.MECH_LOWER_VOID, opts=red_off),
+        CanReachRegion(R.MECH_LOWER_VOID, options=red_off),
     ),
     (R.MECH_ZEEK_CONNECTION, R.APEX): elevator_apex,
     (R.MECH_ZEEK_CONNECTION, R.GT_BOSS): HasElevator(Elevator.GT_2),
@@ -376,7 +376,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], RuleFactory] = {
         Has(KeyItem.CLAW),
         Or(
             HasWhite(WhiteDoor.MECH_TOP),
-            And(can_extra_height, Or(HasSwitch(Crystal.MECH_TOP), otherwise_crystal), opts=white_off),
+            And(can_extra_height, Or(HasSwitch(Crystal.MECH_TOP), otherwise_crystal), options=white_off),
         ),
     ),
     (R.MECH_TOP, R.MECH_CD_ACCESS): And(
@@ -391,10 +391,10 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], RuleFactory] = {
     (R.MECH_CD_ACCESS, R.CD_START): Has(KeyItem.CYCLOPS),
     (R.MECH_TOP, R.MECH_TRIPLE_SWITCHES): And(
         can_crystal,
-        Or(HasSwitch(Switch.MECH_ARIAS_CYCLOPS), Has(Character.ARIAS, opts=switch_off)),
+        Or(HasSwitch(Switch.MECH_ARIAS_CYCLOPS), Has(Character.ARIAS, options=switch_off)),
         Or(
             HasWhite(WhiteDoor.MECH_TOP),
-            And(can_extra_height, Or(HasSwitch(Crystal.MECH_TOP), otherwise_crystal), opts=white_off),
+            And(can_extra_height, Or(HasSwitch(Crystal.MECH_TOP), otherwise_crystal), options=white_off),
             HasAll(KeyItem.CLAW, KeyItem.BELL),
         ),
     ),
@@ -465,7 +465,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], RuleFactory] = {
     (R.HOTP_START, R.HOTP_START_BOTTOM): Or(
         Has(KeyItem.STAR),
         And(
-            Or(HasWhite(WhiteDoor.HOTP_START), CanReachRegion(R.HOTP_START_LEFT, opts=white_off)),
+            Or(HasWhite(WhiteDoor.HOTP_START), CanReachRegion(R.HOTP_START_LEFT, options=white_off)),
             Has(Eye.BLUE),
         ),
     ),
@@ -490,7 +490,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], RuleFactory] = {
     (R.HOTP_START_BOTTOM, R.HOTP_START_BOTTOM_MID): HasAll(KeyItem.BLOCK, KeyItem.BELL, KeyItem.STAR),
     (R.HOTP_START_BOTTOM, R.HOTP_LOWER): Or(
         HasSwitch(Switch.HOTP_BELOW_START),
-        CanReachRegion(R.HOTP_START_BOTTOM_MID, opts=switch_off),
+        CanReachRegion(R.HOTP_START_BOTTOM_MID, options=switch_off),
     ),
     (R.HOTP_START_BOTTOM_MID, R.HOTP_START_MID): HasSwitch(Switch.HOTP_GHOSTS),
     (R.HOTP_START_BOTTOM_MID, R.HOTP_START_BOTTOM): Has(KeyItem.STAR),
@@ -503,7 +503,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], RuleFactory] = {
     ),
     (R.HOTP_LOWER, R.HOTP_MECH_VOID_CONNECTION): Or(
         HasSwitch(Crystal.HOTP_BOTTOM),
-        HardLogic(Has(ShopUpgrade.KYULI_RAY), opts=switch_off),
+        HardLogic(Has(ShopUpgrade.KYULI_RAY), options=switch_off),
     ),
     (R.HOTP_EPIMETHEUS, R.MECH_AFTER_BK): Has(KeyItem.CLAW),
     (R.HOTP_MECH_VOID_CONNECTION, R.HOTP_AMULET_CONNECTION): Or(
@@ -532,7 +532,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], RuleFactory] = {
     ),
     (R.HOTP_CATH_CONNECTION, R.CATH_START): And(
         HasAll(KeyItem.VOID, KeyItem.CLAW),
-        Or(HasRed(RedDoor.CATH), CanReachRegion(R.HOTP_RED_KEY, opts=red_off)),
+        Or(HasRed(RedDoor.CATH), CanReachRegion(R.HOTP_RED_KEY, options=red_off)),
     ),
     (R.HOTP_LOWER_ARIAS, R.HOTP_BELL_CAMPFIRE): Has(Character.ARIAS),
     (R.HOTP_LOWER_ARIAS, R.HOTP_GHOST_BLOOD): Or(
@@ -592,7 +592,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], RuleFactory] = {
                 HasAll(Character.ALGUS, KeyItem.ICARUS),
                 Has(ShopUpgrade.KYULI_RAY),
             ),
-            opts=switch_off,
+            options=switch_off,
         ),
     ),
     (R.HOTP_HEART, R.HOTP_UPPER_ARIAS): Has(Character.ARIAS),
@@ -612,7 +612,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], RuleFactory] = {
     (R.HOTP_BOSS_CAMPFIRE, R.HOTP_TP_PUZZLE): Has(Eye.GREEN),
     (R.HOTP_BOSS_CAMPFIRE, R.HOTP_BOSS): Or(
         HasWhite(WhiteDoor.HOTP_BOSS),
-        Has(Character.ARIAS, opts=white_off),
+        Has(Character.ARIAS, options=white_off),
     ),
     (R.HOTP_TP_PUZZLE, R.HOTP_TP_FALL_TOP): Or(
         Has(KeyItem.STAR),
@@ -642,7 +642,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], RuleFactory] = {
     (R.ROA_START, R.ROA_WORMS): Or(
         HasSwitch(Crystal.ROA_1ST_ROOM),
         # this should be more complicated
-        And(Has(KeyItem.BELL), can_crystal, opts=switch_off),
+        And(Has(KeyItem.BELL), can_crystal, options=switch_off),
     ),
     (R.ROA_WORMS, R.ROA_START): Or(
         HasSwitch(Switch.ROA_WORMS, otherwise=True),
@@ -651,7 +651,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], RuleFactory] = {
     ),
     (R.ROA_WORMS, R.ROA_WORMS_CONNECTION): Or(
         HasWhite(WhiteDoor.ROA_WORMS),
-        HasSwitch(Switch.ROA_WORMS, otherwise=True, opts=white_off),
+        HasSwitch(Switch.ROA_WORMS, otherwise=True, options=white_off),
     ),
     (R.ROA_WORMS, R.ROA_LOWER_VOID_CONNECTION): Has(KeyItem.CLAW),
     (R.ROA_HEARTS, R.ROA_BOTTOM_ASCEND): HasSwitch(Switch.ROA_1ST_SHORTCUT),
@@ -684,7 +684,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], RuleFactory] = {
     (R.ROA_LOWER_VOID, R.ROA_LOWER_VOID_CONNECTION): HasSwitch(Switch.ROA_LOWER_VOID, otherwise=True),
     (R.ROA_ARIAS_BABY_GORGON_CONNECTION, R.ROA_ARIAS_BABY_GORGON): And(
         Has(Character.ARIAS),
-        Or(HardLogic(True_()), Has(KeyItem.BELL, opts=easy)),
+        Or(HardLogic(True_()), Has(KeyItem.BELL, options=easy)),
         Or(HasSwitch(Crystal.ROA_BABY_GORGON), otherwise_crystal),
     ),
     (R.ROA_ARIAS_BABY_GORGON_CONNECTION, R.ROA_FLAMES_CONNECTION): HasAll(KeyItem.STAR, KeyItem.BELL),
@@ -701,7 +701,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], RuleFactory] = {
         Has(KeyItem.CLAW),
     ),
     (R.ROA_FLAMES_CONNECTION, R.ROA_LEFT_ASCENT): And(
-        Or(HasSwitch(Crystal.ROA_LEFT_ASCEND), And(can_crystal, Has(KeyItem.BELL), opts=switch_off)),
+        Or(HasSwitch(Crystal.ROA_LEFT_ASCEND), And(can_crystal, Has(KeyItem.BELL), options=switch_off)),
         can_extra_height,
     ),
     (R.ROA_FLAMES_CONNECTION, R.ROA_ARIAS_BABY_GORGON_CONNECTION): HasAll(KeyItem.STAR),
@@ -736,7 +736,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], RuleFactory] = {
             can_crystal,
             CanReachRegion(R.ROA_LEFT_SWITCH),
             CanReachRegion(R.ROA_RIGHT_SWITCH_2),
-            opts=switch_off,
+            options=switch_off,
         ),
     ),
     (R.ROA_MIDDLE, R.ROA_TOP_ASCENT): HasSwitch(Switch.ROA_ASCEND_SHORTCUT, otherwise=True),
@@ -764,7 +764,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], RuleFactory] = {
     (R.ROA_SPIDERS_2, R.ROA_BLOOD_POT_HALLWAY): HasSwitch(Switch.ROA_SPIDERS, otherwise=True),
     (R.ROA_SP_CONNECTION, R.SP_START): Or(
         HasRed(RedDoor.SP),
-        And(HasAll(KeyItem.CLOAK, KeyItem.CLAW, KeyItem.BELL), CanReachRegion(R.ROA_RED_KEY), opts=red_off),
+        And(HasAll(KeyItem.CLOAK, KeyItem.CLAW, KeyItem.BELL), CanReachRegion(R.ROA_RED_KEY), options=red_off),
     ),
     (R.ROA_SP_CONNECTION, R.ROA_ELEVATOR): And(
         # can probably make it without claw
@@ -811,7 +811,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], RuleFactory] = {
     (R.APEX, R.HOTP_ELEVATOR): HasElevator(Elevator.HOTP),
     (R.APEX, R.FINAL_BOSS): And(
         HasAll(Eye.RED, Eye.BLUE, Eye.GREEN),
-        Or(HardLogic(True_()), Has(KeyItem.BELL, opts=easy)),
+        Or(HardLogic(True_()), Has(KeyItem.BELL, options=easy)),
         HasGoal(),
     ),
     (R.APEX, R.ROA_APEX_CONNECTION): HasSwitch(Switch.ROA_APEX_ACCESS),
@@ -882,7 +882,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], RuleFactory] = {
     ),
     (R.CATA_DEV_ROOM_CONNECTION, R.CATA_DEV_ROOM): Or(
         HasRed(RedDoor.DEV_ROOM),
-        And(HasAll(Character.ZEEK, Character.KYULI), CanReachRegion(R.GT_BOSS), opts=red_off),
+        And(HasAll(Character.ZEEK, Character.KYULI), CanReachRegion(R.GT_BOSS), options=red_off),
     ),
     (R.CATA_DOUBLE_SWITCH, R.CATA_SNAKE_MUSHROOMS): HasSwitch(Switch.CATA_CLAW_2),
     (R.CATA_DOUBLE_SWITCH, R.CATA_ROOTS_CAMPFIRE): HasSwitch(
@@ -944,7 +944,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], RuleFactory] = {
     (R.TR_START, R.ROA_ELEVATOR): HasElevator(Elevator.ROA_2),
     (R.TR_START, R.TR_LEFT): And(
         HasBlue(BlueDoor.TR, otherwise=True),
-        Or(HasRed(RedDoor.TR), And(Has(KeyItem.CLAW), CanReachRegion(R.CATA_BOSS), opts=red_off)),
+        Or(HasRed(RedDoor.TR), And(Has(KeyItem.CLAW), CanReachRegion(R.CATA_BOSS), options=red_off)),
     ),
     (R.TR_START, R.APEX): elevator_apex,
     (R.TR_START, R.GT_BOSS): HasElevator(Elevator.GT_2),
@@ -960,7 +960,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], RuleFactory] = {
     ),
     (R.TR_TOP_RIGHT, R.TR_MIDDLE_RIGHT): Or(
         HasSwitch(Crystal.TR_GOLD),
-        And(HasAll(KeyItem.BELL, KeyItem.CLAW), can_crystal, opts=switch_off),
+        And(HasAll(KeyItem.BELL, KeyItem.CLAW), can_crystal, options=switch_off),
     ),
     (R.TR_MIDDLE_RIGHT, R.TR_DARK_ARIAS): Has(Eye.GREEN),
     (R.TR_MIDDLE_RIGHT, R.TR_BOTTOM): HasSwitch(Switch.TR_BOTTOM, otherwise=True),
@@ -976,7 +976,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], RuleFactory] = {
     (R.CATH_START, R.CATH_START_LEFT): And(
         Or(
             HasSwitch(Crystal.CATH_1ST_ROOM),
-            And(can_crystal, CanReachRegion(R.CATH_START_TOP_LEFT), opts=switch_off),
+            And(can_crystal, CanReachRegion(R.CATH_START_TOP_LEFT), options=switch_off),
         ),
         Has(KeyItem.CLAW),
     ),
@@ -990,7 +990,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], RuleFactory] = {
     (R.CATH_SHAFT_ACCESS, R.CATH_ORB_ROOM): HasSwitch(Switch.CATH_BESIDE_SHAFT, otherwise=True),
     (R.CATH_ORB_ROOM, R.CATH_GOLD_BLOCK): Or(
         HasSwitch(Crystal.CATH_ORBS),
-        And(can_crystal, Has(KeyItem.BELL), opts=switch_off),
+        And(can_crystal, Has(KeyItem.BELL), options=switch_off),
     ),
     (R.CATH_RIGHT_SHAFT_CONNECTION, R.CATH_RIGHT_SHAFT): HasAll(KeyItem.BELL, Character.ZEEK, KeyItem.BOW),
     (R.CATH_RIGHT_SHAFT, R.CATH_TOP): Has(KeyItem.CLAW),
@@ -1022,7 +1022,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], RuleFactory] = {
     (R.SP_STAR_CONNECTION, R.SP_STAR): Has(KeyItem.STAR),
     (R.SP_STAR_CONNECTION, R.SP_STAR_END): And(
         Has(KeyItem.STAR),
-        Or(HasSwitch(Switch.SP_AFTER_STAR), Has(Character.ARIAS, opts=switch_off)),
+        Or(HasSwitch(Switch.SP_AFTER_STAR), Has(Character.ARIAS, options=switch_off)),
     ),
     (R.SP_STAR_END, R.SP_STAR_CONNECTION): And(Has(KeyItem.STAR), HasSwitch(Switch.SP_AFTER_STAR)),
 }
@@ -1049,7 +1049,7 @@ MAIN_LOCATION_RULES: dict[L, RuleFactory] = {
             CanReachRegion(R.TR_BOTTOM),
             CanReachRegion(R.TR_LEFT),
             CanReachRegion(R.TR_DARK_ARIAS),
-            opts=switch_off,
+            options=switch_off,
         ),
     ),
     L.CATH_BLOCK: Or(HasSwitch(Crystal.CATH_TOP_L, Crystal.CATH_TOP_R), otherwise_crystal),
@@ -1091,7 +1091,7 @@ MAIN_LOCATION_RULES: dict[L, RuleFactory] = {
         Has(Character.KYULI),
         Or(
             HasSwitch(Crystal.CATA_POISON_ROOTS),
-            And(can_crystal, Has(KeyItem.BELL), opts=switch_off),
+            And(can_crystal, Has(KeyItem.BELL), options=switch_off),
             HardLogic(HasAll(KeyItem.ICARUS, KeyItem.CLAW)),
         ),
     ),
@@ -1175,7 +1175,7 @@ MAIN_LOCATION_RULES: dict[L, RuleFactory] = {
         Or(
             Has(KeyItem.BELL),
             HasSwitch(Switch.GT_UPPER_ARIAS),
-            CanReachRegion(R.GT_ARIAS_SWORD_SWITCH, opts=switch_off),
+            CanReachRegion(R.GT_ARIAS_SWORD_SWITCH, options=switch_off),
         ),
     ),
     L.GT_CRYSTAL_OLD_MAN_2: And(
@@ -1184,7 +1184,7 @@ MAIN_LOCATION_RULES: dict[L, RuleFactory] = {
         Or(
             Has(KeyItem.BELL),
             HasSwitch(Switch.GT_UPPER_ARIAS),
-            CanReachRegion(R.GT_ARIAS_SWORD_SWITCH, opts=switch_off),
+            CanReachRegion(R.GT_ARIAS_SWORD_SWITCH, options=switch_off),
         ),
     ),
     L.MECH_SWITCH_BOOTS_ACCESS: HasAny(Eye.RED, KeyItem.STAR),
