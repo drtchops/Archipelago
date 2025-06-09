@@ -49,9 +49,9 @@ class RuleResolutionTest(AstalonTestBase):
         rule = Or(
             HasSwitch(Crystal.GT_ROTA),
             Or(
-                True_(options=(("randomize_characters", 0),)),
-                HasAny(Character.ARIAS, Character.BRAM, opts=(("randomize_characters__ge", 1),)),
-                opts=(("difficulty", 1),),
+                True_(options={"randomize_characters": 0}),
+                HasAny(Character.ARIAS, Character.BRAM, options={"randomize_characters__ge": 1}),
+                options={"difficulty": 1},
             ),
             And(Has(KeyItem.STAR), HasBlue(BlueDoor.GT_RING, otherwise=True)),
             Has(KeyItem.BLOCK),
