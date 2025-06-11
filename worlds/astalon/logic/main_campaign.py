@@ -304,7 +304,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], RuleFactory] = {
     (R.MECH_CHAINS, R.MECH_BOSS_SWITCHES): HasSwitch(Switch.MECH_TO_BOSS_1),
     (R.MECH_CHAINS, R.MECH_BOSS_CONNECTION): Or(
         Has(KeyItem.CLAW),
-        HasSwitch(Switch.MECH_BOSS_2),
+        HasSwitch(Switch.MECH_TO_BOSS_2),
         HasSwitch(Crystal.MECH_TO_BOSS_3),
         HardLogic(Or(can_big_magic, Has(ShopUpgrade.KYULI_RAY)), options=switch_off),
     ),
