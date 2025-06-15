@@ -108,6 +108,9 @@ class AstalonWebWorld(WebWorld):
     ]
 
 
+# TODO: Wrap rule, connect helper, better world typing (generic)
+
+
 class AstalonWorld(RuleWorldMixin, World):
     """
     Uphold your pact with the Titan of Death, Epimetheus!

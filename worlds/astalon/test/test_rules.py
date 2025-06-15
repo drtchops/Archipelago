@@ -1,6 +1,8 @@
+from rule_builder import And, OptionFilter, Or, True_
+
 from ..items import BlueDoor, Character, Crystal, KeyItem
-from ..logic.factories import And, Has, HasAny, HasBlue, HasSwitch, Or, True_
-from ..logic.instances import HasAllInstance, HasInstance, OrInstance
+from ..logic.custom_rules import Has, HasAll, HasAny, HasBlue, HasSwitch
+from ..options import Difficulty, RandomizeCharacters
 from .bases import AstalonTestBase
 
 
@@ -12,17 +14,17 @@ class RuleHashTest(AstalonTestBase):
         return False
 
     def test_same_rules_have_same_hash(self) -> None:
-        rule1 = HasInstance("Item", player=1)
-        rule2 = HasInstance("Item", player=1)
+        rule1 = Has.Resolved("Item", player=1)
+        rule2 = Has.Resolved("Item", player=1)
         self.assertEqual(hash(rule1), hash(rule2))
 
     def test_different_rules_have_different_hashes(self) -> None:
-        rule1 = HasInstance("Item", player=1)
-        rule2 = HasInstance("Item", player=2)
+        rule1 = Has.Resolved("Item", player=1)
+        rule2 = Has.Resolved("Item", player=2)
         self.assertNotEqual(hash(rule1), hash(rule2))
 
-        rule3 = HasInstance("Item1", player=1)
-        rule4 = HasInstance("Item2", player=1)
+        rule3 = Has.Resolved("Item1", player=1)
+        rule4 = Has.Resolved("Item2", player=1)
         self.assertNotEqual(hash(rule3), hash(rule4))
 
 
@@ -49,23 +51,27 @@ class RuleResolutionTest(AstalonTestBase):
         rule = Or(
             HasSwitch(Crystal.GT_ROTA),
             Or(
-                True_(options={"randomize_characters": 0}),
-                HasAny(Character.ARIAS, Character.BRAM, options={"randomize_characters__ge": 1}),
-                options={"difficulty": 1},
+                True_(options=[OptionFilter(RandomizeCharacters, RandomizeCharacters.option_vanilla)]),
+                HasAny(
+                    Character.ARIAS,
+                    Character.BRAM,
+                    options=[OptionFilter(RandomizeCharacters, RandomizeCharacters.option_vanilla, operator="gt")],
+                ),
+                options=[OptionFilter(Difficulty, Difficulty.option_hard)],
             ),
             And(Has(KeyItem.STAR), HasBlue(BlueDoor.GT_RING, otherwise=True)),
             Has(KeyItem.BLOCK),
         )
-        expected = OrInstance(
+        expected = Or.Resolved(
             (
-                HasAllInstance(
-                    ("Blue Door (Gorgon Tomb - Ring of the Ancients)", "Bram", "Morning Star"),
+                HasAll.Resolved(
+                    ("Bram", "Morning Star", "Blue Door (Gorgon Tomb - Ring of the Ancients)"),
                     player=self.player,
                 ),
-                HasAllInstance(("Zeek", "Magic Block"), player=self.player),
-                HasInstance("Crystal (Gorgon Tomb - RotA)", player=self.player),
+                HasAll.Resolved(("Zeek", "Magic Block"), player=self.player),
+                Has.Resolved("Crystal (Gorgon Tomb - RotA)", player=self.player),
             ),
             player=self.player,
         )
         instance = rule.resolve(self.world)
-        self.assertEqual(instance, expected)
+        self.assertEqual(instance, expected, f"\n{instance}\n{expected}")
