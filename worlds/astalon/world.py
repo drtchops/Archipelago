@@ -1,10 +1,10 @@
 import logging
-from collections import defaultdict
 from functools import cached_property
 from typing import TYPE_CHECKING, Any, ClassVar, Final
 
-from BaseClasses import CollectionState, Item, ItemClassification, Region, Tutorial
+from BaseClasses import Item, ItemClassification, Region, Tutorial
 from Options import OptionError
+from rule_builder import RuleWorldMixin
 from worlds.AutoWorld import WebWorld, World
 from worlds.LauncherComponents import Component, Type, components, icon_paths, launch_subprocess
 
@@ -46,8 +46,6 @@ from .tracker import TRACKER_WORLD
 if TYPE_CHECKING:
     from BaseClasses import Location, MultiWorld
     from Options import Option
-
-    from .logic import RuleInstance
 
 
 # ██░░░██████░░███░░░███
@@ -91,9 +89,7 @@ def launch_client() -> None:
     launch_subprocess(launch, name="Astalon Tracker")
 
 
-components.append(
-    Component("Astalon Tracker", func=launch_client, component_type=Type.CLIENT, icon="astalon")
-)
+components.append(Component("Astalon Tracker", func=launch_client, component_type=Type.CLIENT, icon="astalon"))
 
 icon_paths["astalon"] = f"ap:{__name__}/images/pil.png"
 
@@ -112,7 +108,7 @@ class AstalonWebWorld(WebWorld):
     ]
 
 
-class AstalonWorld(World):
+class AstalonWorld(RuleWorldMixin, World):
     """
     Uphold your pact with the Titan of Death, Epimetheus!
     Fight, climb and solve your way through a twisted tower as three unique adventurers,
@@ -139,13 +135,8 @@ class AstalonWorld(World):
     ut_can_gen_without_yaml = True
     glitches_item_name = Events.FAKE_OOL_ITEM.value
 
-    rule_cache: "dict[int, RuleInstance]"
-    _rule_deps: "dict[str, set[int]]"
-
     def __init__(self, multiworld: "MultiWorld", player: int) -> None:
         super().__init__(multiworld, player)
-        self.rule_cache = {}
-        self._rule_deps = defaultdict(set)
         self.starting_characters = []
 
     def generate_early(self) -> None:
@@ -161,9 +152,7 @@ class AstalonWorld(World):
             self.starting_characters.extend(CHARACTER_STARTS[int(self.options.randomize_characters)])
 
         if self.options.goal == Goal.option_eye_hunt:
-            self.extra_gold_eyes = round(
-                self.options.additional_eyes_required.value * (self.options.extra_eyes / 100)
-            )
+            self.extra_gold_eyes = round(self.options.additional_eyes_required.value * (self.options.extra_eyes / 100))
 
         re_gen_passthrough = getattr(self.multiworld, "re_gen_passthrough", {})
         if re_gen_passthrough and GAME_NAME in re_gen_passthrough:
@@ -171,7 +160,7 @@ class AstalonWorld(World):
 
             slot_options: dict[str, Any] = slot_data.get("options", {})
             for key, value in slot_options.items():
-                opt: Option | None = getattr(self.options, key, None)
+                opt: Option[Any] | None = getattr(self.options, key, None)
                 if opt is not None:
                     setattr(self.options, key, opt.from_any(value))
 
@@ -187,12 +176,7 @@ class AstalonWorld(World):
         location = AstalonLocation(self.player, name, location_name_to_id.get(name), region)
         rule = MAIN_LOCATION_RULES.get(location_name)
         if rule is not None:
-            rule = rule.resolve(self)
-            if rule.always_false:
-                logger.debug(f"No matching rules for {name}")
-            for item_name, rules in rule.deps().items():
-                self._rule_deps[item_name] |= rules
-            location.access_rule = rule.test
+            self.set_rule(location, rule)
         region.locations.append(location)
         return location
 
@@ -206,23 +190,19 @@ class AstalonWorld(World):
             for exit_region_name in region_data.exits:
                 region_pair = (region_name, exit_region_name)
                 rule = MAIN_ENTRANCE_RULES.get(region_pair)
+                resolved_rule = None
                 if rule is not None:
-                    rule = rule.resolve(self)
-                    if rule.always_false:
+                    resolved_rule = self.resolve_rule(rule)
+                    if resolved_rule.always_false:
                         logger.debug(f"No matching rules for {region_name.value} -> {exit_region_name.value}")
                         continue
-                    for item_name, rules in rule.deps().items():
-                        self._rule_deps[item_name] |= rules
 
                 entrance = region.connect(
-                    self.get_region(exit_region_name.value), rule=rule.test if rule else None
+                    self.get_region(exit_region_name.value),
+                    rule=resolved_rule.test if resolved_rule else None,
                 )
-                if rule:
-                    for indirect_region in rule.indirect():
-                        self.multiworld.register_indirect_condition(
-                            self.get_region(indirect_region.value),
-                            entrance,
-                        )
+                if resolved_rule:
+                    self.register_rule_connections(resolved_rule, entrance)
 
         logic_groups: set[str] = set()
         if self.options.randomize_key_items:
@@ -524,15 +504,9 @@ class AstalonWorld(World):
 
         for sphere_id, sphere in enumerate(spheres):
             for location in sphere:
-                if (
-                    location.item
-                    and location.item.player == self.player
-                    and location.item.name in character_strengths
-                ):
+                if location.item and location.item.player == self.player and location.item.name in character_strengths:
                     scaling = (sphere_id + 1) / sphere_count
-                    logger.debug(
-                        f"{location.item.name} in sphere {sphere_id + 1} / {sphere_count}, scaling {scaling}"
-                    )
+                    logger.debug(f"{location.item.name} in sphere {sphere_id + 1} / {sphere_count}, scaling {scaling}")
                     character_strengths[location.item.name] = scaling
                     found += 1
                     if found >= limit:
@@ -540,19 +514,3 @@ class AstalonWorld(World):
 
         logger.warning("Could not find all Astalon characters in spheres, something is likely wrong")
         return character_strengths
-
-    def collect(self, state: "CollectionState", item: "Item") -> bool:
-        changed = super().collect(state, item)
-        if changed and getattr(self, "_rule_deps", None):
-            player_results: dict[int, bool] = state._astalon_rule_results[self.player]  # type: ignore
-            for rule_id in self._rule_deps[item.name]:
-                player_results.pop(rule_id, None)
-        return changed
-
-    def remove(self, state: "CollectionState", item: "Item") -> bool:
-        changed = super().remove(state, item)
-        if changed and getattr(self, "_rule_deps", None):
-            player_results: dict[int, bool] = state._astalon_rule_results[self.player]  # type: ignore
-            for rule_id in self._rule_deps[item.name]:
-                player_results.pop(rule_id, None)
-        return changed

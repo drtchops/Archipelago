@@ -1,3 +1,5 @@
+from rule_builder import And, OptionFilter, Or, Rule, True_
+
 from ..items import (
     BlueDoor,
     Character,
@@ -12,12 +14,19 @@ from ..items import (
     WhiteDoor,
 )
 from ..locations import LocationName as L
+from ..options import (
+    ApexElevator,
+    Difficulty,
+    RandomizeBlueKeys,
+    RandomizeCharacters,
+    RandomizeRedKeys,
+    RandomizeSwitches,
+    RandomizeWhiteKeys,
+)
 from ..regions import RegionName as R
-from .factories import (
-    And,
+from .custom_rules import (
     CanReachEntrance,
     CanReachRegion,
-    False_,
     HardLogic,
     Has,
     HasAll,
@@ -28,47 +37,36 @@ from .factories import (
     HasRed,
     HasSwitch,
     HasWhite,
-    Or,
-    RuleFactory,
-    True_,
 )
 
-easy = {"difficulty": 0}
-characters_off = {"randomize_characters": 0}
-characters_on = {"randomize_characters__ge": 1}
-white_off = {"randomize_white_keys": 0}
-blue_off = {"randomize_blue_keys": 0}
-red_off = {"randomize_red_keys": 0}
-switch_off = {"randomize_switches": 0}
+easy = [OptionFilter(Difficulty, Difficulty.option_easy)]
+characters_off = [OptionFilter(RandomizeCharacters, RandomizeCharacters.option_vanilla)]
+characters_on = [OptionFilter(RandomizeCharacters, RandomizeCharacters.option_vanilla, operator="gt")]
+white_off = [OptionFilter(RandomizeWhiteKeys, RandomizeWhiteKeys.option_false)]
+blue_off = [OptionFilter(RandomizeBlueKeys, RandomizeBlueKeys.option_false)]
+red_off = [OptionFilter(RandomizeRedKeys, RandomizeRedKeys.option_false)]
+switch_off = [OptionFilter(RandomizeSwitches, RandomizeSwitches.option_false)]
 
-true = True_()
-false = False_()
-
-can_uppies = HardLogic(
-    Or(
-        True_(options=characters_off),
-        HasAny(Character.ARIAS, Character.BRAM, options=characters_on),
-    )
-)
-can_extra_height = Or(HasAny(Character.KYULI, KeyItem.BLOCK), can_uppies)
-can_extra_height_gold_block = Or(HasAny(Character.KYULI, Character.ZEEK), can_uppies)
-can_combo_height = And(can_uppies, HasAll(KeyItem.BELL, KeyItem.BLOCK))
+can_uppies = HardLogic(True_(options=characters_off) | HasAny(Character.ARIAS, Character.BRAM, options=characters_on))
+can_extra_height = HasAny(Character.KYULI, KeyItem.BLOCK) | can_uppies
+can_extra_height_gold_block = HasAny(Character.KYULI, Character.ZEEK) | can_uppies
+can_combo_height = can_uppies & HasAll(KeyItem.BELL, KeyItem.BLOCK)
 can_block_in_wall = HardLogic(HasAll(Character.ZEEK, KeyItem.BLOCK))
-can_crystal = Or(
-    HasAny(Character.ALGUS, KeyItem.BLOCK, ShopUpgrade.BRAM_WHIPLASH),
-    HasAll(Character.ZEEK, KeyItem.BANISH),
-    HardLogic(Has(ShopUpgrade.KYULI_RAY)),
+can_crystal = (
+    HasAny(Character.ALGUS, KeyItem.BLOCK, ShopUpgrade.BRAM_WHIPLASH)
+    | HasAll(Character.ZEEK, KeyItem.BANISH)
+    | HardLogic(Has(ShopUpgrade.KYULI_RAY))
 )
-can_crystal_wo_whiplash = Or(
-    HasAny(Character.ALGUS, KeyItem.BLOCK),
-    HasAll(Character.ZEEK, KeyItem.BANISH),
-    HardLogic(Has(ShopUpgrade.KYULI_RAY)),
+can_crystal_wo_whiplash = (
+    HasAny(Character.ALGUS, KeyItem.BLOCK)
+    | HasAll(Character.ZEEK, KeyItem.BANISH)
+    | HardLogic(Has(ShopUpgrade.KYULI_RAY))
 )
 can_big_magic = HardLogic(HasAll(Character.ALGUS, KeyItem.BANISH, ShopUpgrade.ALGUS_ARCANIST))
-can_kill_ghosts = Or(
-    HasAny(KeyItem.BANISH, KeyItem.BLOCK),
-    HasAll(ShopUpgrade.ALGUS_METEOR, KeyItem.CHALICE, options=easy),
-    HardLogic(Has(ShopUpgrade.ALGUS_METEOR)),
+can_kill_ghosts = (
+    HasAny(KeyItem.BANISH, KeyItem.BLOCK)
+    | HasAll(ShopUpgrade.ALGUS_METEOR, KeyItem.CHALICE, options=easy)
+    | HardLogic(Has(ShopUpgrade.ALGUS_METEOR))
 )
 
 otherwise_crystal = Or(
@@ -78,18 +76,21 @@ otherwise_crystal = Or(
     options=switch_off,
 )
 otherwise_bow = Has(KeyItem.BOW, options=switch_off)
-chalice_on_easy = Or(HardLogic(True_()), Has(KeyItem.CHALICE, options=easy))
+chalice_on_easy = HardLogic(True_()) | Has(KeyItem.CHALICE, options=easy)
 
-elevator_apex = Or(
-    HasElevator(Elevator.APEX, options={"apex_elevator": 1}),
-    Has(KeyItem.ASCENDANT_KEY, options={"apex_elevator": 0}),
+elevator_apex = HasElevator(
+    Elevator.APEX,
+    options=[OptionFilter(ApexElevator, ApexElevator.option_included)],
+) | Has(
+    KeyItem.ASCENDANT_KEY,
+    options=[OptionFilter(ApexElevator, ApexElevator.option_vanilla)],
 )
 # TODO: better implementations
 shop_cheap = CanReachRegion(R.GT_LEFT)
 shop_moderate = CanReachRegion(R.MECH_START)
 shop_expensive = CanReachRegion(R.ROA_START)
 
-MAIN_ENTRANCE_RULES: dict[tuple[R, R], RuleFactory] = {
+MAIN_ENTRANCE_RULES: dict[tuple[R, R], Rule] = {
     (R.SHOP, R.SHOP_ALGUS): Has(Character.ALGUS),
     (R.SHOP, R.SHOP_ARIAS): Has(Character.ARIAS),
     (R.SHOP, R.SHOP_KYULI): Has(Character.KYULI),
@@ -1027,7 +1028,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], RuleFactory] = {
     (R.SP_STAR_END, R.SP_STAR_CONNECTION): And(Has(KeyItem.STAR), HasSwitch(Switch.SP_AFTER_STAR)),
 }
 
-MAIN_LOCATION_RULES: dict[L, RuleFactory] = {
+MAIN_LOCATION_RULES: dict[L, Rule] = {
     L.GT_GORGONHEART: Or(
         HasSwitch(Switch.GT_GH, otherwise=True),
         HasAny(Character.KYULI, KeyItem.ICARUS, KeyItem.BLOCK, KeyItem.CLOAK, KeyItem.BOOTS),
