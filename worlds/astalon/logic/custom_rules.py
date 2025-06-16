@@ -30,6 +30,7 @@ from ..options import (
     RandomizeSwitches,
     RandomizeWhiteKeys,
 )
+from ..world import AstalonWorld
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
@@ -40,7 +41,6 @@ if TYPE_CHECKING:
 
     from ..locations import LocationName
     from ..regions import RegionName
-    from ..world import AstalonWorld
 
 
 ITEM_DEPS: "dict[str, tuple[Character, ...]]" = {
@@ -86,8 +86,8 @@ def _printjson_item(item: str, player: int, state: "CollectionState | None" = No
     return message
 
 
-@dataclasses.dataclass()
-class Has(rule_builder.Rule):
+@rule_builder.custom_rule(AstalonWorld)
+class Has(rule_builder.Rule[AstalonWorld]):
     item_name: "ItemName | Events"
     count: int = 1
 
@@ -129,8 +129,8 @@ class Has(rule_builder.Rule):
             return messages
 
 
-@dataclasses.dataclass()
-class HasAll(rule_builder.Rule):
+@rule_builder.custom_rule(AstalonWorld)
+class HasAll(rule_builder.Rule[AstalonWorld]):
     item_names: "tuple[ItemName | Events, ...]"
 
     def __init__(
@@ -223,8 +223,8 @@ class HasAll(rule_builder.Rule):
             return messages
 
 
-@dataclasses.dataclass()
-class HasAny(rule_builder.Rule):
+@rule_builder.custom_rule(AstalonWorld)
+class HasAny(rule_builder.Rule[AstalonWorld]):
     item_names: "tuple[ItemName | Events, ...]"
 
     def __init__(
@@ -317,12 +317,12 @@ class HasAny(rule_builder.Rule):
             return messages
 
 
-@dataclasses.dataclass()
-class CanReachLocation(rule_builder.Rule):
+@rule_builder.custom_rule(AstalonWorld)
+class CanReachLocation(rule_builder.Rule[AstalonWorld]):
     location_name: "LocationName"
 
     @override
-    def _instantiate(self, world: "rule_builder.RuleWorldMixin") -> "rule_builder.Rule.Resolved":
+    def _instantiate(self, world: "AstalonWorld") -> "rule_builder.Rule.Resolved":
         location = world.get_location(self.location_name)
         if not location.parent_region:
             raise ValueError(f"Location {location.name} has no parent region")
@@ -339,12 +339,12 @@ class CanReachLocation(rule_builder.Rule):
         pass
 
 
-@dataclasses.dataclass()
-class CanReachRegion(rule_builder.Rule):
+@rule_builder.custom_rule(AstalonWorld)
+class CanReachRegion(rule_builder.Rule[AstalonWorld]):
     region_name: "RegionName"
 
     @override
-    def _instantiate(self, world: "rule_builder.RuleWorldMixin") -> "rule_builder.Rule.Resolved":
+    def _instantiate(self, world: "AstalonWorld") -> "rule_builder.Rule.Resolved":
         return self.Resolved(self.region_name.value, player=world.player)
 
     @override
@@ -357,13 +357,13 @@ class CanReachRegion(rule_builder.Rule):
         pass
 
 
-@dataclasses.dataclass()
-class CanReachEntrance(rule_builder.Rule):
+@rule_builder.custom_rule(AstalonWorld)
+class CanReachEntrance(rule_builder.Rule[AstalonWorld]):
     from_region: "RegionName"
     to_region: "RegionName"
 
     @override
-    def _instantiate(self, world: "rule_builder.RuleWorldMixin") -> "rule_builder.Rule.Resolved":
+    def _instantiate(self, world: "AstalonWorld") -> "rule_builder.Rule.Resolved":
         entrance = f"{self.from_region.value} -> {self.to_region.value}"
         return self.Resolved(entrance, player=world.player)
 
@@ -377,13 +377,13 @@ class CanReachEntrance(rule_builder.Rule):
         pass
 
 
-@dataclasses.dataclass(init=False)
+@rule_builder.custom_rule(AstalonWorld, init=False)
 class ToggleRule(HasAll):
     option_cls: "ClassVar[type[Option[int]]]"
     otherwise: bool = False
 
     @override
-    def _instantiate(self, world: "rule_builder.RuleWorldMixin") -> "rule_builder.Rule.Resolved":
+    def _instantiate(self, world: "AstalonWorld") -> "rule_builder.Rule.Resolved":
         if len(self.item_names) == 1:
             rule = Has(self.item_names[0], options=[rule_builder.OptionFilter(self.option_cls, 1)])
         else:
@@ -398,7 +398,7 @@ class ToggleRule(HasAll):
         return rule.resolve(world)
 
 
-@dataclasses.dataclass(init=False)
+@rule_builder.custom_rule(AstalonWorld, init=False)
 class HasWhite(ToggleRule):
     option_cls = RandomizeWhiteKeys
 
@@ -412,7 +412,7 @@ class HasWhite(ToggleRule):
         self.otherwise = otherwise
 
 
-@dataclasses.dataclass(init=False)
+@rule_builder.custom_rule(AstalonWorld, init=False)
 class HasBlue(ToggleRule):
     option_cls = RandomizeBlueKeys
 
@@ -426,7 +426,7 @@ class HasBlue(ToggleRule):
         self.otherwise = otherwise
 
 
-@dataclasses.dataclass(init=False)
+@rule_builder.custom_rule(AstalonWorld, init=False)
 class HasRed(ToggleRule):
     option_cls = RandomizeRedKeys
 
@@ -440,7 +440,7 @@ class HasRed(ToggleRule):
         self.otherwise = otherwise
 
 
-@dataclasses.dataclass(init=False)
+@rule_builder.custom_rule(AstalonWorld, init=False)
 class HasSwitch(ToggleRule):
     option_cls = RandomizeSwitches
 
@@ -454,7 +454,7 @@ class HasSwitch(ToggleRule):
         self.otherwise = otherwise
 
 
-@dataclasses.dataclass(init=False)
+@rule_builder.custom_rule(AstalonWorld, init=False)
 class HasElevator(HasAll):
     def __init__(self, elevator: "Elevator", *, options: "Iterable[rule_builder.OptionFilter[Any]]" = ()) -> None:
         super().__init__(
@@ -464,8 +464,8 @@ class HasElevator(HasAll):
         )
 
 
-@dataclasses.dataclass()
-class HasGoal(rule_builder.Rule):
+@rule_builder.custom_rule(AstalonWorld)
+class HasGoal(rule_builder.Rule[AstalonWorld]):
     @override
     def _instantiate(self, world: "AstalonWorld") -> "rule_builder.Rule.Resolved":
         if world.options.goal.value != Goal.option_eye_hunt:
@@ -477,9 +477,9 @@ class HasGoal(rule_builder.Rule):
         )
 
 
-@dataclasses.dataclass()
-class HardLogic(rule_builder.Rule):
-    child: "rule_builder.Rule"
+@rule_builder.custom_rule(AstalonWorld)
+class HardLogic(rule_builder.Rule[AstalonWorld]):
+    child: "rule_builder.Rule[AstalonWorld]"
 
     @override
     def _instantiate(self, world: "AstalonWorld") -> "rule_builder.Rule.Resolved":

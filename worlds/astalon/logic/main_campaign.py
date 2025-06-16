@@ -1,4 +1,6 @@
-from rule_builder import And, OptionFilter, Or, Rule, True_
+from typing import TYPE_CHECKING
+
+from rule_builder import And, OptionFilter, Or, True_
 
 from ..items import (
     BlueDoor,
@@ -38,6 +40,11 @@ from .custom_rules import (
     HasSwitch,
     HasWhite,
 )
+
+if TYPE_CHECKING:
+    from rule_builder import Rule
+
+    from ..world import AstalonWorld
 
 easy = [OptionFilter(Difficulty, Difficulty.option_easy)]
 characters_off = [OptionFilter(RandomizeCharacters, RandomizeCharacters.option_vanilla)]
@@ -90,7 +97,7 @@ shop_cheap = CanReachRegion(R.GT_LEFT)
 shop_moderate = CanReachRegion(R.MECH_START)
 shop_expensive = CanReachRegion(R.ROA_START)
 
-MAIN_ENTRANCE_RULES: dict[tuple[R, R], Rule] = {
+MAIN_ENTRANCE_RULES: "dict[tuple[R, R], Rule[AstalonWorld]]" = {
     (R.SHOP, R.SHOP_ALGUS): Has(Character.ALGUS),
     (R.SHOP, R.SHOP_ARIAS): Has(Character.ARIAS),
     (R.SHOP, R.SHOP_KYULI): Has(Character.KYULI),
@@ -1028,7 +1035,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], Rule] = {
     (R.SP_STAR_END, R.SP_STAR_CONNECTION): And(Has(KeyItem.STAR), HasSwitch(Switch.SP_AFTER_STAR)),
 }
 
-MAIN_LOCATION_RULES: dict[L, Rule] = {
+MAIN_LOCATION_RULES: "dict[L, Rule[AstalonWorld]]" = {
     L.GT_GORGONHEART: Or(
         HasSwitch(Switch.GT_GH, otherwise=True),
         HasAny(Character.KYULI, KeyItem.ICARUS, KeyItem.BLOCK, KeyItem.CLOAK, KeyItem.BOOTS),

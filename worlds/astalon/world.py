@@ -38,7 +38,6 @@ from .locations import (
     location_name_to_id,
     location_table,
 )
-from .logic import MAIN_ENTRANCE_RULES, MAIN_LOCATION_RULES
 from .options import ApexElevator, AstalonOptions, Goal, RandomizeCharacters
 from .regions import RegionName, astalon_regions
 from .tracker import TRACKER_WORLD
@@ -111,7 +110,7 @@ class AstalonWebWorld(WebWorld):
 # TODO: Wrap rule, connect helper, better world typing (generic)
 
 
-class AstalonWorld(RuleWorldMixin, World):
+class AstalonWorld(RuleWorldMixin, World):  # pyright: ignore[reportUnsafeMultipleInheritance]
     """
     Uphold your pact with the Titan of Death, Epimetheus!
     Fight, climb and solve your way through a twisted tower as three unique adventurers,
@@ -121,7 +120,7 @@ class AstalonWorld(RuleWorldMixin, World):
     game = GAME_NAME
     web = AstalonWebWorld()
     options_dataclass = AstalonOptions
-    options: AstalonOptions  # type: ignore
+    options: AstalonOptions  # type: ignore # pyright: ignore[reportIncompatibleVariableOverride]
     item_name_groups = item_name_groups
     location_name_groups = location_name_groups
     item_name_to_id = item_name_to_id
@@ -173,6 +172,8 @@ class AstalonWorld(RuleWorldMixin, World):
                 self.extra_gold_eyes = slot_data["extra_gold_eyes"]
 
     def create_location(self, name: str) -> AstalonLocation:
+        from .logic.main_campaign import MAIN_LOCATION_RULES
+
         location_name = LocationName(name)
         data = location_table[name]
         region = self.get_region(data.region.value)
@@ -184,6 +185,8 @@ class AstalonWorld(RuleWorldMixin, World):
         return location
 
     def create_regions(self) -> None:
+        from .logic.main_campaign import MAIN_ENTRANCE_RULES
+
         for region_name in astalon_regions:
             region = Region(region_name.value, self.player, self.multiworld)
             self.multiworld.regions.append(region)
@@ -191,21 +194,12 @@ class AstalonWorld(RuleWorldMixin, World):
         for region_name, region_data in astalon_regions.items():
             region = self.get_region(region_name.value)
             for exit_region_name in region_data.exits:
+                exit_region = self.get_region(exit_region_name.value)
                 region_pair = (region_name, exit_region_name)
                 rule = MAIN_ENTRANCE_RULES.get(region_pair)
-                resolved_rule = None
-                if rule is not None:
-                    resolved_rule = self.resolve_rule(rule)
-                    if resolved_rule.always_false:
-                        logger.debug(f"No matching rules for {region_name.value} -> {exit_region_name.value}")
-                        continue
-
-                entrance = region.connect(
-                    self.get_region(exit_region_name.value),
-                    rule=resolved_rule.test if resolved_rule else None,
-                )
-                if resolved_rule:
-                    self.register_rule_connections(resolved_rule, entrance)
+                entrance = self.create_entrance(region, exit_region, rule)
+                if not entrance:
+                    logger.debug(f"No matching rules for {region_name.value} -> {exit_region_name.value}")
 
         logic_groups: set[str] = set()
         if self.options.randomize_key_items:
