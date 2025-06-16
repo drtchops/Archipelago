@@ -16,14 +16,14 @@ if TYPE_CHECKING:
 
 
 class ToggleOption(Toggle):
-    auto_display_name = True
+    auto_display_name: ClassVar[bool] = True
 
 
 class ChoiceOption(Choice):
-    option_first = 0
-    option_second = 1
-    option_third = 2
-    default = 0
+    option_first: ClassVar[int] = 0
+    option_second: ClassVar[int] = 1
+    option_third: ClassVar[int] = 2
+    default: ClassVar[int] = 0
 
 
 @dataclass
@@ -33,10 +33,10 @@ class RuleBuilderOptions(PerGameCommonOptions):
 
 
 class RuleBuilderWorld(RuleWorldMixin, World):
-    game = "Rule Builder Test Game"
-    item_name_to_id = {}
-    location_name_to_id = {}
-    hidden = True
+    game: ClassVar[str] = "Rule Builder Test Game"
+    item_name_to_id: ClassVar[dict[str, int]] = {}
+    location_name_to_id: ClassVar[dict[str, int]] = {}
+    hidden: ClassVar[bool] = True
     options_dataclass = RuleBuilderOptions
     options: RuleBuilderOptions  # type: ignore
 
@@ -74,8 +74,9 @@ class TestSimplify(unittest.TestCase):
     def test_simplify(self) -> None:
         multiworld = setup_solo_multiworld(RuleBuilderWorld, steps=("generate_early",), seed=0)
         world = multiworld.worlds[1]
+        assert isinstance(world, RuleBuilderWorld)
         rule, expected = self.rules
-        resolved_rule = rule.resolve(world)  # type: ignore
+        resolved_rule = rule.resolve(world)
         self.assertEqual(resolved_rule, expected, str(resolved_rule))
 
 
@@ -86,7 +87,9 @@ class TestOptions(unittest.TestCase):
     @override
     def setUp(self) -> None:
         self.multiworld = setup_solo_multiworld(RuleBuilderWorld, steps=("generate_early",), seed=0)
-        self.world = self.multiworld.worlds[1]  # type: ignore
+        world = self.multiworld.worlds[1]
+        assert isinstance(world, RuleBuilderWorld)
+        self.world = world
         return super().setUp()
 
     def test_option_filtering(self) -> None:
