@@ -377,7 +377,7 @@ class CanReachEntrance(rule_builder.Rule[AstalonWorld]):
         pass
 
 
-@rule_builder.custom_rule(AstalonWorld, init=False)
+@dataclasses.dataclass(init=False)
 class ToggleRule(HasAll):
     option_cls: "ClassVar[type[Option[int]]]"
     otherwise: bool = False
@@ -496,6 +496,7 @@ class HardLogic(rule_builder.Rule[AstalonWorld]):
     @dataclasses.dataclass(frozen=True)
     class Resolved(rule_builder.Rule.Resolved):
         child: "rule_builder.Rule.Resolved"
+        rule_name: ClassVar[str] = "HardLogic"
 
         @override
         def _evaluate(self, state: "CollectionState") -> bool:
