@@ -123,8 +123,8 @@ class Has(rule_builder.Rule[AstalonWorld]):
     @dataclasses.dataclass(frozen=True)
     class Resolved(rule_builder.Has.Resolved):
         @override
-        def explain(self, state: "CollectionState | None" = None) -> "list[JSONMessagePart]":
-            messages = super().explain(state)
+        def explain_json(self, state: "CollectionState | None" = None) -> "list[JSONMessagePart]":
+            messages = super().explain_json(state)
             messages[-1] = _printjson_item(self.item_name, self.player, state)
             return messages
 
@@ -209,7 +209,7 @@ class HasAll(rule_builder.Rule[AstalonWorld]):
     @dataclasses.dataclass(frozen=True)
     class Resolved(rule_builder.HasAll.Resolved):
         @override
-        def explain(self, state: "CollectionState | None" = None) -> "list[JSONMessagePart]":
+        def explain_json(self, state: "CollectionState | None" = None) -> "list[JSONMessagePart]":
             messages: list[JSONMessagePart] = [
                 {"type": "text", "text": "Has "},
                 {"type": "color", "color": "cyan", "text": "all"},
@@ -303,7 +303,7 @@ class HasAny(rule_builder.Rule[AstalonWorld]):
     @dataclasses.dataclass(frozen=True)
     class Resolved(rule_builder.HasAny.Resolved):
         @override
-        def explain(self, state: "CollectionState | None" = None) -> "list[JSONMessagePart]":
+        def explain_json(self, state: "CollectionState | None" = None) -> "list[JSONMessagePart]":
             messages: list[JSONMessagePart] = [
                 {"type": "text", "text": "Has "},
                 {"type": "color", "color": "cyan", "text": "any"},
@@ -512,10 +512,10 @@ class HardLogic(rule_builder.Rule[AstalonWorld]):
             return self.child.indirect_regions()
 
         @override
-        def explain(self, state: "CollectionState | None" = None) -> "list[JSONMessagePart]":
+        def explain_json(self, state: "CollectionState | None" = None) -> "list[JSONMessagePart]":
             messages: "list[JSONMessagePart]" = [
                 {"type": "color", "color": "glitched", "text": "Hard Logic ["},
             ]
-            messages.extend(self.child.explain(state))
+            messages.extend(self.child.explain_json(state))
             messages.append({"type": "color", "color": "glitched", "text": "]"})
             return messages
