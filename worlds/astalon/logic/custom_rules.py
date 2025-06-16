@@ -120,7 +120,7 @@ class Has(rule_builder.Rule[AstalonWorld]):
         options = f", options={self.options}" if self.options else ""
         return f"{self.__class__.__name__}({self.item_name.value}{count}{options})"
 
-    @dataclasses.dataclass(frozen=True)
+    @rule_builder.resolved_rule
     class Resolved(rule_builder.Has.Resolved):
         @override
         def explain_json(self, state: "CollectionState | None" = None) -> "list[JSONMessagePart]":
@@ -206,7 +206,7 @@ class HasAll(rule_builder.Rule[AstalonWorld]):
         options = f", options={self.options}" if self.options else ""
         return f"{self.__class__.__name__}({items}{options})"
 
-    @dataclasses.dataclass(frozen=True)
+    @rule_builder.resolved_rule
     class Resolved(rule_builder.HasAll.Resolved):
         @override
         def explain_json(self, state: "CollectionState | None" = None) -> "list[JSONMessagePart]":
@@ -300,7 +300,7 @@ class HasAny(rule_builder.Rule[AstalonWorld]):
         options = f", options={self.options}" if self.options else ""
         return f"{self.__class__.__name__}({items}{options})"
 
-    @dataclasses.dataclass(frozen=True)
+    @rule_builder.resolved_rule
     class Resolved(rule_builder.HasAny.Resolved):
         @override
         def explain_json(self, state: "CollectionState | None" = None) -> "list[JSONMessagePart]":
@@ -334,7 +334,7 @@ class CanReachLocation(rule_builder.Rule[AstalonWorld]):
         options = f", options={self.options}" if self.options else ""
         return f"{self.__class__.__name__}({self.location_name.value}{options})"
 
-    @dataclasses.dataclass(frozen=True)
+    @rule_builder.resolved_rule
     class Resolved(rule_builder.CanReachLocation.Resolved):
         pass
 
@@ -352,7 +352,7 @@ class CanReachRegion(rule_builder.Rule[AstalonWorld]):
         options = f", options={self.options}" if self.options else ""
         return f"{self.__class__.__name__}({self.region_name.value}{options})"
 
-    @dataclasses.dataclass(frozen=True)
+    @rule_builder.resolved_rule
     class Resolved(rule_builder.CanReachRegion.Resolved):
         pass
 
@@ -364,15 +364,16 @@ class CanReachEntrance(rule_builder.Rule[AstalonWorld]):
 
     @override
     def _instantiate(self, world: "AstalonWorld") -> "rule_builder.Rule.Resolved":
+        parent_region = world.get_region(self.from_region.value)
         entrance = f"{self.from_region.value} -> {self.to_region.value}"
-        return self.Resolved(entrance, player=world.player)
+        return self.Resolved(entrance, parent_region.name, player=world.player)
 
     @override
     def __str__(self) -> str:
         options = f", options={self.options}" if self.options else ""
         return f"{self.__class__.__name__}({self.from_region.value} -> {self.to_region.value}{options})"
 
-    @dataclasses.dataclass(frozen=True)
+    @rule_builder.resolved_rule
     class Resolved(rule_builder.CanReachEntrance.Resolved):
         pass
 
@@ -478,9 +479,7 @@ class HasGoal(rule_builder.Rule[AstalonWorld]):
 
 
 @rule_builder.custom_rule(AstalonWorld)
-class HardLogic(rule_builder.Rule[AstalonWorld]):
-    child: "rule_builder.Rule[AstalonWorld]"
-
+class HardLogic(rule_builder.Wrapper[AstalonWorld]):
     @override
     def _instantiate(self, world: "AstalonWorld") -> "rule_builder.Rule.Resolved":
         if world.options.difficulty.value == Difficulty.option_hard:
@@ -489,28 +488,17 @@ class HardLogic(rule_builder.Rule[AstalonWorld]):
             return self.Resolved(self.child.resolve(world), player=world.player)
         return rule_builder.False_.Resolved(player=world.player)
 
-    @override
-    def __str__(self) -> str:
-        return f"HardLogic[{self.child!s}]"
-
-    @dataclasses.dataclass(frozen=True)
-    class Resolved(rule_builder.Rule.Resolved):
-        child: "rule_builder.Rule.Resolved"
-        rule_name: ClassVar[str] = "HardLogic"
-
+    @rule_builder.resolved_rule
+    class Resolved(rule_builder.Wrapper.Resolved):
         @override
         def _evaluate(self, state: "CollectionState") -> bool:
             return state.has(Events.FAKE_OOL_ITEM.value, self.player) and self.child.test(state)
 
         @override
         def item_dependencies(self) -> dict[str, set[int]]:
-            deps = self.child.item_dependencies()
+            deps = super().item_dependencies()
             deps.setdefault(Events.FAKE_OOL_ITEM.value, set()).add(id(self))
             return deps
-
-        @override
-        def indirect_regions(self) -> tuple[str, ...]:
-            return self.child.indirect_regions()
 
         @override
         def explain_json(self, state: "CollectionState | None" = None) -> "list[JSONMessagePart]":
