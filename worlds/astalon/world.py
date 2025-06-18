@@ -38,6 +38,7 @@ from .locations import (
     location_name_to_id,
     location_table,
 )
+from .logic.main_campaign import MAIN_ENTRANCE_RULES, MAIN_LOCATION_RULES
 from .options import ApexElevator, AstalonOptions, Goal, RandomizeCharacters
 from .regions import RegionName, astalon_regions
 from .tracker import TRACKER_WORLD
@@ -172,8 +173,6 @@ class AstalonWorld(RuleWorldMixin, World):  # pyright: ignore[reportUnsafeMultip
                 self.extra_gold_eyes = slot_data["extra_gold_eyes"]
 
     def create_location(self, name: str) -> AstalonLocation:
-        from .logic.main_campaign import MAIN_LOCATION_RULES
-
         location_name = LocationName(name)
         data = location_table[name]
         region = self.get_region(data.region.value)
@@ -185,8 +184,6 @@ class AstalonWorld(RuleWorldMixin, World):  # pyright: ignore[reportUnsafeMultip
         return location
 
     def create_regions(self) -> None:
-        from .logic.main_campaign import MAIN_ENTRANCE_RULES
-
         for region_name in astalon_regions:
             region = Region(region_name.value, self.player, self.multiworld)
             self.multiworld.regions.append(region)

@@ -5,6 +5,7 @@ from typing_extensions import override
 
 import rule_builder
 
+from ..constants import GAME_NAME
 from ..items import (
     BlueDoor,
     Character,
@@ -30,7 +31,6 @@ from ..options import (
     RandomizeSwitches,
     RandomizeWhiteKeys,
 )
-from ..world import AstalonWorld
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
@@ -41,6 +41,7 @@ if TYPE_CHECKING:
 
     from ..locations import LocationName
     from ..regions import RegionName
+    from ..world import AstalonWorld
 
 
 ITEM_DEPS: "dict[str, tuple[Character, ...]]" = {
@@ -86,8 +87,8 @@ def _printjson_item(item: str, player: int, state: "CollectionState | None" = No
     return message
 
 
-@rule_builder.custom_rule(AstalonWorld)
-class Has(rule_builder.Rule[AstalonWorld]):
+@dataclasses.dataclass()
+class Has(rule_builder.Rule["AstalonWorld"], game=GAME_NAME):
     item_name: "ItemName | Events"
     count: int = 1
 
@@ -120,7 +121,6 @@ class Has(rule_builder.Rule[AstalonWorld]):
         options = f", options={self.options}" if self.options else ""
         return f"{self.__class__.__name__}({self.item_name.value}{count}{options})"
 
-    @rule_builder.resolved_rule
     class Resolved(rule_builder.Has.Resolved):
         @override
         def explain_json(self, state: "CollectionState | None" = None) -> "list[JSONMessagePart]":
@@ -129,8 +129,8 @@ class Has(rule_builder.Rule[AstalonWorld]):
             return messages
 
 
-@rule_builder.custom_rule(AstalonWorld)
-class HasAll(rule_builder.Rule[AstalonWorld]):
+@dataclasses.dataclass()
+class HasAll(rule_builder.Rule["AstalonWorld"], game=GAME_NAME):
     item_names: "tuple[ItemName | Events, ...]"
 
     def __init__(
@@ -206,7 +206,6 @@ class HasAll(rule_builder.Rule[AstalonWorld]):
         options = f", options={self.options}" if self.options else ""
         return f"{self.__class__.__name__}({items}{options})"
 
-    @rule_builder.resolved_rule
     class Resolved(rule_builder.HasAll.Resolved):
         @override
         def explain_json(self, state: "CollectionState | None" = None) -> "list[JSONMessagePart]":
@@ -223,8 +222,8 @@ class HasAll(rule_builder.Rule[AstalonWorld]):
             return messages
 
 
-@rule_builder.custom_rule(AstalonWorld)
-class HasAny(rule_builder.Rule[AstalonWorld]):
+@dataclasses.dataclass()
+class HasAny(rule_builder.Rule["AstalonWorld"], game=GAME_NAME):
     item_names: "tuple[ItemName | Events, ...]"
 
     def __init__(
@@ -300,7 +299,6 @@ class HasAny(rule_builder.Rule[AstalonWorld]):
         options = f", options={self.options}" if self.options else ""
         return f"{self.__class__.__name__}({items}{options})"
 
-    @rule_builder.resolved_rule
     class Resolved(rule_builder.HasAny.Resolved):
         @override
         def explain_json(self, state: "CollectionState | None" = None) -> "list[JSONMessagePart]":
@@ -317,8 +315,8 @@ class HasAny(rule_builder.Rule[AstalonWorld]):
             return messages
 
 
-@rule_builder.custom_rule(AstalonWorld)
-class CanReachLocation(rule_builder.Rule[AstalonWorld]):
+@dataclasses.dataclass()
+class CanReachLocation(rule_builder.Rule["AstalonWorld"], game=GAME_NAME):
     location_name: "LocationName"
 
     @override
@@ -334,13 +332,12 @@ class CanReachLocation(rule_builder.Rule[AstalonWorld]):
         options = f", options={self.options}" if self.options else ""
         return f"{self.__class__.__name__}({self.location_name.value}{options})"
 
-    @rule_builder.resolved_rule
     class Resolved(rule_builder.CanReachLocation.Resolved):
         pass
 
 
-@rule_builder.custom_rule(AstalonWorld)
-class CanReachRegion(rule_builder.Rule[AstalonWorld]):
+@dataclasses.dataclass()
+class CanReachRegion(rule_builder.Rule["AstalonWorld"], game=GAME_NAME):
     region_name: "RegionName"
 
     @override
@@ -352,13 +349,12 @@ class CanReachRegion(rule_builder.Rule[AstalonWorld]):
         options = f", options={self.options}" if self.options else ""
         return f"{self.__class__.__name__}({self.region_name.value}{options})"
 
-    @rule_builder.resolved_rule
     class Resolved(rule_builder.CanReachRegion.Resolved):
         pass
 
 
-@rule_builder.custom_rule(AstalonWorld)
-class CanReachEntrance(rule_builder.Rule[AstalonWorld]):
+@dataclasses.dataclass()
+class CanReachEntrance(rule_builder.Rule["AstalonWorld"], game=GAME_NAME):
     from_region: "RegionName"
     to_region: "RegionName"
 
@@ -373,13 +369,12 @@ class CanReachEntrance(rule_builder.Rule[AstalonWorld]):
         options = f", options={self.options}" if self.options else ""
         return f"{self.__class__.__name__}({self.from_region.value} -> {self.to_region.value}{options})"
 
-    @rule_builder.resolved_rule
     class Resolved(rule_builder.CanReachEntrance.Resolved):
         pass
 
 
 @dataclasses.dataclass(init=False)
-class ToggleRule(HasAll):
+class ToggleRule(HasAll, game=GAME_NAME):
     option_cls: "ClassVar[type[Option[int]]]"
     otherwise: bool = False
 
@@ -399,8 +394,8 @@ class ToggleRule(HasAll):
         return rule.resolve(world)
 
 
-@rule_builder.custom_rule(AstalonWorld, init=False)
-class HasWhite(ToggleRule):
+@dataclasses.dataclass(init=False)
+class HasWhite(ToggleRule, game=GAME_NAME):
     option_cls = RandomizeWhiteKeys
 
     def __init__(
@@ -413,8 +408,8 @@ class HasWhite(ToggleRule):
         self.otherwise = otherwise
 
 
-@rule_builder.custom_rule(AstalonWorld, init=False)
-class HasBlue(ToggleRule):
+@dataclasses.dataclass(init=False)
+class HasBlue(ToggleRule, game=GAME_NAME):
     option_cls = RandomizeBlueKeys
 
     def __init__(
@@ -427,8 +422,8 @@ class HasBlue(ToggleRule):
         self.otherwise = otherwise
 
 
-@rule_builder.custom_rule(AstalonWorld, init=False)
-class HasRed(ToggleRule):
+@dataclasses.dataclass(init=False)
+class HasRed(ToggleRule, game=GAME_NAME):
     option_cls = RandomizeRedKeys
 
     def __init__(
@@ -441,8 +436,8 @@ class HasRed(ToggleRule):
         self.otherwise = otherwise
 
 
-@rule_builder.custom_rule(AstalonWorld, init=False)
-class HasSwitch(ToggleRule):
+@dataclasses.dataclass(init=False)
+class HasSwitch(ToggleRule, game=GAME_NAME):
     option_cls = RandomizeSwitches
 
     def __init__(
@@ -455,8 +450,8 @@ class HasSwitch(ToggleRule):
         self.otherwise = otherwise
 
 
-@rule_builder.custom_rule(AstalonWorld, init=False)
-class HasElevator(HasAll):
+@dataclasses.dataclass(init=False)
+class HasElevator(HasAll, game=GAME_NAME):
     def __init__(self, elevator: "Elevator", *, options: "Iterable[rule_builder.OptionFilter[Any]]" = ()) -> None:
         super().__init__(
             KeyItem.ASCENDANT_KEY,
@@ -465,8 +460,8 @@ class HasElevator(HasAll):
         )
 
 
-@rule_builder.custom_rule(AstalonWorld)
-class HasGoal(rule_builder.Rule[AstalonWorld]):
+@dataclasses.dataclass()
+class HasGoal(rule_builder.Rule["AstalonWorld"], game=GAME_NAME):
     @override
     def _instantiate(self, world: "AstalonWorld") -> "rule_builder.Rule.Resolved":
         if world.options.goal.value != Goal.option_eye_hunt:
@@ -478,8 +473,8 @@ class HasGoal(rule_builder.Rule[AstalonWorld]):
         )
 
 
-@rule_builder.custom_rule(AstalonWorld)
-class HardLogic(rule_builder.Wrapper[AstalonWorld]):
+@dataclasses.dataclass()
+class HardLogic(rule_builder.Wrapper["AstalonWorld"], game=GAME_NAME):
     @override
     def _instantiate(self, world: "AstalonWorld") -> "rule_builder.Rule.Resolved":
         if world.options.difficulty.value == Difficulty.option_hard:
@@ -488,7 +483,6 @@ class HardLogic(rule_builder.Wrapper[AstalonWorld]):
             return self.Resolved(self.child.resolve(world), player=world.player)
         return rule_builder.False_.Resolved(player=world.player)
 
-    @rule_builder.resolved_rule
     class Resolved(rule_builder.Wrapper.Resolved):
         @override
         def _evaluate(self, state: "CollectionState") -> bool:
