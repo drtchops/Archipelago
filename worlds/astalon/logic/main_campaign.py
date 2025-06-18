@@ -54,9 +54,7 @@ blue_off = [OptionFilter(RandomizeBlueKeys, RandomizeBlueKeys.option_false)]
 red_off = [OptionFilter(RandomizeRedKeys, RandomizeRedKeys.option_false)]
 switch_off = [OptionFilter(RandomizeSwitches, RandomizeSwitches.option_false)]
 
-can_uppies = HardLogic(
-    True_["AstalonWorld"](options=characters_off) | HasAny(Character.ARIAS, Character.BRAM, options=characters_on)
-)
+can_uppies = HardLogic(True_(options=characters_off) | HasAny(Character.ARIAS, Character.BRAM, options=characters_on))
 can_extra_height = HasAny(Character.KYULI, KeyItem.BLOCK) | can_uppies
 can_extra_height_gold_block = HasAny(Character.KYULI, Character.ZEEK) | can_uppies
 can_combo_height = can_uppies & HasAll(KeyItem.BELL, KeyItem.BLOCK)
