@@ -13,8 +13,8 @@ from .locations import location_table
 if TYPE_CHECKING:
     from BaseClasses import CollectionState, Entrance, Location, MultiWorld, Region
     from NetUtils import JSONMessagePart
+    from rule_builder import Rule
 
-    from .logic import RuleInstance
     from .world import AstalonWorld
 
 try:
@@ -47,14 +47,14 @@ except ImportError:
 class AstalonCommandProcessor(ClientCommandProcessor):  # type: ignore
     ctx: "AstalonClientContext"
 
-    def _print_rule(self, rule: "RuleInstance | None", state: "CollectionState") -> None:
+    def _print_rule(self, rule: "Rule.Resolved | None", state: "CollectionState") -> None:
         if rule:
             if self.ctx.ui:
                 messages: list[JSONMessagePart] = [{"type": "text", "text": "    "}]
-                messages.extend(rule.explain(state))
+                messages.extend(rule.explain_json(state))
                 self.ctx.ui.print_json(messages)
             else:
-                logger.info("    " + rule.serialize())
+                logger.info("    " + rule.explain_str(state))
         else:
             if self.ctx.ui:
                 self.ctx.ui.print_json(
@@ -123,12 +123,10 @@ class AstalonCommandProcessor(ClientCommandProcessor):  # type: ignore
             path.reverse()
             for p in path:
                 if self.ctx.ui:
-                    self.ctx.ui.print_json(
-                        [{"type": "entrance_name", "text": p.name, "player": self.ctx.player_id}]
-                    )
+                    self.ctx.ui.print_json([{"type": "entrance_name", "text": p.name, "player": self.ctx.player_id}])
                 else:
                     logger.info(p.name)
-                self._print_rule(getattr(p.access_rule, "__self__", None), state)
+                self._print_rule(p.resolved_rule, state)
 
             if goal_location:
                 if self.ctx.ui:
@@ -144,7 +142,7 @@ class AstalonCommandProcessor(ClientCommandProcessor):  # type: ignore
                     )
                 else:
                     logger.info(f"-> {goal_location.name}")
-                self._print_rule(getattr(goal_location.access_rule, "__self__", None), state)
+                self._print_rule(goal_location.resolved_rule, state)
 
 
 class AstalonClientContext(TrackerGameContext):
