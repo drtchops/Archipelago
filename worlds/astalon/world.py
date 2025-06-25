@@ -1,6 +1,8 @@
 import logging
 from functools import cached_property
-from typing import TYPE_CHECKING, Any, ClassVar, Final, override
+from typing import TYPE_CHECKING, Any, ClassVar, Final
+
+from typing_extensions import override
 
 from BaseClasses import Item, ItemClassification, Region, Tutorial
 from Options import OptionError
@@ -45,7 +47,7 @@ from .tracker import TRACKER_WORLD
 
 if TYPE_CHECKING:
     from BaseClasses import Location, MultiWorld
-    from Options import Option
+    from Options import Option, PerGameCommonOptions
 
 
 # ██░░░██████░░███░░░███
@@ -95,8 +97,8 @@ icon_paths["astalon"] = f"ap:{__name__}/images/pil.png"
 
 
 class AstalonWebWorld(WebWorld):
-    theme = "stone"
-    tutorials = [  # noqa: RUF012
+    theme: ClassVar[str] = "stone"
+    tutorials: list["Tutorial"] = [  # noqa: RUF012
         Tutorial(
             tutorial_name="Setup Guide",
             description="A guide to setting up the Astalon randomizer.",
@@ -118,15 +120,15 @@ class AstalonWorld(RuleWorldMixin, World):  # pyright: ignore[reportUnsafeMultip
     on a mission to save their village from impending doom!
     """
 
-    game = GAME_NAME
-    web = AstalonWebWorld()
-    options_dataclass = AstalonOptions
+    game: ClassVar[str] = GAME_NAME
+    web: ClassVar["WebWorld"] = AstalonWebWorld()
+    options_dataclass: ClassVar[type["PerGameCommonOptions"]] = AstalonOptions
     options: AstalonOptions  # type: ignore # pyright: ignore[reportIncompatibleVariableOverride]
-    item_name_groups = item_name_groups
-    location_name_groups = location_name_groups
-    item_name_to_id = item_name_to_id
-    location_name_to_id = location_name_to_id
-    required_client_version = (0, 6, 0)
+    item_name_groups: ClassVar[dict[str, set[str]]] = item_name_groups
+    location_name_groups: ClassVar[dict[str, set[str]]] = location_name_groups
+    item_name_to_id: ClassVar[dict[str, int]] = item_name_to_id
+    location_name_to_id: ClassVar[dict[str, int]] = location_name_to_id
+    required_client_version: tuple[int, int, int] = (0, 6, 0)
 
     starting_characters: "list[Character]"
     extra_gold_eyes: int = 0
@@ -397,7 +399,7 @@ class AstalonWorld(RuleWorldMixin, World):  # pyright: ignore[reportUnsafeMultip
             if remove_count > len(filler_items):
                 raise OptionError(
                     f"Astalon player {self.player_name} failed: No space for eye hunt. "
-                    "Lower your eye hunt goal or enable candle randomizer."
+                    + "Lower your eye hunt goal or enable candle randomizer."
                 )
 
             if remove_count == len(filler_items):
