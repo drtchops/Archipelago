@@ -7,6 +7,7 @@ from ..items import (
     Character,
     Crystal,
     Elevator,
+    Events,
     Eye,
     Face,
     KeyItem,
@@ -1304,3 +1305,5 @@ MAIN_LOCATION_RULES: "dict[L, Rule[AstalonWorld]]" = {
     L.CATA_CANDLE_DEV_ROOM: Or(Has(KeyItem.CLAW), HasSwitch(Switch.CATA_DEV_ROOM, otherwise=True)),
     L.CATA_CANDLE_PRISON: HasBlue(BlueDoor.CATA_PRISON_RIGHT, otherwise=True),
 }
+
+COMPLETION_RULE = Has(Events.VICTORY)

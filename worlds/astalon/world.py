@@ -1,6 +1,6 @@
 import logging
 from functools import cached_property
-from typing import TYPE_CHECKING, Any, ClassVar, Final
+from typing import TYPE_CHECKING, Any, ClassVar, Final, override
 
 from BaseClasses import Item, ItemClassification, Region, Tutorial
 from Options import OptionError
@@ -38,7 +38,7 @@ from .locations import (
     location_name_to_id,
     location_table,
 )
-from .logic.main_campaign import MAIN_ENTRANCE_RULES, MAIN_LOCATION_RULES
+from .logic.main_campaign import COMPLETION_RULE, MAIN_ENTRANCE_RULES, MAIN_LOCATION_RULES
 from .options import ApexElevator, AstalonOptions, Goal, RandomizeCharacters
 from .regions import RegionName, astalon_regions
 from .tracker import TRACKER_WORLD
@@ -134,14 +134,15 @@ class AstalonWorld(RuleWorldMixin, World):  # pyright: ignore[reportUnsafeMultip
     cached_spheres: ClassVar[list[set["Location"]]]
 
     # UT integration
-    tracker_world: ClassVar = TRACKER_WORLD
-    ut_can_gen_without_yaml = True
-    glitches_item_name = Events.FAKE_OOL_ITEM.value
+    tracker_world: ClassVar[dict[str, Any]] = TRACKER_WORLD
+    ut_can_gen_without_yaml: ClassVar[bool] = True
+    glitches_item_name: ClassVar[str] = Events.FAKE_OOL_ITEM.value
 
     def __init__(self, multiworld: "MultiWorld", player: int) -> None:
         super().__init__(multiworld, player)
         self.starting_characters = []
 
+    @override
     def generate_early(self) -> None:
         if self.options.randomize_characters == RandomizeCharacters.option_solo:
             self.starting_characters.append(self.random.choice(CHARACTERS))
@@ -183,6 +184,7 @@ class AstalonWorld(RuleWorldMixin, World):  # pyright: ignore[reportUnsafeMultip
         region.locations.append(location)
         return location
 
+    @override
     def create_regions(self) -> None:
         for region_name in astalon_regions:
             region = Region(region_name.value, self.player, self.multiworld)
@@ -276,11 +278,9 @@ class AstalonWorld(RuleWorldMixin, World):  # pyright: ignore[reportUnsafeMultip
         )
         victory_location.place_locked_item(victory_item)
         victory_region.locations.append(victory_location)
-        self.multiworld.completion_condition[self.player] = lambda state: state.has(
-            Events.VICTORY.value,
-            self.player,
-        )
+        self.set_completion_rule(COMPLETION_RULE)
 
+    @override
     def create_item(self, name: str) -> AstalonItem:
         if name == Events.FAKE_OOL_ITEM:
             return AstalonItem(name, ItemClassification.progression, None, self.player)
@@ -302,6 +302,7 @@ class AstalonWorld(RuleWorldMixin, World):  # pyright: ignore[reportUnsafeMultip
     def create_trap(self) -> AstalonItem:
         return self.create_item(self.get_trap_item_name())
 
+    @override
     def create_items(self) -> None:
         itempool: list[Item] = []
         filler_items: list[Item] = []
@@ -414,6 +415,10 @@ class AstalonWorld(RuleWorldMixin, World):  # pyright: ignore[reportUnsafeMultip
 
         self.multiworld.itempool += itempool + filler_items
 
+    @override
+    def set_rules(self) -> None:
+        self.register_location_dependencies()
+
     @cached_property
     def filler_item_names(self) -> tuple[str, ...]:
         items = list(filler_items)
@@ -425,6 +430,7 @@ class AstalonWorld(RuleWorldMixin, World):  # pyright: ignore[reportUnsafeMultip
             items.append(Key.RED.value)
         return tuple(items)
 
+    @override
     def get_filler_item_name(self) -> str:
         return self.random.choice(self.filler_item_names)
 
@@ -444,6 +450,7 @@ class AstalonWorld(RuleWorldMixin, World):  # pyright: ignore[reportUnsafeMultip
         # Clean up all references in cached spheres after generation completes.
         del cls.cached_spheres
 
+    @override
     def fill_slot_data(self) -> dict[str, Any]:
         return {
             "version": VERSION,
