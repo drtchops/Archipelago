@@ -32,7 +32,7 @@ class LocationData(NamedTuple):
     name: str
     code: Optional[int]
     type: LocationType
-    rule: Optional[Callable[[Any], bool]] = Location.access_rule
+    rule: Optional[Callable[[Any], bool]] = Location.default_access_rule
 
 
 def get_location_types(world: World, inclusion_type: LocationInclusion) -> Set[LocationType]:
@@ -66,11 +66,8 @@ def get_plando_locations(world: World) -> List[str]:
     if world is None:
         return []
     plando_locations = []
-    for plando_setting in world.multiworld.plando_items[world.player]:
-        plando_locations += plando_setting.get("locations", [])
-        plando_setting_location = plando_setting.get("location", None)
-        if plando_setting_location is not None:
-            plando_locations.append(plando_setting_location)
+    for plando_setting in world.options.plando_items:
+        plando_locations += plando_setting.locations
 
     return plando_locations
 
@@ -1626,7 +1623,7 @@ def get_locations(world: Optional[World]) -> Tuple[LocationData, ...]:
     for i, location_data in enumerate(location_table):
         # Removing all item-based logic on No Logic
         if logic_level == RequiredTactics.option_no_logic:
-            location_data = location_data._replace(rule=Location.access_rule)
+            location_data = location_data._replace(rule=Location.default_access_rule)
             location_table[i] = location_data
         # Generating Beat event locations
         if location_data.name.endswith((": Victory", ": Defeat")):
