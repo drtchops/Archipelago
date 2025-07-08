@@ -503,7 +503,7 @@ class Events(str, Enum):
 
 
 class AstalonItem(Item):
-    game = GAME_NAME
+    game: str = GAME_NAME
 
 
 @dataclass(frozen=True)
@@ -669,17 +669,13 @@ ALL_ITEMS: tuple[ItemData, ...] = (
     ItemData(Switch.GT_UPPER_PATH_ACCESS, ItemClassification.progression, 1, ItemGroup.SWITCH),
     ItemData(
         Switch.GT_CROSSES,
-        lambda world: (
-            ItemClassification.filler if world.options.open_early_doors else ItemClassification.progression
-        ),
+        lambda world: (ItemClassification.filler if world.options.open_early_doors else ItemClassification.progression),
         1,
         ItemGroup.SWITCH,
     ),
     ItemData(
         Switch.GT_GH_SHORTCUT,
-        lambda world: (
-            ItemClassification.filler if world.options.open_early_doors else ItemClassification.progression
-        ),
+        lambda world: (ItemClassification.filler if world.options.open_early_doors else ItemClassification.progression),
         1,
         ItemGroup.SWITCH,
     ),

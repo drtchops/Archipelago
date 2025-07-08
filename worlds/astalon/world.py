@@ -110,9 +110,6 @@ class AstalonWebWorld(WebWorld):
     ]
 
 
-# TODO: Wrap rule, connect helper, better world typing (generic)
-
-
 class AstalonWorld(RuleWorldMixin, World):  # pyright: ignore[reportUnsafeMultipleInheritance]
     """
     Uphold your pact with the Titan of Death, Epimetheus!
@@ -419,7 +416,7 @@ class AstalonWorld(RuleWorldMixin, World):  # pyright: ignore[reportUnsafeMultip
 
     @override
     def set_rules(self) -> None:
-        self.register_location_dependencies()
+        self.register_dependencies()
 
     @cached_property
     def filler_item_names(self) -> tuple[str, ...]:

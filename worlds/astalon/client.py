@@ -1,5 +1,6 @@
 import asyncio
 import urllib.parse
+from collections.abc import Callable
 from typing import TYPE_CHECKING
 
 from CommonClient import CommonContext, get_base_parser, gui_enabled, logger, server_loop
@@ -47,8 +48,8 @@ except ImportError:
 class AstalonCommandProcessor(ClientCommandProcessor):  # type: ignore
     ctx: "AstalonClientContext"
 
-    def _print_rule(self, rule: "Rule.Resolved | None", state: "CollectionState") -> None:
-        if rule:
+    def _print_rule(self, rule: "Callable[[CollectionState], bool]", state: "CollectionState") -> None:
+        if isinstance(rule, Rule.Resolved):
             if self.ctx.ui:
                 messages: list[JSONMessagePart] = [{"type": "text", "text": "    "}]
                 messages.extend(rule.explain_json(state))
@@ -126,7 +127,7 @@ class AstalonCommandProcessor(ClientCommandProcessor):  # type: ignore
                     self.ctx.ui.print_json([{"type": "entrance_name", "text": p.name, "player": self.ctx.player_id}])
                 else:
                     logger.info(p.name)
-                self._print_rule(p.resolved_rule, state)
+                self._print_rule(p.access_rule, state)
 
             if goal_location:
                 if self.ctx.ui:
@@ -142,7 +143,7 @@ class AstalonCommandProcessor(ClientCommandProcessor):  # type: ignore
                     )
                 else:
                     logger.info(f"-> {goal_location.name}")
-                self._print_rule(goal_location.resolved_rule, state)
+                self._print_rule(goal_location.access_rule, state)
 
 
 class AstalonClientContext(TrackerGameContext):

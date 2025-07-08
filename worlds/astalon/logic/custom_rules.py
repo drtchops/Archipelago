@@ -396,7 +396,7 @@ class ToggleRule(HasAll, game=GAME_NAME):
 
 @dataclasses.dataclass(init=False)
 class HasWhite(ToggleRule, game=GAME_NAME):
-    option_cls = RandomizeWhiteKeys
+    option_cls: "ClassVar[type[Option[int]]]" = RandomizeWhiteKeys
 
     def __init__(
         self,
@@ -405,12 +405,12 @@ class HasWhite(ToggleRule, game=GAME_NAME):
         options: "Iterable[rule_builder.OptionFilter[Any]]" = (),
     ) -> None:
         super().__init__(*doors, options=options)
-        self.otherwise = otherwise
+        self.otherwise: bool = otherwise
 
 
 @dataclasses.dataclass(init=False)
 class HasBlue(ToggleRule, game=GAME_NAME):
-    option_cls = RandomizeBlueKeys
+    option_cls: "ClassVar[type[Option[int]]]" = RandomizeBlueKeys
 
     def __init__(
         self,
@@ -419,12 +419,12 @@ class HasBlue(ToggleRule, game=GAME_NAME):
         options: "Iterable[rule_builder.OptionFilter[Any]]" = (),
     ) -> None:
         super().__init__(*doors, options=options)
-        self.otherwise = otherwise
+        self.otherwise: bool = otherwise
 
 
 @dataclasses.dataclass(init=False)
 class HasRed(ToggleRule, game=GAME_NAME):
-    option_cls = RandomizeRedKeys
+    option_cls: "ClassVar[type[Option[int]]]" = RandomizeRedKeys
 
     def __init__(
         self,
@@ -433,12 +433,12 @@ class HasRed(ToggleRule, game=GAME_NAME):
         options: "Iterable[rule_builder.OptionFilter[Any]]" = (),
     ) -> None:
         super().__init__(*doors, options=options)
-        self.otherwise = otherwise
+        self.otherwise: bool = otherwise
 
 
 @dataclasses.dataclass(init=False)
 class HasSwitch(ToggleRule, game=GAME_NAME):
-    option_cls = RandomizeSwitches
+    option_cls: "ClassVar[type[Option[int]]]" = RandomizeSwitches
 
     def __init__(
         self,
@@ -447,7 +447,7 @@ class HasSwitch(ToggleRule, game=GAME_NAME):
         options: "Iterable[rule_builder.OptionFilter[Any]]" = (),
     ) -> None:
         super().__init__(*switches, options=options)
-        self.otherwise = otherwise
+        self.otherwise: bool = otherwise
 
 
 @dataclasses.dataclass(init=False)
@@ -486,7 +486,7 @@ class HardLogic(rule_builder.Wrapper["AstalonWorld"], game=GAME_NAME):
     class Resolved(rule_builder.Wrapper.Resolved):
         @override
         def _evaluate(self, state: "CollectionState") -> bool:
-            return state.has(Events.FAKE_OOL_ITEM.value, self.player) and self.child.test(state)
+            return state.has(Events.FAKE_OOL_ITEM.value, self.player) and self.child(state)
 
         @override
         def item_dependencies(self) -> dict[str, set[int]]:
