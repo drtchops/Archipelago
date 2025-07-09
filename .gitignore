@@ -198,3 +198,8 @@ Thumbs.db
 
 # ruff
 ruff.toml
+
+hooks/
+worlds/tracker/
+fuzz.py
+fuzz_output/

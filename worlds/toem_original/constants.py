@@ -1,11 +1,10 @@
-from enum import Enum
-from typing import Final
+from typing import Final, final
 
-GAME_NAME: Final[str] = "TOEM"
-BASE_ID: Final[int] = 678356000
+GAME_NAME: Final[str] = "TOEM original"
 
 
-class Area(str, Enum):
+@final
+class Area:
     HOMELANDA = "Homelanda"
     OAKLAVILLE = "Oaklaville"
     STANHAMN = "Stanhamn"
