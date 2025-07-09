@@ -73,5 +73,5 @@ class RuleResolutionTest(AstalonTestBase):
             ),
             player=self.player,
         )
-        instance = rule.resolve(self.world)
+        instance = self.world.resolve_rule(rule)
         self.assertEqual(instance, expected, f"\n{instance}\n{expected}")

@@ -205,3 +205,7 @@ tox.toml
 
 # UT
 worlds/tracker
+
+hooks/
+fuzz_output/
+fuzz.py
