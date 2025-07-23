@@ -47,7 +47,7 @@ class ToemWorld(RuleWorldMixin, World):  # pyright: ignore[reportUnsafeMultipleI
     item_name_to_id: ClassVar[dict[str, int]] = item_name_to_id
     location_name_to_id: ClassVar[dict[str, int]] = location_name_to_id
     origin_region_name: str = RegionName.HOMELANDA
-    rule_caching_enabled = False
+    rule_caching_enabled: ClassVar[bool] = False
 
     def create_location(self, name: str) -> ToemLocation | None:
         data = location_table[name]
@@ -148,6 +148,7 @@ class ToemWorld(RuleWorldMixin, World):  # pyright: ignore[reportUnsafeMultipleI
         set_entrance_rules(self)
         set_location_rules(self)
         set_victory_rule(self)
+        self.register_dependencies()
 
     @override
     def fill_slot_data(self) -> dict[str, Any]:
