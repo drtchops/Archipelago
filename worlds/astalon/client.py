@@ -1,53 +1,54 @@
+import argparse
 import asyncio
 import urllib.parse
-from typing import TYPE_CHECKING
+from typing import NamedTuple, cast
 
+from typing_extensions import override
+
+from BaseClasses import CollectionState, Entrance, Location, Region
 from CommonClient import CommonContext, get_base_parser, gui_enabled, logger, server_loop
 from MultiServer import mark_raw
+from NetUtils import JSONMessagePart
 from Utils import get_intended_text
+from worlds.AutoWorld import World
 
 from .constants import GAME_NAME, VERSION
 from .items import item_table
 from .locations import location_table
-
-if TYPE_CHECKING:
-    from BaseClasses import CollectionState, Entrance, Location, MultiWorld, Region
-    from NetUtils import JSONMessagePart
-
-    from .logic import RuleInstance
-    from .world import AstalonWorld
+from .logic import RuleInstance
 
 try:
-    from worlds.tracker.TrackerClient import UT_VERSION, TrackerGameContext, updateTracker  # type: ignore
-    from worlds.tracker.TrackerClient import TrackerCommandProcessor as ClientCommandProcessor
+    from worlds.tracker.TrackerClient import UT_VERSION, TrackerCommandProcessor, TrackerGameContext
 
     tracker_loaded = True
 except ImportError:
     from CommonClient import ClientCommandProcessor
 
-    class TrackerGameContextMixin:
-        """Expecting the TrackerGameContext to have these methods."""
-
-        multiworld: "MultiWorld"
+    class TrackerCore:
         player_id: int
 
-        def build_gui(self, manager): ...
+        def get_current_world(self) -> World | None: ...
 
-        def run_generator(self): ...
+    class CurrentTrackerState(NamedTuple):
+        state: CollectionState
 
-        def load_kv(self): ...
+    class TrackerGameContext(CommonContext):
+        tracker_core: TrackerCore
 
-    class TrackerGameContext(CommonContext, TrackerGameContextMixin):
-        pass
+        def run_generator(self) -> None: ...
+        def updateTracker(self) -> CurrentTrackerState: ...
+
+    class TrackerCommandProcessor(ClientCommandProcessor):
+        ctx: TrackerGameContext
 
     tracker_loaded = False
     UT_VERSION = "Not found"
 
 
-class AstalonCommandProcessor(ClientCommandProcessor):  # type: ignore
+class AstalonCommandProcessor(TrackerCommandProcessor):
     ctx: "AstalonClientContext"
 
-    def _print_rule(self, rule: "RuleInstance | None", state: "CollectionState") -> None:
+    def _print_rule(self, rule: RuleInstance | None, state: CollectionState) -> None:
         if rule:
             if self.ctx.ui:
                 messages: list[JSONMessagePart] = [{"type": "text", "text": "    "}]
@@ -87,9 +88,16 @@ class AstalonCommandProcessor(ClientCommandProcessor):  # type: ignore
             goal_location: Location | None = None
             goal_region: Region | None = None
             region_name = ""
-            location_name, usable, response = get_intended_text(location_or_region, world.location_names)
+            location_name, usable, response = get_intended_text(
+                location_or_region,
+                [loc.name for loc in world.get_locations()],
+            )
             if usable:
-                goal_location = world.get_location(location_name)
+                try:
+                    goal_location = world.get_location(location_name)
+                except KeyError:
+                    logger.warning(f"Location {location_name} not found in this multiworld")
+                    return
                 goal_region = goal_location.parent_region
                 if not goal_region:
                     logger.warning(f"Location {location_name} has no parent region")
@@ -97,7 +105,7 @@ class AstalonCommandProcessor(ClientCommandProcessor):  # type: ignore
             else:
                 region_name, usable, _ = get_intended_text(
                     location_or_region,
-                    [r.name for r in world.multiworld.get_regions(world.player)],
+                    [reg.name for reg in world.get_regions()],
                 )
                 if usable:
                     goal_region = world.get_region(region_name)
@@ -105,7 +113,7 @@ class AstalonCommandProcessor(ClientCommandProcessor):  # type: ignore
                     logger.warning(response)
                     return
 
-            state = get_updated_state(self.ctx)
+            state = self.ctx.get_updated_state()
             if goal_location and not goal_location.can_reach(state):
                 logger.warning(f"Location {goal_location.name} cannot be reached")
                 return
@@ -123,9 +131,7 @@ class AstalonCommandProcessor(ClientCommandProcessor):  # type: ignore
             path.reverse()
             for p in path:
                 if self.ctx.ui:
-                    self.ctx.ui.print_json(
-                        [{"type": "entrance_name", "text": p.name, "player": self.ctx.player_id}]
-                    )
+                    self.ctx.ui.print_json([{"type": "entrance_name", "text": p.name, "player": self.ctx.player}])
                 else:
                     logger.info(p.name)
                 self._print_rule(getattr(p.access_rule, "__self__", None), state)
@@ -138,7 +144,7 @@ class AstalonCommandProcessor(ClientCommandProcessor):  # type: ignore
                             {
                                 "type": "location_name",
                                 "text": goal_location.name,
-                                "player": self.ctx.player_id,
+                                "player": self.ctx.player,
                             },
                         ]
                     )
@@ -150,6 +156,28 @@ class AstalonCommandProcessor(ClientCommandProcessor):  # type: ignore
 class AstalonClientContext(TrackerGameContext):
     game = GAME_NAME
     command_processor = AstalonCommandProcessor
+
+    # These 3 are for UT refactor compat
+    @property
+    def player(self) -> int:
+        try:
+            return self.player_id
+        except AttributeError:
+            return self.tracker_core.player_id
+
+    def get_world(self) -> World | None:
+        try:
+            return self.tracker_core.get_current_world()
+        except AttributeError:
+            return self.multiworld.worlds[self.player]
+
+    def get_updated_state(self) -> CollectionState:
+        try:
+            from worlds.tracker.TrackerClient import updateTracker
+
+            return updateTracker(self).state
+        except:
+            return self.updateTracker().state
 
     def make_gui(self):
         ui = super().make_gui()  # before the kivy imports so kvui gets loaded first
@@ -164,11 +192,12 @@ class AstalonClientContext(TrackerGameContext):
             get_ut_color = None
 
         class AstalonJSONtoTextParser(KivyJSONtoTextParser):
-            ctx: "CommonContext"
+            ctx: CommonContext
 
-            def _handle_item_name(self, node: "JSONMessagePart") -> str:
+            @override
+            def _handle_item_name(self, node: JSONMessagePart) -> str:
                 flags = node.get("flags", 0)
-                item_types = []
+                item_types: list[str] = []
                 if flags & 0b001:  # advancement
                     item_types.append("progression")
                 if flags & 0b010:  # useful
@@ -186,18 +215,19 @@ class AstalonClientContext(TrackerGameContext):
                 if slot_info and slot_info.game == GAME_NAME and metadata and metadata.description:
                     tooltip += f"<br>{metadata.description}"
 
-                node.setdefault("refs", []).append(tooltip)  # type: ignore
+                node.setdefault("refs", []).append(tooltip)
                 if node.get("color"):
                     return self._handle_color(node)
                 return super(KivyJSONtoTextParser, self)._handle_item_name(node)
 
-            def _handle_location_name(self, node: "JSONMessagePart") -> str:
+            @override
+            def _handle_location_name(self, node: JSONMessagePart) -> str:
                 player = node.get("player", 0)
                 slot_info = self.ctx.slot_info.get(player)
                 location_name = node.get("text", "")
                 metadata = location_table.get(location_name)
                 if slot_info and slot_info.game == GAME_NAME and metadata:
-                    parts = []
+                    parts: list[str] = []
                     if metadata.room:
                         parts.append(f"{metadata.area.value} ({metadata.room})")
                     else:
@@ -205,12 +235,13 @@ class AstalonClientContext(TrackerGameContext):
                     parts.append(f"Region: {metadata.region.value}")
                     if metadata.description:
                         parts.append(metadata.description)
-                    node.setdefault("refs", []).append("<br>".join(parts))  # type: ignore
+                    node.setdefault("refs", []).append("<br>".join(parts))
                 return super()._handle_location_name(node)
 
-            def _handle_color(self, node: "JSONMessagePart") -> str:
-                colors = node["color"].split(";")  # type: ignore
-                node["text"] = escape_markup(node["text"])  # type: ignore
+            @override
+            def _handle_color(self, node: JSONMessagePart) -> str:
+                colors = node.get("color", "").split(";")
+                node["text"] = escape_markup(node.get("text", ""))
                 for color in colors:
                     color_code = None
                     if get_ut_color:
@@ -227,10 +258,11 @@ class AstalonClientContext(TrackerGameContext):
             base_title = f"Astalon Tracker v{VERSION} with UT {UT_VERSION} for AP version"
             ctx: "AstalonClientContext"
 
-            def __init__(self, ctx: "CommonContext") -> None:
+            def __init__(self, ctx: CommonContext) -> None:
                 super().__init__(ctx)
                 self.json_to_kivy_parser = AstalonJSONtoTextParser(ctx)
 
+            @override
             def build(self):
                 container = super().build()
                 if not tracker_loaded:
@@ -240,23 +272,16 @@ class AstalonClientContext(TrackerGameContext):
 
         return AstalonManager
 
-    def get_world(self) -> "AstalonWorld | None":
-        if self.player_id is None:
-            logger.warning("Internal logic was not able to load, check your yamls and relaunch.")
-            return
 
-        if self.game != GAME_NAME:
-            logger.warning(f"Please connect to a slot with explainable logic (not {self.game}).")
-            return
-
-        return self.multiworld.worlds[self.player_id]  # type: ignore
+class ClientArgs(argparse.Namespace):
+    connect: str | None = None
+    password: str | None = None
+    nogui: bool = False
+    name: str | None = None
+    url: str | None = None
 
 
-def get_updated_state(ctx: "TrackerGameContext") -> "CollectionState":
-    return updateTracker(ctx).state  # type: ignore
-
-
-async def main(args) -> None:
+async def main(args: ClientArgs) -> None:
     ctx = AstalonClientContext(args.connect, args.password)
 
     ctx.auth = args.name
@@ -275,18 +300,18 @@ async def main(args) -> None:
     await ctx.shutdown()
 
 
-def launch(*args) -> None:
+def launch(*args: str) -> None:
     parser = get_base_parser(description="Gameless Archipelago Client, for text interfacing.")
     parser.add_argument("--name", default=None, help="Slot Name to connect as.")
     parser.add_argument("url", nargs="?", help="Archipelago connection url")
-    args = parser.parse_args(args)
+    parsed_args = cast(ClientArgs, parser.parse_args(args))
 
-    if args.url:
-        url = urllib.parse.urlparse(args.url)
-        args.connect = url.netloc
+    if parsed_args.url:
+        url = urllib.parse.urlparse(parsed_args.url)
+        parsed_args.connect = url.netloc
         if url.username:
-            args.name = urllib.parse.unquote(url.username)
+            parsed_args.name = urllib.parse.unquote(url.username)
         if url.password:
-            args.password = urllib.parse.unquote(url.password)
+            parsed_args.password = urllib.parse.unquote(url.password)
 
-    asyncio.run(main(args))
+    asyncio.run(main(parsed_args))

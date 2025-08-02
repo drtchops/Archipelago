@@ -115,7 +115,8 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], RuleFactory] = {
     (R.GT_ENTRANCE, R.GT_VOID): Has(KeyItem.VOID),
     (R.GT_ENTRANCE, R.GT_GORGONHEART): Or(
         HasSwitch(Switch.GT_GH_SHORTCUT),
-        HasAny(KeyItem.ICARUS, KeyItem.BOOTS),
+        Has(KeyItem.ICARUS),
+        HardLogic(Has(KeyItem.BOOTS)),
     ),
     (R.GT_ENTRANCE, R.GT_BOSS): HasElevator(Elevator.GT_2),
     (R.GT_ENTRANCE, R.MECH_ZEEK_CONNECTION): HasElevator(Elevator.MECH_1),
