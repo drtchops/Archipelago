@@ -717,7 +717,11 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], RuleFactory] = {
     (R.ROA_FLAMES, R.ROA_ARIAS_BABY_GORGON): HasSwitch(Switch.ROA_BABY_GORGON, otherwise=True),
     (R.ROA_WORM_CLIMB, R.ROA_RIGHT_BRANCH): Has(KeyItem.CLAW),
     (R.ROA_RIGHT_BRANCH, R.ROA_MIDDLE): Has(KeyItem.STAR),
-    (R.ROA_LEFT_ASCENT, R.ROA_FLAMES_CONNECTION): Or(HasSwitch(Crystal.ROA_LEFT_ASCEND), otherwise_crystal),
+    (R.ROA_LEFT_ASCENT, R.ROA_FLAMES_CONNECTION): And(
+        Or(HasSwitch(Crystal.ROA_LEFT_ASCEND), otherwise_crystal),
+        # this is overly restrictive, but whatever
+        HasAll(Character.KYULI, KeyItem.BELL),
+    ),
     (R.ROA_LEFT_ASCENT, R.ROA_TOP_ASCENT): HasSwitch(Switch.ROA_ASCEND_SHORTCUT),
     (R.ROA_LEFT_ASCENT, R.ROA_LEFT_ASCENT_CRYSTAL): Has(Character.ALGUS),
     (R.ROA_TOP_ASCENT, R.ROA_TRIPLE_SWITCH): can_extra_height,
