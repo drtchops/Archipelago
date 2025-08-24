@@ -341,7 +341,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], RuleFactory] = {
         And(
             HasSwitch(
                 Switch.MECH_SPLIT_PATH,
-                Switch.MECH_BOSS_1,
+                Switch.MECH_TO_BOSS_1,
                 Crystal.MECH_TRIPLE_1,
                 Crystal.MECH_TRIPLE_2,
                 Crystal.MECH_TRIPLE_3,
