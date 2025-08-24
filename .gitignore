@@ -206,6 +206,10 @@ tox.toml
 # UT
 worlds/tracker
 
+# Fuzzer
 hooks/
 fuzz_output/
 fuzz.py
+
+# Me specifically
+bundle.py

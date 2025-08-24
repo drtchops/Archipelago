@@ -1,14 +1,20 @@
 import logging
 from functools import cached_property
-from typing import TYPE_CHECKING, Any, ClassVar, Final
+from typing import Any, ClassVar, Final
 
 from typing_extensions import override
 
-from BaseClasses import Item, ItemClassification, Region, Tutorial
-from Options import OptionError
+from BaseClasses import Item, ItemClassification, MultiWorld, Region, Tutorial
+from Options import Option, OptionError, PerGameCommonOptions
 from rule_builder import RuleWorldMixin
 from worlds.AutoWorld import WebWorld, World
-from worlds.LauncherComponents import Component, Type, components, icon_paths, launch_subprocess
+from worlds.LauncherComponents import (
+    Component,
+    Type,
+    components,
+    icon_paths,
+    launch_subprocess,  # pyright: ignore[reportUnknownVariableType]
+)
 
 from .constants import GAME_NAME, VERSION
 from .items import (
@@ -44,11 +50,6 @@ from .logic.main_campaign import COMPLETION_RULE, MAIN_ENTRANCE_RULES, MAIN_LOCA
 from .options import ApexElevator, AstalonOptions, Goal, RandomizeCharacters
 from .regions import RegionName, astalon_regions
 from .tracker import TRACKER_WORLD
-
-if TYPE_CHECKING:
-    from BaseClasses import Location, MultiWorld
-    from Options import Option, PerGameCommonOptions
-
 
 # ██░░░██████░░███░░░███
 # ██░░░░██░░░▓▓░░░▓░░███
@@ -98,7 +99,7 @@ icon_paths["astalon"] = f"ap:{__name__}/images/pil.png"
 
 class AstalonWebWorld(WebWorld):
     theme: ClassVar[str] = "stone"
-    tutorials: list["Tutorial"] = [  # noqa: RUF012
+    tutorials: list[Tutorial] = [  # noqa: RUF012
         Tutorial(
             tutorial_name="Setup Guide",
             description="A guide to setting up the Astalon randomizer.",
@@ -118,26 +119,26 @@ class AstalonWorld(RuleWorldMixin, World):  # pyright: ignore[reportUnsafeMultip
     """
 
     game: ClassVar[str] = GAME_NAME
-    web: ClassVar["WebWorld"] = AstalonWebWorld()
-    options_dataclass: ClassVar[type["PerGameCommonOptions"]] = AstalonOptions
-    options: AstalonOptions  # type: ignore # pyright: ignore[reportIncompatibleVariableOverride]
+    web: ClassVar[WebWorld] = AstalonWebWorld()
+    options_dataclass: ClassVar[type[PerGameCommonOptions]] = AstalonOptions
+    options: AstalonOptions  # pyright: ignore[reportIncompatibleVariableOverride]
     item_name_groups: ClassVar[dict[str, set[str]]] = item_name_groups
     location_name_groups: ClassVar[dict[str, set[str]]] = location_name_groups
     item_name_to_id: ClassVar[dict[str, int]] = item_name_to_id
     location_name_to_id: ClassVar[dict[str, int]] = location_name_to_id
     required_client_version: tuple[int, int, int] = (0, 6, 0)
 
-    starting_characters: "list[Character]"
+    starting_characters: list[Character]
     extra_gold_eyes: int = 0
 
-    cached_spheres: ClassVar[list[set["Location"]]]
+    _character_strengths: ClassVar[dict[int, dict[str, float]] | None] = None
 
     # UT integration
     tracker_world: ClassVar[dict[str, Any]] = TRACKER_WORLD
     ut_can_gen_without_yaml: ClassVar[bool] = True
     glitches_item_name: ClassVar[str] = Events.FAKE_OOL_ITEM.value
 
-    def __init__(self, multiworld: "MultiWorld", player: int) -> None:
+    def __init__(self, multiworld: MultiWorld, player: int) -> None:
         super().__init__(multiworld, player)
         self.starting_characters = []
 
@@ -303,6 +304,10 @@ class AstalonWorld(RuleWorldMixin, World):  # pyright: ignore[reportUnsafeMultip
 
     @override
     def create_items(self) -> None:
+        if getattr(self.multiworld, "generation_is_fake", False):
+            # itempool can be skipped in UT, want to avoid the OptionError
+            return
+
         itempool: list[Item] = []
         filler_items: list[Item] = []
 
@@ -382,8 +387,8 @@ class AstalonWorld(RuleWorldMixin, World):  # pyright: ignore[reportUnsafeMultip
                     self.multiworld.push_precollected(self.create_item(red_door.value))
 
         if self.options.goal.value == Goal.option_eye_hunt:
-            for _ in range(0, self.options.additional_eyes_required.value + self.extra_gold_eyes):
-                itempool.append(self.create_item(Eye.GOLD.value))
+            total_eyes = self.options.additional_eyes_required.value + self.extra_gold_eyes
+            itempool.extend(self.create_item(Eye.GOLD.value) for _ in range(0, total_eyes))
 
         total_locations = len(self.multiworld.get_unfilled_locations(self.player))
 
@@ -437,20 +442,41 @@ class AstalonWorld(RuleWorldMixin, World):  # pyright: ignore[reportUnsafeMultip
         return self.random.choice(trap_items)
 
     @classmethod
-    def stage_post_fill(cls, multiworld: "MultiWorld") -> None:
-        # Cache spheres for hint calculation after fill completes.
-        cls.cached_spheres = list(multiworld.get_spheres())
-        if len(cls.cached_spheres) > 2 and not cls.cached_spheres[-2]:
-            # remove unreachable locations
-            cls.cached_spheres = cls.cached_spheres[:-2]
+    def _calc_character_strengths(cls, multiworld: MultiWorld) -> None:
+        cls._character_strengths = {}
 
-    @classmethod
-    def stage_modify_multidata(cls, *_) -> None:
-        # Clean up all references in cached spheres after generation completes.
-        del cls.cached_spheres
+        character_items = {c.value for c in CHARACTERS}
+        sorted_items = sorted(character_items)
+        for world in multiworld.get_game_worlds(GAME_NAME):
+            assert isinstance(world, AstalonWorld)
+            if world.options.scale_character_stats.value:
+                cls._character_strengths[world.player] = dict.fromkeys(sorted_items, 0.0)
+        if not cls._character_strengths:
+            return
+
+        spheres = list(multiworld.get_spheres())
+        if len(spheres) > 2 and not spheres[-2]:
+            # remove unreachable locations
+            spheres = spheres[:-2]
+
+        sphere_count = len(spheres)
+        for sphere_id, sphere in enumerate(spheres, start=1):
+            for location in sphere:
+                if (
+                    location.item
+                    and location.item.player in cls._character_strengths
+                    and location.item.name in character_items
+                ):
+                    scaling = sphere_id / sphere_count
+                    logger.debug(f"{location.item.name} in sphere {sphere_id} / {sphere_count}, scaling {scaling}")
+                    cls._character_strengths[location.item.player][location.item.name] = scaling
 
     @override
     def fill_slot_data(self) -> dict[str, Any]:
+        if self._character_strengths is None:
+            self._calc_character_strengths(self.multiworld)
+        assert self._character_strengths is not None
+        strengths = self._character_strengths.get(self.player, {})
         return {
             "version": VERSION,
             "options": self.options.as_dict(
@@ -481,36 +507,16 @@ class AstalonWorld(RuleWorldMixin, World):  # pyright: ignore[reportUnsafeMultip
                 "death_link",
             ),
             "starting_characters": [c.value for c in self.starting_characters],
-            "character_strengths": self._get_character_strengths(),
+            "character_strengths": strengths,
             "extra_gold_eyes": self.extra_gold_eyes,
         }
+
+    @classmethod
+    def stage_modify_multidata(cls, *_) -> None:
+        # Clean up calculated character strengths after generation completes
+        cls._character_strengths = None
 
     @staticmethod
     def interpret_slot_data(slot_data: dict[str, Any]) -> dict[str, Any]:
         # Trigger a 2nd gen with passed along slot data
         return slot_data
-
-    def _get_character_strengths(self) -> dict[str, float]:
-        character_strengths: dict[str, float] = {c.value: 0 for c in CHARACTERS}
-        if not self.options.scale_character_stats:
-            return character_strengths
-
-        spheres = self.cached_spheres
-        sphere_count = len(spheres)
-        found = len(self.starting_characters) if self.options.randomize_characters else 3
-        limit = 5
-        if found >= limit:
-            return character_strengths
-
-        for sphere_id, sphere in enumerate(spheres):
-            for location in sphere:
-                if location.item and location.item.player == self.player and location.item.name in character_strengths:
-                    scaling = (sphere_id + 1) / sphere_count
-                    logger.debug(f"{location.item.name} in sphere {sphere_id + 1} / {sphere_count}, scaling {scaling}")
-                    character_strengths[location.item.name] = scaling
-                    found += 1
-                    if found >= limit:
-                        return character_strengths
-
-        logger.warning("Could not find all Astalon characters in spheres, something is likely wrong")
-        return character_strengths
