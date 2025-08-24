@@ -248,7 +248,7 @@ class AstalonWorld(World):
             if group not in logic_groups:
                 continue
 
-            for location_name in location_names:
+            for location_name in sorted(location_names):
                 if location_name == LocationName.SHOP_MAP_REVEAL:
                     # this requires way too much map completion
                     continue
@@ -363,7 +363,7 @@ class AstalonWorld(World):
             if group not in logic_groups:
                 continue
 
-            for item_name in item_names:
+            for item_name in sorted(item_names):
                 if self.options.start_with_qol and item_name in QOL_ITEMS:
                     continue
                 if self.options.start_with_ascendant_key and item_name == KeyItem.ASCENDANT_KEY:
