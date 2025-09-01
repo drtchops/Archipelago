@@ -1,10 +1,11 @@
 import unittest
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, Any, ClassVar
+from typing import Any, ClassVar
 
 from typing_extensions import override
 
-from BaseClasses import Item, ItemClassification, Location, Region
+from BaseClasses import CollectionState, Item, ItemClassification, Location, MultiWorld, Region
+from NetUtils import JSONMessagePart
 from Options import Choice, PerGameCommonOptions, Toggle
 from rule_builder import (
     And,
@@ -30,11 +31,7 @@ from rule_builder import (
 from test.general import setup_solo_multiworld
 from test.param import classvar_matrix
 from worlds import network_data_package
-from worlds.AutoWorld import World
-
-if TYPE_CHECKING:
-    from BaseClasses import CollectionState, MultiWorld
-    from NetUtils import JSONMessagePart
+from worlds.AutoWorld import WebWorld, World
 
 
 class ToggleOption(Toggle):
@@ -66,8 +63,13 @@ class RuleBuilderLocation(Location):
     game: str = GAME
 
 
+class RuleBuilderWebWorld(WebWorld):
+    tutorials = []  # noqa: RUF012  # pyright: ignore[reportUnannotatedClassAttribute]
+
+
 class RuleBuilderWorld(RuleWorldMixin, World):  # pyright: ignore[reportUnsafeMultipleInheritance]
     game: ClassVar[str] = GAME
+    web: ClassVar[WebWorld] = RuleBuilderWebWorld()
     item_name_to_id: ClassVar[dict[str, int]] = {f"Item {i}": i for i in range(1, LOC_COUNT + 1)}
     location_name_to_id: ClassVar[dict[str, int]] = {f"Location {i}": i for i in range(1, LOC_COUNT + 1)}
     item_name_groups: ClassVar[dict[str, set[str]]] = {
@@ -177,8 +179,8 @@ class TestSimplify(unittest.TestCase):
 
 
 class TestOptions(unittest.TestCase):
-    multiworld: "MultiWorld"  # pyright: ignore[reportUninitializedInstanceVariable]
-    world: "RuleBuilderWorld"  # pyright: ignore[reportUninitializedInstanceVariable]
+    multiworld: MultiWorld  # pyright: ignore[reportUninitializedInstanceVariable]
+    world: RuleBuilderWorld  # pyright: ignore[reportUninitializedInstanceVariable]
 
     @override
     def setUp(self) -> None:
@@ -281,9 +283,9 @@ class TestHashes(unittest.TestCase):
 
 
 class TestCaching(unittest.TestCase):
-    multiworld: "MultiWorld"  # pyright: ignore[reportUninitializedInstanceVariable]
-    world: "RuleBuilderWorld"  # pyright: ignore[reportUninitializedInstanceVariable]
-    state: "CollectionState"  # pyright: ignore[reportUninitializedInstanceVariable]
+    multiworld: MultiWorld  # pyright: ignore[reportUninitializedInstanceVariable]
+    world: RuleBuilderWorld  # pyright: ignore[reportUninitializedInstanceVariable]
+    state: CollectionState  # pyright: ignore[reportUninitializedInstanceVariable]
     player: int = 1
 
     @override
@@ -360,9 +362,9 @@ class TestCaching(unittest.TestCase):
 
 
 class TestCacheDisabled(unittest.TestCase):
-    multiworld: "MultiWorld"  # pyright: ignore[reportUninitializedInstanceVariable]
-    world: "RuleBuilderWorld"  # pyright: ignore[reportUninitializedInstanceVariable]
-    state: "CollectionState"  # pyright: ignore[reportUninitializedInstanceVariable]
+    multiworld: MultiWorld  # pyright: ignore[reportUninitializedInstanceVariable]
+    world: RuleBuilderWorld  # pyright: ignore[reportUninitializedInstanceVariable]
+    state: CollectionState  # pyright: ignore[reportUninitializedInstanceVariable]
     player: int = 1
 
     @override
@@ -439,9 +441,9 @@ class TestCacheDisabled(unittest.TestCase):
 
 
 class TestRules(unittest.TestCase):
-    multiworld: "MultiWorld"  # pyright: ignore[reportUninitializedInstanceVariable]
-    world: "RuleBuilderWorld"  # pyright: ignore[reportUninitializedInstanceVariable]
-    state: "CollectionState"  # pyright: ignore[reportUninitializedInstanceVariable]
+    multiworld: MultiWorld  # pyright: ignore[reportUninitializedInstanceVariable]
+    world: RuleBuilderWorld  # pyright: ignore[reportUninitializedInstanceVariable]
+    state: CollectionState  # pyright: ignore[reportUninitializedInstanceVariable]
     player: int = 1
 
     @override
@@ -771,9 +773,9 @@ class TestSerialization(unittest.TestCase):
 
 
 class TestExplain(unittest.TestCase):
-    multiworld: "MultiWorld"  # pyright: ignore[reportUninitializedInstanceVariable]
-    world: "RuleBuilderWorld"  # pyright: ignore[reportUninitializedInstanceVariable]
-    state: "CollectionState"  # pyright: ignore[reportUninitializedInstanceVariable]
+    multiworld: MultiWorld  # pyright: ignore[reportUninitializedInstanceVariable]
+    world: RuleBuilderWorld  # pyright: ignore[reportUninitializedInstanceVariable]
+    state: CollectionState  # pyright: ignore[reportUninitializedInstanceVariable]
     player: int = 1
 
     resolved_rule: ClassVar[Rule.Resolved] = And.Resolved(
