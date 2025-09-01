@@ -156,7 +156,11 @@ class RegionName(str, Enum):
     ROA_ELEVATOR = "Ruins of Ash - Elevator"
     ROA_ICARUS = "Ruins of Ash - Icarus Emblem"
     ROA_DARK_CONNECTION = "Ruins of Ash - Darkness Connection"
-    ROA_CENTAUR = "Ruins of Ash - Centaur"
+    ROA_DARK_EXIT = "Ruins of Ash - Darkness Exit"
+    ROA_TOP_CENTAUR = "Ruins of Ash - Top Centaur"
+    ROA_ABOVE_CENTAUR_L = "Ruins of Ash - Above Centaur Left"
+    ROA_ABOVE_CENTAUR_R = "Ruins of Ash - Above Centaur Right"
+    ROA_CRYSTAL_ABOVE_CENTAUR = "Ruins of Ash - Crystal Above Centaur"
     ROA_BOSS_CONNECTION = "Ruins of Ash - Boss Connection"
     ROA_BOSS = "Ruins of Ash - Boss"
     ROA_APEX_CONNECTION = "Ruins of Ash - The Apex Connection"
@@ -1162,24 +1166,48 @@ astalon_regions: dict[RegionName, RegionData] = {
         exits=(
             RegionName.ROA_ELEVATOR,
             RegionName.DARK_START,
-            RegionName.ROA_CENTAUR,
+            RegionName.ROA_TOP_CENTAUR,
         ),
     ),
     RegionName.DARK_START: RegionData(
         exits=(RegionName.DARK_END,),
     ),
     RegionName.DARK_END: RegionData(
-        exits=(RegionName.ROA_CENTAUR,),
+        exits=(RegionName.ROA_DARK_EXIT,),
     ),
-    RegionName.ROA_CENTAUR: RegionData(
+    RegionName.ROA_DARK_EXIT: RegionData(
+        exits=(
+            RegionName.ROA_TOP_CENTAUR,
+            RegionName.ROA_ABOVE_CENTAUR_R,
+            RegionName.ROA_CRYSTAL_ABOVE_CENTAUR,
+        ),
+    ),
+    RegionName.ROA_TOP_CENTAUR: RegionData(
         exits=(
             RegionName.ROA_DARK_CONNECTION,
+            RegionName.ROA_DARK_EXIT,
             RegionName.ROA_BOSS_CONNECTION,
         ),
     ),
+    RegionName.ROA_ABOVE_CENTAUR_R: RegionData(
+        exits=(
+            RegionName.ROA_DARK_EXIT,
+            RegionName.ROA_ABOVE_CENTAUR_L,
+            RegionName.ROA_CRYSTAL_ABOVE_CENTAUR,
+        )
+    ),
+    RegionName.ROA_ABOVE_CENTAUR_L: RegionData(
+        exits=(
+            RegionName.ROA_ABOVE_CENTAUR_R,
+            RegionName.ROA_BOSS_CONNECTION,
+            RegionName.ROA_CRYSTAL_ABOVE_CENTAUR,
+        )
+    ),
+    RegionName.ROA_CRYSTAL_ABOVE_CENTAUR: RegionData(),
     RegionName.ROA_BOSS_CONNECTION: RegionData(
         exits=(
-            RegionName.ROA_CENTAUR,
+            RegionName.ROA_TOP_CENTAUR,
+            RegionName.ROA_ABOVE_CENTAUR_L,
             RegionName.ROA_BOSS,
         ),
     ),

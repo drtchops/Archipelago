@@ -122,7 +122,7 @@ class AstalonWorld(World):
     game = GAME_NAME
     web = AstalonWebWorld()
     options_dataclass = AstalonOptions
-    options: AstalonOptions  # type: ignore
+    options: AstalonOptions  # pyright: ignore[reportIncompatibleVariableOverride]
     item_name_groups = item_name_groups
     location_name_groups = location_name_groups
     item_name_to_id = item_name_to_id
