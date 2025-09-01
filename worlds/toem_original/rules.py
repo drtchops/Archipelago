@@ -1,4 +1,5 @@
-from typing import TYPE_CHECKING, Callable, final
+from collections.abc import Callable
+from typing import TYPE_CHECKING, final
 
 from BaseClasses import CollectionState
 from worlds.generic.Rules import set_rule

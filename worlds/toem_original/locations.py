@@ -602,12 +602,12 @@ def get_location_area(location_name: str) -> str:
 
 
 location_name_groups: dict[str, set[str]] = {
-    group: set(location for location in location_names)
+    group: set(location_names)
     for group, location_names in groupby(sorted(location_table, key=get_location_group), get_location_group)
 }
 location_name_groups.update(
     {
-        group: set(location for location in location_names)
+        group: set(location_names)
         for group, location_names in groupby(sorted(location_table, key=get_location_area), get_location_area)
     }
 )

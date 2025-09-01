@@ -25,7 +25,7 @@ if TYPE_CHECKING:
 
 class ToemWebWorld(WebWorld):
     theme: ClassVar[str] = "grassFlowers"
-    tutorials: list[Tutorial] = [
+    tutorials: list[Tutorial] = [  # noqa: RUF012
         Tutorial(
             tutorial_name="Setup Guide",
             description="A guide to setting up the TOEM randomizer.",
@@ -33,7 +33,7 @@ class ToemWebWorld(WebWorld):
             file_name="setup_en.md",
             link="setup/en",
             authors=["DrTChops"],
-        )
+        ),
     ]
 
 
@@ -130,8 +130,7 @@ class ToemWorld(RuleWorldMixin, World):  # pyright: ignore[reportUnsafeMultipleI
                 if not self.options.include_basto and data.area == Area.BASTO:
                     continue
 
-                for _ in range(data.quantity):
-                    itempool.append(self.create_item(item_name))
+                itempool.extend(self.create_item(item_name) for _ in range(data.quantity))
 
         total_locations = len(self.multiworld.get_unfilled_locations(self.player))
         while len(itempool) < total_locations:

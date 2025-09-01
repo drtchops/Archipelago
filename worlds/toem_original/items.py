@@ -331,15 +331,12 @@ def get_item_area(location_name: str) -> str:
 
 
 item_name_groups: dict[str, set[str]] = {
-    group: set(item for item in item_names)
+    group: set(item_names)
     for group, item_names in groupby(sorted(item_table, key=get_item_group), get_item_group)
     if group != ""
 }
 item_name_groups.update(
-    {
-        group: set(item for item in item_names)
-        for group, item_names in groupby(sorted(item_table, key=get_item_area), get_item_area)
-    }
+    {group: set(item_names) for group, item_names in groupby(sorted(item_table, key=get_item_area), get_item_area)}
 )
 
 filler_items: tuple[str, ...] = (
