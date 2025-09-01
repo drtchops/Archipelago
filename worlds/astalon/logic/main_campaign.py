@@ -70,6 +70,10 @@ can_crystal_wo_whiplash = (
     | HasAll(Character.ZEEK, KeyItem.BANISH)
     | HardLogic(Has(ShopUpgrade.KYULI_RAY))
 )
+can_crystal_wo_block = Or(
+    HasAny(Character.ALGUS, ShopUpgrade.BRAM_WHIPLASH),
+    HardLogic(Has(ShopUpgrade.KYULI_RAY)),
+)
 can_big_magic = HardLogic(HasAll(Character.ALGUS, KeyItem.BANISH, ShopUpgrade.ALGUS_ARCANIST))
 can_kill_ghosts = (
     HasAny(KeyItem.BANISH, KeyItem.BLOCK)
@@ -799,23 +803,35 @@ MAIN_ENTRANCE_RULES: "dict[tuple[R, R], Rule[AstalonWorld]]" = {
     (R.ROA_ELEVATOR, R.GT_BOSS): HasElevator(Elevator.GT_2),
     (R.ROA_ELEVATOR, R.MECH_ZEEK_CONNECTION): HasElevator(Elevator.MECH_1),
     (R.ROA_ELEVATOR, R.MECH_BOSS): HasElevator(Elevator.MECH_2),
-    (R.ROA_DARK_CONNECTION, R.ROA_CENTAUR): HasSwitch(Switch.ROA_BLOOD_POT),
+    (R.ROA_DARK_CONNECTION, R.ROA_TOP_CENTAUR): HasSwitch(Switch.ROA_BLOOD_POT),
     (R.ROA_DARK_CONNECTION, R.DARK_START): can_extra_height,
     (R.DARK_START, R.DARK_END): And(Has(KeyItem.CLAW), HasSwitch(Switch.DARKNESS, otherwise=True)),
-    (R.DARK_END, R.ROA_CENTAUR): Has(KeyItem.CLAW),
-    (R.ROA_CENTAUR, R.ROA_DARK_CONNECTION): Or(
+    (R.DARK_END, R.ROA_DARK_EXIT): Has(KeyItem.CLAW),
+    (R.ROA_DARK_EXIT, R.ROA_ABOVE_CENTAUR_R): And(
+        HasAll(Character.ARIAS, KeyItem.BELL),
+        Or(HardLogic(True_()), Has(Character.KYULI)),
+    ),
+    (R.ROA_DARK_EXIT, R.ROA_CRYSTAL_ABOVE_CENTAUR): HardLogic(Has(ShopUpgrade.KYULI_RAY)),
+    (R.ROA_TOP_CENTAUR, R.ROA_DARK_CONNECTION): Or(
         HasSwitch(Switch.ROA_BLOOD_POT, otherwise=True),
         HasBlue(BlueDoor.ROA_BLOOD, otherwise=True),
     ),
-    (R.ROA_CENTAUR, R.ROA_BOSS_CONNECTION): Or(
+    (R.ROA_TOP_CENTAUR, R.ROA_DARK_EXIT): can_extra_height,
+    (R.ROA_TOP_CENTAUR, R.ROA_BOSS_CONNECTION): Or(
         HasSwitch(Crystal.ROA_CENTAUR),
-        And(HasAll(KeyItem.BELL, Character.ARIAS), Or(can_crystal, Has(KeyItem.STAR))),
+        CanReachRegion(R.ROA_CRYSTAL_ABOVE_CENTAUR),
+    ),
+    (R.ROA_ABOVE_CENTAUR_R, R.ROA_DARK_EXIT): HasAll(Character.ARIAS, KeyItem.BELL),
+    (R.ROA_ABOVE_CENTAUR_R, R.ROA_ABOVE_CENTAUR_L): HasAll(KeyItem.STAR, KeyItem.BELL),
+    (R.ROA_ABOVE_CENTAUR_R, R.ROA_CRYSTAL_ABOVE_CENTAUR): can_crystal_wo_whiplash,
+    (R.ROA_ABOVE_CENTAUR_L, R.ROA_ABOVE_CENTAUR_R): HasAll(KeyItem.STAR, KeyItem.BELL),
+    (R.ROA_ABOVE_CENTAUR_L, R.ROA_CRYSTAL_ABOVE_CENTAUR): can_crystal_wo_block,
+    (R.ROA_BOSS_CONNECTION, R.ROA_ABOVE_CENTAUR_L): can_extra_height,
+    (R.ROA_BOSS_CONNECTION, R.ROA_TOP_CENTAUR): Or(
+        HasSwitch(Crystal.ROA_CENTAUR),
+        CanReachRegion(R.ROA_CRYSTAL_ABOVE_CENTAUR),
     ),
     (R.ROA_BOSS_CONNECTION, R.ROA_BOSS): HasSwitch(Switch.ROA_BOSS_ACCESS, otherwise=True),
-    (R.ROA_BOSS_CONNECTION, R.ROA_CENTAUR): Or(
-        HasSwitch(Crystal.ROA_CENTAUR),
-        And(HasAll(KeyItem.BELL, KeyItem.STAR, Character.ARIAS), can_extra_height),
-    ),
     (R.ROA_BOSS, R.ROA_APEX_CONNECTION): Has(Eye.GREEN),
     (R.ROA_BOSS, R.ROA_BOSS_CONNECTION): HasSwitch(Switch.ROA_BOSS_ACCESS),
     (R.ROA_APEX_CONNECTION, R.ROA_BOSS): Has(Eye.GREEN),

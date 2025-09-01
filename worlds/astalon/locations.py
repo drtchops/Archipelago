@@ -635,7 +635,7 @@ ALL_LOCATIONS: tuple[LocationData, ...] = (
     LocationData(LocationName.ROA_BLUE_KEY_FACE, RegionName.ROA_BOTTOM_ASCEND, LocationGroup.KEY_BLUE, Area.ROA),
     LocationData(LocationName.ROA_BLUE_KEY_FLAMES, RegionName.ROA_ARIAS_BABY_GORGON, LocationGroup.KEY_BLUE, Area.ROA),
     LocationData(LocationName.ROA_BLUE_KEY_BABY, RegionName.ROA_LEFT_BABY_GORGON, LocationGroup.KEY_BLUE, Area.ROA),
-    LocationData(LocationName.ROA_BLUE_KEY_TOP, RegionName.ROA_BOSS_CONNECTION, LocationGroup.KEY_BLUE, Area.ROA),
+    LocationData(LocationName.ROA_BLUE_KEY_TOP, RegionName.ROA_ABOVE_CENTAUR_L, LocationGroup.KEY_BLUE, Area.ROA),
     LocationData(LocationName.ROA_BLUE_KEY_POT, RegionName.ROA_TRIPLE_REAPER, LocationGroup.KEY_BLUE, Area.ROA),
     LocationData(LocationName.ROA_RED_KEY, RegionName.ROA_RED_KEY, LocationGroup.KEY_RED, Area.ROA),
     LocationData(LocationName.DARK_HP_4, RegionName.DARK_END, LocationGroup.HEALTH, Area.DARK),
@@ -892,7 +892,7 @@ ALL_LOCATIONS: tuple[LocationData, ...] = (
     LocationData(LocationName.ROA_SWITCH_1ST_SHORTCUT, RegionName.ROA_BOTTOM_ASCEND, LocationGroup.SWITCH, Area.ROA),
     LocationData(LocationName.ROA_SWITCH_SPIKE_CLIMB, RegionName.ROA_SPIKE_CLIMB, LocationGroup.SWITCH, Area.ROA),
     LocationData(LocationName.ROA_SWITCH_ABOVE_CENTAUR, RegionName.ROA_SP_CONNECTION, LocationGroup.SWITCH, Area.ROA),
-    LocationData(LocationName.ROA_SWITCH_BLOOD_POT, RegionName.ROA_CENTAUR, LocationGroup.SWITCH, Area.ROA),
+    LocationData(LocationName.ROA_SWITCH_BLOOD_POT, RegionName.ROA_TOP_CENTAUR, LocationGroup.SWITCH, Area.ROA),
     LocationData(LocationName.ROA_SWITCH_WORMS, RegionName.ROA_WORMS, LocationGroup.SWITCH, Area.ROA),
     LocationData(LocationName.ROA_SWITCH_TRIPLE_1, RegionName.ROA_TRIPLE_SWITCH, LocationGroup.SWITCH, Area.ROA),
     LocationData(LocationName.ROA_SWITCH_TRIPLE_3, RegionName.ROA_TRIPLE_SWITCH, LocationGroup.SWITCH, Area.ROA),
@@ -910,7 +910,9 @@ ALL_LOCATIONS: tuple[LocationData, ...] = (
     ),
     LocationData(LocationName.ROA_CRYSTAL_LADDER_R, RegionName.ROA_RIGHT_SWITCH_2, LocationGroup.SWITCH, Area.ROA),
     LocationData(LocationName.ROA_CRYSTAL_LADDER_L, RegionName.ROA_LEFT_SWITCH, LocationGroup.SWITCH, Area.ROA),
-    LocationData(LocationName.ROA_CRYSTAL_CENTAUR, RegionName.ROA_CENTAUR, LocationGroup.SWITCH, Area.ROA),
+    LocationData(
+        LocationName.ROA_CRYSTAL_CENTAUR, RegionName.ROA_CRYSTAL_ABOVE_CENTAUR, LocationGroup.SWITCH, Area.ROA
+    ),
     LocationData(LocationName.ROA_CRYSTAL_SPIKE_BALLS, RegionName.ROA_UPPER_VOID, LocationGroup.SWITCH, Area.ROA),
     LocationData(
         LocationName.ROA_CRYSTAL_LEFT_ASCEND,
@@ -1050,7 +1052,7 @@ ALL_LOCATIONS: tuple[LocationData, ...] = (
     LocationData(LocationName.ROA_CANDLE_SHAFT_TOP, RegionName.ROA_SP_CONNECTION, LocationGroup.CANDLE, Area.ROA),
     LocationData(LocationName.ROA_CANDLE_ABOVE_CENTAUR, RegionName.ROA_SP_CONNECTION, LocationGroup.CANDLE, Area.ROA),
     LocationData(LocationName.ROA_CANDLE_BABY_GORGON, RegionName.ROA_ELEVATOR, LocationGroup.CANDLE, Area.ROA),
-    LocationData(LocationName.ROA_CANDLE_TOP_CENTAUR, RegionName.ROA_CENTAUR, LocationGroup.CANDLE, Area.ROA),
+    LocationData(LocationName.ROA_CANDLE_TOP_CENTAUR, RegionName.ROA_TOP_CENTAUR, LocationGroup.CANDLE, Area.ROA),
     LocationData(LocationName.ROA_CANDLE_HIDDEN_1, RegionName.ROA_MIDDLE_LADDER, LocationGroup.CANDLE, Area.ROA),
     LocationData(LocationName.ROA_CANDLE_HIDDEN_2, RegionName.ROA_MIDDLE_LADDER, LocationGroup.CANDLE, Area.ROA),
     LocationData(LocationName.ROA_CANDLE_HIDDEN_3, RegionName.ROA_MIDDLE_LADDER, LocationGroup.CANDLE, Area.ROA),
@@ -1114,12 +1116,12 @@ def get_location_area(location_name: str) -> Area:
 
 
 location_name_groups: dict[str, set[str]] = {
-    group.value: set(location for location in location_names)
+    group.value: set(location_names)
     for group, location_names in groupby(sorted(location_table, key=get_location_group), get_location_group)
 }
 location_name_groups.update(
     {
-        group.value: set(location for location in location_names)
+        group.value: set(location_names)
         for group, location_names in groupby(sorted(location_table, key=get_location_area), get_location_area)
     }
 )
