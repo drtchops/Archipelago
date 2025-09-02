@@ -1,9 +1,14 @@
 import dataclasses
+from collections.abc import Iterable
+from enum import Enum
 from typing import TYPE_CHECKING, Any, ClassVar
 
 from typing_extensions import override
 
 import rule_builder
+from BaseClasses import CollectionState
+from NetUtils import JSONMessagePart
+from Options import Option
 
 from ..constants import GAME_NAME
 from ..items import (
@@ -21,6 +26,7 @@ from ..items import (
     Switch,
     WhiteDoor,
 )
+from ..locations import LocationName
 from ..options import (
     Difficulty,
     Goal,
@@ -31,70 +37,64 @@ from ..options import (
     RandomizeSwitches,
     RandomizeWhiteKeys,
 )
+from ..regions import RegionName
 
 if TYPE_CHECKING:
-    from collections.abc import Iterable
-
-    from BaseClasses import CollectionState
-    from NetUtils import JSONMessagePart
-    from Options import Option
-
-    from ..locations import LocationName
-    from ..regions import RegionName
     from ..world import AstalonWorld
 
 
-ITEM_DEPS: "dict[str, tuple[Character, ...]]" = {
-    KeyItem.CLOAK.value: (Character.ALGUS,),
-    KeyItem.SWORD.value: (Character.ARIAS,),
-    KeyItem.BOOTS.value: (Character.ARIAS,),
-    KeyItem.CLAW.value: (Character.KYULI,),
-    KeyItem.BOW.value: (Character.KYULI,),
-    KeyItem.BLOCK.value: (Character.ZEEK,),
-    KeyItem.STAR.value: (Character.BRAM,),
-    KeyItem.BANISH.value: (Character.ALGUS, Character.ZEEK),
-    KeyItem.GAUNTLET.value: (Character.ARIAS, Character.BRAM),
-    ShopUpgrade.ALGUS_ARCANIST.value: (Character.ALGUS,),
-    ShopUpgrade.ALGUS_METEOR.value: (Character.ALGUS,),
-    ShopUpgrade.ALGUS_SHOCK.value: (Character.ALGUS,),
-    ShopUpgrade.ARIAS_GORGONSLAYER.value: (Character.ARIAS,),
-    ShopUpgrade.ARIAS_LAST_STAND.value: (Character.ARIAS,),
-    ShopUpgrade.ARIAS_LIONHEART.value: (Character.ARIAS,),
-    ShopUpgrade.KYULI_ASSASSIN.value: (Character.KYULI,),
-    ShopUpgrade.KYULI_BULLSEYE.value: (Character.KYULI,),
-    ShopUpgrade.KYULI_RAY.value: (Character.KYULI,),
-    ShopUpgrade.ZEEK_JUNKYARD.value: (Character.ZEEK,),
-    ShopUpgrade.ZEEK_ORBS.value: (Character.ZEEK,),
-    ShopUpgrade.ZEEK_LOOT.value: (Character.ZEEK,),
-    ShopUpgrade.BRAM_AXE.value: (Character.BRAM,),
-    ShopUpgrade.BRAM_HUNTER.value: (Character.BRAM,),
-    ShopUpgrade.BRAM_WHIPLASH.value: (Character.BRAM,),
+ITEM_DEPS: dict[str, tuple[str, ...]] = {
+    KeyItem.CLOAK.value: (Character.ALGUS.value,),
+    KeyItem.SWORD.value: (Character.ARIAS.value,),
+    KeyItem.BOOTS.value: (Character.ARIAS.value,),
+    KeyItem.CLAW.value: (Character.KYULI.value,),
+    KeyItem.BOW.value: (Character.KYULI.value,),
+    KeyItem.BLOCK.value: (Character.ZEEK.value,),
+    KeyItem.STAR.value: (Character.BRAM.value,),
+    KeyItem.BANISH.value: (Character.ALGUS.value, Character.ZEEK.value),
+    KeyItem.GAUNTLET.value: (Character.ARIAS.value, Character.BRAM.value),
+    ShopUpgrade.ALGUS_ARCANIST.value: (Character.ALGUS.value,),
+    ShopUpgrade.ALGUS_METEOR.value: (Character.ALGUS.value,),
+    ShopUpgrade.ALGUS_SHOCK.value: (Character.ALGUS.value,),
+    ShopUpgrade.ARIAS_GORGONSLAYER.value: (Character.ARIAS.value,),
+    ShopUpgrade.ARIAS_LAST_STAND.value: (Character.ARIAS.value,),
+    ShopUpgrade.ARIAS_LIONHEART.value: (Character.ARIAS.value,),
+    ShopUpgrade.KYULI_ASSASSIN.value: (Character.KYULI.value,),
+    ShopUpgrade.KYULI_BULLSEYE.value: (Character.KYULI.value,),
+    ShopUpgrade.KYULI_RAY.value: (Character.KYULI.value,),
+    ShopUpgrade.ZEEK_JUNKYARD.value: (Character.ZEEK.value,),
+    ShopUpgrade.ZEEK_ORBS.value: (Character.ZEEK.value,),
+    ShopUpgrade.ZEEK_LOOT.value: (Character.ZEEK.value,),
+    ShopUpgrade.BRAM_AXE.value: (Character.BRAM.value,),
+    ShopUpgrade.BRAM_HUNTER.value: (Character.BRAM.value,),
+    ShopUpgrade.BRAM_WHIPLASH.value: (Character.BRAM.value,),
 }
 
-VANILLA_CHARACTERS: "frozenset[Character]" = frozenset((Character.ALGUS, Character.ARIAS, Character.KYULI))
+VANILLA_CHARACTERS: frozenset[str] = frozenset((Character.ALGUS.value, Character.ARIAS.value, Character.KYULI.value))
 
 characters_off = [rule_builder.OptionFilter(RandomizeCharacters, RandomizeCharacters.option_vanilla)]
 characters_on = [rule_builder.OptionFilter(RandomizeCharacters, RandomizeCharacters.option_vanilla, operator="gt")]
 
 
-def _printjson_item(item: str, player: int, state: "CollectionState | None" = None) -> "JSONMessagePart":
-    message: JSONMessagePart = {"type": "item_name", "flags": 0b001, "text": item, "player": player}
-    if state:
-        color = "green" if state.has(item, player) else "salmon"
-        if item == Events.FAKE_OOL_ITEM:
-            color = "glitched"
-        message["color"] = color
-    return message
+def as_str(value: Enum | str) -> str:
+    return value.value if isinstance(value, Enum) else value
 
 
-@dataclasses.dataclass()
-class Has(rule_builder.Rule["AstalonWorld"], game=GAME_NAME):
-    item_name: "ItemName | Events"
-    count: int = 1
+@dataclasses.dataclass(init=False)
+class Has(rule_builder.Has["AstalonWorld"], game=GAME_NAME):
+    @override
+    def __init__(
+        self,
+        item_name: ItemName | Events | str,
+        count: int = 1,
+        *,
+        options: Iterable[rule_builder.OptionFilter[Any]] = (),
+    ) -> None:
+        super().__init__(as_str(item_name), count, options=options)
 
     @override
-    def _instantiate(self, world: "AstalonWorld") -> "rule_builder.Rule.Resolved":
-        default = self.Resolved(self.item_name.value, self.count, player=world.player)
+    def _instantiate(self, world: "AstalonWorld") -> rule_builder.Rule.Resolved:
+        default = self.Resolved(self.item_name, self.count, player=world.player)
 
         if self.item_name in VANILLA_CHARACTERS:
             if world.options.randomize_characters.value == RandomizeCharacters.option_vanilla:
@@ -107,45 +107,31 @@ class Has(rule_builder.Rule["AstalonWorld"], game=GAME_NAME):
             ):
                 return default
             if len(deps) == 1:
-                return HasAll.Resolved((deps[0].value, self.item_name.value), player=world.player)
+                return HasAll.Resolved((deps[0], self.item_name), player=world.player)
             return rule_builder.Or.Resolved(
-                tuple(HasAll.Resolved((d.value, self.item_name.value), player=world.player) for d in deps),
+                tuple(world.get_cached_rule(HasAll.Resolved((d, self.item_name), player=world.player)) for d in deps),
                 player=world.player,
             )
 
         return default
 
+
+@dataclasses.dataclass(init=False)
+class HasAll(rule_builder.HasAll["AstalonWorld"], game=GAME_NAME):
     @override
-    def __str__(self) -> str:
-        count = f", count={self.count}" if self.count > 1 else ""
-        options = f", options={self.options}" if self.options else ""
-        return f"{self.__class__.__name__}({self.item_name.value}{count}{options})"
-
-    class Resolved(rule_builder.Has.Resolved):
-        @override
-        def explain_json(self, state: "CollectionState | None" = None) -> "list[JSONMessagePart]":
-            messages = super().explain_json(state)
-            messages[-1] = _printjson_item(self.item_name, self.player, state)
-            return messages
-
-
-@dataclasses.dataclass()
-class HasAll(rule_builder.Rule["AstalonWorld"], game=GAME_NAME):
-    item_names: "tuple[ItemName | Events, ...]"
-
     def __init__(
         self,
-        *item_names: "ItemName | Events",
-        options: "Iterable[rule_builder.OptionFilter[Any]]" = (),
+        *item_names: ItemName | Events | str,
+        options: Iterable[rule_builder.OptionFilter[Any]] = (),
     ) -> None:
-        if len(item_names) != len(set(item_names)):
-            raise ValueError(f"Duplicate items detected, likely typo, items: {item_names}")
+        names = [as_str(name) for name in item_names]
+        if len(names) != len(set(names)):
+            raise ValueError(f"Duplicate items detected, likely typo, items: {names}")
 
-        super().__init__(options=options)
-        self.item_names = item_names
+        super().__init__(*names, options=options)
 
     @override
-    def _instantiate(self, world: "AstalonWorld") -> "rule_builder.Rule.Resolved":
+    def _instantiate(self, world: "AstalonWorld") -> rule_builder.Rule.Resolved:
         if len(self.item_names) == 0:
             return rule_builder.True_.Resolved(player=world.player)
         if len(self.item_names) == 1:
@@ -161,16 +147,16 @@ class HasAll(rule_builder.Rule["AstalonWorld"], game=GAME_NAME):
                 continue
             deps = ITEM_DEPS.get(item, [])
             if not deps:
-                new_items.append(item.value)
+                new_items.append(item)
                 continue
 
             if len(deps) > 1:
                 if world.options.randomize_characters.value == RandomizeCharacters.option_vanilla:
-                    new_items.append(item.value)
+                    new_items.append(item)
                 else:
                     new_clauses.append(
                         rule_builder.Or.Resolved(
-                            tuple(HasAll.Resolved((d.value, item.value), player=world.player) for d in deps),
+                            tuple(world.get_cached_rule(HasAll.Resolved((d, item), player=world.player)) for d in deps),
                             player=world.player,
                         )
                     )
@@ -184,9 +170,9 @@ class HasAll(rule_builder.Rule["AstalonWorld"], game=GAME_NAME):
                     and world.options.randomize_characters.value == RandomizeCharacters.option_vanilla
                 )
             ):
-                new_items.append(deps[0].value)
+                new_items.append(deps[0])
 
-            new_items.append(item.value)
+            new_items.append(item)
 
         if len(new_clauses) == 0 and len(new_items) == 0:
             return rule_builder.True_.Resolved(player=world.player)
@@ -198,47 +184,25 @@ class HasAll(rule_builder.Rule["AstalonWorld"], game=GAME_NAME):
             return rule_builder.False_.Resolved(player=world.player)
         if len(new_clauses) == 1:
             return new_clauses[0]
-        return rule_builder.And.Resolved(tuple(new_clauses), player=world.player)
+        return rule_builder.And.Resolved(tuple(world.get_cached_rule(c) for c in new_clauses), player=world.player)
 
+
+@dataclasses.dataclass(init=False)
+class HasAny(rule_builder.HasAny["AstalonWorld"], game=GAME_NAME):
     @override
-    def __str__(self) -> str:
-        items = ", ".join([i.value for i in self.item_names])
-        options = f", options={self.options}" if self.options else ""
-        return f"{self.__class__.__name__}({items}{options})"
-
-    class Resolved(rule_builder.HasAll.Resolved):
-        @override
-        def explain_json(self, state: "CollectionState | None" = None) -> "list[JSONMessagePart]":
-            messages: list[JSONMessagePart] = [
-                {"type": "text", "text": "Has "},
-                {"type": "color", "color": "cyan", "text": "all"},
-                {"type": "text", "text": " of ("},
-            ]
-            for i, item in enumerate(self.item_names):
-                if i > 0:
-                    messages.append({"type": "text", "text": ", "})
-                messages.append(_printjson_item(item, self.player, state))
-            messages.append({"type": "text", "text": ")"})
-            return messages
-
-
-@dataclasses.dataclass()
-class HasAny(rule_builder.Rule["AstalonWorld"], game=GAME_NAME):
-    item_names: "tuple[ItemName | Events, ...]"
-
     def __init__(
         self,
-        *item_names: "ItemName | Events",
-        options: "Iterable[rule_builder.OptionFilter[Any]]" = (),
+        *item_names: ItemName | Events | str,
+        options: Iterable[rule_builder.OptionFilter[Any]] = (),
     ) -> None:
-        if len(item_names) != len(set(item_names)):
-            raise ValueError(f"Duplicate items detected, likely typo, items: {item_names}")
+        names = [as_str(name) for name in item_names]
+        if len(names) != len(set(names)):
+            raise ValueError(f"Duplicate items detected, likely typo, items: {names}")
 
-        super().__init__(options=options)
-        self.item_names = item_names
+        super().__init__(*names, options=options)
 
     @override
-    def _instantiate(self, world: "AstalonWorld") -> "rule_builder.Rule.Resolved":
+    def _instantiate(self, world: "AstalonWorld") -> rule_builder.Rule.Resolved:
         if len(self.item_names) == 0:
             return rule_builder.True_.Resolved(player=world.player)
         if len(self.item_names) == 1:
@@ -255,16 +219,16 @@ class HasAny(rule_builder.Rule["AstalonWorld"], game=GAME_NAME):
 
             deps = ITEM_DEPS.get(item, [])
             if not deps:
-                new_items.append(item.value)
+                new_items.append(item)
                 continue
 
             if len(deps) > 1:
                 if world.options.randomize_characters.value == RandomizeCharacters.option_vanilla:
-                    new_items.append(item.value)
+                    new_items.append(item)
                 else:
                     new_clauses.append(
                         rule_builder.Or.Resolved(
-                            tuple(HasAll.Resolved((d.value, item.value), player=world.player) for d in deps),
+                            tuple(world.get_cached_rule(HasAll.Resolved((d, item), player=world.player)) for d in deps),
                             player=world.player,
                         )
                     )
@@ -278,9 +242,9 @@ class HasAny(rule_builder.Rule["AstalonWorld"], game=GAME_NAME):
                     and world.options.randomize_characters.value == RandomizeCharacters.option_vanilla
                 )
             ):
-                new_clauses.append(HasAll.Resolved((deps[0].value, item.value), player=world.player))
+                new_clauses.append(HasAll.Resolved((deps[0], item), player=world.player))
             else:
-                new_items.append(item.value)
+                new_items.append(item)
 
         if len(new_items) == 1:
             new_clauses.append(Has.Resolved(new_items[0], player=world.player))
@@ -291,95 +255,56 @@ class HasAny(rule_builder.Rule["AstalonWorld"], game=GAME_NAME):
             return rule_builder.False_.Resolved(player=world.player)
         if len(new_clauses) == 1:
             return new_clauses[0]
-        return rule_builder.Or.Resolved(tuple(new_clauses), player=world.player)
+        return rule_builder.Or.Resolved(tuple(world.get_cached_rule(c) for c in new_clauses), player=world.player)
 
+
+@dataclasses.dataclass(init=False)
+class CanReachLocation(rule_builder.CanReachLocation["AstalonWorld"], game=GAME_NAME):
     @override
-    def __str__(self) -> str:
-        items = ", ".join([i.value for i in self.item_names])
-        options = f", options={self.options}" if self.options else ""
-        return f"{self.__class__.__name__}({items}{options})"
-
-    class Resolved(rule_builder.HasAny.Resolved):
-        @override
-        def explain_json(self, state: "CollectionState | None" = None) -> "list[JSONMessagePart]":
-            messages: list[JSONMessagePart] = [
-                {"type": "text", "text": "Has "},
-                {"type": "color", "color": "cyan", "text": "any"},
-                {"type": "text", "text": " of ("},
-            ]
-            for i, item in enumerate(self.item_names):
-                if i > 0:
-                    messages.append({"type": "text", "text": ", "})
-                messages.append(_printjson_item(item, self.player, state))
-            messages.append({"type": "text", "text": ")"})
-            return messages
+    def __init__(
+        self,
+        location_name: LocationName | str,
+        parent_region_name: RegionName | str = "",
+        skip_indirect_connection: bool = False,
+        *,
+        options: Iterable[rule_builder.OptionFilter[Any]] = (),
+    ) -> None:
+        super().__init__(as_str(location_name), as_str(parent_region_name), skip_indirect_connection, options=options)
 
 
-@dataclasses.dataclass()
-class CanReachLocation(rule_builder.Rule["AstalonWorld"], game=GAME_NAME):
-    location_name: "LocationName"
-
+@dataclasses.dataclass(init=False)
+class CanReachRegion(rule_builder.CanReachRegion["AstalonWorld"], game=GAME_NAME):
     @override
-    def _instantiate(self, world: "AstalonWorld") -> "rule_builder.Rule.Resolved":
-        location = world.get_location(self.location_name)
-        if not location.parent_region:
-            raise ValueError(f"Location {location.name} has no parent region")
-        parent_region_name = location.parent_region.name
-        return self.Resolved(self.location_name.value, parent_region_name, player=world.player)
+    def __init__(
+        self,
+        region_name: RegionName | str,
+        *,
+        options: Iterable[rule_builder.OptionFilter[Any]] = (),
+    ) -> None:
+        super().__init__(as_str(region_name), options=options)
 
+
+@dataclasses.dataclass(init=False)
+class CanReachEntrance(rule_builder.CanReachEntrance["AstalonWorld"], game=GAME_NAME):
     @override
-    def __str__(self) -> str:
-        options = f", options={self.options}" if self.options else ""
-        return f"{self.__class__.__name__}({self.location_name.value}{options})"
-
-    class Resolved(rule_builder.CanReachLocation.Resolved):
-        pass
-
-
-@dataclasses.dataclass()
-class CanReachRegion(rule_builder.Rule["AstalonWorld"], game=GAME_NAME):
-    region_name: "RegionName"
-
-    @override
-    def _instantiate(self, world: "AstalonWorld") -> "rule_builder.Rule.Resolved":
-        return self.Resolved(self.region_name.value, player=world.player)
-
-    @override
-    def __str__(self) -> str:
-        options = f", options={self.options}" if self.options else ""
-        return f"{self.__class__.__name__}({self.region_name.value}{options})"
-
-    class Resolved(rule_builder.CanReachRegion.Resolved):
-        pass
-
-
-@dataclasses.dataclass()
-class CanReachEntrance(rule_builder.Rule["AstalonWorld"], game=GAME_NAME):
-    from_region: "RegionName"
-    to_region: "RegionName"
-
-    @override
-    def _instantiate(self, world: "AstalonWorld") -> "rule_builder.Rule.Resolved":
-        parent_region = world.get_region(self.from_region.value)
-        entrance = f"{self.from_region.value} -> {self.to_region.value}"
-        return self.Resolved(entrance, parent_region.name, player=world.player)
-
-    @override
-    def __str__(self) -> str:
-        options = f", options={self.options}" if self.options else ""
-        return f"{self.__class__.__name__}({self.from_region.value} -> {self.to_region.value}{options})"
-
-    class Resolved(rule_builder.CanReachEntrance.Resolved):
-        pass
+    def __init__(
+        self,
+        from_region: RegionName | str,
+        to_region: RegionName | str,
+        *,
+        options: Iterable[rule_builder.OptionFilter[Any]] = (),
+    ) -> None:
+        entrance_name = f"{as_str(from_region)} -> {as_str(to_region)}"
+        super().__init__(entrance_name, as_str(from_region), options=options)
 
 
 @dataclasses.dataclass(init=False)
 class ToggleRule(HasAll, game=GAME_NAME):
-    option_cls: "ClassVar[type[Option[int]]]"
+    option_cls: ClassVar[type[Option[int]]]
     otherwise: bool = False
 
     @override
-    def _instantiate(self, world: "AstalonWorld") -> "rule_builder.Rule.Resolved":
+    def _instantiate(self, world: "AstalonWorld") -> rule_builder.Rule.Resolved:
         if len(self.item_names) == 1:
             rule = Has(self.item_names[0], options=[rule_builder.OptionFilter(self.option_cls, 1)])
         else:
@@ -396,13 +321,13 @@ class ToggleRule(HasAll, game=GAME_NAME):
 
 @dataclasses.dataclass(init=False)
 class HasWhite(ToggleRule, game=GAME_NAME):
-    option_cls: "ClassVar[type[Option[int]]]" = RandomizeWhiteKeys
+    option_cls: ClassVar[type[Option[int]]] = RandomizeWhiteKeys
 
     def __init__(
         self,
-        *doors: "WhiteDoor",
+        *doors: WhiteDoor,
         otherwise: bool = False,
-        options: "Iterable[rule_builder.OptionFilter[Any]]" = (),
+        options: Iterable[rule_builder.OptionFilter[Any]] = (),
     ) -> None:
         super().__init__(*doors, options=options)
         self.otherwise: bool = otherwise
@@ -410,13 +335,13 @@ class HasWhite(ToggleRule, game=GAME_NAME):
 
 @dataclasses.dataclass(init=False)
 class HasBlue(ToggleRule, game=GAME_NAME):
-    option_cls: "ClassVar[type[Option[int]]]" = RandomizeBlueKeys
+    option_cls: ClassVar[type[Option[int]]] = RandomizeBlueKeys
 
     def __init__(
         self,
-        *doors: "BlueDoor",
+        *doors: BlueDoor,
         otherwise: bool = False,
-        options: "Iterable[rule_builder.OptionFilter[Any]]" = (),
+        options: Iterable[rule_builder.OptionFilter[Any]] = (),
     ) -> None:
         super().__init__(*doors, options=options)
         self.otherwise: bool = otherwise
@@ -424,13 +349,13 @@ class HasBlue(ToggleRule, game=GAME_NAME):
 
 @dataclasses.dataclass(init=False)
 class HasRed(ToggleRule, game=GAME_NAME):
-    option_cls: "ClassVar[type[Option[int]]]" = RandomizeRedKeys
+    option_cls: ClassVar[type[Option[int]]] = RandomizeRedKeys
 
     def __init__(
         self,
-        *doors: "RedDoor",
+        *doors: RedDoor,
         otherwise: bool = False,
-        options: "Iterable[rule_builder.OptionFilter[Any]]" = (),
+        options: Iterable[rule_builder.OptionFilter[Any]] = (),
     ) -> None:
         super().__init__(*doors, options=options)
         self.otherwise: bool = otherwise
@@ -438,13 +363,13 @@ class HasRed(ToggleRule, game=GAME_NAME):
 
 @dataclasses.dataclass(init=False)
 class HasSwitch(ToggleRule, game=GAME_NAME):
-    option_cls: "ClassVar[type[Option[int]]]" = RandomizeSwitches
+    option_cls: ClassVar[type[Option[int]]] = RandomizeSwitches
 
     def __init__(
         self,
-        *switches: "Switch | Crystal | Face",
+        *switches: Switch | Crystal | Face,
         otherwise: bool = False,
-        options: "Iterable[rule_builder.OptionFilter[Any]]" = (),
+        options: Iterable[rule_builder.OptionFilter[Any]] = (),
     ) -> None:
         super().__init__(*switches, options=options)
         self.otherwise: bool = otherwise
@@ -452,7 +377,7 @@ class HasSwitch(ToggleRule, game=GAME_NAME):
 
 @dataclasses.dataclass(init=False)
 class HasElevator(HasAll, game=GAME_NAME):
-    def __init__(self, elevator: "Elevator", *, options: "Iterable[rule_builder.OptionFilter[Any]]" = ()) -> None:
+    def __init__(self, elevator: Elevator, *, options: Iterable[rule_builder.OptionFilter[Any]] = ()) -> None:
         super().__init__(
             KeyItem.ASCENDANT_KEY,
             elevator,
@@ -463,7 +388,7 @@ class HasElevator(HasAll, game=GAME_NAME):
 @dataclasses.dataclass()
 class HasGoal(rule_builder.Rule["AstalonWorld"], game=GAME_NAME):
     @override
-    def _instantiate(self, world: "AstalonWorld") -> "rule_builder.Rule.Resolved":
+    def _instantiate(self, world: "AstalonWorld") -> rule_builder.Rule.Resolved:
         if world.options.goal.value != Goal.option_eye_hunt:
             return rule_builder.True_.Resolved(player=world.player)
         return Has.Resolved(
@@ -476,16 +401,16 @@ class HasGoal(rule_builder.Rule["AstalonWorld"], game=GAME_NAME):
 @dataclasses.dataclass()
 class HardLogic(rule_builder.Wrapper["AstalonWorld"], game=GAME_NAME):
     @override
-    def _instantiate(self, world: "AstalonWorld") -> "rule_builder.Rule.Resolved":
+    def _instantiate(self, world: "AstalonWorld") -> rule_builder.Rule.Resolved:
         if world.options.difficulty.value == Difficulty.option_hard:
             return self.child.resolve(world)
         if getattr(world.multiworld, "generation_is_fake", False):
-            return self.Resolved(self.child.resolve(world), player=world.player)
+            return self.Resolved(world.get_cached_rule(self.child.resolve(world)), player=world.player)
         return rule_builder.False_.Resolved(player=world.player)
 
     class Resolved(rule_builder.Wrapper.Resolved):
         @override
-        def _evaluate(self, state: "CollectionState") -> bool:
+        def _evaluate(self, state: CollectionState) -> bool:
             return state.has(Events.FAKE_OOL_ITEM.value, self.player) and self.child(state)
 
         @override
@@ -495,8 +420,8 @@ class HardLogic(rule_builder.Wrapper["AstalonWorld"], game=GAME_NAME):
             return deps
 
         @override
-        def explain_json(self, state: "CollectionState | None" = None) -> "list[JSONMessagePart]":
-            messages: "list[JSONMessagePart]" = [
+        def explain_json(self, state: CollectionState | None = None) -> list[JSONMessagePart]:
+            messages: list[JSONMessagePart] = [
                 {"type": "color", "color": "glitched", "text": "Hard Logic ["},
             ]
             messages.extend(self.child.explain_json(state))

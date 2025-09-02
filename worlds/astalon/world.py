@@ -127,6 +127,7 @@ class AstalonWorld(RuleWorldMixin, World):  # pyright: ignore[reportUnsafeMultip
     item_name_to_id: ClassVar[dict[str, int]] = item_name_to_id
     location_name_to_id: ClassVar[dict[str, int]] = location_name_to_id
     required_client_version: tuple[int, int, int] = (0, 6, 0)
+    rule_caching_enabled: ClassVar[bool] = True
 
     starting_characters: list[Character]
     extra_gold_eyes: int = 0
