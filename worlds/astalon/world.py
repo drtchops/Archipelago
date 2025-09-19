@@ -43,11 +43,10 @@ from .locations import (
 from .logic import MAIN_ENTRANCE_RULES, MAIN_LOCATION_RULES
 from .options import ApexElevator, AstalonOptions, Goal, RandomizeCharacters
 from .regions import RegionName, astalon_regions
-from .tracker import TRACKER_WORLD
+from .tracker import UTMxin
 
 if TYPE_CHECKING:
     from BaseClasses import MultiWorld
-    from Options import Option
 
     from .logic import RuleInstance
 
@@ -112,7 +111,7 @@ class AstalonWebWorld(WebWorld):
     ]
 
 
-class AstalonWorld(World):
+class AstalonWorld(UTMxin, World):
     """
     Uphold your pact with the Titan of Death, Epimetheus!
     Fight, climb and solve your way through a twisted tower as three unique adventurers,
@@ -127,17 +126,11 @@ class AstalonWorld(World):
     location_name_groups = location_name_groups
     item_name_to_id = item_name_to_id
     location_name_to_id = location_name_to_id
-    required_client_version = (0, 6, 0)
 
-    starting_characters: "list[Character]"
+    starting_characters: list[Character]
     extra_gold_eyes: int = 0
 
     _character_strengths: ClassVar[dict[int, dict[str, float]] | None] = None
-
-    # UT integration
-    tracker_world: ClassVar = TRACKER_WORLD
-    ut_can_gen_without_yaml = True
-    glitches_item_name = Events.FAKE_OOL_ITEM.value
 
     rule_cache: "dict[int, RuleInstance]"
     _rule_deps: "dict[str, set[int]]"
@@ -164,20 +157,7 @@ class AstalonWorld(World):
         if self.options.goal == Goal.option_eye_hunt:
             self.extra_gold_eyes = round(self.options.additional_eyes_required.value * (self.options.extra_eyes / 100))
 
-        re_gen_passthrough = getattr(self.multiworld, "re_gen_passthrough", {})
-        if re_gen_passthrough and GAME_NAME in re_gen_passthrough:
-            slot_data: dict[str, Any] = re_gen_passthrough[GAME_NAME]
-
-            slot_options: dict[str, Any] = slot_data.get("options", {})
-            for key, value in slot_options.items():
-                opt: Option[Any] | None = getattr(self.options, key, None)
-                if opt is not None:
-                    setattr(self.options, key, opt.from_any(value))
-
-            if "starting_characters" in slot_data:
-                self.starting_characters = [Character(c) for c in slot_data["starting_characters"]]
-            if "extra_gold_eyes" in slot_data:
-                self.extra_gold_eyes = slot_data["extra_gold_eyes"]
+        super().generate_early()
 
     def create_location(self, name: str) -> AstalonLocation:
         location_name = LocationName(name)
@@ -329,7 +309,7 @@ class AstalonWorld(World):
 
     @override
     def create_items(self) -> None:
-        if getattr(self.multiworld, "generation_is_fake", False):
+        if self.is_ut:
             # itempool can be skipped in UT, want to avoid the OptionError
             return
 
@@ -536,11 +516,6 @@ class AstalonWorld(World):
     def stage_modify_multidata(cls, *_) -> None:
         # Clean up calculated character strengths after generation completes
         cls._character_strengths = None
-
-    @staticmethod
-    def interpret_slot_data(slot_data: dict[str, Any]) -> dict[str, Any]:
-        # Trigger a 2nd gen with passed along slot data
-        return slot_data
 
     @override
     def collect(self, state: "CollectionState", item: "Item") -> bool:
