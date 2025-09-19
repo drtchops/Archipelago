@@ -41,7 +41,7 @@ from .locations import (
     location_table,
 )
 from .logic import MAIN_ENTRANCE_RULES, MAIN_LOCATION_RULES
-from .options import ApexElevator, AstalonOptions, Goal, RandomizeCharacters
+from .options import OPTION_GROUPS, ApexElevator, AstalonOptions, Goal, RandomizeCharacters
 from .regions import RegionName, astalon_regions
 from .tracker import UTMxin
 
@@ -109,6 +109,7 @@ class AstalonWebWorld(WebWorld):
             authors=["DrTChops"],
         )
     ]
+    option_groups = OPTION_GROUPS
 
 
 class AstalonWorld(UTMxin, World):

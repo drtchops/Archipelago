@@ -2,9 +2,11 @@ from dataclasses import dataclass
 
 from Options import (
     Choice,
+    DeathLink,
     DeathLinkMixin,
     DefaultOnToggle,
     NamedRange,
+    OptionGroup,
     PerGameCommonOptions,
     Range,
     StartInventoryPool,
@@ -431,3 +433,49 @@ class AstalonOptions(DeathLinkMixin, PerGameCommonOptions):
     scale_character_stats: ScaleCharacterStats
     trap_percentage: TrapPercentage
     tag_link: TagLink
+
+
+OPTION_GROUPS = [
+    OptionGroup(
+        "Randomization",
+        [
+            RandomizeCharacters,
+            RandomizeKeyItems,
+            RandomizeHealthPickups,
+            RandomizeAttackPickups,
+            RandomizeWhiteKeys,
+            RandomizeBlueKeys,
+            RandomizeRedKeys,
+            RandomizeShop,
+            RandomizeElevator,
+            RandomizeSwitches,
+            RandomizeCandles,
+            ApexElevator,
+        ],
+    ),
+    OptionGroup(
+        "Quality of Life",
+        [
+            SkipCutscenes,
+            StartWithQOL,
+            StartWithAscendantKey,
+            StartWithBell,
+            CostMultiplier,
+            FastBloodChalice,
+            CampfireWarp,
+            AllowBlockWarping,
+            OpenEarlyDoors,
+            CheapKyuliRay,
+            AlwaysRestoreCandles,
+            ScaleCharacterStats,
+        ],
+    ),
+    OptionGroup(
+        "Traps & Links",
+        [
+            TrapPercentage,
+            DeathLink,
+            TagLink,
+        ],
+    ),
+]
