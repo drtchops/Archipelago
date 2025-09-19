@@ -94,11 +94,16 @@ class Has(rule_builder.Has["AstalonWorld"], game=GAME_NAME):
 
     @override
     def _instantiate(self, world: "AstalonWorld") -> rule_builder.Rule.Resolved:
-        default = self.Resolved(self.item_name, self.count, player=world.player)
+        default = self.Resolved(
+            self.item_name,
+            self.count,
+            player=world.player,
+            caching_enabled=world.rule_caching_enabled,
+        )
 
         if self.item_name in VANILLA_CHARACTERS:
             if world.options.randomize_characters.value == RandomizeCharacters.option_vanilla:
-                return rule_builder.True_.Resolved(player=world.player)
+                return world.true_rule
             return default
 
         if deps := ITEM_DEPS.get(self.item_name):
@@ -107,10 +112,24 @@ class Has(rule_builder.Has["AstalonWorld"], game=GAME_NAME):
             ):
                 return default
             if len(deps) == 1:
-                return HasAll.Resolved((deps[0], self.item_name), player=world.player)
+                return HasAll.Resolved(
+                    (deps[0], self.item_name),
+                    player=world.player,
+                    caching_enabled=world.rule_caching_enabled,
+                )
             return rule_builder.Or.Resolved(
-                tuple(world.get_cached_rule(HasAll.Resolved((d, self.item_name), player=world.player)) for d in deps),
+                tuple(
+                    world.get_cached_rule(
+                        HasAll.Resolved(
+                            (d, self.item_name),
+                            player=world.player,
+                            caching_enabled=world.rule_caching_enabled,
+                        )
+                    )
+                    for d in deps
+                ),
                 player=world.player,
+                caching_enabled=world.rule_caching_enabled,
             )
 
         return default
@@ -133,7 +152,7 @@ class HasAll(rule_builder.HasAll["AstalonWorld"], game=GAME_NAME):
     @override
     def _instantiate(self, world: "AstalonWorld") -> rule_builder.Rule.Resolved:
         if len(self.item_names) == 0:
-            return rule_builder.True_.Resolved(player=world.player)
+            return world.true_rule
         if len(self.item_names) == 1:
             return Has(self.item_names[0]).resolve(world)
 
@@ -156,8 +175,18 @@ class HasAll(rule_builder.HasAll["AstalonWorld"], game=GAME_NAME):
                 else:
                     new_clauses.append(
                         rule_builder.Or.Resolved(
-                            tuple(world.get_cached_rule(HasAll.Resolved((d, item), player=world.player)) for d in deps),
+                            tuple(
+                                world.get_cached_rule(
+                                    HasAll.Resolved(
+                                        (d, item),
+                                        player=world.player,
+                                        caching_enabled=world.rule_caching_enabled,
+                                    )
+                                )
+                                for d in deps
+                            ),
                             player=world.player,
+                            caching_enabled=world.rule_caching_enabled,
                         )
                     )
                 continue
@@ -175,16 +204,24 @@ class HasAll(rule_builder.HasAll["AstalonWorld"], game=GAME_NAME):
             new_items.append(item)
 
         if len(new_clauses) == 0 and len(new_items) == 0:
-            return rule_builder.True_.Resolved(player=world.player)
+            return world.true_rule
         if len(new_items) == 1:
-            new_clauses.append(Has.Resolved(new_items[0], player=world.player))
+            new_clauses.append(
+                Has.Resolved(new_items[0], player=world.player, caching_enabled=world.rule_caching_enabled)
+            )
         elif len(new_items) > 1:
-            new_clauses.append(HasAll.Resolved(tuple(new_items), player=world.player))
+            new_clauses.append(
+                HasAll.Resolved(tuple(new_items), player=world.player, caching_enabled=world.rule_caching_enabled)
+            )
         if len(new_clauses) == 0:
-            return rule_builder.False_.Resolved(player=world.player)
+            return rule_builder.False_.Resolved(player=world.player, caching_enabled=world.rule_caching_enabled)
         if len(new_clauses) == 1:
             return new_clauses[0]
-        return rule_builder.And.Resolved(tuple(world.get_cached_rule(c) for c in new_clauses), player=world.player)
+        return rule_builder.And.Resolved(
+            tuple(world.get_cached_rule(c) for c in new_clauses),
+            player=world.player,
+            caching_enabled=world.rule_caching_enabled,
+        )
 
 
 @dataclasses.dataclass(init=False)
@@ -204,7 +241,7 @@ class HasAny(rule_builder.HasAny["AstalonWorld"], game=GAME_NAME):
     @override
     def _instantiate(self, world: "AstalonWorld") -> rule_builder.Rule.Resolved:
         if len(self.item_names) == 0:
-            return rule_builder.True_.Resolved(player=world.player)
+            return world.true_rule
         if len(self.item_names) == 1:
             return Has(self.item_names[0]).resolve(world)
 
@@ -215,7 +252,7 @@ class HasAny(rule_builder.HasAny["AstalonWorld"], game=GAME_NAME):
                 item in VANILLA_CHARACTERS
                 and world.options.randomize_characters.value == RandomizeCharacters.option_vanilla
             ):
-                return rule_builder.True_.Resolved(player=world.player)
+                return world.true_rule
 
             deps = ITEM_DEPS.get(item, [])
             if not deps:
@@ -228,8 +265,18 @@ class HasAny(rule_builder.HasAny["AstalonWorld"], game=GAME_NAME):
                 else:
                     new_clauses.append(
                         rule_builder.Or.Resolved(
-                            tuple(world.get_cached_rule(HasAll.Resolved((d, item), player=world.player)) for d in deps),
+                            tuple(
+                                world.get_cached_rule(
+                                    HasAll.Resolved(
+                                        (d, item),
+                                        player=world.player,
+                                        caching_enabled=world.rule_caching_enabled,
+                                    )
+                                )
+                                for d in deps
+                            ),
                             player=world.player,
+                            caching_enabled=world.rule_caching_enabled,
                         )
                     )
                 continue
@@ -242,20 +289,30 @@ class HasAny(rule_builder.HasAny["AstalonWorld"], game=GAME_NAME):
                     and world.options.randomize_characters.value == RandomizeCharacters.option_vanilla
                 )
             ):
-                new_clauses.append(HasAll.Resolved((deps[0], item), player=world.player))
+                new_clauses.append(
+                    HasAll.Resolved((deps[0], item), player=world.player, caching_enabled=world.rule_caching_enabled)
+                )
             else:
                 new_items.append(item)
 
         if len(new_items) == 1:
-            new_clauses.append(Has.Resolved(new_items[0], player=world.player))
+            new_clauses.append(
+                Has.Resolved(new_items[0], player=world.player, caching_enabled=world.rule_caching_enabled)
+            )
         elif len(new_items) > 1:
-            new_clauses.append(HasAny.Resolved(tuple(new_items), player=world.player))
+            new_clauses.append(
+                HasAny.Resolved(tuple(new_items), player=world.player, caching_enabled=world.rule_caching_enabled)
+            )
 
         if len(new_clauses) == 0:
-            return rule_builder.False_.Resolved(player=world.player)
+            return rule_builder.False_.Resolved(player=world.player, caching_enabled=world.rule_caching_enabled)
         if len(new_clauses) == 1:
             return new_clauses[0]
-        return rule_builder.Or.Resolved(tuple(world.get_cached_rule(c) for c in new_clauses), player=world.player)
+        return rule_builder.Or.Resolved(
+            tuple(world.get_cached_rule(c) for c in new_clauses),
+            player=world.player,
+            caching_enabled=world.rule_caching_enabled,
+        )
 
 
 @dataclasses.dataclass(init=False)
@@ -390,11 +447,12 @@ class HasGoal(rule_builder.Rule["AstalonWorld"], game=GAME_NAME):
     @override
     def _instantiate(self, world: "AstalonWorld") -> rule_builder.Rule.Resolved:
         if world.options.goal.value != Goal.option_eye_hunt:
-            return rule_builder.True_.Resolved(player=world.player)
+            return world.true_rule
         return Has.Resolved(
             Eye.GOLD.value,
             count=world.options.additional_eyes_required.value,
             player=world.player,
+            caching_enabled=world.rule_caching_enabled,
         )
 
 
@@ -405,8 +463,12 @@ class HardLogic(rule_builder.Wrapper["AstalonWorld"], game=GAME_NAME):
         if world.options.difficulty.value == Difficulty.option_hard:
             return self.child.resolve(world)
         if getattr(world.multiworld, "generation_is_fake", False):
-            return self.Resolved(world.get_cached_rule(self.child.resolve(world)), player=world.player)
-        return rule_builder.False_.Resolved(player=world.player)
+            return self.Resolved(
+                world.get_cached_rule(self.child.resolve(world)),
+                player=world.player,
+                caching_enabled=world.rule_caching_enabled,
+            )
+        return world.false_rule
 
     class Resolved(rule_builder.Wrapper.Resolved):
         @override
