@@ -5,7 +5,7 @@ from typing import Any, ClassVar, Final
 from typing_extensions import override
 
 from BaseClasses import Item, ItemClassification, MultiWorld, Region, Tutorial
-from Options import Option, OptionError, PerGameCommonOptions
+from Options import OptionError, PerGameCommonOptions
 from rule_builder import RuleWorldMixin
 from worlds.AutoWorld import WebWorld, World
 from worlds.LauncherComponents import (
@@ -47,9 +47,9 @@ from .locations import (
     location_table,
 )
 from .logic.main_campaign import COMPLETION_RULE, MAIN_ENTRANCE_RULES, MAIN_LOCATION_RULES
-from .options import ApexElevator, AstalonOptions, Goal, RandomizeCharacters
+from .options import OPTION_GROUPS, ApexElevator, AstalonOptions, Goal, RandomizeCharacters
 from .regions import RegionName, astalon_regions
-from .tracker import TRACKER_WORLD
+from .tracker import UTMxin
 
 # ██░░░██████░░███░░░███
 # ██░░░░██░░░▓▓░░░▓░░███
@@ -98,8 +98,8 @@ icon_paths["astalon"] = f"ap:{__name__}/images/pil.png"
 
 
 class AstalonWebWorld(WebWorld):
-    theme: ClassVar[str] = "stone"
-    tutorials: list[Tutorial] = [  # noqa: RUF012
+    theme = "stone"
+    tutorials = [  # noqa: RUF012
         Tutorial(
             tutorial_name="Setup Guide",
             description="A guide to setting up the Astalon randomizer.",
@@ -109,9 +109,10 @@ class AstalonWebWorld(WebWorld):
             authors=["DrTChops"],
         )
     ]
+    option_groups = OPTION_GROUPS
 
 
-class AstalonWorld(RuleWorldMixin, World):  # pyright: ignore[reportUnsafeMultipleInheritance]
+class AstalonWorld(UTMxin, RuleWorldMixin, World):  # pyright: ignore[reportUnsafeMultipleInheritance]
     """
     Uphold your pact with the Titan of Death, Epimetheus!
     Fight, climb and solve your way through a twisted tower as three unique adventurers,
@@ -125,19 +126,13 @@ class AstalonWorld(RuleWorldMixin, World):  # pyright: ignore[reportUnsafeMultip
     item_name_groups: ClassVar[dict[str, set[str]]] = item_name_groups
     location_name_groups: ClassVar[dict[str, set[str]]] = location_name_groups
     item_name_to_id: ClassVar[dict[str, int]] = item_name_to_id
-    location_name_to_id: ClassVar[dict[str, int]] = location_name_to_id
-    required_client_version: tuple[int, int, int] = (0, 6, 0)
+    location_name_to_id = location_name_to_id
     rule_caching_enabled: ClassVar[bool] = True
 
     starting_characters: list[Character]
     extra_gold_eyes: int = 0
 
     _character_strengths: ClassVar[dict[int, dict[str, float]] | None] = None
-
-    # UT integration
-    tracker_world: ClassVar[dict[str, Any]] = TRACKER_WORLD
-    ut_can_gen_without_yaml: ClassVar[bool] = True
-    glitches_item_name: ClassVar[str] = Events.FAKE_OOL_ITEM.value
 
     def __init__(self, multiworld: MultiWorld, player: int) -> None:
         super().__init__(multiworld, player)
@@ -159,20 +154,7 @@ class AstalonWorld(RuleWorldMixin, World):  # pyright: ignore[reportUnsafeMultip
         if self.options.goal == Goal.option_eye_hunt:
             self.extra_gold_eyes = round(self.options.additional_eyes_required.value * (self.options.extra_eyes / 100))
 
-        re_gen_passthrough = getattr(self.multiworld, "re_gen_passthrough", {})
-        if re_gen_passthrough and GAME_NAME in re_gen_passthrough:
-            slot_data: dict[str, Any] = re_gen_passthrough[GAME_NAME]
-
-            slot_options: dict[str, Any] = slot_data.get("options", {})
-            for key, value in slot_options.items():
-                opt: Option[Any] | None = getattr(self.options, key, None)
-                if opt is not None:
-                    setattr(self.options, key, opt.from_any(value))
-
-            if "starting_characters" in slot_data:
-                self.starting_characters = [Character(c) for c in slot_data["starting_characters"]]
-            if "extra_gold_eyes" in slot_data:
-                self.extra_gold_eyes = slot_data["extra_gold_eyes"]
+        super().generate_early()
 
     def create_location(self, name: str) -> AstalonLocation:
         location_name = LocationName(name)
@@ -305,7 +287,7 @@ class AstalonWorld(RuleWorldMixin, World):  # pyright: ignore[reportUnsafeMultip
 
     @override
     def create_items(self) -> None:
-        if getattr(self.multiworld, "generation_is_fake", False):
+        if self.is_ut:
             # itempool can be skipped in UT, want to avoid the OptionError
             return
 
@@ -516,8 +498,3 @@ class AstalonWorld(RuleWorldMixin, World):  # pyright: ignore[reportUnsafeMultip
     def stage_modify_multidata(cls, *_) -> None:
         # Clean up calculated character strengths after generation completes
         cls._character_strengths = None
-
-    @staticmethod
-    def interpret_slot_data(slot_data: dict[str, Any]) -> dict[str, Any]:
-        # Trigger a 2nd gen with passed along slot data
-        return slot_data
