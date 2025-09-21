@@ -11,7 +11,7 @@ from CommonClient import CommonContext, get_base_parser, gui_enabled, logger, se
 from MultiServer import mark_raw
 from NetUtils import JSONMessagePart
 from rule_builder import Rule
-from Utils import get_intended_text
+from Utils import get_intended_text  # pyright: ignore[reportUnknownVariableType]
 from worlds.AutoWorld import World
 
 from .constants import GAME_NAME, VERSION

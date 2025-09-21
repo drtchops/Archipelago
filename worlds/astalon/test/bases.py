@@ -6,4 +6,4 @@ from ..constants import GAME_NAME
 
 class AstalonTestBase(WorldTestBase):
     game = GAME_NAME
-    world: AstalonWorld  # type: ignore
+    world: AstalonWorld  # pyright: ignore[reportIncompatibleVariableOverride]

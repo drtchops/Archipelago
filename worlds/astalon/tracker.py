@@ -8,10 +8,11 @@ from typing_extensions import override
 from BaseClasses import CollectionState, Entrance, Location, Region
 from NetUtils import JSONMessagePart
 from Options import Option
-from Utils import get_intended_text
+from rule_builder import Rule
+from Utils import get_intended_text  # pyright: ignore[reportUnknownVariableType]
+from worlds.generic.Rules import CollectionRule
 
 from .items import Character, Events
-from .logic.instances import RuleInstance
 
 if TYPE_CHECKING:
     from worlds.AutoWorld import World
@@ -76,11 +77,11 @@ def location_icon_coords(index: int | None, coords: dict[str, Any]) -> tuple[int
     return x, y, f"images/icons/{icon}.png"
 
 
-def rule_to_json(rule: RuleInstance | None, state: CollectionState) -> list[JSONMessagePart]:
-    if rule:
+def rule_to_json(rule: CollectionRule | None, state: CollectionState) -> list[JSONMessagePart]:
+    if isinstance(rule, Rule.Resolved):
         return [
             {"type": "text", "text": "    "},
-            *rule.explain(state),
+            *rule.explain_json(state),
         ]
     return [
         {"type": "text", "text": "    "},
@@ -171,7 +172,7 @@ class UTMxin(World):
                 [
                     {"type": "entrance_name", "text": p.name, "player": self.player},
                     {"type": "text", "text": "\n"},
-                    *rule_to_json(getattr(p.access_rule, "__self__", None), state),
+                    *rule_to_json(p.access_rule, state),
                     {"type": "text", "text": "\n"},
                 ]
             )
@@ -186,7 +187,7 @@ class UTMxin(World):
                         "player": self.player,
                     },
                     {"type": "text", "text": "\n"},
-                    *rule_to_json(getattr(goal_location.access_rule, "__self__", None), state),
+                    *rule_to_json(goal_location.access_rule, state),
                 ]
             )
 

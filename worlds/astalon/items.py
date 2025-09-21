@@ -2,9 +2,7 @@ from collections.abc import Callable
 from dataclasses import dataclass
 from enum import Enum
 from itertools import groupby
-from typing import TYPE_CHECKING
-
-from typing_extensions import TypeAlias
+from typing import TYPE_CHECKING, TypeAlias
 
 from BaseClasses import Item, ItemClassification
 
@@ -463,7 +461,7 @@ EARLY_SWITCHES: tuple[Switch, ...] = (
     Switch.CAVES_CATA_3,
 )
 
-EARLY_ITEMS: set[ItemName] = set([*EARLY_WHITE_DOORS, *EARLY_BLUE_DOORS, *EARLY_SWITCHES])
+EARLY_ITEMS: set[ItemName] = {*EARLY_WHITE_DOORS, *EARLY_BLUE_DOORS, *EARLY_SWITCHES}
 
 QOL_ITEMS: tuple[ShopUpgrade, ...] = (
     ShopUpgrade.KNOWLEDGE,
@@ -879,7 +877,7 @@ def get_item_group(item_name: str):
 
 
 item_name_groups: dict[str, set[str]] = {
-    group.value: set(item for item in item_names)
+    group.value: set(item_names)
     for group, item_names in groupby(sorted(item_table, key=get_item_group), get_item_group)
     if group != ""
 }
