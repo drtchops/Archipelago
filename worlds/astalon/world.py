@@ -5,10 +5,9 @@ from typing import TYPE_CHECKING, Any, ClassVar, Final
 
 from typing_extensions import override
 
-from BaseClasses import CollectionState, Item, ItemClassification, Region, Tutorial
+from BaseClasses import CollectionState, Item, ItemClassification, Region
 from Options import OptionError
-from worlds.AutoWorld import WebWorld, World
-from worlds.LauncherComponents import Component, Type, components, icon_paths, launch_subprocess
+from worlds.AutoWorld import World
 
 from .constants import GAME_NAME, VERSION
 from .items import (
@@ -41,9 +40,10 @@ from .locations import (
     location_table,
 )
 from .logic import MAIN_ENTRANCE_RULES, MAIN_LOCATION_RULES
-from .options import OPTION_GROUPS, ApexElevator, AstalonOptions, Goal, RandomizeCharacters
+from .options import ApexElevator, AstalonOptions, Goal, RandomizeCharacters
 from .regions import RegionName, astalon_regions
 from .tracker import UTMxin
+from .web_world import AstalonWebWorld
 
 if TYPE_CHECKING:
     from BaseClasses import MultiWorld
@@ -84,32 +84,6 @@ CHARACTER_STARTS: Final[dict[int, tuple[Character, ...]]] = {
     RandomizeCharacters.option_zeek: (Character.ZEEK,),
     RandomizeCharacters.option_bram: (Character.BRAM,),
 }
-
-
-def launch_client() -> None:
-    from .client import launch
-
-    launch_subprocess(launch, name="Astalon Tracker")
-
-
-components.append(Component("Astalon Tracker", func=launch_client, component_type=Type.CLIENT, icon="astalon"))
-
-icon_paths["astalon"] = f"ap:{__name__}/images/pil.png"
-
-
-class AstalonWebWorld(WebWorld):
-    theme = "stone"
-    tutorials = [  # noqa: RUF012
-        Tutorial(
-            tutorial_name="Setup Guide",
-            description="A guide to setting up the Astalon randomizer.",
-            language="English",
-            file_name="setup_en.md",
-            link="setup/en",
-            authors=["DrTChops"],
-        )
-    ]
-    option_groups = OPTION_GROUPS
 
 
 class AstalonWorld(UTMxin, World):
