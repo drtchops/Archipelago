@@ -53,40 +53,58 @@ blue_off = [OptionFilter(RandomizeBlueKeys, RandomizeBlueKeys.option_false)]
 red_off = [OptionFilter(RandomizeRedKeys, RandomizeRedKeys.option_false)]
 switch_off = [OptionFilter(RandomizeSwitches, RandomizeSwitches.option_false)]
 
-can_uppies = HardLogic(True_(options=characters_off) | HasAny(Character.ARIAS, Character.BRAM, options=characters_on))
-can_extra_height = HasAny(Character.KYULI, KeyItem.BLOCK) | can_uppies
-can_extra_height_gold_block = HasAny(Character.KYULI, Character.ZEEK) | can_uppies
-can_combo_height = can_uppies & HasAll(KeyItem.BELL, KeyItem.BLOCK)
-can_block_in_wall = HardLogic(HasAll(Character.ZEEK, KeyItem.BLOCK))
-can_crystal = (
-    HasAny(Character.ALGUS, KeyItem.BLOCK, ShopUpgrade.BRAM_WHIPLASH)
-    | HasAll(Character.ZEEK, KeyItem.BANISH)
-    | HardLogic(Has(ShopUpgrade.KYULI_RAY))
-)
-can_crystal_wo_whiplash = (
-    HasAny(Character.ALGUS, KeyItem.BLOCK)
-    | HasAll(Character.ZEEK, KeyItem.BANISH)
-    | HardLogic(Has(ShopUpgrade.KYULI_RAY))
-)
-can_crystal_wo_block = Or(
-    HasAny(Character.ALGUS, ShopUpgrade.BRAM_WHIPLASH),
-    HardLogic(Has(ShopUpgrade.KYULI_RAY)),
-)
-can_big_magic = HardLogic(HasAll(Character.ALGUS, KeyItem.BANISH, ShopUpgrade.ALGUS_ARCANIST))
-can_kill_ghosts = (
-    HasAny(KeyItem.BANISH, KeyItem.BLOCK)
-    | HasAll(ShopUpgrade.ALGUS_METEOR, KeyItem.CHALICE, options=easy)
-    | HardLogic(Has(ShopUpgrade.ALGUS_METEOR))
-)
+has_algus = True_(options=characters_off) | Has(Character.ALGUS, options=characters_on)
+has_arias = True_(options=characters_off) | Has(Character.ARIAS, options=characters_on)
+has_kyuli = True_(options=characters_off) | Has(Character.KYULI, options=characters_on)
+has_bram = Has(Character.BRAM)
+has_zeek = Has(Character.ZEEK)
 
-otherwise_crystal = Or(
-    HasAny(Character.ALGUS, KeyItem.BLOCK, ShopUpgrade.BRAM_WHIPLASH),
-    HasAll(Character.ZEEK, KeyItem.BANISH),
-    HardLogic(Has(ShopUpgrade.KYULI_RAY)),
-    options=switch_off,
-)
-otherwise_bow = Has(KeyItem.BOW, options=switch_off)
+has_cloak = has_algus & Has(KeyItem.CLOAK)
+has_sword = has_arias & Has(KeyItem.SWORD)
+has_boots = has_arias & Has(KeyItem.BOOTS)
+has_claw = has_kyuli & Has(KeyItem.CLAW)
+has_bow = has_kyuli & Has(KeyItem.BOW)
+has_block = has_zeek & Has(KeyItem.BLOCK)
+has_star = has_bram & Has(KeyItem.STAR)
+has_banish = (has_algus | has_zeek) & Has(KeyItem.BANISH)
+has_gauntlet = (has_arias | has_bram) & Has(KeyItem.GAUNTLET)
+
+has_algus_arcanist = has_algus & Has(ShopUpgrade.ALGUS_ARCANIST)
+has_algus_meteor = has_algus & Has(ShopUpgrade.ALGUS_METEOR)
+has_algus_shock = has_algus & Has(ShopUpgrade.ALGUS_SHOCK)
+has_arias_gorgonslayer = has_arias & Has(ShopUpgrade.ARIAS_GORGONSLAYER)
+has_arias_last_stand = has_arias & Has(ShopUpgrade.ARIAS_LAST_STAND)
+has_arias_lionheart = has_arias & Has(ShopUpgrade.ARIAS_LIONHEART)
+has_kyuli_assassin = has_kyuli & Has(ShopUpgrade.KYULI_ASSASSIN)
+has_kyuli_bullseye = has_kyuli & Has(ShopUpgrade.KYULI_BULLSEYE)
+has_kyuli_ray = has_kyuli & Has(ShopUpgrade.KYULI_RAY)
+has_zeek_junkyard = has_zeek & Has(ShopUpgrade.ZEEK_JUNKYARD)
+has_zeek_orbs = has_zeek & Has(ShopUpgrade.ZEEK_ORBS)
+has_zeek_loot = has_zeek & Has(ShopUpgrade.ZEEK_LOOT)
+has_bram_axe = has_bram & Has(ShopUpgrade.BRAM_AXE)
+has_bram_hunter = has_bram & Has(ShopUpgrade.BRAM_HUNTER)
+has_bram_whiplash = has_bram & Has(ShopUpgrade.BRAM_WHIPLASH)
 chalice_on_easy = HardLogic(True_()) | Has(KeyItem.CHALICE, options=easy)
+
+# can_uppies = Macro(
+#     HardLogic(has_arias | has_bram),
+#     "Can do uppies",
+#     "Perform a higher jump by jumping while attacking with Arias or Bram",
+# )
+can_uppies = HardLogic(has_arias | has_bram)
+can_extra_height = has_kyuli | has_block | can_uppies
+can_extra_height_gold_block = has_kyuli | has_zeek | can_uppies
+can_combo_height = can_uppies & has_block & Has(KeyItem.BELL)
+can_block_in_wall = HardLogic(has_block)
+can_crystal_limited = has_algus | HardLogic(has_kyuli_ray)
+can_crystal_no_whiplash = can_crystal_limited | has_block | (has_zeek & has_banish)
+can_crystal_no_block = can_crystal_limited | has_bram_whiplash
+can_crystal = can_crystal_no_whiplash | has_bram_whiplash
+can_big_magic = HardLogic(has_algus_arcanist & has_banish)
+can_kill_ghosts = has_banish | has_block | (has_algus_meteor & chalice_on_easy)
+
+otherwise_crystal = And(can_crystal, options=switch_off)
+otherwise_bow = And(has_bow, options=switch_off)
 
 elevator_apex = HasElevator(
     Elevator.APEX,
@@ -95,40 +113,27 @@ elevator_apex = HasElevator(
     KeyItem.ASCENDANT_KEY,
     options=[OptionFilter(ApexElevator, ApexElevator.option_vanilla)],
 )
+
 # TODO: better implementations
 shop_cheap = CanReachRegion(R.GT_LEFT)
 shop_moderate = CanReachRegion(R.MECH_START)
 shop_expensive = CanReachRegion(R.ROA_START)
 
 MAIN_ENTRANCE_RULES: dict[tuple[R, R], Rule["AstalonWorld"]] = {
-    (R.SHOP, R.SHOP_ALGUS): Has(Character.ALGUS),
-    (R.SHOP, R.SHOP_ARIAS): Has(Character.ARIAS),
-    (R.SHOP, R.SHOP_KYULI): Has(Character.KYULI),
-    (R.SHOP, R.SHOP_ZEEK): Has(Character.ZEEK),
-    (R.SHOP, R.SHOP_BRAM): Has(Character.BRAM),
+    (R.SHOP, R.SHOP_ALGUS): has_algus,
+    (R.SHOP, R.SHOP_ARIAS): has_arias,
+    (R.SHOP, R.SHOP_KYULI): has_kyuli,
+    (R.SHOP, R.SHOP_ZEEK): has_zeek,
+    (R.SHOP, R.SHOP_BRAM): has_bram,
     (R.GT_ENTRANCE, R.GT_BESTIARY): HasBlue(BlueDoor.GT_HUNTER, otherwise=True),
-    (R.GT_ENTRANCE, R.GT_BABY_GORGON): And(
-        Has(Eye.GREEN),
-        Or(
-            Has(KeyItem.CLAW),
-            HardLogic(
-                And(
-                    Has(Character.ZEEK),
-                    Or(HasAll(Character.KYULI, KeyItem.BELL), Has(KeyItem.BLOCK)),
-                )
-            ),
-        ),
+    (R.GT_ENTRANCE, R.GT_BABY_GORGON): (
+        Has(Eye.GREEN) & (has_claw | HardLogic(has_zeek & ((has_kyuli & Has(KeyItem.BELL)) | has_block)))
     ),
-    (R.GT_ENTRANCE, R.GT_BOTTOM): Or(
-        HasSwitch(Switch.GT_2ND_ROOM),
-        HasWhite(WhiteDoor.GT_START, otherwise=True, options=switch_off),
+    (R.GT_ENTRANCE, R.GT_BOTTOM): (
+        HasSwitch(Switch.GT_2ND_ROOM) | HasWhite(WhiteDoor.GT_START, otherwise=True, options=switch_off)
     ),
     (R.GT_ENTRANCE, R.GT_VOID): Has(KeyItem.VOID),
-    (R.GT_ENTRANCE, R.GT_GORGONHEART): Or(
-        HasSwitch(Switch.GT_GH_SHORTCUT),
-        Has(KeyItem.ICARUS),
-        HardLogic(Has(KeyItem.BOOTS)),
-    ),
+    (R.GT_ENTRANCE, R.GT_GORGONHEART): HasSwitch(Switch.GT_GH_SHORTCUT) | has_boots | HardLogic(Has(KeyItem.ICARUS)),
     (R.GT_ENTRANCE, R.GT_BOSS): HasElevator(Elevator.GT_2),
     (R.GT_ENTRANCE, R.MECH_ZEEK_CONNECTION): HasElevator(Elevator.MECH_1),
     (R.GT_ENTRANCE, R.MECH_BOSS): HasElevator(Elevator.MECH_2),
@@ -141,33 +146,22 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], Rule["AstalonWorld"]] = {
     (R.GT_ENTRANCE, R.TR_START): HasElevator(Elevator.TR),
     (R.GT_BOTTOM, R.GT_VOID): Has(Eye.RED),
     (R.GT_BOTTOM, R.GT_GORGONHEART): HasWhite(WhiteDoor.GT_MAP, otherwise=True),
-    (R.GT_BOTTOM, R.GT_UPPER_PATH): Or(
-        HasSwitch(Crystal.GT_ROTA),
-        can_uppies,
-        And(Has(KeyItem.STAR), HasBlue(BlueDoor.GT_RING, otherwise=True)),
-        Has(KeyItem.BLOCK),
+    (R.GT_BOTTOM, R.GT_UPPER_PATH): (
+        HasSwitch(Crystal.GT_ROTA)
+        | can_uppies
+        | (has_star & HasBlue(BlueDoor.GT_RING, otherwise=True))
+        | Has(KeyItem.BLOCK)
     ),
-    (R.GT_BOTTOM, R.CAVES_START): Or(
-        Has(Character.KYULI),
-        HardLogic(HasAny(Character.ZEEK, KeyItem.BOOTS)),
-    ),
+    (R.GT_BOTTOM, R.CAVES_START): has_kyuli | HardLogic(has_zeek | has_boots),
     (R.GT_VOID, R.GT_BOTTOM): Has(Eye.RED),
     (R.GT_VOID, R.MECH_SNAKE): HasSwitch(Switch.MECH_SNAKE_2),
     (R.GT_GORGONHEART, R.GT_ORBS_DOOR): HasBlue(BlueDoor.GT_ORBS, otherwise=True),
-    (R.GT_GORGONHEART, R.GT_LEFT): Or(
-        HasSwitch(Switch.GT_CROSSES),
-        HasSwitch(Switch.GT_1ST_CYCLOPS, otherwise=True),
-    ),
-    (R.GT_LEFT, R.GT_GORGONHEART): Or(
-        HasSwitch(Switch.GT_CROSSES, otherwise=True),
-        HasSwitch(Switch.GT_1ST_CYCLOPS),
-    ),
+    (R.GT_GORGONHEART, R.GT_LEFT): HasSwitch(Switch.GT_CROSSES) | HasSwitch(Switch.GT_1ST_CYCLOPS, otherwise=True),
+    (R.GT_LEFT, R.GT_GORGONHEART): HasSwitch(Switch.GT_CROSSES, otherwise=True) | HasSwitch(Switch.GT_1ST_CYCLOPS),
     (R.GT_LEFT, R.GT_ORBS_HEIGHT): can_extra_height,
     (R.GT_LEFT, R.GT_ASCENDANT_KEY): HasBlue(BlueDoor.GT_ASCENDANT, otherwise=True),
-    (R.GT_LEFT, R.GT_TOP_LEFT): Or(
-        HasSwitch(Switch.GT_ARIAS),
-        HasAny(Character.ARIAS, KeyItem.CLAW),
-        HasAll(KeyItem.BLOCK, Character.KYULI, KeyItem.BELL),
+    (R.GT_LEFT, R.GT_TOP_LEFT): (
+        HasSwitch(Switch.GT_ARIAS) | has_arias | has_claw | (has_block & has_kyuli & Has(KeyItem.BELL))
     ),
     (R.GT_LEFT, R.GT_TOP_RIGHT): can_extra_height,
     (R.GT_TOP_LEFT, R.GT_BUTT): Or(
@@ -821,9 +815,9 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], Rule["AstalonWorld"]] = {
     ),
     (R.ROA_ABOVE_CENTAUR_R, R.ROA_DARK_EXIT): HasAll(Character.ARIAS, KeyItem.BELL),
     (R.ROA_ABOVE_CENTAUR_R, R.ROA_ABOVE_CENTAUR_L): HasAll(KeyItem.STAR, KeyItem.BELL),
-    (R.ROA_ABOVE_CENTAUR_R, R.ROA_CRYSTAL_ABOVE_CENTAUR): can_crystal_wo_whiplash,
+    (R.ROA_ABOVE_CENTAUR_R, R.ROA_CRYSTAL_ABOVE_CENTAUR): can_crystal_no_whiplash,
     (R.ROA_ABOVE_CENTAUR_L, R.ROA_ABOVE_CENTAUR_R): HasAll(KeyItem.STAR, KeyItem.BELL),
-    (R.ROA_ABOVE_CENTAUR_L, R.ROA_CRYSTAL_ABOVE_CENTAUR): can_crystal_wo_block,
+    (R.ROA_ABOVE_CENTAUR_L, R.ROA_CRYSTAL_ABOVE_CENTAUR): can_crystal_no_block,
     (R.ROA_BOSS_CONNECTION, R.ROA_ABOVE_CENTAUR_L): can_extra_height,
     (R.ROA_BOSS_CONNECTION, R.ROA_TOP_CENTAUR): Or(
         HasSwitch(Crystal.ROA_CENTAUR),
@@ -1262,11 +1256,11 @@ MAIN_LOCATION_RULES: dict[L, Rule["AstalonWorld"]] = {
     L.ROA_CRYSTAL_1ST_ROOM: And(can_crystal, HasAll(Character.KYULI, KeyItem.BELL)),
     L.ROA_CRYSTAL_BABY_GORGON: can_crystal,
     L.ROA_CRYSTAL_LADDER_R: And(
-        can_crystal_wo_whiplash,
+        can_crystal_no_whiplash,
         Or(Has(KeyItem.BELL), HardLogic(Has(ShopUpgrade.KYULI_RAY))),
     ),
     L.ROA_CRYSTAL_LADDER_L: And(
-        can_crystal_wo_whiplash,
+        can_crystal_no_whiplash,
         Or(Has(KeyItem.BELL), HardLogic(Has(ShopUpgrade.KYULI_RAY))),
     ),
     L.ROA_CRYSTAL_CENTAUR: And(can_crystal, HasAll(KeyItem.BELL, Character.ARIAS)),

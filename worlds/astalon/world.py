@@ -5,7 +5,7 @@ from typing import Any, ClassVar, Final
 from typing_extensions import override
 
 from BaseClasses import Item, ItemClassification, MultiWorld, Region, Tutorial
-from Options import OptionError, PerGameCommonOptions
+from Options import OptionError
 from rule_builder import RuleWorldMixin
 from worlds.AutoWorld import WebWorld, World
 from worlds.LauncherComponents import (
@@ -119,15 +119,15 @@ class AstalonWorld(UTMxin, RuleWorldMixin, World):  # pyright: ignore[reportUnsa
     on a mission to save their village from impending doom!
     """
 
-    game: ClassVar[str] = GAME_NAME
-    web: ClassVar[WebWorld] = AstalonWebWorld()
-    options_dataclass: ClassVar[type[PerGameCommonOptions]] = AstalonOptions
+    game = GAME_NAME
+    web = AstalonWebWorld()
+    options_dataclass = AstalonOptions
     options: AstalonOptions  # pyright: ignore[reportIncompatibleVariableOverride]
-    item_name_groups: ClassVar[dict[str, set[str]]] = item_name_groups
-    location_name_groups: ClassVar[dict[str, set[str]]] = location_name_groups
-    item_name_to_id: ClassVar[dict[str, int]] = item_name_to_id
+    item_name_groups = item_name_groups
+    location_name_groups = location_name_groups
+    item_name_to_id = item_name_to_id
     location_name_to_id = location_name_to_id
-    rule_caching_enabled: ClassVar[bool] = True
+    rule_caching_enabled = True
 
     starting_characters: list[Character]
     extra_gold_eyes: int = 0
