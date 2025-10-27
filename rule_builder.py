@@ -23,6 +23,8 @@ class RuleWorldMixin(World):
     rules_by_hash: dict[int, "Rule.Resolved"]
     """A mapping of hash values to resolved rules"""
 
+    rule_macro_hashes: dict[str, int]
+
     rule_item_dependencies: dict[str, set[int]]
     """A mapping of item name to set of rule ids"""
 
@@ -55,6 +57,7 @@ class RuleWorldMixin(World):
     def __init__(self, multiworld: MultiWorld, player: int) -> None:
         super().__init__(multiworld, player)
         self.rules_by_hash = {}
+        self.rule_macro_hashes = {}
         self.rule_item_dependencies = defaultdict(set)
         self.rule_region_dependencies = defaultdict(set)
         self.rule_location_dependencies = defaultdict(set)
@@ -76,9 +79,15 @@ class RuleWorldMixin(World):
 
     def resolve_rule(self, rule: "Rule[Self]") -> "Rule.Resolved":
         """Returns a resolved rule registered with the caching system for this world"""
+        is_macro = isinstance(rule, Macro)
+        if is_macro and rule.name in self.rule_macro_hashes:
+            return self.rule_ids[self.rule_macro_hashes[rule.name]]
         resolved_rule = rule.resolve(self)
         resolved_rule = self.simplify_rule(resolved_rule)
-        return self.get_cached_rule(resolved_rule)
+        resolved_rule = self.get_cached_rule(resolved_rule)
+        if is_macro:
+            self.rule_macro_hashes[rule.name] = hash(resolved_rule)
+        return resolved_rule
 
     def get_cached_rule(self, resolved_rule: "Rule.Resolved") -> "Rule.Resolved":
         """Returns a cached instance of a resolved rule based on the hash"""
@@ -952,6 +961,70 @@ class Wrapper(Rule[TWorld], game="Archipelago"):
         @override
         def __str__(self) -> str:
             return f"{self.rule_name}[{self.child}]"
+
+
+@dataclasses.dataclass()
+class Macro(Wrapper[TWorld], game="Archipelago"):
+    name: str
+    description: str = ""
+
+    @override
+    def _instantiate(self, world: TWorld) -> Rule.Resolved:
+        return self.Resolved(
+            world.resolve_rule(self.child),
+            self.name,
+            self.description,
+            player=world.player,
+            caching_enabled=world.rule_caching_enabled,
+        )
+
+    @override
+    def to_dict(self) -> dict[str, Any]:
+        data = super().to_dict()
+        data["args"] = {
+            "name": self.name,
+            "description": self.description,
+        }
+        return data
+
+    @override
+    @classmethod
+    def from_dict(cls, data: Mapping[str, Any], world_cls: type[RuleWorldMixin]) -> Self:
+        child = data.get("child")
+        if child is None:
+            raise ValueError("Child rule cannot be None")
+        options = OptionFilter.multiple_from_dict(data.get("options", ()))
+        return cls(
+            child=world_cls.rule_from_dict(child),
+            name=data["name"],
+            description=data.get("description", ""),
+            options=options,
+        )
+
+    @override
+    def __str__(self) -> str:
+        return f"{self.__class__.__name__}[{self.child}]"
+
+    class Resolved(Wrapper.Resolved):
+        name: str
+        description: str = ""
+
+        @override
+        def explain_json(self, state: CollectionState | None = None) -> list[JSONMessagePart]:
+            if state is None:
+                return [{"type": "text", "text": str(self)}]
+            return [{"type": "color", "color": "green" if self(state) else "salmon", "text": str(self)}]
+
+        @override
+        def explain_str(self, state: CollectionState | None = None) -> str:
+            suffix = ""
+            if state is not None:
+                suffix = " ✓" if self(state) else " ✕"
+            return f"{self.name}{suffix}"
+
+        @override
+        def __str__(self) -> str:
+            return self.name
 
 
 @dataclasses.dataclass()
