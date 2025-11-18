@@ -1,7 +1,8 @@
 from rule_builder import And, OptionFilter, Or, True_
 
-from ..items import BlueDoor, Character, Crystal, KeyItem
-from ..logic.custom_rules import Has, HasAll, HasAny, HasBlue, HasSwitch
+from ..items import BlueDoor, Crystal
+from ..logic.custom_rules import Has, HasAll, HasBlue, HasSwitch
+from ..logic.main_campaign import has_arias, has_block, has_bram, has_star
 from ..options import Difficulty, RandomizeCharacters
 from .bases import AstalonTestBase
 
@@ -52,15 +53,14 @@ class RuleResolutionTest(AstalonTestBase):
             HasSwitch(Crystal.GT_ROTA),
             Or(
                 True_(options=[OptionFilter(RandomizeCharacters, RandomizeCharacters.option_vanilla)]),
-                HasAny(
-                    Character.ARIAS,
-                    Character.BRAM,
+                Or(
+                    has_arias | has_bram,
                     options=[OptionFilter(RandomizeCharacters, RandomizeCharacters.option_vanilla, operator="gt")],
                 ),
                 options=[OptionFilter(Difficulty, Difficulty.option_hard)],
             ),
-            And(Has(KeyItem.STAR), HasBlue(BlueDoor.GT_RING, otherwise=True)),
-            Has(KeyItem.BLOCK),
+            And(has_star, HasBlue(BlueDoor.GT_RING, otherwise=True)),
+            has_block,
         )
         expected = Or.Resolved(
             (
