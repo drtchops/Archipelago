@@ -416,9 +416,28 @@ class HardLogicInstance(RuleInstance):
         return f"HardLogic[{self.child.serialize()}]"
 
     def explain(self, state: "CollectionState | None" = None) -> "list[JSONMessagePart]":
-        messages: "list[JSONMessagePart]" = [
+        messages: list[JSONMessagePart] = [
             {"type": "color", "color": "glitched", "text": "Hard Logic ["},
         ]
         messages.extend(self.child.explain(state))
         messages.append({"type": "color", "color": "glitched", "text": "]"})
         return messages
+
+
+@dataclasses.dataclass(frozen=True)
+class CampfireWarpInstance(RuleInstance):
+    cacheable: bool = dataclasses.field(repr=False, default=False, init=False)
+
+    always_true: ClassVar = True
+
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+    def _evaluate(self, state: "CollectionState") -> bool:
+        return True
+
+    def serialize(self) -> str:
+        return "Campfire Warp"
+
+    def explain(self, state: "CollectionState | None" = None) -> "list[JSONMessagePart]":
+        return [{"type": "color", "color": "green", "text": "Campfire Warp"}]
