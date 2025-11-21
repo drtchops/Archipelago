@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING
 
-from rule_builder import And, OptionFilter, Or, Rule, True_
+from rule_builder import Filtered, OptionFilter, Rule, True_
 
 from ..items import (
     BlueDoor,
@@ -102,8 +102,8 @@ can_crystal = can_crystal_no_whiplash | has_bram_whiplash
 can_big_magic = HardLogic(has_algus_arcanist & has_banish)
 can_kill_ghosts = has_banish | has_block | (has_algus_meteor & chalice_on_easy)
 
-otherwise_crystal = And(can_crystal, options=switch_off)
-otherwise_bow = And(has_bow, options=switch_off)
+otherwise_crystal = can_crystal << switch_off
+otherwise_bow = has_bow << switch_off
 
 elevator_apex = HasElevator(
     Elevator.APEX,
@@ -168,7 +168,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], Rule["AstalonWorld"]] = {
     ),
     (R.GT_SPIKE_TUNNEL, R.GT_TOP_RIGHT): HasSwitch(Switch.GT_SPIKE_TUNNEL),
     (R.GT_SPIKE_TUNNEL, R.GT_SPIKE_TUNNEL_SWITCH): can_extra_height,
-    (R.GT_SPIKE_TUNNEL_SWITCH, R.GT_BUTT): HardLogic(has_star) | And(has_star & Has(KeyItem.BELL), options=easy),
+    (R.GT_SPIKE_TUNNEL_SWITCH, R.GT_BUTT): HardLogic(has_star) | Filtered(has_star & Has(KeyItem.BELL), options=easy),
     (R.GT_BUTT, R.GT_TOP_LEFT): HasSwitch(Switch.GT_BUTT_ACCESS),
     (R.GT_BUTT, R.GT_SPIKE_TUNNEL_SWITCH): has_star,
     (R.GT_BUTT, R.GT_BOSS): HasWhite(WhiteDoor.GT_TAUROS) | CanReachRegion(R.GT_TOP_RIGHT, options=white_off),
@@ -209,7 +209,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], Rule["AstalonWorld"]] = {
         (HasSwitch(Switch.MECH_CANNON) | otherwise_crystal)
         & (
             HasWhite(WhiteDoor.MECH_2ND)
-            | And(
+            | Filtered(
                 CanReachRegion(R.MECH_SWORD_CONNECTION) & HasSwitch(Switch.MECH_LOWER_KEY, otherwise=True),
                 options=white_off,
             )
@@ -239,7 +239,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], Rule["AstalonWorld"]] = {
     (R.MECH_SWORD_CONNECTION, R.GT_UPPER_ARIAS): has_arias | HasSwitch(Switch.GT_UPPER_ARIAS),
     (R.MECH_BOOTS_CONNECTION, R.MECH_BOTTOM_CAMPFIRE): HasBlue(BlueDoor.MECH_VOID, otherwise=True),
     (R.MECH_BOOTS_CONNECTION, R.MECH_BOOTS_LOWER): (
-        HasSwitch(Switch.MECH_BOOTS) | Or(Has(Eye.RED) | has_star, options=switch_off)
+        HasSwitch(Switch.MECH_BOOTS) | Filtered(Has(Eye.RED) | has_star, options=switch_off)
     ),
     (R.MECH_BOOTS_LOWER, R.MECH_BOOTS_UPPER): HasSwitch(Switch.MECH_BOOTS_LOWER, otherwise=True) | can_extra_height,
     (R.MECH_BOTTOM_CAMPFIRE, R.GT_UPPER_PATH_CONNECTION): HasSwitch(Switch.MECH_TO_UPPER_GT, otherwise=True),
@@ -335,7 +335,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], Rule["AstalonWorld"]] = {
     (R.MECH_TOP, R.MECH_TP_CONNECTION): (
         has_claw
         | HasWhite(WhiteDoor.MECH_TOP)
-        | And(can_extra_height & (HasSwitch(Crystal.MECH_TOP) | otherwise_crystal), options=white_off)
+        | Filtered(can_extra_height & (HasSwitch(Crystal.MECH_TOP) | otherwise_crystal), options=white_off)
     ),
     (R.MECH_TOP, R.MECH_CD_ACCESS): (
         Has(Eye.BLUE)
@@ -345,10 +345,10 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], Rule["AstalonWorld"]] = {
     (R.MECH_CD_ACCESS, R.CD_START): Has(KeyItem.CYCLOPS),
     (R.MECH_TOP, R.MECH_TRIPLE_SWITCHES): (
         can_crystal
-        & (HasSwitch(Switch.MECH_ARIAS_CYCLOPS) | And(has_arias, options=switch_off))
+        & (HasSwitch(Switch.MECH_ARIAS_CYCLOPS) | (has_arias << switch_off))
         & (
             HasWhite(WhiteDoor.MECH_TOP)
-            | And(can_extra_height & (HasSwitch(Crystal.MECH_TOP) | otherwise_crystal), options=white_off)
+            | Filtered(can_extra_height & (HasSwitch(Crystal.MECH_TOP) | otherwise_crystal), options=white_off)
             | (has_claw & Has(KeyItem.BELL))
         )
     ),
@@ -513,7 +513,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], Rule["AstalonWorld"]] = {
         HasBlue(BlueDoor.HOTP_MAIDEN, otherwise=True) & (has_sword | (has_kyuli & has_block & Has(KeyItem.BELL)))
     ),
     (R.HOTP_BOSS_CAMPFIRE, R.HOTP_TP_PUZZLE): Has(Eye.GREEN),
-    (R.HOTP_BOSS_CAMPFIRE, R.HOTP_BOSS): HasWhite(WhiteDoor.HOTP_BOSS) | And(has_arias, options=white_off),
+    (R.HOTP_BOSS_CAMPFIRE, R.HOTP_BOSS): HasWhite(WhiteDoor.HOTP_BOSS) | (has_arias << white_off),
     (R.HOTP_TP_PUZZLE, R.HOTP_TP_FALL_TOP): has_star | HasSwitch(Switch.HOTP_TP_PUZZLE, otherwise=True),
     (R.HOTP_TP_FALL_TOP, R.HOTP_FALL_BOTTOM): has_cloak,
     (R.HOTP_TP_FALL_TOP, R.HOTP_TP_PUZZLE): has_star | HasSwitch(Switch.HOTP_TP_PUZZLE),
@@ -535,7 +535,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], Rule["AstalonWorld"]] = {
     (R.HOTP_BOSS, R.MECH_BOSS): HasElevator(Elevator.MECH_2),
     (R.ROA_START, R.ROA_WORMS): (
         # this should be more complicated
-        HasSwitch(Crystal.ROA_1ST_ROOM) | And(Has(KeyItem.BELL) & can_crystal, options=switch_off)
+        HasSwitch(Crystal.ROA_1ST_ROOM) | Filtered(Has(KeyItem.BELL) & can_crystal, options=switch_off)
     ),
     (R.ROA_WORMS, R.ROA_START): (
         HasSwitch(Switch.ROA_WORMS, otherwise=True) | HasSwitch(Crystal.ROA_1ST_ROOM) | otherwise_crystal
@@ -575,7 +575,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], Rule["AstalonWorld"]] = {
     (R.ROA_ARIAS_BABY_GORGON, R.ROA_ARIAS_BABY_GORGON_CONNECTION): has_arias & HasSwitch(Crystal.ROA_BABY_GORGON),
     (R.ROA_FLAMES_CONNECTION, R.ROA_WORM_CLIMB): HasBlue(BlueDoor.ROA_FLAMES, otherwise=True) & has_claw,
     (R.ROA_FLAMES_CONNECTION, R.ROA_LEFT_ASCENT): (
-        (HasSwitch(Crystal.ROA_LEFT_ASCEND) | And(can_crystal & Has(KeyItem.BELL), options=switch_off))
+        (HasSwitch(Crystal.ROA_LEFT_ASCEND) | Filtered(can_crystal & Has(KeyItem.BELL), options=switch_off))
         & can_extra_height
     ),
     (R.ROA_FLAMES_CONNECTION, R.ROA_ARIAS_BABY_GORGON_CONNECTION): has_star,
@@ -603,7 +603,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], Rule["AstalonWorld"]] = {
     (R.ROA_MIDDLE, R.ROA_MIDDLE_LADDER): (
         # this could allow more
         HasSwitch(Crystal.ROA_LADDER_L, Crystal.ROA_LADDER_R)
-        | And(
+        | Filtered(
             can_crystal & CanReachRegion(R.ROA_LEFT_SWITCH) & CanReachRegion(R.ROA_RIGHT_SWITCH_2),
             options=switch_off,
         )
@@ -629,7 +629,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], Rule["AstalonWorld"]] = {
     (R.ROA_SPIDERS_2, R.ROA_BLOOD_POT_HALLWAY): HasSwitch(Switch.ROA_SPIDERS, otherwise=True),
     (R.ROA_SP_CONNECTION, R.SP_START): (
         HasRed(RedDoor.SP)
-        | And(has_cloak & has_claw & Has(KeyItem.BELL) & CanReachRegion(R.ROA_RED_KEY), options=red_off)
+        | Filtered(has_cloak & has_claw & Has(KeyItem.BELL) & CanReachRegion(R.ROA_RED_KEY), options=red_off)
     ),
     # can probably make it without claw
     (R.ROA_SP_CONNECTION, R.ROA_ELEVATOR): has_claw & HasSwitch(Switch.ROA_DARK_ROOM, otherwise=True),
@@ -734,7 +734,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], Rule["AstalonWorld"]] = {
         HasSwitch(Switch.CATA_CLAW_2, otherwise=True) & (has_claw | (has_kyuli & has_zeek & Has(KeyItem.BELL)))
     ),
     (R.CATA_DEV_ROOM_CONNECTION, R.CATA_DEV_ROOM): (
-        HasRed(RedDoor.DEV_ROOM) | And(has_zeek & has_kyuli & CanReachRegion(R.GT_BOSS), options=red_off)
+        HasRed(RedDoor.DEV_ROOM) | Filtered(has_zeek & has_kyuli & CanReachRegion(R.GT_BOSS), options=red_off)
     ),
     (R.CATA_DOUBLE_SWITCH, R.CATA_SNAKE_MUSHROOMS): HasSwitch(Switch.CATA_CLAW_2),
     (R.CATA_DOUBLE_SWITCH, R.CATA_ROOTS_CAMPFIRE): HasSwitch(
@@ -786,7 +786,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], Rule["AstalonWorld"]] = {
     (R.TR_START, R.ROA_ELEVATOR): HasElevator(Elevator.ROA_2),
     (R.TR_START, R.TR_LEFT): (
         HasBlue(BlueDoor.TR, otherwise=True)
-        & (HasRed(RedDoor.TR) | And(has_claw & CanReachRegion(R.CATA_BOSS), options=red_off))
+        & (HasRed(RedDoor.TR) | Filtered(has_claw & CanReachRegion(R.CATA_BOSS), options=red_off))
     ),
     (R.TR_START, R.APEX): elevator_apex,
     (R.TR_START, R.GT_BOSS): HasElevator(Elevator.GT_2),
@@ -798,7 +798,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], Rule["AstalonWorld"]] = {
     (R.TR_BOTTOM_LEFT, R.TR_BOTTOM): Has(Eye.BLUE),
     (R.TR_TOP_RIGHT, R.TR_GOLD): has_zeek & Has(KeyItem.BELL) & (has_kyuli | has_block | can_uppies),
     (R.TR_TOP_RIGHT, R.TR_MIDDLE_RIGHT): (
-        HasSwitch(Crystal.TR_GOLD) | And(Has(KeyItem.BELL) & has_claw & can_crystal, options=switch_off)
+        HasSwitch(Crystal.TR_GOLD) | Filtered(Has(KeyItem.BELL) & has_claw & can_crystal, options=switch_off)
     ),
     (R.TR_MIDDLE_RIGHT, R.TR_DARK_ARIAS): Has(Eye.GREEN),
     (R.TR_MIDDLE_RIGHT, R.TR_BOTTOM): HasSwitch(Switch.TR_BOTTOM, otherwise=True),
@@ -814,7 +814,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], Rule["AstalonWorld"]] = {
     (R.CATH_START, R.CATH_START_LEFT): (
         (
             HasSwitch(Crystal.CATH_1ST_ROOM)
-            | And(can_crystal & CanReachRegion(R.CATH_START_TOP_LEFT), options=switch_off)
+            | Filtered(can_crystal & CanReachRegion(R.CATH_START_TOP_LEFT), options=switch_off)
         )
         & has_claw
     ),
@@ -827,7 +827,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], Rule["AstalonWorld"]] = {
     (R.CATH_CAMPFIRE_1, R.CATH_SHAFT_ACCESS): has_kyuli,
     (R.CATH_SHAFT_ACCESS, R.CATH_ORB_ROOM): HasSwitch(Switch.CATH_BESIDE_SHAFT, otherwise=True),
     (R.CATH_ORB_ROOM, R.CATH_GOLD_BLOCK): (
-        HasSwitch(Crystal.CATH_ORBS) | And(can_crystal & Has(KeyItem.BELL), options=switch_off)
+        HasSwitch(Crystal.CATH_ORBS) | Filtered(can_crystal & Has(KeyItem.BELL), options=switch_off)
     ),
     (R.CATH_RIGHT_SHAFT_CONNECTION, R.CATH_RIGHT_SHAFT): Has(KeyItem.BELL) & has_zeek & has_bow,
     (R.CATH_RIGHT_SHAFT, R.CATH_TOP): has_claw,
@@ -848,9 +848,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], Rule["AstalonWorld"]] = {
     (R.SP_STAR, R.SP_SHAFT): Has(KeyItem.BELL) & has_algus_meteor & chalice_on_easy & HasSwitch(Crystal.SP_STAR),
     (R.SP_STAR, R.SP_STAR_CONNECTION): has_star,
     (R.SP_STAR_CONNECTION, R.SP_STAR): has_star,
-    (R.SP_STAR_CONNECTION, R.SP_STAR_END): (
-        has_star & (HasSwitch(Switch.SP_AFTER_STAR) | And(has_arias, options=switch_off))
-    ),
+    (R.SP_STAR_CONNECTION, R.SP_STAR_END): has_star & (HasSwitch(Switch.SP_AFTER_STAR) | (has_arias << switch_off)),
     (R.SP_STAR_END, R.SP_STAR_CONNECTION): has_star & HasSwitch(Switch.SP_AFTER_STAR),
 }
 
@@ -870,7 +868,7 @@ MAIN_LOCATION_RULES: dict[L, Rule["AstalonWorld"]] = {
     L.HOTP_MAIDEN_RING: HasSwitch(Crystal.HOTP_MAIDEN_1, Crystal.HOTP_MAIDEN_2) | otherwise_crystal,
     L.TR_ADORNED_KEY: (
         HasSwitch(Switch.TR_ADORNED_L, Switch.TR_ADORNED_M, Switch.TR_ADORNED_R)
-        | And(
+        | Filtered(
             has_claw
             & has_zeek
             & HasAll(Eye.RED, KeyItem.BELL)
@@ -914,7 +912,7 @@ MAIN_LOCATION_RULES: dict[L, Rule["AstalonWorld"]] = {
         has_kyuli
         & (
             HasSwitch(Crystal.CATA_POISON_ROOTS)
-            | And(can_crystal & Has(KeyItem.BELL), options=switch_off)
+            | Filtered(can_crystal & Has(KeyItem.BELL), options=switch_off)
             | HardLogic(Has(KeyItem.ICARUS) & has_claw)
         )
     ),

@@ -232,7 +232,7 @@ class HasGoal(rule_builder.Rule["AstalonWorld"], game=GAME_NAME):
 
 
 @dataclasses.dataclass()
-class HardLogic(rule_builder.Wrapper["AstalonWorld"], game=GAME_NAME):
+class HardLogic(rule_builder.WrapperRule["AstalonWorld"], game=GAME_NAME):
     @override
     def _instantiate(self, world: "AstalonWorld") -> rule_builder.Rule.Resolved:
         if world.options.difficulty.value == Difficulty.option_hard:
@@ -245,7 +245,7 @@ class HardLogic(rule_builder.Wrapper["AstalonWorld"], game=GAME_NAME):
             )
         return world.false_rule
 
-    class Resolved(rule_builder.Wrapper.Resolved):
+    class Resolved(rule_builder.WrapperRule.Resolved):
         @override
         def _evaluate(self, state: CollectionState) -> bool:
             return state.has(Events.FAKE_OOL_ITEM.value, self.player) and self.child(state)
