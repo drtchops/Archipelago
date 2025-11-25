@@ -8,10 +8,12 @@ from NetUtils import JSONMessagePart
 from Options import Option
 from rule_builder import Rule
 from Utils import get_intended_text  # pyright: ignore[reportUnknownVariableType]
+from worlds.astalon.logic.custom_rules import CampfireWarp
 from worlds.generic.Rules import CollectionRule
 
 from .bases import AstalonWorldBase
 from .items import Character, Events
+from .regions import RegionName
 
 
 def map_page_index(data: Any) -> int:
@@ -58,6 +60,44 @@ ROOM_HEIGHT = 240
 MAP_SCALE_X = ROOM_WIDTH / 59.346
 MAP_SCALE_Y = -ROOM_HEIGHT / 40.475
 
+CAMPFIRE_WARPS = {
+    6696: RegionName.GT_ENTRANCE,
+    18: RegionName.GT_BOTTOM,
+    292: RegionName.GT_LEFT,
+    293: RegionName.GT_BOSS,
+    1140: RegionName.MECH_START,
+    1556: RegionName.MECH_SWORD_CONNECTION,
+    813: RegionName.MECH_BOTTOM_CAMPFIRE,
+    712: RegionName.MECH_BK,
+    3547: RegionName.MECH_RIGHT,
+    1634: RegionName.MECH_TOP,
+    819: RegionName.MECH_BOSS,
+    7507: RegionName.CD_START,
+    7577: RegionName.CD_MIDDLE,
+    7703: RegionName.CD_CAMPFIRE_3,
+    7774: RegionName.CD_TOP,
+    5019: RegionName.HOTP_EPIMETHEUS,
+    6421: RegionName.HOTP_BELL_CAMPFIRE,
+    3207: RegionName.HOTP_CLAW_CAMPFIRE,
+    2904: RegionName.HOTP_BOSS_CAMPFIRE,
+    10203: RegionName.CATH_CAMPFIRE_1,
+    10260: RegionName.CATH_CAMPFIRE_2,
+    3726: RegionName.ROA_START,
+    7088: RegionName.ROA_LEFT_ASCENT,
+    7086: RegionName.ROA_MIDDLE,
+    4685: RegionName.ROA_ELEVATOR,
+    10026: RegionName.ROA_BOSS,
+    7436: RegionName.SP_CAMPFIRE_1,
+    8243: RegionName.SP_CAMPFIRE_2,
+    4635: RegionName.APEX,
+    7109: RegionName.CAVES_LOWER,
+    2524: RegionName.CATA_BOW_CAMPFIRE,
+    2610: RegionName.CATA_ROOTS_CAMPFIRE,
+    2669: RegionName.CATA_BOSS,
+    9056: RegionName.TR_START,
+    9161: RegionName.CATA_DEV_ROOM,
+}
+
 
 def location_icon_coords(index: int | None, coords: dict[str, Any]) -> tuple[int, int, str] | None:
     """Converts player coordinates provided by the game mod into image coordinates for the map page."""
@@ -93,8 +133,9 @@ class AstalonUTWorld(AstalonWorldBase):
         "location_setting_key": "{player}_{team}_astalon_coords",
         "location_icon_coords": location_icon_coords,
     }
-    ut_can_gen_without_yaml: ClassVar[bool] = True
-    glitches_item_name: ClassVar[str] = Events.FAKE_OOL_ITEM.value
+    ut_can_gen_without_yaml: ClassVar = True
+    glitches_item_name: ClassVar = Events.FAKE_OOL_ITEM.value
+    found_entrances_datastorage_key: ClassVar = "Slot:{player}:campfires"
 
     @cached_property
     def is_ut(self) -> bool:
@@ -182,3 +223,24 @@ class AstalonUTWorld(AstalonWorldBase):
             )
 
         return messages
+
+    def reconnect_found_entrances(self, found_key: str, data_storage_value: Any) -> None:
+        if (
+            not self.options.campfire_warp
+            or getattr(self.multiworld, "enforce_deferred_connections", None) == "off"
+            or not isinstance(data_storage_value, list)
+        ):
+            return
+
+        source_region = self.get_region(RegionName.GT_ENTRANCE.value)
+        for campfire_id in data_storage_value:  # pyright: ignore[reportUnknownVariableType]
+            dest_region = self.get_region(CAMPFIRE_WARPS[campfire_id].value)
+            entrance_name = f"{source_region.name} -> {dest_region.name}"
+
+            try:
+                self.get_entrance(entrance_name)
+                continue
+            except KeyError:
+                pass
+
+            self.create_entrance(source_region, dest_region, rule=CampfireWarp())

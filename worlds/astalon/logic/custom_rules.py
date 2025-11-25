@@ -262,3 +262,15 @@ class HardLogic(rule_builder.WrapperRule[AstalonWorldBase], game=GAME_NAME):
             messages.extend(self.child.explain_json(state))
             messages.append({"type": "color", "color": "glitched", "text": "]"})
             return messages
+
+
+@dataclasses.dataclass()
+class CampfireWarp(rule_builder.True_, game=GAME_NAME):
+    class Resovled(rule_builder.True_.Resolved):
+        @override
+        def explain_json(self, state: CollectionState | None = None) -> list[JSONMessagePart]:
+            return [{"type": "color", "color": "green", "text": "Campfire Warp"}]
+
+        @override
+        def __str__(self) -> str:
+            return "Campfire Warp"
