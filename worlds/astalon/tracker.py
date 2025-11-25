@@ -1,5 +1,5 @@
 from functools import cached_property
-from typing import Any, ClassVar
+from typing import Any, ClassVar, Final
 
 from typing_extensions import override
 
@@ -8,11 +8,11 @@ from NetUtils import JSONMessagePart
 from Options import Option
 from rule_builder import Rule
 from Utils import get_intended_text  # pyright: ignore[reportUnknownVariableType]
-from worlds.astalon.logic.custom_rules import CampfireWarp
 from worlds.generic.Rules import CollectionRule
 
 from .bases import AstalonWorldBase
 from .items import Character, Events
+from .logic.custom_rules import CampfireWarp
 from .regions import RegionName
 
 
@@ -39,7 +39,7 @@ def map_page_index(data: Any) -> int:
     return 0
 
 
-CHARACTER_ICONS = {
+CHARACTER_ICONS: Final[dict[int, str]] = {
     1: "algus",
     2: "arias",
     3: "kyuli",
@@ -47,7 +47,7 @@ CHARACTER_ICONS = {
     5: "zeek",
 }
 
-MAP_OFFSETS = (
+MAP_OFFSETS: Final[tuple[tuple[int, int], ...]] = (
     (-1800, 17180),  # world map
     (-4152, 25130),  # gt
     (-1560, 21080),  # mech and hotp
@@ -55,12 +55,12 @@ MAP_OFFSETS = (
     (-2424, 17000),  # ruins
     (-9336, 20840),  # cyclops
 )
-ROOM_WIDTH = 432
-ROOM_HEIGHT = 240
-MAP_SCALE_X = ROOM_WIDTH / 59.346
-MAP_SCALE_Y = -ROOM_HEIGHT / 40.475
+ROOM_WIDTH: Final[int] = 432
+ROOM_HEIGHT: Final[int] = 240
+MAP_SCALE_X: Final[float] = ROOM_WIDTH / 59.346
+MAP_SCALE_Y: Final[float] = -ROOM_HEIGHT / 40.475
 
-CAMPFIRE_WARPS = {
+CAMPFIRE_WARPS: Final[dict[int, RegionName]] = {
     6696: RegionName.GT_ENTRANCE,
     18: RegionName.GT_BOTTOM,
     292: RegionName.GT_LEFT,

@@ -1,16 +1,16 @@
 from collections.abc import Callable
 from dataclasses import dataclass
-from enum import Enum
+from enum import StrEnum
 from itertools import groupby
 from typing import TypeAlias
 
 from BaseClasses import Item, ItemClassification
 
-from .constants import BASE_ID, GAME_NAME
+from .constants import GAME_NAME
 from .options import AstalonOptions
 
 
-class ItemGroup(str, Enum):
+class ItemGroup(StrEnum):
     CHARACTER = "Characters"
     EYE = "Eyes"
     KEY = "Keys"
@@ -29,7 +29,7 @@ class ItemGroup(str, Enum):
     TRAP = "Trap"
 
 
-class Character(str, Enum):
+class Character(StrEnum):
     ARIAS = "Arias"
     KYULI = "Kyuli"
     ALGUS = "Algus"
@@ -37,20 +37,20 @@ class Character(str, Enum):
     BRAM = "Bram"
 
 
-class Eye(str, Enum):
+class Eye(StrEnum):
     RED = "Gorgon Eye (Red)"
     BLUE = "Gorgon Eye (Blue)"
     GREEN = "Gorgon Eye (Green)"
     GOLD = "Gorgon Eye (Gold)"
 
 
-class Key(str, Enum):
+class Key(StrEnum):
     WHITE = "White Key"
     BLUE = "Blue Key"
     RED = "Red Key"
 
 
-class KeyItem(str, Enum):
+class KeyItem(StrEnum):
     GORGONHEART = "Gorgonheart"
     ANCIENTS_RING = "Ring of the Ancients"
     MAIDEN_RING = "Dead Maiden's Ring"
@@ -75,12 +75,12 @@ class KeyItem(str, Enum):
     STAR = "Morning Star"
 
 
-class Familiar(str, Enum):
+class Familiar(StrEnum):
     MONSTER = "Monster Ball"
     GIL = "Gil"
 
 
-class Upgrade(str, Enum):
+class Upgrade(StrEnum):
     ATTACK_1 = "Attack +1"
     MAX_HP_1 = "Max HP +1"
     MAX_HP_2 = "Max HP +2"
@@ -89,13 +89,13 @@ class Upgrade(str, Enum):
     MAX_HP_5 = "Max HP +5"
 
 
-class Orbs(str, Enum):
+class Orbs(StrEnum):
     ORBS_200 = "200 Orbs"
     ORBS_500 = "500 Orbs"
     ORBS_1000 = "1000 Orbs"
 
 
-class WhiteDoor(str, Enum):
+class WhiteDoor(StrEnum):
     GT_START = "White Door (Gorgon Tomb - 1st Room)"
     GT_MAP = "White Door (Gorgon Tomb - Linus' Map)"
     GT_TAUROS = "White Door (Gorgon Tomb - Tauros)"
@@ -116,7 +116,7 @@ class WhiteDoor(str, Enum):
     CATA_PRISON = "White Door (Catacombs - Prison)"
 
 
-class BlueDoor(str, Enum):
+class BlueDoor(StrEnum):
     GT_HUNTER = "Blue Door (Gorgon Tomb - Bestiary)"
     GT_RING = "Blue Door (Gorgon Tomb - Ring of the Ancients)"
     GT_ORBS = "Blue Door (Gorgon Tomb - Bonus Orbs)"
@@ -146,7 +146,7 @@ class BlueDoor(str, Enum):
     SP = "Blue Door (Serpent Path)"
 
 
-class RedDoor(str, Enum):
+class RedDoor(StrEnum):
     ZEEK = "Red Door (Zeek)"
     CATH = "Red Door (Cathedral)"
     SP = "Red Door (Serpent Path)"
@@ -154,7 +154,7 @@ class RedDoor(str, Enum):
     DEV_ROOM = "Red Door (Dev Room)"
 
 
-class ShopUpgrade(str, Enum):
+class ShopUpgrade(StrEnum):
     GIFT = "Gift"
     KNOWLEDGE = "Knowledge"
     MERCY = "Mercy"
@@ -181,7 +181,7 @@ class ShopUpgrade(str, Enum):
     BRAM_WHIPLASH = "Bram's Whiplash"
 
 
-class Elevator(str, Enum):
+class Elevator(StrEnum):
     GT_2 = "Gorgon Tomb 2 Elevator"
     MECH_1 = "Mechanism 1 Elevator"
     MECH_2 = "Mechanism 2 Elevator"
@@ -194,7 +194,7 @@ class Elevator(str, Enum):
     TR = "Tower Roots Elevator"
 
 
-class Switch(str, Enum):
+class Switch(StrEnum):
     GT_2ND_ROOM = "Switch (Gorgon Tomb - 2nd Room)"
     GT_1ST_CYCLOPS = "Switch (Gorgon Tomb - 1st Cyclops)"
     GT_SPIKE_TUNNEL = "Switch (Gorgon Tomb - Spike Tunnel)"
@@ -319,7 +319,7 @@ class Switch(str, Enum):
     SP_AFTER_STAR = "Switch (Serpent Path - After Star)"
 
 
-class Crystal(str, Enum):
+class Crystal(StrEnum):
     GT_LADDER = "Crystal (Gorgon Tomb - Ladder)"
     GT_ROTA = "Crystal (Gorgon Tomb - RotA)"
     GT_OLD_MAN_1 = "Crystal (Gorgon Tomb - Old Man 1)"
@@ -379,7 +379,7 @@ class Crystal(str, Enum):
     SP_STAR = "Crystal (Serpent Path - Star)"
 
 
-class Face(str, Enum):
+class Face(StrEnum):
     MECH_VOLANTIS = "Face (Mechanism - Volantis)"
     HOTP_OLD_MAN = "Face (Hall of the Phantoms - Old Man)"
     ROA_SPIDERS = "Face (Ruins of Ash - Spiders)"
@@ -395,11 +395,11 @@ class Face(str, Enum):
     CATH_R = "Face (Cathedral - Right)"
 
 
-class Heal(str, Enum):
+class Heal(StrEnum):
     HEAL_5 = "Heal HP +5"
 
 
-class Trap(str, Enum):
+class Trap(StrEnum):
     CUTSCENE = "Cutscene Trap"
     ROCKS = "Rocks Trap"
 
@@ -424,8 +424,6 @@ ItemName: TypeAlias = (
     | Trap
 )
 
-
-ProgressionItem: TypeAlias = Character | Eye | KeyItem | ShopUpgrade
 
 CHARACTERS: tuple[Character, ...] = (
     Character.ALGUS,
@@ -471,7 +469,7 @@ QOL_ITEMS: tuple[ShopUpgrade, ...] = (
 )
 
 
-class Events(str, Enum):
+class Events(StrEnum):
     VICTORY = "Victory"
     EYE_RED = Eye.RED.value
     EYE_BLUE = Eye.BLUE.value
@@ -499,7 +497,7 @@ class Events(str, Enum):
 
 
 class AstalonItem(Item):
-    game: str = GAME_NAME
+    game = GAME_NAME
 
 
 @dataclass(frozen=True)
@@ -862,11 +860,11 @@ ALL_ITEMS: tuple[ItemData, ...] = (
     ItemData(Trap.ROCKS, ItemClassification.trap, 0, ItemGroup.TRAP),
 )
 
-item_table = {item.name.value: item for item in ALL_ITEMS}
-item_name_to_id: dict[str, int] = {data.name.value: i for i, data in enumerate(ALL_ITEMS, start=BASE_ID)}
+item_table: dict[str, ItemData] = {item.name.value: item for item in ALL_ITEMS}
+item_name_to_id: dict[str, int] = {data.name.value: i for i, data in enumerate(ALL_ITEMS, start=1)}
 
 
-def get_item_group(item_name: str):
+def get_item_group(item_name: str) -> ItemGroup:
     return item_table[item_name].group
 
 

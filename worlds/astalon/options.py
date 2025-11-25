@@ -202,6 +202,7 @@ class RandomizeCandles(Toggle):
 
 class RandomizeOrbRocks(Toggle):
     """
+    NOT YET SUPPORTED
     Choose whether to randomize the reward gained from breaking orb rocks.
     """
 

@@ -1092,4 +1092,4 @@ MAIN_LOCATION_RULES: dict[L, Rule[AstalonWorldBase]] = {
     L.CATA_CANDLE_PRISON: HasBlue(BlueDoor.CATA_PRISON_RIGHT, otherwise=True),
 }
 
-COMPLETION_RULE = Has(Events.VICTORY)
+COMPLETION_RULE: Rule[AstalonWorldBase] = Has(Events.VICTORY)

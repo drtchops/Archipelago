@@ -1,14 +1,14 @@
 from dataclasses import dataclass
-from enum import Enum
+from enum import StrEnum
 from itertools import groupby
 
 from BaseClasses import Location
 
-from .constants import BASE_ID, GAME_NAME
+from .constants import GAME_NAME
 from .regions import RegionName
 
 
-class Area(str, Enum):
+class Area(StrEnum):
     SHOP = "Shop"
     GT = "Gorgon Tomb"
     MECH = "Mechanism"
@@ -24,7 +24,7 @@ class Area(str, Enum):
     SP = "Serpent Path"
 
 
-class LocationGroup(str, Enum):
+class LocationGroup(StrEnum):
     CHARACTER = "Characters"
     ITEM = "Items"
     FAMILIAR = "Familiars"
@@ -39,7 +39,7 @@ class LocationGroup(str, Enum):
     CANDLE = "Candles"
 
 
-class LocationName(str, Enum):
+class LocationName(StrEnum):
     GT_ALGUS = "Gorgon Tomb - Algus"
     GT_ARIAS = "Gorgon Tomb - Arias"
     GT_KYULI = "Gorgon Tomb - Kyuli"
@@ -510,7 +510,7 @@ class LocationName(str, Enum):
 
 
 class AstalonLocation(Location):
-    game: str = GAME_NAME
+    game = GAME_NAME
 
 
 @dataclass(frozen=True)
@@ -1103,8 +1103,8 @@ ALL_LOCATIONS: tuple[LocationData, ...] = (
     LocationData(LocationName.CATH_CANDLE_TOP_2, RegionName.CATH_TOP, LocationGroup.CANDLE, Area.CATH),
 )
 
-location_table = {location.name.value: location for location in ALL_LOCATIONS}
-location_name_to_id: dict[str, int] = {data.name.value: i for i, data in enumerate(ALL_LOCATIONS, start=BASE_ID)}
+location_table: dict[str, LocationData] = {location.name.value: location for location in ALL_LOCATIONS}
+location_name_to_id: dict[str, int] = {data.name.value: i for i, data in enumerate(ALL_LOCATIONS, start=1)}
 
 
 def get_location_group(location_name: str) -> LocationGroup:

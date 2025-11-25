@@ -1,8 +1,8 @@
 from dataclasses import dataclass
-from enum import Enum
+from enum import StrEnum
 
 
-class RegionName(str, Enum):
+class RegionName(StrEnum):
     MENU = "Menu"
     SHOP = "Shop"
     SHOP_ALGUS = "Shop - Algus"
