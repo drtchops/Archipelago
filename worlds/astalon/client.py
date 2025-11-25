@@ -14,9 +14,10 @@ from rule_builder import Rule
 from Utils import get_intended_text  # pyright: ignore[reportUnknownVariableType]
 from worlds.AutoWorld import World
 
-from .constants import GAME_NAME, VERSION
+from .constants import GAME_NAME
 from .items import item_table
 from .locations import location_table
+from .world import AstalonWorld
 
 try:
     from worlds.tracker.TrackerClient import UT_VERSION, TrackerCommandProcessor, TrackerGameContext
@@ -256,7 +257,9 @@ class AstalonClientContext(TrackerGameContext):
 
         class AstalonManager(ui):
             # core appends ap version so this works
-            base_title = f"Astalon Tracker v{VERSION} with UT {UT_VERSION} for AP version"
+            base_title = (
+                f"Astalon Tracker v{AstalonWorld.world_version.as_simple_string()} with UT {UT_VERSION} for AP version"
+            )
             ctx: "AstalonClientContext"
 
             def __init__(self, ctx: CommonContext) -> None:

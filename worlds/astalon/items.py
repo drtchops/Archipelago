@@ -2,14 +2,12 @@ from collections.abc import Callable
 from dataclasses import dataclass
 from enum import Enum
 from itertools import groupby
-from typing import TYPE_CHECKING, TypeAlias
+from typing import TypeAlias
 
 from BaseClasses import Item, ItemClassification
 
 from .constants import BASE_ID, GAME_NAME
-
-if TYPE_CHECKING:
-    from . import AstalonWorld
+from .options import AstalonOptions
 
 
 class ItemGroup(str, Enum):
@@ -507,7 +505,7 @@ class AstalonItem(Item):
 @dataclass(frozen=True)
 class ItemData:
     name: ItemName
-    classification: ItemClassification | Callable[["AstalonWorld"], ItemClassification]
+    classification: ItemClassification | Callable[[AstalonOptions], ItemClassification]
     quantity_in_item_pool: int
     group: ItemGroup
     description: str = ""
@@ -593,9 +591,7 @@ ALL_ITEMS: tuple[ItemData, ...] = (
     ItemData(BlueDoor.CAVES, ItemClassification.progression, 1, ItemGroup.DOOR_BLUE),
     ItemData(
         BlueDoor.CATA_ORBS,
-        lambda world: (
-            ItemClassification.progression if world.options.randomize_candles else ItemClassification.useful
-        ),
+        lambda options: ItemClassification.progression if options.randomize_candles else ItemClassification.useful,
         1,
         ItemGroup.DOOR_BLUE,
     ),
@@ -606,9 +602,7 @@ ALL_ITEMS: tuple[ItemData, ...] = (
     ItemData(BlueDoor.CATA_PRISON_LEFT, ItemClassification.filler, 1, ItemGroup.DOOR_BLUE),
     ItemData(
         BlueDoor.CATA_PRISON_RIGHT,
-        lambda world: (
-            ItemClassification.progression if world.options.randomize_candles else ItemClassification.filler
-        ),
+        lambda options: ItemClassification.progression if options.randomize_candles else ItemClassification.filler,
         1,
         ItemGroup.DOOR_BLUE,
     ),
@@ -667,13 +661,13 @@ ALL_ITEMS: tuple[ItemData, ...] = (
     ItemData(Switch.GT_UPPER_PATH_ACCESS, ItemClassification.progression, 1, ItemGroup.SWITCH),
     ItemData(
         Switch.GT_CROSSES,
-        lambda world: (ItemClassification.filler if world.options.open_early_doors else ItemClassification.progression),
+        lambda options: ItemClassification.filler if options.open_early_doors else ItemClassification.progression,
         1,
         ItemGroup.SWITCH,
     ),
     ItemData(
         Switch.GT_GH_SHORTCUT,
-        lambda world: (ItemClassification.filler if world.options.open_early_doors else ItemClassification.progression),
+        lambda options: ItemClassification.filler if options.open_early_doors else ItemClassification.progression,
         1,
         ItemGroup.SWITCH,
     ),
@@ -879,7 +873,7 @@ def get_item_group(item_name: str):
 item_name_groups: dict[str, set[str]] = {
     group.value: set(item_names)
     for group, item_names in groupby(sorted(item_table, key=get_item_group), get_item_group)
-    if group != ""
+    if group
 }
 
 item_name_groups["Map Progression"] = {

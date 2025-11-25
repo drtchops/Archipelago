@@ -1,7 +1,5 @@
-# pyright: reportUninitializedInstanceVariable=false
-
 from functools import cached_property
-from typing import TYPE_CHECKING, Any, ClassVar
+from typing import Any, ClassVar
 
 from typing_extensions import override
 
@@ -12,12 +10,8 @@ from rule_builder import Rule
 from Utils import get_intended_text  # pyright: ignore[reportUnknownVariableType]
 from worlds.generic.Rules import CollectionRule
 
+from .bases import AstalonWorldBase
 from .items import Character, Events
-
-if TYPE_CHECKING:
-    from worlds.AutoWorld import World
-else:
-    World = object
 
 
 def map_page_index(data: Any) -> int:
@@ -27,16 +21,16 @@ def map_page_index(data: Any) -> int:
     if data in (1, 99):
         # tomb
         return 1
-    elif data in (2, 3, 7):
+    if data in (2, 3, 7):
         # mechanism_and_hall
         return 2
-    elif data in (4, 19, 21):
+    if data in (4, 19, 21):
         # catacombs
         return 3
-    elif data in (5, 6, 8, 13):
+    if data in (5, 6, 8, 13):
         # ruins
         return 4
-    elif data == 11:
+    if data == 11:
         # cyclops
         return 5
     # world map
@@ -89,7 +83,7 @@ def rule_to_json(rule: CollectionRule | None, state: CollectionState) -> list[JS
     ]
 
 
-class UTMxin(World):
+class AstalonUTWorld(AstalonWorldBase):
     tracker_world: ClassVar[dict[str, Any]] = {
         "map_page_folder": "tracker",
         "map_page_maps": "maps/maps.json",
@@ -101,10 +95,6 @@ class UTMxin(World):
     }
     ut_can_gen_without_yaml: ClassVar[bool] = True
     glitches_item_name: ClassVar[str] = Events.FAKE_OOL_ITEM.value
-
-    if TYPE_CHECKING:
-        starting_characters: list[Character]
-        extra_gold_eyes: int
 
     @cached_property
     def is_ut(self) -> bool:

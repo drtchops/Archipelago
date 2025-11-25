@@ -6,10 +6,8 @@ from typing_extensions import override
 
 from BaseClasses import Item, ItemClassification, MultiWorld, Region
 from Options import OptionError
-from rule_builder import RuleWorldMixin
-from worlds.AutoWorld import World
 
-from .constants import GAME_NAME, VERSION
+from .constants import GAME_NAME
 from .items import (
     CHARACTERS,
     EARLY_BLUE_DOORS,
@@ -40,9 +38,9 @@ from .locations import (
     location_table,
 )
 from .logic.main_campaign import COMPLETION_RULE, MAIN_ENTRANCE_RULES, MAIN_LOCATION_RULES
-from .options import ApexElevator, AstalonOptions, Goal, RandomizeCharacters
+from .options import ApexElevator, Goal, RandomizeCharacters
 from .regions import RegionName, astalon_regions
-from .tracker import UTMxin
+from .tracker import AstalonUTWorld
 from .web_world import AstalonWebWorld
 
 # ██░░░██████░░███░░░███
@@ -80,7 +78,7 @@ CHARACTER_STARTS: Final[dict[int, tuple[Character, ...]]] = {
 }
 
 
-class AstalonWorld(UTMxin, RuleWorldMixin, World):  # pyright: ignore[reportUnsafeMultipleInheritance]
+class AstalonWorld(AstalonUTWorld):
     """
     Uphold your pact with the Titan of Death, Epimetheus!
     Fight, climb and solve your way through a twisted tower as three unique adventurers,
@@ -89,16 +87,11 @@ class AstalonWorld(UTMxin, RuleWorldMixin, World):  # pyright: ignore[reportUnsa
 
     game = GAME_NAME
     web = AstalonWebWorld()
-    options_dataclass = AstalonOptions
-    options: AstalonOptions  # pyright: ignore[reportIncompatibleVariableOverride]
     item_name_groups = item_name_groups
     location_name_groups = location_name_groups
     item_name_to_id = item_name_to_id
     location_name_to_id = location_name_to_id
     rule_caching_enabled = True
-
-    starting_characters: list[Character]
-    extra_gold_eyes: int = 0
 
     _character_strengths: ClassVar[dict[int, dict[str, float]] | None] = None
 
@@ -239,7 +232,7 @@ class AstalonWorld(UTMxin, RuleWorldMixin, World):  # pyright: ignore[reportUnsa
         item_data = item_table[name]
         classification: ItemClassification
         if callable(item_data.classification):
-            classification = item_data.classification(self)
+            classification = item_data.classification(self.options)
         else:
             classification = item_data.classification
         return AstalonItem(name, classification, self.item_name_to_id[name], self.player)
@@ -351,8 +344,8 @@ class AstalonWorld(UTMxin, RuleWorldMixin, World):  # pyright: ignore[reportUnsa
             remove_count = len(itempool) + len(filler_items) - total_locations
             if remove_count > len(filler_items):
                 raise OptionError(
-                    f"Astalon player {self.player_name} failed: No space for eye hunt. "
-                    + "Lower your eye hunt goal or enable candle randomizer."
+                    f"Astalon player {self.player_name} failed: No space for eye hunt. "  # pyright: ignore[reportImplicitStringConcatenation]
+                    "Lower your eye hunt goal or enable candle randomizer."
                 )
 
             if remove_count == len(filler_items):
@@ -429,7 +422,7 @@ class AstalonWorld(UTMxin, RuleWorldMixin, World):  # pyright: ignore[reportUnsa
         assert self._character_strengths is not None
         strengths = self._character_strengths.get(self.player, {})
         return {
-            "version": VERSION,
+            "version": self.world_version.as_simple_string(),
             "options": self.options.as_dict(
                 "difficulty",
                 "goal",

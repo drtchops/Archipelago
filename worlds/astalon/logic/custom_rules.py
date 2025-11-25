@@ -1,7 +1,7 @@
 import dataclasses
 from collections.abc import Iterable
 from enum import Enum
-from typing import TYPE_CHECKING, Any, ClassVar, cast
+from typing import Any, ClassVar, cast
 
 from typing_extensions import override
 
@@ -10,6 +10,7 @@ from BaseClasses import CollectionState
 from NetUtils import JSONMessagePart
 from Options import Option
 
+from ..bases import AstalonWorldBase
 from ..constants import GAME_NAME
 from ..items import (
     BlueDoor,
@@ -36,9 +37,6 @@ from ..options import (
 )
 from ..regions import RegionName
 
-if TYPE_CHECKING:
-    from ..world import AstalonWorld
-
 
 def as_str(value: Enum | str | None) -> str:
     if value is None:
@@ -47,7 +45,7 @@ def as_str(value: Enum | str | None) -> str:
 
 
 @dataclasses.dataclass(init=False)
-class Has(rule_builder.Has["AstalonWorld"], game=GAME_NAME):
+class Has(rule_builder.Has[AstalonWorldBase], game=GAME_NAME):
     @override
     def __init__(
         self,
@@ -60,7 +58,7 @@ class Has(rule_builder.Has["AstalonWorld"], game=GAME_NAME):
 
 
 @dataclasses.dataclass(init=False)
-class HasAll(rule_builder.HasAll["AstalonWorld"], game=GAME_NAME):
+class HasAll(rule_builder.HasAll[AstalonWorldBase], game=GAME_NAME):
     @override
     def __init__(
         self,
@@ -75,7 +73,7 @@ class HasAll(rule_builder.HasAll["AstalonWorld"], game=GAME_NAME):
 
 
 @dataclasses.dataclass(init=False)
-class HasAny(rule_builder.HasAny["AstalonWorld"], game=GAME_NAME):
+class HasAny(rule_builder.HasAny[AstalonWorldBase], game=GAME_NAME):
     @override
     def __init__(
         self,
@@ -90,7 +88,7 @@ class HasAny(rule_builder.HasAny["AstalonWorld"], game=GAME_NAME):
 
 
 @dataclasses.dataclass(init=False)
-class CanReachLocation(rule_builder.CanReachLocation["AstalonWorld"], game=GAME_NAME):
+class CanReachLocation(rule_builder.CanReachLocation[AstalonWorldBase], game=GAME_NAME):
     @override
     def __init__(
         self,
@@ -104,7 +102,7 @@ class CanReachLocation(rule_builder.CanReachLocation["AstalonWorld"], game=GAME_
 
 
 @dataclasses.dataclass(init=False)
-class CanReachRegion(rule_builder.CanReachRegion["AstalonWorld"], game=GAME_NAME):
+class CanReachRegion(rule_builder.CanReachRegion[AstalonWorldBase], game=GAME_NAME):
     @override
     def __init__(
         self,
@@ -116,7 +114,7 @@ class CanReachRegion(rule_builder.CanReachRegion["AstalonWorld"], game=GAME_NAME
 
 
 @dataclasses.dataclass(init=False)
-class CanReachEntrance(rule_builder.CanReachEntrance["AstalonWorld"], game=GAME_NAME):
+class CanReachEntrance(rule_builder.CanReachEntrance[AstalonWorldBase], game=GAME_NAME):
     @override
     def __init__(
         self,
@@ -135,7 +133,7 @@ class ToggleRule(HasAll, game=GAME_NAME):
     otherwise: bool = False
 
     @override
-    def _instantiate(self, world: "AstalonWorld") -> rule_builder.Rule.Resolved:
+    def _instantiate(self, world: AstalonWorldBase) -> rule_builder.Rule.Resolved:
         items = tuple(cast(ItemName | Events, item) for item in self.item_names)
         if len(items) == 1:
             rule = Has(items[0], options=[rule_builder.OptionFilter(self.option_cls, 1)])
@@ -218,9 +216,9 @@ class HasElevator(HasAll, game=GAME_NAME):
 
 
 @dataclasses.dataclass()
-class HasGoal(rule_builder.Rule["AstalonWorld"], game=GAME_NAME):
+class HasGoal(rule_builder.Rule[AstalonWorldBase], game=GAME_NAME):
     @override
-    def _instantiate(self, world: "AstalonWorld") -> rule_builder.Rule.Resolved:
+    def _instantiate(self, world: AstalonWorldBase) -> rule_builder.Rule.Resolved:
         if world.options.goal.value != Goal.option_eye_hunt:
             return world.true_rule
         return Has.Resolved(
@@ -232,9 +230,9 @@ class HasGoal(rule_builder.Rule["AstalonWorld"], game=GAME_NAME):
 
 
 @dataclasses.dataclass()
-class HardLogic(rule_builder.WrapperRule["AstalonWorld"], game=GAME_NAME):
+class HardLogic(rule_builder.WrapperRule[AstalonWorldBase], game=GAME_NAME):
     @override
-    def _instantiate(self, world: "AstalonWorld") -> rule_builder.Rule.Resolved:
+    def _instantiate(self, world: AstalonWorldBase) -> rule_builder.Rule.Resolved:
         if world.options.difficulty.value == Difficulty.option_hard:
             return self.child.resolve(world)
         if getattr(world.multiworld, "generation_is_fake", False):
