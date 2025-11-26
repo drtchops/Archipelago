@@ -783,6 +783,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], Rule[AstalonWorldBase]] = {
     (R.TR_START, R.TR_LEFT): (
         HasBlue(BlueDoor.TR, otherwise=True)
         & (HasRed(RedDoor.TR) | Filtered(has_claw & CanReachRegion(R.CATA_BOSS), options=red_off))
+        & can_extra_height
     ),
     (R.TR_START, R.APEX): elevator_apex,
     (R.TR_START, R.GT_BOSS): HasElevator(Elevator.GT_2),
