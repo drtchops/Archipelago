@@ -3,9 +3,9 @@ import importlib
 import operator
 from collections import defaultdict
 from collections.abc import Callable, Iterable, Mapping
-from typing import TYPE_CHECKING, Any, ClassVar, Generic, Literal, cast
+from typing import TYPE_CHECKING, Any, ClassVar, Generic, Literal, Never, Self, cast
 
-from typing_extensions import Never, Self, TypeVar, dataclass_transform, override
+from typing_extensions import TypeVar, dataclass_transform, override
 
 from BaseClasses import CollectionState, Entrance, Item, Location, MultiWorld, Region
 from NetUtils import JSONMessagePart
@@ -550,27 +550,29 @@ class Rule(Generic[TWorld]):
 
     def __and__(self, other: "Rule[Any]") -> "Rule[TWorld]":
         """Combines two rules into an And rule"""
-        if isinstance(self, And):
-            if isinstance(other, And):
-                if self.options == other.options:
+        if self.options == other.options:
+            if isinstance(self, And):
+                if isinstance(other, And):
                     return And(*self.children, *other.children, options=self.options)
-            else:
                 return And(*self.children, other, options=self.options)
-        elif isinstance(other, And):
-            return And(self, *other.children, options=other.options)
+            if isinstance(other, And):
+                return And(self, *other.children, options=other.options)
         return And(self, other)
 
     def __or__(self, other: "Rule[Any]") -> "Rule[TWorld]":
         """Combines two rules into an Or rule"""
-        if isinstance(self, Or):
-            if isinstance(other, Or):
-                if self.options == other.options:
+        if self.options == other.options:
+            if isinstance(self, Or):
+                if isinstance(other, Or):
                     return Or(*self.children, *other.children, options=self.options)
-            else:
                 return Or(*self.children, other, options=self.options)
-        elif isinstance(other, Or):
-            return Or(self, *other.children, options=other.options)
+            if isinstance(other, Or):
+                return Or(self, *other.children, options=self.options)
         return Or(self, other)
+
+    def __lshift__(self, other: Iterable[OptionFilter[Any]]) -> "Rule[TWorld]":
+        """Convenience operator to filter an existing rule with an option filter"""
+        return Filtered(self, options=other)
 
     def __bool__(self) -> Never:
         """Safeguard to prevent devs from mistakenly doing `rule1 and rule2` and getting the wrong result"""
@@ -717,7 +719,7 @@ class False_(Rule[TWorld], game="Archipelago"):  # noqa: N801
 
 @dataclasses.dataclass(init=False)
 class NestedRule(Rule[TWorld], game="Archipelago"):
-    """A rule that takes an iterable of other rules as an argument and does logic based on them"""
+    """A base rule class that takes an iterable of other rules as an argument and does logic based on them"""
 
     children: tuple[Rule[TWorld], ...]
     """The child rules this rule's logic is based on"""
@@ -874,8 +876,8 @@ class Or(NestedRule[TWorld], game="Archipelago"):
 
 
 @dataclasses.dataclass()
-class Wrapper(Rule[TWorld], game="Archipelago"):
-    """A rule that wraps another rule to provide extra logic or data"""
+class WrapperRule(Rule[TWorld], game="Archipelago"):
+    """A base rule class that wraps another rule to provide extra logic or data"""
 
     child: Rule[TWorld]
     """The child rule being wrapped"""
@@ -964,7 +966,16 @@ class Wrapper(Rule[TWorld], game="Archipelago"):
 
 
 @dataclasses.dataclass()
-class Macro(Wrapper[TWorld], game="Archipelago"):
+class Filtered(WrapperRule[TWorld], game="Archipelago"):
+    """A convenience rule to wrap an existing rule with an options filter"""
+
+    @override
+    def _instantiate(self, world: TWorld) -> Rule.Resolved:
+        return world.resolve_rule(self.child)
+
+
+@dataclasses.dataclass()
+class Macro(WrapperRule[TWorld], game="Archipelago"):
     name: str
     description: str = ""
 
@@ -1005,7 +1016,7 @@ class Macro(Wrapper[TWorld], game="Archipelago"):
     def __str__(self) -> str:
         return f"{self.__class__.__name__}[{self.child}]"
 
-    class Resolved(Wrapper.Resolved):
+    class Resolved(WrapperRule.Resolved):
         name: str
         description: str = ""
 
