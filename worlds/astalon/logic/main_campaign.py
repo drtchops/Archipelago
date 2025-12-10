@@ -1,4 +1,4 @@
-from rule_builder import Filtered, OptionFilter, Rule, True_
+from rule_builder import Filtered, Macro, OptionFilter, Rule, True_
 
 from ..bases import AstalonWorldBase
 from ..items import (
@@ -81,22 +81,23 @@ has_bram_hunter = has_bram & Has(ShopUpgrade.BRAM_HUNTER)
 has_bram_whiplash = has_bram & Has(ShopUpgrade.BRAM_WHIPLASH)
 chalice_on_easy = HardLogic(True_()) | Has(KeyItem.CHALICE, options=easy)
 
-# can_uppies = Macro(
-#     HardLogic(has_arias | has_bram),
-#     "Can do uppies",
-#     "Perform a higher jump by jumping while attacking with Arias or Bram",
-# )
-can_uppies = HardLogic(has_arias | has_bram)
-can_extra_height = has_kyuli | has_block | can_uppies
-can_extra_height_gold_block = has_kyuli | has_zeek | can_uppies
-can_combo_height = can_uppies & has_block & Has(KeyItem.BELL)
-can_block_in_wall = HardLogic(has_block)
-can_crystal_limited = has_algus | HardLogic(has_kyuli_ray)
-can_crystal_no_whiplash = can_crystal_limited | has_block | (has_zeek & has_banish)
-can_crystal_no_block = can_crystal_limited | has_bram_whiplash
-can_crystal = can_crystal_no_whiplash | has_bram_whiplash
-can_big_magic = HardLogic(has_algus_arcanist & has_banish)
-can_kill_ghosts = has_banish | has_block | (has_algus_meteor & chalice_on_easy)
+can_uppies = Macro(
+    HardLogic(has_arias | has_bram),
+    "Can do uppies",
+    "Perform a higher jump by jumping while attacking with Arias or Bram",
+)
+can_extra_height = Macro(has_kyuli | has_block | can_uppies, "Can get extra height")
+can_extra_height_gold_block = Macro(has_kyuli | has_zeek | can_uppies, "Can get extra height (gold block)")
+can_combo_height = Macro(can_uppies & has_block & Has(KeyItem.BELL), "Can get combo height")
+can_block_in_wall = Macro(HardLogic(has_block), "Can place block in wall")
+can_crystal_limited = Macro(has_algus | HardLogic(has_kyuli_ray), "Can activate crystals (limited)")
+can_crystal_no_whiplash = Macro(
+    can_crystal_limited | has_block | (has_zeek & has_banish), "Can activate crystals (no whiplash)"
+)
+can_crystal_no_block = Macro(can_crystal_limited | has_bram_whiplash, "Can activate crystals (no block)")
+can_crystal = Macro(can_crystal_no_whiplash | has_bram_whiplash, "Can activate crystals")
+can_big_magic = Macro(HardLogic(has_algus_arcanist & has_banish), "Can use big magic")
+can_kill_ghosts = Macro(has_banish | has_block | (has_algus_meteor & chalice_on_easy), "Can kill ghosts")
 
 otherwise_crystal = can_crystal << switch_off
 otherwise_bow = has_bow << switch_off
