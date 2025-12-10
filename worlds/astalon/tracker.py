@@ -6,7 +6,7 @@ from typing_extensions import override
 from BaseClasses import CollectionState, Entrance, Location, Region
 from NetUtils import JSONMessagePart
 from Options import Option
-from rule_builder import Rule
+from rule_builder import Macro, Rule
 from Utils import get_intended_text  # pyright: ignore[reportUnknownVariableType]
 from worlds.generic.Rules import CollectionRule
 
@@ -222,6 +222,20 @@ class AstalonUTWorld(AstalonWorldBase):
                 ]
             )
 
+        return messages
+
+    def explain_rule(self, dest_name: str, state: CollectionState) -> list[JSONMessagePart]:
+        macro_name, usable, response = get_intended_text(dest_name, list(self.rule_macro_hashes))
+        if not usable:
+            return [{"type": "text", "text": response}]
+        macro = self.rules_by_hash[self.rule_macro_hashes[macro_name]]
+        assert isinstance(macro, Macro.Resolved)
+        messages: list[JSONMessagePart] = [
+            {"type": "color", "color": "green" if macro(state) else "salmon", "text": macro.name}
+        ]
+        if macro.description:
+            messages.append({"type": "text", "text": f": {macro.description}"})
+        messages.extend([{"type": "text", "text": "\n"}, *macro.child.explain_json(state)])
         return messages
 
     def reconnect_found_entrances(self, found_key: str, data_storage_value: Any) -> None:
