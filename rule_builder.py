@@ -81,7 +81,7 @@ class RuleWorldMixin(World):
         """Returns a resolved rule registered with the caching system for this world"""
         is_macro = isinstance(rule, Macro)
         if is_macro and rule.name in self.rule_macro_hashes:
-            return self.rule_ids[self.rule_macro_hashes[rule.name]]
+            return self.rules_by_hash[self.rule_macro_hashes[rule.name]]
         resolved_rule = rule.resolve(self)
         resolved_rule = self.simplify_rule(resolved_rule)
         resolved_rule = self.get_cached_rule(resolved_rule)
