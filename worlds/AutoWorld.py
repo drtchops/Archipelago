@@ -5,21 +5,26 @@ import logging
 import pathlib
 import sys
 import time
+from collections.abc import Callable, Iterable, Mapping
 from random import Random
-from dataclasses import make_dataclass
-from typing import (Any, Callable, ClassVar, Dict, FrozenSet, Iterable, List, Mapping, Optional, Set, TextIO, Tuple,
+from typing import (Any, ClassVar, Dict, FrozenSet, List, Optional, Self, Set, TextIO, Tuple,
                     TYPE_CHECKING, Type, Union)
 
 from Options import item_and_loc_options, ItemsAccessibility, OptionGroup, PerGameCommonOptions
-from BaseClasses import CollectionState
-from Utils import deprecate
+from BaseClasses import CollectionState, Entrance
+from rule_builder import CustomRuleRegister, Rule
+from Utils import Version
 
 if TYPE_CHECKING:
-    from BaseClasses import MultiWorld, Item, Location, Tutorial, Region, Entrance
+    from BaseClasses import AccessRule, MultiWorld, Item, Location, Tutorial, Region
     from NetUtils import GamesPackage, MultiData
     from settings import Group
 
 perf_logger = logging.getLogger("performance")
+
+
+class InvalidItemError(KeyError):
+    pass
 
 
 class AutoWorldRegister(type):
@@ -71,6 +76,10 @@ class AutoWorldRegister(type):
                 if "required_client_version" in base.__dict__:
                     dct["required_client_version"] = max(dct["required_client_version"],
                                                          base.__dict__["required_client_version"])
+        if "world_version" in dct:
+            if dct["world_version"] != Version(0, 0, 0):
+                raise RuntimeError(f"{name} is attempting to set 'world_version' from within the class. world_version "
+                                   f"can only be set from manifest.")
 
         # construct class
         new_class = super().__new__(mcs, name, bases, dct)
@@ -216,7 +225,7 @@ class WebWorld(metaclass=WebWorldRegister):
     tutorials: List["Tutorial"]
     """docs folder will also be scanned for tutorial guides. Each Tutorial class is to be used for one guide."""
 
-    theme = "grass"
+    theme: str = "grass"
     """Choose a theme for you /game/* pages.
     Available: dirt, grass, grassFlowers, ice, jungle, ocean, partyTime, stone"""
 
@@ -333,6 +342,11 @@ class World(metaclass=AutoWorldRegister):
     """If loaded from a .apworld, this is the Path to it."""
     __file__: ClassVar[str]
     """path it was loaded from"""
+    world_version: ClassVar[Version] = Version(0, 0, 0)
+    """Optional world version loaded from archipelago.json"""
+
+    rule_caching_enabled: ClassVar[bool] = False
+    """Enable or disable the rule result caching system"""
 
     def __init__(self, multiworld: "MultiWorld", player: int):
         assert multiworld is not None
@@ -579,6 +593,64 @@ class World(metaclass=AutoWorldRegister):
         }
         res["checksum"] = data_package_checksum(res)
         return res
+
+    @classmethod
+    def get_rule_cls(cls, name: str) -> type[Rule[Self]]:
+        """Returns the world-registered or default rule with the given name"""
+        return CustomRuleRegister.get_rule_cls(cls.game, name)
+
+    @classmethod
+    def rule_from_dict(cls, data: Mapping[str, Any]) -> Rule[Self]:
+        """Create a rule instance from a serialized dict representation"""
+        name = data.get("rule", "")
+        rule_class = cls.get_rule_cls(name)
+        return rule_class.from_dict(data, cls)
+
+    def set_rule(self, spot: Location | Entrance, rule: AccessRule | Rule[Any]) -> None:
+        """Sets an access rule for a location or entrance"""
+        if isinstance(rule, Rule):
+            rule = rule.resolve(self)
+            self.register_rule_dependencies(rule)
+            if isinstance(spot, Entrance):
+                self._register_rule_indirects(rule, spot)
+        spot.access_rule = rule
+
+    def set_completion_rule(self, rule: AccessRule | Rule[Any]) -> None:
+        """Set the completion rule for this world"""
+        if isinstance(rule, Rule):
+            rule = rule.resolve(self)
+            self.register_rule_dependencies(rule)
+        self.multiworld.completion_condition[self.player] = rule
+
+    def create_entrance(
+        self,
+        from_region: Region,
+        to_region: Region,
+        rule: AccessRule | Rule[Any] | None = None,
+        name: str | None = None,
+        force_creation: bool = False,
+    ) -> Entrance | None:
+        """Try to create an entrance between regions with the given rule,
+        skipping it if the rule resolves to False (unless force_creation is True)"""
+        if rule is not None and isinstance(rule, Rule):
+            rule = rule.resolve(self)
+            if rule.always_false and not force_creation:
+                return None
+            self.register_rule_dependencies(rule)
+
+        entrance = from_region.connect(to_region, name, rule=rule)
+        if rule and isinstance(rule, Rule.Resolved):
+            self._register_rule_indirects(rule, entrance)
+        return entrance
+
+    def register_rule_dependencies(self, resolved_rule: Rule.Resolved) -> None:
+        """Hook for registering dependencies when a rule is assigned for this world"""
+        pass
+
+    def _register_rule_indirects(self, resolved_rule: Rule.Resolved, entrance: Entrance) -> None:
+        if self.explicit_indirect_conditions:
+            for indirect_region in resolved_rule.region_dependencies().keys():
+                self.multiworld.register_indirect_condition(self.get_region(indirect_region), entrance)
 
 
 # any methods attached to this can be used as part of CollectionState,

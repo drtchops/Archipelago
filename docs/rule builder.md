@@ -2,10 +2,19 @@
 
 This document describes the API provided for the rule builder. Using this API prvoides you with with a simple interface to define rules and the following advantages:
 
-- Automatic result caching
+- Rule classes that avoid all the common pitfalls
 - Logic optimization
+- Automatic result caching (opt-in)
 - Serialize/deserialize to JSON
-- Human-readable logic explanations
+- Human-readable logic explanations for players
+
+## Overview
+
+The rule builder consists of 3 main parts:
+
+1. The rules, which are classes that inherit from `rule_builder.Rule`. These are what you write for your laogic. They can be combined and take into account your world's options. There are a number of default rules listed blow, and you can create as many custom rules for your world as needed. When assigning the rules to a location or entrance they must be resolved.
+1. Resolved rules, which are classes that inherit from `rule_builder.Rule.Resolved`. These are the optimized rules specific to one player that are set as a location or entrance's access rule. You generally shouldn't be directly creating these but they'll be created when assigning rules to locations or entrances.
+1. The rule builder world mixin class `RuleWorldMixin`, which is a class your world should inherit. It adds a number of helper functions related to assigning and resolving rules.
 
 ## Usage
 
@@ -102,13 +111,23 @@ rule = (
 )
 ```
 
-If you would like to provide option filters when composing rules, you can use the `And` and `Or` rules directly:
+If you would like to provide option filters when reusing or composing rules, you can use the `Filtered` helper rule:
 
 ```python
-rule = Or(
-    And(Has("A"), HasAny("B", "C"), options=[OptionFilter(Opt, 0)]),
-    Or(Has("X"), CanReachRegion("Y"), options=[OptionFilter(Opt, 1)]),
+common_rule = Has("A") | HasAny("B", "C")
+...
+rule = (
+    Filtered(common_rule, options=[OptionFilter(Opt, 0)]),
+    | Filtered(Has("X") | CanReachRegion("Y"), options=[OptionFilter(Opt, 1)]),
 )
+```
+
+You can also use the "shovel" operator `<<` as shorthand:
+
+```python
+common_rule = Has("A")
+easy_filter = [OptionFilter(Difficulty, Difficulty.option_easy)]
+common_rule_only_on_easy = common_rule << easy_filter
 ```
 
 ### Disabling caching
@@ -149,13 +168,13 @@ To add a rule that checks if the user has enough mcguffins to goal, with a rando
 ```python
 @dataclasses.dataclass()
 class CanGoal(Rule["MyWorld"], game="My Game"):
-    def _instantiate(self, world: "MyWorld") -> "Resolved":
-        return self.Resolved(world.required_mcguffins, player=world.player)
+    def _instantiate(self, world: "MyWorld") -> Rule.Resolved:
+        return self.Resolved(world.required_mcguffins, player=world.player, caching_enabled=world.rule_caching_enabled)
 
     class Resolved(Rule.Resolved):
         goal: int
 
-        def _evaluate(self, state: "CollectionState") -> bool:
+        def _evaluate(self, state: CollectionState) -> bool:
             return state.has("McGuffin", self.player, count=self.goal)
 
         def item_dependencies(self) -> dict[str, set[int]]:
@@ -229,6 +248,19 @@ class MyRule(Rule["MyWorld"], game="My Game"):
 ```
 
 The default `CanReachEntrance` rule defines this function already.
+
+### Cache control
+
+By default your custom rule will work through the cache system as any other rule. There are two class attributes on the `Resolved` class you can override to change this behaviour.
+
+- `force_recalculate`: Setting this to `True` will cause your custom rule to skip going through the caching system and always recalculate when being evaluated. When a rule with this flag enabled is composed with `And` or `Or` it will cause any parent rules to always force recalculate as well. Use this flag when it's difficult to determine when your rule should be marked as stale.
+- `skip_cache`: Setting this to `True` will also cause your custom rule to skip going through the caching system when being evaluated. However, it will **not** affect any other rules when composed with `And` or `Or`, so it must still define its `*_dependencies` functions as required. Use this flag when the evaluation of this rule is trivial and the overhead of the caching system will slow it down.
+
+### Caveats
+
+- Ensure you are passing `caching_enabled=world.rule_caching_enabled` in your `_instantiate` function when creating resolved rule instances.
+- Resolved rules are forced to be frozen dataclasses. They and all their attributes must be immutable and hashable.
+- If your rule creates child rules ensure they are being resolved through the world rather than creating `Resolved` instances directly so they get registered with the world's caching system.
 
 ## Serialization
 
@@ -336,7 +368,7 @@ If your logic has been done in custom JSON first, you can define a `from_dict` c
 ```python
 class BasicLogicRule(Rule, game="My Game"):
     @classmethod
-    def from_dict(cls, data: Mapping[str, Any]) -> Self:
+    def from_dict(cls, data: Mapping[str, Any], world_cls: type[RuleWorldMixin]) -> Self:
         items = data.get("items", ())
         return cls(*items)
 ```
@@ -351,13 +383,13 @@ To implement a custom message with a custom rule, override the `explain_json` an
 class MyRule(Rule, game="My Game"):
     class Resolved(Rule.Resolved):
         @override
-        def explain_json(self, state: "CollectionState | None" = None) -> "list[JSONMessagePart]":
+        def explain_json(self, state: CollectionState | None = None) -> list[JSONMessagePart]:
             has_item = state and state.has("growth spurt", self.player)
             color = "yellow"
             start = "You must be "
             if has_item:
                 start = "You are "
-                color = "green
+                color = "green"
             elif state is not None:
                 start = "You are not "
                 color = "salmon"
@@ -368,7 +400,7 @@ class MyRule(Rule, game="My Game"):
             ]
 
         @override
-        def explain_str(self, state: "CollectionState | None" = None) -> str:
+        def explain_str(self, state: CollectionState | None = None) -> str:
             if state is None:
                 return str(self)
             if state.has("growth spurt", self.player):
@@ -391,8 +423,6 @@ These are properties and helpers that are available to you in your world.
 #### Properties
 
 - `completion_rule: Rule.Resolved | None`: The resolved rule used for the completion condition of this world as set by `set_completion_rule`
-- `true_rule: Rule.Resolved`: A pre-resolved rule for this player that is equal to `True_()`
-- `false_rule: Rule.Resolved`: A pre-resolved rule for this player that is equal to `False_()`
 - `item_mapping: dict[str, str]`: A mapping of actual item name to logical item name
 - `rule_caching_enabled: bool`: A boolean value to enable or disable rule caching for this world
 

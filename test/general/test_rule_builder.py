@@ -13,6 +13,7 @@ from rule_builder import (
     CanReachLocation,
     CanReachRegion,
     False_,
+    Filtered,
     Has,
     HasAll,
     HasAllCounts,
@@ -35,14 +36,14 @@ from worlds.AutoWorld import WebWorld, World
 
 
 class ToggleOption(Toggle):
-    auto_display_name: ClassVar[bool] = True
+    auto_display_name = True
 
 
 class ChoiceOption(Choice):
-    option_first: ClassVar[int] = 0
-    option_second: ClassVar[int] = 1
-    option_third: ClassVar[int] = 2
-    default: ClassVar[int] = 0
+    option_first = 0
+    option_second = 1
+    option_third = 2
+    default = 0
 
 
 @dataclass
@@ -56,30 +57,30 @@ LOC_COUNT = 20
 
 
 class RuleBuilderItem(Item):
-    game: str = GAME
+    game = GAME
 
 
 class RuleBuilderLocation(Location):
-    game: str = GAME
+    game = GAME
 
 
 class RuleBuilderWebWorld(WebWorld):
-    tutorials = []  # noqa: RUF012  # pyright: ignore[reportUnannotatedClassAttribute]
+    tutorials = []  # noqa: RUF012
 
 
 class RuleBuilderWorld(RuleWorldMixin, World):  # pyright: ignore[reportUnsafeMultipleInheritance]
-    game: ClassVar[str] = GAME
-    web: ClassVar[WebWorld] = RuleBuilderWebWorld()
+    game = GAME
+    web = RuleBuilderWebWorld()
     item_name_to_id: ClassVar[dict[str, int]] = {f"Item {i}": i for i in range(1, LOC_COUNT + 1)}
     location_name_to_id: ClassVar[dict[str, int]] = {f"Location {i}": i for i in range(1, LOC_COUNT + 1)}
     item_name_groups: ClassVar[dict[str, set[str]]] = {
         "Group 1": {"Item 1", "Item 2", "Item 3"},
         "Group 2": {"Item 4", "Item 5"},
     }
-    hidden: ClassVar[bool] = True
-    options_dataclass: "ClassVar[type[PerGameCommonOptions]]" = RuleBuilderOptions
+    hidden = True
+    options_dataclass = RuleBuilderOptions
     options: RuleBuilderOptions  # pyright: ignore[reportIncompatibleVariableOverride]
-    origin_region_name: str = "Region 1"
+    origin_region_name = "Region 1"
 
     @override
     def create_item(self, name: str) -> "RuleBuilderItem":
@@ -164,6 +165,22 @@ network_data_package["games"][RuleBuilderWorld.game] = RuleBuilderWorld.get_data
             Or(Has("A"), False_()),
             Has.Resolved("A", player=1),
         ),
+        (
+            And(Has("A"), HasAll("B", "C"), HasAllCounts({"D": 2, "E": 3})),
+            HasAllCounts.Resolved((("A", 1), ("B", 1), ("C", 1), ("D", 2), ("E", 3)), player=1),
+        ),
+        (
+            And(Has("A"), HasAll("B", "C"), HasAllCounts({"D": 1, "E": 1})),
+            HasAll.Resolved(("A", "B", "C", "D", "E"), player=1),
+        ),
+        (
+            Or(Has("A"), HasAny("B", "C"), HasAnyCount({"D": 2, "E": 3})),
+            HasAnyCount.Resolved((("A", 1), ("B", 1), ("C", 1), ("D", 2), ("E", 3)), player=1),
+        ),
+        (
+            Or(Has("A"), HasAny("B", "C"), HasAnyCount({"D": 1, "E": 1})),
+            HasAny.Resolved(("A", "B", "C", "D", "E"), player=1),
+        ),
     )
 )
 class TestSimplify(unittest.TestCase):
@@ -174,7 +191,7 @@ class TestSimplify(unittest.TestCase):
         world = multiworld.worlds[1]
         assert isinstance(world, RuleBuilderWorld)
         rule, expected = self.rules
-        resolved_rule = world.resolve_rule(rule)
+        resolved_rule = rule.resolve(world)
         self.assertEqual(resolved_rule, expected, f"\n{resolved_rule}\n{expected}")
 
 
@@ -194,22 +211,22 @@ class TestOptions(unittest.TestCase):
         rule = Or(Has("A", options=[OptionFilter(ToggleOption, 0)]), Has("B", options=[OptionFilter(ToggleOption, 1)]))
 
         self.world.options.toggle_option.value = 0
-        self.assertEqual(self.world.resolve_rule(rule), Has.Resolved("A", player=1))
+        self.assertEqual(rule.resolve(self.world), Has.Resolved("A", player=1))
 
         self.world.options.toggle_option.value = 1
-        self.assertEqual(self.world.resolve_rule(rule), Has.Resolved("B", player=1))
+        self.assertEqual(rule.resolve(self.world), Has.Resolved("B", player=1))
 
     def test_gt_filtering(self) -> None:
         rule = Or(Has("A", options=[OptionFilter(ChoiceOption, 1, operator="gt")]), False_())
 
         self.world.options.choice_option.value = 0
-        self.assertEqual(self.world.resolve_rule(rule), False_.Resolved(player=1))
+        self.assertEqual(rule.resolve(self.world), False_.Resolved(player=1))
 
         self.world.options.choice_option.value = 1
-        self.assertEqual(self.world.resolve_rule(rule), False_.Resolved(player=1))
+        self.assertEqual(rule.resolve(self.world), False_.Resolved(player=1))
 
         self.world.options.choice_option.value = 2
-        self.assertEqual(self.world.resolve_rule(rule), Has.Resolved("A", player=1))
+        self.assertEqual(rule.resolve(self.world), Has.Resolved("A", player=1))
 
 
 @classvar_matrix(
@@ -253,6 +270,18 @@ class TestOptions(unittest.TestCase):
             Has("A") & Has("B") | Has("C") & Has("D"),
             Or(And(Has("A"), Has("B")), And(Has("C"), Has("D"))),
         ),
+        (
+            Has("A") | Or(Has("B"), options=[OptionFilter(ToggleOption, 1)]),
+            Or(Has("A"), Or(Has("B"), options=[OptionFilter(ToggleOption, 1)])),
+        ),
+        (
+            Has("A") & And(Has("B"), options=[OptionFilter(ToggleOption, 1)]),
+            And(Has("A"), And(Has("B"), options=[OptionFilter(ToggleOption, 1)])),
+        ),
+        (
+            (Has("A") | Has("B")) << [OptionFilter(ToggleOption, 1)],
+            Filtered(Or(Has("A"), Has("B")), options=[OptionFilter(ToggleOption, 1)]),
+        ),
     )
 )
 class TestComposition(unittest.TestCase):
@@ -279,7 +308,7 @@ class TestHashes(unittest.TestCase):
 
         rule1 = HasAll("1", "2")
         rule2 = HasAll("2", "2", "2", "1")
-        self.assertEqual(hash(world.resolve_rule(rule1)), hash(world.resolve_rule(rule2)))
+        self.assertEqual(hash(rule1.resolve(world)), hash(rule2.resolve(world)))
 
 
 class TestCaching(unittest.TestCase):
@@ -320,13 +349,18 @@ class TestCaching(unittest.TestCase):
         return super().setUp()
 
     def test_item_cache_busting(self) -> None:
-        entrance = self.world.get_entrance("Region 1 -> Region 2")
-        self.assertFalse(entrance.can_reach(self.state))  # populates cache
-        self.assertFalse(self.state.rule_cache[1][id(entrance.access_rule)])
+        location = self.world.get_location("Location 4")
+        self.state.collect(self.world.create_item("Item 1"))  # access to region 2
+        self.state.collect(self.world.create_item("Item 2"))  # item directly needed
+        self.assertFalse(location.can_reach(self.state))  # populates cache
+        self.assertFalse(self.state.rule_cache[1][id(location.access_rule)])
 
-        self.state.collect(self.world.create_item("Item 1"))  # clears cache, item directly needed
-        self.assertNotIn(id(entrance.access_rule), self.state.rule_cache[1])
-        self.assertTrue(entrance.can_reach(self.state))
+        self.state.collect(self.world.create_item("Item 3"))  # clears cache, item directly needed
+        self.assertNotIn(id(location.access_rule), self.state.rule_cache[1])
+        self.assertTrue(location.can_reach(self.state))
+        self.assertTrue(self.state.rule_cache[1][id(location.access_rule)])
+        self.state.collect(self.world.create_item("Item 3"))  # does not clear cache as rule is already true
+        self.assertTrue(self.state.rule_cache[1][id(location.access_rule)])
 
     def test_region_cache_busting(self) -> None:
         location = self.world.get_location("Location 2")
@@ -359,6 +393,15 @@ class TestCaching(unittest.TestCase):
         self.state.collect(self.world.create_item("Item 1"))  # clears cache, item only needed for entrance access
         self.assertNotIn(id(location.access_rule), self.state.rule_cache[1])
         self.assertTrue(location.can_reach(self.state))
+
+    def test_has_skips_cache(self) -> None:
+        entrance = self.world.get_entrance("Region 1 -> Region 2")
+        self.assertFalse(entrance.can_reach(self.state))  # does not populates cache
+        self.assertNotIn(id(entrance.access_rule), self.state.rule_cache[1])
+
+        self.state.collect(self.world.create_item("Item 1"))  # no need to clear cache, item directly needed
+        self.assertNotIn(id(entrance.access_rule), self.state.rule_cache[1])
+        self.assertTrue(entrance.can_reach(self.state))
 
 
 class TestCacheDisabled(unittest.TestCase):
@@ -456,19 +499,19 @@ class TestRules(unittest.TestCase):
 
     def test_true(self) -> None:
         rule = True_()
-        resolved_rule = self.world.resolve_rule(rule)
+        resolved_rule = rule.resolve(self.world)
         self.world.register_rule_dependencies(resolved_rule)
         self.assertTrue(resolved_rule(self.state))
 
     def test_false(self) -> None:
         rule = False_()
-        resolved_rule = self.world.resolve_rule(rule)
+        resolved_rule = rule.resolve(self.world)
         self.world.register_rule_dependencies(resolved_rule)
         self.assertFalse(resolved_rule(self.state))
 
     def test_has(self) -> None:
         rule = Has("Item 1")
-        resolved_rule = self.world.resolve_rule(rule)
+        resolved_rule = rule.resolve(self.world)
         self.world.register_rule_dependencies(resolved_rule)
         self.assertFalse(resolved_rule(self.state))
         item = self.world.create_item("Item 1")
@@ -479,7 +522,7 @@ class TestRules(unittest.TestCase):
 
     def test_has_all(self) -> None:
         rule = HasAll("Item 1", "Item 2")
-        resolved_rule = self.world.resolve_rule(rule)
+        resolved_rule = rule.resolve(self.world)
         self.world.register_rule_dependencies(resolved_rule)
         self.assertFalse(resolved_rule(self.state))
         item1 = self.world.create_item("Item 1")
@@ -494,7 +537,7 @@ class TestRules(unittest.TestCase):
     def test_has_any(self) -> None:
         item_names = ("Item 1", "Item 2")
         rule = HasAny(*item_names)
-        resolved_rule = self.world.resolve_rule(rule)
+        resolved_rule = rule.resolve(self.world)
         self.world.register_rule_dependencies(resolved_rule)
         self.assertFalse(resolved_rule(self.state))
 
@@ -507,7 +550,7 @@ class TestRules(unittest.TestCase):
 
     def test_has_all_counts(self) -> None:
         rule = HasAllCounts({"Item 1": 1, "Item 2": 2})
-        resolved_rule = self.world.resolve_rule(rule)
+        resolved_rule = rule.resolve(self.world)
         self.world.register_rule_dependencies(resolved_rule)
         self.assertFalse(resolved_rule(self.state))
         item1 = self.world.create_item("Item 1")
@@ -525,7 +568,7 @@ class TestRules(unittest.TestCase):
     def test_has_any_count(self) -> None:
         item_counts = {"Item 1": 1, "Item 2": 2}
         rule = HasAnyCount(item_counts)
-        resolved_rule = self.world.resolve_rule(rule)
+        resolved_rule = rule.resolve(self.world)
         self.world.register_rule_dependencies(resolved_rule)
 
         for item_name, count in item_counts.items():
@@ -540,7 +583,7 @@ class TestRules(unittest.TestCase):
     def test_has_from_list(self) -> None:
         item_names = ("Item 1", "Item 2", "Item 3")
         rule = HasFromList(*item_names, count=2)
-        resolved_rule = self.world.resolve_rule(rule)
+        resolved_rule = rule.resolve(self.world)
         self.world.register_rule_dependencies(resolved_rule)
         self.assertFalse(resolved_rule(self.state))
 
@@ -561,7 +604,7 @@ class TestRules(unittest.TestCase):
     def test_has_from_list_unique(self) -> None:
         item_names = ("Item 1", "Item 1", "Item 2")
         rule = HasFromListUnique(*item_names, count=2)
-        resolved_rule = self.world.resolve_rule(rule)
+        resolved_rule = rule.resolve(self.world)
         self.world.register_rule_dependencies(resolved_rule)
         self.assertFalse(resolved_rule(self.state))
 
@@ -582,7 +625,7 @@ class TestRules(unittest.TestCase):
 
     def test_has_group(self) -> None:
         rule = HasGroup("Group 1", count=2)
-        resolved_rule = self.world.resolve_rule(rule)
+        resolved_rule = rule.resolve(self.world)
         self.world.register_rule_dependencies(resolved_rule)
 
         items: list[Item] = []
@@ -598,7 +641,7 @@ class TestRules(unittest.TestCase):
 
     def test_has_group_unique(self) -> None:
         rule = HasGroupUnique("Group 1", count=2)
-        resolved_rule = self.world.resolve_rule(rule)
+        resolved_rule = rule.resolve(self.world)
         self.world.register_rule_dependencies(resolved_rule)
 
         items: list[Item] = []
@@ -833,24 +876,24 @@ class TestExplain(unittest.TestCase):
             {"type": "text", "text": "Missing "},
             {"type": "color", "color": "cyan", "text": "4"},
             {"type": "text", "text": "x "},
-            {"type": "item_name", "flags": 1, "color": "salmon", "text": "Item 1", "player": 1},
+            {"type": "color", "color": "salmon", "text": "Item 1"},
             {"type": "text", "text": " | "},
             {"type": "text", "text": "Missing "},
             {"type": "color", "color": "cyan", "text": "some"},
             {"type": "text", "text": " of ("},
             {"type": "text", "text": "Missing: "},
-            {"type": "item_name", "flags": 1, "color": "salmon", "text": "Item 2", "player": 1},
+            {"type": "color", "color": "salmon", "text": "Item 2"},
             {"type": "text", "text": ", "},
-            {"type": "item_name", "flags": 1, "color": "salmon", "text": "Item 3", "player": 1},
+            {"type": "color", "color": "salmon", "text": "Item 3"},
             {"type": "text", "text": ")"},
             {"type": "text", "text": " | "},
             {"type": "text", "text": "Missing "},
             {"type": "color", "color": "cyan", "text": "all"},
             {"type": "text", "text": " of ("},
             {"type": "text", "text": "Missing: "},
-            {"type": "item_name", "flags": 1, "color": "salmon", "text": "Item 4", "player": 1},
+            {"type": "color", "color": "salmon", "text": "Item 4"},
             {"type": "text", "text": ", "},
-            {"type": "item_name", "flags": 1, "color": "salmon", "text": "Item 5", "player": 1},
+            {"type": "color", "color": "salmon", "text": "Item 5"},
             {"type": "text", "text": ")"},
             {"type": "text", "text": ")"},
             {"type": "text", "text": " & "},
@@ -858,10 +901,10 @@ class TestExplain(unittest.TestCase):
             {"type": "color", "color": "cyan", "text": "some"},
             {"type": "text", "text": " of ("},
             {"type": "text", "text": "Missing: "},
-            {"type": "item_name", "flags": 1, "color": "salmon", "text": "Item 6", "player": 1},
+            {"type": "color", "color": "salmon", "text": "Item 6"},
             {"type": "text", "text": " x1"},
             {"type": "text", "text": ", "},
-            {"type": "item_name", "flags": 1, "color": "salmon", "text": "Item 7", "player": 1},
+            {"type": "color", "color": "salmon", "text": "Item 7"},
             {"type": "text", "text": " x5"},
             {"type": "text", "text": ")"},
             {"type": "text", "text": " & "},
@@ -869,10 +912,10 @@ class TestExplain(unittest.TestCase):
             {"type": "color", "color": "cyan", "text": "all"},
             {"type": "text", "text": " of ("},
             {"type": "text", "text": "Missing: "},
-            {"type": "item_name", "flags": 1, "color": "salmon", "text": "Item 8", "player": 1},
+            {"type": "color", "color": "salmon", "text": "Item 8"},
             {"type": "text", "text": " x2"},
             {"type": "text", "text": ", "},
-            {"type": "item_name", "flags": 1, "color": "salmon", "text": "Item 9", "player": 1},
+            {"type": "color", "color": "salmon", "text": "Item 9"},
             {"type": "text", "text": " x3"},
             {"type": "text", "text": ")"},
             {"type": "text", "text": " & "},
@@ -880,20 +923,20 @@ class TestExplain(unittest.TestCase):
             {"type": "color", "color": "salmon", "text": "0/2"},
             {"type": "text", "text": " items from ("},
             {"type": "text", "text": "Missing: "},
-            {"type": "item_name", "flags": 1, "color": "salmon", "text": "Item 10", "player": 1},
+            {"type": "color", "color": "salmon", "text": "Item 10"},
             {"type": "text", "text": ", "},
-            {"type": "item_name", "flags": 1, "color": "salmon", "text": "Item 11", "player": 1},
+            {"type": "color", "color": "salmon", "text": "Item 11"},
             {"type": "text", "text": ", "},
-            {"type": "item_name", "flags": 1, "color": "salmon", "text": "Item 12", "player": 1},
+            {"type": "color", "color": "salmon", "text": "Item 12"},
             {"type": "text", "text": ")"},
             {"type": "text", "text": " & "},
             {"type": "text", "text": "Has "},
             {"type": "color", "color": "salmon", "text": "0/1"},
             {"type": "text", "text": " unique items from ("},
             {"type": "text", "text": "Missing: "},
-            {"type": "item_name", "flags": 1, "color": "salmon", "text": "Item 13", "player": 1},
+            {"type": "color", "color": "salmon", "text": "Item 13"},
             {"type": "text", "text": ", "},
-            {"type": "item_name", "flags": 1, "color": "salmon", "text": "Item 14", "player": 1},
+            {"type": "color", "color": "salmon", "text": "Item 14"},
             {"type": "text", "text": ")"},
             {"type": "text", "text": " & "},
             {"type": "text", "text": "Has "},
@@ -931,24 +974,24 @@ class TestExplain(unittest.TestCase):
             {"type": "text", "text": "Has "},
             {"type": "color", "color": "cyan", "text": "4"},
             {"type": "text", "text": "x "},
-            {"type": "item_name", "flags": 1, "color": "green", "text": "Item 1", "player": 1},
+            {"type": "color", "color": "green", "text": "Item 1"},
             {"type": "text", "text": " | "},
             {"type": "text", "text": "Has "},
             {"type": "color", "color": "cyan", "text": "all"},
             {"type": "text", "text": " of ("},
             {"type": "text", "text": "Found: "},
-            {"type": "item_name", "flags": 1, "color": "green", "text": "Item 2", "player": 1},
+            {"type": "color", "color": "green", "text": "Item 2"},
             {"type": "text", "text": ", "},
-            {"type": "item_name", "flags": 1, "color": "green", "text": "Item 3", "player": 1},
+            {"type": "color", "color": "green", "text": "Item 3"},
             {"type": "text", "text": ")"},
             {"type": "text", "text": " | "},
             {"type": "text", "text": "Has "},
             {"type": "color", "color": "cyan", "text": "some"},
             {"type": "text", "text": " of ("},
             {"type": "text", "text": "Found: "},
-            {"type": "item_name", "flags": 1, "color": "green", "text": "Item 4", "player": 1},
+            {"type": "color", "color": "green", "text": "Item 4"},
             {"type": "text", "text": ", "},
-            {"type": "item_name", "flags": 1, "color": "green", "text": "Item 5", "player": 1},
+            {"type": "color", "color": "green", "text": "Item 5"},
             {"type": "text", "text": ")"},
             {"type": "text", "text": ")"},
             {"type": "text", "text": " & "},
@@ -956,10 +999,10 @@ class TestExplain(unittest.TestCase):
             {"type": "color", "color": "cyan", "text": "all"},
             {"type": "text", "text": " of ("},
             {"type": "text", "text": "Found: "},
-            {"type": "item_name", "flags": 1, "color": "green", "text": "Item 6", "player": 1},
+            {"type": "color", "color": "green", "text": "Item 6"},
             {"type": "text", "text": " x1"},
             {"type": "text", "text": ", "},
-            {"type": "item_name", "flags": 1, "color": "green", "text": "Item 7", "player": 1},
+            {"type": "color", "color": "green", "text": "Item 7"},
             {"type": "text", "text": " x5"},
             {"type": "text", "text": ")"},
             {"type": "text", "text": " & "},
@@ -967,10 +1010,10 @@ class TestExplain(unittest.TestCase):
             {"type": "color", "color": "cyan", "text": "some"},
             {"type": "text", "text": " of ("},
             {"type": "text", "text": "Found: "},
-            {"type": "item_name", "flags": 1, "color": "green", "text": "Item 8", "player": 1},
+            {"type": "color", "color": "green", "text": "Item 8"},
             {"type": "text", "text": " x2"},
             {"type": "text", "text": ", "},
-            {"type": "item_name", "flags": 1, "color": "green", "text": "Item 9", "player": 1},
+            {"type": "color", "color": "green", "text": "Item 9"},
             {"type": "text", "text": " x3"},
             {"type": "text", "text": ")"},
             {"type": "text", "text": " & "},
@@ -978,20 +1021,20 @@ class TestExplain(unittest.TestCase):
             {"type": "color", "color": "green", "text": "30/2"},
             {"type": "text", "text": " items from ("},
             {"type": "text", "text": "Found: "},
-            {"type": "item_name", "flags": 1, "color": "green", "text": "Item 10", "player": 1},
+            {"type": "color", "color": "green", "text": "Item 10"},
             {"type": "text", "text": ", "},
-            {"type": "item_name", "flags": 1, "color": "green", "text": "Item 11", "player": 1},
+            {"type": "color", "color": "green", "text": "Item 11"},
             {"type": "text", "text": ", "},
-            {"type": "item_name", "flags": 1, "color": "green", "text": "Item 12", "player": 1},
+            {"type": "color", "color": "green", "text": "Item 12"},
             {"type": "text", "text": ")"},
             {"type": "text", "text": " & "},
             {"type": "text", "text": "Has "},
             {"type": "color", "color": "green", "text": "2/1"},
             {"type": "text", "text": " unique items from ("},
             {"type": "text", "text": "Found: "},
-            {"type": "item_name", "flags": 1, "color": "green", "text": "Item 13", "player": 1},
+            {"type": "color", "color": "green", "text": "Item 13"},
             {"type": "text", "text": ", "},
-            {"type": "item_name", "flags": 1, "color": "green", "text": "Item 14", "player": 1},
+            {"type": "color", "color": "green", "text": "Item 14"},
             {"type": "text", "text": ")"},
             {"type": "text", "text": " & "},
             {"type": "text", "text": "Has "},

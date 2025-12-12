@@ -8,10 +8,10 @@ import secrets
 import warnings
 from argparse import Namespace
 from collections import Counter, deque, defaultdict
-from collections.abc import Collection, MutableSequence
+from collections.abc import Callable, Collection, Iterable, Iterator, Mapping, MutableSequence, Set
 from enum import IntEnum, IntFlag
-from typing import (AbstractSet, Any, Callable, ClassVar, Dict, Iterable, Iterator, List, Literal, Mapping, NamedTuple,
-                    Optional, Protocol, Set, Tuple, Union, TYPE_CHECKING, Literal, overload)
+from typing import (AbstractSet, Any, ClassVar, Dict, List, Literal, NamedTuple,
+                    Optional, Protocol, Tuple, Union, TYPE_CHECKING, overload)
 import dataclasses
 
 from typing_extensions import NotRequired, TypedDict
@@ -85,7 +85,7 @@ class MultiWorld():
     local_items: Dict[int, Options.LocalItems]
     non_local_items: Dict[int, Options.NonLocalItems]
     progression_balancing: Dict[int, Options.ProgressionBalancing]
-    completion_condition: Dict[int, Callable[[CollectionState], bool]]
+    completion_condition: Dict[int, AccessRule]
     indirect_connections: Dict[Region, Set[Entrance]]
     exclude_locations: Dict[int, Options.ExcludeLocations]
     priority_locations: Dict[int, Options.PriorityLocations]
@@ -261,6 +261,7 @@ class MultiWorld():
                         "local_items": set(item_link.get("local_items", [])),
                         "non_local_items": set(item_link.get("non_local_items", [])),
                         "link_replacement": replacement_prio.index(item_link["link_replacement"]),
+                        "skip_if_solo": item_link.get("skip_if_solo", False),
                     }
 
         for _name, item_link in item_links.items():
@@ -284,6 +285,8 @@ class MultiWorld():
 
         for group_name, item_link in item_links.items():
             game = item_link["game"]
+            if item_link["skip_if_solo"] and len(item_link["players"]) == 1:
+                continue
             group_id, group = self.add_group(group_name, game, set(item_link["players"]))
 
             group["item_pool"] = item_link["item_pool"]
@@ -1172,13 +1175,17 @@ class CollectionState():
             self.prog_items[player][item] = count
 
 
+AccessRule = Callable[[CollectionState], bool]
+DEFAULT_ACCESS_RULE: AccessRule = staticmethod(lambda state: True)
+
+
 class EntranceType(IntEnum):
     ONE_WAY = 1
     TWO_WAY = 2
 
 
 class Entrance:
-    access_rule: Callable[[CollectionState], bool] = staticmethod(lambda state: True)
+    access_rule: AccessRule = DEFAULT_ACCESS_RULE
     hide_path: bool = False
     player: int
     name: str
@@ -1349,8 +1356,7 @@ class Region:
         for entrance in self.entrances:  # BFS might be better here, trying DFS for now.
             return entrance.parent_region.get_connecting_entrance(is_main_entrance)
 
-    def add_locations(self, locations: Dict[str, Optional[int]],
-                      location_type: Optional[type[Location]] = None) -> None:
+    def add_locations(self, locations: Mapping[str, int | None], location_type: type[Location] | None = None) -> None:
         """
         Adds locations to the Region object, where location_type is your Location class and locations is a dict of
         location names to address.
@@ -1366,7 +1372,7 @@ class Region:
         self,
         location_name: str,
         item_name: str | None = None,
-        rule: Callable[[CollectionState], bool] | None = None,
+        rule: AccessRule | None = None,
         location_type: type[Location] | None = None,
         item_type: type[Item] | None = None,
         show_in_spoiler: bool = True,
@@ -1405,7 +1411,7 @@ class Region:
         return event_item
 
     def connect(self, connecting_region: Region, name: Optional[str] = None,
-                rule: Optional[Callable[[CollectionState], bool]] = None) -> Entrance:
+                rule: Optional[AccessRule] = None) -> Entrance:
         """
         Connects this Region to another Region, placing the provided rule on the connection.
 
@@ -1438,8 +1444,8 @@ class Region:
         entrance.connect(self)
         return entrance
 
-    def add_exits(self, exits: Union[Iterable[str], Dict[str, Optional[str]]],
-                  rules: Dict[str, Callable[[CollectionState], bool]] = None) -> List[Entrance]:
+    def add_exits(self, exits: Iterable[str] | Mapping[str, str | None],
+                  rules: Mapping[str, AccessRule] | None = None) -> List[Entrance]:
         """
         Connects current region to regions in exit dictionary. Passed region names must exist first.
 
@@ -1447,7 +1453,7 @@ class Region:
                       created entrances will be named "self.name -> connecting_region"
         :param rules: rules for the exits from this region. format is {"connecting_region": rule}
         """
-        if not isinstance(exits, Dict):
+        if not isinstance(exits, Mapping):
             exits = dict.fromkeys(exits)
         return [
             self.connect(
@@ -1478,7 +1484,7 @@ class Location:
     show_in_spoiler: bool = True
     progress_type: LocationProgressType = LocationProgressType.DEFAULT
     always_allow: Callable[[CollectionState, Item], bool] = staticmethod(lambda state, item: False)
-    access_rule: Callable[[CollectionState], bool] = staticmethod(lambda state: True)
+    access_rule: AccessRule = DEFAULT_ACCESS_RULE
     item_rule: Callable[[Item], bool] = staticmethod(lambda item: True)
     item: Optional[Item] = None
 
@@ -1555,7 +1561,7 @@ class ItemClassification(IntFlag):
     skip_balancing = 0b01000
     """ should technically never occur on its own
     Item that is logically relevant, but progression balancing should not touch.
-    
+
     Possible reasons for why an item should not be pulled ahead by progression balancing:
     1. This item is quite insignificant, so pulling it earlier doesn't help (currency/etc.)
     2. It is important for the player experience that this item is evenly distributed in the seed (e.g. goal items) """
@@ -1563,13 +1569,13 @@ class ItemClassification(IntFlag):
     deprioritized = 0b10000
     """ Should technically never occur on its own.
     Will not be considered for priority locations,
-    unless Priority Locations Fill runs out of regular progression items before filling all priority locations. 
-    
+    unless Priority Locations Fill runs out of regular progression items before filling all priority locations.
+
     Should be used for items that would feel bad for the player to find on a priority location.
     Usually, these are items that are plentiful or insignificant. """
 
     progression_deprioritized_skip_balancing = 0b11001
-    """ Since a common case of both skip_balancing and deprioritized is "insignificant progression", 
+    """ Since a common case of both skip_balancing and deprioritized is "insignificant progression",
     these items often want both flags. """
 
     progression_skip_balancing = 0b01001  # only progression gets balanced
@@ -1725,9 +1731,10 @@ class Spoiler:
                 logging.debug('The following items could not be reached: %s', ['%s (Player %d) at %s (Player %d)' % (
                     location.item.name, location.item.player, location.name, location.player) for location in
                                                                                sphere_candidates])
-                if any([multiworld.worlds[location.item.player].options.accessibility != 'minimal' for location in sphere_candidates]):
-                    raise RuntimeError(f'Not all progression items reachable ({sphere_candidates}). '
-                                       f'Something went terribly wrong here.')
+                if not multiworld.has_beaten_game(state):
+                    raise RuntimeError("During playthrough generation, the game was determined to be unbeatable. "
+                                       "Something went terribly wrong here. "
+                                       f"Unreachable progression items: {sphere_candidates}")
                 else:
                     self.unreachables = sphere_candidates
                     break
@@ -1861,6 +1868,9 @@ class Spoiler:
                     Utils.__version__, self.multiworld.seed))
             outfile.write('Filling Algorithm:               %s\n' % self.multiworld.algorithm)
             outfile.write('Players:                         %d\n' % self.multiworld.players)
+            if self.multiworld.players > 1:
+                loc_count = len([loc for loc in self.multiworld.get_locations() if not loc.is_event])
+                outfile.write('Total Location Count:            %d\n' % loc_count)
             outfile.write(f'Plando Options:                  {self.multiworld.plando_options}\n')
             AutoWorld.call_stage(self.multiworld, "write_spoiler_header", outfile)
 
@@ -1868,6 +1878,9 @@ class Spoiler:
                 if self.multiworld.players > 1:
                     outfile.write('\nPlayer %d: %s\n' % (player, self.multiworld.get_player_name(player)))
                 outfile.write('Game:                            %s\n' % self.multiworld.game[player])
+
+                loc_count = len([loc for loc in self.multiworld.get_locations(player) if not loc.is_event])
+                outfile.write('Location Count:                  %d\n' % loc_count)
 
                 for f_option, option in self.multiworld.worlds[player].options_dataclass.type_hints.items():
                     write_option(f_option, option)
