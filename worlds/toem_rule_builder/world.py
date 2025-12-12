@@ -1,9 +1,8 @@
-from typing import TYPE_CHECKING, Any, ClassVar
+from typing import TYPE_CHECKING, Any
 
 from typing_extensions import override
 
 from BaseClasses import Item, ItemClassification, Region, Tutorial
-from rule_builder import RuleWorldMixin
 from worlds.AutoWorld import WebWorld, World
 
 from .constants import GAME_NAME, Area
@@ -20,12 +19,12 @@ from .regions import RegionName, toem_regions
 from .rules import EventName, set_entrance_rules, set_location_rules, set_victory_rule
 
 if TYPE_CHECKING:
-    from Options import PerGameCommonOptions
+    pass
 
 
 class ToemWebWorld(WebWorld):
-    theme: ClassVar[str] = "grassFlowers"
-    tutorials: list[Tutorial] = [  # noqa: RUF012
+    theme = "grassFlowers"
+    tutorials = [  # noqa: RUF012
         Tutorial(
             tutorial_name="Setup Guide",
             description="A guide to setting up the TOEM randomizer.",
@@ -37,22 +36,21 @@ class ToemWebWorld(WebWorld):
     ]
 
 
-class ToemWorld(RuleWorldMixin, World):  # pyright: ignore[reportUnsafeMultipleInheritance]
-    game: ClassVar[str] = GAME_NAME
-    web: ClassVar[WebWorld] = ToemWebWorld()
-    options_dataclass: ClassVar[type["PerGameCommonOptions"]] = ToemOptions
+class ToemWorld(World):
+    game = GAME_NAME
+    web = ToemWebWorld()
+    options_dataclass = ToemOptions
     options: ToemOptions  # pyright: ignore[reportIncompatibleVariableOverride]
-    item_name_groups: ClassVar[dict[str, set[str]]] = item_name_groups
-    location_name_groups: ClassVar[dict[str, set[str]]] = location_name_groups
-    item_name_to_id: ClassVar[dict[str, int]] = item_name_to_id
-    location_name_to_id: ClassVar[dict[str, int]] = location_name_to_id
-    origin_region_name: str = RegionName.HOMELANDA
-    rule_caching_enabled: ClassVar[bool] = False
+    item_name_groups = item_name_groups
+    location_name_groups = location_name_groups
+    item_name_to_id = item_name_to_id
+    location_name_to_id = location_name_to_id
+    origin_region_name = RegionName.HOMELANDA
 
     def create_location(self, name: str) -> ToemLocation | None:
         data = location_table[name]
         if not self.options.include_basto and data.area == Area.BASTO:
-            return
+            return None
 
         region = self.get_region(data.region)
         location = ToemLocation(self.player, name, location_name_to_id[name], region)
@@ -147,7 +145,6 @@ class ToemWorld(RuleWorldMixin, World):  # pyright: ignore[reportUnsafeMultipleI
         set_entrance_rules(self)
         set_location_rules(self)
         set_victory_rule(self)
-        self.register_dependencies()
 
     @override
     def fill_slot_data(self) -> dict[str, Any]:
