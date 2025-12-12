@@ -165,6 +165,22 @@ network_data_package["games"][RuleBuilderWorld.game] = RuleBuilderWorld.get_data
             Or(Has("A"), False_()),
             Has.Resolved("A", player=1),
         ),
+        (
+            And(Has("A"), HasAll("B", "C"), HasAllCounts({"D": 2, "E": 3})),
+            HasAllCounts.Resolved((("A", 1), ("B", 1), ("C", 1), ("D", 2), ("E", 3)), player=1),
+        ),
+        (
+            And(Has("A"), HasAll("B", "C"), HasAllCounts({"D": 1, "E": 1})),
+            HasAll.Resolved(("A", "B", "C", "D", "E"), player=1),
+        ),
+        (
+            Or(Has("A"), HasAny("B", "C"), HasAnyCount({"D": 2, "E": 3})),
+            HasAnyCount.Resolved((("A", 1), ("B", 1), ("C", 1), ("D", 2), ("E", 3)), player=1),
+        ),
+        (
+            Or(Has("A"), HasAny("B", "C"), HasAnyCount({"D": 1, "E": 1})),
+            HasAny.Resolved(("A", "B", "C", "D", "E"), player=1),
+        ),
     )
 )
 class TestSimplify(unittest.TestCase):
@@ -175,7 +191,7 @@ class TestSimplify(unittest.TestCase):
         world = multiworld.worlds[1]
         assert isinstance(world, RuleBuilderWorld)
         rule, expected = self.rules
-        resolved_rule = world.resolve_rule(rule)
+        resolved_rule = rule.resolve(world)
         self.assertEqual(resolved_rule, expected, f"\n{resolved_rule}\n{expected}")
 
 
@@ -195,22 +211,22 @@ class TestOptions(unittest.TestCase):
         rule = Or(Has("A", options=[OptionFilter(ToggleOption, 0)]), Has("B", options=[OptionFilter(ToggleOption, 1)]))
 
         self.world.options.toggle_option.value = 0
-        self.assertEqual(self.world.resolve_rule(rule), Has.Resolved("A", player=1))
+        self.assertEqual(rule.resolve(self.world), Has.Resolved("A", player=1))
 
         self.world.options.toggle_option.value = 1
-        self.assertEqual(self.world.resolve_rule(rule), Has.Resolved("B", player=1))
+        self.assertEqual(rule.resolve(self.world), Has.Resolved("B", player=1))
 
     def test_gt_filtering(self) -> None:
         rule = Or(Has("A", options=[OptionFilter(ChoiceOption, 1, operator="gt")]), False_())
 
         self.world.options.choice_option.value = 0
-        self.assertEqual(self.world.resolve_rule(rule), False_.Resolved(player=1))
+        self.assertEqual(rule.resolve(self.world), False_.Resolved(player=1))
 
         self.world.options.choice_option.value = 1
-        self.assertEqual(self.world.resolve_rule(rule), False_.Resolved(player=1))
+        self.assertEqual(rule.resolve(self.world), False_.Resolved(player=1))
 
         self.world.options.choice_option.value = 2
-        self.assertEqual(self.world.resolve_rule(rule), Has.Resolved("A", player=1))
+        self.assertEqual(rule.resolve(self.world), Has.Resolved("A", player=1))
 
 
 @classvar_matrix(
@@ -292,7 +308,7 @@ class TestHashes(unittest.TestCase):
 
         rule1 = HasAll("1", "2")
         rule2 = HasAll("2", "2", "2", "1")
-        self.assertEqual(hash(world.resolve_rule(rule1)), hash(world.resolve_rule(rule2)))
+        self.assertEqual(hash(rule1.resolve(world)), hash(rule2.resolve(world)))
 
 
 class TestCaching(unittest.TestCase):
@@ -483,19 +499,19 @@ class TestRules(unittest.TestCase):
 
     def test_true(self) -> None:
         rule = True_()
-        resolved_rule = self.world.resolve_rule(rule)
+        resolved_rule = rule.resolve(self.world)
         self.world.register_rule_dependencies(resolved_rule)
         self.assertTrue(resolved_rule(self.state))
 
     def test_false(self) -> None:
         rule = False_()
-        resolved_rule = self.world.resolve_rule(rule)
+        resolved_rule = rule.resolve(self.world)
         self.world.register_rule_dependencies(resolved_rule)
         self.assertFalse(resolved_rule(self.state))
 
     def test_has(self) -> None:
         rule = Has("Item 1")
-        resolved_rule = self.world.resolve_rule(rule)
+        resolved_rule = rule.resolve(self.world)
         self.world.register_rule_dependencies(resolved_rule)
         self.assertFalse(resolved_rule(self.state))
         item = self.world.create_item("Item 1")
@@ -506,7 +522,7 @@ class TestRules(unittest.TestCase):
 
     def test_has_all(self) -> None:
         rule = HasAll("Item 1", "Item 2")
-        resolved_rule = self.world.resolve_rule(rule)
+        resolved_rule = rule.resolve(self.world)
         self.world.register_rule_dependencies(resolved_rule)
         self.assertFalse(resolved_rule(self.state))
         item1 = self.world.create_item("Item 1")
@@ -521,7 +537,7 @@ class TestRules(unittest.TestCase):
     def test_has_any(self) -> None:
         item_names = ("Item 1", "Item 2")
         rule = HasAny(*item_names)
-        resolved_rule = self.world.resolve_rule(rule)
+        resolved_rule = rule.resolve(self.world)
         self.world.register_rule_dependencies(resolved_rule)
         self.assertFalse(resolved_rule(self.state))
 
@@ -534,7 +550,7 @@ class TestRules(unittest.TestCase):
 
     def test_has_all_counts(self) -> None:
         rule = HasAllCounts({"Item 1": 1, "Item 2": 2})
-        resolved_rule = self.world.resolve_rule(rule)
+        resolved_rule = rule.resolve(self.world)
         self.world.register_rule_dependencies(resolved_rule)
         self.assertFalse(resolved_rule(self.state))
         item1 = self.world.create_item("Item 1")
@@ -552,7 +568,7 @@ class TestRules(unittest.TestCase):
     def test_has_any_count(self) -> None:
         item_counts = {"Item 1": 1, "Item 2": 2}
         rule = HasAnyCount(item_counts)
-        resolved_rule = self.world.resolve_rule(rule)
+        resolved_rule = rule.resolve(self.world)
         self.world.register_rule_dependencies(resolved_rule)
 
         for item_name, count in item_counts.items():
@@ -567,7 +583,7 @@ class TestRules(unittest.TestCase):
     def test_has_from_list(self) -> None:
         item_names = ("Item 1", "Item 2", "Item 3")
         rule = HasFromList(*item_names, count=2)
-        resolved_rule = self.world.resolve_rule(rule)
+        resolved_rule = rule.resolve(self.world)
         self.world.register_rule_dependencies(resolved_rule)
         self.assertFalse(resolved_rule(self.state))
 
@@ -588,7 +604,7 @@ class TestRules(unittest.TestCase):
     def test_has_from_list_unique(self) -> None:
         item_names = ("Item 1", "Item 1", "Item 2")
         rule = HasFromListUnique(*item_names, count=2)
-        resolved_rule = self.world.resolve_rule(rule)
+        resolved_rule = rule.resolve(self.world)
         self.world.register_rule_dependencies(resolved_rule)
         self.assertFalse(resolved_rule(self.state))
 
@@ -609,7 +625,7 @@ class TestRules(unittest.TestCase):
 
     def test_has_group(self) -> None:
         rule = HasGroup("Group 1", count=2)
-        resolved_rule = self.world.resolve_rule(rule)
+        resolved_rule = rule.resolve(self.world)
         self.world.register_rule_dependencies(resolved_rule)
 
         items: list[Item] = []
@@ -625,7 +641,7 @@ class TestRules(unittest.TestCase):
 
     def test_has_group_unique(self) -> None:
         rule = HasGroupUnique("Group 1", count=2)
-        resolved_rule = self.world.resolve_rule(rule)
+        resolved_rule = rule.resolve(self.world)
         self.world.register_rule_dependencies(resolved_rule)
 
         items: list[Item] = []

@@ -2,10 +2,19 @@
 
 This document describes the API provided for the rule builder. Using this API prvoides you with with a simple interface to define rules and the following advantages:
 
-- Automatic result caching
+- Rule classes that avoid all the common pitfalls
 - Logic optimization
+- Automatic result caching (opt-in)
 - Serialize/deserialize to JSON
-- Human-readable logic explanations
+- Human-readable logic explanations for players
+
+## Overview
+
+The rule builder consists of 3 main parts:
+
+1. The rules, which are classes that inherit from `rule_builder.Rule`. These are what you write for your laogic. They can be combined and take into account your world's options. There are a number of default rules listed blow, and you can create as many custom rules for your world as needed. When assigning the rules to a location or entrance they must be resolved.
+1. Resolved rules, which are classes that inherit from `rule_builder.Rule.Resolved`. These are the optimized rules specific to one player that are set as a location or entrance's access rule. You generally shouldn't be directly creating these but they'll be created when assigning rules to locations or entrances.
+1. The rule builder world mixin class `RuleWorldMixin`, which is a class your world should inherit. It adds a number of helper functions related to assigning and resolving rules.
 
 ## Usage
 
@@ -102,13 +111,23 @@ rule = (
 )
 ```
 
-If you would like to provide option filters when composing rules, you can use the `And` and `Or` rules directly:
+If you would like to provide option filters when reusing or composing rules, you can use the `Filtered` helper rule:
 
 ```python
-rule = Or(
-    And(Has("A"), HasAny("B", "C"), options=[OptionFilter(Opt, 0)]),
-    Or(Has("X"), CanReachRegion("Y"), options=[OptionFilter(Opt, 1)]),
+common_rule = Has("A") | HasAny("B", "C")
+...
+rule = (
+    Filtered(common_rule, options=[OptionFilter(Opt, 0)]),
+    | Filtered(Has("X") | CanReachRegion("Y"), options=[OptionFilter(Opt, 1)]),
 )
+```
+
+You can also use the "shovel" operator `<<` as shorthand:
+
+```python
+common_rule = Has("A")
+easy_filter = [OptionFilter(Difficulty, Difficulty.option_easy)]
+common_rule_only_on_easy = common_rule << easy_filter
 ```
 
 ### Disabling caching
@@ -404,8 +423,6 @@ These are properties and helpers that are available to you in your world.
 #### Properties
 
 - `completion_rule: Rule.Resolved | None`: The resolved rule used for the completion condition of this world as set by `set_completion_rule`
-- `true_rule: Rule.Resolved`: A pre-resolved rule for this player that is equal to `True_()`
-- `false_rule: Rule.Resolved`: A pre-resolved rule for this player that is equal to `False_()`
 - `item_mapping: dict[str, str]`: A mapping of actual item name to logical item name
 - `rule_caching_enabled: bool`: A boolean value to enable or disable rule caching for this world
 
