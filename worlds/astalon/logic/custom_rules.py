@@ -220,7 +220,7 @@ class HasGoal(rule_builder.Rule[AstalonWorldBase], game=GAME_NAME):
     @override
     def _instantiate(self, world: AstalonWorldBase) -> rule_builder.Rule.Resolved:
         if world.options.goal.value != Goal.option_eye_hunt:
-            return world.true_rule
+            return rule_builder.True_().resolve(world)
         return Has.Resolved(
             Eye.GOLD.value,
             count=world.options.additional_eyes_required.value,
@@ -241,7 +241,7 @@ class HardLogic(rule_builder.WrapperRule[AstalonWorldBase], game=GAME_NAME):
                 player=world.player,
                 caching_enabled=world.rule_caching_enabled,
             )
-        return world.false_rule
+        return rule_builder.False_().resolve(world)
 
     class Resolved(rule_builder.WrapperRule.Resolved):
         @override

@@ -1,3 +1,5 @@
+from typing import override
+
 from rule_builder import And, OptionFilter, Or, True_
 
 from ..items import BlueDoor, Crystal
@@ -11,6 +13,7 @@ class RuleHashTest(AstalonTestBase):
     auto_construct = False
 
     @property
+    @override
     def run_default_tests(self) -> bool:
         return False
 
@@ -45,6 +48,7 @@ class RuleResolutionTest(AstalonTestBase):
     }
 
     @property
+    @override
     def run_default_tests(self) -> bool:
         return False
 
@@ -65,13 +69,13 @@ class RuleResolutionTest(AstalonTestBase):
         expected = Or.Resolved(
             (
                 HasAll.Resolved(
-                    ("Bram", "Morning Star", "Blue Door (Gorgon Tomb - Ring of the Ancients)"),
+                    ("Blue Door (Gorgon Tomb - Ring of the Ancients)", "Bram", "Morning Star"),
                     player=self.player,
                 ),
-                HasAll.Resolved(("Zeek", "Magic Block"), player=self.player),
+                HasAll.Resolved(("Magic Block", "Zeek"), player=self.player),
                 Has.Resolved("Crystal (Gorgon Tomb - RotA)", player=self.player),
             ),
             player=self.player,
         )
-        instance = self.world.resolve_rule(rule)
+        instance = rule.resolve(self.world)
         self.assertEqual(instance, expected, f"\n{instance}\n{expected}")
