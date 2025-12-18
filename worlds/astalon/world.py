@@ -284,10 +284,6 @@ class AstalonWorld(UTMxin, World):
 
     @override
     def create_items(self) -> None:
-        if self.is_ut:
-            # itempool can be skipped in UT, want to avoid the OptionError
-            return
-
         itempool: list[Item] = []
         filler_items: list[Item] = []
 
@@ -370,6 +366,11 @@ class AstalonWorld(UTMxin, World):
             total_eyes = self.options.additional_eyes_required.value + self.extra_gold_eyes
             itempool.extend(self.create_item(Eye.GOLD.value) for _ in range(0, total_eyes))
 
+        if self.is_ut:
+            # filler can be skipped in UT, want to avoid the OptionError
+            self.multiworld.itempool += itempool
+            return
+
         total_locations = len(self.multiworld.get_unfilled_locations(self.player))
 
         while len(itempool) + len(filler_items) < total_locations:
@@ -381,7 +382,7 @@ class AstalonWorld(UTMxin, World):
             if remove_count > len(filler_items):
                 raise OptionError(
                     f"Astalon player {self.player_name} failed: No space for eye hunt. "
-                    + "Lower your eye hunt goal or enable candle randomizer."
+                    "Lower your eye hunt goal or enable candle randomizer."
                 )
 
             if remove_count == len(filler_items):
