@@ -6,6 +6,7 @@ from worlds.LauncherComponents import (
     launch_subprocess,  # pyright: ignore[reportUnknownVariableType]
 )
 
+from . import launcher as launcher
 from .world import AstalonWorld
 
 

@@ -42,6 +42,7 @@ from .locations import (
 from .logic import MAIN_ENTRANCE_RULES, MAIN_LOCATION_RULES
 from .options import ApexElevator, AstalonOptions, Goal, RandomizeCharacters
 from .regions import RegionName, astalon_regions
+from .settings import AstalonSettings
 from .tracker import UTMxin
 from .web_world import AstalonWebWorld
 
@@ -97,6 +98,7 @@ class AstalonWorld(UTMxin, World):
     web = AstalonWebWorld()
     options_dataclass = AstalonOptions
     options: AstalonOptions  # pyright: ignore[reportIncompatibleVariableOverride]
+    settings: ClassVar[AstalonSettings]  # pyright: ignore[reportIncompatibleVariableOverride]
     item_name_groups = item_name_groups
     location_name_groups = location_name_groups
     item_name_to_id = item_name_to_id
