@@ -12,11 +12,11 @@ from typing import (Any, ClassVar, Dict, FrozenSet, List, Optional, Self, Set, T
 
 from Options import item_and_loc_options, ItemsAccessibility, OptionGroup, PerGameCommonOptions
 from BaseClasses import CollectionState, Entrance
-from rule_builder import CustomRuleRegister, Rule
+from rule_builder.rules import CustomRuleRegister, Rule
 from Utils import Version
 
 if TYPE_CHECKING:
-    from BaseClasses import AccessRule, MultiWorld, Item, Location, Tutorial, Region
+    from BaseClasses import CollectionRule, Item, Location, MultiWorld, Region, Tutorial
     from NetUtils import GamesPackage, MultiData
     from settings import Group
 
@@ -349,9 +349,6 @@ class World(metaclass=AutoWorldRegister):
     world_version: ClassVar[Version] = Version(0, 0, 0)
     """Optional world version loaded from archipelago.json"""
 
-    rule_caching_enabled: ClassVar[bool] = False
-    """Enable or disable the rule result caching system"""
-
     def __init__(self, multiworld: "MultiWorld", player: int):
         assert multiworld is not None
         self.multiworld = multiworld
@@ -610,7 +607,7 @@ class World(metaclass=AutoWorldRegister):
         rule_class = cls.get_rule_cls(name)
         return rule_class.from_dict(data, cls)
 
-    def set_rule(self, spot: Location | Entrance, rule: AccessRule | Rule[Any]) -> None:
+    def set_rule(self, spot: Location | Entrance, rule: CollectionRule | Rule[Any]) -> None:
         """Sets an access rule for a location or entrance"""
         if isinstance(rule, Rule):
             rule = rule.resolve(self)
@@ -619,7 +616,7 @@ class World(metaclass=AutoWorldRegister):
                 self._register_rule_indirects(rule, spot)
         spot.access_rule = rule
 
-    def set_completion_rule(self, rule: AccessRule | Rule[Any]) -> None:
+    def set_completion_rule(self, rule: CollectionRule | Rule[Any]) -> None:
         """Set the completion rule for this world"""
         if isinstance(rule, Rule):
             rule = rule.resolve(self)
@@ -630,7 +627,7 @@ class World(metaclass=AutoWorldRegister):
         self,
         from_region: Region,
         to_region: Region,
-        rule: AccessRule | Rule[Any] | None = None,
+        rule: CollectionRule | Rule[Any] | None = None,
         name: str | None = None,
         force_creation: bool = False,
     ) -> Entrance | None:
