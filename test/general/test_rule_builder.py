@@ -7,7 +7,9 @@ from typing_extensions import override
 from BaseClasses import CollectionState, Item, ItemClassification, Location, MultiWorld, Region
 from NetUtils import JSONMessagePart
 from Options import Choice, PerGameCommonOptions, Toggle
-from rule_builder import (
+from rule_builder.cached_world import CachedRuleBuilderWorld
+from rule_builder.options import OptionFilter
+from rule_builder.rules import (
     And,
     CanReachEntrance,
     CanReachLocation,
@@ -23,10 +25,8 @@ from rule_builder import (
     HasFromListUnique,
     HasGroup,
     HasGroupUnique,
-    OptionFilter,
     Or,
     Rule,
-    RuleWorldMixin,
     True_,
 )
 from test.general import setup_solo_multiworld
@@ -52,24 +52,25 @@ class RuleBuilderOptions(PerGameCommonOptions):
     choice_option: ChoiceOption
 
 
-GAME = "Rule Builder Test Game"
+GAME_NAME = "Rule Builder Test Game"
+GAME_NAME_CACHED = "Rule Builder Cached Test Game"
 LOC_COUNT = 20
-
-
-class RuleBuilderItem(Item):
-    game = GAME
-
-
-class RuleBuilderLocation(Location):
-    game = GAME
 
 
 class RuleBuilderWebWorld(WebWorld):
     tutorials = []  # noqa: RUF012
 
 
-class RuleBuilderWorld(RuleWorldMixin, World):  # pyright: ignore[reportUnsafeMultipleInheritance]
-    game = GAME
+class RuleBuilderItem(Item):
+    game = GAME_NAME
+
+
+class RuleBuilderLocation(Location):
+    game = GAME_NAME
+
+
+class RuleBuilderWorld(World):
+    game = GAME_NAME
     web = RuleBuilderWebWorld()
     item_name_to_id: ClassVar[dict[str, int]] = {f"Item {i}": i for i in range(1, LOC_COUNT + 1)}
     location_name_to_id: ClassVar[dict[str, int]] = {f"Location {i}": i for i in range(1, LOC_COUNT + 1)}
@@ -83,7 +84,7 @@ class RuleBuilderWorld(RuleWorldMixin, World):  # pyright: ignore[reportUnsafeMu
     origin_region_name = "Region 1"
 
     @override
-    def create_item(self, name: str) -> "RuleBuilderItem":
+    def create_item(self, name: str) -> RuleBuilderItem:
         classification = ItemClassification.filler if name == "Filler" else ItemClassification.progression
         return RuleBuilderItem(name, classification, self.item_name_to_id[name], self.player)
 
@@ -92,7 +93,40 @@ class RuleBuilderWorld(RuleWorldMixin, World):  # pyright: ignore[reportUnsafeMu
         return "Filler"
 
 
+class RuleBuilderCachedItem(Item):
+    game = GAME_NAME_CACHED
+
+
+class RuleBuilderCachedLocation(Location):
+    game = GAME_NAME_CACHED
+
+
+class RuleBuilderCachedWorld(CachedRuleBuilderWorld):
+    game = GAME_NAME_CACHED
+    web = RuleBuilderWebWorld()
+    item_name_to_id: ClassVar[dict[str, int]] = {f"Item {i}": i for i in range(1, LOC_COUNT + 1)}
+    location_name_to_id: ClassVar[dict[str, int]] = {f"Location {i}": i for i in range(1, LOC_COUNT + 1)}
+    item_name_groups: ClassVar[dict[str, set[str]]] = {
+        "Group 1": {"Item 1", "Item 2", "Item 3"},
+        "Group 2": {"Item 4", "Item 5"},
+    }
+    hidden = True
+    options_dataclass = RuleBuilderOptions
+    options: RuleBuilderOptions  # pyright: ignore[reportIncompatibleVariableOverride]
+    origin_region_name = "Region 1"
+
+    @override
+    def create_item(self, name: str) -> RuleBuilderCachedItem:
+        classification = ItemClassification.filler if name == "Filler" else ItemClassification.progression
+        return RuleBuilderCachedItem(name, classification, self.item_name_to_id[name], self.player)
+
+    @override
+    def get_filler_item_name(self) -> str:
+        return "Filler"
+
+
 network_data_package["games"][RuleBuilderWorld.game] = RuleBuilderWorld.get_data_package_data()
+network_data_package["games"][RuleBuilderCachedWorld.game] = RuleBuilderCachedWorld.get_data_package_data()
 
 
 @classvar_matrix(
@@ -165,17 +199,33 @@ network_data_package["games"][RuleBuilderWorld.game] = RuleBuilderWorld.get_data
             Or(Has("A"), False_()),
             Has.Resolved("A", player=1),
         ),
+        (
+            And(Has("A"), HasAll("B", "C"), HasAllCounts({"D": 2, "E": 3})),
+            HasAllCounts.Resolved((("A", 1), ("B", 1), ("C", 1), ("D", 2), ("E", 3)), player=1),
+        ),
+        (
+            And(Has("A"), HasAll("B", "C"), HasAllCounts({"D": 1, "E": 1})),
+            HasAll.Resolved(("A", "B", "C", "D", "E"), player=1),
+        ),
+        (
+            Or(Has("A"), HasAny("B", "C"), HasAnyCount({"D": 2, "E": 3})),
+            HasAnyCount.Resolved((("A", 1), ("B", 1), ("C", 1), ("D", 2), ("E", 3)), player=1),
+        ),
+        (
+            Or(Has("A"), HasAny("B", "C"), HasAnyCount({"D": 1, "E": 1})),
+            HasAny.Resolved(("A", "B", "C", "D", "E"), player=1),
+        ),
     )
 )
 class TestSimplify(unittest.TestCase):
-    rules: ClassVar[tuple[Rule[RuleBuilderWorld], Rule.Resolved]]
+    rules: ClassVar[tuple[Rule[Any], Rule.Resolved]]
 
     def test_simplify(self) -> None:
         multiworld = setup_solo_multiworld(RuleBuilderWorld, steps=("generate_early",), seed=0)
         world = multiworld.worlds[1]
         assert isinstance(world, RuleBuilderWorld)
         rule, expected = self.rules
-        resolved_rule = world.resolve_rule(rule)
+        resolved_rule = rule.resolve(world)
         self.assertEqual(resolved_rule, expected, f"\n{resolved_rule}\n{expected}")
 
 
@@ -195,22 +245,22 @@ class TestOptions(unittest.TestCase):
         rule = Or(Has("A", options=[OptionFilter(ToggleOption, 0)]), Has("B", options=[OptionFilter(ToggleOption, 1)]))
 
         self.world.options.toggle_option.value = 0
-        self.assertEqual(self.world.resolve_rule(rule), Has.Resolved("A", player=1))
+        self.assertEqual(rule.resolve(self.world), Has.Resolved("A", player=1))
 
         self.world.options.toggle_option.value = 1
-        self.assertEqual(self.world.resolve_rule(rule), Has.Resolved("B", player=1))
+        self.assertEqual(rule.resolve(self.world), Has.Resolved("B", player=1))
 
     def test_gt_filtering(self) -> None:
         rule = Or(Has("A", options=[OptionFilter(ChoiceOption, 1, operator="gt")]), False_())
 
         self.world.options.choice_option.value = 0
-        self.assertEqual(self.world.resolve_rule(rule), False_.Resolved(player=1))
+        self.assertEqual(rule.resolve(self.world), False_.Resolved(player=1))
 
         self.world.options.choice_option.value = 1
-        self.assertEqual(self.world.resolve_rule(rule), False_.Resolved(player=1))
+        self.assertEqual(rule.resolve(self.world), False_.Resolved(player=1))
 
         self.world.options.choice_option.value = 2
-        self.assertEqual(self.world.resolve_rule(rule), Has.Resolved("A", player=1))
+        self.assertEqual(rule.resolve(self.world), Has.Resolved("A", player=1))
 
 
 @classvar_matrix(
@@ -292,20 +342,20 @@ class TestHashes(unittest.TestCase):
 
         rule1 = HasAll("1", "2")
         rule2 = HasAll("2", "2", "2", "1")
-        self.assertEqual(hash(world.resolve_rule(rule1)), hash(world.resolve_rule(rule2)))
+        self.assertEqual(hash(rule1.resolve(world)), hash(rule2.resolve(world)))
 
 
 class TestCaching(unittest.TestCase):
     multiworld: MultiWorld  # pyright: ignore[reportUninitializedInstanceVariable]
-    world: RuleBuilderWorld  # pyright: ignore[reportUninitializedInstanceVariable]
+    world: RuleBuilderCachedWorld  # pyright: ignore[reportUninitializedInstanceVariable]
     state: CollectionState  # pyright: ignore[reportUninitializedInstanceVariable]
     player: int = 1
 
     @override
     def setUp(self) -> None:
-        self.multiworld = setup_solo_multiworld(RuleBuilderWorld, seed=0)
+        self.multiworld = setup_solo_multiworld(RuleBuilderCachedWorld, seed=0)
         world = self.multiworld.worlds[1]
-        assert isinstance(world, RuleBuilderWorld)
+        assert isinstance(world, RuleBuilderCachedWorld)
         self.world = world
         self.state = self.multiworld.state
 
@@ -314,9 +364,9 @@ class TestCaching(unittest.TestCase):
         region3 = Region("Region 3", self.player, self.multiworld)
         self.multiworld.regions.extend([region1, region2, region3])
 
-        region1.add_locations({"Location 1": 1, "Location 2": 2, "Location 6": 6}, RuleBuilderLocation)
-        region2.add_locations({"Location 3": 3, "Location 4": 4}, RuleBuilderLocation)
-        region3.add_locations({"Location 5": 5}, RuleBuilderLocation)
+        region1.add_locations({"Location 1": 1, "Location 2": 2, "Location 6": 6}, RuleBuilderCachedLocation)
+        region2.add_locations({"Location 3": 3, "Location 4": 4}, RuleBuilderCachedLocation)
+        region3.add_locations({"Location 5": 5}, RuleBuilderCachedLocation)
 
         world.create_entrance(region1, region2, Has("Item 1"))
         world.create_entrance(region1, region3, HasAny("Item 3", "Item 4"))
@@ -399,7 +449,6 @@ class TestCacheDisabled(unittest.TestCase):
         self.multiworld = setup_solo_multiworld(RuleBuilderWorld, seed=0)
         world = self.multiworld.worlds[1]
         assert isinstance(world, RuleBuilderWorld)
-        world.rule_caching_enabled = False  # pyright: ignore[reportAttributeAccessIssue]
         self.world = world
         self.state = self.multiworld.state
 
@@ -421,8 +470,6 @@ class TestCacheDisabled(unittest.TestCase):
 
         for i in range(1, LOC_COUNT + 1):
             self.multiworld.itempool.append(world.create_item(f"Item {i}"))
-
-        world.register_dependencies()
 
         return super().setUp()
 
@@ -483,19 +530,19 @@ class TestRules(unittest.TestCase):
 
     def test_true(self) -> None:
         rule = True_()
-        resolved_rule = self.world.resolve_rule(rule)
+        resolved_rule = rule.resolve(self.world)
         self.world.register_rule_dependencies(resolved_rule)
         self.assertTrue(resolved_rule(self.state))
 
     def test_false(self) -> None:
         rule = False_()
-        resolved_rule = self.world.resolve_rule(rule)
+        resolved_rule = rule.resolve(self.world)
         self.world.register_rule_dependencies(resolved_rule)
         self.assertFalse(resolved_rule(self.state))
 
     def test_has(self) -> None:
         rule = Has("Item 1")
-        resolved_rule = self.world.resolve_rule(rule)
+        resolved_rule = rule.resolve(self.world)
         self.world.register_rule_dependencies(resolved_rule)
         self.assertFalse(resolved_rule(self.state))
         item = self.world.create_item("Item 1")
@@ -506,7 +553,7 @@ class TestRules(unittest.TestCase):
 
     def test_has_all(self) -> None:
         rule = HasAll("Item 1", "Item 2")
-        resolved_rule = self.world.resolve_rule(rule)
+        resolved_rule = rule.resolve(self.world)
         self.world.register_rule_dependencies(resolved_rule)
         self.assertFalse(resolved_rule(self.state))
         item1 = self.world.create_item("Item 1")
@@ -521,7 +568,7 @@ class TestRules(unittest.TestCase):
     def test_has_any(self) -> None:
         item_names = ("Item 1", "Item 2")
         rule = HasAny(*item_names)
-        resolved_rule = self.world.resolve_rule(rule)
+        resolved_rule = rule.resolve(self.world)
         self.world.register_rule_dependencies(resolved_rule)
         self.assertFalse(resolved_rule(self.state))
 
@@ -534,7 +581,7 @@ class TestRules(unittest.TestCase):
 
     def test_has_all_counts(self) -> None:
         rule = HasAllCounts({"Item 1": 1, "Item 2": 2})
-        resolved_rule = self.world.resolve_rule(rule)
+        resolved_rule = rule.resolve(self.world)
         self.world.register_rule_dependencies(resolved_rule)
         self.assertFalse(resolved_rule(self.state))
         item1 = self.world.create_item("Item 1")
@@ -552,7 +599,7 @@ class TestRules(unittest.TestCase):
     def test_has_any_count(self) -> None:
         item_counts = {"Item 1": 1, "Item 2": 2}
         rule = HasAnyCount(item_counts)
-        resolved_rule = self.world.resolve_rule(rule)
+        resolved_rule = rule.resolve(self.world)
         self.world.register_rule_dependencies(resolved_rule)
 
         for item_name, count in item_counts.items():
@@ -567,7 +614,7 @@ class TestRules(unittest.TestCase):
     def test_has_from_list(self) -> None:
         item_names = ("Item 1", "Item 2", "Item 3")
         rule = HasFromList(*item_names, count=2)
-        resolved_rule = self.world.resolve_rule(rule)
+        resolved_rule = rule.resolve(self.world)
         self.world.register_rule_dependencies(resolved_rule)
         self.assertFalse(resolved_rule(self.state))
 
@@ -588,7 +635,7 @@ class TestRules(unittest.TestCase):
     def test_has_from_list_unique(self) -> None:
         item_names = ("Item 1", "Item 1", "Item 2")
         rule = HasFromListUnique(*item_names, count=2)
-        resolved_rule = self.world.resolve_rule(rule)
+        resolved_rule = rule.resolve(self.world)
         self.world.register_rule_dependencies(resolved_rule)
         self.assertFalse(resolved_rule(self.state))
 
@@ -609,7 +656,7 @@ class TestRules(unittest.TestCase):
 
     def test_has_group(self) -> None:
         rule = HasGroup("Group 1", count=2)
-        resolved_rule = self.world.resolve_rule(rule)
+        resolved_rule = rule.resolve(self.world)
         self.world.register_rule_dependencies(resolved_rule)
 
         items: list[Item] = []
@@ -625,7 +672,7 @@ class TestRules(unittest.TestCase):
 
     def test_has_group_unique(self) -> None:
         rule = HasGroupUnique("Group 1", count=2)
-        resolved_rule = self.world.resolve_rule(rule)
+        resolved_rule = rule.resolve(self.world)
         self.world.register_rule_dependencies(resolved_rule)
 
         items: list[Item] = []
