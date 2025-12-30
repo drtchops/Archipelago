@@ -1,5 +1,5 @@
 from abc import ABCMeta
-from typing import Any
+from typing import Any, ClassVar
 
 from rule_builder import RuleWorldMixin
 from worlds.AutoWorld import AutoWorldRegister, World
@@ -7,6 +7,7 @@ from worlds.AutoWorld import AutoWorldRegister, World
 from .constants import GAME_NAME
 from .items import Character
 from .options import AstalonOptions
+from .settings import AstalonSettings
 
 
 class AstalonWorldMetaclass(AutoWorldRegister, ABCMeta):
@@ -19,6 +20,7 @@ class AstalonWorldMetaclass(AutoWorldRegister, ABCMeta):
 class AstalonWorldBase(RuleWorldMixin, World, metaclass=AstalonWorldMetaclass):  # pyright: ignore[reportUnsafeMultipleInheritance]
     game = GAME_NAME
     options_dataclass = AstalonOptions
+    settings: ClassVar[AstalonSettings]  # pyright: ignore[reportIncompatibleVariableOverride]
 
     options: AstalonOptions  # pyright: ignore[reportIncompatibleVariableOverride]
     starting_characters: list[Character]
