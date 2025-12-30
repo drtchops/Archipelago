@@ -1,6 +1,7 @@
 from typing_extensions import override
 
-from rule_builder import And, OptionFilter, Or, True_
+from rule_builder.options import OptionFilter
+from rule_builder.rules import And, Or, True_
 
 from ..items import BlueDoor, Crystal
 from ..logic.custom_rules import Has, HasAll, HasBlue, HasSwitch

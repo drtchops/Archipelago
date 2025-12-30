@@ -3,12 +3,11 @@ from typing import Any, ClassVar, Final
 
 from typing_extensions import override
 
-from BaseClasses import CollectionState, Entrance, Location, Region
+from BaseClasses import CollectionRule, CollectionState, Entrance, Location, Region
 from NetUtils import JSONMessagePart
 from Options import Option
-from rule_builder import Rule
+from rule_builder.rules import Rule
 from Utils import get_intended_text  # pyright: ignore[reportUnknownVariableType]
-from worlds.generic.Rules import CollectionRule
 
 from .bases import AstalonWorldBase
 from .items import Character, Events
