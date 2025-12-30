@@ -91,7 +91,6 @@ class AstalonWorld(AstalonUTWorld):
     location_name_groups = location_name_groups
     item_name_to_id = item_name_to_id
     location_name_to_id = location_name_to_id
-    rule_caching_enabled = True
 
     _character_strengths: ClassVar[dict[int, dict[str, float]] | None] = None
 
