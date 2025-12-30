@@ -196,21 +196,3 @@ _speedups.html
 .LSOverride
 Thumbs.db
 [Dd]esktop.ini
-
-# Ruff
-ruff.toml
-
-# Tox
-tox.ini
-tox.toml
-
-# UT
-worlds/tracker
-
-# Fuzzer
-hooks/
-fuzz_output/
-fuzz.py
-
-# Me specifically
-bundle.py

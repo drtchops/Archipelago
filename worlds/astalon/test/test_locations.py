@@ -1,3 +1,5 @@
+from typing_extensions import override
+
 from ..items import BlueDoor, Eye, KeyItem
 from ..locations import LocationName
 from .bases import AstalonTestBase
@@ -13,6 +15,7 @@ class LocationsTest(AstalonTestBase):
     }
 
     @property
+    @override
     def run_default_tests(self) -> bool:
         return False
 

@@ -5,10 +5,11 @@ from typing import Any, ClassVar, cast
 
 from typing_extensions import override
 
-import rule_builder
 from BaseClasses import CollectionState
 from NetUtils import JSONMessagePart
 from Options import Option
+from rule_builder import rules
+from rule_builder.options import OptionFilter
 
 from ..bases import AstalonWorldBase
 from ..constants import GAME_NAME
@@ -45,25 +46,25 @@ def as_str(value: Enum | str | None) -> str:
 
 
 @dataclasses.dataclass(init=False)
-class Has(rule_builder.Has[AstalonWorldBase], game=GAME_NAME):
+class Has(rules.Has[AstalonWorldBase], game=GAME_NAME):
     @override
     def __init__(
         self,
         item_name: ItemName | Events,
         count: int = 1,
         *,
-        options: Iterable[rule_builder.OptionFilter[Any]] = (),
+        options: Iterable[OptionFilter[Any]] = (),
     ) -> None:
         super().__init__(as_str(item_name), count, options=options)
 
 
 @dataclasses.dataclass(init=False)
-class HasAll(rule_builder.HasAll[AstalonWorldBase], game=GAME_NAME):
+class HasAll(rules.HasAll[AstalonWorldBase], game=GAME_NAME):
     @override
     def __init__(
         self,
         *item_names: ItemName | Events,
-        options: Iterable[rule_builder.OptionFilter[Any]] = (),
+        options: Iterable[OptionFilter[Any]] = (),
     ) -> None:
         names = [as_str(name) for name in item_names]
         if len(names) != len(set(names)):
@@ -73,12 +74,12 @@ class HasAll(rule_builder.HasAll[AstalonWorldBase], game=GAME_NAME):
 
 
 @dataclasses.dataclass(init=False)
-class HasAny(rule_builder.HasAny[AstalonWorldBase], game=GAME_NAME):
+class HasAny(rules.HasAny[AstalonWorldBase], game=GAME_NAME):
     @override
     def __init__(
         self,
         *item_names: ItemName | Events,
-        options: Iterable[rule_builder.OptionFilter[Any]] = (),
+        options: Iterable[OptionFilter[Any]] = (),
     ) -> None:
         names = [as_str(name) for name in item_names]
         if len(names) != len(set(names)):
@@ -88,7 +89,7 @@ class HasAny(rule_builder.HasAny[AstalonWorldBase], game=GAME_NAME):
 
 
 @dataclasses.dataclass(init=False)
-class CanReachLocation(rule_builder.CanReachLocation[AstalonWorldBase], game=GAME_NAME):
+class CanReachLocation(rules.CanReachLocation[AstalonWorldBase], game=GAME_NAME):
     @override
     def __init__(
         self,
@@ -96,32 +97,32 @@ class CanReachLocation(rule_builder.CanReachLocation[AstalonWorldBase], game=GAM
         parent_region_name: RegionName | None = None,
         skip_indirect_connection: bool = False,
         *,
-        options: Iterable[rule_builder.OptionFilter[Any]] = (),
+        options: Iterable[OptionFilter[Any]] = (),
     ) -> None:
         super().__init__(as_str(location_name), as_str(parent_region_name), skip_indirect_connection, options=options)
 
 
 @dataclasses.dataclass(init=False)
-class CanReachRegion(rule_builder.CanReachRegion[AstalonWorldBase], game=GAME_NAME):
+class CanReachRegion(rules.CanReachRegion[AstalonWorldBase], game=GAME_NAME):
     @override
     def __init__(
         self,
         region_name: RegionName,
         *,
-        options: Iterable[rule_builder.OptionFilter[Any]] = (),
+        options: Iterable[OptionFilter[Any]] = (),
     ) -> None:
         super().__init__(as_str(region_name), options=options)
 
 
 @dataclasses.dataclass(init=False)
-class CanReachEntrance(rule_builder.CanReachEntrance[AstalonWorldBase], game=GAME_NAME):
+class CanReachEntrance(rules.CanReachEntrance[AstalonWorldBase], game=GAME_NAME):
     @override
     def __init__(
         self,
         from_region: RegionName,
         to_region: RegionName,
         *,
-        options: Iterable[rule_builder.OptionFilter[Any]] = (),
+        options: Iterable[OptionFilter[Any]] = (),
     ) -> None:
         entrance_name = f"{as_str(from_region)} -> {as_str(to_region)}"
         super().__init__(entrance_name, as_str(from_region), options=options)
@@ -133,17 +134,17 @@ class ToggleRule(HasAll, game=GAME_NAME):
     otherwise: bool = False
 
     @override
-    def _instantiate(self, world: AstalonWorldBase) -> rule_builder.Rule.Resolved:
+    def _instantiate(self, world: AstalonWorldBase) -> rules.Rule.Resolved:
         items = tuple(cast(ItemName | Events, item) for item in self.item_names)
         if len(items) == 1:
-            rule = Has(items[0], options=[rule_builder.OptionFilter(self.option_cls, 1)])
+            rule = Has(items[0], options=[OptionFilter(self.option_cls, 1)])
         else:
-            rule = HasAll(*items, options=[rule_builder.OptionFilter(self.option_cls, 1)])
+            rule = HasAll(*items, options=[OptionFilter(self.option_cls, 1)])
 
         if self.otherwise:
-            return rule_builder.Or(
+            return rules.Or(
                 rule,
-                rule_builder.True_(options=[rule_builder.OptionFilter(self.option_cls, 0)]),
+                rules.True_(options=[OptionFilter(self.option_cls, 0)]),
             ).resolve(world)
 
         return rule.resolve(world)
@@ -157,7 +158,7 @@ class HasWhite(ToggleRule, game=GAME_NAME):
         self,
         *doors: WhiteDoor,
         otherwise: bool = False,
-        options: Iterable[rule_builder.OptionFilter[Any]] = (),
+        options: Iterable[OptionFilter[Any]] = (),
     ) -> None:
         super().__init__(*doors, options=options)
         self.otherwise: bool = otherwise
@@ -171,7 +172,7 @@ class HasBlue(ToggleRule, game=GAME_NAME):
         self,
         *doors: BlueDoor,
         otherwise: bool = False,
-        options: Iterable[rule_builder.OptionFilter[Any]] = (),
+        options: Iterable[OptionFilter[Any]] = (),
     ) -> None:
         super().__init__(*doors, options=options)
         self.otherwise: bool = otherwise
@@ -185,7 +186,7 @@ class HasRed(ToggleRule, game=GAME_NAME):
         self,
         *doors: RedDoor,
         otherwise: bool = False,
-        options: Iterable[rule_builder.OptionFilter[Any]] = (),
+        options: Iterable[OptionFilter[Any]] = (),
     ) -> None:
         super().__init__(*doors, options=options)
         self.otherwise: bool = otherwise
@@ -199,7 +200,7 @@ class HasSwitch(ToggleRule, game=GAME_NAME):
         self,
         *switches: Switch | Crystal | Face,
         otherwise: bool = False,
-        options: Iterable[rule_builder.OptionFilter[Any]] = (),
+        options: Iterable[OptionFilter[Any]] = (),
     ) -> None:
         super().__init__(*switches, options=options)
         self.otherwise: bool = otherwise
@@ -207,20 +208,20 @@ class HasSwitch(ToggleRule, game=GAME_NAME):
 
 @dataclasses.dataclass(init=False)
 class HasElevator(HasAll, game=GAME_NAME):
-    def __init__(self, elevator: Elevator, *, options: Iterable[rule_builder.OptionFilter[Any]] = ()) -> None:
+    def __init__(self, elevator: Elevator, *, options: Iterable[OptionFilter[Any]] = ()) -> None:
         super().__init__(
             KeyItem.ASCENDANT_KEY,
             elevator,
-            options=[*options, rule_builder.OptionFilter(RandomizeElevator, RandomizeElevator.option_true)],
+            options=[*options, OptionFilter(RandomizeElevator, RandomizeElevator.option_true)],
         )
 
 
 @dataclasses.dataclass()
-class HasGoal(rule_builder.Rule[AstalonWorldBase], game=GAME_NAME):
+class HasGoal(rules.Rule[AstalonWorldBase], game=GAME_NAME):
     @override
-    def _instantiate(self, world: AstalonWorldBase) -> rule_builder.Rule.Resolved:
+    def _instantiate(self, world: AstalonWorldBase) -> rules.Rule.Resolved:
         if world.options.goal.value != Goal.option_eye_hunt:
-            return world.true_rule
+            return rules.True_().resolve(world)
         return Has.Resolved(
             Eye.GOLD.value,
             count=world.options.additional_eyes_required.value,
@@ -230,20 +231,20 @@ class HasGoal(rule_builder.Rule[AstalonWorldBase], game=GAME_NAME):
 
 
 @dataclasses.dataclass()
-class HardLogic(rule_builder.WrapperRule[AstalonWorldBase], game=GAME_NAME):
+class HardLogic(rules.WrapperRule[AstalonWorldBase], game=GAME_NAME):
     @override
-    def _instantiate(self, world: AstalonWorldBase) -> rule_builder.Rule.Resolved:
+    def _instantiate(self, world: AstalonWorldBase) -> rules.Rule.Resolved:
         if world.options.difficulty.value == Difficulty.option_hard:
             return self.child.resolve(world)
         if getattr(world.multiworld, "generation_is_fake", False):
             return self.Resolved(
-                world.get_cached_rule(self.child.resolve(world)),
+                self.child.resolve(world),
                 player=world.player,
                 caching_enabled=world.rule_caching_enabled,
             )
-        return world.false_rule
+        return rules.False_().resolve(world)
 
-    class Resolved(rule_builder.WrapperRule.Resolved):
+    class Resolved(rules.WrapperRule.Resolved):
         @override
         def _evaluate(self, state: CollectionState) -> bool:
             return state.has(Events.FAKE_OOL_ITEM.value, self.player) and self.child(state)
@@ -265,8 +266,8 @@ class HardLogic(rule_builder.WrapperRule[AstalonWorldBase], game=GAME_NAME):
 
 
 @dataclasses.dataclass()
-class CampfireWarp(rule_builder.True_, game=GAME_NAME):
-    class Resovled(rule_builder.True_.Resolved):
+class CampfireWarp(rules.True_, game=GAME_NAME):
+    class Resolved(rules.True_.Resolved):
         @override
         def explain_json(self, state: CollectionState | None = None) -> list[JSONMessagePart]:
             return [{"type": "color", "color": "green", "text": "Campfire Warp"}]
