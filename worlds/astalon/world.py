@@ -1,13 +1,11 @@
 import logging
-from collections import defaultdict
 from functools import cached_property
-from typing import TYPE_CHECKING, Any, ClassVar, Final
+from typing import Any, ClassVar, Final
 
 from typing_extensions import override
 
-from BaseClasses import CollectionState, Item, ItemClassification, Region
+from BaseClasses import CollectionState, Item, ItemClassification, MultiWorld, Region
 from Options import OptionError
-from worlds.AutoWorld import World
 
 from .constants import GAME_NAME
 from .items import (
@@ -16,7 +14,6 @@ from .items import (
     QOL_ITEMS,
     AstalonItem,
     Character,
-    EarlyItems,
     Elevator,
     Events,
     Eye,
@@ -38,17 +35,10 @@ from .locations import (
     location_table,
 )
 from .logic import MAIN_ENTRANCE_RULES, MAIN_LOCATION_RULES
-from .options import ApexElevator, AstalonOptions, Goal, RandomizeCharacters, StartingLocation
+from .options import ApexElevator, Goal, RandomizeCharacters, StartingLocation
 from .regions import STARTING_REGIONS, RegionName, astalon_regions
-from .settings import AstalonSettings
-from .tracker import UTMxin
+from .tracker import AstalonUTWorld
 from .web_world import AstalonWebWorld
-
-if TYPE_CHECKING:
-    from BaseClasses import MultiWorld
-
-    from .logic import RuleInstance
-
 
 # ██░░░██████░░███░░░███
 # ██░░░░██░░░▓▓░░░▓░░███
@@ -85,7 +75,7 @@ CHARACTER_STARTS: Final[dict[int, tuple[Character, ...]]] = {
 }
 
 
-class AstalonWorld(UTMxin, World):
+class AstalonWorld(AstalonUTWorld):
     """
     Uphold your pact with the Titan of Death, Epimetheus!
     Fight, climb and solve your way through a twisted tower as three unique adventurers,
@@ -94,30 +84,12 @@ class AstalonWorld(UTMxin, World):
 
     game = GAME_NAME
     web = AstalonWebWorld()
-    options_dataclass = AstalonOptions
-    options: AstalonOptions  # pyright: ignore[reportIncompatibleVariableOverride]
-    settings: ClassVar[AstalonSettings]  # pyright: ignore[reportIncompatibleVariableOverride]
     item_name_groups = item_name_groups
     location_name_groups = location_name_groups
     item_name_to_id = item_name_to_id
     location_name_to_id = location_name_to_id
 
-    starting_characters: list[Character]
-    extra_gold_eyes: int = 0
-
     _character_strengths: ClassVar[dict[int, dict[str, float]] | None] = None
-
-    rule_cache: "dict[int, RuleInstance]"
-    _rule_deps: "dict[str, set[int]]"
-
-    early_items: EarlyItems
-
-    def __init__(self, multiworld: "MultiWorld", player: int) -> None:
-        super().__init__(multiworld, player)
-        self.rule_cache = {}
-        self._rule_deps = defaultdict(set)
-        self.starting_characters = []
-        self.early_items = EarlyItems()
 
     @override
     def generate_early(self) -> None:
@@ -437,7 +409,7 @@ class AstalonWorld(UTMxin, World):
         return self.random.choice(trap_items)
 
     @classmethod
-    def _calc_character_strengths(cls, multiworld: "MultiWorld") -> None:
+    def _calc_character_strengths(cls, multiworld: MultiWorld) -> None:
         cls._character_strengths = {}
 
         character_items = {c.value for c in CHARACTERS}
@@ -473,7 +445,7 @@ class AstalonWorld(UTMxin, World):
         assert self._character_strengths is not None
         strengths = self._character_strengths.get(self.player, {})
         return {
-            "version": self.world_version,
+            "version": self.world_version.as_simple_string(),
             "options": self.options.as_dict(
                 "difficulty",
                 "goal",

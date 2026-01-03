@@ -1,7 +1,5 @@
-# pyright: reportUninitializedInstanceVariable=false
-
 from functools import cached_property
-from typing import TYPE_CHECKING, Any, ClassVar
+from typing import Any, ClassVar, Final
 
 from typing_extensions import override
 
@@ -9,16 +7,11 @@ from BaseClasses import CollectionState, Entrance, Location, Region
 from NetUtils import JSONMessagePart
 from Options import Option
 from Utils import get_intended_text  # pyright: ignore[reportUnknownVariableType]
-from worlds.astalon.options import AstalonOptions
 
+from .bases import AstalonWorldBase
 from .items import Character, Events
 from .logic.instances import CampfireWarpInstance, RuleInstance
 from .regions import RegionName
-
-if TYPE_CHECKING:
-    from worlds.AutoWorld import World
-else:
-    World = object
 
 
 def map_page_index(data: Any) -> int:
@@ -44,7 +37,7 @@ def map_page_index(data: Any) -> int:
     return 0
 
 
-CHARACTER_ICONS = {
+CHARACTER_ICONS: Final[dict[int, str]] = {
     1: "algus",
     2: "arias",
     3: "kyuli",
@@ -52,7 +45,7 @@ CHARACTER_ICONS = {
     5: "zeek",
 }
 
-MAP_OFFSETS = (
+MAP_OFFSETS: Final[tuple[tuple[int, int], ...]] = (
     (-1800, 17180),  # world map
     (-4152, 25130),  # gt
     (-1560, 21080),  # mech and hotp
@@ -60,12 +53,12 @@ MAP_OFFSETS = (
     (-2424, 17000),  # ruins
     (-9336, 20840),  # cyclops
 )
-ROOM_WIDTH = 432
-ROOM_HEIGHT = 240
-MAP_SCALE_X = ROOM_WIDTH / 59.346
-MAP_SCALE_Y = -ROOM_HEIGHT / 40.475
+ROOM_WIDTH: Final[int] = 432
+ROOM_HEIGHT: Final[int] = 240
+MAP_SCALE_X: Final[float] = ROOM_WIDTH / 59.346
+MAP_SCALE_Y: Final[float] = -ROOM_HEIGHT / 40.475
 
-CAMPFIRE_WARPS = {
+CAMPFIRE_WARPS: Final[dict[int, RegionName]] = {
     6696: RegionName.GT_ENTRANCE,
     18: RegionName.GT_BOTTOM,
     292: RegionName.GT_LEFT,
@@ -128,7 +121,7 @@ def rule_to_json(rule: RuleInstance | None, state: CollectionState) -> list[JSON
     ]
 
 
-class UTMxin(World):
+class AstalonUTWorld(AstalonWorldBase):
     tracker_world: ClassVar = {
         "map_page_folder": "tracker",
         "map_page_maps": "maps/maps.json",
@@ -141,11 +134,6 @@ class UTMxin(World):
     ut_can_gen_without_yaml: ClassVar = True
     glitches_item_name: ClassVar = Events.FAKE_OOL_ITEM.value
     found_entrances_datastorage_key: ClassVar = "Slot:{player}:campfires"
-
-    if TYPE_CHECKING:
-        starting_characters: list[Character]
-        extra_gold_eyes: int
-        options: AstalonOptions  # pyright: ignore[reportIncompatibleVariableOverride]
 
     @cached_property
     def is_ut(self) -> bool:

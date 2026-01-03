@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from enum import Enum
+from enum import StrEnum
 from itertools import groupby
 
 from BaseClasses import Location
@@ -8,7 +8,7 @@ from .constants import BASE_ID, GAME_NAME
 from .regions import RegionName
 
 
-class Area(str, Enum):
+class Area(StrEnum):
     SHOP = "Shop"
     GT = "Gorgon Tomb"
     MECH = "Mechanism"
@@ -24,7 +24,7 @@ class Area(str, Enum):
     SP = "Serpent Path"
 
 
-class LocationGroup(str, Enum):
+class LocationGroup(StrEnum):
     CHARACTER = "Characters"
     ITEM = "Items"
     FAMILIAR = "Familiars"
@@ -39,7 +39,7 @@ class LocationGroup(str, Enum):
     CANDLE = "Candles"
 
 
-class LocationName(str, Enum):
+class LocationName(StrEnum):
     GT_ALGUS = "Gorgon Tomb - Algus"
     GT_ARIAS = "Gorgon Tomb - Arias"
     GT_KYULI = "Gorgon Tomb - Kyuli"

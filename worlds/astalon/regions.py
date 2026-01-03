@@ -1,9 +1,9 @@
 from dataclasses import dataclass
-from enum import Enum
+from enum import StrEnum
 from typing import Final
 
 
-class RegionName(str, Enum):
+class RegionName(StrEnum):
     SHOP = "Shop"
     SHOP_ALGUS = "Shop - Algus"
     SHOP_ARIAS = "Shop - Arias"
