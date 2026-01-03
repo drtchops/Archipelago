@@ -6,7 +6,7 @@ from typing_extensions import override
 from BaseClasses import CollectionRule, CollectionState, Entrance, Location, Region
 from NetUtils import JSONMessagePart
 from Options import Option
-from rule_builder.rules import Macro, Rule
+from rule_builder.rules import CustomRuleRegister, Macro, Rule
 from Utils import get_intended_text  # pyright: ignore[reportUnknownVariableType]
 
 from .bases import AstalonWorldBase
@@ -224,10 +224,76 @@ class AstalonUTWorld(AstalonWorldBase):
         return messages
 
     def explain_rule(self, dest_name: str, state: CollectionState) -> list[JSONMessagePart]:
-        macro_name, usable, response = get_intended_text(dest_name, list(self.rule_macro_hashes))
+        # inspiration
+        # return [
+        #     {"type": "text", "text": "Location "},
+        #     {"type": "color", "color": "green", "text": "GT Blue Key Bonesnakes"},
+        #     {"type": "text", "text": ": Kill the 4 bonesnakes to make the item drop from the face\n"},
+        #     {"type": "text", "text": "Region "},
+        #     {"type": "color", "color": "green", "text": "GT Bottom"},
+        #     {
+        #         "type": "text",
+        #         "text": ": Rooms after the first door, connecting to the caves, containing the GT Bottom campfire\n",
+        #     },
+        #     {"type": "text", "text": "Room: Gorgon Tomb O20\n"},
+        #     {"type": "text", "text": "Logic: "},
+        #     {"type": "color", "color": "green", "text": "True"},
+        #     {"type": "text", "text": "\n"},
+        #     {"type": "text", "text": "Room diagram:\n"},
+        #     {"type": "text", "text": "000000    "},
+        #     {"type": "color", "color": "yellow", "text": "8"},
+        #     {"type": "text", "text": "     "},
+        #     {"type": "color", "color": "yellow", "text": "8"},
+        #     {"type": "text", "text": "    000000\n"},
+        #     {"type": "text", "text": "000000    "},
+        #     {"type": "color", "color": "yellow", "text": "8"},
+        #     {"type": "text", "text": "     "},
+        #     {"type": "color", "color": "yellow", "text": "8"},
+        #     {"type": "text", "text": "    000000\n"},
+        #     {"type": "text", "text": "00        "},
+        #     {"type": "color", "color": "yellow", "text": "8"},
+        #     {"type": "text", "text": "     "},
+        #     {"type": "color", "color": "yellow", "text": "8"},
+        #     {"type": "text", "text": "        00\n"},
+        #     {"type": "text", "text": "00        "},
+        #     {"type": "color", "color": "yellow", "text": "8"},
+        #     {"type": "text", "text": "              "},
+        #     {"type": "color", "color": "plum", "text": "99"},
+        #     {"type": "text", "text": "\n"},
+        #     {"type": "text", "text": "00        "},
+        #     {"type": "color", "color": "yellow", "text": "8"},
+        #     {"type": "text", "text": "  "},
+        #     {"type": "color", "color": "red", "text": "5"},
+        #     {"type": "text", "text": "  "},
+        #     {"type": "color", "color": "yellow", "text": "8"},
+        #     {"type": "text", "text": "        "},
+        #     {"type": "color", "color": "plum", "text": "99"},
+        #     {"type": "text", "text": "\n"},
+        #     {"type": "text", "text": "00       000000000       00\n"},
+        #     {"type": "text", "text": "00                       00\n"},
+        #     {"type": "text", "text": "00  00                   00\n"},
+        #     {"type": "text", "text": "          "},
+        #     {"type": "color", "color": "red", "text": "5"},
+        #     {"type": "text", "text": "      "},
+        #     {"type": "color", "color": "red", "text": "5"},
+        #     {"type": "text", "text": "       00\n"},
+        #     {"type": "text", "text": "        0000   0000   0  00\n"},
+        #     {"type": "text", "text": "    00       "},
+        #     {"type": "color", "color": "green", "text": "1"},
+        #     {"type": "text", "text": "       00  00\n"},
+        #     {"type": "text", "text": "  0000  "},
+        #     {"type": "color", "color": "red", "text": "5"},
+        #     {"type": "text", "text": "            000000\n"},
+        #     {"type": "text", "text": "000000000000000000000000000\n"},
+        #     {"type": "text", "text": "000000000000000000000000000\n"},
+        #     {"type": "text", "text": "000000000000000000000000000"},
+        # ]
+
+        player_macros = CustomRuleRegister.rule_macros.get(self.player, {})
+        macro_name, usable, response = get_intended_text(dest_name, list(player_macros))
         if not usable:
             return [{"type": "text", "text": response}]
-        macro = self.rules_by_hash[self.rule_macro_hashes[macro_name]]
+        macro = player_macros[macro_name]
         assert isinstance(macro, Macro.Resolved)
         messages: list[JSONMessagePart] = [
             {"type": "color", "color": "green" if macro(state) else "salmon", "text": macro.name}
