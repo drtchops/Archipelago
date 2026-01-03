@@ -9,16 +9,14 @@ from BaseClasses import CollectionState, Item, ItemClassification, Region
 from Options import OptionError
 from worlds.AutoWorld import World
 
-from .constants import GAME_NAME, VERSION
+from .constants import GAME_NAME
 from .items import (
     CHARACTERS,
-    EARLY_BLUE_DOORS,
     EARLY_ITEMS,
-    EARLY_SWITCHES,
-    EARLY_WHITE_DOORS,
     QOL_ITEMS,
     AstalonItem,
     Character,
+    EarlyItems,
     Elevator,
     Events,
     Eye,
@@ -40,8 +38,8 @@ from .locations import (
     location_table,
 )
 from .logic import MAIN_ENTRANCE_RULES, MAIN_LOCATION_RULES
-from .options import ApexElevator, AstalonOptions, Goal, RandomizeCharacters
-from .regions import RegionName, astalon_regions
+from .options import ApexElevator, AstalonOptions, Goal, RandomizeCharacters, StartingLocation
+from .regions import STARTING_REGIONS, RegionName, astalon_regions
 from .settings import AstalonSettings
 from .tracker import UTMxin
 from .web_world import AstalonWebWorld
@@ -112,11 +110,14 @@ class AstalonWorld(UTMxin, World):
     rule_cache: "dict[int, RuleInstance]"
     _rule_deps: "dict[str, set[int]]"
 
+    early_items: EarlyItems
+
     def __init__(self, multiworld: "MultiWorld", player: int) -> None:
         super().__init__(multiworld, player)
         self.rule_cache = {}
         self._rule_deps = defaultdict(set)
         self.starting_characters = []
+        self.early_items = EarlyItems()
 
     @override
     def generate_early(self) -> None:
@@ -135,6 +136,10 @@ class AstalonWorld(UTMxin, World):
             self.extra_gold_eyes = round(self.options.additional_eyes_required.value * (self.options.extra_eyes / 100))
 
         super().generate_early()
+
+        self.origin_region_name = STARTING_REGIONS[self.options.starting_location.value]
+        if self.options.open_early_doors:
+            self.early_items = EARLY_ITEMS[self.options.starting_location.value]
 
     def create_location(self, name: str) -> AstalonLocation:
         location_name = LocationName(name)
@@ -179,6 +184,10 @@ class AstalonWorld(UTMxin, World):
                             entrance,
                         )
 
+        origin = self.get_region(self.origin_region_name)
+        shop = self.get_region(RegionName.SHOP.value)
+        origin.connect(shop)
+
         logic_groups: set[str] = set()
         if self.options.randomize_key_items:
             logic_groups.add(LocationGroup.ITEM.value)
@@ -212,6 +221,11 @@ class AstalonWorld(UTMxin, World):
                 if (
                     location_name == LocationName.APEX_ELEVATOR
                     and self.options.apex_elevator != ApexElevator.option_included
+                ):
+                    continue
+                if (
+                    location_name == LocationName.GT_ELEVATOR_1
+                    and self.options.starting_location == StartingLocation.option_gorgon_tomb
                 ):
                     continue
 
@@ -323,9 +337,11 @@ class AstalonWorld(UTMxin, World):
                     continue
                 if self.options.start_with_bell and item_name == KeyItem.BELL:
                     continue
-                if self.options.open_early_doors and item_name in EARLY_ITEMS:
+                if self.options.open_early_doors and item_name in self.early_items.all:
                     continue
                 if self.options.apex_elevator != ApexElevator.option_included and item_name == Elevator.APEX:
+                    continue
+                if self.options.starting_location == StartingLocation.option_gorgon_tomb and item_name == Elevator.GT_1:
                     continue
 
                 data = item_table[item_name]
@@ -355,13 +371,13 @@ class AstalonWorld(UTMxin, World):
 
         if self.options.open_early_doors:
             if self.options.randomize_white_keys:
-                for white_door in EARLY_WHITE_DOORS:
+                for white_door in self.early_items.white_doors:
                     self.multiworld.push_precollected(self.create_item(white_door.value))
             if self.options.randomize_blue_keys:
-                for blue_door in EARLY_BLUE_DOORS:
+                for blue_door in self.early_items.blue_doors:
                     self.multiworld.push_precollected(self.create_item(blue_door.value))
             if self.options.randomize_switches:
-                for red_door in EARLY_SWITCHES:
+                for red_door in self.early_items.switches:
                     self.multiworld.push_precollected(self.create_item(red_door.value))
 
         if self.options.goal.value == Goal.option_eye_hunt:
@@ -457,11 +473,12 @@ class AstalonWorld(UTMxin, World):
         assert self._character_strengths is not None
         strengths = self._character_strengths.get(self.player, {})
         return {
-            "version": VERSION,
+            "version": self.world_version,
             "options": self.options.as_dict(
                 "difficulty",
                 "goal",
                 "additional_eyes_required",
+                "starting_location",
                 "randomize_characters",
                 "randomize_key_items",
                 "randomize_health_pickups",

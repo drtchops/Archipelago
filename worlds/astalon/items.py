@@ -1,14 +1,14 @@
 from collections.abc import Callable
 from dataclasses import dataclass
 from enum import Enum
+from functools import cached_property
 from itertools import groupby
-from typing import TYPE_CHECKING
-
-from typing_extensions import TypeAlias
+from typing import TYPE_CHECKING, TypeAlias
 
 from BaseClasses import Item, ItemClassification
 
 from .constants import BASE_ID, GAME_NAME
+from .options import StartingLocation
 
 if TYPE_CHECKING:
     from . import AstalonWorld
@@ -186,6 +186,7 @@ class ShopUpgrade(str, Enum):
 
 
 class Elevator(str, Enum):
+    GT_1 = "Gorgon Tomb 1 Elevator"
     GT_2 = "Gorgon Tomb 2 Elevator"
     MECH_1 = "Mechanism 1 Elevator"
     MECH_2 = "Mechanism 2 Elevator"
@@ -239,6 +240,7 @@ class Switch(str, Enum):
     MECH_CANNON = "Switch (Mechanism - Cannon)"
     MECH_EYEBALL = "Switch (Mechanism - Eyeball)"
     MECH_INVISIBLE = "Switch (Mechanism - Invisible)"
+    MECH_SKULL_PUZZLE = "Switch (Mechanism - Skull Puzzle)"
     HOTP_ROCK = "Switch (Hall of the Phantoms - Rock)"
     HOTP_BELOW_START = "Switch (Hall of the Phantoms - Below Start)"
     HOTP_LEFT_2 = "Switch (Hall of the Phantoms - Left 2)"
@@ -260,6 +262,7 @@ class Switch(str, Enum):
     HOTP_BELL_ACCESS = "Switch (Hall of the Phantoms - Bell Access)"
     HOTP_1ST_ROOM = "Switch (Hall of the Phantoms - 1st Room)"
     HOTP_LEFT_BACKTRACK = "Switch (Hall of the Phantoms - Left Backtrack)"
+    HOTP_SKULL_PUZZLE = "Switch (Hall of the Phantoms - Skull Puzzle)"
     ROA_ASCEND = "Switch (Ruins of Ash - Ascend)"
     ROA_AFTER_WORMS = "Switch (Ruins of Ash - After Worms)"
     ROA_RIGHT_PATH = "Switch (Ruins of Ash - Right Path)"
@@ -439,32 +442,6 @@ CHARACTERS: tuple[Character, ...] = (
     Character.BRAM,
 )
 
-EARLY_WHITE_DOORS: tuple[WhiteDoor, ...] = (
-    WhiteDoor.GT_START,
-    WhiteDoor.GT_MAP,
-    WhiteDoor.GT_TAUROS,
-)
-
-EARLY_BLUE_DOORS: tuple[BlueDoor, ...] = (
-    BlueDoor.GT_ASCENDANT,
-    BlueDoor.CAVES,
-)
-
-EARLY_SWITCHES: tuple[Switch, ...] = (
-    Switch.GT_2ND_ROOM,
-    Switch.GT_1ST_CYCLOPS,
-    Switch.GT_SPIKE_TUNNEL,
-    Switch.GT_BUTT_ACCESS,
-    Switch.GT_GH,
-    Switch.GT_ARIAS,
-    Switch.CAVES_SKELETONS,
-    Switch.CAVES_CATA_1,
-    Switch.CAVES_CATA_2,
-    Switch.CAVES_CATA_3,
-)
-
-EARLY_ITEMS: set[ItemName] = set([*EARLY_WHITE_DOORS, *EARLY_BLUE_DOORS, *EARLY_SWITCHES])
-
 QOL_ITEMS: tuple[ShopUpgrade, ...] = (
     ShopUpgrade.KNOWLEDGE,
     ShopUpgrade.ORB_SEEKER,
@@ -473,6 +450,50 @@ QOL_ITEMS: tuple[ShopUpgrade, ...] = (
     ShopUpgrade.GIFT,
     ShopUpgrade.CARTOGRAPHER,
 )
+
+
+@dataclass(frozen=True)
+class EarlyItems:
+    white_doors: tuple[WhiteDoor, ...] = ()
+    blue_doors: tuple[BlueDoor, ...] = ()
+    switches: tuple[Switch, ...] = ()
+
+    @cached_property
+    def all(self) -> set[ItemName]:
+        return set(self.white_doors + self.blue_doors + self.switches)
+
+
+EARLY_ITEMS = {
+    0: EarlyItems(
+        white_doors=(
+            WhiteDoor.GT_START,
+            WhiteDoor.GT_MAP,
+            WhiteDoor.GT_TAUROS,
+        ),
+        blue_doors=(
+            BlueDoor.GT_ASCENDANT,
+            BlueDoor.CAVES,
+        ),
+        switches=(
+            Switch.GT_2ND_ROOM,
+            Switch.GT_1ST_CYCLOPS,
+            Switch.GT_SPIKE_TUNNEL,
+            Switch.GT_BUTT_ACCESS,
+            Switch.GT_GH,
+            Switch.GT_ARIAS,
+            Switch.CAVES_SKELETONS,
+            Switch.CAVES_CATA_1,
+            Switch.CAVES_CATA_2,
+            Switch.CAVES_CATA_3,
+        ),
+    ),
+    1: EarlyItems(),
+    2: EarlyItems(),
+    3: EarlyItems(),
+    4: EarlyItems(),
+    5: EarlyItems(),
+    6: EarlyItems(),
+}
 
 
 class Events(str, Enum):
@@ -670,7 +691,9 @@ ALL_ITEMS: tuple[ItemData, ...] = (
     ItemData(
         Switch.GT_CROSSES,
         lambda world: (
-            ItemClassification.filler if world.options.open_early_doors else ItemClassification.progression
+            ItemClassification.filler
+            if world.options.open_early_doors and world.options.starting_location == StartingLocation.option_gorgon_tomb
+            else ItemClassification.progression
         ),
         1,
         ItemGroup.SWITCH,
@@ -678,7 +701,9 @@ ALL_ITEMS: tuple[ItemData, ...] = (
     ItemData(
         Switch.GT_GH_SHORTCUT,
         lambda world: (
-            ItemClassification.filler if world.options.open_early_doors else ItemClassification.progression
+            ItemClassification.filler
+            if world.options.open_early_doors and world.options.starting_location == StartingLocation.option_gorgon_tomb
+            else ItemClassification.progression
         ),
         1,
         ItemGroup.SWITCH,
@@ -872,20 +897,22 @@ ALL_ITEMS: tuple[ItemData, ...] = (
     ItemData(Heal.HEAL_5, ItemClassification.filler, 92, ItemGroup.HEAL),
     ItemData(Trap.CUTSCENE, ItemClassification.trap, 0, ItemGroup.TRAP),
     ItemData(Trap.ROCKS, ItemClassification.trap, 0, ItemGroup.TRAP),
+    ItemData(Elevator.GT_1, ItemClassification.progression, 1, ItemGroup.ELEVATOR),
+    ItemData(Switch.MECH_SKULL_PUZZLE, ItemClassification.progression, 1, ItemGroup.SWITCH),
+    ItemData(Switch.HOTP_SKULL_PUZZLE, ItemClassification.progression, 1, ItemGroup.SWITCH),
 )
 
 item_table = {item.name.value: item for item in ALL_ITEMS}
 item_name_to_id: dict[str, int] = {data.name.value: i for i, data in enumerate(ALL_ITEMS, start=BASE_ID)}
 
 
-def get_item_group(item_name: str):
+def get_item_group(item_name: str) -> ItemGroup:
     return item_table[item_name].group
 
 
 item_name_groups: dict[str, set[str]] = {
-    group.value: set(item for item in item_names)
+    group.value: set(item_names)
     for group, item_names in groupby(sorted(item_table, key=get_item_group), get_item_group)
-    if group != ""
 }
 
 item_name_groups["Map Progression"] = {

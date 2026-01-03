@@ -196,27 +196,31 @@ class UTMxin(World):
 
         if goal_location and not goal_location.can_reach(state):
             return [{"type": "text", "text": f"Location {goal_location.name} cannot be reached"}]
-        if goal_region and goal_region not in state.path:
+        if goal_region not in state.path and goal_region.name != self.origin_region_name:
             return [{"type": "text", "text": f"Region {goal_region.name} cannot be reached"}]
 
-        path: list[Entrance] = []
-        name, connection = state.path[goal_region]
-        while connection != ("Menu", None) and connection is not None:
-            name, connection = connection
-            if "->" in name and "Menu" not in name:
-                path.append(self.get_entrance(name))
+        messages: list[JSONMessagePart] = [
+            {"type": "color", "color": "slateblue", "text": f"Start -> {self.origin_region_name}\n"},
+            {"type": "color", "color": "green", "text": "    True\n"},
+        ]
+        if goal_region.name != self.origin_region_name:
+            path: list[Entrance] = []
+            name, connection = state.path[goal_region]
+            while connection is not None:
+                name, connection = connection
+                if "->" in name:
+                    path.append(self.get_entrance(name))
 
-        messages: list[JSONMessagePart] = []
-        path.reverse()
-        for p in path:
-            messages.extend(
-                [
-                    {"type": "entrance_name", "text": p.name, "player": self.player},
-                    {"type": "text", "text": "\n"},
-                    *rule_to_json(getattr(p.access_rule, "__self__", None), state),
-                    {"type": "text", "text": "\n"},
-                ]
-            )
+            path.reverse()
+            for p in path:
+                messages.extend(
+                    [
+                        {"type": "entrance_name", "text": p.name, "player": self.player},
+                        {"type": "text", "text": "\n"},
+                        *rule_to_json(getattr(p.access_rule, "__self__", None), state),
+                        {"type": "text", "text": "\n"},
+                    ]
+                )
 
         if goal_location:
             messages.extend(
@@ -242,9 +246,11 @@ class UTMxin(World):
         ):
             return
 
-        source_region = self.get_region(RegionName.GT_ENTRANCE.value)
+        source_region = self.get_region(self.origin_region_name)
         for campfire_id in data_storage_value:  # pyright: ignore[reportUnknownVariableType]
             dest_region = self.get_region(CAMPFIRE_WARPS[campfire_id].value)
+            if source_region == dest_region:
+                continue
             entrance_name = f"{source_region.name} -> {dest_region.name}"
 
             try:

@@ -11,7 +11,6 @@ from Options import (
     Range,
     StartInventoryPool,
     Toggle,
-    Visibility,
 )
 
 
@@ -25,21 +24,6 @@ class Difficulty(Choice):
     display_name = "Difficulty"
     option_easy = 0
     option_hard = 1
-    default = 0
-
-
-class Campaign(Choice):
-    """
-    NOT YET SUPPORTED
-    Set which campaign you wish to play through.
-    """
-
-    visibility = Visibility.none
-    display_name = "Campaign"
-    option_tears_of_the_earth = 0
-    option_new_game_plus = 1
-    option_black_knight = 2
-    option_monster_mode = 3
     default = 0
 
 
@@ -77,6 +61,22 @@ class ExtraEyes(Range):
     range_start = 0
     range_end = 100
     default = 33
+
+
+class StartingLocation(Choice):
+    """
+    Choose which location to start in. You will revive here after dying.
+    """
+
+    display_name = "Starting Location"
+    option_gorgon_tomb = 0
+    option_mechanism = 1
+    option_hall_of_the_phantoms = 2
+    option_ruins_of_ash = 3
+    option_apex = 4
+    option_catacombs = 5
+    option_tower_roots = 6
+    default = 0
 
 
 class RandomizeCharacters(Choice):
@@ -198,35 +198,6 @@ class RandomizeCandles(Toggle):
     """
 
     display_name = "Randomize Candles"
-
-
-class RandomizeOrbRocks(Toggle):
-    """
-    Choose whether to randomize the reward gained from breaking orb rocks.
-    """
-
-    visibility = Visibility.none
-    display_name = "Randomize Orb Rocks"
-
-
-class RandomizeFamiliars(Toggle):
-    """
-    NOT YET SUPPORTED
-    Choose whether to randomize familiar pickups and upgrades.
-    This includes all three Old Man checks and Gil in the secret dev room.
-    """
-
-    visibility = Visibility.none
-    display_name = "Randomize Familiars"
-
-
-class RandomizeMinibossRewards(Toggle):
-    """
-    NOT YET SUPPORTED
-    """
-
-    visibility = Visibility.none
-    display_name = "Randomize Miniboss Rewards"
 
 
 class SkipCutscenes(DefaultOnToggle):
@@ -388,7 +359,7 @@ class TrapPercentage(NamedRange):
 class TagLink(Toggle):
     """
     Determines if the Tag Link is enabled.
-    If enabled, if you have another player's character you will tag to that charater as well.
+    If enabled, if you have another player's character you will tag to that character as well.
     If you don't have that character, you will randomly tag to another character.
     If you only have one character, nothing will happen.
     """
@@ -400,10 +371,10 @@ class TagLink(Toggle):
 class AstalonOptions(DeathLinkMixin, PerGameCommonOptions):
     start_inventory_from_pool: StartInventoryPool
     difficulty: Difficulty
-    # campaign: Campaign
     goal: Goal
     additional_eyes_required: AdditionalEyesRequired
     extra_eyes: ExtraEyes
+    starting_location: StartingLocation
     randomize_characters: RandomizeCharacters
     randomize_key_items: RandomizeKeyItems
     randomize_health_pickups: RandomizeHealthPickups
@@ -415,9 +386,6 @@ class AstalonOptions(DeathLinkMixin, PerGameCommonOptions):
     randomize_elevator: RandomizeElevator
     randomize_switches: RandomizeSwitches
     randomize_candles: RandomizeCandles
-    # randomize_orb_rocks: RandomizeOrbRocks
-    # randomize_familiars: RandomizeFamiliars
-    # randomize_miniboss_rewards: RandomizeMinibossRewards
     skip_cutscenes: SkipCutscenes
     start_with_qol: StartWithQOL
     start_with_ascendant_key: StartWithAscendantKey

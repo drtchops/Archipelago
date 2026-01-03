@@ -1,9 +1,9 @@
 from dataclasses import dataclass
 from enum import Enum
+from typing import Final
 
 
 class RegionName(str, Enum):
-    MENU = "Menu"
     SHOP = "Shop"
     SHOP_ALGUS = "Shop - Algus"
     SHOP_ARIAS = "Shop - Arias"
@@ -260,6 +260,17 @@ class RegionName(str, Enum):
     SP_CAMPFIRE_2 = "Serpent Path - Campfire 2"
 
 
+STARTING_REGIONS: Final[dict[int, str]] = {
+    0: RegionName.GT_ENTRANCE.value,
+    1: RegionName.MECH_START.value,
+    2: RegionName.HOTP_BELL_CAMPFIRE.value,
+    3: RegionName.ROA_START.value,
+    4: RegionName.APEX.value,
+    5: RegionName.CATA_BOW_CAMPFIRE.value,
+    6: RegionName.TR_START.value,
+}
+
+
 @dataclass(frozen=True)
 class RegionData:
     exits: tuple[RegionName, ...] = ()
@@ -273,12 +284,6 @@ class RegionData:
 
 
 astalon_regions: dict[RegionName, RegionData] = {
-    RegionName.MENU: RegionData(
-        exits=(
-            RegionName.GT_ENTRANCE,
-            RegionName.SHOP,
-        ),
-    ),
     RegionName.SHOP: RegionData(
         exits=(
             RegionName.SHOP_ALGUS,
@@ -321,6 +326,7 @@ astalon_regions: dict[RegionName, RegionData] = {
     RegionName.GT_BABY_GORGON: RegionData(),
     RegionName.GT_BOTTOM: RegionData(
         exits=(
+            RegionName.GT_ENTRANCE,
             RegionName.GT_VOID,
             RegionName.GT_GORGONHEART,
             RegionName.GT_UPPER_PATH,
@@ -330,6 +336,7 @@ astalon_regions: dict[RegionName, RegionData] = {
     ),
     RegionName.GT_VOID: RegionData(
         exits=(
+            RegionName.GT_ENTRANCE,
             RegionName.GT_BOTTOM,
             RegionName.MECH_SNAKE,
         ),
@@ -337,6 +344,7 @@ astalon_regions: dict[RegionName, RegionData] = {
     ),
     RegionName.GT_GORGONHEART: RegionData(
         exits=(
+            RegionName.GT_ENTRANCE,
             RegionName.GT_BOTTOM,
             RegionName.GT_ORBS_DOOR,
             RegionName.GT_LEFT,
@@ -388,6 +396,7 @@ astalon_regions: dict[RegionName, RegionData] = {
     ),
     RegionName.GT_BOSS: RegionData(
         exits=(
+            RegionName.GT_ENTRANCE,
             RegionName.GT_BUTT,
             RegionName.MECH_START,
             RegionName.MECH_ZEEK_CONNECTION,
@@ -565,6 +574,7 @@ astalon_regions: dict[RegionName, RegionData] = {
     RegionName.MECH_TRIPLE_SWITCHES: RegionData(),
     RegionName.MECH_ZEEK_CONNECTION: RegionData(
         exits=(
+            RegionName.GT_ENTRANCE,
             RegionName.GT_BOSS,
             RegionName.MECH_ROOTS,
             RegionName.MECH_ARIAS_EYEBALL,
@@ -678,6 +688,7 @@ astalon_regions: dict[RegionName, RegionData] = {
     ),
     RegionName.MECH_BOSS: RegionData(
         exits=(
+            RegionName.GT_ENTRANCE,
             RegionName.GT_BOSS,
             RegionName.MECH_TRIPLE_SWITCHES,
             RegionName.MECH_ZEEK_CONNECTION,
@@ -818,6 +829,7 @@ astalon_regions: dict[RegionName, RegionData] = {
     ),
     RegionName.HOTP_ELEVATOR: RegionData(
         exits=(
+            RegionName.GT_ENTRANCE,
             RegionName.GT_BOSS,
             RegionName.MECH_ZEEK_CONNECTION,
             RegionName.MECH_BOSS,
@@ -923,6 +935,7 @@ astalon_regions: dict[RegionName, RegionData] = {
     ),
     RegionName.HOTP_BOSS: RegionData(
         exits=(
+            RegionName.GT_ENTRANCE,
             RegionName.GT_BOSS,
             RegionName.MECH_ZEEK_CONNECTION,
             RegionName.MECH_BOSS,
@@ -1145,6 +1158,7 @@ astalon_regions: dict[RegionName, RegionData] = {
     ),
     RegionName.ROA_ELEVATOR: RegionData(
         exits=(
+            RegionName.GT_ENTRANCE,
             RegionName.GT_BOSS,
             RegionName.MECH_ZEEK_CONNECTION,
             RegionName.MECH_BOSS,
@@ -1227,6 +1241,7 @@ astalon_regions: dict[RegionName, RegionData] = {
     ),
     RegionName.APEX: RegionData(
         exits=(
+            RegionName.GT_ENTRANCE,
             RegionName.GT_BOSS,
             RegionName.MECH_ZEEK_CONNECTION,
             RegionName.MECH_BOSS,
@@ -1298,6 +1313,7 @@ astalon_regions: dict[RegionName, RegionData] = {
     ),
     RegionName.CATA_ELEVATOR: RegionData(
         exits=(
+            RegionName.GT_ENTRANCE,
             RegionName.GT_BOSS,
             RegionName.MECH_ZEEK_CONNECTION,
             RegionName.MECH_BOSS,
@@ -1426,6 +1442,7 @@ astalon_regions: dict[RegionName, RegionData] = {
     ),
     RegionName.CATA_BOSS: RegionData(
         exits=(
+            RegionName.GT_ENTRANCE,
             RegionName.GT_BOSS,
             RegionName.MECH_ZEEK_CONNECTION,
             RegionName.MECH_BOSS,
@@ -1444,6 +1461,7 @@ astalon_regions: dict[RegionName, RegionData] = {
     ),
     RegionName.TR_START: RegionData(
         exits=(
+            RegionName.GT_ENTRANCE,
             RegionName.GT_BOSS,
             RegionName.MECH_ZEEK_CONNECTION,
             RegionName.MECH_BOSS,
