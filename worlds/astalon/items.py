@@ -97,6 +97,7 @@ class Orbs(StrEnum):
     ORBS_200 = "200 Orbs"
     ORBS_500 = "500 Orbs"
     ORBS_1000 = "1000 Orbs"
+    ORB_MULTI = "Orb Multiplier"
 
 
 class WhiteDoor(StrEnum):
@@ -546,27 +547,27 @@ ALL_ITEMS: tuple[ItemData, ...] = (
     ItemData(KeyItem.MAIDEN_RING, ItemClassification.filler, 1, ItemGroup.ITEM),
     ItemData(KeyItem.SWORD, ItemClassification.progression, 1, ItemGroup.ITEM),
     ItemData(KeyItem.MAP, ItemClassification.filler, 1, ItemGroup.ITEM),
-    ItemData(KeyItem.ASCENDANT_KEY, ItemClassification.progression, 1, ItemGroup.ITEM),
+    ItemData(KeyItem.ASCENDANT_KEY, ItemClassification.progression | ItemClassification.useful, 1, ItemGroup.ITEM),
     ItemData(KeyItem.ADORNED_KEY, ItemClassification.progression, 1, ItemGroup.ITEM),
-    ItemData(KeyItem.BANISH, ItemClassification.progression, 1, ItemGroup.ITEM),
+    ItemData(KeyItem.BANISH, ItemClassification.progression | ItemClassification.useful, 1, ItemGroup.ITEM),
     ItemData(KeyItem.VOID, ItemClassification.progression, 1, ItemGroup.ITEM),
-    ItemData(KeyItem.BOOTS, ItemClassification.progression, 1, ItemGroup.ITEM),
+    ItemData(KeyItem.BOOTS, ItemClassification.progression | ItemClassification.useful, 1, ItemGroup.ITEM),
     ItemData(KeyItem.CLOAK, ItemClassification.progression, 1, ItemGroup.ITEM),
-    ItemData(KeyItem.BELL, ItemClassification.progression, 1, ItemGroup.ITEM),
+    ItemData(KeyItem.BELL, ItemClassification.progression | ItemClassification.useful, 1, ItemGroup.ITEM),
     ItemData(KeyItem.AMULET, ItemClassification.useful, 1, ItemGroup.ITEM),
     ItemData(
         KeyItem.CLAW,
-        ItemClassification.progression,
+        ItemClassification.progression | ItemClassification.useful,
         1,
         ItemGroup.ITEM,
         description="Lets Kyuli jump up walls. Very useful!",
     ),
     ItemData(KeyItem.GAUNTLET, ItemClassification.progression, 1, ItemGroup.ITEM),
-    ItemData(KeyItem.ICARUS, ItemClassification.progression, 1, ItemGroup.ITEM),
-    ItemData(KeyItem.CHALICE, ItemClassification.progression, 1, ItemGroup.ITEM),
-    ItemData(KeyItem.BOW, ItemClassification.progression, 1, ItemGroup.ITEM),
-    ItemData(KeyItem.BLOCK, ItemClassification.progression, 1, ItemGroup.ITEM),
-    ItemData(KeyItem.STAR, ItemClassification.progression, 1, ItemGroup.ITEM),
+    ItemData(KeyItem.ICARUS, ItemClassification.progression | ItemClassification.useful, 1, ItemGroup.ITEM),
+    ItemData(KeyItem.CHALICE, ItemClassification.progression | ItemClassification.useful, 1, ItemGroup.ITEM),
+    ItemData(KeyItem.BOW, ItemClassification.progression | ItemClassification.useful, 1, ItemGroup.ITEM),
+    ItemData(KeyItem.BLOCK, ItemClassification.progression | ItemClassification.useful, 1, ItemGroup.ITEM),
+    ItemData(KeyItem.STAR, ItemClassification.progression | ItemClassification.useful, 1, ItemGroup.ITEM),
     ItemData(Upgrade.ATTACK_1, ItemClassification.useful, 12, ItemGroup.ATTACK),
     ItemData(Upgrade.MAX_HP_1, ItemClassification.filler, 14, ItemGroup.HEALTH),
     ItemData(Upgrade.MAX_HP_2, ItemClassification.useful, 10, ItemGroup.HEALTH),
@@ -615,7 +616,9 @@ ALL_ITEMS: tuple[ItemData, ...] = (
     ItemData(
         BlueDoor.CATA_ORBS,
         lambda world: (
-            ItemClassification.progression if world.options.randomize_candles else ItemClassification.useful
+            ItemClassification.progression
+            if world.options.randomize_candles or world.options.randomize_orb_multipliers
+            else ItemClassification.useful
         ),
         1,
         ItemGroup.DOOR_BLUE,
@@ -640,11 +643,11 @@ ALL_ITEMS: tuple[ItemData, ...] = (
     ItemData(RedDoor.SP, ItemClassification.progression, 1, ItemGroup.DOOR_RED),
     ItemData(RedDoor.TR, ItemClassification.progression, 1, ItemGroup.DOOR_RED),
     ItemData(RedDoor.DEV_ROOM, ItemClassification.filler, 1, ItemGroup.DOOR_RED),
-    ItemData(Character.ARIAS, ItemClassification.progression, 0, ItemGroup.CHARACTER),
-    ItemData(Character.KYULI, ItemClassification.progression, 0, ItemGroup.CHARACTER),
-    ItemData(Character.ALGUS, ItemClassification.progression, 0, ItemGroup.CHARACTER),
-    ItemData(Character.ZEEK, ItemClassification.progression, 0, ItemGroup.CHARACTER),
-    ItemData(Character.BRAM, ItemClassification.progression, 0, ItemGroup.CHARACTER),
+    ItemData(Character.ARIAS, ItemClassification.progression | ItemClassification.useful, 0, ItemGroup.CHARACTER),
+    ItemData(Character.KYULI, ItemClassification.progression | ItemClassification.useful, 0, ItemGroup.CHARACTER),
+    ItemData(Character.ALGUS, ItemClassification.progression | ItemClassification.useful, 0, ItemGroup.CHARACTER),
+    ItemData(Character.ZEEK, ItemClassification.progression | ItemClassification.useful, 0, ItemGroup.CHARACTER),
+    ItemData(Character.BRAM, ItemClassification.progression | ItemClassification.useful, 0, ItemGroup.CHARACTER),
     ItemData(ShopUpgrade.GIFT, ItemClassification.useful, 1, ItemGroup.SHOP),
     ItemData(ShopUpgrade.KNOWLEDGE, ItemClassification.filler, 1, ItemGroup.SHOP),
     ItemData(ShopUpgrade.MERCY, ItemClassification.useful, 1, ItemGroup.SHOP),
@@ -662,13 +665,13 @@ ALL_ITEMS: tuple[ItemData, ...] = (
     ItemData(ShopUpgrade.ARIAS_LIONHEART, ItemClassification.useful, 1, ItemGroup.SHOP),
     ItemData(ShopUpgrade.KYULI_ASSASSIN, ItemClassification.useful, 1, ItemGroup.SHOP),
     ItemData(ShopUpgrade.KYULI_BULLSEYE, ItemClassification.useful, 1, ItemGroup.SHOP),
-    ItemData(ShopUpgrade.KYULI_RAY, ItemClassification.progression, 1, ItemGroup.SHOP),
+    ItemData(ShopUpgrade.KYULI_RAY, ItemClassification.progression | ItemClassification.useful, 1, ItemGroup.SHOP),
     ItemData(ShopUpgrade.ZEEK_JUNKYARD, ItemClassification.useful, 1, ItemGroup.SHOP),
     ItemData(ShopUpgrade.ZEEK_ORBS, ItemClassification.useful, 1, ItemGroup.SHOP),
     ItemData(ShopUpgrade.ZEEK_LOOT, ItemClassification.useful, 1, ItemGroup.SHOP),
     ItemData(ShopUpgrade.BRAM_AXE, ItemClassification.progression, 1, ItemGroup.SHOP),
     ItemData(ShopUpgrade.BRAM_HUNTER, ItemClassification.useful, 1, ItemGroup.SHOP),
-    ItemData(ShopUpgrade.BRAM_WHIPLASH, ItemClassification.progression, 1, ItemGroup.SHOP),
+    ItemData(ShopUpgrade.BRAM_WHIPLASH, ItemClassification.progression | ItemClassification.useful, 1, ItemGroup.SHOP),
     ItemData(Elevator.GT_2, ItemClassification.progression, 1, ItemGroup.ELEVATOR),
     ItemData(Elevator.MECH_1, ItemClassification.progression, 1, ItemGroup.ELEVATOR),
     ItemData(Elevator.MECH_2, ItemClassification.progression, 1, ItemGroup.ELEVATOR),
@@ -898,6 +901,7 @@ ALL_ITEMS: tuple[ItemData, ...] = (
     ItemData(Elevator.GT_1, ItemClassification.progression, 1, ItemGroup.ELEVATOR),
     ItemData(Switch.MECH_SKULL_PUZZLE, ItemClassification.progression, 1, ItemGroup.SWITCH),
     ItemData(Switch.HOTP_SKULL_PUZZLE, ItemClassification.progression, 1, ItemGroup.SWITCH),
+    ItemData(Orbs.ORB_MULTI, ItemClassification.useful, 3, ItemGroup.ORBS),
 )
 
 item_table = {item.name.value: item for item in ALL_ITEMS}

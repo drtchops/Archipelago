@@ -181,6 +181,8 @@ class AstalonWorld(AstalonUTWorld):
             logic_groups.add(LocationGroup.SWITCH.value)
         if self.options.randomize_candles:
             logic_groups.add(LocationGroup.CANDLE.value)
+        if self.options.randomize_orb_multipliers:
+            logic_groups.add(LocationGroup.ORBS.value)
 
         for group, location_names in location_name_groups.items():
             if group not in logic_groups:
@@ -297,6 +299,8 @@ class AstalonWorld(AstalonUTWorld):
             logic_groups.add(ItemGroup.SWITCH.value)
         if self.options.randomize_candles:
             logic_groups.add(ItemGroup.HEAL.value)
+        if self.options.randomize_orb_multipliers:
+            logic_groups.add(ItemGroup.ORBS.value)
 
         for group, item_names in item_name_groups.items():
             if group not in logic_groups:
@@ -462,6 +466,7 @@ class AstalonWorld(AstalonUTWorld):
                 "randomize_elevator",
                 "randomize_switches",
                 "randomize_candles",
+                "randomize_orb_multipliers",
                 "skip_cutscenes",
                 "apex_elevator",
                 "cost_multiplier",

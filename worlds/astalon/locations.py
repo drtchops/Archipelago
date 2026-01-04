@@ -37,6 +37,7 @@ class LocationGroup(StrEnum):
     ELEVATOR = "Elevators"
     SWITCH = "Switches"
     CANDLE = "Candles"
+    ORBS = "Orbs"
 
 
 class LocationName(StrEnum):
@@ -87,6 +88,7 @@ class LocationName(StrEnum):
     GT_CANDLE_1ST_CYCLOPS = "Gorgon Tomb - Candle (1st Cyclops)"
     GT_CANDLE_BOSS = "Gorgon Tomb - Candle (Boss)"
     GT_CANDLE_BOTTOM = "Gorgon Tomb - Candle (Bottom)"
+    GT_ORB_MULTI = "Gorgon Tomb - Orb Multiplier"
 
     MECH_ZEEK = "Mechanism - Zeek"
     MECH_BOOTS = "Mechanism - Talaria Boots"
@@ -177,6 +179,7 @@ class LocationName(StrEnum):
     MECH_CANDLE_1ST_ROOM = "Mechanism - Candle (1st Room)"
     MECH_CANDLE_BK = "Mechanism - Candle (Black Knight)"
     MECH_CANDLE_CAMPFIRE_R = "Mechanism - Candle (Right Campfire)"
+    MECH_ORB_MULTI = "Mechanism - Orb Multiplier"
 
     HOTP_BELL = "Hall of the Phantoms - Athena's Bell"
     HOTP_AMULET = "Hall of the Phantoms - Amulet of Sol"
@@ -417,6 +420,7 @@ class LocationName(StrEnum):
     CATA_CANDLE_ABOVE_ROOTS_5 = "Catacombs - Candle (Above Roots 5)"
     CATA_CANDLE_VOID_R_1 = "Catacombs - Candle (Void Right 1)"
     CATA_CANDLE_VOID_R_2 = "Catacombs - Candle (Void Right 2)"
+    CATA_ORB_MULTI = "Catacombs - Orb Multiplier"
 
     TR_BRAM = "Tower Roots - Bram"
     TR_ADORNED_KEY = "Tower Roots - Adorned Key"
@@ -1107,6 +1111,9 @@ ALL_LOCATIONS: tuple[LocationData, ...] = (
     LocationData(LocationName.GT_ELEVATOR_1, RegionName.GT_ENTRANCE, LocationGroup.ELEVATOR, Area.GT),
     LocationData(LocationName.MECH_SKULL_PUZZLE, RegionName.MECH_SPLIT_PATH, LocationGroup.SWITCH, Area.MECH),
     LocationData(LocationName.HOTP_SKULL_PUZZLE, RegionName.HOTP_TP_TUTORIAL, LocationGroup.SWITCH, Area.MECH),
+    LocationData(LocationName.GT_ORB_MULTI, RegionName.GT_ENTRANCE, LocationGroup.ORBS, Area.GT),
+    LocationData(LocationName.MECH_ORB_MULTI, RegionName.MECH_AFTER_BK, LocationGroup.ORBS, Area.MECH),
+    LocationData(LocationName.CATA_ORB_MULTI, RegionName.CATA_MULTI, LocationGroup.ORBS, Area.CATA),
 )
 
 location_table = {location.name.value: location for location in ALL_LOCATIONS}

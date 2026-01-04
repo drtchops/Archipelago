@@ -200,6 +200,15 @@ class RandomizeCandles(Toggle):
     display_name = "Randomize Candles"
 
 
+class RandomizeOrbMultipliers(Toggle):
+    """
+    Choose whether to randomize the orb multipliers gained from destroying the 3 special faces in the world.
+    Received multipliers will be permanently applied and not removed on death when this option is enabled.
+    """
+
+    display_name = "Randomize Orb Multipliers"
+
+
 class SkipCutscenes(DefaultOnToggle):
     """
     Choose whether to skip or shorten cutscenes.
@@ -386,6 +395,7 @@ class AstalonOptions(DeathLinkMixin, PerGameCommonOptions):
     randomize_elevator: RandomizeElevator
     randomize_switches: RandomizeSwitches
     randomize_candles: RandomizeCandles
+    randomize_orb_multipliers: RandomizeOrbMultipliers
     skip_cutscenes: SkipCutscenes
     start_with_qol: StartWithQOL
     start_with_ascendant_key: StartWithAscendantKey
@@ -418,6 +428,7 @@ OPTION_GROUPS = [
             RandomizeElevator,
             RandomizeSwitches,
             RandomizeCandles,
+            RandomizeOrbMultipliers,
             ApexElevator,
         ],
     ),

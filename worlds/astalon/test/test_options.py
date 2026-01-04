@@ -33,6 +33,8 @@ class SwitchesOnlyTest(AstalonTestBase):
         "randomize_shop": "false",
         "randomize_elevator": "false",
         "randomize_switches": "true",
+        "randomize_candles": "false",
+        "randomize_orb_multipliers": "false",
     }
 
 
@@ -49,6 +51,8 @@ class AllEasyTest(AstalonTestBase):
         "randomize_shop": "true",
         "randomize_elevator": "true",
         "randomize_switches": "true",
+        "randomize_candles": "true",
+        "randomize_orb_multipliers": "true",
         "start_with_qol": "true",
         "apex_elevator": "vanilla",
         "open_early_doors": "true",
@@ -69,6 +73,7 @@ class AllHardTest(AstalonTestBase):
         "randomize_elevator": "true",
         "randomize_switches": "true",
         "randomize_candles": "true",
+        "randomize_orb_multipliers": "true",
         "start_with_qol": "true",
         "apex_elevator": "vanilla",
         "open_early_doors": "true",
@@ -88,6 +93,7 @@ class VanillaTest(AstalonTestBase):
         "randomize_elevator": "false",
         "randomize_switches": "false",
         "randomize_candles": "false",
+        "randomize_orb_multipliers": "false",
         "start_with_qol": "false",
         "open_early_doors": "false",
     }
