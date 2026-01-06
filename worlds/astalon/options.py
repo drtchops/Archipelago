@@ -209,12 +209,20 @@ class RandomizeOrbMultipliers(Toggle):
     display_name = "Randomize Orb Multipliers"
 
 
-class ShuffleVoidPortals(Toggle):
+class ShuffleVoidPortals(Choice):
     """
-    Choose whether to shuffle which void portals are connected to each other. Portals are always two-way.
+    Choose whether to shuffle which void portals are connected to each other.
+    None: Portals will take you to their vanilla locations
+    Coupled: Returning through a portal will take you to the same place you came from
+    Decoupled: Any portal can take you to any other portal
     """
 
     display_name = "Shuffle Void Portals"
+    option_none = 0
+    alias_off = 0
+    option_coupled = 1
+    option_decoupled = 2
+    default = 0
 
 
 class SkipCutscenes(DefaultOnToggle):

@@ -36,7 +36,7 @@ from .locations import (
     location_table,
 )
 from .logic import MAIN_ENTRANCE_RULES, MAIN_LOCATION_RULES
-from .options import ApexElevator, Goal, RandomizeCharacters, StartingLocation
+from .options import ApexElevator, Goal, RandomizeCharacters, ShuffleVoidPortals, StartingLocation
 from .regions import DEFAULT_PORTALS, STARTING_REGIONS, RegionName, astalon_regions
 from .tracker import AstalonUTWorld
 from .web_world import AstalonWebWorld
@@ -434,7 +434,8 @@ class AstalonWorld(AstalonUTWorld):
     @override
     def connect_entrances(self) -> None:
         if self.options.shuffle_void_portals:
-            er_result = randomize_entrances(self, True, {0: [0]})
+            coupled = self.options.shuffle_void_portals == ShuffleVoidPortals.option_coupled
+            er_result = randomize_entrances(self, coupled, {0: [0]})
             self.portal_pairs = tuple(er_result.pairings)
 
     @classmethod
