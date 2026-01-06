@@ -93,6 +93,8 @@ shop_cheap = CanReachRegion(R.GT_LEFT)
 shop_moderate = CanReachRegion(R.MECH_START)
 shop_expensive = CanReachRegion(R.ROA_START)
 
+has_void = Has(KeyItem.VOID)
+
 MAIN_ENTRANCE_RULES: dict[tuple[R, R], RuleFactory] = {
     (R.SHOP, R.SHOP_ALGUS): Has(Character.ALGUS),
     (R.SHOP, R.SHOP_ARIAS): Has(Character.ARIAS),
@@ -116,7 +118,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], RuleFactory] = {
         HasSwitch(Switch.GT_2ND_ROOM),
         HasWhite(WhiteDoor.GT_START, otherwise=True, options=switch_off),
     ),
-    (R.GT_ENTRANCE, R.GT_VOID): Has(KeyItem.VOID),
+    (R.GT_ENTRANCE, R.GT_VOID): has_void,
     (R.GT_ENTRANCE, R.GT_GORGONHEART): Or(
         HasSwitch(Switch.GT_GH_SHORTCUT),
         Has(KeyItem.BOOTS),
@@ -145,7 +147,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], RuleFactory] = {
         Has(Character.KYULI),
         HardLogic(HasAny(Character.ZEEK, KeyItem.BOOTS)),
     ),
-    (R.GT_VOID, R.GT_ENTRANCE): Has(KeyItem.VOID),
+    (R.GT_VOID, R.GT_ENTRANCE): has_void,
     (R.GT_VOID, R.GT_BOTTOM): Has(Eye.RED),
     (R.GT_VOID, R.MECH_SNAKE): HasSwitch(Switch.MECH_SNAKE_2),
     (R.GT_GORGONHEART, R.GT_ORBS_DOOR): HasBlue(BlueDoor.GT_ORBS, otherwise=True),
@@ -270,7 +272,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], RuleFactory] = {
     (R.MECH_SNAKE, R.MECH_BOTTOM_CAMPFIRE): HasSwitch(Switch.MECH_SNAKE_1),
     (R.MECH_SNAKE, R.GT_VOID): HasSwitch(Switch.MECH_SNAKE_2, otherwise=True),
     (R.MECH_LOWER_VOID, R.MECH_START): HasBlue(BlueDoor.MECH_RED, otherwise=True),
-    (R.MECH_LOWER_VOID, R.MECH_UPPER_VOID): Has(KeyItem.VOID),
+    (R.MECH_LOWER_VOID, R.MECH_UPPER_VOID): has_void,
     (R.MECH_LOWER_VOID, R.HOTP_MECH_VOID_CONNECTION): Has(Eye.BLUE),
     (R.MECH_WATCHER, R.MECH_START): And(
         HasSwitch(Switch.MECH_CANNON),
@@ -372,7 +374,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], RuleFactory] = {
         And(Has(KeyItem.CLAW), HasSwitch(Switch.MECH_UPPER_VOID_DROP, otherwise=True)),
     ),
     (R.MECH_UPPER_VOID, R.MECH_RIGHT): HasSwitch(Switch.MECH_UPPER_VOID, otherwise=True),
-    (R.MECH_UPPER_VOID, R.MECH_LOWER_VOID): Has(KeyItem.VOID),
+    (R.MECH_UPPER_VOID, R.MECH_LOWER_VOID): has_void,
     (R.MECH_BELOW_POTS, R.MECH_RIGHT): Or(
         HasWhite(WhiteDoor.MECH_ARENA),
         HasSwitch(Switch.MECH_EYEBALL, otherwise=True),
@@ -485,8 +487,9 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], RuleFactory] = {
         And(Has(KeyItem.STAR), HasSwitch(Switch.HOTP_LEFT_1, Switch.HOTP_LEFT_2, otherwise=True)),
     ),
     (R.HOTP_START_MID, R.HOTP_START_BOTTOM_MID): HasSwitch(Switch.HOTP_GHOSTS, otherwise=True),
-    (R.HOTP_START_MID, R.HOTP_LOWER_VOID): HardLogic(HasAny(Character.ALGUS, ShopUpgrade.BRAM_WHIPLASH)),
-    (R.HOTP_LOWER_VOID, R.HOTP_UPPER_VOID): HasAll(KeyItem.VOID, KeyItem.CLAW),
+    (R.HOTP_START_MID, R.HOTP_LOWER_VOID_CONNECTION): HardLogic(HasAny(Character.ALGUS, ShopUpgrade.BRAM_WHIPLASH)),
+    (R.HOTP_LOWER_VOID_CONNECTION, R.HOTP_LOWER_VOID): Has(KeyItem.CLAW),
+    (R.HOTP_LOWER_VOID, R.HOTP_UPPER_VOID): has_void,
     (R.HOTP_START_LEFT, R.HOTP_ELEVATOR): HasSwitch(Switch.HOTP_LEFT_BACKTRACK),
     (R.HOTP_START_LEFT, R.HOTP_START_MID): Or(
         HasSwitch(Switch.HOTP_LEFT_3),
@@ -540,10 +543,15 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], RuleFactory] = {
             HardLogic(Has(KeyItem.CLAW)),
         ),
     ),
-    (R.HOTP_CATH_CONNECTION, R.CATH_START): And(
-        HasAll(KeyItem.VOID, KeyItem.CLAW),
+    (R.HOTP_CATH_CONNECTION, R.HOTP_CATH_VOID): And(
+        Has(KeyItem.CLAW),
         Or(HasRed(RedDoor.CATH), CanReachRegion(R.HOTP_RED_KEY, options=red_off)),
     ),
+    (R.HOTP_CATH_VOID, R.HOTP_CATH_CONNECTION): Or(
+        HasRed(RedDoor.CATH),
+        CanReachRegion(R.HOTP_RED_KEY, options=red_off),
+    ),
+    (R.HOTP_CATH_VOID, R.CATH_START): has_void,
     (R.HOTP_LOWER_ARIAS, R.HOTP_BELL_CAMPFIRE): Has(Character.ARIAS),
     (R.HOTP_LOWER_ARIAS, R.HOTP_GHOST_BLOOD): Or(
         HasSwitch(Switch.HOTP_TELEPORTS, otherwise=True),
@@ -640,7 +648,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], RuleFactory] = {
     (R.HOTP_FALL_BOTTOM, R.HOTP_TP_FALL_TOP): Has(KeyItem.CLAW),
     (R.HOTP_FALL_BOTTOM, R.HOTP_UPPER_VOID): Has(Eye.GREEN),
     (R.HOTP_UPPER_VOID, R.HOTP_FALL_BOTTOM): Has(Eye.GREEN),
-    (R.HOTP_UPPER_VOID, R.HOTP_LOWER_VOID): Has(KeyItem.VOID),
+    (R.HOTP_UPPER_VOID, R.HOTP_LOWER_VOID): has_void,
     (R.HOTP_BOSS, R.GT_ENTRANCE): HasElevator(Elevator.GT_1),
     (R.HOTP_BOSS, R.CATA_ELEVATOR): HasElevator(Elevator.CATA_1),
     (R.HOTP_BOSS, R.CATA_BOSS): HasElevator(Elevator.CATA_2),
@@ -692,7 +700,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], RuleFactory] = {
         can_uppies,
         can_block_in_wall,
     ),
-    (R.ROA_LOWER_VOID, R.ROA_UPPER_VOID): Has(KeyItem.VOID),
+    (R.ROA_LOWER_VOID, R.ROA_UPPER_VOID): has_void,
     (R.ROA_LOWER_VOID, R.ROA_LOWER_VOID_CONNECTION): HasSwitch(Switch.ROA_LOWER_VOID, otherwise=True),
     (R.ROA_ARIAS_BABY_GORGON_CONNECTION, R.ROA_ARIAS_BABY_GORGON): And(
         Has(Character.ARIAS),
@@ -769,7 +777,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], RuleFactory] = {
         ShopUpgrade.BRAM_AXE,
         ShopUpgrade.BRAM_WHIPLASH,
     ),
-    (R.ROA_UPPER_VOID, R.ROA_LOWER_VOID): Has(KeyItem.VOID),
+    (R.ROA_UPPER_VOID, R.ROA_LOWER_VOID): has_void,
     (R.ROA_UPPER_VOID, R.ROA_SP_CONNECTION): HasSwitch(Crystal.ROA_SHAFT, Switch.ROA_SHAFT_DOWNWARDS),
     (R.ROA_UPPER_VOID, R.ROA_SPIKE_BALLS): Or(HasSwitch(Crystal.ROA_SPIKE_BALLS), otherwise_crystal),
     (R.ROA_SPIKE_BALLS, R.ROA_SPIKE_SPINNERS): HasWhite(WhiteDoor.ROA_BALLS, otherwise=True),
@@ -951,8 +959,9 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], RuleFactory] = {
         can_kill_ghosts,
         Or(HasSwitch(Face.CATA_DOUBLE_DOOR), otherwise_bow),
     ),
-    (R.CATA_VOID_R, R.CATA_VOID_L): Has(KeyItem.VOID),
-    (R.CATA_VOID_L, R.CATA_VOID_R): Has(KeyItem.VOID),
+    (R.CATA_VOID_R, R.CATA_DOUBLE_DOOR): HardLogic(HasAll(KeyItem.BELL, ShopUpgrade.ALGUS_METEOR)),
+    (R.CATA_VOID_R, R.CATA_VOID_L): has_void,
+    (R.CATA_VOID_L, R.CATA_VOID_R): has_void,
     (R.CATA_VOID_L, R.CATA_BOSS): And(HasWhite(WhiteDoor.CATA_PRISON, otherwise=True), Has(Character.KYULI)),
     (R.CATA_BOSS, R.GT_ENTRANCE): HasElevator(Elevator.GT_1),
     (R.CATA_BOSS, R.CATA_ELEVATOR): HasElevator(Elevator.CATA_1),

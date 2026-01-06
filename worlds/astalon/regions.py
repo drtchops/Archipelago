@@ -80,6 +80,7 @@ class RegionName(StrEnum):
 
     HOTP_START = "Hall of the Phantoms - Start"
     HOTP_START_MID = "Hall of the Phantoms - Start Mid"
+    HOTP_LOWER_VOID_CONNECTION = "Hall of the Phantoms - Lower Void Connection"
     HOTP_LOWER_VOID = "Hall of the Phantoms - Lower Void"
     HOTP_START_LEFT = "Hall of the Phantoms - Start Left"
     HOTP_START_BOTTOM = "Hall of the Phantoms - Start Bottom"
@@ -94,6 +95,7 @@ class RegionName(StrEnum):
     HOTP_RED_KEY = "Hall of the Phantoms - Red Key"
     HOTP_BELL = "Hall of the Phantoms - Bell"
     HOTP_CATH_CONNECTION = "Hall of the Phantoms - Cathedral Connection"
+    HOTP_CATH_VOID = "Hall of the Phantoms - Cathedral Void"
     HOTP_LOWER_ARIAS = "Hall of the Phantoms - Lower Arias"
     HOTP_GHOST_BLOOD = "Hall of the Phantoms - Ghost Blood"
     HOTP_EYEBALL = "Hall of the Phantoms - Eyeball"
@@ -269,6 +271,15 @@ STARTING_REGIONS: Final[dict[int, str]] = {
     5: RegionName.CATA_BOW_CAMPFIRE.value,
     6: RegionName.TR_START.value,
 }
+
+DEFAULT_PORTALS: Final[tuple[tuple[str, str], ...]] = (
+    (RegionName.GT_ENTRANCE.value, RegionName.GT_VOID.value),
+    (RegionName.MECH_LOWER_VOID.value, RegionName.MECH_UPPER_VOID.value),
+    (RegionName.HOTP_LOWER_VOID.value, RegionName.HOTP_UPPER_VOID.value),
+    (RegionName.HOTP_CATH_VOID.value, RegionName.CATH_START.value),
+    (RegionName.ROA_LOWER_VOID.value, RegionName.ROA_UPPER_VOID.value),
+    (RegionName.CATA_VOID_L.value, RegionName.CATA_VOID_R.value),
+)
 
 
 @dataclass(frozen=True)
@@ -716,14 +727,20 @@ astalon_regions: dict[RegionName, RegionData] = {
     RegionName.HOTP_START_MID: RegionData(
         exits=(
             RegionName.HOTP_START,
-            RegionName.HOTP_LOWER_VOID,
+            RegionName.HOTP_LOWER_VOID_CONNECTION,
             RegionName.HOTP_START_LEFT,
             RegionName.HOTP_START_BOTTOM_MID,
         ),
     ),
-    RegionName.HOTP_LOWER_VOID: RegionData(
+    RegionName.HOTP_LOWER_VOID_CONNECTION: RegionData(
         exits=(
             RegionName.HOTP_START_MID,
+            RegionName.HOTP_LOWER_VOID,
+        ),
+    ),
+    RegionName.HOTP_LOWER_VOID: RegionData(
+        exits=(
+            RegionName.HOTP_LOWER_VOID_CONNECTION,
             RegionName.HOTP_UPPER_VOID,
         ),
         portal=True,
@@ -798,8 +815,15 @@ astalon_regions: dict[RegionName, RegionData] = {
     RegionName.HOTP_CATH_CONNECTION: RegionData(
         exits=(
             RegionName.HOTP_BELL,
+            RegionName.HOTP_CATH_VOID,
+        ),
+    ),
+    RegionName.HOTP_CATH_VOID: RegionData(
+        exits=(
+            RegionName.HOTP_CATH_CONNECTION,
             RegionName.CATH_START,
         ),
+        portal=True,
     ),
     RegionName.HOTP_LOWER_ARIAS: RegionData(
         exits=(
@@ -1430,7 +1454,10 @@ astalon_regions: dict[RegionName, RegionData] = {
         ),
     ),
     RegionName.CATA_VOID_R: RegionData(
-        exits=(RegionName.CATA_VOID_L,),
+        exits=(
+            RegionName.CATA_DOUBLE_DOOR,
+            RegionName.CATA_VOID_L,
+        ),
         portal=True,
     ),
     RegionName.CATA_VOID_L: RegionData(
@@ -1542,6 +1569,7 @@ astalon_regions: dict[RegionName, RegionData] = {
     RegionName.CD_BOSS: RegionData(boss=True),
     RegionName.CATH_START: RegionData(
         exits=(
+            RegionName.HOTP_CATH_VOID,
             RegionName.CATH_START_RIGHT,
             RegionName.CATH_START_LEFT,
         ),

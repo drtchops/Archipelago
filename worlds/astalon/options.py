@@ -209,6 +209,14 @@ class RandomizeOrbMultipliers(Toggle):
     display_name = "Randomize Orb Multipliers"
 
 
+class ShuffleVoidPortals(Toggle):
+    """
+    Choose whether to shuffle which void portals are connected to each other. Portals are always two-way.
+    """
+
+    display_name = "Shuffle Void Portals"
+
+
 class SkipCutscenes(DefaultOnToggle):
     """
     Choose whether to skip or shorten cutscenes.
@@ -396,6 +404,7 @@ class AstalonOptions(DeathLinkMixin, PerGameCommonOptions):
     randomize_switches: RandomizeSwitches
     randomize_candles: RandomizeCandles
     randomize_orb_multipliers: RandomizeOrbMultipliers
+    shuffle_void_portals: ShuffleVoidPortals
     skip_cutscenes: SkipCutscenes
     start_with_qol: StartWithQOL
     start_with_ascendant_key: StartWithAscendantKey
@@ -429,6 +438,7 @@ OPTION_GROUPS = [
             RandomizeSwitches,
             RandomizeCandles,
             RandomizeOrbMultipliers,
+            ShuffleVoidPortals,
             ApexElevator,
         ],
     ),

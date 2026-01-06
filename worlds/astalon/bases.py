@@ -29,6 +29,7 @@ class AstalonWorldBase(World, metaclass=AstalonWorldMetaclass):
     starting_characters: list[Character]
     extra_gold_eyes: int = 0
     early_items: EarlyItems
+    portal_pairs: tuple[tuple[str, str], ...] = ()
 
     rule_cache: "dict[int, RuleInstance]"
     _rule_deps: dict[str, set[int]]

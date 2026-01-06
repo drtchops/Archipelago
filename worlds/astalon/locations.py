@@ -600,7 +600,7 @@ ALL_LOCATIONS: tuple[LocationData, ...] = (
     LocationData(LocationName.HOTP_HP_2_LADDER, RegionName.HOTP_ELEVATOR, LocationGroup.HEALTH, Area.HOTP),
     LocationData(LocationName.HOTP_HP_2_GAUNTLET, RegionName.HOTP_TP_FALL_TOP, LocationGroup.HEALTH, Area.HOTP),
     LocationData(LocationName.HOTP_HP_5_OLD_MAN, RegionName.HOTP_ABOVE_OLD_MAN, LocationGroup.HEALTH, Area.HOTP),
-    LocationData(LocationName.HOTP_HP_5_MAZE, RegionName.HOTP_LOWER_VOID, LocationGroup.HEALTH, Area.HOTP),
+    LocationData(LocationName.HOTP_HP_5_MAZE, RegionName.HOTP_LOWER_VOID_CONNECTION, LocationGroup.HEALTH, Area.HOTP),
     LocationData(LocationName.HOTP_HP_5_START, RegionName.HOTP_START, LocationGroup.HEALTH, Area.HOTP),
     LocationData(LocationName.HOTP_WHITE_KEY_LEFT, RegionName.HOTP_START_LEFT, LocationGroup.KEY_WHITE, Area.HOTP),
     LocationData(LocationName.HOTP_WHITE_KEY_GHOST, RegionName.HOTP_LOWER, LocationGroup.KEY_WHITE, Area.HOTP),

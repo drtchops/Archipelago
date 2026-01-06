@@ -155,6 +155,8 @@ class AstalonUTWorld(AstalonWorldBase):
                 self.starting_characters = [Character(c) for c in slot_data["starting_characters"]]
             if "extra_gold_eyes" in slot_data:
                 self.extra_gold_eyes = slot_data["extra_gold_eyes"]
+            if "portal_pairs" in slot_data:
+                self.portal_pairs = tuple(tuple(p) for p in slot_data["portal_pairs"])
 
     def get_logical_path(self, dest_name: str, state: CollectionState) -> list[JSONMessagePart]:
         if not dest_name:

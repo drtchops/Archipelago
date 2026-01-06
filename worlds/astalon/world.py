@@ -4,7 +4,8 @@ from typing import Any, ClassVar, Final
 
 from typing_extensions import override
 
-from BaseClasses import CollectionState, Item, ItemClassification, MultiWorld, Region
+from BaseClasses import CollectionState, EntranceType, Item, ItemClassification, MultiWorld, Region
+from entrance_rando import disconnect_entrance_for_randomization, randomize_entrances
 from Options import OptionError
 
 from .constants import GAME_NAME
@@ -36,7 +37,7 @@ from .locations import (
 )
 from .logic import MAIN_ENTRANCE_RULES, MAIN_LOCATION_RULES
 from .options import ApexElevator, Goal, RandomizeCharacters, StartingLocation
-from .regions import STARTING_REGIONS, RegionName, astalon_regions
+from .regions import DEFAULT_PORTALS, STARTING_REGIONS, RegionName, astalon_regions
 from .tracker import AstalonUTWorld
 from .web_world import AstalonWebWorld
 
@@ -148,13 +149,31 @@ class AstalonWorld(AstalonUTWorld):
                     for item_name, rules in rule.deps().items():
                         self._rule_deps[item_name] |= rules
 
-                entrance = region.connect(self.get_region(exit_region_name.value), rule=rule.test if rule else None)
+                exit_region = self.get_region(exit_region_name.value)
+                name = None
+                if (
+                    self.options.shuffle_void_portals
+                    and region_data.portal
+                    and astalon_regions[exit_region_name].portal
+                ):
+                    name = f"{region_name} Portal"
+
+                entrance = region.connect(exit_region, name=name, rule=rule.test if rule else None)
                 if rule:
                     for indirect_region in rule.indirect():
                         self.multiworld.register_indirect_condition(
                             self.get_region(indirect_region.value),
                             entrance,
                         )
+
+        if self.options.shuffle_void_portals:
+            for left_region_name, right_region_name in DEFAULT_PORTALS:
+                left_entrance = self.get_entrance(f"{left_region_name} Portal")
+                right_entrance = self.get_entrance(f"{right_region_name} Portal")
+                left_entrance.randomization_type = EntranceType.TWO_WAY
+                right_entrance.randomization_type = EntranceType.TWO_WAY
+                disconnect_entrance_for_randomization(left_entrance)
+                disconnect_entrance_for_randomization(right_entrance)
 
         origin = self.get_region(self.origin_region_name)
         shop = self.get_region(RegionName.SHOP.value)
@@ -412,6 +431,12 @@ class AstalonWorld(AstalonUTWorld):
     def get_trap_item_name(self) -> str:
         return self.random.choice(trap_items)
 
+    @override
+    def connect_entrances(self) -> None:
+        if self.options.shuffle_void_portals:
+            er_result = randomize_entrances(self, True, {0: [0]})
+            self.portal_pairs = tuple(er_result.pairings)
+
     @classmethod
     def _calc_character_strengths(cls, multiworld: MultiWorld) -> None:
         cls._character_strengths = {}
@@ -467,6 +492,7 @@ class AstalonWorld(AstalonUTWorld):
                 "randomize_switches",
                 "randomize_candles",
                 "randomize_orb_multipliers",
+                "shuffle_void_portals",
                 "skip_cutscenes",
                 "apex_elevator",
                 "cost_multiplier",
@@ -482,6 +508,7 @@ class AstalonWorld(AstalonUTWorld):
             "starting_characters": [c.value for c in self.starting_characters],
             "character_strengths": strengths,
             "extra_gold_eyes": self.extra_gold_eyes,
+            "portal_pairs": self.portal_pairs if self.options.shuffle_void_portals else (),
         }
 
     @classmethod
