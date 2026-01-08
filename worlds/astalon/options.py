@@ -361,6 +361,25 @@ class ScaleCharacterStats(DefaultOnToggle):
     display_name = "Scale Character Stats"
 
 
+class HintShopItems(Choice):
+    """
+    Automatically create hints for shop items after visiting the shop. Does nothing when shop randomizer is off.
+    Character shop upgrades will only be hinted once the character is unlocked.
+    None: No hints will be created
+    Progression: Hints will only be created for progression items
+    Useful: Hints will be created for progression and useful items
+    All: Hints will be created for all items
+    """
+
+    display_name = "Hint Shop Items"
+    option_none = 0
+    alias_off = 0
+    option_progression = 1
+    option_useful = 2
+    option_all = 3
+    default = 1
+
+
 class TrapPercentage(NamedRange):
     """
     Set what percentage of the filler in the item pool will be replaced by trap items.
@@ -426,6 +445,7 @@ class AstalonOptions(DeathLinkMixin, PerGameCommonOptions):
     cheap_kyuli_ray: CheapKyuliRay
     always_restore_candles: AlwaysRestoreCandles
     scale_character_stats: ScaleCharacterStats
+    hint_shop_items: HintShopItems
     trap_percentage: TrapPercentage
     tag_link: TagLink
 
@@ -465,6 +485,7 @@ OPTION_GROUPS = [
             CheapKyuliRay,
             AlwaysRestoreCandles,
             ScaleCharacterStats,
+            HintShopItems,
         ],
     ),
     OptionGroup(

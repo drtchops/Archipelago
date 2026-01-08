@@ -503,6 +503,7 @@ class AstalonWorld(AstalonUTWorld):
                 "cheap_kyuli_ray",
                 "always_restore_candles",
                 "scale_character_stats",
+                "hint_shop_items",
                 "tag_link",
                 "death_link",
             ),
