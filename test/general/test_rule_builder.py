@@ -1,14 +1,14 @@
 import unittest
-from dataclasses import dataclass
-from typing import Any, ClassVar
+from dataclasses import dataclass, fields
+from typing import Any, ClassVar, cast
 
 from typing_extensions import override
 
 from BaseClasses import CollectionState, Item, ItemClassification, Location, MultiWorld, Region
 from NetUtils import JSONMessagePart
-from Options import Choice, PerGameCommonOptions, Toggle
+from Options import Choice, FreeText, Option, OptionSet, PerGameCommonOptions, Toggle
 from rule_builder.cached_world import CachedRuleBuilderWorld
-from rule_builder.options import OptionFilter
+from rule_builder.options import Operator, OptionFilter
 from rule_builder.rules import (
     And,
     CanReachEntrance,
@@ -31,8 +31,11 @@ from rule_builder.rules import (
 )
 from test.general import setup_solo_multiworld
 from test.param import classvar_matrix
-from worlds import network_data_package
-from worlds.AutoWorld import WebWorld, World
+from worlds.AutoWorld import AutoWorldRegister, World
+
+
+class CachedCollectionState(CollectionState):
+    rule_builder_cache: dict[int, dict[int, bool]]  # pyright: ignore[reportUninitializedInstanceVariable]
 
 
 class ToggleOption(Toggle):
@@ -40,25 +43,32 @@ class ToggleOption(Toggle):
 
 
 class ChoiceOption(Choice):
+    auto_display_name = True
     option_first = 0
     option_second = 1
     option_third = 2
     default = 0
 
 
+class FreeTextOption(FreeText):
+    auto_display_name = True
+
+
+class SetOption(OptionSet):
+    auto_display_name = True
+    valid_keys: ClassVar[set[str]] = {"one", "two", "three"}  # pyright: ignore[reportIncompatibleVariableOverride]
+
+
 @dataclass
 class RuleBuilderOptions(PerGameCommonOptions):
     toggle_option: ToggleOption
     choice_option: ChoiceOption
+    text_option: FreeTextOption
+    set_option: SetOption
 
 
 GAME_NAME = "Rule Builder Test Game"
-GAME_NAME_CACHED = "Rule Builder Cached Test Game"
 LOC_COUNT = 20
-
-
-class RuleBuilderWebWorld(WebWorld):
-    tutorials = []  # noqa: RUF012
 
 
 class RuleBuilderItem(Item):
@@ -69,64 +79,72 @@ class RuleBuilderLocation(Location):
     game = GAME_NAME
 
 
-class RuleBuilderWorld(World):
-    game = GAME_NAME
-    web = RuleBuilderWebWorld()
-    item_name_to_id: ClassVar[dict[str, int]] = {f"Item {i}": i for i in range(1, LOC_COUNT + 1)}
-    location_name_to_id: ClassVar[dict[str, int]] = {f"Location {i}": i for i in range(1, LOC_COUNT + 1)}
-    item_name_groups: ClassVar[dict[str, set[str]]] = {
-        "Group 1": {"Item 1", "Item 2", "Item 3"},
-        "Group 2": {"Item 4", "Item 5"},
-    }
-    hidden = True
-    options_dataclass = RuleBuilderOptions
-    options: RuleBuilderOptions  # pyright: ignore[reportIncompatibleVariableOverride]
-    origin_region_name = "Region 1"
+class RuleBuilderTestCase(unittest.TestCase):
+    old_world_types: dict[str, type[World]]  # pyright: ignore[reportUninitializedInstanceVariable]
+    world_cls: type[World]  # pyright: ignore[reportUninitializedInstanceVariable]
 
     @override
-    def create_item(self, name: str) -> RuleBuilderItem:
-        classification = ItemClassification.filler if name == "Filler" else ItemClassification.progression
-        return RuleBuilderItem(name, classification, self.item_name_to_id[name], self.player)
+    def setUp(self) -> None:
+        self.old_world_types = AutoWorldRegister.world_types.copy()
+        self._create_world_class()
 
     @override
-    def get_filler_item_name(self) -> str:
-        return "Filler"
+    def tearDown(self) -> None:
+        AutoWorldRegister.world_types = self.old_world_types
+        assert GAME_NAME not in AutoWorldRegister.world_types
+
+    def _create_world_class(self) -> None:
+        class RuleBuilderWorld(World):
+            game = GAME_NAME
+            item_name_to_id: ClassVar = {f"Item {i}": i for i in range(1, LOC_COUNT + 1)}
+            location_name_to_id: ClassVar = {f"Location {i}": i for i in range(1, LOC_COUNT + 1)}
+            item_name_groups: ClassVar = {
+                "Group 1": {"Item 1", "Item 2", "Item 3"},
+                "Group 2": {"Item 4", "Item 5"},
+            }
+            hidden = True
+            options_dataclass = RuleBuilderOptions
+            options: RuleBuilderOptions  # pyright: ignore[reportIncompatibleVariableOverride]
+            origin_region_name = "Region 1"
+
+            @override
+            def create_item(self, name: str) -> RuleBuilderItem:
+                classification = ItemClassification.filler if name == "Filler" else ItemClassification.progression
+                return RuleBuilderItem(name, classification, self.item_name_to_id[name], self.player)
+
+            @override
+            def get_filler_item_name(self) -> str:
+                return "Filler"
+
+        self.world_cls = RuleBuilderWorld
 
 
-class RuleBuilderCachedItem(Item):
-    game = GAME_NAME_CACHED
-
-
-class RuleBuilderCachedLocation(Location):
-    game = GAME_NAME_CACHED
-
-
-class RuleBuilderCachedWorld(CachedRuleBuilderWorld):
-    game = GAME_NAME_CACHED
-    web = RuleBuilderWebWorld()
-    item_name_to_id: ClassVar[dict[str, int]] = {f"Item {i}": i for i in range(1, LOC_COUNT + 1)}
-    location_name_to_id: ClassVar[dict[str, int]] = {f"Location {i}": i for i in range(1, LOC_COUNT + 1)}
-    item_name_groups: ClassVar[dict[str, set[str]]] = {
-        "Group 1": {"Item 1", "Item 2", "Item 3"},
-        "Group 2": {"Item 4", "Item 5"},
-    }
-    hidden = True
-    options_dataclass = RuleBuilderOptions
-    options: RuleBuilderOptions  # pyright: ignore[reportIncompatibleVariableOverride]
-    origin_region_name = "Region 1"
-
+class CachedRuleBuilderTestCase(RuleBuilderTestCase):
     @override
-    def create_item(self, name: str) -> RuleBuilderCachedItem:
-        classification = ItemClassification.filler if name == "Filler" else ItemClassification.progression
-        return RuleBuilderCachedItem(name, classification, self.item_name_to_id[name], self.player)
+    def _create_world_class(self) -> None:
+        class RuleBuilderWorld(CachedRuleBuilderWorld):
+            game = GAME_NAME
+            item_name_to_id: ClassVar = {f"Item {i}": i for i in range(1, LOC_COUNT + 1)}
+            location_name_to_id: ClassVar = {f"Location {i}": i for i in range(1, LOC_COUNT + 1)}
+            item_name_groups: ClassVar = {
+                "Group 1": {"Item 1", "Item 2", "Item 3"},
+                "Group 2": {"Item 4", "Item 5"},
+            }
+            hidden = True
+            options_dataclass = RuleBuilderOptions
+            options: RuleBuilderOptions  # pyright: ignore[reportIncompatibleVariableOverride]
+            origin_region_name = "Region 1"
 
-    @override
-    def get_filler_item_name(self) -> str:
-        return "Filler"
+            @override
+            def create_item(self, name: str) -> RuleBuilderItem:
+                classification = ItemClassification.filler if name == "Filler" else ItemClassification.progression
+                return RuleBuilderItem(name, classification, self.item_name_to_id[name], self.player)
 
+            @override
+            def get_filler_item_name(self) -> str:
+                return "Filler"
 
-network_data_package["games"][RuleBuilderWorld.game] = RuleBuilderWorld.get_data_package_data()
-network_data_package["games"][RuleBuilderCachedWorld.game] = RuleBuilderCachedWorld.get_data_package_data()
+        self.world_cls = RuleBuilderWorld
 
 
 @classvar_matrix(
@@ -217,50 +235,54 @@ network_data_package["games"][RuleBuilderCachedWorld.game] = RuleBuilderCachedWo
         ),
     )
 )
-class TestSimplify(unittest.TestCase):
+class TestSimplify(RuleBuilderTestCase):
     rules: ClassVar[tuple[Rule[Any], Rule.Resolved]]
 
     def test_simplify(self) -> None:
-        multiworld = setup_solo_multiworld(RuleBuilderWorld, steps=("generate_early",), seed=0)
+        multiworld = setup_solo_multiworld(self.world_cls, steps=("generate_early",), seed=0)
         world = multiworld.worlds[1]
-        assert isinstance(world, RuleBuilderWorld)
         rule, expected = self.rules
         resolved_rule = rule.resolve(world)
         self.assertEqual(resolved_rule, expected, f"\n{resolved_rule}\n{expected}")
 
 
-class TestOptions(unittest.TestCase):
+@classvar_matrix(
+    cases=(
+        (ToggleOption, 0, "eq", 0, True),
+        (ToggleOption, 0, "eq", 1, False),
+        (ToggleOption, 0, "ne", 0, False),
+        (ToggleOption, 0, "ne", 1, True),
+        (ChoiceOption, 0, "gt", 1, False),
+        (ChoiceOption, 1, "gt", 1, False),
+        (ChoiceOption, 2, "gt", 1, True),
+        (ChoiceOption, 0, "ge", "second", False),
+        (ChoiceOption, 1, "ge", "second", True),
+        (ChoiceOption, 1, "in", (0, 1), True),
+        (ChoiceOption, 1, "in", ("first", "second"), True),
+        (FreeTextOption, "no", "eq", "yes", False),
+        (FreeTextOption, "yes", "eq", "yes", True),
+        (SetOption, ("one", "two"), "contains", "three", False),
+        (SetOption, ("one", "two"), "contains", "two", True),
+    )
+)
+class TestOptions(RuleBuilderTestCase):
+    cases: ClassVar[tuple[type[Option[Any]], Any, Operator, Any, bool]]
     multiworld: MultiWorld  # pyright: ignore[reportUninitializedInstanceVariable]
-    world: RuleBuilderWorld  # pyright: ignore[reportUninitializedInstanceVariable]
+    world: World  # pyright: ignore[reportUninitializedInstanceVariable]
 
-    @override
-    def setUp(self) -> None:
-        self.multiworld = setup_solo_multiworld(RuleBuilderWorld, steps=("generate_early",), seed=0)
-        world = self.multiworld.worlds[1]
-        assert isinstance(world, RuleBuilderWorld)
-        self.world = world
-        return super().setUp()
+    def test_simplify(self) -> None:
+        multiworld = setup_solo_multiworld(self.world_cls, steps=("generate_early",), seed=0)
+        world = multiworld.worlds[1]
+        option_cls, world_value, operator, filter_value, expected = self.cases
 
-    def test_option_filtering(self) -> None:
-        rule = Or(Has("A", options=[OptionFilter(ToggleOption, 0)]), Has("B", options=[OptionFilter(ToggleOption, 1)]))
+        for field in fields(world.options_dataclass):
+            if field.type is option_cls:
+                setattr(world.options, field.name, option_cls.from_any(world_value))
+                break
 
-        self.world.options.toggle_option.value = 0
-        self.assertEqual(rule.resolve(self.world), Has.Resolved("A", player=1))
-
-        self.world.options.toggle_option.value = 1
-        self.assertEqual(rule.resolve(self.world), Has.Resolved("B", player=1))
-
-    def test_gt_filtering(self) -> None:
-        rule = Or(Has("A", options=[OptionFilter(ChoiceOption, 1, operator="gt")]), False_())
-
-        self.world.options.choice_option.value = 0
-        self.assertEqual(rule.resolve(self.world), False_.Resolved(player=1))
-
-        self.world.options.choice_option.value = 1
-        self.assertEqual(rule.resolve(self.world), False_.Resolved(player=1))
-
-        self.world.options.choice_option.value = 2
-        self.assertEqual(rule.resolve(self.world), Has.Resolved("A", player=1))
+        option_filter = OptionFilter(option_cls, filter_value, operator)
+        result = option_filter.check(world.options)
+        self.assertEqual(result, expected, f"Expected {result} for option={option_filter} with value={world_value}")
 
 
 @classvar_matrix(
@@ -319,14 +341,14 @@ class TestOptions(unittest.TestCase):
     )
 )
 class TestComposition(unittest.TestCase):
-    rules: ClassVar[tuple[Rule[RuleBuilderWorld], Rule[RuleBuilderWorld]]]
+    rules: ClassVar[tuple[Rule[Any], Rule[Any]]]
 
     def test_composition(self) -> None:
         combined_rule, expected = self.rules
         self.assertEqual(combined_rule, expected, str(combined_rule))
 
 
-class TestHashes(unittest.TestCase):
+class TestHashes(RuleBuilderTestCase):
     def test_and_hash(self) -> None:
         rule1 = And.Resolved((True_.Resolved(player=1),), player=1)
         rule2 = And.Resolved((True_.Resolved(player=1),), player=1)
@@ -336,121 +358,27 @@ class TestHashes(unittest.TestCase):
         self.assertNotEqual(hash(rule1), hash(rule3))
 
     def test_has_all_hash(self) -> None:
-        multiworld = setup_solo_multiworld(RuleBuilderWorld, steps=("generate_early",), seed=0)
+        multiworld = setup_solo_multiworld(self.world_cls, steps=("generate_early",), seed=0)
         world = multiworld.worlds[1]
-        assert isinstance(world, RuleBuilderWorld)
-
         rule1 = HasAll("1", "2")
         rule2 = HasAll("2", "2", "2", "1")
         self.assertEqual(hash(rule1.resolve(world)), hash(rule2.resolve(world)))
 
 
-class TestCaching(unittest.TestCase):
+class TestCaching(CachedRuleBuilderTestCase):
     multiworld: MultiWorld  # pyright: ignore[reportUninitializedInstanceVariable]
-    world: RuleBuilderCachedWorld  # pyright: ignore[reportUninitializedInstanceVariable]
-    state: CollectionState  # pyright: ignore[reportUninitializedInstanceVariable]
+    world: World  # pyright: ignore[reportUninitializedInstanceVariable]
+    state: CachedCollectionState  # pyright: ignore[reportUninitializedInstanceVariable]
     player: int = 1
 
     @override
     def setUp(self) -> None:
-        self.multiworld = setup_solo_multiworld(RuleBuilderCachedWorld, seed=0)
+        super().setUp()
+
+        self.multiworld = setup_solo_multiworld(self.world_cls, seed=0)
         world = self.multiworld.worlds[1]
-        assert isinstance(world, RuleBuilderCachedWorld)
         self.world = world
-        self.state = self.multiworld.state
-
-        region1 = Region("Region 1", self.player, self.multiworld)
-        region2 = Region("Region 2", self.player, self.multiworld)
-        region3 = Region("Region 3", self.player, self.multiworld)
-        self.multiworld.regions.extend([region1, region2, region3])
-
-        region1.add_locations({"Location 1": 1, "Location 2": 2, "Location 6": 6}, RuleBuilderCachedLocation)
-        region2.add_locations({"Location 3": 3, "Location 4": 4}, RuleBuilderCachedLocation)
-        region3.add_locations({"Location 5": 5}, RuleBuilderCachedLocation)
-
-        world.create_entrance(region1, region2, Has("Item 1"))
-        world.create_entrance(region1, region3, HasAny("Item 3", "Item 4"))
-        world.set_rule(world.get_location("Location 2"), CanReachRegion("Region 2") & Has("Item 2"))
-        world.set_rule(world.get_location("Location 4"), HasAll("Item 2", "Item 3"))
-        world.set_rule(world.get_location("Location 5"), CanReachLocation("Location 4"))
-        world.set_rule(world.get_location("Location 6"), CanReachEntrance("Region 1 -> Region 2") & Has("Item 2"))
-
-        for i in range(1, LOC_COUNT + 1):
-            self.multiworld.itempool.append(world.create_item(f"Item {i}"))
-
-        world.register_dependencies()
-
-        return super().setUp()
-
-    def test_item_cache_busting(self) -> None:
-        location = self.world.get_location("Location 4")
-        self.state.collect(self.world.create_item("Item 1"))  # access to region 2
-        self.state.collect(self.world.create_item("Item 2"))  # item directly needed
-        self.assertFalse(location.can_reach(self.state))  # populates cache
-        self.assertFalse(self.state.rule_cache[1][id(location.access_rule)])
-
-        self.state.collect(self.world.create_item("Item 3"))  # clears cache, item directly needed
-        self.assertNotIn(id(location.access_rule), self.state.rule_cache[1])
-        self.assertTrue(location.can_reach(self.state))
-        self.assertTrue(self.state.rule_cache[1][id(location.access_rule)])
-        self.state.collect(self.world.create_item("Item 3"))  # does not clear cache as rule is already true
-        self.assertTrue(self.state.rule_cache[1][id(location.access_rule)])
-
-    def test_region_cache_busting(self) -> None:
-        location = self.world.get_location("Location 2")
-        self.state.collect(self.world.create_item("Item 2"))  # item directly needed for location rule
-        self.assertFalse(location.can_reach(self.state))  # populates cache
-        self.assertFalse(self.state.rule_cache[1][id(location.access_rule)])
-
-        self.state.collect(self.world.create_item("Item 1"))  # clears cache, item only needed for region 2 access
-        # cache gets cleared during the can_reach
-        self.assertTrue(location.can_reach(self.state))
-        self.assertTrue(self.state.rule_cache[1][id(location.access_rule)])
-
-    def test_location_cache_busting(self) -> None:
-        location = self.world.get_location("Location 5")
-        self.state.collect(self.world.create_item("Item 1"))  # access to region 2
-        self.state.collect(self.world.create_item("Item 3"))  # access to region 3
-        self.assertFalse(location.can_reach(self.state))  # populates cache
-        self.assertFalse(self.state.rule_cache[1][id(location.access_rule)])
-
-        self.state.collect(self.world.create_item("Item 2"))  # clears cache, item only needed for location 2 access
-        self.assertNotIn(id(location.access_rule), self.state.rule_cache[1])
-        self.assertTrue(location.can_reach(self.state))
-
-    def test_entrance_cache_busting(self) -> None:
-        location = self.world.get_location("Location 6")
-        self.state.collect(self.world.create_item("Item 2"))  # item directly needed for location rule
-        self.assertFalse(location.can_reach(self.state))  # populates cache
-        self.assertFalse(self.state.rule_cache[1][id(location.access_rule)])
-
-        self.state.collect(self.world.create_item("Item 1"))  # clears cache, item only needed for entrance access
-        self.assertNotIn(id(location.access_rule), self.state.rule_cache[1])
-        self.assertTrue(location.can_reach(self.state))
-
-    def test_has_skips_cache(self) -> None:
-        entrance = self.world.get_entrance("Region 1 -> Region 2")
-        self.assertFalse(entrance.can_reach(self.state))  # does not populates cache
-        self.assertNotIn(id(entrance.access_rule), self.state.rule_cache[1])
-
-        self.state.collect(self.world.create_item("Item 1"))  # no need to clear cache, item directly needed
-        self.assertNotIn(id(entrance.access_rule), self.state.rule_cache[1])
-        self.assertTrue(entrance.can_reach(self.state))
-
-
-class TestCacheDisabled(unittest.TestCase):
-    multiworld: MultiWorld  # pyright: ignore[reportUninitializedInstanceVariable]
-    world: RuleBuilderWorld  # pyright: ignore[reportUninitializedInstanceVariable]
-    state: CollectionState  # pyright: ignore[reportUninitializedInstanceVariable]
-    player: int = 1
-
-    @override
-    def setUp(self) -> None:
-        self.multiworld = setup_solo_multiworld(RuleBuilderWorld, seed=0)
-        world = self.multiworld.worlds[1]
-        assert isinstance(world, RuleBuilderWorld)
-        self.world = world
-        self.state = self.multiworld.state
+        self.state = cast(CachedCollectionState, self.multiworld.state)
 
         region1 = Region("Region 1", self.player, self.multiworld)
         region2 = Region("Region 2", self.player, self.multiworld)
@@ -471,60 +399,151 @@ class TestCacheDisabled(unittest.TestCase):
         for i in range(1, LOC_COUNT + 1):
             self.multiworld.itempool.append(world.create_item(f"Item {i}"))
 
-        return super().setUp()
+        world.register_dependencies()
+
+    def test_item_cache_busting(self) -> None:
+        location = self.world.get_location("Location 4")
+        self.state.collect(self.world.create_item("Item 1"))  # access to region 2
+        self.state.collect(self.world.create_item("Item 2"))  # item directly needed
+        self.assertFalse(location.can_reach(self.state))  # populates cache
+        self.assertFalse(self.state.rule_builder_cache[1][id(location.access_rule)])
+
+        self.state.collect(self.world.create_item("Item 3"))  # clears cache, item directly needed
+        self.assertNotIn(id(location.access_rule), self.state.rule_builder_cache[1])
+        self.assertTrue(location.can_reach(self.state))
+        self.assertTrue(self.state.rule_builder_cache[1][id(location.access_rule)])
+        self.state.collect(self.world.create_item("Item 3"))  # does not clear cache as rule is already true
+        self.assertTrue(self.state.rule_builder_cache[1][id(location.access_rule)])
+
+    def test_region_cache_busting(self) -> None:
+        location = self.world.get_location("Location 2")
+        self.state.collect(self.world.create_item("Item 2"))  # item directly needed for location rule
+        self.assertFalse(location.can_reach(self.state))  # populates cache
+        self.assertFalse(self.state.rule_builder_cache[1][id(location.access_rule)])
+
+        self.state.collect(self.world.create_item("Item 1"))  # clears cache, item only needed for region 2 access
+        # cache gets cleared during the can_reach
+        self.assertTrue(location.can_reach(self.state))
+        self.assertTrue(self.state.rule_builder_cache[1][id(location.access_rule)])
+
+    def test_location_cache_busting(self) -> None:
+        location = self.world.get_location("Location 5")
+        self.state.collect(self.world.create_item("Item 1"))  # access to region 2
+        self.state.collect(self.world.create_item("Item 3"))  # access to region 3
+        self.assertFalse(location.can_reach(self.state))  # populates cache
+        self.assertFalse(self.state.rule_builder_cache[1][id(location.access_rule)])
+
+        self.state.collect(self.world.create_item("Item 2"))  # clears cache, item only needed for location 2 access
+        self.assertNotIn(id(location.access_rule), self.state.rule_builder_cache[1])
+        self.assertTrue(location.can_reach(self.state))
+
+    def test_entrance_cache_busting(self) -> None:
+        location = self.world.get_location("Location 6")
+        self.state.collect(self.world.create_item("Item 2"))  # item directly needed for location rule
+        self.assertFalse(location.can_reach(self.state))  # populates cache
+        self.assertFalse(self.state.rule_builder_cache[1][id(location.access_rule)])
+
+        self.state.collect(self.world.create_item("Item 1"))  # clears cache, item only needed for entrance access
+        self.assertNotIn(id(location.access_rule), self.state.rule_builder_cache[1])
+        self.assertTrue(location.can_reach(self.state))
+
+    def test_has_skips_cache(self) -> None:
+        entrance = self.world.get_entrance("Region 1 -> Region 2")
+        self.assertFalse(entrance.can_reach(self.state))  # does not populates cache
+        self.assertNotIn(id(entrance.access_rule), self.state.rule_builder_cache[1])
+
+        self.state.collect(self.world.create_item("Item 1"))  # no need to clear cache, item directly needed
+        self.assertNotIn(id(entrance.access_rule), self.state.rule_builder_cache[1])
+        self.assertTrue(entrance.can_reach(self.state))
+
+
+class TestCacheDisabled(RuleBuilderTestCase):
+    multiworld: MultiWorld  # pyright: ignore[reportUninitializedInstanceVariable]
+    world: World  # pyright: ignore[reportUninitializedInstanceVariable]
+    state: CachedCollectionState  # pyright: ignore[reportUninitializedInstanceVariable]
+    player: int = 1
+
+    @override
+    def setUp(self) -> None:
+        super().setUp()
+
+        self.multiworld = setup_solo_multiworld(self.world_cls, seed=0)
+        world = self.multiworld.worlds[1]
+        self.world = world
+        self.state = cast(CachedCollectionState, self.multiworld.state)
+
+        region1 = Region("Region 1", self.player, self.multiworld)
+        region2 = Region("Region 2", self.player, self.multiworld)
+        region3 = Region("Region 3", self.player, self.multiworld)
+        self.multiworld.regions.extend([region1, region2, region3])
+
+        region1.add_locations({"Location 1": 1, "Location 2": 2, "Location 6": 6}, RuleBuilderLocation)
+        region2.add_locations({"Location 3": 3, "Location 4": 4}, RuleBuilderLocation)
+        region3.add_locations({"Location 5": 5}, RuleBuilderLocation)
+
+        world.create_entrance(region1, region2, Has("Item 1"))
+        world.create_entrance(region1, region3, HasAny("Item 3", "Item 4"))
+        world.set_rule(world.get_location("Location 2"), CanReachRegion("Region 2") & Has("Item 2"))
+        world.set_rule(world.get_location("Location 4"), HasAll("Item 2", "Item 3"))
+        world.set_rule(world.get_location("Location 5"), CanReachLocation("Location 4"))
+        world.set_rule(world.get_location("Location 6"), CanReachEntrance("Region 1 -> Region 2") & Has("Item 2"))
+
+        for i in range(1, LOC_COUNT + 1):
+            self.multiworld.itempool.append(world.create_item(f"Item {i}"))
 
     def test_item_logic(self) -> None:
         entrance = self.world.get_entrance("Region 1 -> Region 2")
         self.assertFalse(entrance.can_reach(self.state))
-        self.assertFalse(self.state.rule_cache[1])
+        self.assertFalse(self.state.rule_builder_cache[1])
 
         self.state.collect(self.world.create_item("Item 1"))  # item directly needed
-        self.assertFalse(self.state.rule_cache[1])
+        self.assertFalse(self.state.rule_builder_cache[1])
         self.assertTrue(entrance.can_reach(self.state))
 
     def test_region_logic(self) -> None:
         location = self.world.get_location("Location 2")
         self.state.collect(self.world.create_item("Item 2"))  # item directly needed for location rule
         self.assertFalse(location.can_reach(self.state))
-        self.assertFalse(self.state.rule_cache[1])
+        self.assertFalse(self.state.rule_builder_cache[1])
 
         self.state.collect(self.world.create_item("Item 1"))  # item only needed for region 2 access
         self.assertTrue(location.can_reach(self.state))
-        self.assertFalse(self.state.rule_cache[1])
+        self.assertFalse(self.state.rule_builder_cache[1])
 
     def test_location_logic(self) -> None:
         location = self.world.get_location("Location 5")
         self.state.collect(self.world.create_item("Item 1"))  # access to region 2
         self.state.collect(self.world.create_item("Item 3"))  # access to region 3
         self.assertFalse(location.can_reach(self.state))
-        self.assertFalse(self.state.rule_cache[1])
+        self.assertFalse(self.state.rule_builder_cache[1])
 
         self.state.collect(self.world.create_item("Item 2"))  # item only needed for location 2 access
-        self.assertFalse(self.state.rule_cache[1])
+        self.assertFalse(self.state.rule_builder_cache[1])
         self.assertTrue(location.can_reach(self.state))
 
     def test_entrance_logic(self) -> None:
         location = self.world.get_location("Location 6")
         self.state.collect(self.world.create_item("Item 2"))  # item directly needed for location rule
         self.assertFalse(location.can_reach(self.state))
-        self.assertFalse(self.state.rule_cache[1])
+        self.assertFalse(self.state.rule_builder_cache[1])
 
         self.state.collect(self.world.create_item("Item 1"))  # item only needed for entrance access
-        self.assertFalse(self.state.rule_cache[1])
+        self.assertFalse(self.state.rule_builder_cache[1])
         self.assertTrue(location.can_reach(self.state))
 
 
-class TestRules(unittest.TestCase):
+class TestRules(RuleBuilderTestCase):
     multiworld: MultiWorld  # pyright: ignore[reportUninitializedInstanceVariable]
-    world: RuleBuilderWorld  # pyright: ignore[reportUninitializedInstanceVariable]
+    world: World  # pyright: ignore[reportUninitializedInstanceVariable]
     state: CollectionState  # pyright: ignore[reportUninitializedInstanceVariable]
     player: int = 1
 
     @override
     def setUp(self) -> None:
-        self.multiworld = setup_solo_multiworld(RuleBuilderWorld, seed=0)
+        super().setUp()
+
+        self.multiworld = setup_solo_multiworld(self.world_cls, seed=0)
         world = self.multiworld.worlds[1]
-        assert isinstance(world, RuleBuilderWorld)
         self.world = world
         self.state = self.multiworld.state
 
@@ -696,7 +715,7 @@ class TestRules(unittest.TestCase):
         self.assertEqual(self.multiworld.can_beat_game(self.state), True)
 
 
-class TestSerialization(unittest.TestCase):
+class TestSerialization(RuleBuilderTestCase):
     maxDiff: int | None = None
 
     rule: ClassVar[Rule[Any]] = And(
@@ -838,17 +857,15 @@ class TestSerialization(unittest.TestCase):
         self.assertDictEqual(serialized_rule, self.rule_dict)
 
     def test_deserialize(self) -> None:
-        multiworld = setup_solo_multiworld(RuleBuilderWorld, steps=(), seed=0)
+        multiworld = setup_solo_multiworld(self.world_cls, steps=(), seed=0)
         world = multiworld.worlds[1]
-        assert isinstance(world, RuleBuilderWorld)
-
         deserialized_rule = world.rule_from_dict(self.rule_dict)
         self.assertEqual(deserialized_rule, self.rule, str(deserialized_rule))
 
 
-class TestExplain(unittest.TestCase):
+class TestExplain(RuleBuilderTestCase):
     multiworld: MultiWorld  # pyright: ignore[reportUninitializedInstanceVariable]
-    world: RuleBuilderWorld  # pyright: ignore[reportUninitializedInstanceVariable]
+    world: World  # pyright: ignore[reportUninitializedInstanceVariable]
     state: CollectionState  # pyright: ignore[reportUninitializedInstanceVariable]
     player: int = 1
 
@@ -879,9 +896,10 @@ class TestExplain(unittest.TestCase):
 
     @override
     def setUp(self) -> None:
-        self.multiworld = setup_solo_multiworld(RuleBuilderWorld, seed=0)
+        super().setUp()
+
+        self.multiworld = setup_solo_multiworld(self.world_cls, seed=0)
         world = self.multiworld.worlds[1]
-        assert isinstance(world, RuleBuilderWorld)
         self.world = world
         self.state = self.multiworld.state
 

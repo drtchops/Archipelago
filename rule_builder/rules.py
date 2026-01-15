@@ -1,6 +1,6 @@
 import dataclasses
 from collections.abc import Callable, Iterable, Mapping
-from typing import TYPE_CHECKING, Any, ClassVar, Generic, Never, Self, cast
+from typing import TYPE_CHECKING, Any, ClassVar, Final, Generic, Never, Self, cast
 
 from typing_extensions import TypeVar, dataclass_transform, override
 
@@ -14,8 +14,6 @@ if TYPE_CHECKING:
 
     TWorld = TypeVar("TWorld", bound=World, contravariant=True, default=World)  # noqa: PLC0105
 else:
-    World = object
-
     TWorld = TypeVar("TWorld")
 
 
@@ -84,7 +82,7 @@ class CustomRuleRegister(type):
 class Rule(Generic[TWorld]):
     """Base class for a static rule used to generate an access rule"""
 
-    options: Iterable[OptionFilter[Any]] = dataclasses.field(default=(), kw_only=True)
+    options: Iterable[OptionFilter] = dataclasses.field(default=(), kw_only=True)
     """An iterable of OptionFilters to restrict what options are required for this rule to be active"""
 
     game_name: ClassVar[str]
@@ -117,7 +115,7 @@ class Rule(Generic[TWorld]):
         }
 
     @classmethod
-    def from_dict(cls, data: Mapping[str, Any], world_cls: type[World]) -> Self:
+    def from_dict(cls, data: Mapping[str, Any], world_cls: "type[World]") -> Self:
         """Returns a new instance of this rule from a serialized dict representation"""
         options = OptionFilter.multiple_from_dict(data.get("options", ()))
         return cls(**data.get("args", {}), options=options)
@@ -144,7 +142,7 @@ class Rule(Generic[TWorld]):
                 return Or(self, *other.children, options=self.options)
         return Or(self, other)
 
-    def __lshift__(self, other: Iterable[OptionFilter[Any]]) -> "Rule[TWorld]":
+    def __lshift__(self, other: Iterable[OptionFilter]) -> "Rule[TWorld]":
         """Convenience operator to filter an existing rule with an option filter"""
         return Filtered(self, options=other)
 
@@ -207,12 +205,13 @@ class Rule(Generic[TWorld]):
             if not self.caching_enabled:
                 return self._evaluate(state)
 
-            cached_result = state.rule_cache[self.player].get(id(self))
+            player_results = cast(dict[int, bool], state.rule_builder_cache[self.player])  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
+            cached_result = player_results.get(id(self))
             if cached_result is not None:
                 return cached_result
 
             result = self._evaluate(state)
-            state.rule_cache[self.player][id(self)] = result
+            player_results[id(self)] = result
             return result
 
         def _evaluate(self, state: CollectionState) -> bool:
@@ -298,7 +297,7 @@ class NestedRule(Rule[TWorld], game="Archipelago"):
     children: tuple[Rule[TWorld], ...]
     """The child rules this rule's logic is based on"""
 
-    def __init__(self, *children: Rule[TWorld], options: Iterable[OptionFilter[Any]] = ()) -> None:
+    def __init__(self, *children: Rule[TWorld], options: Iterable[OptionFilter] = ()) -> None:
         super().__init__(options=options)
         self.children = children
 
@@ -320,7 +319,7 @@ class NestedRule(Rule[TWorld], game="Archipelago"):
 
     @override
     @classmethod
-    def from_dict(cls, data: Mapping[str, Any], world_cls: type[World]) -> Self:
+    def from_dict(cls, data: Mapping[str, Any], world_cls: "type[World]") -> Self:
         children = [world_cls.rule_from_dict(c) for c in data.get("children", ())]
         options = OptionFilter.multiple_from_dict(data.get("options", ()))
         return cls(*children, options=options)
@@ -582,7 +581,7 @@ class WrapperRule(Rule[TWorld], game="Archipelago"):
 
     @override
     @classmethod
-    def from_dict(cls, data: Mapping[str, Any], world_cls: type[World]) -> Self:
+    def from_dict(cls, data: Mapping[str, Any], world_cls: "type[World]") -> Self:
         child = data.get("child")
         if child is None:
             raise ValueError("Child rule cannot be None")
@@ -731,7 +730,7 @@ class HasAll(Rule[TWorld], game="Archipelago"):
     item_names: tuple[str, ...]
     """A tuple of item names to check for"""
 
-    def __init__(self, *item_names: str, options: Iterable[OptionFilter[Any]] = ()) -> None:
+    def __init__(self, *item_names: str, options: Iterable[OptionFilter] = ()) -> None:
         super().__init__(options=options)
         self.item_names = tuple(sorted(set(item_names)))
 
@@ -750,7 +749,7 @@ class HasAll(Rule[TWorld], game="Archipelago"):
 
     @override
     @classmethod
-    def from_dict(cls, data: Mapping[str, Any], world_cls: type[World]) -> Self:
+    def from_dict(cls, data: Mapping[str, Any], world_cls: "type[World]") -> Self:
         args = {**data.get("args", {})}
         item_names = args.pop("item_names", ())
         options = OptionFilter.multiple_from_dict(data.get("options", ()))
@@ -844,7 +843,7 @@ class HasAny(Rule[TWorld], game="Archipelago"):
     item_names: tuple[str, ...]
     """A tuple of item names to check for"""
 
-    def __init__(self, *item_names: str, options: Iterable[OptionFilter[Any]] = ()) -> None:
+    def __init__(self, *item_names: str, options: Iterable[OptionFilter] = ()) -> None:
         super().__init__(options=options)
         self.item_names = tuple(sorted(set(item_names)))
 
@@ -863,7 +862,7 @@ class HasAny(Rule[TWorld], game="Archipelago"):
 
     @override
     @classmethod
-    def from_dict(cls, data: Mapping[str, Any], world_cls: type[World]) -> Self:
+    def from_dict(cls, data: Mapping[str, Any], world_cls: "type[World]") -> Self:
         args = {**data.get("args", {})}
         item_names = args.pop("item_names", ())
         options = OptionFilter.multiple_from_dict(data.get("options", ()))
@@ -1170,7 +1169,7 @@ class HasFromList(Rule[TWorld], game="Archipelago"):
     count: int = 1
     """The number of items the player needs to have"""
 
-    def __init__(self, *item_names: str, count: int = 1, options: Iterable[OptionFilter[Any]] = ()) -> None:
+    def __init__(self, *item_names: str, count: int = 1, options: Iterable[OptionFilter] = ()) -> None:
         super().__init__(options=options)
         self.item_names = tuple(sorted(set(item_names)))
         self.count = count
@@ -1191,7 +1190,7 @@ class HasFromList(Rule[TWorld], game="Archipelago"):
 
     @override
     @classmethod
-    def from_dict(cls, data: Mapping[str, Any], world_cls: type[World]) -> Self:
+    def from_dict(cls, data: Mapping[str, Any], world_cls: "type[World]") -> Self:
         args = {**data.get("args", {})}
         item_names = args.pop("item_names", ())
         options = OptionFilter.multiple_from_dict(data.get("options", ()))
@@ -1298,7 +1297,7 @@ class HasFromListUnique(Rule[TWorld], game="Archipelago"):
     count: int = 1
     """The number of items the player needs to have"""
 
-    def __init__(self, *item_names: str, count: int = 1, options: Iterable[OptionFilter[Any]] = ()) -> None:
+    def __init__(self, *item_names: str, count: int = 1, options: Iterable[OptionFilter] = ()) -> None:
         super().__init__(options=options)
         self.item_names = tuple(sorted(set(item_names)))
         self.count = count
@@ -1319,7 +1318,7 @@ class HasFromListUnique(Rule[TWorld], game="Archipelago"):
 
     @override
     @classmethod
-    def from_dict(cls, data: Mapping[str, Any], world_cls: type[World]) -> Self:
+    def from_dict(cls, data: Mapping[str, Any], world_cls: "type[World]") -> Self:
         args = {**data.get("args", {})}
         item_names = args.pop("item_names", ())
         options = OptionFilter.multiple_from_dict(data.get("options", ()))
@@ -1766,8 +1765,8 @@ class CanReachEntrance(Rule[TWorld], game="Archipelago"):
             return f"Can reach entrance {self.entrance_name}"
 
 
-DEFAULT_RULES = {
-    rule_name: cast(type[Rule[World]], rule_class)
+DEFAULT_RULES: "Final[dict[str, type[Rule[World]]]]" = {
+    rule_name: cast("type[Rule[World]]", rule_class)
     for rule_name, rule_class in locals().items()
     if isinstance(rule_class, type) and issubclass(rule_class, Rule) and rule_class is not Rule
 }
