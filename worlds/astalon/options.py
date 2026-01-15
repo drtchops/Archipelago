@@ -11,7 +11,6 @@ from Options import (
     Range,
     StartInventoryPool,
     Toggle,
-    Visibility,
 )
 
 
@@ -25,21 +24,6 @@ class Difficulty(Choice):
     display_name = "Difficulty"
     option_easy = 0
     option_hard = 1
-    default = 0
-
-
-class Campaign(Choice):
-    """
-    NOT YET SUPPORTED
-    Set which campaign you wish to play through.
-    """
-
-    visibility = Visibility.none
-    display_name = "Campaign"
-    option_tears_of_the_earth = 0
-    option_new_game_plus = 1
-    option_black_knight = 2
-    option_monster_mode = 3
     default = 0
 
 
@@ -77,6 +61,22 @@ class ExtraEyes(Range):
     range_start = 0
     range_end = 100
     default = 33
+
+
+class StartingLocation(Choice):
+    """
+    Choose which location to start in. You will revive here after dying.
+    """
+
+    display_name = "Starting Location"
+    option_gorgon_tomb = 0
+    option_mechanism = 1
+    option_hall_of_the_phantoms = 2
+    option_ruins_of_ash = 3
+    option_apex = 4
+    option_catacombs = 5
+    option_tower_roots = 6
+    default = 0
 
 
 class RandomizeCharacters(Choice):
@@ -200,34 +200,29 @@ class RandomizeCandles(Toggle):
     display_name = "Randomize Candles"
 
 
-class RandomizeOrbRocks(Toggle):
+class RandomizeOrbMultipliers(Toggle):
     """
-    NOT YET SUPPORTED
-    Choose whether to randomize the reward gained from breaking orb rocks.
-    """
-
-    visibility = Visibility.none
-    display_name = "Randomize Orb Rocks"
-
-
-class RandomizeFamiliars(Toggle):
-    """
-    NOT YET SUPPORTED
-    Choose whether to randomize familiar pickups and upgrades.
-    This includes all three Old Man checks and Gil in the secret dev room.
+    Choose whether to randomize the orb multipliers gained from destroying the 3 special faces in the world.
+    Received multipliers will be permanently applied and not removed on death when this option is enabled.
     """
 
-    visibility = Visibility.none
-    display_name = "Randomize Familiars"
+    display_name = "Randomize Orb Multipliers"
 
 
-class RandomizeMinibossRewards(Toggle):
+class ShuffleVoidPortals(Choice):
     """
-    NOT YET SUPPORTED
+    Choose whether to shuffle which void portals are connected to each other.
+    None: Portals will take you to their vanilla locations
+    Coupled: Returning through a portal will take you to the same place you came from
+    Decoupled: Any portal can take you to any other portal
     """
 
-    visibility = Visibility.none
-    display_name = "Randomize Miniboss Rewards"
+    display_name = "Shuffle Void Portals"
+    option_none = 0
+    alias_off = 0
+    option_coupled = 1
+    option_decoupled = 2
+    default = 0
 
 
 class SkipCutscenes(DefaultOnToggle):
@@ -366,6 +361,25 @@ class ScaleCharacterStats(DefaultOnToggle):
     display_name = "Scale Character Stats"
 
 
+class HintShopItems(Choice):
+    """
+    Automatically create hints for shop items after visiting the shop. Does nothing when shop randomizer is off.
+    Character shop upgrades will only be hinted once the character is unlocked.
+    None: No hints will be created
+    Progression: Hints will only be created for progression items
+    Useful: Hints will be created for progression and useful items
+    All: Hints will be created for all items
+    """
+
+    display_name = "Hint Shop Items"
+    option_none = 0
+    alias_off = 0
+    option_progression = 1
+    option_useful = 2
+    option_all = 3
+    default = 1
+
+
 class TrapPercentage(NamedRange):
     """
     Set what percentage of the filler in the item pool will be replaced by trap items.
@@ -389,7 +403,7 @@ class TrapPercentage(NamedRange):
 class TagLink(Toggle):
     """
     Determines if the Tag Link is enabled.
-    If enabled, if you have another player's character you will tag to that charater as well.
+    If enabled, if you have another player's character you will tag to that character as well.
     If you don't have that character, you will randomly tag to another character.
     If you only have one character, nothing will happen.
     """
@@ -401,10 +415,10 @@ class TagLink(Toggle):
 class AstalonOptions(DeathLinkMixin, PerGameCommonOptions):
     start_inventory_from_pool: StartInventoryPool
     difficulty: Difficulty
-    # campaign: Campaign
     goal: Goal
     additional_eyes_required: AdditionalEyesRequired
     extra_eyes: ExtraEyes
+    starting_location: StartingLocation
     randomize_characters: RandomizeCharacters
     randomize_key_items: RandomizeKeyItems
     randomize_health_pickups: RandomizeHealthPickups
@@ -416,9 +430,8 @@ class AstalonOptions(DeathLinkMixin, PerGameCommonOptions):
     randomize_elevator: RandomizeElevator
     randomize_switches: RandomizeSwitches
     randomize_candles: RandomizeCandles
-    # randomize_orb_rocks: RandomizeOrbRocks
-    # randomize_familiars: RandomizeFamiliars
-    # randomize_miniboss_rewards: RandomizeMinibossRewards
+    randomize_orb_multipliers: RandomizeOrbMultipliers
+    shuffle_void_portals: ShuffleVoidPortals
     skip_cutscenes: SkipCutscenes
     start_with_qol: StartWithQOL
     start_with_ascendant_key: StartWithAscendantKey
@@ -432,6 +445,7 @@ class AstalonOptions(DeathLinkMixin, PerGameCommonOptions):
     cheap_kyuli_ray: CheapKyuliRay
     always_restore_candles: AlwaysRestoreCandles
     scale_character_stats: ScaleCharacterStats
+    hint_shop_items: HintShopItems
     trap_percentage: TrapPercentage
     tag_link: TagLink
 
@@ -451,6 +465,8 @@ OPTION_GROUPS = [
             RandomizeElevator,
             RandomizeSwitches,
             RandomizeCandles,
+            RandomizeOrbMultipliers,
+            ShuffleVoidPortals,
             ApexElevator,
         ],
     ),
@@ -469,6 +485,7 @@ OPTION_GROUPS = [
             CheapKyuliRay,
             AlwaysRestoreCandles,
             ScaleCharacterStats,
+            HintShopItems,
         ],
     ),
     OptionGroup(

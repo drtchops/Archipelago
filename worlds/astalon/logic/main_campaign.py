@@ -64,6 +64,7 @@ has_block = has_zeek & Has(KeyItem.BLOCK)
 has_star = has_bram & Has(KeyItem.STAR)
 has_banish = (has_algus | has_zeek) & Has(KeyItem.BANISH)
 has_gauntlet = (has_arias | has_bram) & Has(KeyItem.GAUNTLET)
+has_void = Has(KeyItem.VOID)
 
 has_algus_arcanist = has_algus & Has(ShopUpgrade.ALGUS_ARCANIST)
 has_algus_meteor = has_algus & Has(ShopUpgrade.ALGUS_METEOR)
@@ -128,7 +129,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], Rule[AstalonWorldBase]] = {
     (R.GT_ENTRANCE, R.GT_BOTTOM): (
         HasSwitch(Switch.GT_2ND_ROOM) | HasWhite(WhiteDoor.GT_START, otherwise=True, options=switch_off)
     ),
-    (R.GT_ENTRANCE, R.GT_VOID): Has(KeyItem.VOID),
+    (R.GT_ENTRANCE, R.GT_VOID): has_void,
     (R.GT_ENTRANCE, R.GT_GORGONHEART): HasSwitch(Switch.GT_GH_SHORTCUT) | has_boots | HardLogic(Has(KeyItem.ICARUS)),
     (R.GT_ENTRANCE, R.GT_BOSS): HasElevator(Elevator.GT_2),
     (R.GT_ENTRANCE, R.MECH_ZEEK_CONNECTION): HasElevator(Elevator.MECH_1),
@@ -140,12 +141,14 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], Rule[AstalonWorldBase]] = {
     (R.GT_ENTRANCE, R.CATA_ELEVATOR): HasElevator(Elevator.CATA_1),
     (R.GT_ENTRANCE, R.CATA_BOSS): HasElevator(Elevator.CATA_2),
     (R.GT_ENTRANCE, R.TR_START): HasElevator(Elevator.TR),
+    (R.GT_BOTTOM, R.GT_ENTRANCE): HasSwitch(Switch.GT_2ND_ROOM),
     (R.GT_BOTTOM, R.GT_VOID): Has(Eye.RED),
     (R.GT_BOTTOM, R.GT_GORGONHEART): HasWhite(WhiteDoor.GT_MAP, otherwise=True),
     (R.GT_BOTTOM, R.GT_UPPER_PATH): (
         HasSwitch(Crystal.GT_ROTA) | can_uppies | (has_star & HasBlue(BlueDoor.GT_RING, otherwise=True)) | has_block
     ),
     (R.GT_BOTTOM, R.CAVES_START): has_kyuli | HardLogic(has_zeek | has_boots),
+    (R.GT_VOID, R.GT_ENTRANCE): has_void,
     (R.GT_VOID, R.GT_BOTTOM): Has(Eye.RED),
     (R.GT_VOID, R.MECH_SNAKE): HasSwitch(Switch.MECH_SNAKE_2),
     (R.GT_GORGONHEART, R.GT_ORBS_DOOR): HasBlue(BlueDoor.GT_ORBS, otherwise=True),
@@ -169,6 +172,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], Rule[AstalonWorldBase]] = {
     (R.GT_BUTT, R.GT_TOP_LEFT): HasSwitch(Switch.GT_BUTT_ACCESS),
     (R.GT_BUTT, R.GT_SPIKE_TUNNEL_SWITCH): has_star,
     (R.GT_BUTT, R.GT_BOSS): HasWhite(WhiteDoor.GT_TAUROS) | CanReachRegion(R.GT_TOP_RIGHT, options=white_off),
+    (R.GT_BOSS, R.GT_ENTRANCE): HasElevator(Elevator.GT_1),
     (R.GT_BOSS, R.GT_BUTT): HasWhite(WhiteDoor.GT_TAUROS),
     (R.GT_BOSS, R.MECH_START): Has(Eye.RED),
     (R.GT_BOSS, R.MECH_ZEEK_CONNECTION): HasElevator(Elevator.MECH_1),
@@ -246,7 +250,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], Rule[AstalonWorldBase]] = {
     (R.MECH_SNAKE, R.MECH_BOTTOM_CAMPFIRE): HasSwitch(Switch.MECH_SNAKE_1),
     (R.MECH_SNAKE, R.GT_VOID): HasSwitch(Switch.MECH_SNAKE_2, otherwise=True),
     (R.MECH_LOWER_VOID, R.MECH_START): HasBlue(BlueDoor.MECH_RED, otherwise=True),
-    (R.MECH_LOWER_VOID, R.MECH_UPPER_VOID): Has(KeyItem.VOID),
+    (R.MECH_LOWER_VOID, R.MECH_UPPER_VOID): has_void,
     (R.MECH_LOWER_VOID, R.HOTP_MECH_VOID_CONNECTION): Has(Eye.BLUE),
     (R.MECH_WATCHER, R.MECH_START): HasSwitch(Switch.MECH_CANNON) & HasWhite(WhiteDoor.MECH_2ND),
     (R.MECH_WATCHER, R.MECH_ROOTS): has_claw | HasSwitch(Switch.MECH_WATCHER, otherwise=True),
@@ -287,6 +291,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], Rule[AstalonWorldBase]] = {
     (R.MECH_ARIAS_EYEBALL, R.MECH_CHAINS): (
         has_arias & Has(KeyItem.BELL) & (has_algus | has_bram_whiplash) & (HasSwitch(Switch.MECH_ARIAS) | has_star)
     ),
+    (R.MECH_ZEEK_CONNECTION, R.GT_ENTRANCE): HasElevator(Elevator.GT_1),
     (R.MECH_ZEEK_CONNECTION, R.MECH_ARIAS_EYEBALL): HasSwitch(Switch.MECH_ARIAS) | (has_star & has_arias),
     (R.MECH_ZEEK_CONNECTION, R.CATA_ELEVATOR): HasElevator(Elevator.CATA_1),
     (R.MECH_ZEEK_CONNECTION, R.CATA_BOSS): HasElevator(Elevator.CATA_2),
@@ -321,7 +326,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], Rule[AstalonWorldBase]] = {
         HasSwitch(Switch.MECH_UPPER_VOID) | (has_claw & HasSwitch(Switch.MECH_UPPER_VOID_DROP, otherwise=True))
     ),
     (R.MECH_UPPER_VOID, R.MECH_RIGHT): HasSwitch(Switch.MECH_UPPER_VOID, otherwise=True),
-    (R.MECH_UPPER_VOID, R.MECH_LOWER_VOID): Has(KeyItem.VOID),
+    (R.MECH_UPPER_VOID, R.MECH_LOWER_VOID): has_void,
     (R.MECH_BELOW_POTS, R.MECH_RIGHT): (
         HasWhite(WhiteDoor.MECH_ARENA) | HasSwitch(Switch.MECH_EYEBALL, otherwise=True)
     ),
@@ -383,6 +388,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], Rule[AstalonWorldBase]] = {
     (R.MECH_BRAM_TUNNEL_CONNECTION, R.MECH_BRAM_TUNNEL): has_star,
     (R.MECH_BRAM_TUNNEL, R.MECH_BRAM_TUNNEL_CONNECTION): has_star,
     (R.MECH_BRAM_TUNNEL, R.HOTP_START_BOTTOM): has_star,
+    (R.MECH_BOSS, R.GT_ENTRANCE): HasElevator(Elevator.GT_1),
     (R.MECH_BOSS, R.CATA_ELEVATOR): HasElevator(Elevator.CATA_1),
     (R.MECH_BOSS, R.CATA_BOSS): HasElevator(Elevator.CATA_2),
     (R.MECH_BOSS, R.TR_START): HasElevator(Elevator.TR),
@@ -409,7 +415,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], Rule[AstalonWorldBase]] = {
     ),
     (R.HOTP_START_MID, R.HOTP_START_BOTTOM_MID): HasSwitch(Switch.HOTP_GHOSTS, otherwise=True),
     (R.HOTP_START_MID, R.HOTP_LOWER_VOID): HardLogic(has_algus | has_bram_whiplash),
-    (R.HOTP_LOWER_VOID, R.HOTP_UPPER_VOID): Has(KeyItem.VOID) & has_claw,
+    (R.HOTP_LOWER_VOID, R.HOTP_UPPER_VOID): has_void,
     (R.HOTP_START_LEFT, R.HOTP_ELEVATOR): HasSwitch(Switch.HOTP_LEFT_BACKTRACK),
     (R.HOTP_START_LEFT, R.HOTP_START_MID): (
         HasSwitch(Switch.HOTP_LEFT_3) | (has_star & HasSwitch(Switch.HOTP_LEFT_1, Switch.HOTP_LEFT_2, otherwise=True))
@@ -449,9 +455,13 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], Rule[AstalonWorldBase]] = {
             | HardLogic(has_claw)
         )
     ),
-    (R.HOTP_CATH_CONNECTION, R.CATH_START): (
-        Has(KeyItem.VOID) & has_claw & (HasRed(RedDoor.CATH) | CanReachRegion(R.HOTP_RED_KEY, options=red_off))
+    (R.HOTP_CATH_CONNECTION, R.HOTP_CATH_VOID): (
+        has_claw & (HasRed(RedDoor.CATH) | CanReachRegion(R.HOTP_RED_KEY, options=red_off))
     ),
+    (R.HOTP_CATH_VOID, R.HOTP_CATH_CONNECTION): (
+        HasRed(RedDoor.CATH) | CanReachRegion(R.HOTP_RED_KEY, options=red_off)
+    ),
+    (R.HOTP_CATH_VOID, R.CATH_START): has_void,
     (R.HOTP_LOWER_ARIAS, R.HOTP_BELL_CAMPFIRE): has_arias,
     (R.HOTP_LOWER_ARIAS, R.HOTP_GHOST_BLOOD): (
         HasSwitch(Switch.HOTP_TELEPORTS, otherwise=True) | (has_block & Has(KeyItem.BELL) & (has_kyuli | can_uppies))
@@ -460,6 +470,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], Rule[AstalonWorldBase]] = {
     (R.HOTP_GHOST_BLOOD, R.HOTP_WORM_SHORTCUT): HasSwitch(Switch.HOTP_EYEBALL_SHORTCUT),
     (R.HOTP_WORM_SHORTCUT, R.HOTP_GHOST_BLOOD): HasSwitch(Switch.HOTP_EYEBALL_SHORTCUT, otherwise=True),
     (R.HOTP_WORM_SHORTCUT, R.HOTP_ELEVATOR): HasSwitch(Switch.HOTP_WORM_PILLAR),
+    (R.HOTP_ELEVATOR, R.GT_ENTRANCE): HasElevator(Elevator.GT_1),
     (R.HOTP_ELEVATOR, R.HOTP_OLD_MAN): has_cloak & (HasSwitch(Face.HOTP_OLD_MAN) | otherwise_bow),
     (R.HOTP_ELEVATOR, R.CATA_ELEVATOR): HasElevator(Elevator.CATA_1),
     (R.HOTP_ELEVATOR, R.HOTP_TOP_LEFT): has_claw,
@@ -520,7 +531,8 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], Rule[AstalonWorldBase]] = {
     (R.HOTP_FALL_BOTTOM, R.HOTP_TP_FALL_TOP): has_claw,
     (R.HOTP_FALL_BOTTOM, R.HOTP_UPPER_VOID): Has(Eye.GREEN),
     (R.HOTP_UPPER_VOID, R.HOTP_FALL_BOTTOM): Has(Eye.GREEN),
-    (R.HOTP_UPPER_VOID, R.HOTP_LOWER_VOID): Has(KeyItem.VOID),
+    (R.HOTP_UPPER_VOID, R.HOTP_LOWER_VOID): has_void,
+    (R.HOTP_BOSS, R.GT_ENTRANCE): HasElevator(Elevator.GT_1),
     (R.HOTP_BOSS, R.CATA_ELEVATOR): HasElevator(Elevator.CATA_1),
     (R.HOTP_BOSS, R.CATA_BOSS): HasElevator(Elevator.CATA_2),
     (R.HOTP_BOSS, R.HOTP_ELEVATOR): HasElevator(Elevator.HOTP),
@@ -558,7 +570,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], Rule[AstalonWorldBase]] = {
     (R.ROA_ARENA, R.ROA_LOWER_VOID_CONNECTION): has_kyuli,
     (R.ROA_LOWER_VOID_CONNECTION, R.ROA_LOWER_VOID): HasSwitch(Switch.ROA_LOWER_VOID),
     (R.ROA_LOWER_VOID_CONNECTION, R.ROA_ARIAS_BABY_GORGON_CONNECTION): has_kyuli | can_uppies | can_block_in_wall,
-    (R.ROA_LOWER_VOID, R.ROA_UPPER_VOID): Has(KeyItem.VOID),
+    (R.ROA_LOWER_VOID, R.ROA_UPPER_VOID): has_void,
     (R.ROA_LOWER_VOID, R.ROA_LOWER_VOID_CONNECTION): HasSwitch(Switch.ROA_LOWER_VOID, otherwise=True),
     (R.ROA_ARIAS_BABY_GORGON_CONNECTION, R.ROA_ARIAS_BABY_GORGON): (
         has_arias
@@ -615,7 +627,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], Rule[AstalonWorldBase]] = {
         otherwise=True,
     ),
     (R.ROA_MIDDLE_LADDER, R.ROA_RIGHT_SWITCH_CANDLE): has_algus | has_bram_axe | has_bram_whiplash,
-    (R.ROA_UPPER_VOID, R.ROA_LOWER_VOID): Has(KeyItem.VOID),
+    (R.ROA_UPPER_VOID, R.ROA_LOWER_VOID): has_void,
     (R.ROA_UPPER_VOID, R.ROA_SP_CONNECTION): HasSwitch(Crystal.ROA_SHAFT, Switch.ROA_SHAFT_DOWNWARDS),
     (R.ROA_UPPER_VOID, R.ROA_SPIKE_BALLS): HasSwitch(Crystal.ROA_SPIKE_BALLS) | otherwise_crystal,
     (R.ROA_SPIKE_BALLS, R.ROA_SPIKE_SPINNERS): HasWhite(WhiteDoor.ROA_BALLS, otherwise=True),
@@ -630,6 +642,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], Rule[AstalonWorldBase]] = {
     ),
     # can probably make it without claw
     (R.ROA_SP_CONNECTION, R.ROA_ELEVATOR): has_claw & HasSwitch(Switch.ROA_DARK_ROOM, otherwise=True),
+    (R.ROA_ELEVATOR, R.GT_ENTRANCE): HasElevator(Elevator.GT_1),
     (R.ROA_ELEVATOR, R.CATA_ELEVATOR): HasElevator(Elevator.CATA_1),
     (R.ROA_ELEVATOR, R.CATA_BOSS): HasElevator(Elevator.CATA_2),
     (R.ROA_ELEVATOR, R.HOTP_ELEVATOR): HasElevator(Elevator.HOTP),
@@ -668,6 +681,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], Rule[AstalonWorldBase]] = {
     (R.ROA_BOSS, R.ROA_BOSS_CONNECTION): HasSwitch(Switch.ROA_BOSS_ACCESS),
     (R.ROA_APEX_CONNECTION, R.ROA_BOSS): Has(Eye.GREEN),
     (R.ROA_APEX_CONNECTION, R.APEX): HasSwitch(Switch.ROA_APEX_ACCESS, otherwise=True),
+    (R.APEX, R.GT_ENTRANCE): HasElevator(Elevator.GT_1),
     (R.APEX, R.CATA_ELEVATOR): HasElevator(Elevator.CATA_1),
     (R.APEX, R.CATA_BOSS): HasElevator(Elevator.CATA_2),
     (R.APEX, R.HOTP_ELEVATOR): HasElevator(Elevator.HOTP),
@@ -703,6 +717,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], Rule[AstalonWorldBase]] = {
     (R.CATA_TOP, R.CATA_CLIMBABLE_ROOT): Has(Eye.RED) & HasWhite(WhiteDoor.CATA_TOP, otherwise=True),
     (R.CATA_TOP, R.CATA_ELEVATOR): HasSwitch(Switch.CATA_ELEVATOR, otherwise=True),
     (R.CATA_TOP, R.CATA_BOW_CAMPFIRE): HasSwitch(Switch.CATA_TOP, otherwise=True),
+    (R.CATA_ELEVATOR, R.GT_ENTRANCE): HasElevator(Elevator.GT_1),
     (R.CATA_ELEVATOR, R.CATA_BOSS): HasElevator(Elevator.CATA_2),
     (R.CATA_ELEVATOR, R.HOTP_ELEVATOR): HasElevator(Elevator.HOTP),
     (R.CATA_ELEVATOR, R.TR_START): HasElevator(Elevator.TR),
@@ -762,9 +777,11 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], Rule[AstalonWorldBase]] = {
     (R.CATA_DOUBLE_DOOR, R.CATA_VOID_R): (
         Has(KeyItem.BELL) & can_kill_ghosts & (HasSwitch(Face.CATA_DOUBLE_DOOR) | otherwise_bow)
     ),
-    (R.CATA_VOID_R, R.CATA_VOID_L): Has(KeyItem.VOID),
-    (R.CATA_VOID_L, R.CATA_VOID_R): Has(KeyItem.VOID),
+    (R.CATA_VOID_R, R.CATA_DOUBLE_DOOR): HardLogic(HasAll(KeyItem.BELL, ShopUpgrade.ALGUS_METEOR)),
+    (R.CATA_VOID_R, R.CATA_VOID_L): has_void,
+    (R.CATA_VOID_L, R.CATA_VOID_R): has_void,
     (R.CATA_VOID_L, R.CATA_BOSS): HasWhite(WhiteDoor.CATA_PRISON, otherwise=True) & has_kyuli,
+    (R.CATA_BOSS, R.GT_ENTRANCE): HasElevator(Elevator.GT_1),
     (R.CATA_BOSS, R.CATA_ELEVATOR): HasElevator(Elevator.CATA_1),
     (R.CATA_BOSS, R.HOTP_ELEVATOR): HasElevator(Elevator.HOTP),
     (R.CATA_BOSS, R.CATA_CENTAUR): HasSwitch(Face.CATA_CAMPFIRE) | otherwise_bow,
@@ -776,6 +793,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], Rule[AstalonWorldBase]] = {
     (R.CATA_BOSS, R.GT_BOSS): HasElevator(Elevator.GT_2),
     (R.CATA_BOSS, R.MECH_ZEEK_CONNECTION): HasElevator(Elevator.MECH_1),
     (R.CATA_BOSS, R.MECH_BOSS): HasElevator(Elevator.MECH_2),
+    (R.TR_START, R.GT_ENTRANCE): HasElevator(Elevator.GT_1),
     (R.TR_START, R.CATA_ELEVATOR): HasElevator(Elevator.CATA_1),
     (R.TR_START, R.CATA_BOSS): HasElevator(Elevator.CATA_2) | (HasSwitch(Switch.TR_ELEVATOR) & can_extra_height),
     (R.TR_START, R.HOTP_ELEVATOR): HasElevator(Elevator.HOTP),

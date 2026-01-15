@@ -4,16 +4,14 @@ from typing import Any, ClassVar, Final
 
 from typing_extensions import override
 
-from BaseClasses import Item, ItemClassification, MultiWorld, Region
+from BaseClasses import EntranceType, Item, ItemClassification, MultiWorld, Region
+from entrance_rando import disconnect_entrance_for_randomization, randomize_entrances
 from Options import OptionError
 
 from .constants import GAME_NAME
 from .items import (
     CHARACTERS,
-    EARLY_BLUE_DOORS,
     EARLY_ITEMS,
-    EARLY_SWITCHES,
-    EARLY_WHITE_DOORS,
     QOL_ITEMS,
     AstalonItem,
     Character,
@@ -38,8 +36,8 @@ from .locations import (
     location_table,
 )
 from .logic.main_campaign import COMPLETION_RULE, MAIN_ENTRANCE_RULES, MAIN_LOCATION_RULES
-from .options import ApexElevator, Goal, RandomizeCharacters
-from .regions import RegionName, astalon_regions
+from .options import ApexElevator, Goal, RandomizeCharacters, ShuffleVoidPortals, StartingLocation
+from .regions import DEFAULT_PORTALS, STARTING_REGIONS, RegionName, astalon_regions
 from .tracker import AstalonUTWorld
 from .web_world import AstalonWebWorld
 
@@ -94,10 +92,6 @@ class AstalonWorld(AstalonUTWorld):
 
     _character_strengths: ClassVar[dict[int, dict[str, float]] | None] = None
 
-    def __init__(self, multiworld: MultiWorld, player: int) -> None:
-        super().__init__(multiworld, player)
-        self.starting_characters = []
-
     @override
     def generate_early(self) -> None:
         if self.options.randomize_characters == RandomizeCharacters.option_solo:
@@ -115,6 +109,10 @@ class AstalonWorld(AstalonUTWorld):
             self.extra_gold_eyes = round(self.options.additional_eyes_required.value * (self.options.extra_eyes / 100))
 
         super().generate_early()
+
+        self.origin_region_name = STARTING_REGIONS[self.options.starting_location.value]
+        if self.options.open_early_doors:
+            self.early_items = EARLY_ITEMS[self.options.starting_location.value]
 
     def create_location(self, name: str) -> AstalonLocation:
         location_name = LocationName(name)
@@ -139,9 +137,29 @@ class AstalonWorld(AstalonUTWorld):
                 exit_region = self.get_region(exit_region_name.value)
                 region_pair = (region_name, exit_region_name)
                 rule = MAIN_ENTRANCE_RULES.get(region_pair)
-                entrance = self.create_entrance(region, exit_region, rule)
-                if not entrance:
-                    logger.debug(f"No matching rules for {region_name.value} -> {exit_region_name.value}")
+
+                name = None
+                if (
+                    self.options.shuffle_void_portals
+                    and region_data.portal
+                    and astalon_regions[exit_region_name].portal
+                ):
+                    name = f"{region_name} Portal"
+
+                self.create_entrance(region, exit_region, rule, name)
+
+        if self.options.shuffle_void_portals:
+            for left_region_name, right_region_name in DEFAULT_PORTALS:
+                left_entrance = self.get_entrance(f"{left_region_name} Portal")
+                right_entrance = self.get_entrance(f"{right_region_name} Portal")
+                left_entrance.randomization_type = EntranceType.TWO_WAY
+                right_entrance.randomization_type = EntranceType.TWO_WAY
+                disconnect_entrance_for_randomization(left_entrance)
+                disconnect_entrance_for_randomization(right_entrance)
+
+        origin = self.get_region(self.origin_region_name)
+        shop = self.get_region(RegionName.SHOP.value)
+        origin.connect(shop)
 
         logic_groups: set[str] = set()
         if self.options.randomize_key_items:
@@ -164,6 +182,8 @@ class AstalonWorld(AstalonUTWorld):
             logic_groups.add(LocationGroup.SWITCH.value)
         if self.options.randomize_candles:
             logic_groups.add(LocationGroup.CANDLE.value)
+        if self.options.randomize_orb_multipliers:
+            logic_groups.add(LocationGroup.ORBS.value)
 
         for group, location_names in location_name_groups.items():
             if group not in logic_groups:
@@ -176,6 +196,11 @@ class AstalonWorld(AstalonUTWorld):
                 if (
                     location_name == LocationName.APEX_ELEVATOR
                     and self.options.apex_elevator != ApexElevator.option_included
+                ):
+                    continue
+                if (
+                    location_name == LocationName.GT_ELEVATOR_1
+                    and self.options.starting_location == StartingLocation.option_gorgon_tomb
                 ):
                     continue
 
@@ -272,6 +297,8 @@ class AstalonWorld(AstalonUTWorld):
             logic_groups.add(ItemGroup.SWITCH.value)
         if self.options.randomize_candles:
             logic_groups.add(ItemGroup.HEAL.value)
+        if self.options.randomize_orb_multipliers:
+            logic_groups.add(ItemGroup.ORBS.value)
 
         for group, item_names in item_name_groups.items():
             if group not in logic_groups:
@@ -284,9 +311,11 @@ class AstalonWorld(AstalonUTWorld):
                     continue
                 if self.options.start_with_bell and item_name == KeyItem.BELL:
                     continue
-                if self.options.open_early_doors and item_name in EARLY_ITEMS:
+                if self.options.open_early_doors and item_name in self.early_items.all:
                     continue
                 if self.options.apex_elevator != ApexElevator.option_included and item_name == Elevator.APEX:
+                    continue
+                if self.options.starting_location == StartingLocation.option_gorgon_tomb and item_name == Elevator.GT_1:
                     continue
 
                 data = item_table[item_name]
@@ -316,13 +345,13 @@ class AstalonWorld(AstalonUTWorld):
 
         if self.options.open_early_doors:
             if self.options.randomize_white_keys:
-                for white_door in EARLY_WHITE_DOORS:
+                for white_door in self.early_items.white_doors:
                     self.multiworld.push_precollected(self.create_item(white_door.value))
             if self.options.randomize_blue_keys:
-                for blue_door in EARLY_BLUE_DOORS:
+                for blue_door in self.early_items.blue_doors:
                     self.multiworld.push_precollected(self.create_item(blue_door.value))
             if self.options.randomize_switches:
-                for red_door in EARLY_SWITCHES:
+                for red_door in self.early_items.switches:
                     self.multiworld.push_precollected(self.create_item(red_door.value))
 
         if self.options.goal.value == Goal.option_eye_hunt:
@@ -385,6 +414,13 @@ class AstalonWorld(AstalonUTWorld):
     def get_trap_item_name(self) -> str:
         return self.random.choice(trap_items)
 
+    @override
+    def connect_entrances(self) -> None:
+        if self.options.shuffle_void_portals:
+            coupled = self.options.shuffle_void_portals == ShuffleVoidPortals.option_coupled
+            er_result = randomize_entrances(self, coupled, {0: [0]})
+            self.portal_pairs = tuple(er_result.pairings)
+
     @classmethod
     def _calc_character_strengths(cls, multiworld: MultiWorld) -> None:
         cls._character_strengths = {}
@@ -427,6 +463,7 @@ class AstalonWorld(AstalonUTWorld):
                 "difficulty",
                 "goal",
                 "additional_eyes_required",
+                "starting_location",
                 "randomize_characters",
                 "randomize_key_items",
                 "randomize_health_pickups",
@@ -438,6 +475,8 @@ class AstalonWorld(AstalonUTWorld):
                 "randomize_elevator",
                 "randomize_switches",
                 "randomize_candles",
+                "randomize_orb_multipliers",
+                "shuffle_void_portals",
                 "skip_cutscenes",
                 "apex_elevator",
                 "cost_multiplier",
@@ -447,12 +486,14 @@ class AstalonWorld(AstalonUTWorld):
                 "cheap_kyuli_ray",
                 "always_restore_candles",
                 "scale_character_stats",
+                "hint_shop_items",
                 "tag_link",
                 "death_link",
             ),
             "starting_characters": [c.value for c in self.starting_characters],
             "character_strengths": strengths,
             "extra_gold_eyes": self.extra_gold_eyes,
+            "portal_pairs": self.portal_pairs if self.options.shuffle_void_portals else (),
         }
 
     @classmethod

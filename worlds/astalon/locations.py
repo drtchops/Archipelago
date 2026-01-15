@@ -37,6 +37,7 @@ class LocationGroup(StrEnum):
     ELEVATOR = "Elevators"
     SWITCH = "Switches"
     CANDLE = "Candles"
+    ORBS = "Orbs"
 
 
 class LocationName(StrEnum):
@@ -63,6 +64,7 @@ class LocationName(StrEnum):
     GT_BLUE_KEY_WALL = "Gorgon Tomb - Blue Key (Inside Wall)"
     GT_BLUE_KEY_POT = "Gorgon Tomb - Blue Key (Pot)"
     GT_RED_KEY = "Gorgon Tomb - Red Key"
+    GT_ELEVATOR_1 = "Gorgon Tomb - Elevator 1"
     GT_ELEVATOR_2 = "Gorgon Tomb - Elevator 2"
     GT_SWITCH_2ND_ROOM = "Gorgon Tomb - Switch (2nd Room)"
     GT_SWITCH_1ST_CYCLOPS = "Gorgon Tomb - Switch (1st Cyclops)"
@@ -86,6 +88,7 @@ class LocationName(StrEnum):
     GT_CANDLE_1ST_CYCLOPS = "Gorgon Tomb - Candle (1st Cyclops)"
     GT_CANDLE_BOSS = "Gorgon Tomb - Candle (Boss)"
     GT_CANDLE_BOTTOM = "Gorgon Tomb - Candle (Bottom)"
+    GT_ORB_MULTI = "Gorgon Tomb - Orb Multiplier"
 
     MECH_ZEEK = "Mechanism - Zeek"
     MECH_BOOTS = "Mechanism - Talaria Boots"
@@ -142,6 +145,7 @@ class LocationName(StrEnum):
     MECH_SWITCH_CANNON = "Mechanism - Switch (Cannon)"
     MECH_SWITCH_EYEBALL = "Mechanism - Switch (Eyeball)"
     MECH_SWITCH_INVISIBLE = "Mechanism - Switch (Invisible)"
+    MECH_SKULL_PUZZLE = "Mechanism - Skull Puzzle"
     MECH_CRYSTAL_CANNON = "Mechanism - Crystal (Cannon)"
     MECH_CRYSTAL_LINUS = "Mechanism - Crystal (Linus)"
     MECH_CRYSTAL_LOWER = "Mechanism - Crystal (Lower)"
@@ -175,6 +179,7 @@ class LocationName(StrEnum):
     MECH_CANDLE_1ST_ROOM = "Mechanism - Candle (1st Room)"
     MECH_CANDLE_BK = "Mechanism - Candle (Black Knight)"
     MECH_CANDLE_CAMPFIRE_R = "Mechanism - Candle (Right Campfire)"
+    MECH_ORB_MULTI = "Mechanism - Orb Multiplier"
 
     HOTP_BELL = "Hall of the Phantoms - Athena's Bell"
     HOTP_AMULET = "Hall of the Phantoms - Amulet of Sol"
@@ -221,6 +226,7 @@ class LocationName(StrEnum):
     HOTP_SWITCH_BELL_ACCESS = "Hall of the Phantoms - Switch (Bell Access)"
     HOTP_SWITCH_1ST_ROOM = "Hall of the Phantoms - Switch (1st Room)"
     HOTP_SWITCH_LEFT_BACKTRACK = "Hall of the Phantoms - Switch (Left Backtrack)"
+    HOTP_SKULL_PUZZLE = "Hall of the Phantoms - Skull Puzzle"
     HOTP_CRYSTAL_ROCK_ACCESS = "Hall of the Phantoms - Crystal (Rock Access)"
     HOTP_CRYSTAL_BOTTOM = "Hall of the Phantoms - Crystal (Bottom)"
     HOTP_CRYSTAL_LOWER = "Hall of the Phantoms - Crystal (Lower)"
@@ -414,6 +420,7 @@ class LocationName(StrEnum):
     CATA_CANDLE_ABOVE_ROOTS_5 = "Catacombs - Candle (Above Roots 5)"
     CATA_CANDLE_VOID_R_1 = "Catacombs - Candle (Void Right 1)"
     CATA_CANDLE_VOID_R_2 = "Catacombs - Candle (Void Right 2)"
+    CATA_ORB_MULTI = "Catacombs - Orb Multiplier"
 
     TR_BRAM = "Tower Roots - Bram"
     TR_ADORNED_KEY = "Tower Roots - Adorned Key"
@@ -593,7 +600,7 @@ ALL_LOCATIONS: tuple[LocationData, ...] = (
     LocationData(LocationName.HOTP_HP_2_LADDER, RegionName.HOTP_ELEVATOR, LocationGroup.HEALTH, Area.HOTP),
     LocationData(LocationName.HOTP_HP_2_GAUNTLET, RegionName.HOTP_TP_FALL_TOP, LocationGroup.HEALTH, Area.HOTP),
     LocationData(LocationName.HOTP_HP_5_OLD_MAN, RegionName.HOTP_ABOVE_OLD_MAN, LocationGroup.HEALTH, Area.HOTP),
-    LocationData(LocationName.HOTP_HP_5_MAZE, RegionName.HOTP_LOWER_VOID, LocationGroup.HEALTH, Area.HOTP),
+    LocationData(LocationName.HOTP_HP_5_MAZE, RegionName.HOTP_LOWER_VOID_CONNECTION, LocationGroup.HEALTH, Area.HOTP),
     LocationData(LocationName.HOTP_HP_5_START, RegionName.HOTP_START, LocationGroup.HEALTH, Area.HOTP),
     LocationData(LocationName.HOTP_WHITE_KEY_LEFT, RegionName.HOTP_START_LEFT, LocationGroup.KEY_WHITE, Area.HOTP),
     LocationData(LocationName.HOTP_WHITE_KEY_GHOST, RegionName.HOTP_LOWER, LocationGroup.KEY_WHITE, Area.HOTP),
@@ -1101,6 +1108,12 @@ ALL_LOCATIONS: tuple[LocationData, ...] = (
     LocationData(LocationName.CD_CANDLE_TOP_CAMPFIRE, RegionName.CD_TOP, LocationGroup.CANDLE, Area.CD),
     LocationData(LocationName.CATH_CANDLE_TOP_1, RegionName.CATH_TOP, LocationGroup.CANDLE, Area.CATH),
     LocationData(LocationName.CATH_CANDLE_TOP_2, RegionName.CATH_TOP, LocationGroup.CANDLE, Area.CATH),
+    LocationData(LocationName.GT_ELEVATOR_1, RegionName.GT_ENTRANCE, LocationGroup.ELEVATOR, Area.GT),
+    LocationData(LocationName.MECH_SKULL_PUZZLE, RegionName.MECH_SPLIT_PATH, LocationGroup.SWITCH, Area.MECH),
+    LocationData(LocationName.HOTP_SKULL_PUZZLE, RegionName.HOTP_TP_TUTORIAL, LocationGroup.SWITCH, Area.MECH),
+    LocationData(LocationName.GT_ORB_MULTI, RegionName.GT_ENTRANCE, LocationGroup.ORBS, Area.GT),
+    LocationData(LocationName.MECH_ORB_MULTI, RegionName.MECH_AFTER_BK, LocationGroup.ORBS, Area.MECH),
+    LocationData(LocationName.CATA_ORB_MULTI, RegionName.CATA_MULTI, LocationGroup.ORBS, Area.CATA),
 )
 
 location_table: dict[str, LocationData] = {location.name.value: location for location in ALL_LOCATIONS}

@@ -1,13 +1,14 @@
 from collections.abc import Callable
 from dataclasses import dataclass
 from enum import StrEnum
+from functools import cached_property
 from itertools import groupby
 from typing import TypeAlias
 
 from BaseClasses import Item, ItemClassification
 
 from .constants import GAME_NAME
-from .options import AstalonOptions
+from .options import AstalonOptions, StartingLocation
 
 
 class ItemGroup(StrEnum):
@@ -93,6 +94,7 @@ class Orbs(StrEnum):
     ORBS_200 = "200 Orbs"
     ORBS_500 = "500 Orbs"
     ORBS_1000 = "1000 Orbs"
+    ORB_MULTI = "Orb Multiplier"
 
 
 class WhiteDoor(StrEnum):
@@ -182,6 +184,7 @@ class ShopUpgrade(StrEnum):
 
 
 class Elevator(StrEnum):
+    GT_1 = "Gorgon Tomb 1 Elevator"
     GT_2 = "Gorgon Tomb 2 Elevator"
     MECH_1 = "Mechanism 1 Elevator"
     MECH_2 = "Mechanism 2 Elevator"
@@ -235,6 +238,7 @@ class Switch(StrEnum):
     MECH_CANNON = "Switch (Mechanism - Cannon)"
     MECH_EYEBALL = "Switch (Mechanism - Eyeball)"
     MECH_INVISIBLE = "Switch (Mechanism - Invisible)"
+    MECH_SKULL_PUZZLE = "Switch (Mechanism - Skull Puzzle)"
     HOTP_ROCK = "Switch (Hall of the Phantoms - Rock)"
     HOTP_BELOW_START = "Switch (Hall of the Phantoms - Below Start)"
     HOTP_LEFT_2 = "Switch (Hall of the Phantoms - Left 2)"
@@ -256,6 +260,7 @@ class Switch(StrEnum):
     HOTP_BELL_ACCESS = "Switch (Hall of the Phantoms - Bell Access)"
     HOTP_1ST_ROOM = "Switch (Hall of the Phantoms - 1st Room)"
     HOTP_LEFT_BACKTRACK = "Switch (Hall of the Phantoms - Left Backtrack)"
+    HOTP_SKULL_PUZZLE = "Switch (Hall of the Phantoms - Skull Puzzle)"
     ROA_ASCEND = "Switch (Ruins of Ash - Ascend)"
     ROA_AFTER_WORMS = "Switch (Ruins of Ash - After Worms)"
     ROA_RIGHT_PATH = "Switch (Ruins of Ash - Right Path)"
@@ -433,32 +438,6 @@ CHARACTERS: tuple[Character, ...] = (
     Character.BRAM,
 )
 
-EARLY_WHITE_DOORS: tuple[WhiteDoor, ...] = (
-    WhiteDoor.GT_START,
-    WhiteDoor.GT_MAP,
-    WhiteDoor.GT_TAUROS,
-)
-
-EARLY_BLUE_DOORS: tuple[BlueDoor, ...] = (
-    BlueDoor.GT_ASCENDANT,
-    BlueDoor.CAVES,
-)
-
-EARLY_SWITCHES: tuple[Switch, ...] = (
-    Switch.GT_2ND_ROOM,
-    Switch.GT_1ST_CYCLOPS,
-    Switch.GT_SPIKE_TUNNEL,
-    Switch.GT_BUTT_ACCESS,
-    Switch.GT_GH,
-    Switch.GT_ARIAS,
-    Switch.CAVES_SKELETONS,
-    Switch.CAVES_CATA_1,
-    Switch.CAVES_CATA_2,
-    Switch.CAVES_CATA_3,
-)
-
-EARLY_ITEMS: set[ItemName] = {*EARLY_WHITE_DOORS, *EARLY_BLUE_DOORS, *EARLY_SWITCHES}
-
 QOL_ITEMS: tuple[ShopUpgrade, ...] = (
     ShopUpgrade.KNOWLEDGE,
     ShopUpgrade.ORB_SEEKER,
@@ -467,6 +446,50 @@ QOL_ITEMS: tuple[ShopUpgrade, ...] = (
     ShopUpgrade.GIFT,
     ShopUpgrade.CARTOGRAPHER,
 )
+
+
+@dataclass(frozen=True)
+class EarlyItems:
+    white_doors: tuple[WhiteDoor, ...] = ()
+    blue_doors: tuple[BlueDoor, ...] = ()
+    switches: tuple[Switch, ...] = ()
+
+    @cached_property
+    def all(self) -> set[ItemName]:
+        return set(self.white_doors + self.blue_doors + self.switches)
+
+
+EARLY_ITEMS = {
+    0: EarlyItems(
+        white_doors=(
+            WhiteDoor.GT_START,
+            WhiteDoor.GT_MAP,
+            WhiteDoor.GT_TAUROS,
+        ),
+        blue_doors=(
+            BlueDoor.GT_ASCENDANT,
+            BlueDoor.CAVES,
+        ),
+        switches=(
+            Switch.GT_2ND_ROOM,
+            Switch.GT_1ST_CYCLOPS,
+            Switch.GT_SPIKE_TUNNEL,
+            Switch.GT_BUTT_ACCESS,
+            Switch.GT_GH,
+            Switch.GT_ARIAS,
+            Switch.CAVES_SKELETONS,
+            Switch.CAVES_CATA_1,
+            Switch.CAVES_CATA_2,
+            Switch.CAVES_CATA_3,
+        ),
+    ),
+    1: EarlyItems(),
+    2: EarlyItems(),
+    3: EarlyItems(),
+    4: EarlyItems(),
+    5: EarlyItems(),
+    6: EarlyItems(),
+}
 
 
 class Events(StrEnum):
@@ -521,27 +544,27 @@ ALL_ITEMS: tuple[ItemData, ...] = (
     ItemData(KeyItem.MAIDEN_RING, ItemClassification.filler, 1, ItemGroup.ITEM),
     ItemData(KeyItem.SWORD, ItemClassification.progression, 1, ItemGroup.ITEM),
     ItemData(KeyItem.MAP, ItemClassification.filler, 1, ItemGroup.ITEM),
-    ItemData(KeyItem.ASCENDANT_KEY, ItemClassification.progression, 1, ItemGroup.ITEM),
+    ItemData(KeyItem.ASCENDANT_KEY, ItemClassification.progression | ItemClassification.useful, 1, ItemGroup.ITEM),
     ItemData(KeyItem.ADORNED_KEY, ItemClassification.progression, 1, ItemGroup.ITEM),
-    ItemData(KeyItem.BANISH, ItemClassification.progression, 1, ItemGroup.ITEM),
+    ItemData(KeyItem.BANISH, ItemClassification.progression | ItemClassification.useful, 1, ItemGroup.ITEM),
     ItemData(KeyItem.VOID, ItemClassification.progression, 1, ItemGroup.ITEM),
-    ItemData(KeyItem.BOOTS, ItemClassification.progression, 1, ItemGroup.ITEM),
+    ItemData(KeyItem.BOOTS, ItemClassification.progression | ItemClassification.useful, 1, ItemGroup.ITEM),
     ItemData(KeyItem.CLOAK, ItemClassification.progression, 1, ItemGroup.ITEM),
-    ItemData(KeyItem.BELL, ItemClassification.progression, 1, ItemGroup.ITEM),
+    ItemData(KeyItem.BELL, ItemClassification.progression | ItemClassification.useful, 1, ItemGroup.ITEM),
     ItemData(KeyItem.AMULET, ItemClassification.useful, 1, ItemGroup.ITEM),
     ItemData(
         KeyItem.CLAW,
-        ItemClassification.progression,
+        ItemClassification.progression | ItemClassification.useful,
         1,
         ItemGroup.ITEM,
         description="Lets Kyuli jump up walls. Very useful!",
     ),
     ItemData(KeyItem.GAUNTLET, ItemClassification.progression, 1, ItemGroup.ITEM),
-    ItemData(KeyItem.ICARUS, ItemClassification.progression, 1, ItemGroup.ITEM),
-    ItemData(KeyItem.CHALICE, ItemClassification.progression, 1, ItemGroup.ITEM),
-    ItemData(KeyItem.BOW, ItemClassification.progression, 1, ItemGroup.ITEM),
-    ItemData(KeyItem.BLOCK, ItemClassification.progression, 1, ItemGroup.ITEM),
-    ItemData(KeyItem.STAR, ItemClassification.progression, 1, ItemGroup.ITEM),
+    ItemData(KeyItem.ICARUS, ItemClassification.progression | ItemClassification.useful, 1, ItemGroup.ITEM),
+    ItemData(KeyItem.CHALICE, ItemClassification.progression | ItemClassification.useful, 1, ItemGroup.ITEM),
+    ItemData(KeyItem.BOW, ItemClassification.progression | ItemClassification.useful, 1, ItemGroup.ITEM),
+    ItemData(KeyItem.BLOCK, ItemClassification.progression | ItemClassification.useful, 1, ItemGroup.ITEM),
+    ItemData(KeyItem.STAR, ItemClassification.progression | ItemClassification.useful, 1, ItemGroup.ITEM),
     ItemData(Upgrade.ATTACK_1, ItemClassification.useful, 12, ItemGroup.ATTACK),
     ItemData(Upgrade.MAX_HP_1, ItemClassification.filler, 14, ItemGroup.HEALTH),
     ItemData(Upgrade.MAX_HP_2, ItemClassification.useful, 10, ItemGroup.HEALTH),
@@ -589,7 +612,9 @@ ALL_ITEMS: tuple[ItemData, ...] = (
     ItemData(BlueDoor.CAVES, ItemClassification.progression, 1, ItemGroup.DOOR_BLUE),
     ItemData(
         BlueDoor.CATA_ORBS,
-        lambda options: ItemClassification.progression if options.randomize_candles else ItemClassification.useful,
+        lambda options: ItemClassification.progression
+        if options.randomize_candles or options.randomize_orb_multipliers
+        else ItemClassification.useful,
         1,
         ItemGroup.DOOR_BLUE,
     ),
@@ -611,11 +636,11 @@ ALL_ITEMS: tuple[ItemData, ...] = (
     ItemData(RedDoor.SP, ItemClassification.progression, 1, ItemGroup.DOOR_RED),
     ItemData(RedDoor.TR, ItemClassification.progression, 1, ItemGroup.DOOR_RED),
     ItemData(RedDoor.DEV_ROOM, ItemClassification.filler, 1, ItemGroup.DOOR_RED),
-    ItemData(Character.ARIAS, ItemClassification.progression, 0, ItemGroup.CHARACTER),
-    ItemData(Character.KYULI, ItemClassification.progression, 0, ItemGroup.CHARACTER),
-    ItemData(Character.ALGUS, ItemClassification.progression, 0, ItemGroup.CHARACTER),
-    ItemData(Character.ZEEK, ItemClassification.progression, 0, ItemGroup.CHARACTER),
-    ItemData(Character.BRAM, ItemClassification.progression, 0, ItemGroup.CHARACTER),
+    ItemData(Character.ARIAS, ItemClassification.progression | ItemClassification.useful, 0, ItemGroup.CHARACTER),
+    ItemData(Character.KYULI, ItemClassification.progression | ItemClassification.useful, 0, ItemGroup.CHARACTER),
+    ItemData(Character.ALGUS, ItemClassification.progression | ItemClassification.useful, 0, ItemGroup.CHARACTER),
+    ItemData(Character.ZEEK, ItemClassification.progression | ItemClassification.useful, 0, ItemGroup.CHARACTER),
+    ItemData(Character.BRAM, ItemClassification.progression | ItemClassification.useful, 0, ItemGroup.CHARACTER),
     ItemData(ShopUpgrade.GIFT, ItemClassification.useful, 1, ItemGroup.SHOP),
     ItemData(ShopUpgrade.KNOWLEDGE, ItemClassification.filler, 1, ItemGroup.SHOP),
     ItemData(ShopUpgrade.MERCY, ItemClassification.useful, 1, ItemGroup.SHOP),
@@ -633,13 +658,13 @@ ALL_ITEMS: tuple[ItemData, ...] = (
     ItemData(ShopUpgrade.ARIAS_LIONHEART, ItemClassification.useful, 1, ItemGroup.SHOP),
     ItemData(ShopUpgrade.KYULI_ASSASSIN, ItemClassification.useful, 1, ItemGroup.SHOP),
     ItemData(ShopUpgrade.KYULI_BULLSEYE, ItemClassification.useful, 1, ItemGroup.SHOP),
-    ItemData(ShopUpgrade.KYULI_RAY, ItemClassification.progression, 1, ItemGroup.SHOP),
+    ItemData(ShopUpgrade.KYULI_RAY, ItemClassification.progression | ItemClassification.useful, 1, ItemGroup.SHOP),
     ItemData(ShopUpgrade.ZEEK_JUNKYARD, ItemClassification.useful, 1, ItemGroup.SHOP),
     ItemData(ShopUpgrade.ZEEK_ORBS, ItemClassification.useful, 1, ItemGroup.SHOP),
     ItemData(ShopUpgrade.ZEEK_LOOT, ItemClassification.useful, 1, ItemGroup.SHOP),
     ItemData(ShopUpgrade.BRAM_AXE, ItemClassification.progression, 1, ItemGroup.SHOP),
     ItemData(ShopUpgrade.BRAM_HUNTER, ItemClassification.useful, 1, ItemGroup.SHOP),
-    ItemData(ShopUpgrade.BRAM_WHIPLASH, ItemClassification.progression, 1, ItemGroup.SHOP),
+    ItemData(ShopUpgrade.BRAM_WHIPLASH, ItemClassification.progression | ItemClassification.useful, 1, ItemGroup.SHOP),
     ItemData(Elevator.GT_2, ItemClassification.progression, 1, ItemGroup.ELEVATOR),
     ItemData(Elevator.MECH_1, ItemClassification.progression, 1, ItemGroup.ELEVATOR),
     ItemData(Elevator.MECH_2, ItemClassification.progression, 1, ItemGroup.ELEVATOR),
@@ -659,13 +684,17 @@ ALL_ITEMS: tuple[ItemData, ...] = (
     ItemData(Switch.GT_UPPER_PATH_ACCESS, ItemClassification.progression, 1, ItemGroup.SWITCH),
     ItemData(
         Switch.GT_CROSSES,
-        lambda options: ItemClassification.filler if options.open_early_doors else ItemClassification.progression,
+        lambda options: ItemClassification.filler
+        if options.open_early_doors and options.starting_location == StartingLocation.option_gorgon_tomb
+        else ItemClassification.progression,
         1,
         ItemGroup.SWITCH,
     ),
     ItemData(
         Switch.GT_GH_SHORTCUT,
-        lambda options: ItemClassification.filler if options.open_early_doors else ItemClassification.progression,
+        lambda options: ItemClassification.filler
+        if options.open_early_doors and options.starting_location == StartingLocation.option_gorgon_tomb
+        else ItemClassification.progression,
         1,
         ItemGroup.SWITCH,
     ),
@@ -858,6 +887,10 @@ ALL_ITEMS: tuple[ItemData, ...] = (
     ItemData(Heal.HEAL_5, ItemClassification.filler, 92, ItemGroup.HEAL),
     ItemData(Trap.CUTSCENE, ItemClassification.trap, 0, ItemGroup.TRAP),
     ItemData(Trap.ROCKS, ItemClassification.trap, 0, ItemGroup.TRAP),
+    ItemData(Elevator.GT_1, ItemClassification.progression, 1, ItemGroup.ELEVATOR),
+    ItemData(Switch.MECH_SKULL_PUZZLE, ItemClassification.progression, 1, ItemGroup.SWITCH),
+    ItemData(Switch.HOTP_SKULL_PUZZLE, ItemClassification.progression, 1, ItemGroup.SWITCH),
+    ItemData(Orbs.ORB_MULTI, ItemClassification.useful, 3, ItemGroup.ORBS),
 )
 
 item_table: dict[str, ItemData] = {item.name.value: item for item in ALL_ITEMS}
@@ -871,7 +904,6 @@ def get_item_group(item_name: str) -> ItemGroup:
 item_name_groups: dict[str, set[str]] = {
     group.value: set(item_names)
     for group, item_names in groupby(sorted(item_table, key=get_item_group), get_item_group)
-    if group
 }
 
 item_name_groups["Map Progression"] = {

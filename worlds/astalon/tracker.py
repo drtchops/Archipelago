@@ -123,7 +123,7 @@ def rule_to_json(rule: CollectionRule | None, state: CollectionState) -> list[JS
 
 
 class AstalonUTWorld(AstalonWorldBase):
-    tracker_world: ClassVar[dict[str, Any]] = {
+    tracker_world: ClassVar = {
         "map_page_folder": "tracker",
         "map_page_maps": "maps/maps.json",
         "map_page_locations": "locations/locations.json",
@@ -156,6 +156,8 @@ class AstalonUTWorld(AstalonWorldBase):
                 self.starting_characters = [Character(c) for c in slot_data["starting_characters"]]
             if "extra_gold_eyes" in slot_data:
                 self.extra_gold_eyes = slot_data["extra_gold_eyes"]
+            if "portal_pairs" in slot_data:
+                self.portal_pairs = tuple(tuple(p) for p in slot_data["portal_pairs"])
 
     def get_logical_path(self, dest_name: str, state: CollectionState) -> list[JSONMessagePart]:
         if not dest_name:
@@ -185,27 +187,31 @@ class AstalonUTWorld(AstalonWorldBase):
 
         if goal_location and not goal_location.can_reach(state):
             return [{"type": "text", "text": f"Location {goal_location.name} cannot be reached"}]
-        if goal_region and goal_region not in state.path:
+        if goal_region not in state.path and goal_region.name != self.origin_region_name:
             return [{"type": "text", "text": f"Region {goal_region.name} cannot be reached"}]
 
-        path: list[Entrance] = []
-        name, connection = state.path[goal_region]
-        while connection != ("Menu", None) and connection is not None:
-            name, connection = connection
-            if "->" in name and "Menu" not in name:
-                path.append(self.get_entrance(name))
+        messages: list[JSONMessagePart] = [
+            {"type": "color", "color": "slateblue", "text": f"Start -> {self.origin_region_name}\n"},
+            {"type": "color", "color": "green", "text": "    True\n"},
+        ]
+        if goal_region.name != self.origin_region_name:
+            path: list[Entrance] = []
+            name, connection = state.path[goal_region]
+            while connection is not None:
+                name, connection = connection
+                if "->" in name:
+                    path.append(self.get_entrance(name))
 
-        messages: list[JSONMessagePart] = []
-        path.reverse()
-        for p in path:
-            messages.extend(
-                [
-                    {"type": "entrance_name", "text": p.name, "player": self.player},
-                    {"type": "text", "text": "\n"},
-                    *rule_to_json(p.access_rule, state),
-                    {"type": "text", "text": "\n"},
-                ]
-            )
+            path.reverse()
+            for p in path:
+                messages.extend(
+                    [
+                        {"type": "entrance_name", "text": p.name, "player": self.player},
+                        {"type": "text", "text": "\n"},
+                        *rule_to_json(p.access_rule, state),
+                        {"type": "text", "text": "\n"},
+                    ]
+                )
 
         if goal_location:
             messages.extend(
@@ -231,9 +237,11 @@ class AstalonUTWorld(AstalonWorldBase):
         ):
             return
 
-        source_region = self.get_region(RegionName.GT_ENTRANCE.value)
+        source_region = self.get_region(self.origin_region_name)
         for campfire_id in data_storage_value:  # pyright: ignore[reportUnknownVariableType]
             dest_region = self.get_region(CAMPFIRE_WARPS[campfire_id].value)
+            if source_region == dest_region:
+                continue
             entrance_name = f"{source_region.name} -> {dest_region.name}"
 
             try:
