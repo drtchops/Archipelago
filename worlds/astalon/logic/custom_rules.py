@@ -1,7 +1,7 @@
 import dataclasses
 from collections.abc import Iterable
 from enum import Enum
-from typing import Any, ClassVar, cast
+from typing import ClassVar, cast
 
 from typing_extensions import override
 
@@ -53,7 +53,7 @@ class Has(rules.Has[AstalonWorldBase], game=GAME_NAME):
         item_name: ItemName | Events,
         count: int = 1,
         *,
-        options: Iterable[OptionFilter[Any]] = (),
+        options: Iterable[OptionFilter] = (),
     ) -> None:
         super().__init__(as_str(item_name), count, options=options)
 
@@ -64,7 +64,7 @@ class HasAll(rules.HasAll[AstalonWorldBase], game=GAME_NAME):
     def __init__(
         self,
         *item_names: ItemName | Events,
-        options: Iterable[OptionFilter[Any]] = (),
+        options: Iterable[OptionFilter] = (),
     ) -> None:
         names = [as_str(name) for name in item_names]
         if len(names) != len(set(names)):
@@ -79,7 +79,7 @@ class HasAny(rules.HasAny[AstalonWorldBase], game=GAME_NAME):
     def __init__(
         self,
         *item_names: ItemName | Events,
-        options: Iterable[OptionFilter[Any]] = (),
+        options: Iterable[OptionFilter] = (),
     ) -> None:
         names = [as_str(name) for name in item_names]
         if len(names) != len(set(names)):
@@ -97,7 +97,7 @@ class CanReachLocation(rules.CanReachLocation[AstalonWorldBase], game=GAME_NAME)
         parent_region_name: RegionName | None = None,
         skip_indirect_connection: bool = False,
         *,
-        options: Iterable[OptionFilter[Any]] = (),
+        options: Iterable[OptionFilter] = (),
     ) -> None:
         super().__init__(as_str(location_name), as_str(parent_region_name), skip_indirect_connection, options=options)
 
@@ -109,7 +109,7 @@ class CanReachRegion(rules.CanReachRegion[AstalonWorldBase], game=GAME_NAME):
         self,
         region_name: RegionName,
         *,
-        options: Iterable[OptionFilter[Any]] = (),
+        options: Iterable[OptionFilter] = (),
     ) -> None:
         super().__init__(as_str(region_name), options=options)
 
@@ -122,7 +122,7 @@ class CanReachEntrance(rules.CanReachEntrance[AstalonWorldBase], game=GAME_NAME)
         from_region: RegionName,
         to_region: RegionName,
         *,
-        options: Iterable[OptionFilter[Any]] = (),
+        options: Iterable[OptionFilter] = (),
     ) -> None:
         entrance_name = f"{as_str(from_region)} -> {as_str(to_region)}"
         super().__init__(entrance_name, as_str(from_region), options=options)
@@ -158,7 +158,7 @@ class HasWhite(ToggleRule, game=GAME_NAME):
         self,
         *doors: WhiteDoor,
         otherwise: bool = False,
-        options: Iterable[OptionFilter[Any]] = (),
+        options: Iterable[OptionFilter] = (),
     ) -> None:
         super().__init__(*doors, options=options)
         self.otherwise: bool = otherwise
@@ -172,7 +172,7 @@ class HasBlue(ToggleRule, game=GAME_NAME):
         self,
         *doors: BlueDoor,
         otherwise: bool = False,
-        options: Iterable[OptionFilter[Any]] = (),
+        options: Iterable[OptionFilter] = (),
     ) -> None:
         super().__init__(*doors, options=options)
         self.otherwise: bool = otherwise
@@ -186,7 +186,7 @@ class HasRed(ToggleRule, game=GAME_NAME):
         self,
         *doors: RedDoor,
         otherwise: bool = False,
-        options: Iterable[OptionFilter[Any]] = (),
+        options: Iterable[OptionFilter] = (),
     ) -> None:
         super().__init__(*doors, options=options)
         self.otherwise: bool = otherwise
@@ -200,7 +200,7 @@ class HasSwitch(ToggleRule, game=GAME_NAME):
         self,
         *switches: Switch | Crystal | Face,
         otherwise: bool = False,
-        options: Iterable[OptionFilter[Any]] = (),
+        options: Iterable[OptionFilter] = (),
     ) -> None:
         super().__init__(*switches, options=options)
         self.otherwise: bool = otherwise
@@ -208,7 +208,7 @@ class HasSwitch(ToggleRule, game=GAME_NAME):
 
 @dataclasses.dataclass(init=False)
 class HasElevator(HasAll, game=GAME_NAME):
-    def __init__(self, elevator: Elevator, *, options: Iterable[OptionFilter[Any]] = ()) -> None:
+    def __init__(self, elevator: Elevator, *, options: Iterable[OptionFilter] = ()) -> None:
         super().__init__(
             KeyItem.ASCENDANT_KEY,
             elevator,
