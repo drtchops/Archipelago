@@ -1456,8 +1456,8 @@ def explain(ctx: TrackerGameContext, dest_name: str):
             return
 
     from Utils import get_intended_text
-    location_names = {ctx.tracker_core.multiworld.regions.location_cache[ctx.tracker_core.player_id].keys()}
-    region_names = {ctx.tracker_core.multiworld.regions.region_cache[ctx.tracker_core.player_id].keys()}
+    location_names = set(ctx.tracker_core.multiworld.regions.location_cache[ctx.tracker_core.player_id])
+    region_names = set(ctx.tracker_core.multiworld.regions.region_cache[ctx.tracker_core.player_id])
     result, usable, response = get_intended_text(dest_name, location_names.union(region_names))
     if not usable:
         logger.error(response)
@@ -1514,8 +1514,8 @@ def get_logical_path(ctx: TrackerGameContext, dest_name: str):
             return
 
     from Utils import get_intended_text
-    location_names = {ctx.tracker_core.multiworld.regions.location_cache[ctx.tracker_core.player_id].keys()}
-    region_names = {ctx.tracker_core.multiworld.regions.region_cache[ctx.tracker_core.player_id].keys()}
+    location_names = set(ctx.tracker_core.multiworld.regions.location_cache[ctx.tracker_core.player_id])
+    region_names = set(ctx.tracker_core.multiworld.regions.region_cache[ctx.tracker_core.player_id])
     result, usable, response = get_intended_text(dest_name, location_names.union(region_names))
     if not usable:
         logger.error(response)
