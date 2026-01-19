@@ -1454,9 +1454,18 @@ def explain(ctx: TrackerGameContext, dest_name: str):
         if returned_json:
             ctx.ui.print_json(returned_json)
             return
+
+    from Utils import get_intended_text
+    location_names = {ctx.tracker_core.multiworld.regions.location_cache[ctx.tracker_core.player_id]}
+    region_names = {ctx.tracker_core.multiworld.regions.region_cache[ctx.tracker_core.player_id]}
+    result, usable, response = get_intended_text(dest_name, location_names.union(region_names))
+    if not usable:
+        logger.error(response)
+        return
+    dest_name = result
     parent_region = None
     location = None
-    if dest_name in ctx.tracker_core.multiworld.regions.location_cache[ctx.tracker_core.player_id]:
+    if dest_name in location_names:
         dest_id = current_world.location_name_to_id[dest_name]
         if dest_id not in ctx.server_locations:
             logger.error("Location not found")
@@ -1469,11 +1478,9 @@ def explain(ctx: TrackerGameContext, dest_name: str):
         else:
             logger.info("Location doesn't have a rule that supports explanation")
         parent_region = location.parent_region
-    elif dest_name in ctx.tracker_core.multiworld.regions.region_cache[ctx.tracker_core.player_id]:
+    elif dest_name in region_names:
         parent_region = ctx.tracker_core.multiworld.get_region(dest_name,ctx.tracker_core.player_id)
     else:
-        from Utils import get_intended_text
-        _, _, response = get_intended_text(dest_name,set(ctx.tracker_core.multiworld.regions.location_cache[ctx.tracker_core.player_id].keys()).union(set(ctx.tracker_core.multiworld.regions.region_cache[ctx.tracker_core.player_id].keys())))
         logger.error(response)
         return
     if parent_region:
@@ -1506,27 +1513,27 @@ def get_logical_path(ctx: TrackerGameContext, dest_name: str):
             ctx.ui.print_json(returned_json)
             return
 
-    if dest_name in [loc.name for loc in ctx.tracker_core.multiworld.get_locations(ctx.tracker_core.player_id)]:
+    from Utils import get_intended_text
+    location_names = {ctx.tracker_core.multiworld.regions.location_cache[ctx.tracker_core.player_id]}
+    region_names = {ctx.tracker_core.multiworld.regions.region_cache[ctx.tracker_core.player_id]}
+    result, usable, response = get_intended_text(dest_name, location_names.union(region_names))
+    if not usable:
+        logger.error(response)
+        return
+    dest_name = result
+    if dest_name in location_names:
         location = ctx.tracker_core.multiworld.get_location(dest_name, ctx.tracker_core.player_id)
         state = ctx.updateTracker().state
         if not state: return
         if location.can_reach(state):
             relevent_region = location.parent_region
-    elif dest_name in ctx.tracker_core.multiworld.regions.region_cache[ctx.tracker_core.player_id]:
+    elif dest_name in region_names:
         relevent_region = ctx.tracker_core.multiworld.get_region(dest_name,ctx.tracker_core.player_id)
         state = ctx.updateTracker().state
         if not state: return
         if not relevent_region.can_reach(state):
             relevent_region = None
-    elif dest_name in ctx.tracker_core.multiworld.regions.location_cache[ctx.tracker_core.player_id]:
-        location = ctx.tracker_core.multiworld.get_location(dest_name,ctx.tracker_core.player_id)
-        state = ctx.updateTracker().state
-        if not state: return
-        if location.can_reach(state):
-            relevent_region = location.parent_region
     else:
-        from Utils import get_intended_text
-        _, _, response = get_intended_text(dest_name,set(ctx.tracker_core.multiworld.regions.location_cache[ctx.tracker_core.player_id].keys()).union(set(ctx.tracker_core.multiworld.regions.region_cache[ctx.tracker_core.player_id].keys())))
         logger.error(response)
         return
     if state:
