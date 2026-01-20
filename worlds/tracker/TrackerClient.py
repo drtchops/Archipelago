@@ -1,4 +1,5 @@
 import asyncio
+from functools import cached_property
 import logging
 import traceback
 from collections.abc import Callable
@@ -11,7 +12,7 @@ from typing import Union, Any, TYPE_CHECKING
 
 from BaseClasses import CollectionState, MultiWorld, LocationProgressType, ItemClassification, Location
 from worlds.generic.Rules import exclusion_rules
-from Utils import __version__, output_path, open_filename,async_start
+from Utils import __version__, async_start, open_filename, persistent_load, persistent_store
 from worlds import AutoWorld
 from . import TrackerWorld, UTMapTabData, CurrentTrackerState,UT_VERSION
 from .TrackerCore import TrackerCore
@@ -111,12 +112,14 @@ class TrackerCommandProcessor(ClientCommandProcessor):
     def _cmd_manually_collect(self, item_name: str = ""):
         """Manually adds an item name to the CollectionState to test"""
         self.ctx.tracker_core.manual_items.append(item_name)
+        self.ctx.persist_seed_data()
         self.ctx.updateTracker()
         logger.info(f"Added {item_name} to manually collect.")
 
     def _cmd_reset_manually_collect(self):
         """Resets the list of items manually collected by /manually_collect"""
         self.ctx.tracker_core.manual_items = []
+        self.ctx.persist_seed_data()
         self.ctx.updateTracker()
         logger.info("Reset manually collect.")
 
@@ -134,6 +137,7 @@ class TrackerCommandProcessor(ClientCommandProcessor):
             return
 
         self.ctx.tracker_core.ignored_locations.add(location_name_to_id[location_name])
+        self.ctx.persist_seed_data()
         self.ctx.updateTracker()
         logger.info(f"Added {location_name} to ignore list.")
 
@@ -149,6 +153,7 @@ class TrackerCommandProcessor(ClientCommandProcessor):
         for loc in updatetracker_ret.in_logic_locations:
             if loc in location_name_to_id:
                 self.ctx.tracker_core.ignored_locations.add(location_name_to_id[loc])
+        self.ctx.persist_seed_data()
         self.ctx.updateTracker()
 
     @mark_raw
@@ -170,6 +175,7 @@ class TrackerCommandProcessor(ClientCommandProcessor):
             return
 
         self.ctx.tracker_core.ignored_locations.remove(location)
+        self.ctx.persist_seed_data()
         self.ctx.updateTracker()
         logger.info(f"Removed {location_name} from ignore list.")
 
@@ -190,6 +196,7 @@ class TrackerCommandProcessor(ClientCommandProcessor):
     def _cmd_reset_ignored(self):
         """Reset the list of ignored locations"""
         self.ctx.tracker_core.ignored_locations.clear()
+        self.ctx.persist_seed_data()
         self.ctx.updateTracker()
         logger.info("Reset ignored locations.")
 
@@ -1268,6 +1275,7 @@ class TrackerGameContext(CommonContext):
                     logger.error("Internal generation failed, something has gone wrong")
                     logger.error("Run the /faris_asked command and post the results in the discord")
                     return #if this has failed we don't want to even try anything else
+                self.load_seed_data()
                 if self.ui is not None and hasattr(connected_cls, "tracker_world"):
                     self.tracker_world = UTMapTabData(self.slot, self.team, **getattr(connected_cls,"tracker_world",{}))
                 elif self.ui is not None and hasattr(self.tracker_core.get_current_world(),"tracker_world"):
@@ -1379,8 +1387,6 @@ class TrackerGameContext(CommonContext):
             self.tracker_world = None
             self.defered_entrance_callback = None
             self.defered_entrance_datastorage_keys = []
-            # TODO: persist these per url+slot(+seed)?
-            self.tracker_core.ignored_locations.clear()
             self.set_page("Connect to a slot to start tracking!")
             if hasattr(self, "tracker_total_locs_label"):
                 self.tracker_total_locs_label.text = f"Locations: 0/0"
@@ -1396,6 +1402,26 @@ class TrackerGameContext(CommonContext):
         self.local_items.clear()
 
         await super().disconnect(allow_autoreconnect)
+
+    @cached_property
+    def _persistent_key(self) -> str:
+        return f"{self.seed_name}:{self.team}:{self.slot}"
+
+    def load_seed_data(self) -> None:
+        data = persistent_load().get("universal_tracker", {}).get(self._persistent_key, {})
+        if ignored_locations := data.get("ignored_locations"):
+            self.tracker_core.ignored_locations = set(ignored_locations)
+        if manual_items := data.get("manual_items"):
+            self.tracker_core.manual_items = manual_items
+
+    def persist_seed_data(self) -> None:
+        if self.seed_name is None or self.slot is None or self.team is None:
+            return
+        data = {
+            "ignored_locations": sorted(self.tracker_core.ignored_locations),
+            "manual_items": self.tracker_core.manual_items,
+        }
+        persistent_store("universal_tracker", self._persistent_key, data)
 
 
 

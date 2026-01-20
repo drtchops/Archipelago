@@ -52,7 +52,7 @@ class TrackerCore():
         self.location_alias_map: dict[int, str] = {}
         self.hints = {}
         self.tracker_items_received = []
-        self.manual_items = []
+        self.manual_items: list[str] = []
         self.player_folder_override = None
         self.gen_error:str = ""
 
@@ -64,6 +64,7 @@ class TrackerCore():
         self.player_id = None
         self.multiworld = None
         self.manual_items.clear()
+        self.ignored_locations.clear()
         self.player_folder_override = None
         self.location_alias_map = {}
 
