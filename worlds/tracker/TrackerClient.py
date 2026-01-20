@@ -1260,7 +1260,9 @@ class TrackerGameContext(CommonContext):
 
     def on_package(self, cmd: str, args: dict):
         try:
-            if cmd == 'Connected':
+            if cmd == "RoomInfo":
+                self.seed_name = args["seed_name"]
+            elif cmd == "Connected":
                 self.game = args["slot_info"][str(args["slot"])][1]
                 slot_name = args["slot_info"][str(args["slot"])][0]
                 self.tracker_core.set_slot_params(self.game,self.slot,slot_name,self.team)
@@ -1372,6 +1374,7 @@ class TrackerGameContext(CommonContext):
     async def disconnect(self, allow_autoreconnect: bool = False):
         if "Tracker" in self.tags:
             self.game = ""
+            self.seed_name = None
             if self.ui:
                 self.ui.show_map = False
             if self.tracker_world:
