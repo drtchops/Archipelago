@@ -1411,6 +1411,8 @@ class TrackerGameContext(CommonContext):
         return f"{self.seed_name}:{self.team}:{self.slot}"
 
     def load_seed_data(self) -> None:
+        if not TrackerWorld.settings.save_entered_commands:
+            return
         data = persistent_load().get("universal_tracker", {}).get(self._persistent_key, {})
         if ignored_locations := data.get("ignored_locations"):
             self.tracker_core.ignored_locations = set(ignored_locations)
@@ -1418,7 +1420,7 @@ class TrackerGameContext(CommonContext):
             self.tracker_core.manual_items = manual_items
 
     def persist_seed_data(self) -> None:
-        if self.seed_name is None or self.slot is None or self.team is None:
+        if not TrackerWorld.settings.save_entered_commands or self.seed_name is None or self.slot is None or self.team is None:
             return
         data = {
             "ignored_locations": sorted(self.tracker_core.ignored_locations),
