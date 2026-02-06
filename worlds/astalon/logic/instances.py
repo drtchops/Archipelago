@@ -426,6 +426,8 @@ class HardLogicInstance(RuleInstance):
 
 @dataclasses.dataclass(frozen=True)
 class CampfireWarpInstance(RuleInstance):
+    name: str
+
     cacheable: bool = dataclasses.field(repr=False, default=False, init=False)
 
     always_true: ClassVar = True
@@ -437,7 +439,7 @@ class CampfireWarpInstance(RuleInstance):
         return True
 
     def serialize(self) -> str:
-        return "Campfire Warp"
+        return f"Campfire Warp to {self.name}"
 
     def explain(self, state: "CollectionState | None" = None) -> "list[JSONMessagePart]":
-        return [{"type": "color", "color": "green", "text": "Campfire Warp"}]
+        return [{"type": "color", "color": "green", "text": f"Campfire Warp to {self.name}"}]
