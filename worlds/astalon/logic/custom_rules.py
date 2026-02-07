@@ -266,12 +266,20 @@ class HardLogic(rules.WrapperRule[AstalonWorldBase], game=GAME_NAME):
 
 
 @dataclasses.dataclass()
-class CampfireWarp(rules.True_, game=GAME_NAME):
+class CampfireWarp(rules.True_[AstalonWorldBase], game=GAME_NAME):
+    name: str
+
+    @override
+    def _instantiate(self, world: AstalonWorldBase) -> "Resolved":
+        return self.Resolved(self.name, player=world.player)
+
     class Resolved(rules.True_.Resolved):
+        name: str
+
         @override
         def explain_json(self, state: CollectionState | None = None) -> list[JSONMessagePart]:
-            return [{"type": "color", "color": "green", "text": "Campfire Warp"}]
+            return [{"type": "color", "color": "green", "text": f"Campfire Warp to {self.name}"}]
 
         @override
         def __str__(self) -> str:
-            return "Campfire Warp"
+            return f"Campfire Warp to {self.name}"

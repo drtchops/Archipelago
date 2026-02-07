@@ -59,42 +59,42 @@ ROOM_HEIGHT: Final[int] = 240
 MAP_SCALE_X: Final[float] = ROOM_WIDTH / 59.346
 MAP_SCALE_Y: Final[float] = -ROOM_HEIGHT / 40.475
 
-CAMPFIRE_WARPS: Final[dict[int, RegionName]] = {
-    6696: RegionName.GT_ENTRANCE,
-    18: RegionName.GT_BOTTOM,
-    292: RegionName.GT_LEFT,
-    293: RegionName.GT_BOSS,
-    1140: RegionName.MECH_START,
-    1556: RegionName.MECH_SWORD_CONNECTION,
-    813: RegionName.MECH_BOTTOM_CAMPFIRE,
-    712: RegionName.MECH_BK,
-    3547: RegionName.MECH_RIGHT,
-    1634: RegionName.MECH_TOP,
-    819: RegionName.MECH_BOSS,
-    7507: RegionName.CD_START,
-    7577: RegionName.CD_MIDDLE,
-    7703: RegionName.CD_CAMPFIRE_3,
-    7774: RegionName.CD_TOP,
-    5019: RegionName.HOTP_EPIMETHEUS,
-    6421: RegionName.HOTP_BELL_CAMPFIRE,
-    3207: RegionName.HOTP_CLAW_CAMPFIRE,
-    2904: RegionName.HOTP_BOSS_CAMPFIRE,
-    10203: RegionName.CATH_CAMPFIRE_1,
-    10260: RegionName.CATH_CAMPFIRE_2,
-    3726: RegionName.ROA_START,
-    7088: RegionName.ROA_LEFT_ASCENT,
-    7086: RegionName.ROA_MIDDLE,
-    4685: RegionName.ROA_ELEVATOR,
-    10026: RegionName.ROA_BOSS,
-    7436: RegionName.SP_CAMPFIRE_1,
-    8243: RegionName.SP_CAMPFIRE_2,
-    4635: RegionName.APEX,
-    7109: RegionName.CAVES_LOWER,
-    2524: RegionName.CATA_BOW_CAMPFIRE,
-    2610: RegionName.CATA_ROOTS_CAMPFIRE,
-    2669: RegionName.CATA_BOSS,
-    9056: RegionName.TR_START,
-    9161: RegionName.CATA_DEV_ROOM,
+CAMPFIRE_WARPS: Final[dict[int, tuple[RegionName, str]]] = {
+    6696: (RegionName.GT_ENTRANCE, "Tutorial"),
+    18: (RegionName.GT_BOTTOM, "GT Bottom"),
+    292: (RegionName.GT_LEFT, "GT Left"),
+    293: (RegionName.GT_BOSS, "GT Boss"),
+    1140: (RegionName.MECH_START, "Mechanism Start"),
+    1556: (RegionName.MECH_SWORD_CONNECTION, "Mechanism Sword"),
+    813: (RegionName.MECH_BOTTOM_CAMPFIRE, "Mechanism Bottom"),
+    712: (RegionName.MECH_BK, "Mechanism Shortcut"),
+    3547: (RegionName.MECH_RIGHT, "Mechanism Right"),
+    1634: (RegionName.MECH_TOP, "Mechanism Top"),
+    819: (RegionName.MECH_BOSS, "Mechanism Boss"),
+    7507: (RegionName.CD_START, "CD 1"),
+    7577: (RegionName.CD_MIDDLE, "CD 2"),
+    7703: (RegionName.CD_CAMPFIRE_3, "CD 3"),
+    7774: (RegionName.CD_TOP, "CD 4"),
+    5019: (RegionName.HOTP_EPIMETHEUS, "HotP Epimetheus"),
+    6421: (RegionName.HOTP_BELL_CAMPFIRE, "HotP Bell"),
+    3207: (RegionName.HOTP_CLAW_CAMPFIRE, "HotP Claw"),
+    2904: (RegionName.HOTP_BOSS_CAMPFIRE, "HotP Boss"),
+    10203: (RegionName.CATH_CAMPFIRE_1, "Cathedral 1"),
+    10260: (RegionName.CATH_CAMPFIRE_2, "Cathedral 2"),
+    3726: (RegionName.ROA_START, "RoA Start"),
+    7088: (RegionName.ROA_LEFT_ASCENT, "RoA Left"),
+    7086: (RegionName.ROA_MIDDLE, "RoA Middle"),
+    4685: (RegionName.ROA_ELEVATOR, "RoA Elevator"),
+    10026: (RegionName.ROA_BOSS, "RoA Boss"),
+    7436: (RegionName.SP_CAMPFIRE_1, "SP 1"),
+    8243: (RegionName.SP_CAMPFIRE_2, "SP 2"),
+    4635: (RegionName.APEX, "The Apex"),
+    7109: (RegionName.CAVES_LOWER, "Catacombs Upper"),
+    2524: (RegionName.CATA_BOW_CAMPFIRE, "Catacombs Bow"),
+    2610: (RegionName.CATA_ROOTS_CAMPFIRE, "Catacombs Roots"),
+    2669: (RegionName.CATA_BOSS, "Catacombs Boss"),
+    9056: (RegionName.TR_START, "Tower Roots"),
+    9161: (RegionName.CATA_DEV_ROOM, "Dev Room"),
 }
 
 
@@ -239,7 +239,8 @@ class AstalonUTWorld(AstalonWorldBase):
 
         source_region = self.get_region(self.origin_region_name)
         for campfire_id in data_storage_value:  # pyright: ignore[reportUnknownVariableType]
-            dest_region = self.get_region(CAMPFIRE_WARPS[campfire_id].value)
+            region_name, campfire_name = CAMPFIRE_WARPS[campfire_id]
+            dest_region = self.get_region(region_name.value)
             if source_region == dest_region:
                 continue
             entrance_name = f"{source_region.name} -> {dest_region.name}"
@@ -250,4 +251,4 @@ class AstalonUTWorld(AstalonWorldBase):
             except KeyError:
                 pass
 
-            self.create_entrance(source_region, dest_region, rule=CampfireWarp())
+            self.create_entrance(source_region, dest_region, rule=CampfireWarp(campfire_name))
