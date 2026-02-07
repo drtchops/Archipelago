@@ -100,8 +100,8 @@ can_crystal = can_crystal_no_whiplash | has_bram_whiplash
 can_big_magic = HardLogic(has_algus_arcanist & has_banish)
 can_kill_ghosts = has_banish | has_block | (has_algus_meteor & chalice_on_easy)
 
-otherwise_crystal = can_crystal << switch_off
-otherwise_bow = has_bow << switch_off
+otherwise_crystal = can_crystal & switch_off
+otherwise_bow = has_bow & switch_off
 
 elevator_apex = HasElevator(
     Elevator.APEX,
@@ -347,7 +347,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], Rule[AstalonWorldBase]] = {
     (R.MECH_CD_ACCESS, R.CD_START): Has(KeyItem.CYCLOPS),
     (R.MECH_TOP, R.MECH_TRIPLE_SWITCHES): (
         can_crystal
-        & (HasSwitch(Switch.MECH_ARIAS_CYCLOPS) | (has_arias << switch_off))
+        & (HasSwitch(Switch.MECH_ARIAS_CYCLOPS) | (has_arias & switch_off))
         & (
             HasWhite(WhiteDoor.MECH_TOP)
             | Filtered(can_extra_height & (HasSwitch(Crystal.MECH_TOP) | otherwise_crystal), options=white_off)
@@ -521,7 +521,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], Rule[AstalonWorldBase]] = {
         HasBlue(BlueDoor.HOTP_MAIDEN, otherwise=True) & (has_sword | (has_kyuli & has_block & Has(KeyItem.BELL)))
     ),
     (R.HOTP_BOSS_CAMPFIRE, R.HOTP_TP_PUZZLE): Has(Eye.GREEN),
-    (R.HOTP_BOSS_CAMPFIRE, R.HOTP_BOSS): HasWhite(WhiteDoor.HOTP_BOSS) | (has_arias << white_off),
+    (R.HOTP_BOSS_CAMPFIRE, R.HOTP_BOSS): HasWhite(WhiteDoor.HOTP_BOSS) | (has_arias & white_off),
     (R.HOTP_TP_PUZZLE, R.HOTP_TP_FALL_TOP): has_star | HasSwitch(Switch.HOTP_TP_PUZZLE, otherwise=True),
     (R.HOTP_TP_FALL_TOP, R.HOTP_FALL_BOTTOM): has_cloak,
     (R.HOTP_TP_FALL_TOP, R.HOTP_TP_PUZZLE): has_star | HasSwitch(Switch.HOTP_TP_PUZZLE),
@@ -864,7 +864,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], Rule[AstalonWorldBase]] = {
     (R.SP_STAR, R.SP_SHAFT): Has(KeyItem.BELL) & has_algus_meteor & chalice_on_easy & HasSwitch(Crystal.SP_STAR),
     (R.SP_STAR, R.SP_STAR_CONNECTION): has_star,
     (R.SP_STAR_CONNECTION, R.SP_STAR): has_star,
-    (R.SP_STAR_CONNECTION, R.SP_STAR_END): has_star & (HasSwitch(Switch.SP_AFTER_STAR) | (has_arias << switch_off)),
+    (R.SP_STAR_CONNECTION, R.SP_STAR_END): has_star & (HasSwitch(Switch.SP_AFTER_STAR) | (has_arias & switch_off)),
     (R.SP_STAR_END, R.SP_STAR_CONNECTION): has_star & HasSwitch(Switch.SP_AFTER_STAR),
 }
 
