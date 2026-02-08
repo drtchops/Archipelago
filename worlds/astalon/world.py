@@ -392,10 +392,6 @@ class AstalonWorld(AstalonUTWorld):
 
         self.multiworld.itempool += itempool + filler_items
 
-    @override
-    def set_rules(self) -> None:
-        self.register_dependencies()
-
     @cached_property
     def filler_item_names(self) -> tuple[str, ...]:
         items = list(filler_items)
