@@ -178,7 +178,8 @@ def _timed_call(method: Callable[..., Any], *args: Any,
 
 
 def call_single(multiworld: "MultiWorld", method_name: str, player: int, *args: Any) -> Any:
-    method = getattr(multiworld.worlds[player], method_name)
+    world = multiworld.worlds[player]
+    method = getattr(world, method_name)
     try:
         ret = _timed_call(method, *args, multiworld=multiworld, player=player)
     except Exception as e:
@@ -189,6 +190,10 @@ def call_single(multiworld: "MultiWorld", method_name: str, player: int, *args: 
             logging.error(message)
         raise e
     else:
+        # Convenience for CachedRuleBuilderWorld users: Ensure that caching setup function is called
+        # Can be removed once dependency system is improved
+        if method_name == "set_rules" and hasattr(world, "register_rule_builder_dependencies"):
+            call_single(multiworld, "register_rule_builder_dependencies", player)
         return ret
 
 
@@ -489,7 +494,14 @@ class World(metaclass=AutoWorldRegister):
         raise NotImplementedError
 
     def get_filler_item_name(self) -> str:
-        """Called when the item pool needs to be filled with additional items to match location count."""
+        """
+        Called when the item pool needs to be filled with additional items to match location count.
+
+        Any returned item name must be for a "repeatable" item, i.e. one that it's okay to generate arbitrarily many of.
+        For most worlds this will be one or more of your filler items, but the classification of these items
+        does not need to be ItemClassification.filler.
+        The item name returned can be for a trap, useful, and/or progression item as long as it's repeatable.
+        """
         logging.warning(f"World {self} is generating a filler item without custom filler pool.")
         return self.random.choice(tuple(self.item_name_to_id.keys()))
 
