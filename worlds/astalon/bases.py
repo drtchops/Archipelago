@@ -1,14 +1,14 @@
 from typing import ClassVar
 
 from BaseClasses import MultiWorld
-from rule_builder.cached_world import CachedRuleBuilderWorld
+from worlds.AutoWorld import World
 
 from .items import Character, EarlyItems
 from .options import AstalonOptions
 from .settings import AstalonSettings
 
 
-class AstalonWorldBase(CachedRuleBuilderWorld):
+class AstalonWorldBase(World):
     options_dataclass = AstalonOptions
     settings: ClassVar[AstalonSettings]  # pyright: ignore[reportIncompatibleVariableOverride]
 
