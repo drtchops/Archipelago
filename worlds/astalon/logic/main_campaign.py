@@ -299,6 +299,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], Rule[AstalonWorldBase]] = {
     (R.MECH_ZEEK_CONNECTION, R.GT_BOSS): HasElevator(Elevator.GT_2),
     (R.MECH_ZEEK_CONNECTION, R.MECH_BOSS): HasElevator(Elevator.MECH_2),
     (R.MECH_SPLIT_PATH, R.MECH_CHAINS): HasSwitch(Switch.MECH_SPLIT_PATH),
+    (R.MECH_SPLIT_PATH, R.MECH_RIGHT): HasSwitch(Switch.MECH_SKULL_PUZZLE, otherwise=True),
     (R.MECH_RIGHT, R.MECH_TRIPLE_SWITCHES): HardLogic(
         HasSwitch(
             Switch.MECH_SPLIT_PATH,
@@ -313,7 +314,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], Rule[AstalonWorldBase]] = {
     (R.MECH_RIGHT, R.MECH_OLD_MAN): (
         HasSwitch(Crystal.MECH_OLD_MAN) | otherwise_crystal | (has_kyuli & has_block & Has(KeyItem.BELL))
     ),
-    (R.MECH_RIGHT, R.MECH_SPLIT_PATH): has_star,
+    (R.MECH_RIGHT, R.MECH_SPLIT_PATH): has_star | HasSwitch(Switch.MECH_SKULL_PUZZLE),
     (R.MECH_RIGHT, R.MECH_BELOW_POTS): (
         HasWhite(WhiteDoor.MECH_ARENA, otherwise=True) | HasSwitch(Switch.MECH_EYEBALL)
     ),
@@ -409,7 +410,8 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], Rule[AstalonWorldBase]] = {
         | (has_star & HasSwitch(Switch.HOTP_LEFT_1, Switch.HOTP_LEFT_2, otherwise=True))
     ),
     (R.HOTP_START_MID, R.HOTP_START_BOTTOM_MID): HasSwitch(Switch.HOTP_GHOSTS, otherwise=True),
-    (R.HOTP_START_MID, R.HOTP_LOWER_VOID): HardLogic(has_algus | has_bram_whiplash),
+    (R.HOTP_START_MID, R.HOTP_LOWER_VOID_CONNECTION): HardLogic(has_algus | has_bram_whiplash),
+    (R.HOTP_LOWER_VOID_CONNECTION, R.HOTP_LOWER_VOID): has_claw,
     (R.HOTP_LOWER_VOID, R.HOTP_UPPER_VOID): has_void,
     (R.HOTP_START_LEFT, R.HOTP_ELEVATOR): HasSwitch(Switch.HOTP_LEFT_BACKTRACK),
     (R.HOTP_START_LEFT, R.HOTP_START_MID): (
@@ -438,6 +440,8 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], Rule[AstalonWorldBase]] = {
     (R.HOTP_AMULET_CONNECTION, R.HOTP_AMULET): has_claw & HasAll(Eye.RED, Eye.BLUE),
     (R.HOTP_AMULET_CONNECTION, R.GT_BUTT): HasSwitch(Switch.HOTP_ROCK, otherwise=True),
     (R.HOTP_AMULET_CONNECTION, R.HOTP_MECH_VOID_CONNECTION): HasSwitch(Crystal.HOTP_ROCK_ACCESS) | otherwise_crystal,
+    (R.HOTP_TP_TUTORIAL, R.HOTP_BELL_CAMPFIRE): HasSwitch(Switch.HOTP_SKULL_PUZZLE, otherwise=True),
+    (R.HOTP_BELL_CAMPFIRE, R.HOTP_TP_TUTORIAL): HasSwitch(Switch.HOTP_SKULL_PUZZLE),
     (R.HOTP_BELL_CAMPFIRE, R.HOTP_LOWER_ARIAS): has_arias & (Has(KeyItem.BELL) | can_uppies),
     (R.HOTP_BELL_CAMPFIRE, R.HOTP_RED_KEY): Has(Eye.GREEN) & has_cloak,
     (R.HOTP_BELL_CAMPFIRE, R.HOTP_CATH_CONNECTION): Has(Eye.GREEN),
@@ -660,16 +664,16 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], Rule[AstalonWorldBase]] = {
     ),
     (R.ROA_TOP_CENTAUR, R.ROA_DARK_EXIT): can_extra_height,
     (R.ROA_TOP_CENTAUR, R.ROA_BOSS_CONNECTION): (
-        HasSwitch(Crystal.ROA_CENTAUR) | CanReachRegion(R.ROA_CRYSTAL_ABOVE_CENTAUR)
+        HasSwitch(Crystal.ROA_CENTAUR) | CanReachRegion(R.ROA_CRYSTAL_ABOVE_CENTAUR, options=switch_off)
     ),
     (R.ROA_ABOVE_CENTAUR_R, R.ROA_DARK_EXIT): has_arias & Has(KeyItem.BELL),
     (R.ROA_ABOVE_CENTAUR_R, R.ROA_ABOVE_CENTAUR_L): has_star & Has(KeyItem.BELL),
-    (R.ROA_ABOVE_CENTAUR_R, R.ROA_CRYSTAL_ABOVE_CENTAUR): can_crystal_no_whiplash,
+    (R.ROA_ABOVE_CENTAUR_R, R.ROA_CRYSTAL_ABOVE_CENTAUR): can_crystal_no_whiplash & Has(KeyItem.BELL),
     (R.ROA_ABOVE_CENTAUR_L, R.ROA_ABOVE_CENTAUR_R): has_star & Has(KeyItem.BELL),
     (R.ROA_ABOVE_CENTAUR_L, R.ROA_CRYSTAL_ABOVE_CENTAUR): can_crystal_no_block,
     (R.ROA_BOSS_CONNECTION, R.ROA_ABOVE_CENTAUR_L): can_extra_height,
     (R.ROA_BOSS_CONNECTION, R.ROA_TOP_CENTAUR): (
-        HasSwitch(Crystal.ROA_CENTAUR) | CanReachRegion(R.ROA_CRYSTAL_ABOVE_CENTAUR)
+        HasSwitch(Crystal.ROA_CENTAUR) | CanReachRegion(R.ROA_CRYSTAL_ABOVE_CENTAUR, options=switch_off)
     ),
     (R.ROA_BOSS_CONNECTION, R.ROA_BOSS): HasSwitch(Switch.ROA_BOSS_ACCESS, otherwise=True),
     (R.ROA_BOSS, R.ROA_APEX_CONNECTION): Has(Eye.GREEN),
@@ -772,7 +776,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], Rule[AstalonWorldBase]] = {
     (R.CATA_DOUBLE_DOOR, R.CATA_VOID_R): (
         Has(KeyItem.BELL) & can_kill_ghosts & (HasSwitch(Face.CATA_DOUBLE_DOOR) | otherwise_bow)
     ),
-    (R.CATA_VOID_R, R.CATA_DOUBLE_DOOR): HardLogic(HasAll(KeyItem.BELL, ShopUpgrade.ALGUS_METEOR)),
+    (R.CATA_VOID_R, R.CATA_DOUBLE_DOOR): HardLogic(Has(KeyItem.BELL) & has_algus_meteor),
     (R.CATA_VOID_R, R.CATA_VOID_L): has_void,
     (R.CATA_VOID_L, R.CATA_VOID_R): has_void,
     (R.CATA_VOID_L, R.CATA_BOSS): HasWhite(WhiteDoor.CATA_PRISON, otherwise=True) & has_kyuli,

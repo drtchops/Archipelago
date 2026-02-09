@@ -803,6 +803,7 @@ astalon_regions: dict[RegionName, RegionData] = {
     ),
     RegionName.HOTP_BELL_CAMPFIRE: RegionData(
         exits=(
+            RegionName.HOTP_TP_TUTORIAL,
             RegionName.HOTP_RED_KEY,
             RegionName.HOTP_BELL,
             RegionName.HOTP_CATH_CONNECTION,
