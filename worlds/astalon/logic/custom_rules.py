@@ -223,12 +223,7 @@ class HasGoal(rules.Rule[AstalonWorldBase], game=GAME_NAME):
     def _instantiate(self, world: AstalonWorldBase) -> rules.Rule.Resolved:
         if world.options.goal.value != Goal.option_eye_hunt:
             return rules.True_().resolve(world)
-        return Has.Resolved(
-            Eye.GOLD.value,
-            count=world.options.additional_eyes_required.value,
-            player=world.player,
-            caching_enabled=world.rule_caching_enabled,
-        )
+        return Has(Eye.GOLD, world.options.additional_eyes_required.value).resolve(world)
 
 
 @dataclasses.dataclass()
@@ -241,7 +236,7 @@ class HardLogic(rules.WrapperRule[AstalonWorldBase], game=GAME_NAME):
             return self.Resolved(
                 self.child.resolve(world),
                 player=world.player,
-                caching_enabled=world.rule_caching_enabled,
+                caching_enabled=getattr(world, "rule_caching_enabled", False),
             )
         return rules.False_().resolve(world)
 
@@ -272,7 +267,11 @@ class CampfireWarp(rules.True_[AstalonWorldBase], game=GAME_NAME):
 
     @override
     def _instantiate(self, world: AstalonWorldBase) -> "Resolved":
-        return self.Resolved(self.name, player=world.player)
+        return self.Resolved(
+            self.name,
+            player=world.player,
+            caching_enabled=getattr(world, "rule_caching_enabled", False),
+        )
 
     class Resolved(rules.True_.Resolved):
         name: str
