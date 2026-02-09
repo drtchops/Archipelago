@@ -140,6 +140,10 @@ class AstalonUTWorld(AstalonWorldBase):
     def is_ut(self) -> bool:
         return getattr(self.multiworld, "generation_is_fake", False)
 
+    @cached_property
+    def defer_connections(self) -> bool:
+        return self.is_ut and getattr(self.multiworld, "enforce_deferred_connections", None) != "off"
+
     @override
     def generate_early(self) -> None:
         re_gen_passthrough = getattr(self.multiworld, "re_gen_passthrough", {})
@@ -230,11 +234,7 @@ class AstalonUTWorld(AstalonWorldBase):
         return messages
 
     def reconnect_found_entrances(self, found_key: str, data_storage_value: Any) -> None:
-        if (
-            not self.options.campfire_warp
-            or getattr(self.multiworld, "enforce_deferred_connections", None) == "off"
-            or not isinstance(data_storage_value, list)
-        ):
+        if not self.options.campfire_warp or not self.defer_connections or not isinstance(data_storage_value, list):
             return
 
         source_region = self.get_region(self.origin_region_name)

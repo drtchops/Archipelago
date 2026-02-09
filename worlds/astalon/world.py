@@ -131,6 +131,7 @@ class AstalonWorld(AstalonUTWorld):
             region = Region(region_name.value, self.player, self.multiworld)
             self.multiworld.regions.append(region)
 
+        portal_destinations = {p[0]: p[1] for p in self.portal_pairs}
         for region_name, region_data in astalon_regions.items():
             region = self.get_region(region_name.value)
             for exit_region_name in region_data.exits:
@@ -145,10 +146,12 @@ class AstalonWorld(AstalonUTWorld):
                     and astalon_regions[exit_region_name].portal
                 ):
                     name = f"{region_name} Portal"
+                    if self.is_ut:
+                        exit_region = self.get_region(portal_destinations[region_name])
 
                 self.create_entrance(region, exit_region, rule, name)
 
-        if self.options.shuffle_void_portals:
+        if self.options.shuffle_void_portals and not self.is_ut:
             for left_region_name, right_region_name in DEFAULT_PORTALS:
                 left_entrance = self.get_entrance(f"{left_region_name} Portal")
                 right_entrance = self.get_entrance(f"{right_region_name} Portal")
@@ -412,7 +415,7 @@ class AstalonWorld(AstalonUTWorld):
 
     @override
     def connect_entrances(self) -> None:
-        if self.options.shuffle_void_portals:
+        if self.options.shuffle_void_portals and not self.is_ut:
             coupled = self.options.shuffle_void_portals == ShuffleVoidPortals.option_coupled
             er_result = randomize_entrances(self, coupled, {0: [0]})
             self.portal_pairs = tuple(er_result.pairings)
