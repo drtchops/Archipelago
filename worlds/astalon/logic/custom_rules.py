@@ -54,8 +54,9 @@ class Has(rules.Has[AstalonWorldBase], game=GAME_NAME):
         count: int = 1,
         *,
         options: Iterable[OptionFilter] = (),
+        filtered_resolution: bool = False,
     ) -> None:
-        super().__init__(as_str(item_name), count, options=options)
+        super().__init__(as_str(item_name), count, options=options, filtered_resolution=filtered_resolution)
 
 
 @dataclasses.dataclass(init=False)

@@ -49,9 +49,9 @@ blue_off = [OptionFilter(RandomizeBlueKeys, RandomizeBlueKeys.option_false)]
 red_off = [OptionFilter(RandomizeRedKeys, RandomizeRedKeys.option_false)]
 switch_off = [OptionFilter(RandomizeSwitches, RandomizeSwitches.option_false)]
 
-has_algus = True_(options=characters_off) | Has(Character.ALGUS, options=characters_on)
-has_arias = True_(options=characters_off) | Has(Character.ARIAS, options=characters_on)
-has_kyuli = True_(options=characters_off) | Has(Character.KYULI, options=characters_on)
+has_algus = Has(Character.ALGUS, options=characters_on, filtered_resolution=True)
+has_arias = Has(Character.ARIAS, options=characters_on, filtered_resolution=True)
+has_kyuli = Has(Character.KYULI, options=characters_on, filtered_resolution=True)
 has_bram = Has(Character.BRAM)
 has_zeek = Has(Character.ZEEK)
 
@@ -81,13 +81,8 @@ has_zeek_loot = has_zeek & Has(ShopUpgrade.ZEEK_LOOT)
 has_bram_axe = has_bram & Has(ShopUpgrade.BRAM_AXE)
 has_bram_hunter = has_bram & Has(ShopUpgrade.BRAM_HUNTER)
 has_bram_whiplash = has_bram & Has(ShopUpgrade.BRAM_WHIPLASH)
-chalice_on_easy = HardLogic(True_()) | Has(KeyItem.CHALICE, options=easy)
+chalice_on_easy = Has(KeyItem.CHALICE, options=easy) | HardLogic(True_())
 
-# can_uppies = Macro(
-#     HardLogic(has_arias | has_bram),
-#     "Can do uppies",
-#     "Perform a higher jump by jumping while attacking with Arias or Bram",
-# )
 can_uppies = HardLogic(has_arias | has_bram)
 can_extra_height = has_kyuli | has_block | can_uppies
 can_extra_height_gold_block = has_kyuli | has_zeek | can_uppies
@@ -574,7 +569,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], Rule[AstalonWorldBase]] = {
     (R.ROA_LOWER_VOID, R.ROA_LOWER_VOID_CONNECTION): HasSwitch(Switch.ROA_LOWER_VOID, otherwise=True),
     (R.ROA_ARIAS_BABY_GORGON_CONNECTION, R.ROA_ARIAS_BABY_GORGON): (
         has_arias
-        & (HardLogic(True_()) | Has(KeyItem.BELL, options=easy))
+        & (Has(KeyItem.BELL, options=easy) | HardLogic(True_()))
         & (HasSwitch(Crystal.ROA_BABY_GORGON) | otherwise_crystal)
     ),
     (R.ROA_ARIAS_BABY_GORGON_CONNECTION, R.ROA_FLAMES_CONNECTION): has_star & Has(KeyItem.BELL),
@@ -658,7 +653,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], Rule[AstalonWorldBase]] = {
     (R.ROA_DARK_CONNECTION, R.DARK_START): can_extra_height,
     (R.DARK_START, R.DARK_END): has_claw & HasSwitch(Switch.DARKNESS, otherwise=True),
     (R.DARK_END, R.ROA_DARK_EXIT): has_claw,
-    (R.ROA_DARK_EXIT, R.ROA_ABOVE_CENTAUR_R): has_arias & Has(KeyItem.BELL) & (HardLogic(True_()) | has_kyuli),
+    (R.ROA_DARK_EXIT, R.ROA_ABOVE_CENTAUR_R): has_arias & Has(KeyItem.BELL) & (has_kyuli | HardLogic(True_())),
     (R.ROA_DARK_EXIT, R.ROA_CRYSTAL_ABOVE_CENTAUR): HardLogic(has_kyuli_ray),
     (R.ROA_TOP_CENTAUR, R.ROA_DARK_CONNECTION): (
         HasSwitch(Switch.ROA_BLOOD_POT, otherwise=True) | HasBlue(BlueDoor.ROA_BLOOD, otherwise=True)
@@ -686,7 +681,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], Rule[AstalonWorldBase]] = {
     (R.APEX, R.CATA_BOSS): HasElevator(Elevator.CATA_2),
     (R.APEX, R.HOTP_ELEVATOR): HasElevator(Elevator.HOTP),
     (R.APEX, R.FINAL_BOSS): (
-        HasAll(Eye.RED, Eye.BLUE, Eye.GREEN) & (HardLogic(True_()) | Has(KeyItem.BELL, options=easy)) & HasGoal()
+        HasAll(Eye.RED, Eye.BLUE, Eye.GREEN) & (Has(KeyItem.BELL, options=easy) | HardLogic(True_())) & HasGoal()
     ),
     (R.APEX, R.ROA_APEX_CONNECTION): HasSwitch(Switch.ROA_APEX_ACCESS),
     (R.APEX, R.TR_START): HasElevator(Elevator.TR),
