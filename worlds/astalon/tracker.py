@@ -11,8 +11,9 @@ from Utils import get_intended_text  # pyright: ignore[reportUnknownVariableType
 
 from .bases import AstalonWorldBase
 from .items import Character, Events
+from .locations import location_table
 from .logic.custom_rules import CampfireWarp
-from .regions import RegionName
+from .regions import RegionName, astalon_regions
 
 
 def map_page_index(data: Any) -> int:
@@ -95,6 +96,11 @@ CAMPFIRE_WARPS: Final[dict[int, tuple[RegionName, str]]] = {
     2669: (RegionName.CATA_BOSS, "Catacombs Boss"),
     9056: (RegionName.TR_START, "Tower Roots"),
     9161: (RegionName.CATA_DEV_ROOM, "Dev Room"),
+}
+
+ACRONYMS = {
+    "gt": "Gorgon's Tomb, the starting area",
+    "mech": "Mechanism, the 2nd main area",
 }
 
 
@@ -232,6 +238,90 @@ class AstalonUTWorld(AstalonWorldBase):
             )
 
         return messages
+
+    def explain_rule(self, dest_name: str, state: CollectionState) -> list[JSONMessagePart]:
+        if not dest_name:
+            return [{"type": "text", "text": "Enter a location, region, item, or acronym to get an explanation"}]
+        if description := ACRONYMS.get(dest_name.lower()):
+            return [{"type": "text", "text": description}]
+
+        attempts = ["location", "region", "item"]
+        parts = dest_name.split(maxsplit=1)
+        if len(parts) == 2:
+            first_word = parts[0].lower()
+            if first_word == "location":
+                attempts = ["location"]
+                dest_name = " ".join(parts[1:])
+            elif first_word == "region":
+                attempts = ["region"]
+                dest_name = " ".join(parts[1:])
+            elif first_word == "item":
+                attempts = ["item"]
+                dest_name = " ".join(parts[1:])
+
+        result = []
+        usable = False
+        for classification in attempts:
+            if classification == "location":
+                result, usable = self._explain_location(dest_name, state)
+            elif classification == "region":
+                result, usable = self._explain_region(dest_name, state)
+            elif classification == "item":
+                result, usable = self._explain_item(dest_name, state)
+            if usable:
+                return result
+
+        return result
+
+        # macro_name, usable, response = get_intended_text(dest_name, list(self.rule_macro_hashes))
+        # if not usable:
+        #     return [{"type": "text", "text": response}]
+        # macro = self.rule_ids[self.rule_macro_hashes[macro_name]]
+        # assert isinstance(macro, Macro.Resolved)
+        # return self._explain_macro(macro)
+
+    def _explain_location(self, location_name: str, state: CollectionState) -> tuple[list[JSONMessagePart], bool]:
+        location_name, usable, response = get_intended_text(
+            location_name, set(self.multiworld.regions.location_cache[self.player])
+        )
+        if not usable:
+            return [{"type": "text", "text": response}], False
+
+        location = self.get_location(location_name)
+        location_data = location_table[location_name]
+        messages: list[JSONMessagePart] = [
+            {"type": "text", "text": "Location "},
+            {"type": "color", "color": "green" if location.can_reach(state) else "salmon", "text": location_name},
+        ]
+        if location_data.description:
+            messages.append({"type": "text", "text": f": {location_data.description}"})
+        if location.parent_region:
+            region = location.parent_region
+            region_data = astalon_regions[RegionName(region.name)]
+            messages.extend(
+                [
+                    {"type": "text", "text": "\nRegion "},
+                    {"type": "color", "color": "green" if region.can_reach(state) else "salmon", "text": region.name},
+                ]
+            )
+            if region_data.description:
+                messages.append({"type": "text", "text": f": {region_data.description}"})
+        return messages, True
+
+    def _explain_region(self, region_name: str, state: CollectionState) -> tuple[list[JSONMessagePart], bool]:
+        return [], False
+
+    def _explain_item(self, item_name: str, state: CollectionState) -> tuple[list[JSONMessagePart], bool]:
+        return [], False
+
+    # def _explain_macro(self, macro: Macro.Resolved) -> list[JSONMessagePart]:
+    #     messages: list[JSONMessagePart] = [
+    #         {"type": "color", "color": "green" if macro(state) else "salmon", "text": macro.name}
+    #     ]
+    #     if macro.description:
+    #         messages.append({"type": "text", "text": f": {macro.description}"})
+    #     messages.extend([{"type": "text", "text": "\n"}, *macro.child.explain_json(state)])
+    #     return messages
 
     def reconnect_found_entrances(self, found_key: str, data_storage_value: Any) -> None:
         if not self.options.campfire_warp or not self.defer_connections or not isinstance(data_storage_value, list):

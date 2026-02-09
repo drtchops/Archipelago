@@ -292,6 +292,7 @@ class RegionData:
     portal: bool = False
     statue: bool = False
     orbs: int = 0
+    description: str = ""
 
 
 astalon_regions: dict[RegionName, RegionData] = {

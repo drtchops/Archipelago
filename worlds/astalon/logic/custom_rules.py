@@ -254,10 +254,10 @@ class HardLogic(rules.WrapperRule[AstalonWorldBase], game=GAME_NAME):
         @override
         def explain_json(self, state: CollectionState | None = None) -> list[JSONMessagePart]:
             messages: list[JSONMessagePart] = [
-                {"type": "color", "color": "glitched", "text": "Hard Logic ["},
+                {"type": "color", "color": "yellow", "text": "Hard Logic ["},
             ]
             messages.extend(self.child.explain_json(state))
-            messages.append({"type": "color", "color": "glitched", "text": "]"})
+            messages.append({"type": "color", "color": "yellow", "text": "]"})
             return messages
 
 
