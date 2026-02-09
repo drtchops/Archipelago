@@ -51,7 +51,7 @@ from .web_world import AstalonWebWorld
 # ░▓████▓▓░█████████░██░ MANY GOOD PROGRAMS AND FEW ERRORS WILL COME TO YOU
 # █░▓██▓▓░███░███░██░▓░█ AS LONG AS YOU KEEP HER IN YOUR PROGRAM TO WATCH OVER IT
 # ██░░▓▓▓░███░███░██░░██ INCREMENT THIS NUMBER EVERY TIME YOU SAY HI TO BUBSETTE
-# ████░░░░██████████░███ hi_bubsette = 3
+# ████░░░░██████████░███ hi_bubsette = 4
 # ████████░░░░░░░░░░████
 
 
