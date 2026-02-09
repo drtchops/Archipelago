@@ -4,7 +4,7 @@ from itertools import groupby
 
 from BaseClasses import Location
 
-from .constants import BASE_ID, GAME_NAME
+from .constants import GAME_NAME
 from .regions import RegionName
 
 
@@ -517,7 +517,7 @@ class LocationName(StrEnum):
 
 
 class AstalonLocation(Location):
-    game: str = GAME_NAME
+    game = GAME_NAME
 
 
 @dataclass(frozen=True)
@@ -1116,8 +1116,8 @@ ALL_LOCATIONS: tuple[LocationData, ...] = (
     LocationData(LocationName.CATA_ORB_MULTI, RegionName.CATA_MULTI, LocationGroup.ORBS, Area.CATA),
 )
 
-location_table = {location.name.value: location for location in ALL_LOCATIONS}
-location_name_to_id: dict[str, int] = {data.name.value: i for i, data in enumerate(ALL_LOCATIONS, start=BASE_ID)}
+location_table: dict[str, LocationData] = {location.name.value: location for location in ALL_LOCATIONS}
+location_name_to_id: dict[str, int] = {data.name.value: i for i, data in enumerate(ALL_LOCATIONS, start=1)}
 
 
 def get_location_group(location_name: str) -> LocationGroup:

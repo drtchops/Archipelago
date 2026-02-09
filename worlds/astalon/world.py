@@ -4,7 +4,7 @@ from typing import Any, ClassVar, Final
 
 from typing_extensions import override
 
-from BaseClasses import CollectionState, EntranceType, Item, ItemClassification, MultiWorld, Region
+from BaseClasses import EntranceType, Item, ItemClassification, MultiWorld, Region
 from entrance_rando import disconnect_entrance_for_randomization, randomize_entrances
 from Options import OptionError
 
@@ -35,7 +35,7 @@ from .locations import (
     location_name_to_id,
     location_table,
 )
-from .logic import MAIN_ENTRANCE_RULES, MAIN_LOCATION_RULES
+from .logic.main_campaign import COMPLETION_RULE, MAIN_ENTRANCE_RULES, MAIN_LOCATION_RULES
 from .options import ApexElevator, Goal, RandomizeCharacters, ShuffleVoidPortals, StartingLocation
 from .regions import DEFAULT_PORTALS, STARTING_REGIONS, RegionName, astalon_regions
 from .tracker import AstalonUTWorld
@@ -51,7 +51,7 @@ from .web_world import AstalonWebWorld
 # ░▓████▓▓░█████████░██░ MANY GOOD PROGRAMS AND FEW ERRORS WILL COME TO YOU
 # █░▓██▓▓░███░███░██░▓░█ AS LONG AS YOU KEEP HER IN YOUR PROGRAM TO WATCH OVER IT
 # ██░░▓▓▓░███░███░██░░██ INCREMENT THIS NUMBER EVERY TIME YOU SAY HI TO BUBSETTE
-# ████░░░░██████████░███ hi_bubsette = 3
+# ████░░░░██████████░███ hi_bubsette = 4
 # ████████░░░░░░░░░░████
 
 
@@ -121,12 +121,7 @@ class AstalonWorld(AstalonUTWorld):
         location = AstalonLocation(self.player, name, location_name_to_id.get(name), region)
         rule = MAIN_LOCATION_RULES.get(location_name)
         if rule is not None:
-            rule = rule.resolve(self)
-            if rule.always_false:
-                logger.debug(f"No matching rules for {name}")
-            for item_name, rules in rule.deps().items():
-                self._rule_deps[item_name] |= rules
-            location.access_rule = rule.test
+            self.set_rule(location, rule)
         region.locations.append(location)
         return location
 
@@ -139,17 +134,10 @@ class AstalonWorld(AstalonUTWorld):
         for region_name, region_data in astalon_regions.items():
             region = self.get_region(region_name.value)
             for exit_region_name in region_data.exits:
+                exit_region = self.get_region(exit_region_name.value)
                 region_pair = (region_name, exit_region_name)
                 rule = MAIN_ENTRANCE_RULES.get(region_pair)
-                if rule is not None:
-                    rule = rule.resolve(self)
-                    if rule.always_false:
-                        logger.debug(f"No matching rules for {region_name.value} -> {exit_region_name.value}")
-                        continue
-                    for item_name, rules in rule.deps().items():
-                        self._rule_deps[item_name] |= rules
 
-                exit_region = self.get_region(exit_region_name.value)
                 name = None
                 if (
                     self.options.shuffle_void_portals
@@ -158,13 +146,7 @@ class AstalonWorld(AstalonUTWorld):
                 ):
                     name = f"{region_name} Portal"
 
-                entrance = region.connect(exit_region, name=name, rule=rule.test if rule else None)
-                if rule:
-                    for indirect_region in rule.indirect():
-                        self.multiworld.register_indirect_condition(
-                            self.get_region(indirect_region.value),
-                            entrance,
-                        )
+                self.create_entrance(region, exit_region, rule, name)
 
         if self.options.shuffle_void_portals:
             for left_region_name, right_region_name in DEFAULT_PORTALS:
@@ -264,10 +246,7 @@ class AstalonWorld(AstalonUTWorld):
         )
         victory_location.place_locked_item(victory_item)
         victory_region.locations.append(victory_location)
-        self.multiworld.completion_condition[self.player] = lambda state: state.has(
-            Events.VICTORY.value,
-            self.player,
-        )
+        self.set_completion_rule(COMPLETION_RULE)
 
     @override
     def create_item(self, name: str) -> AstalonItem:
@@ -277,7 +256,7 @@ class AstalonWorld(AstalonUTWorld):
         item_data = item_table[name]
         classification: ItemClassification
         if callable(item_data.classification):
-            classification = item_data.classification(self)
+            classification = item_data.classification(self.options)
         else:
             classification = item_data.classification
         return AstalonItem(name, classification, self.item_name_to_id[name], self.player)
@@ -517,21 +496,3 @@ class AstalonWorld(AstalonUTWorld):
     def stage_modify_multidata(cls, *_) -> None:
         # Clean up calculated character strengths after generation completes
         cls._character_strengths = None
-
-    @override
-    def collect(self, state: "CollectionState", item: "Item") -> bool:
-        changed = super().collect(state, item)
-        if changed and getattr(self, "_rule_deps", None):
-            player_results: dict[int, bool] = state._astalon_rule_results[self.player]  # type: ignore
-            for rule_id in self._rule_deps[item.name]:
-                player_results.pop(rule_id, None)
-        return changed
-
-    @override
-    def remove(self, state: "CollectionState", item: "Item") -> bool:
-        changed = super().remove(state, item)
-        if changed and getattr(self, "_rule_deps", None):
-            player_results: dict[int, bool] = state._astalon_rule_results[self.player]  # type: ignore
-            for rule_id in self._rule_deps[item.name]:
-                player_results.pop(rule_id, None)
-        return changed

@@ -3,15 +3,12 @@ from dataclasses import dataclass
 from enum import StrEnum
 from functools import cached_property
 from itertools import groupby
-from typing import TYPE_CHECKING, TypeAlias
+from typing import TypeAlias
 
 from BaseClasses import Item, ItemClassification
 
-from .constants import BASE_ID, GAME_NAME
-from .options import StartingLocation
-
-if TYPE_CHECKING:
-    from . import AstalonWorld
+from .constants import GAME_NAME
+from .options import AstalonOptions, StartingLocation
 
 
 class ItemGroup(StrEnum):
@@ -529,7 +526,7 @@ class AstalonItem(Item):
 @dataclass(frozen=True)
 class ItemData:
     name: ItemName
-    classification: ItemClassification | Callable[["AstalonWorld"], ItemClassification]
+    classification: ItemClassification | Callable[[AstalonOptions], ItemClassification]
     quantity_in_item_pool: int
     group: ItemGroup
     description: str = ""
@@ -615,11 +612,9 @@ ALL_ITEMS: tuple[ItemData, ...] = (
     ItemData(BlueDoor.CAVES, ItemClassification.progression, 1, ItemGroup.DOOR_BLUE),
     ItemData(
         BlueDoor.CATA_ORBS,
-        lambda world: (
-            ItemClassification.progression
-            if world.options.randomize_candles or world.options.randomize_orb_multipliers
-            else ItemClassification.useful
-        ),
+        lambda options: ItemClassification.progression
+        if options.randomize_candles or options.randomize_orb_multipliers
+        else ItemClassification.useful,
         1,
         ItemGroup.DOOR_BLUE,
     ),
@@ -630,9 +625,7 @@ ALL_ITEMS: tuple[ItemData, ...] = (
     ItemData(BlueDoor.CATA_PRISON_LEFT, ItemClassification.filler, 1, ItemGroup.DOOR_BLUE),
     ItemData(
         BlueDoor.CATA_PRISON_RIGHT,
-        lambda world: (
-            ItemClassification.progression if world.options.randomize_candles else ItemClassification.filler
-        ),
+        lambda options: ItemClassification.progression if options.randomize_candles else ItemClassification.filler,
         1,
         ItemGroup.DOOR_BLUE,
     ),
@@ -691,21 +684,17 @@ ALL_ITEMS: tuple[ItemData, ...] = (
     ItemData(Switch.GT_UPPER_PATH_ACCESS, ItemClassification.progression, 1, ItemGroup.SWITCH),
     ItemData(
         Switch.GT_CROSSES,
-        lambda world: (
-            ItemClassification.filler
-            if world.options.open_early_doors and world.options.starting_location == StartingLocation.option_gorgon_tomb
-            else ItemClassification.progression
-        ),
+        lambda options: ItemClassification.filler
+        if options.open_early_doors and options.starting_location == StartingLocation.option_gorgon_tomb
+        else ItemClassification.progression,
         1,
         ItemGroup.SWITCH,
     ),
     ItemData(
         Switch.GT_GH_SHORTCUT,
-        lambda world: (
-            ItemClassification.filler
-            if world.options.open_early_doors and world.options.starting_location == StartingLocation.option_gorgon_tomb
-            else ItemClassification.progression
-        ),
+        lambda options: ItemClassification.filler
+        if options.open_early_doors and options.starting_location == StartingLocation.option_gorgon_tomb
+        else ItemClassification.progression,
         1,
         ItemGroup.SWITCH,
     ),
@@ -904,8 +893,8 @@ ALL_ITEMS: tuple[ItemData, ...] = (
     ItemData(Orbs.ORB_MULTI, ItemClassification.useful, 3, ItemGroup.ORBS),
 )
 
-item_table = {item.name.value: item for item in ALL_ITEMS}
-item_name_to_id: dict[str, int] = {data.name.value: i for i, data in enumerate(ALL_ITEMS, start=BASE_ID)}
+item_table: dict[str, ItemData] = {item.name.value: item for item in ALL_ITEMS}
+item_name_to_id: dict[str, int] = {data.name.value: i for i, data in enumerate(ALL_ITEMS, start=1)}
 
 
 def get_item_group(item_name: str) -> ItemGroup:

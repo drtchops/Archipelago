@@ -3,14 +3,15 @@ from typing import Any, ClassVar, Final
 
 from typing_extensions import override
 
-from BaseClasses import CollectionState, Entrance, Location, Region
+from BaseClasses import CollectionRule, CollectionState, Entrance, Location, Region
 from NetUtils import JSONMessagePart
 from Options import Option
+from rule_builder.rules import Rule
 from Utils import get_intended_text  # pyright: ignore[reportUnknownVariableType]
 
 from .bases import AstalonWorldBase
 from .items import Character, Events
-from .logic.instances import CampfireWarpInstance, RuleInstance
+from .logic.custom_rules import CampfireWarp
 from .regions import RegionName
 
 
@@ -109,11 +110,11 @@ def location_icon_coords(index: int | None, coords: dict[str, Any]) -> tuple[int
     return x, y, f"images/icons/{icon}.png"
 
 
-def rule_to_json(rule: RuleInstance | None, state: CollectionState) -> list[JSONMessagePart]:
-    if rule:
+def rule_to_json(rule: CollectionRule | None, state: CollectionState) -> list[JSONMessagePart]:
+    if isinstance(rule, Rule.Resolved):
         return [
             {"type": "text", "text": "    "},
-            *rule.explain(state),
+            *rule.explain_json(state),
         ]
     return [
         {"type": "text", "text": "    "},
@@ -207,7 +208,7 @@ class AstalonUTWorld(AstalonWorldBase):
                     [
                         {"type": "entrance_name", "text": p.name, "player": self.player},
                         {"type": "text", "text": "\n"},
-                        *rule_to_json(getattr(p.access_rule, "__self__", None), state),
+                        *rule_to_json(p.access_rule, state),
                         {"type": "text", "text": "\n"},
                     ]
                 )
@@ -222,7 +223,7 @@ class AstalonUTWorld(AstalonWorldBase):
                         "player": self.player,
                     },
                     {"type": "text", "text": "\n"},
-                    *rule_to_json(getattr(goal_location.access_rule, "__self__", None), state),
+                    *rule_to_json(goal_location.access_rule, state),
                 ]
             )
 
@@ -250,5 +251,4 @@ class AstalonUTWorld(AstalonWorldBase):
             except KeyError:
                 pass
 
-            rule = CampfireWarpInstance(campfire_name, player=self.player)
-            source_region.connect(dest_region, rule=rule.test)
+            self.create_entrance(source_region, dest_region, rule=CampfireWarp(campfire_name))
