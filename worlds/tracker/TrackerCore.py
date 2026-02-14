@@ -63,8 +63,8 @@ class TrackerCore():
         self.re_gen_passthrough = None
         self.player_id = None
         self.multiworld = None
-        self.manual_items.clear()
-        self.ignored_locations.clear()
+        self.manual_items = []
+        self.ignored_locations = set()
         self.player_folder_override = None
         self.location_alias_map = {}
 
