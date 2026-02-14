@@ -1,17 +1,14 @@
 import asyncio
-from functools import cached_property
 import logging
 import traceback
 from collections.abc import Callable
 from CommonClient import CommonContext, gui_enabled, get_base_parser, server_loop, ClientCommandProcessor, handle_url_arg
 import os
-import time
 import sys
-from typing import Union, Any, TYPE_CHECKING
+from typing import Union, TYPE_CHECKING
 
 
-from BaseClasses import CollectionState, MultiWorld, LocationProgressType, ItemClassification, Location
-from worlds.generic.Rules import exclusion_rules
+from BaseClasses import CollectionState, Location
 from Utils import __version__, async_start, open_filename, persistent_load, persistent_store
 from worlds import AutoWorld
 from . import TrackerWorld, UTMapTabData, CurrentTrackerState,UT_VERSION
@@ -26,7 +23,6 @@ from Generate import main as GMain, mystery_argparse
 
 if TYPE_CHECKING:
     from kvui import GameManager
-    from argparse import Namespace
 
 if not sys.stdout:  # to make sure sm varia's "i'm working" dots don't break UT in frozen
     sys.stdout = open(os.devnull, 'w', encoding="utf-8")  # from https://stackoverflow.com/a/6735958
@@ -1438,12 +1434,21 @@ class TrackerGameContext(CommonContext):
 
         await super().disconnect(allow_autoreconnect)
 
-    @cached_property
+    @property
+    def _persistence_enabled(self) -> bool:
+        return (
+            TrackerWorld.settings.save_entered_commands
+            and self.seed_name is not None
+            and self.slot is not None
+            and self.team is not None
+        )
+
+    @property
     def _persistent_key(self) -> str:
         return f"{self.seed_name}:{self.team}:{self.slot}"
 
     def load_seed_data(self) -> None:
-        if not TrackerWorld.settings.save_entered_commands:
+        if not self._persistence_enabled:
             return
         data = persistent_load().get("universal_tracker", {}).get(self._persistent_key, {})
         if ignored_locations := data.get("ignored_locations"):
@@ -1452,7 +1457,7 @@ class TrackerGameContext(CommonContext):
             self.tracker_core.manual_items = manual_items
 
     def persist_seed_data(self) -> None:
-        if not TrackerWorld.settings.save_entered_commands or self.seed_name is None or self.slot is None or self.team is None:
+        if not self._persistence_enabled:
             return
         data = {
             "ignored_locations": sorted(self.tracker_core.ignored_locations),
