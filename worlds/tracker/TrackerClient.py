@@ -1294,6 +1294,7 @@ class TrackerGameContext(CommonContext):
                     return
                 if self.checksums[self.game] != connected_cls.get_data_package_data()["checksum"]:
                     logger.warning("*****\nWarning: the local datapackage for the connected game does not match the server's datapackage\n*****")
+                    logger.error(f"Local checksum = {self.checksums[self.game]} | remote checksum = {connected_cls.get_data_package_data()['checksum']}")
                 self.tracker_core.initalize_tracker_core(connected_cls,args["slot_data"])
                 if not self.tracker_core.multiworld:
                     logger.error("Internal generation failed, something has gone wrong")
