@@ -391,6 +391,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], Rule[AstalonWorldBase]] = {
     (R.MECH_BOSS, R.MECH_TRIPLE_SWITCHES): (
         can_crystal
         & HasSwitch(Switch.MECH_TO_BOSS_1, Crystal.MECH_TRIPLE_1, Crystal.MECH_TRIPLE_2, Crystal.MECH_TRIPLE_3)
+        & (HasSwitch(Switch.MECH_BLOCK_STAIRS) | HasSwitch(Crystal.MECH_SLIMES) | otherwise_crystal)
     ),
     (R.MECH_BOSS, R.HOTP_BOSS): HasElevator(Elevator.ROA_1),
     (R.MECH_BOSS, R.ROA_ELEVATOR): HasElevator(Elevator.ROA_2),
