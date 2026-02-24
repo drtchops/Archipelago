@@ -147,7 +147,8 @@ class AstalonWorld(AstalonUTWorld):
                 ):
                     name = f"{region_name} Portal"
                     if self.is_ut:
-                        exit_region = self.get_region(portal_destinations[region_name])
+                        portal_exit_name = portal_destinations[name][:-7]
+                        exit_region = self.get_region(portal_exit_name)
 
                 self.create_entrance(region, exit_region, rule, name)
 
