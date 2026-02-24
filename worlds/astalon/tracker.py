@@ -1,0 +1,344 @@
+from functools import cached_property
+from typing import Any, ClassVar, Final
+
+from typing_extensions import override
+
+from BaseClasses import CollectionRule, CollectionState, Entrance, Location, Region
+from NetUtils import JSONMessagePart
+from Options import Option
+from rule_builder.rules import Rule
+from Utils import get_intended_text  # pyright: ignore[reportUnknownVariableType]
+
+from .bases import AstalonWorldBase
+from .items import Character, Events
+from .locations import location_table
+from .logic.custom_rules import CampfireWarp
+from .regions import RegionName, astalon_regions
+
+
+def map_page_index(data: Any) -> int:
+    """Converts the area id provided by the game mod to a map index."""
+    if not isinstance(data, int):
+        return 0
+    if data in (1, 99):
+        # tomb
+        return 1
+    if data in (2, 3, 7):
+        # mechanism_and_hall
+        return 2
+    if data in (4, 19, 21):
+        # catacombs
+        return 3
+    if data in (5, 6, 8, 13):
+        # ruins
+        return 4
+    if data == 11:
+        # cyclops
+        return 5
+    # world map
+    return 0
+
+
+CHARACTER_ICONS: Final[dict[int, str]] = {
+    1: "algus",
+    2: "arias",
+    3: "kyuli",
+    4: "bram",
+    5: "zeek",
+}
+
+MAP_OFFSETS: Final[tuple[tuple[int, int], ...]] = (
+    (-1800, 17180),  # world map
+    (-4152, 25130),  # gt
+    (-1560, 21080),  # mech and hotp
+    (-5448 + 876, 26840),  # catacombs
+    (-2424, 17000),  # ruins
+    (-9336, 20840),  # cyclops
+)
+ROOM_WIDTH: Final[int] = 432
+ROOM_HEIGHT: Final[int] = 240
+MAP_SCALE_X: Final[float] = ROOM_WIDTH / 59.346
+MAP_SCALE_Y: Final[float] = -ROOM_HEIGHT / 40.475
+
+CAMPFIRE_WARPS: Final[dict[int, tuple[RegionName, str]]] = {
+    6696: (RegionName.GT_ENTRANCE, "Tutorial"),
+    18: (RegionName.GT_BOTTOM, "GT Bottom"),
+    292: (RegionName.GT_LEFT, "GT Left"),
+    293: (RegionName.GT_BOSS, "GT Boss"),
+    1140: (RegionName.MECH_START, "Mechanism Start"),
+    1556: (RegionName.MECH_SWORD_CONNECTION, "Mechanism Sword"),
+    813: (RegionName.MECH_BOTTOM_CAMPFIRE, "Mechanism Bottom"),
+    712: (RegionName.MECH_BK, "Mechanism Shortcut"),
+    3547: (RegionName.MECH_RIGHT, "Mechanism Right"),
+    1634: (RegionName.MECH_TOP, "Mechanism Top"),
+    819: (RegionName.MECH_BOSS, "Mechanism Boss"),
+    7507: (RegionName.CD_START, "CD 1"),
+    7577: (RegionName.CD_MIDDLE, "CD 2"),
+    7703: (RegionName.CD_CAMPFIRE_3, "CD 3"),
+    7774: (RegionName.CD_TOP, "CD 4"),
+    5019: (RegionName.HOTP_EPIMETHEUS, "HotP Epimetheus"),
+    6421: (RegionName.HOTP_BELL_CAMPFIRE, "HotP Bell"),
+    3207: (RegionName.HOTP_CLAW_CAMPFIRE, "HotP Claw"),
+    2904: (RegionName.HOTP_BOSS_CAMPFIRE, "HotP Boss"),
+    10203: (RegionName.CATH_CAMPFIRE_1, "Cathedral 1"),
+    10260: (RegionName.CATH_CAMPFIRE_2, "Cathedral 2"),
+    3726: (RegionName.ROA_START, "RoA Start"),
+    7088: (RegionName.ROA_LEFT_ASCENT, "RoA Left"),
+    7086: (RegionName.ROA_MIDDLE, "RoA Middle"),
+    4685: (RegionName.ROA_ELEVATOR, "RoA Elevator"),
+    10026: (RegionName.ROA_BOSS, "RoA Boss"),
+    7436: (RegionName.SP_CAMPFIRE_1, "SP 1"),
+    8243: (RegionName.SP_CAMPFIRE_2, "SP 2"),
+    4635: (RegionName.APEX, "The Apex"),
+    7109: (RegionName.CAVES_LOWER, "Catacombs Upper"),
+    2524: (RegionName.CATA_BOW_CAMPFIRE, "Catacombs Bow"),
+    2610: (RegionName.CATA_ROOTS_CAMPFIRE, "Catacombs Roots"),
+    2669: (RegionName.CATA_BOSS, "Catacombs Boss"),
+    9056: (RegionName.TR_START, "Tower Roots"),
+    9161: (RegionName.CATA_DEV_ROOM, "Dev Room"),
+}
+
+ACRONYMS = {
+    "gt": "Gorgon's Tomb, the starting area",
+    "mech": "Mechanism, the 2nd main area",
+}
+
+
+def location_icon_coords(index: int | None, coords: dict[str, Any]) -> tuple[int, int, str] | None:
+    """Converts player coordinates provided by the game mod into image coordinates for the map page."""
+    if index is None or not coords:
+        return None
+
+    dx, dy = MAP_OFFSETS[index]
+    x = int((coords.get("X", 0) + (ROOM_WIDTH / 2) + dx) / MAP_SCALE_X)
+    y = int((coords.get("Y", 0) - (ROOM_HEIGHT / 2) + dy) / MAP_SCALE_Y)
+    icon = CHARACTER_ICONS.get(coords.get("Character", 1), "algus")
+    return x, y, f"images/icons/{icon}.png"
+
+
+def rule_to_json(rule: CollectionRule | None, state: CollectionState) -> list[JSONMessagePart]:
+    if isinstance(rule, Rule.Resolved):
+        return [
+            {"type": "text", "text": "    "},
+            *rule.explain_json(state),
+        ]
+    return [
+        {"type": "text", "text": "    "},
+        {"type": "color", "color": "green", "text": "True"},
+    ]
+
+
+class AstalonUTWorld(AstalonWorldBase):
+    tracker_world: ClassVar = {
+        "map_page_folder": "tracker",
+        "map_page_maps": "maps/maps.json",
+        "map_page_locations": "locations/locations.json",
+        "map_page_setting_key": "{player}_{team}_astalon_area",
+        "map_page_index": map_page_index,
+        "location_setting_key": "{player}_{team}_astalon_coords",
+        "location_icon_coords": location_icon_coords,
+    }
+    ut_can_gen_without_yaml: ClassVar = True
+    glitches_item_name: ClassVar = Events.FAKE_OOL_ITEM.value
+    found_entrances_datastorage_key: ClassVar = "Slot:{player}:campfires"
+
+    @cached_property
+    def is_ut(self) -> bool:
+        return getattr(self.multiworld, "generation_is_fake", False)
+
+    @cached_property
+    def defer_connections(self) -> bool:
+        return self.is_ut and getattr(self.multiworld, "enforce_deferred_connections", None) != "off"
+
+    @override
+    def generate_early(self) -> None:
+        re_gen_passthrough = getattr(self.multiworld, "re_gen_passthrough", {})
+        if re_gen_passthrough and self.game in re_gen_passthrough:
+            slot_data: dict[str, Any] = re_gen_passthrough[self.game]
+
+            slot_options: dict[str, Any] = slot_data.get("options", {})
+            for key, value in slot_options.items():
+                opt: Option[Any] | None = getattr(self.options, key, None)
+                if opt is not None:
+                    setattr(self.options, key, opt.from_any(value))
+
+            if "starting_characters" in slot_data:
+                self.starting_characters = [Character(c) for c in slot_data["starting_characters"]]
+            if "extra_gold_eyes" in slot_data:
+                self.extra_gold_eyes = slot_data["extra_gold_eyes"]
+            if "portal_pairs" in slot_data:
+                self.portal_pairs = tuple(tuple(p) for p in slot_data["portal_pairs"])
+
+    def get_logical_path(self, dest_name: str, state: CollectionState) -> list[JSONMessagePart]:
+        if not dest_name:
+            return [{"type": "text", "text": "Provide a location or region to route to using /route [name]"}]
+
+        goal_location: Location | None = None
+        goal_region: Region | None = None
+        region_name = ""
+        location_name, usable, response = get_intended_text(dest_name, [loc.name for loc in self.get_locations()])
+        if usable:
+            try:
+                goal_location = self.get_location(location_name)
+            except KeyError:
+                return [{"type": "text", "text": f"Location {location_name} not found in this multiworld"}]
+            goal_region = goal_location.parent_region
+            if not goal_region:
+                return [{"type": "text", "text": f"Location {location_name} has no parent region"}]
+        else:
+            region_name, usable, _ = get_intended_text(
+                dest_name,
+                [reg.name for reg in self.get_regions()],
+            )
+            if usable:
+                goal_region = self.get_region(region_name)
+            else:
+                return [{"type": "text", "text": response}]
+
+        if goal_location and not goal_location.can_reach(state):
+            return [{"type": "text", "text": f"Location {goal_location.name} cannot be reached"}]
+        if goal_region not in state.path and goal_region.name != self.origin_region_name:
+            return [{"type": "text", "text": f"Region {goal_region.name} cannot be reached"}]
+
+        messages: list[JSONMessagePart] = [
+            {"type": "color", "color": "slateblue", "text": f"Start -> {self.origin_region_name}\n"},
+            {"type": "color", "color": "green", "text": "    True\n"},
+        ]
+        if goal_region.name != self.origin_region_name:
+            path: list[Entrance] = []
+            name, connection = state.path[goal_region]
+            while connection is not None:
+                name, connection = connection
+                if "->" in name:
+                    path.append(self.get_entrance(name))
+
+            path.reverse()
+            for p in path:
+                messages.extend(
+                    [
+                        {"type": "entrance_name", "text": p.name, "player": self.player},
+                        {"type": "text", "text": "\n"},
+                        *rule_to_json(p.access_rule, state),
+                        {"type": "text", "text": "\n"},
+                    ]
+                )
+
+        if goal_location:
+            messages.extend(
+                [
+                    {"type": "text", "text": "-> "},
+                    {
+                        "type": "location_name",
+                        "text": goal_location.name,
+                        "player": self.player,
+                    },
+                    {"type": "text", "text": "\n"},
+                    *rule_to_json(goal_location.access_rule, state),
+                ]
+            )
+
+        return messages
+
+    def explain_rule(self, dest_name: str, state: CollectionState) -> list[JSONMessagePart]:
+        if not dest_name:
+            return [{"type": "text", "text": "Enter a location, region, item, or acronym to get an explanation"}]
+        if description := ACRONYMS.get(dest_name.lower()):
+            return [{"type": "text", "text": description}]
+
+        attempts = ["location", "region", "item"]
+        parts = dest_name.split(maxsplit=1)
+        if len(parts) == 2:
+            first_word = parts[0].lower()
+            if first_word == "location":
+                attempts = ["location"]
+                dest_name = " ".join(parts[1:])
+            elif first_word == "region":
+                attempts = ["region"]
+                dest_name = " ".join(parts[1:])
+            elif first_word == "item":
+                attempts = ["item"]
+                dest_name = " ".join(parts[1:])
+
+        result = []
+        usable = False
+        for classification in attempts:
+            if classification == "location":
+                result, usable = self._explain_location(dest_name, state)
+            elif classification == "region":
+                result, usable = self._explain_region(dest_name, state)
+            elif classification == "item":
+                result, usable = self._explain_item(dest_name, state)
+            if usable:
+                return result
+
+        return result
+
+        # macro_name, usable, response = get_intended_text(dest_name, list(self.rule_macro_hashes))
+        # if not usable:
+        #     return [{"type": "text", "text": response}]
+        # macro = self.rule_ids[self.rule_macro_hashes[macro_name]]
+        # assert isinstance(macro, Macro.Resolved)
+        # return self._explain_macro(macro)
+
+    def _explain_location(self, location_name: str, state: CollectionState) -> tuple[list[JSONMessagePart], bool]:
+        location_name, usable, response = get_intended_text(
+            location_name, set(self.multiworld.regions.location_cache[self.player])
+        )
+        if not usable:
+            return [{"type": "text", "text": response}], False
+
+        location = self.get_location(location_name)
+        location_data = location_table[location_name]
+        messages: list[JSONMessagePart] = [
+            {"type": "text", "text": "Location "},
+            {"type": "color", "color": "green" if location.can_reach(state) else "salmon", "text": location_name},
+        ]
+        if location_data.description:
+            messages.append({"type": "text", "text": f": {location_data.description}"})
+        if location.parent_region:
+            region = location.parent_region
+            region_data = astalon_regions[RegionName(region.name)]
+            messages.extend(
+                [
+                    {"type": "text", "text": "\nRegion "},
+                    {"type": "color", "color": "green" if region.can_reach(state) else "salmon", "text": region.name},
+                ]
+            )
+            if region_data.description:
+                messages.append({"type": "text", "text": f": {region_data.description}"})
+        return messages, True
+
+    def _explain_region(self, region_name: str, state: CollectionState) -> tuple[list[JSONMessagePart], bool]:
+        return [], False
+
+    def _explain_item(self, item_name: str, state: CollectionState) -> tuple[list[JSONMessagePart], bool]:
+        return [], False
+
+    # def _explain_macro(self, macro: Macro.Resolved) -> list[JSONMessagePart]:
+    #     messages: list[JSONMessagePart] = [
+    #         {"type": "color", "color": "green" if macro(state) else "salmon", "text": macro.name}
+    #     ]
+    #     if macro.description:
+    #         messages.append({"type": "text", "text": f": {macro.description}"})
+    #     messages.extend([{"type": "text", "text": "\n"}, *macro.child.explain_json(state)])
+    #     return messages
+
+    def reconnect_found_entrances(self, found_key: str, data_storage_value: Any) -> None:
+        if not self.options.campfire_warp or not self.defer_connections or not isinstance(data_storage_value, list):
+            return
+
+        source_region = self.get_region(self.origin_region_name)
+        for campfire_id in data_storage_value:  # pyright: ignore[reportUnknownVariableType]
+            region_name, campfire_name = CAMPFIRE_WARPS[campfire_id]
+            dest_region = self.get_region(region_name.value)
+            if source_region == dest_region:
+                continue
+            entrance_name = f"{source_region.name} -> {dest_region.name}"
+
+            try:
+                self.get_entrance(entrance_name)
+                continue
+            except KeyError:
+                pass
+
+            self.create_entrance(source_region, dest_region, rule=CampfireWarp(campfire_name))
