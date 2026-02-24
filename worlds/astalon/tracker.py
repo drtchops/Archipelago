@@ -7,10 +7,10 @@ from BaseClasses import CollectionRule, CollectionState, Entrance, Location, Reg
 from NetUtils import JSONMessagePart
 from Options import Option
 from rule_builder.rules import Rule
-from Utils import get_intended_text  # pyright: ignore[reportUnknownVariableType]
+from Utils import get_fuzzy_results, get_intended_text  # pyright: ignore[reportUnknownVariableType]
 
 from .bases import AstalonWorldBase
-from .items import Character, Events
+from .items import Character, Events, item_table
 from .locations import location_table
 from .logic.custom_rules import CampfireWarp
 from .regions import RegionName, astalon_regions
@@ -116,16 +116,15 @@ def location_icon_coords(index: int | None, coords: dict[str, Any]) -> tuple[int
     return x, y, f"images/icons/{icon}.png"
 
 
-def rule_to_json(rule: CollectionRule | None, state: CollectionState) -> list[JSONMessagePart]:
+def rule_to_json(rule: CollectionRule | None, state: CollectionState, indent: str = "") -> list[JSONMessagePart]:
+    messages: list[JSONMessagePart] = []
+    if indent:
+        messages.append({"type": "text", "text": indent})
     if isinstance(rule, Rule.Resolved):
-        return [
-            {"type": "text", "text": "    "},
-            *rule.explain_json(state),
-        ]
-    return [
-        {"type": "text", "text": "    "},
-        {"type": "color", "color": "green", "text": "True"},
-    ]
+        messages.extend(rule.explain_json(state))
+    else:
+        messages.append({"type": "color", "color": "green", "text": "True"})
+    return messages
 
 
 class AstalonUTWorld(AstalonWorldBase):
@@ -218,7 +217,7 @@ class AstalonUTWorld(AstalonWorldBase):
                     [
                         {"type": "entrance_name", "text": p.name, "player": self.player},
                         {"type": "text", "text": "\n"},
-                        *rule_to_json(p.access_rule, state),
+                        *rule_to_json(p.access_rule, state, indent="    "),
                         {"type": "text", "text": "\n"},
                     ]
                 )
@@ -233,7 +232,7 @@ class AstalonUTWorld(AstalonWorldBase):
                         "player": self.player,
                     },
                     {"type": "text", "text": "\n"},
-                    *rule_to_json(goal_location.access_rule, state),
+                    *rule_to_json(goal_location.access_rule, state, indent="    "),
                 ]
             )
 
@@ -261,17 +260,23 @@ class AstalonUTWorld(AstalonWorldBase):
 
         result = []
         usable = False
+        best_guess = []
+        max_confidence = 0
+        confidence = 0
         for classification in attempts:
             if classification == "location":
-                result, usable = self._explain_location(dest_name, state)
+                result, usable, confidence = self._explain_location(dest_name, state)
             elif classification == "region":
-                result, usable = self._explain_region(dest_name, state)
+                result, usable, confidence = self._explain_region(dest_name, state)
             elif classification == "item":
-                result, usable = self._explain_item(dest_name, state)
+                result, usable, confidence = self._explain_item(dest_name, state)
             if usable:
                 return result
+            if confidence > max_confidence:
+                best_guess = result
+                max_confidence = confidence
 
-        return result
+        return best_guess
 
         # macro_name, usable, response = get_intended_text(dest_name, list(self.rule_macro_hashes))
         # if not usable:
@@ -280,13 +285,15 @@ class AstalonUTWorld(AstalonWorldBase):
         # assert isinstance(macro, Macro.Resolved)
         # return self._explain_macro(macro)
 
-    def _explain_location(self, location_name: str, state: CollectionState) -> tuple[list[JSONMessagePart], bool]:
-        location_name, usable, response = get_intended_text(
-            location_name, set(self.multiworld.regions.location_cache[self.player])
-        )
+    def _explain_location(self, location_name: str, state: CollectionState) -> tuple[list[JSONMessagePart], bool, int]:
+        all_location_names = set(self.multiworld.regions.location_cache[self.player])
+        guess, usable, response = get_intended_text(location_name, all_location_names)
         if not usable:
-            return [{"type": "text", "text": response}], False
+            picks = get_fuzzy_results(location_name, all_location_names, limit=1)
+            confidence = picks[0][1]
+            return [{"type": "text", "text": response}], False, confidence
 
+        location_name = guess
         location = self.get_location(location_name)
         location_data = location_table[location_name]
         messages: list[JSONMessagePart] = [
@@ -294,7 +301,7 @@ class AstalonUTWorld(AstalonWorldBase):
             {"type": "color", "color": "green" if location.can_reach(state) else "salmon", "text": location_name},
         ]
         if location_data.description:
-            messages.append({"type": "text", "text": f": {location_data.description}"})
+            messages.append({"type": "text", "text": f"\n{location_data.description}"})
         if location.parent_region:
             region = location.parent_region
             region_data = astalon_regions[RegionName(region.name)]
@@ -306,13 +313,91 @@ class AstalonUTWorld(AstalonWorldBase):
             )
             if region_data.description:
                 messages.append({"type": "text", "text": f": {region_data.description}"})
-        return messages, True
+        if location_data.room:
+            messages.append({"type": "text", "text": f"\nRoom: {location_data.area} {location_data.room}"})
+        else:
+            messages.append({"type": "text", "text": f"\nArea: {location_data.area}"})
+        messages.extend(
+            [
+                {"type": "text", "text": f"\nGroup: {location_data.group}"},
+                {"type": "text", "text": "\nLogic: "},
+                *rule_to_json(location.access_rule, state),
+            ]
+        )
+        return messages, True, 100
 
-    def _explain_region(self, region_name: str, state: CollectionState) -> tuple[list[JSONMessagePart], bool]:
-        return [], False
+    def _explain_region(self, region_name: str, state: CollectionState) -> tuple[list[JSONMessagePart], bool, int]:
+        all_region_names = set(self.multiworld.regions.region_cache[self.player])
+        guess, usable, response = get_intended_text(region_name, all_region_names)
+        if not usable:
+            picks = get_fuzzy_results(region_name, all_region_names, limit=1)
+            confidence = picks[0][1]
+            return [{"type": "text", "text": response}], False, confidence
 
-    def _explain_item(self, item_name: str, state: CollectionState) -> tuple[list[JSONMessagePart], bool]:
-        return [], False
+        region_name = guess
+        region = self.get_region(region_name)
+        region_data = astalon_regions[RegionName(region_name)]
+        messages: list[JSONMessagePart] = [
+            {"type": "text", "text": "Region "},
+            {"type": "color", "color": "green" if region.can_reach(state) else "salmon", "text": region_name},
+        ]
+        if region_data.description:
+            messages.append({"type": "text", "text": f"\n{region_data.description}"})
+        tags: list[str] = []
+        if region_data.boss:
+            tags.append("Boss")
+        if region_data.campfire:
+            tags.append("Campfire")
+        if region_data.elevator:
+            tags.append("Elevator")
+        if region_data.multiplier:
+            tags.append("Orb Multiplier")
+        if region_data.portal:
+            tags.append("Void Portal")
+        if region_data.statue:
+            tags.append("Epimetheus Statue")
+        if tags:
+            messages.append({"type": "text", "text": f"\nTags: {', '.join(tags)}"})
+        if region.entrances:
+            messages.append({"type": "text", "text": "\nEntrances:"})
+            for entrance in region.entrances:
+                messages.extend(
+                    [
+                        {
+                            "type": "text",
+                            "text": f"\n  {entrance.parent_region.name if entrance.parent_region else entrance.name}\n",
+                        },
+                        *rule_to_json(entrance.access_rule, state, indent="    "),
+                    ]
+                )
+        return messages, True, 100
+
+    def _explain_item(self, item_name: str, state: CollectionState) -> tuple[list[JSONMessagePart], bool, int]:
+        all_item_names = set(self.item_name_to_id.keys())
+        guess, usable, response = get_intended_text(item_name, all_item_names)
+        if not usable:
+            picks = get_fuzzy_results(item_name, all_item_names, limit=1)
+            confidence = picks[0][1]
+            return [{"type": "text", "text": response}], False, confidence
+
+        item_name = guess
+        item_data = item_table[item_name]
+        classification = (
+            item_data.classification(self.options) if callable(item_data.classification) else item_data.classification
+        )
+        messages: list[JSONMessagePart] = [
+            {"type": "text", "text": "Item "},
+            {
+                "type": "item_id",
+                "flags": int(classification),
+                "player": self.player,
+                "text": str(self.item_name_to_id[item_name]),
+            },
+        ]
+        if item_data.description:
+            messages.append({"type": "text", "text": f"\n{item_data.description}"})
+        messages.append({"type": "text", "text": f"\nGroup: {item_data.group}"})
+        return messages, True, 100
 
     # def _explain_macro(self, macro: Macro.Resolved) -> list[JSONMessagePart]:
     #     messages: list[JSONMessagePart] = [
