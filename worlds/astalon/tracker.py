@@ -6,7 +6,7 @@ from typing_extensions import override
 from BaseClasses import CollectionRule, CollectionState, Entrance, Location, Region
 from NetUtils import JSONMessagePart
 from Options import Option
-from rule_builder.rules import Rule
+from rule_builder.rules import CustomRuleRegister, Macro, Rule
 from Utils import get_fuzzy_results, get_intended_text  # pyright: ignore[reportUnknownVariableType]
 
 from .bases import AstalonWorldBase
@@ -240,23 +240,24 @@ class AstalonUTWorld(AstalonWorldBase):
 
     def explain_rule(self, dest_name: str, state: CollectionState) -> list[JSONMessagePart]:
         if not dest_name:
-            return [{"type": "text", "text": "Enter a location, region, item, or acronym to get an explanation"}]
+            return [{"type": "text", "text": "Enter a macro, location, region, item, or acronym to get an explanation"}]
         if description := ACRONYMS.get(dest_name.lower()):
             return [{"type": "text", "text": description}]
 
-        attempts = ["location", "region", "item"]
+        types_to_try = {
+            "macro": self._explain_macro,
+            "location": self._explain_location,
+            "region": self._explain_region,
+            "item": self._explain_item,
+        }
+        attempts = list(types_to_try.keys())
         parts = dest_name.split(maxsplit=1)
         if len(parts) == 2:
             first_word = parts[0].lower()
-            if first_word == "location":
-                attempts = ["location"]
-                dest_name = " ".join(parts[1:])
-            elif first_word == "region":
-                attempts = ["region"]
-                dest_name = " ".join(parts[1:])
-            elif first_word == "item":
-                attempts = ["item"]
-                dest_name = " ".join(parts[1:])
+            for label in types_to_try.keys():
+                if first_word == label:
+                    attempts = [label]
+                    break
 
         result = []
         usable = False
@@ -264,12 +265,7 @@ class AstalonUTWorld(AstalonWorldBase):
         max_confidence = 0
         confidence = 0
         for classification in attempts:
-            if classification == "location":
-                result, usable, confidence = self._explain_location(dest_name, state)
-            elif classification == "region":
-                result, usable, confidence = self._explain_region(dest_name, state)
-            elif classification == "item":
-                result, usable, confidence = self._explain_item(dest_name, state)
+            result, usable, confidence = types_to_try[classification](dest_name, state)
             if usable:
                 return result
             if confidence > max_confidence:
@@ -277,13 +273,6 @@ class AstalonUTWorld(AstalonWorldBase):
                 max_confidence = confidence
 
         return best_guess
-
-        # macro_name, usable, response = get_intended_text(dest_name, list(self.rule_macro_hashes))
-        # if not usable:
-        #     return [{"type": "text", "text": response}]
-        # macro = self.rule_ids[self.rule_macro_hashes[macro_name]]
-        # assert isinstance(macro, Macro.Resolved)
-        # return self._explain_macro(macro)
 
     def _explain_location(self, location_name: str, state: CollectionState) -> tuple[list[JSONMessagePart], bool, int]:
         all_location_names = set(self.multiworld.regions.location_cache[self.player])
@@ -399,14 +388,34 @@ class AstalonUTWorld(AstalonWorldBase):
         messages.append({"type": "text", "text": f"\nGroup: {item_data.group}"})
         return messages, True, 100
 
-    # def _explain_macro(self, macro: Macro.Resolved) -> list[JSONMessagePart]:
-    #     messages: list[JSONMessagePart] = [
-    #         {"type": "color", "color": "green" if macro(state) else "salmon", "text": macro.name}
-    #     ]
-    #     if macro.description:
-    #         messages.append({"type": "text", "text": f": {macro.description}"})
-    #     messages.extend([{"type": "text", "text": "\n"}, *macro.child.explain_json(state)])
-    #     return messages
+    def _explain_macro(self, macro_name: str, state: CollectionState) -> tuple[list[JSONMessagePart], bool, int]:
+        player_macros = CustomRuleRegister.rule_macros.get(self.player, {})
+        if not player_macros:
+            return [{"type": "text", "text": "No macros found"}], False, 0
+
+        all_macro_names = set(player_macros.keys())
+        guess, usable, response = get_intended_text(macro_name, all_macro_names)
+        if not usable:
+            picks = get_fuzzy_results(macro_name, all_macro_names, limit=1)
+            confidence = picks[0][1]
+            return [{"type": "text", "text": response}], False, confidence
+
+        macro_name = guess
+        macro = player_macros[macro_name]
+        assert isinstance(macro, Macro.Resolved)
+        messages: list[JSONMessagePart] = [
+            {"type": "text", "text": "Macro "},
+            {"type": "color", "color": "green" if macro(state) else "salmon", "text": macro.name},
+        ]
+        if macro.description:
+            messages.append({"type": "text", "text": f"\n{macro.description}"})
+        messages.extend(
+            [
+                {"type": "text", "text": "\nLogic: "},
+                *macro.child.explain_json(state),
+            ]
+        )
+        return messages, True, 100
 
     def reconnect_found_entrances(self, found_key: str, data_storage_value: Any) -> None:
         if not self.options.campfire_warp or not self.defer_connections or not isinstance(data_storage_value, list):
