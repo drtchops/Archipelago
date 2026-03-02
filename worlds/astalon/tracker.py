@@ -12,11 +12,12 @@ from Utils import get_fuzzy_results, get_intended_text  # pyright: ignore[report
 from .bases import AstalonWorldBase
 from .items import Character, Events, item_table
 from .locations import location_table
-from .logic.custom_rules import CampfireWarp
+from .logic.custom_rules import FastTravel
+from .options import ShuffleVoidPortals, StartingLocation
 from .regions import RegionName, astalon_regions
 
 
-def map_page_index(data: Any) -> int:
+def map_page_index(data: Any, *_: Any, **__: Any) -> int:
     """Converts the area id provided by the game mod to a map index."""
     if not isinstance(data, int):
         return 0
@@ -97,14 +98,48 @@ CAMPFIRE_WARPS: Final[dict[int, tuple[RegionName, str]]] = {
     9056: (RegionName.TR_START, "Tower Roots"),
     9161: (RegionName.CATA_DEV_ROOM, "Dev Room"),
 }
+ELEVATORS: Final[dict[int, tuple[RegionName, str]]] = {
+    6629: (RegionName.GT_ENTRANCE, "Gorgon Tomb 1"),
+    248: (RegionName.GT_BOSS, "Gorgon Tomb 2"),
+    3947: (RegionName.MECH_ZEEK_CONNECTION, "Mechanism 1"),
+    803: (RegionName.MECH_BOSS, "Mechanism 2"),
+    10535: (RegionName.HOTP_ELEVATOR, "Hall of the Phantoms"),
+    1080: (RegionName.HOTP_BOSS, "Ruins of Ash 1"),
+    8771: (RegionName.ROA_ELEVATOR, "Ruins of Ash 2"),
+    4109: (RegionName.APEX, "The Apex"),
+    61: (RegionName.CATA_ELEVATOR, "Catacombs 1"),
+    2574: (RegionName.CATA_BOSS, "Catacombs 2"),
+    2705: (RegionName.TR_START, "Tower Roots"),
+}
+PORTAL_REGIONS: Final[dict[int, RegionName]] = {
+    1057: RegionName.GT_ENTRANCE,
+    1056: RegionName.GT_VOID,
+    1058: RegionName.MECH_LOWER_VOID,
+    1317: RegionName.MECH_UPPER_VOID,
+    1059: RegionName.HOTP_LOWER_VOID,
+    3194: RegionName.HOTP_UPPER_VOID,
+    7249: RegionName.HOTP_CATH_VOID,
+    7274: RegionName.CATA_START,
+    10748: RegionName.ROA_LOWER_VOID,
+    10749: RegionName.ROA_UPPER_VOID,
+    4344: RegionName.CATA_VOID_R,
+    4343: RegionName.CATA_VOID_L,
+}
 
 ACRONYMS = {
-    "gt": "Gorgon's Tomb, the starting area",
-    "mech": "Mechanism, the 2nd main area",
+    "gt": "Gorgon's Tomb, the light blue starting area",
+    "mech": "Mechanism, the yellow 2nd main area",
+    "hotp": "Hall of the Phantoms, the purple 3rd main area",
+    "roa": "Ruins of Ash, the orange last main area",
+    "cata": "Catacombs, the blue area below the start",
+    "tr": "Tower Roots, the blue area below Catacombs",
+    "cd": "Cyclops Den, the blue side area off of Mechanism",
+    "cath": "Cathedral, the orange side area off of Hall of the Phantoms",
+    "sp": "Serpent Path, the pink side area off of Ruins of Ash",
 }
 
 
-def location_icon_coords(index: int | None, coords: dict[str, Any]) -> tuple[int, int, str] | None:
+def location_icon_coords(index: int | None, coords: dict[str, Any], *_: Any, **__: Any) -> tuple[int, int, str] | None:
     """Converts player coordinates provided by the game mod into image coordinates for the map page."""
     if index is None or not coords:
         return None
@@ -116,7 +151,11 @@ def location_icon_coords(index: int | None, coords: dict[str, Any]) -> tuple[int
     return x, y, f"images/icons/{icon}.png"
 
 
-def rule_to_json(rule: CollectionRule | None, state: CollectionState, indent: str = "") -> list[JSONMessagePart]:
+def rule_to_json(
+    rule: CollectionRule | Rule.Resolved | None,
+    state: CollectionState,
+    indent: str = "",
+) -> list[JSONMessagePart]:
     messages: list[JSONMessagePart] = []
     if indent:
         messages.append({"type": "text", "text": indent})
@@ -139,7 +178,11 @@ class AstalonUTWorld(AstalonWorldBase):
     }
     ut_can_gen_without_yaml: ClassVar = True
     glitches_item_name: ClassVar = Events.FAKE_OOL_ITEM.value
-    found_entrances_datastorage_key: ClassVar = "Slot:{player}:campfires"
+    found_entrances_datastorage_key: ClassVar = [
+        "Slot:{player}:campfires",
+        "Slot:{player}:portals",
+        "Slot:{player}:elevators",
+    ]
 
     @cached_property
     def is_ut(self) -> bool:
@@ -168,9 +211,9 @@ class AstalonUTWorld(AstalonWorldBase):
             if "portal_pairs" in slot_data:
                 self.portal_pairs = tuple(tuple(p) for p in slot_data["portal_pairs"])
 
-    def get_logical_path(self, dest_name: str, state: CollectionState) -> list[JSONMessagePart]:
+    def get_logical_path(self, dest_name: str, state: CollectionState, *_: Any, **__: Any) -> list[JSONMessagePart]:
         if not dest_name:
-            return [{"type": "text", "text": "Provide a location or region to route to using /route [name]"}]
+            return [{"type": "text", "text": "Provide a location or region to route to using /get_logical_path [name]"}]
 
         goal_location: Location | None = None
         goal_region: Region | None = None
@@ -185,7 +228,7 @@ class AstalonUTWorld(AstalonWorldBase):
             if not goal_region:
                 return [{"type": "text", "text": f"Location {location_name} has no parent region"}]
         else:
-            region_name, usable, _ = get_intended_text(
+            region_name, usable, _resp = get_intended_text(
                 dest_name,
                 [reg.name for reg in self.get_regions()],
             )
@@ -238,25 +281,25 @@ class AstalonUTWorld(AstalonWorldBase):
 
         return messages
 
-    def explain_rule(self, dest_name: str, state: CollectionState) -> list[JSONMessagePart]:
+    def explain_rule(self, dest_name: str, state: CollectionState, *_: Any, **__: Any) -> list[JSONMessagePart]:
         if not dest_name:
             return [{"type": "text", "text": "Enter a location, region, item, or acronym to get an explanation"}]
         if description := ACRONYMS.get(dest_name.lower()):
             return [{"type": "text", "text": description}]
 
-        attempts = ["location", "region", "item"]
+        types_to_try = {
+            "location": self._explain_location,
+            "region": self._explain_region,
+            "item": self._explain_item,
+        }
+        attempts = list(types_to_try.keys())
         parts = dest_name.split(maxsplit=1)
         if len(parts) == 2:
             first_word = parts[0].lower()
-            if first_word == "location":
-                attempts = ["location"]
-                dest_name = " ".join(parts[1:])
-            elif first_word == "region":
-                attempts = ["region"]
-                dest_name = " ".join(parts[1:])
-            elif first_word == "item":
-                attempts = ["item"]
-                dest_name = " ".join(parts[1:])
+            for label in types_to_try.keys():
+                if first_word == label:
+                    attempts = [label]
+                    break
 
         result = []
         usable = False
@@ -264,12 +307,7 @@ class AstalonUTWorld(AstalonWorldBase):
         max_confidence = 0
         confidence = 0
         for classification in attempts:
-            if classification == "location":
-                result, usable, confidence = self._explain_location(dest_name, state)
-            elif classification == "region":
-                result, usable, confidence = self._explain_region(dest_name, state)
-            elif classification == "item":
-                result, usable, confidence = self._explain_item(dest_name, state)
+            result, usable, confidence = types_to_try[classification](dest_name, state)
             if usable:
                 return result
             if confidence > max_confidence:
@@ -277,13 +315,6 @@ class AstalonUTWorld(AstalonWorldBase):
                 max_confidence = confidence
 
         return best_guess
-
-        # macro_name, usable, response = get_intended_text(dest_name, list(self.rule_macro_hashes))
-        # if not usable:
-        #     return [{"type": "text", "text": response}]
-        # macro = self.rule_ids[self.rule_macro_hashes[macro_name]]
-        # assert isinstance(macro, Macro.Resolved)
-        # return self._explain_macro(macro)
 
     def _explain_location(self, location_name: str, state: CollectionState) -> tuple[list[JSONMessagePart], bool, int]:
         all_location_names = set(self.multiworld.regions.location_cache[self.player])
@@ -396,24 +427,43 @@ class AstalonUTWorld(AstalonWorldBase):
         ]
         if item_data.description:
             messages.append({"type": "text", "text": f"\n{item_data.description}"})
-        messages.append({"type": "text", "text": f"\nGroup: {item_data.group}"})
+        count = state.count(item_name, self.player)
+        messages.extend(
+            [
+                {"type": "text", "text": "\nCount: "},
+                {"type": "color", "color": "green" if count else "salmon", "text": str(count)},
+                {"type": "text", "text": f"\nGroup: {item_data.group}"},
+            ]
+        )
         return messages, True, 100
 
-    # def _explain_macro(self, macro: Macro.Resolved) -> list[JSONMessagePart]:
-    #     messages: list[JSONMessagePart] = [
-    #         {"type": "color", "color": "green" if macro(state) else "salmon", "text": macro.name}
-    #     ]
-    #     if macro.description:
-    #         messages.append({"type": "text", "text": f": {macro.description}"})
-    #     messages.extend([{"type": "text", "text": "\n"}, *macro.child.explain_json(state)])
-    #     return messages
-
-    def reconnect_found_entrances(self, found_key: str, data_storage_value: Any) -> None:
-        if not self.options.campfire_warp or not self.defer_connections or not isinstance(data_storage_value, list):
+    def reconnect_found_entrances(self, found_key: str, data_storage_value: Any, *_: Any, **__: Any) -> None:
+        if not self.defer_connections:
             return
 
+        if (
+            found_key == "Slot:{player}:campfires"
+            and self.options.campfire_warp
+            and isinstance(data_storage_value, list)
+        ):
+            self._connect_campfire_warps(data_storage_value)  # pyright: ignore[reportUnknownArgumentType]
+        elif (
+            found_key == "Slot:{player}:elevators"
+            and not self.options.randomize_elevator
+            and self.options.starting_location == StartingLocation.option_gorgon_tomb  # TODO: check if others work
+            and isinstance(data_storage_value, list)
+        ):
+            self._connect_elevators(data_storage_value)  # pyright: ignore[reportUnknownArgumentType]
+        elif (
+            found_key == "Slot:{player}:portals"
+            and self.options.shuffle_void_portals
+            and isinstance(data_storage_value, dict)
+        ):
+            self._connect_portals(data_storage_value)  # pyright: ignore[reportUnknownArgumentType]
+
+    def _connect_campfire_warps(self, campfire_ids: list[int]) -> None:
         source_region = self.get_region(self.origin_region_name)
-        for campfire_id in data_storage_value:  # pyright: ignore[reportUnknownVariableType]
+        for campfire_id in campfire_ids:
             region_name, campfire_name = CAMPFIRE_WARPS[campfire_id]
             dest_region = self.get_region(region_name.value)
             if source_region == dest_region:
@@ -426,4 +476,35 @@ class AstalonUTWorld(AstalonWorldBase):
             except KeyError:
                 pass
 
-            self.create_entrance(source_region, dest_region, rule=CampfireWarp(campfire_name))
+            self.create_entrance(source_region, dest_region, rule=FastTravel(f"Campfire Warp to {campfire_name}"))
+
+    def _connect_elevators(self, elevator_ids: list[int]) -> None:
+        source_region = self.get_region(self.origin_region_name)
+        for elevator_id in elevator_ids:
+            region_name, elevator_name = ELEVATORS[elevator_id]
+            dest_region = self.get_region(region_name.value)
+            if source_region == dest_region:
+                continue
+            entrance_name = f"{source_region.name} -> {dest_region.name}"
+
+            try:
+                self.get_entrance(entrance_name)
+                continue
+            except KeyError:
+                pass
+
+            self.create_entrance(source_region, dest_region, rule=FastTravel(f"Elevator to {elevator_name}"))
+
+    def _connect_portals(self, portals: dict[int, int]) -> None:
+        for source_portal, dest_portal in portals.items():
+            if source_portal == dest_portal:
+                continue
+            source_region = self.get_region(PORTAL_REGIONS[source_portal].value)
+            dest_region = self.get_region(PORTAL_REGIONS[dest_portal].value)
+            entrance = self.get_entrance(f"{source_region.name} Portal")
+            if entrance.connected_region is None:
+                entrance.connect(dest_region)
+            if self.options.shuffle_void_portals == ShuffleVoidPortals.option_coupled:
+                coupled_entrance = self.get_entrance(f"{dest_region.name} Portal")
+                if coupled_entrance.connected_region is None:
+                    coupled_entrance.connect(source_region)

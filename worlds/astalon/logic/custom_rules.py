@@ -262,7 +262,7 @@ class HardLogic(rules.WrapperRule[AstalonWorldBase], game=GAME_NAME):
 
 
 @dataclasses.dataclass()
-class CampfireWarp(rules.True_[AstalonWorldBase], game=GAME_NAME):
+class FastTravel(rules.True_[AstalonWorldBase], game=GAME_NAME):
     name: str
 
     @override
@@ -278,8 +278,8 @@ class CampfireWarp(rules.True_[AstalonWorldBase], game=GAME_NAME):
 
         @override
         def explain_json(self, state: CollectionState | None = None) -> list[JSONMessagePart]:
-            return [{"type": "color", "color": "green", "text": f"Campfire Warp to {self.name}"}]
+            return [{"type": "color", "color": "green", "text": self.name}]
 
         @override
         def __str__(self) -> str:
-            return f"Campfire Warp to {self.name}"
+            return self.name

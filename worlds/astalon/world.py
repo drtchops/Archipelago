@@ -146,13 +146,13 @@ class AstalonWorld(AstalonUTWorld):
                     and astalon_regions[exit_region_name].portal
                 ):
                     name = f"{region_name} Portal"
-                    if self.is_ut:
+                    if self.is_ut and not self.defer_connections:
                         portal_exit_name = portal_destinations[name][:-7]
                         exit_region = self.get_region(portal_exit_name)
 
                 self.create_entrance(region, exit_region, rule, name)
 
-        if self.options.shuffle_void_portals and not self.is_ut:
+        if self.options.shuffle_void_portals and (not self.is_ut or self.defer_connections):
             for left_region_name, right_region_name in DEFAULT_PORTALS:
                 left_entrance = self.get_entrance(f"{left_region_name} Portal")
                 right_entrance = self.get_entrance(f"{right_region_name} Portal")
