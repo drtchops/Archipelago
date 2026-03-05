@@ -1,5 +1,5 @@
 from functools import cached_property
-from typing import Any, ClassVar, Final
+from typing import Any, ClassVar, Final, cast
 
 from typing_extensions import override
 
@@ -112,18 +112,18 @@ ELEVATORS: Final[dict[int, tuple[RegionName, str]]] = {
     2705: (RegionName.TR_START, "Tower Roots"),
 }
 PORTAL_REGIONS: Final[dict[int, RegionName]] = {
-    1057: RegionName.GT_ENTRANCE,
-    1056: RegionName.GT_VOID,
-    1058: RegionName.MECH_LOWER_VOID,
-    1317: RegionName.MECH_UPPER_VOID,
-    1059: RegionName.HOTP_LOWER_VOID,
-    3194: RegionName.HOTP_UPPER_VOID,
-    7249: RegionName.HOTP_CATH_VOID,
-    7274: RegionName.CATA_START,
-    10748: RegionName.ROA_LOWER_VOID,
-    10749: RegionName.ROA_UPPER_VOID,
-    4344: RegionName.CATA_VOID_R,
-    4343: RegionName.CATA_VOID_L,
+    1099: RegionName.GT_ENTRANCE,
+    186: RegionName.GT_VOID,
+    877: RegionName.MECH_LOWER_VOID,
+    1315: RegionName.MECH_UPPER_VOID,
+    879: RegionName.HOTP_LOWER_VOID,
+    3264: RegionName.HOTP_UPPER_VOID,
+    7056: RegionName.HOTP_CATH_VOID,
+    7272: RegionName.CATA_START,
+    7437: RegionName.ROA_LOWER_VOID,
+    4094: RegionName.ROA_UPPER_VOID,
+    3795: RegionName.CATA_VOID_R,
+    4336: RegionName.CATA_VOID_L,
 }
 
 ACRONYMS = {
@@ -251,7 +251,7 @@ class AstalonUTWorld(AstalonWorldBase):
             name, connection = state.path[goal_region]
             while connection is not None:
                 name, connection = connection
-                if "->" in name:
+                if "->" in name or name.endswith(" Portal"):
                     path.append(self.get_entrance(name))
 
             path.reverse()
@@ -438,28 +438,27 @@ class AstalonUTWorld(AstalonWorldBase):
         return messages, True, 100
 
     def reconnect_found_entrances(self, found_key: str, data_storage_value: Any, *_: Any, **__: Any) -> None:
-        if not self.defer_connections:
+        if not self.defer_connections or not data_storage_value:
             return
 
-        if (
-            found_key == "Slot:{player}:campfires"
-            and self.options.campfire_warp
-            and isinstance(data_storage_value, list)
-        ):
-            self._connect_campfire_warps(data_storage_value)  # pyright: ignore[reportUnknownArgumentType]
+        if found_key.endswith(":campfires") and self.options.campfire_warp and isinstance(data_storage_value, list):
+            campfires = cast(list[int], data_storage_value)
+            self._connect_campfire_warps(campfires)
         elif (
-            found_key == "Slot:{player}:elevators"
+            found_key.endswith(":elevators")
             and not self.options.randomize_elevator
             and self.options.starting_location == StartingLocation.option_gorgon_tomb  # TODO: check if others work
             and isinstance(data_storage_value, list)
         ):
-            self._connect_elevators(data_storage_value)  # pyright: ignore[reportUnknownArgumentType]
+            elevators = cast(list[int], data_storage_value)
+            self._connect_elevators(elevators)
         elif (
-            found_key == "Slot:{player}:portals"
+            found_key.endswith(":portals")
             and self.options.shuffle_void_portals
             and isinstance(data_storage_value, dict)
         ):
-            self._connect_portals(data_storage_value)  # pyright: ignore[reportUnknownArgumentType]
+            portals = cast(dict[str, int], data_storage_value)
+            self._connect_portals({int(k): v for k, v in portals.items()})
 
     def _connect_campfire_warps(self, campfire_ids: list[int]) -> None:
         source_region = self.get_region(self.origin_region_name)
