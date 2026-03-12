@@ -237,6 +237,13 @@ class AstalonUTWorld(AstalonWorldBase):
             else:
                 return [{"type": "text", "text": response}]
 
+        in_logic = True
+        if (goal_location and not goal_location.can_reach(state)) or (
+            goal_region not in state.path and goal_region.name != self.origin_region_name
+        ):
+            state.collect(self.create_item(self.glitches_item_name))
+            in_logic = False
+
         if goal_location and not goal_location.can_reach(state):
             return [{"type": "text", "text": f"Location {goal_location.name} cannot be reached"}]
         if goal_region not in state.path and goal_region.name != self.origin_region_name:
@@ -270,9 +277,9 @@ class AstalonUTWorld(AstalonWorldBase):
                 [
                     {"type": "text", "text": "-> "},
                     {
-                        "type": "location_name",
+                        "type": "color",
+                        "color": "green" if in_logic else "yellow",
                         "text": goal_location.name,
-                        "player": self.player,
                     },
                     {"type": "text", "text": "\n"},
                     *rule_to_json(goal_location.access_rule, state, indent="    "),
