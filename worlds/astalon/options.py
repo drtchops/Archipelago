@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from typing import Any, Final
 
 from Options import (
     Choice,
@@ -450,7 +451,7 @@ class AstalonOptions(DeathLinkMixin, PerGameCommonOptions):
     tag_link: TagLink
 
 
-OPTION_GROUPS = [
+OPTION_GROUPS: Final[list[OptionGroup]] = [
     OptionGroup(
         "Randomization",
         [
@@ -497,3 +498,34 @@ OPTION_GROUPS = [
         ],
     ),
 ]
+
+OPTION_PRESETS: Final[dict[str, dict[str, Any]]] = {
+    "Keys": {
+        "randomize_white_keys": True,
+        "randomize_blue_keys": True,
+        "randomize_red_keys": True,
+    },
+    "Keys, Shop, Elevators, and Switches": {
+        "randomize_white_keys": True,
+        "randomize_blue_keys": True,
+        "randomize_red_keys": True,
+        "randomize_shop": True,
+        "randomize_elevator": True,
+        "randomize_switches": True,
+    },
+    "Everything": {
+        "difficulty": "hard",
+        "goal": "eye_hunt",
+        "starting_location": "random",
+        "randomize_characters": "solo",
+        "randomize_white_keys": True,
+        "randomize_blue_keys": True,
+        "randomize_red_keys": True,
+        "randomize_shop": True,
+        "randomize_elevator": True,
+        "randomize_switches": True,
+        "randomize_candles": True,
+        "randomize_orb_multipliers": True,
+        "shuffle_void_portals": "coupled",
+    },
+}

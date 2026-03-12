@@ -1,7 +1,7 @@
 from BaseClasses import Tutorial
 from worlds.AutoWorld import WebWorld
 
-from .options import OPTION_GROUPS
+from .options import OPTION_GROUPS, OPTION_PRESETS
 
 
 class AstalonWebWorld(WebWorld):
@@ -17,3 +17,4 @@ class AstalonWebWorld(WebWorld):
         )
     ]
     option_groups = OPTION_GROUPS
+    options_presets = OPTION_PRESETS
