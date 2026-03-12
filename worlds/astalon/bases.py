@@ -1,6 +1,7 @@
 from typing import ClassVar
 
 from BaseClasses import MultiWorld
+from rule_builder.rules import Rule
 from worlds.AutoWorld import World
 
 from .items import Character, EarlyItems
@@ -17,8 +18,10 @@ class AstalonWorldBase(World):
     extra_gold_eyes: int = 0
     early_items: EarlyItems
     portal_pairs: tuple[tuple[str, str], ...] = ()
+    rule_macros: dict[str, Rule.Resolved]
 
     def __init__(self, multiworld: MultiWorld, player: int) -> None:
         super().__init__(multiworld, player)
         self.starting_characters = []
         self.early_items = EarlyItems()
+        self.rule_macros = {}

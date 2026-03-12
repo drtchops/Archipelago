@@ -12,7 +12,7 @@ from Utils import get_fuzzy_results, get_intended_text  # pyright: ignore[report
 from .bases import AstalonWorldBase
 from .items import Character, Events, item_table
 from .locations import location_table
-from .logic.custom_rules import FastTravel
+from .logic.custom_rules import FastTravel, Macro
 from .options import ShuffleVoidPortals, StartingLocation
 from .regions import RegionName, astalon_regions
 
@@ -157,12 +157,12 @@ def rule_to_json(
     indent: str = "",
 ) -> list[JSONMessagePart]:
     messages: list[JSONMessagePart] = []
-    if indent:
-        messages.append({"type": "text", "text": indent})
-    if isinstance(rule, Rule.Resolved):
+    if isinstance(rule, Rule.Resolved) and not rule.always_true:
+        if indent:
+            messages.append({"type": "text", "text": indent})
         messages.extend(rule.explain_json(state))
-    else:
-        messages.append({"type": "color", "color": "green", "text": "True"})
+    # else:
+    #     messages.append({"type": "color", "color": "green", "text": "True"})
     return messages
 
 
@@ -251,7 +251,7 @@ class AstalonUTWorld(AstalonWorldBase):
 
         messages: list[JSONMessagePart] = [
             {"type": "color", "color": "slateblue", "text": f"Start -> {self.origin_region_name}\n"},
-            {"type": "color", "color": "green", "text": "    True\n"},
+            # {"type": "color", "color": "green", "text": "    True\n"},
         ]
         if goal_region.name != self.origin_region_name:
             path: list[Entrance] = []
@@ -290,11 +290,12 @@ class AstalonUTWorld(AstalonWorldBase):
 
     def explain_rule(self, dest_name: str, state: CollectionState, *_: Any, **__: Any) -> list[JSONMessagePart]:
         if not dest_name:
-            return [{"type": "text", "text": "Enter a location, region, item, or acronym to get an explanation"}]
+            return [{"type": "text", "text": "Enter a macro, location, region, item, or acronym to get an explanation"}]
         if description := ACRONYMS.get(dest_name.lower()):
             return [{"type": "text", "text": description}]
 
         types_to_try = {
+            "macro": self._explain_macro,
             "location": self._explain_location,
             "region": self._explain_region,
             "item": self._explain_item,
@@ -440,6 +441,31 @@ class AstalonUTWorld(AstalonWorldBase):
                 {"type": "text", "text": "\nCount: "},
                 {"type": "color", "color": "green" if count else "salmon", "text": str(count)},
                 {"type": "text", "text": f"\nGroup: {item_data.group}"},
+            ]
+        )
+        return messages, True, 100
+
+    def _explain_macro(self, macro_name: str, state: CollectionState) -> tuple[list[JSONMessagePart], bool, int]:
+        all_macro_names = set(self.rule_macros.keys())
+        guess, usable, response = get_intended_text(macro_name, all_macro_names)
+        if not usable:
+            picks = get_fuzzy_results(macro_name, all_macro_names, limit=1)
+            confidence = picks[0][1]
+            return [{"type": "text", "text": response}], False, confidence
+
+        macro_name = guess
+        macro = self.rule_macros[macro_name]
+        assert isinstance(macro, Macro.Resolved)
+        messages: list[JSONMessagePart] = [
+            {"type": "text", "text": "Macro "},
+            {"type": "color", "color": "green" if macro(state) else "salmon", "text": macro.name},
+        ]
+        if macro.description:
+            messages.append({"type": "text", "text": f"\n{macro.description}"})
+        messages.extend(
+            [
+                {"type": "text", "text": "\nLogic: "},
+                *macro.child.explain_json(state),
             ]
         )
         return messages, True, 100

@@ -283,3 +283,48 @@ class FastTravel(rules.True_[AstalonWorldBase], game=GAME_NAME):
         @override
         def __str__(self) -> str:
             return self.name
+
+
+@dataclasses.dataclass()
+class Macro(rules.WrapperRule[AstalonWorldBase], game=GAME_NAME):
+    name: str
+    description: str = ""
+
+    @override
+    def _instantiate(self, world: AstalonWorldBase) -> rules.Rule.Resolved:
+        if rule := world.rule_macros.get(self.name):
+            return rule
+        rule = self.Resolved(
+            self.child.resolve(world),
+            self.name,
+            self.description,
+            player=world.player,
+            caching_enabled=getattr(world, "rule_caching_enabled", False),
+        )
+        world.rule_macros[self.name] = rule
+        return rule
+
+    @override
+    def __str__(self) -> str:
+        return f"{self.__class__.__name__}[{self.child}]"
+
+    class Resolved(rules.WrapperRule.Resolved):
+        name: str
+        description: str = ""
+
+        @override
+        def explain_json(self, state: CollectionState | None = None) -> list[JSONMessagePart]:
+            if state is None:
+                return [{"type": "text", "text": str(self)}]
+            return [{"type": "color", "color": "green" if self(state) else "salmon", "text": str(self)}]
+
+        @override
+        def explain_str(self, state: CollectionState | None = None) -> str:
+            suffix = ""
+            if state is not None:
+                suffix = " ✓" if self(state) else " ✕"
+            return f"{self.name}{suffix}"
+
+        @override
+        def __str__(self) -> str:
+            return self.name
