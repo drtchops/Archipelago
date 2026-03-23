@@ -241,15 +241,12 @@ class AstalonWorld(AstalonUTWorld):
             self.create_event(Events.STAR, LocationName.SP_STAR)
 
         victory_region = self.get_region(RegionName.FINAL_BOSS.value)
-        victory_location = AstalonLocation(self.player, Events.VICTORY.value, None, victory_region)
-        victory_item = AstalonItem(
-            Events.VICTORY.value,
-            ItemClassification.progression_skip_balancing,
-            None,
-            self.player,
+        victory_region.add_event(
+            LocationName.FINAL_BOSS.value,
+            item_name=Events.VICTORY.value,
+            location_type=AstalonLocation,
+            item_type=AstalonItem,
         )
-        victory_location.place_locked_item(victory_item)
-        victory_region.locations.append(victory_location)
         self.set_completion_rule(COMPLETION_RULE)
 
     @override
