@@ -1545,6 +1545,7 @@ def get_logical_path(ctx: TrackerGameContext, dest_name: str):
         ctx.set_page(f"Check Player YAMLs for error; Tracker {UT_VERSION} for AP version {__version__}")
         return
     relevent_region = None
+    relevent_location = None
     state = None
     current_world = ctx.tracker_core.get_current_world()
     assert current_world
@@ -1570,6 +1571,7 @@ def get_logical_path(ctx: TrackerGameContext, dest_name: str):
         if not state: return
         if location.can_reach(state):
             relevent_region = location.parent_region
+            relevent_location = location
     elif dest_name in region_names:
         relevent_region = ctx.tracker_core.multiworld.get_region(dest_name,ctx.tracker_core.player_id)
         state = ctx.updateTracker().state
@@ -1602,7 +1604,26 @@ def get_logical_path(ctx: TrackerGameContext, dest_name: str):
             paths = get_path(state=state, region=relevent_region)
             for k, v in paths:
                 if v:
-                    logger.info(v)
+                    ent = current_world.get_entrance(v)
+                    if hasattr(current_world,"explain_path"):
+                        returned_json = current_world.explain_path(ent,state)
+                        if returned_json is None:
+                            continue
+                        if returned_json:
+                            ctx.ui.print_json(returned_json)
+                            continue
+                    returned_json = [{"type":"color","color":"blue","text":v}]
+                    if hasattr(ent.access_rule,"explain_json"):
+                        returned_json.append({"type":"text","text":":\n    "})
+                        returned_json.extend(ent.access_rule.explain_json(state))
+                    ctx.ui.print_json(returned_json)
+            if relevent_location:
+                returned_json = [{"type":"text","text":"->"},{"type":"color","color":"green","text":relevent_location.name}]
+                if hasattr(relevent_location.access_rule,"explain_json"):
+                    returned_json.append({"type":"text","text":":\n    "})
+                    returned_json.extend(relevent_location.access_rule.explain_json(state))
+                ctx.ui.print_json(returned_json)
+        
         else:
             logger.info(f"{dest_name} not in logic")
 
