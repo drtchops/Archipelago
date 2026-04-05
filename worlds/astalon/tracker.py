@@ -119,7 +119,7 @@ PORTAL_REGIONS: Final[dict[int, RegionName]] = {
     879: RegionName.HOTP_LOWER_VOID,
     3264: RegionName.HOTP_UPPER_VOID,
     7056: RegionName.HOTP_CATH_VOID,
-    7272: RegionName.CATA_START,
+    7272: RegionName.CATH_START,
     7437: RegionName.ROA_LOWER_VOID,
     4094: RegionName.ROA_UPPER_VOID,
     3795: RegionName.CATA_VOID_R,

@@ -1,6 +1,6 @@
 import logging
 from functools import cached_property
-from typing import Any, ClassVar, Final
+from typing import Any, ClassVar, Final, TextIO
 
 from typing_extensions import override
 
@@ -497,3 +497,18 @@ class AstalonWorld(AstalonUTWorld):
     def stage_modify_multidata(cls, *_) -> None:
         # Clean up calculated character strengths after generation completes
         cls._character_strengths = None
+
+    @override
+    def write_spoiler_header(self, spoiler_handle: TextIO) -> None:
+        if self.options.shuffle_void_portals:
+            spoiler_handle.write("Void Portals:\n")
+            if self.options.shuffle_void_portals.value == ShuffleVoidPortals.option_coupled:
+                seen: set[str] = set()
+                for left, right in self.portal_pairs:
+                    if left in seen:
+                        continue
+                    seen.add(right)
+                    spoiler_handle.write(f"    {left[:-7]} <-> {right[:-7]}\n")
+            else:
+                spoiler_handle.writelines([f"    {left[:-7]} -> {right[:-7]}\n" for left, right in self.portal_pairs])
+        return super().write_spoiler_header(spoiler_handle)
