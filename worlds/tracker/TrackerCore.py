@@ -327,7 +327,7 @@ class TrackerCore():
                 if world_item.code is not None:
                     all_items[world_item.name] += 1
             except Exception:
-                self.log_to_tab("[color="+self.get_ut_color("error")+"]Item id " + str(item_name) + " not able to be created[/color]", False)
+                self.log_to_tab("[color="+self.get_ut_color("error")+"]Item name " + str(item_name) + " not able to be created[/color]", False)
         state.sweep_for_advancements(
             locations=[location for location in self.multiworld.get_locations(self.player_id) if (not location.address)])
 
@@ -391,7 +391,7 @@ class TrackerCore():
                 world_item = self.multiworld.create_item(glitches_item_name, self.player_id)
                 glitches_state.collect(world_item, True)
             except Exception:
-                self.log_to_tab("Item id " + str(glitches_item_name) + " not able to be created", False)
+                self.log_to_tab("Item name " + str(glitches_item_name) + " not able to be created", False)
             else:
                 glitches_state.sweep_for_advancements(
                     locations=[location for location in self.multiworld.get_locations(self.player_id) if (not location.address)])
