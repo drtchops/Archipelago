@@ -121,6 +121,8 @@ def tutorial_landing():
     tutorials = {}
     worlds = AutoWorldRegister.world_types
     for world_name, world_type in worlds.items():
+        if world_type.hidden and world_name != "Archipelago":
+            continue
         current_world = tutorials[world_name] = {}
         for tutorial in world_type.web.tutorials:
             current_tutorial = current_world.setdefault(tutorial.tutorial_name, {
