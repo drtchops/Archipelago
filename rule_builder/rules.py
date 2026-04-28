@@ -36,7 +36,7 @@ def _create_hash_fn(resolved_rule_cls: "CustomRuleRegister") -> Callable[..., in
 class CustomRuleRegister(type):
     """A metaclass to contain world custom rules and automatically convert resolved rules to frozen dataclasses"""
 
-    resolved_rules: ClassVar[dict[int, "Rule.Resolved"]] = {}
+    resolved_rules: ClassVar[dict[int, list["Rule.Resolved"]]] = {}
     """A cached of resolved rules to turn each unique one into a singleton"""
 
     custom_rules: ClassVar[dict[str, dict[str, type["Rule[Any]"]]]] = {}
@@ -66,8 +66,13 @@ class CustomRuleRegister(type):
         rule = super().__call__(*args, **kwds)
         rule_hash = hash(rule)
         if rule_hash in cls.resolved_rules:
-            return cls.resolved_rules[rule_hash]
-        cls.resolved_rules[rule_hash] = rule
+            existing_rules = cls.resolved_rules[rule_hash]
+            for existing_rule in existing_rules:
+                if existing_rule == rule:
+                    return existing_rule
+            existing_rules.append(rule)
+            return rule
+        cls.resolved_rules[rule_hash] = [rule]
         return rule
 
     @classmethod
