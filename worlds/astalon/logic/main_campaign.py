@@ -641,7 +641,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], Rule[AstalonWorldBase]] = {
     (R.ROA_MIDDLE, R.ROA_TOP_ASCENT): HasSwitch(Switch.ROA_ASCEND_SHORTCUT, otherwise=True),
     (R.ROA_MIDDLE, R.ROA_TRIPLE_SWITCH): HasSwitch(Switch.ROA_TRIPLE_1, Switch.ROA_TRIPLE_3),
     (R.ROA_MIDDLE, R.ROA_LEFT_BABY_GORGON): can_extra_height,
-    (R.ROA_RIGHT_SWITCH_1, R.ROA_RIGHT_SWITCH_2): can_extra_height,
+    (R.ROA_RIGHT_SWITCH_1, R.ROA_RIGHT_SWITCH_2): has_kyuli | can_combo_height,
     (R.ROA_MIDDLE_LADDER, R.ROA_UPPER_VOID): HasSwitch(
         Switch.ROA_SHAFT_L,
         Switch.ROA_SHAFT_R,
