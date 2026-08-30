@@ -72,7 +72,7 @@ class StartingLocation(Choice):
     display_name = "Starting Location"
     option_gorgon_tomb = 0
     option_mechanism = 1
-    option_hall_of_the_phantoms = 2
+    option_hall_of_phantoms = 2
     option_ruins_of_ash = 3
     option_apex = 4
     option_catacombs = 5
