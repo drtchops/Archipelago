@@ -12,7 +12,7 @@ class Area(StrEnum):
     SHOP = "Shop"
     GT = "Gorgon Tomb"
     MECH = "Mechanism"
-    HOTP = "Hall of the Phantoms"
+    HOP = "Hall of Phantoms"
     ROA = "Ruins of Ash"
     DARK = "Darkness"
     APEX = "The Apex"
@@ -179,76 +179,76 @@ class LocationName(StrEnum):
     MECH_CANDLE_CAMPFIRE_R = "Mech Candle Right Campfire"
     MECH_ORB_MULTI = "Mech Orb Multiplier"
 
-    HOTP_BELL = "HotP Athena's Bell"
-    HOTP_AMULET = "HotP Amulet of Sol"
-    HOTP_CLAW = "HotP Griffon Claw"
-    HOTP_GAUNTLET = "HotP Boreas Gauntlet"
-    HOTP_MAIDEN_RING = "HotP Dead Maiden's Ring"
-    HOTP_HP_1_CLAW = "HotP Max HP Up Griffon Claw"
-    HOTP_HP_2_LADDER = "HotP Max HP Up Secret Ladder"
-    HOTP_HP_2_GAUNTLET = "HotP Max HP Up Boreas Gauntlet"
-    HOTP_HP_5_OLD_MAN = "HotP Max HP Up Old Man"
-    HOTP_HP_5_MAZE = "HotP Max HP Up Teleport Maze"
-    HOTP_HP_5_START = "HotP Max HP Up Above Start"
-    HOTP_WHITE_KEY_LEFT = "HotP White Key Left of Start"
-    HOTP_WHITE_KEY_GHOST = "HotP White Key Ghost"
-    HOTP_WHITE_KEY_OLD_MAN = "HotP White Key Old Man"
-    HOTP_WHITE_KEY_BOSS = "HotP White Key Boss"
-    HOTP_BLUE_KEY_STATUE = "HotP Blue Key Epimetheus"
-    HOTP_BLUE_KEY_GOLD = "HotP Blue Key Gold Hint"
-    HOTP_BLUE_KEY_AMULET = "HotP Blue Key Amulet of Sol"
-    HOTP_BLUE_KEY_LADDER = "HotP Blue Key Secret Ladder"
-    HOTP_BLUE_KEY_TELEPORTS = "HotP Blue Key Spike Teleporters"
-    HOTP_BLUE_KEY_MAZE = "HotP Blue Key Teleport Maze"
-    HOTP_RED_KEY = "HotP Red Key"
-    HOTP_ELEVATOR = "HotP Elevator"
-    HOTP_SWITCH_ROCK = "HotP Switch Rock"
-    HOTP_SWITCH_BELOW_START = "HotP Switch Below Start"
-    HOTP_SWITCH_LEFT_2 = "HotP Switch Left 2"
-    HOTP_SWITCH_LEFT_1 = "HotP Switch Left 1"
-    HOTP_SWITCH_LOWER_SHORTCUT = "HotP Switch Lower Shortcut"
-    HOTP_SWITCH_BELL = "HotP Switch Bell"
-    HOTP_SWITCH_GHOST_BLOOD = "HotP Switch Ghost Blood"
-    HOTP_SWITCH_TELEPORTS = "HotP Switch Teleports"
-    HOTP_SWITCH_WORM_PILLAR = "HotP Switch Worm Pillar"
-    HOTP_SWITCH_TO_CLAW_1 = "HotP Switch To Claw 1"
-    HOTP_SWITCH_TO_CLAW_2 = "HotP Switch To Claw 2"
-    HOTP_SWITCH_CLAW_ACCESS = "HotP Switch Claw Access"
-    HOTP_SWITCH_GHOSTS = "HotP Switch Ghosts"
-    HOTP_SWITCH_LEFT_3 = "HotP Switch Left 3"
-    HOTP_SWITCH_ABOVE_OLD_MAN = "HotP Switch Above Old Man"
-    HOTP_SWITCH_TO_ABOVE_OLD_MAN = "HotP Switch To Above Old Man"
-    HOTP_SWITCH_TP_PUZZLE = "HotP Switch Teleport Puzzle"
-    HOTP_SWITCH_EYEBALL_SHORTCUT = "HotP Switch Eyeball Shortcut"
-    HOTP_SWITCH_BELL_ACCESS = "HotP Switch Bell Access"
-    HOTP_SWITCH_1ST_ROOM = "HotP Switch 1st Room"
-    HOTP_SWITCH_LEFT_BACKTRACK = "HotP Switch Left Backtrack"
-    HOTP_SKULL_PUZZLE = "HotP Skull Puzzle"
-    HOTP_CRYSTAL_ROCK_ACCESS = "HotP Crystal Rock Access"
-    HOTP_CRYSTAL_BOTTOM = "HotP Crystal Bottom"
-    HOTP_CRYSTAL_LOWER = "HotP Crystal Lower"
-    HOTP_CRYSTAL_AFTER_CLAW = "HotP Crystal After Claw"
-    HOTP_CRYSTAL_MAIDEN_1 = "HotP Crystal Dead Maiden 1"
-    HOTP_CRYSTAL_MAIDEN_2 = "HotP Crystal Dead Maiden 2"
-    HOTP_CRYSTAL_BELL_ACCESS = "HotP Crystal Bell Access"
-    HOTP_CRYSTAL_HEART = "HotP Crystal Heart"
-    HOTP_CRYSTAL_BELOW_PUZZLE = "HotP Crystal Below Puzzle"
-    HOTP_FACE_OLD_MAN = "HotP Face Old Man"
-    HOTP_CANDLE_1ST_ROOM = "HotP Candle 1st Room"
-    HOTP_CANDLE_LOWER = "HotP Candle Lower"
-    HOTP_CANDLE_BELL = "HotP Candle Bell"
-    HOTP_CANDLE_EYEBALL = "HotP Candle Eyeball"
-    HOTP_CANDLE_OLD_MAN = "HotP Candle Old Man"
-    HOTP_CANDLE_BEFORE_CLAW = "HotP Candle Before Claw"
-    HOTP_CANDLE_CLAW_CAMPFIRE = "HotP Candle Claw Campfire"
-    HOTP_CANDLE_TP_PUZZLE = "HotP Candle Teleport Puzzle"
-    HOTP_CANDLE_BOSS = "HotP Candle Boss"
-    HOTP_CANDLE_TP_FALL = "HotP Candle Teleport Fall"
-    HOTP_CANDLE_UPPER_VOID_1 = "HotP Candle Upper Void 1"
-    HOTP_CANDLE_UPPER_VOID_2 = "HotP Candle Upper Void 2"
-    HOTP_CANDLE_UPPER_VOID_3 = "HotP Candle Upper Void 3"
-    HOTP_CANDLE_UPPER_VOID_4 = "HotP Candle Upper Void 4"
-    HOTP_CANDLE_ELEVATOR = "HotP Candle Elevator"
+    HOP_BELL = "HoP Athena's Bell"
+    HOP_AMULET = "HoP Amulet of Sol"
+    HOP_CLAW = "HoP Griffon Claw"
+    HOP_GAUNTLET = "HoP Boreas Gauntlet"
+    HOP_MAIDEN_RING = "HoP Dead Maiden's Ring"
+    HOP_HP_1_CLAW = "HoP Max HP Up Griffon Claw"
+    HOP_HP_2_LADDER = "HoP Max HP Up Secret Ladder"
+    HOP_HP_2_GAUNTLET = "HoP Max HP Up Boreas Gauntlet"
+    HOP_HP_5_OLD_MAN = "HoP Max HP Up Old Man"
+    HOP_HP_5_MAZE = "HoP Max HP Up Teleport Maze"
+    HOP_HP_5_START = "HoP Max HP Up Above Start"
+    HOP_WHITE_KEY_LEFT = "HoP White Key Left of Start"
+    HOP_WHITE_KEY_GHOST = "HoP White Key Ghost"
+    HOP_WHITE_KEY_OLD_MAN = "HoP White Key Old Man"
+    HOP_WHITE_KEY_BOSS = "HoP White Key Boss"
+    HOP_BLUE_KEY_STATUE = "HoP Blue Key Epimetheus"
+    HOP_BLUE_KEY_GOLD = "HoP Blue Key Gold Hint"
+    HOP_BLUE_KEY_AMULET = "HoP Blue Key Amulet of Sol"
+    HOP_BLUE_KEY_LADDER = "HoP Blue Key Secret Ladder"
+    HOP_BLUE_KEY_TELEPORTS = "HoP Blue Key Spike Teleporters"
+    HOP_BLUE_KEY_MAZE = "HoP Blue Key Teleport Maze"
+    HOP_RED_KEY = "HoP Red Key"
+    HOP_ELEVATOR = "HoP Elevator"
+    HOP_SWITCH_ROCK = "HoP Switch Rock"
+    HOP_SWITCH_BELOW_START = "HoP Switch Below Start"
+    HOP_SWITCH_LEFT_2 = "HoP Switch Left 2"
+    HOP_SWITCH_LEFT_1 = "HoP Switch Left 1"
+    HOP_SWITCH_LOWER_SHORTCUT = "HoP Switch Lower Shortcut"
+    HOP_SWITCH_BELL = "HoP Switch Bell"
+    HOP_SWITCH_GHOST_BLOOD = "HoP Switch Ghost Blood"
+    HOP_SWITCH_TELEPORTS = "HoP Switch Teleports"
+    HOP_SWITCH_WORM_PILLAR = "HoP Switch Worm Pillar"
+    HOP_SWITCH_TO_CLAW_1 = "HoP Switch To Claw 1"
+    HOP_SWITCH_TO_CLAW_2 = "HoP Switch To Claw 2"
+    HOP_SWITCH_CLAW_ACCESS = "HoP Switch Claw Access"
+    HOP_SWITCH_GHOSTS = "HoP Switch Ghosts"
+    HOP_SWITCH_LEFT_3 = "HoP Switch Left 3"
+    HOP_SWITCH_ABOVE_OLD_MAN = "HoP Switch Above Old Man"
+    HOP_SWITCH_TO_ABOVE_OLD_MAN = "HoP Switch To Above Old Man"
+    HOP_SWITCH_TP_PUZZLE = "HoP Switch Teleport Puzzle"
+    HOP_SWITCH_EYEBALL_SHORTCUT = "HoP Switch Eyeball Shortcut"
+    HOP_SWITCH_BELL_ACCESS = "HoP Switch Bell Access"
+    HOP_SWITCH_1ST_ROOM = "HoP Switch 1st Room"
+    HOP_SWITCH_LEFT_BACKTRACK = "HoP Switch Left Backtrack"
+    HOP_SKULL_PUZZLE = "HoP Skull Puzzle"
+    HOP_CRYSTAL_ROCK_ACCESS = "HoP Crystal Rock Access"
+    HOP_CRYSTAL_BOTTOM = "HoP Crystal Bottom"
+    HOP_CRYSTAL_LOWER = "HoP Crystal Lower"
+    HOP_CRYSTAL_AFTER_CLAW = "HoP Crystal After Claw"
+    HOP_CRYSTAL_MAIDEN_1 = "HoP Crystal Dead Maiden 1"
+    HOP_CRYSTAL_MAIDEN_2 = "HoP Crystal Dead Maiden 2"
+    HOP_CRYSTAL_BELL_ACCESS = "HoP Crystal Bell Access"
+    HOP_CRYSTAL_HEART = "HoP Crystal Heart"
+    HOP_CRYSTAL_BELOW_PUZZLE = "HoP Crystal Below Puzzle"
+    HOP_FACE_OLD_MAN = "HoP Face Old Man"
+    HOP_CANDLE_1ST_ROOM = "HoP Candle 1st Room"
+    HOP_CANDLE_LOWER = "HoP Candle Lower"
+    HOP_CANDLE_BELL = "HoP Candle Bell"
+    HOP_CANDLE_EYEBALL = "HoP Candle Eyeball"
+    HOP_CANDLE_OLD_MAN = "HoP Candle Old Man"
+    HOP_CANDLE_BEFORE_CLAW = "HoP Candle Before Claw"
+    HOP_CANDLE_CLAW_CAMPFIRE = "HoP Candle Claw Campfire"
+    HOP_CANDLE_TP_PUZZLE = "HoP Candle Teleport Puzzle"
+    HOP_CANDLE_BOSS = "HoP Candle Boss"
+    HOP_CANDLE_TP_FALL = "HoP Candle Teleport Fall"
+    HOP_CANDLE_UPPER_VOID_1 = "HoP Candle Upper Void 1"
+    HOP_CANDLE_UPPER_VOID_2 = "HoP Candle Upper Void 2"
+    HOP_CANDLE_UPPER_VOID_3 = "HoP Candle Upper Void 3"
+    HOP_CANDLE_UPPER_VOID_4 = "HoP Candle Upper Void 4"
+    HOP_CANDLE_ELEVATOR = "HoP Candle Elevator"
 
     ROA_ICARUS = "RoA Icarus Emblem"
     ROA_EYE_GREEN = "RoA Gorgon Eye Green"
@@ -572,7 +572,7 @@ ALL_LOCATIONS: tuple[LocationData, ...] = (
         room="M33",
         description="Defeat Volantis, the boss of Mechanism",
     ),
-    LocationData(LocationName.MECH_ATTACK_VOLANTIS, RegionName.HOTP_START, LocationGroup.ATTACK, Area.MECH, room="M34"),
+    LocationData(LocationName.MECH_ATTACK_VOLANTIS, RegionName.HOP_START, LocationGroup.ATTACK, Area.MECH, room="M34"),
     LocationData(LocationName.MECH_ATTACK_STAR, RegionName.MECH_CHAINS, LocationGroup.ATTACK, Area.MECH, room="R32"),
     LocationData(LocationName.MECH_HP_1_SWITCH, RegionName.MECH_RIGHT, LocationGroup.HEALTH, Area.MECH, room="T33"),
     LocationData(LocationName.MECH_HP_1_STAR, RegionName.MECH_BRAM_TUNNEL, LocationGroup.HEALTH, Area.MECH, room="M32"),
@@ -659,100 +659,100 @@ ALL_LOCATIONS: tuple[LocationData, ...] = (
     LocationData(LocationName.MECH_BLUE_KEY_SAVE, RegionName.MECH_TOP, LocationGroup.KEY_BLUE, Area.MECH, room="S36"),
     LocationData(LocationName.MECH_BLUE_KEY_POT, RegionName.MECH_POTS, LocationGroup.KEY_BLUE, Area.MECH, room="T35"),
     LocationData(LocationName.MECH_RED_KEY, RegionName.MECH_LOWER_VOID, LocationGroup.KEY_RED, Area.MECH, room="K28"),
-    LocationData(LocationName.HOTP_BELL, RegionName.HOTP_BELL, LocationGroup.ITEM, Area.HOTP, room="F29"),
-    LocationData(LocationName.HOTP_AMULET, RegionName.HOTP_AMULET, LocationGroup.ITEM, Area.HOTP, room="I28"),
-    LocationData(LocationName.HOTP_CLAW, RegionName.HOTP_CLAW, LocationGroup.ITEM, Area.HOTP, room="N36"),
-    LocationData(LocationName.HOTP_GAUNTLET, RegionName.HOTP_GAUNTLET, LocationGroup.ITEM, Area.HOTP, room="R42"),
-    LocationData(LocationName.HOTP_MAIDEN_RING, RegionName.HOTP_MAIDEN, LocationGroup.ITEM, Area.HOTP, room="K43"),
-    LocationData(LocationName.HOTP_HP_1_CLAW, RegionName.HOTP_CLAW_LEFT, LocationGroup.HEALTH, Area.HOTP, room="K36"),
-    LocationData(LocationName.HOTP_HP_2_LADDER, RegionName.HOTP_ELEVATOR, LocationGroup.HEALTH, Area.HOTP, room="H33"),
+    LocationData(LocationName.HOP_BELL, RegionName.HOP_BELL, LocationGroup.ITEM, Area.HOP, room="F29"),
+    LocationData(LocationName.HOP_AMULET, RegionName.HOP_AMULET, LocationGroup.ITEM, Area.HOP, room="I28"),
+    LocationData(LocationName.HOP_CLAW, RegionName.HOP_CLAW, LocationGroup.ITEM, Area.HOP, room="N36"),
+    LocationData(LocationName.HOP_GAUNTLET, RegionName.HOP_GAUNTLET, LocationGroup.ITEM, Area.HOP, room="R42"),
+    LocationData(LocationName.HOP_MAIDEN_RING, RegionName.HOP_MAIDEN, LocationGroup.ITEM, Area.HOP, room="K43"),
+    LocationData(LocationName.HOP_HP_1_CLAW, RegionName.HOP_CLAW_LEFT, LocationGroup.HEALTH, Area.HOP, room="K36"),
+    LocationData(LocationName.HOP_HP_2_LADDER, RegionName.HOP_ELEVATOR, LocationGroup.HEALTH, Area.HOP, room="H33"),
     LocationData(
-        LocationName.HOTP_HP_2_GAUNTLET,
-        RegionName.HOTP_TP_FALL_TOP,
+        LocationName.HOP_HP_2_GAUNTLET,
+        RegionName.HOP_TP_FALL_TOP,
         LocationGroup.HEALTH,
-        Area.HOTP,
+        Area.HOP,
         room="R39",
     ),
     LocationData(
-        LocationName.HOTP_HP_5_OLD_MAN,
-        RegionName.HOTP_ABOVE_OLD_MAN,
+        LocationName.HOP_HP_5_OLD_MAN,
+        RegionName.HOP_ABOVE_OLD_MAN,
         LocationGroup.HEALTH,
-        Area.HOTP,
+        Area.HOP,
         room="G39",
     ),
     LocationData(
-        LocationName.HOTP_HP_5_MAZE,
-        RegionName.HOTP_LOWER_VOID_CONNECTION,
+        LocationName.HOP_HP_5_MAZE,
+        RegionName.HOP_LOWER_VOID_CONNECTION,
         LocationGroup.HEALTH,
-        Area.HOTP,
+        Area.HOP,
         room="K34",
     ),
-    LocationData(LocationName.HOTP_HP_5_START, RegionName.HOTP_START, LocationGroup.HEALTH, Area.HOTP, room="L35"),
+    LocationData(LocationName.HOP_HP_5_START, RegionName.HOP_START, LocationGroup.HEALTH, Area.HOP, room="L35"),
     LocationData(
-        LocationName.HOTP_WHITE_KEY_LEFT,
-        RegionName.HOTP_START_LEFT,
+        LocationName.HOP_WHITE_KEY_LEFT,
+        RegionName.HOP_START_LEFT,
         LocationGroup.KEY_WHITE,
-        Area.HOTP,
+        Area.HOP,
         room="I33",
     ),
     LocationData(
-        LocationName.HOTP_WHITE_KEY_GHOST,
-        RegionName.HOTP_LOWER,
+        LocationName.HOP_WHITE_KEY_GHOST,
+        RegionName.HOP_LOWER,
         LocationGroup.KEY_WHITE,
-        Area.HOTP,
+        Area.HOP,
         room="J31",
     ),
     LocationData(
-        LocationName.HOTP_WHITE_KEY_OLD_MAN,
-        RegionName.HOTP_ELEVATOR,
+        LocationName.HOP_WHITE_KEY_OLD_MAN,
+        RegionName.HOP_ELEVATOR,
         LocationGroup.KEY_WHITE,
-        Area.HOTP,
+        Area.HOP,
         room="G35",
     ),
     LocationData(
-        LocationName.HOTP_WHITE_KEY_BOSS,
-        RegionName.HOTP_UPPER_ARIAS,
+        LocationName.HOP_WHITE_KEY_BOSS,
+        RegionName.HOP_UPPER_ARIAS,
         LocationGroup.KEY_WHITE,
-        Area.HOTP,
+        Area.HOP,
         room="L39",
     ),
     LocationData(
-        LocationName.HOTP_BLUE_KEY_STATUE,
-        RegionName.HOTP_EPIMETHEUS,
+        LocationName.HOP_BLUE_KEY_STATUE,
+        RegionName.HOP_EPIMETHEUS,
         LocationGroup.KEY_BLUE,
-        Area.HOTP,
+        Area.HOP,
         room="L30",
     ),
-    LocationData(LocationName.HOTP_BLUE_KEY_GOLD, RegionName.HOTP_LOWER, LocationGroup.KEY_BLUE, Area.HOTP, room="K29"),
+    LocationData(LocationName.HOP_BLUE_KEY_GOLD, RegionName.HOP_LOWER, LocationGroup.KEY_BLUE, Area.HOP, room="K29"),
     LocationData(
-        LocationName.HOTP_BLUE_KEY_AMULET,
-        RegionName.HOTP_AMULET_CONNECTION,
+        LocationName.HOP_BLUE_KEY_AMULET,
+        RegionName.HOP_AMULET_CONNECTION,
         LocationGroup.KEY_BLUE,
-        Area.HOTP,
+        Area.HOP,
         room="J28",
     ),
     LocationData(
-        LocationName.HOTP_BLUE_KEY_LADDER,
-        RegionName.HOTP_ELEVATOR,
+        LocationName.HOP_BLUE_KEY_LADDER,
+        RegionName.HOP_ELEVATOR,
         LocationGroup.KEY_BLUE,
-        Area.HOTP,
+        Area.HOP,
         room="H33",
     ),
     LocationData(
-        LocationName.HOTP_BLUE_KEY_TELEPORTS,
-        RegionName.HOTP_SPIKE_TP_SECRET,
+        LocationName.HOP_BLUE_KEY_TELEPORTS,
+        RegionName.HOP_SPIKE_TP_SECRET,
         LocationGroup.KEY_BLUE,
-        Area.HOTP,
+        Area.HOP,
         room="E33",
     ),
     LocationData(
-        LocationName.HOTP_BLUE_KEY_MAZE,
-        RegionName.HOTP_TP_FALL_TOP,
+        LocationName.HOP_BLUE_KEY_MAZE,
+        RegionName.HOP_TP_FALL_TOP,
         LocationGroup.KEY_BLUE,
-        Area.HOTP,
+        Area.HOP,
         room="N39",
     ),
-    LocationData(LocationName.HOTP_RED_KEY, RegionName.HOTP_RED_KEY, LocationGroup.KEY_RED, Area.HOTP, room="I30"),
+    LocationData(LocationName.HOP_RED_KEY, RegionName.HOP_RED_KEY, LocationGroup.KEY_RED, Area.HOP, room="I30"),
     LocationData(LocationName.ROA_ICARUS, RegionName.ROA_ICARUS, LocationGroup.ITEM, Area.ROA, room="N55"),
     LocationData(
         LocationName.ROA_EYE_GREEN,
@@ -1180,7 +1180,7 @@ ALL_LOCATIONS: tuple[LocationData, ...] = (
     ),
     LocationData(
         LocationName.MECH_SWITCH_MAZE_BACKDOOR,
-        RegionName.HOTP_FALL_BOTTOM,
+        RegionName.HOP_FALL_BOTTOM,
         LocationGroup.SWITCH,
         Area.MECH,
         room="R36",
@@ -1334,201 +1334,201 @@ ALL_LOCATIONS: tuple[LocationData, ...] = (
         Area.MECH,
         room="M34",
     ),
-    LocationData(LocationName.HOTP_ELEVATOR, RegionName.HOTP_ELEVATOR, LocationGroup.ELEVATOR, Area.HOTP, room="F34"),
+    LocationData(LocationName.HOP_ELEVATOR, RegionName.HOP_ELEVATOR, LocationGroup.ELEVATOR, Area.HOP, room="F34"),
     LocationData(
-        LocationName.HOTP_SWITCH_ROCK,
-        RegionName.HOTP_AMULET_CONNECTION,
+        LocationName.HOP_SWITCH_ROCK,
+        RegionName.HOP_AMULET_CONNECTION,
         LocationGroup.SWITCH,
-        Area.HOTP,
+        Area.HOP,
         room="J27",
     ),
     LocationData(
-        LocationName.HOTP_SWITCH_BELOW_START,
-        RegionName.HOTP_START_BOTTOM_MID,
+        LocationName.HOP_SWITCH_BELOW_START,
+        RegionName.HOP_START_BOTTOM_MID,
         LocationGroup.SWITCH,
-        Area.HOTP,
+        Area.HOP,
         room="L32",
     ),
     LocationData(
-        LocationName.HOTP_SWITCH_LEFT_2,
-        RegionName.HOTP_START_MID,
+        LocationName.HOP_SWITCH_LEFT_2,
+        RegionName.HOP_START_MID,
         LocationGroup.SWITCH,
-        Area.HOTP,
+        Area.HOP,
         room="J33",
     ),
     LocationData(
-        LocationName.HOTP_SWITCH_LEFT_1,
-        RegionName.HOTP_START_MID,
+        LocationName.HOP_SWITCH_LEFT_1,
+        RegionName.HOP_START_MID,
         LocationGroup.SWITCH,
-        Area.HOTP,
+        Area.HOP,
         room="J33",
     ),
     LocationData(
-        LocationName.HOTP_SWITCH_LOWER_SHORTCUT,
-        RegionName.HOTP_LOWER,
+        LocationName.HOP_SWITCH_LOWER_SHORTCUT,
+        RegionName.HOP_LOWER,
         LocationGroup.SWITCH,
-        Area.HOTP,
+        Area.HOP,
         room="K31",
     ),
-    LocationData(LocationName.HOTP_SWITCH_BELL, RegionName.HOTP_BELL, LocationGroup.SWITCH, Area.HOTP, room="F29"),
+    LocationData(LocationName.HOP_SWITCH_BELL, RegionName.HOP_BELL, LocationGroup.SWITCH, Area.HOP, room="F29"),
     LocationData(
-        LocationName.HOTP_SWITCH_GHOST_BLOOD,
-        RegionName.HOTP_GHOST_BLOOD,
+        LocationName.HOP_SWITCH_GHOST_BLOOD,
+        RegionName.HOP_GHOST_BLOOD,
         LocationGroup.SWITCH,
-        Area.HOTP,
+        Area.HOP,
         room="G32",
     ),
     LocationData(
-        LocationName.HOTP_SWITCH_TELEPORTS,
-        RegionName.HOTP_LOWER_ARIAS,
+        LocationName.HOP_SWITCH_TELEPORTS,
+        RegionName.HOP_LOWER_ARIAS,
         LocationGroup.SWITCH,
-        Area.HOTP,
+        Area.HOP,
         room="G31",
     ),
     LocationData(
-        LocationName.HOTP_SWITCH_WORM_PILLAR,
-        RegionName.HOTP_ELEVATOR,
+        LocationName.HOP_SWITCH_WORM_PILLAR,
+        RegionName.HOP_ELEVATOR,
         LocationGroup.SWITCH,
-        Area.HOTP,
+        Area.HOP,
         room="G33",
     ),
     LocationData(
-        LocationName.HOTP_SWITCH_TO_CLAW_1,
-        RegionName.HOTP_ELEVATOR,
+        LocationName.HOP_SWITCH_TO_CLAW_1,
+        RegionName.HOP_ELEVATOR,
         LocationGroup.SWITCH,
-        Area.HOTP,
+        Area.HOP,
         room="H35",
     ),
     LocationData(
-        LocationName.HOTP_SWITCH_TO_CLAW_2,
-        RegionName.HOTP_ELEVATOR,
+        LocationName.HOP_SWITCH_TO_CLAW_2,
+        RegionName.HOP_ELEVATOR,
         LocationGroup.SWITCH,
-        Area.HOTP,
+        Area.HOP,
         room="H35",
     ),
     LocationData(
-        LocationName.HOTP_SWITCH_CLAW_ACCESS,
-        RegionName.HOTP_CLAW_CAMPFIRE,
+        LocationName.HOP_SWITCH_CLAW_ACCESS,
+        RegionName.HOP_CLAW_CAMPFIRE,
         LocationGroup.SWITCH,
-        Area.HOTP,
+        Area.HOP,
         room="L36",
     ),
     LocationData(
-        LocationName.HOTP_SWITCH_GHOSTS,
-        RegionName.HOTP_START_MID,
+        LocationName.HOP_SWITCH_GHOSTS,
+        RegionName.HOP_START_MID,
         LocationGroup.SWITCH,
-        Area.HOTP,
+        Area.HOP,
         room="K32",
     ),
     LocationData(
-        LocationName.HOTP_SWITCH_LEFT_3,
-        RegionName.HOTP_START_MID,
+        LocationName.HOP_SWITCH_LEFT_3,
+        RegionName.HOP_START_MID,
         LocationGroup.SWITCH,
-        Area.HOTP,
+        Area.HOP,
         room="J33",
     ),
     LocationData(
-        LocationName.HOTP_SWITCH_ABOVE_OLD_MAN,
-        RegionName.HOTP_ABOVE_OLD_MAN,
+        LocationName.HOP_SWITCH_ABOVE_OLD_MAN,
+        RegionName.HOP_ABOVE_OLD_MAN,
         LocationGroup.SWITCH,
-        Area.HOTP,
+        Area.HOP,
         room="G38",
     ),
     LocationData(
-        LocationName.HOTP_SWITCH_TO_ABOVE_OLD_MAN,
-        RegionName.HOTP_TOP_LEFT,
+        LocationName.HOP_SWITCH_TO_ABOVE_OLD_MAN,
+        RegionName.HOP_TOP_LEFT,
         LocationGroup.SWITCH,
-        Area.HOTP,
+        Area.HOP,
         room="H37",
     ),
     LocationData(
-        LocationName.HOTP_SWITCH_TP_PUZZLE,
-        RegionName.HOTP_TP_PUZZLE,
+        LocationName.HOP_SWITCH_TP_PUZZLE,
+        RegionName.HOP_TP_PUZZLE,
         LocationGroup.SWITCH,
-        Area.HOTP,
+        Area.HOP,
         room="N40",
     ),
     LocationData(
-        LocationName.HOTP_SWITCH_EYEBALL_SHORTCUT,
-        RegionName.HOTP_WORM_SHORTCUT,
+        LocationName.HOP_SWITCH_EYEBALL_SHORTCUT,
+        RegionName.HOP_WORM_SHORTCUT,
         LocationGroup.SWITCH,
-        Area.HOTP,
+        Area.HOP,
         room="G32",
     ),
     LocationData(
-        LocationName.HOTP_SWITCH_BELL_ACCESS,
-        RegionName.HOTP_BELL_CAMPFIRE,
+        LocationName.HOP_SWITCH_BELL_ACCESS,
+        RegionName.HOP_BELL_CAMPFIRE,
         LocationGroup.SWITCH,
-        Area.HOTP,
+        Area.HOP,
         room="G29",
     ),
-    LocationData(LocationName.HOTP_SWITCH_1ST_ROOM, RegionName.HOTP_START, LocationGroup.SWITCH, Area.HOTP, room="L33"),
+    LocationData(LocationName.HOP_SWITCH_1ST_ROOM, RegionName.HOP_START, LocationGroup.SWITCH, Area.HOP, room="L33"),
     LocationData(
-        LocationName.HOTP_SWITCH_LEFT_BACKTRACK,
-        RegionName.HOTP_ELEVATOR,
+        LocationName.HOP_SWITCH_LEFT_BACKTRACK,
+        RegionName.HOP_ELEVATOR,
         LocationGroup.SWITCH,
-        Area.HOTP,
+        Area.HOP,
         room="I33",
     ),
     LocationData(
-        LocationName.HOTP_CRYSTAL_ROCK_ACCESS,
-        RegionName.HOTP_MECH_VOID_CONNECTION,
+        LocationName.HOP_CRYSTAL_ROCK_ACCESS,
+        RegionName.HOP_MECH_VOID_CONNECTION,
         LocationGroup.SWITCH,
-        Area.HOTP,
+        Area.HOP,
         room="J27",
     ),
     LocationData(
-        LocationName.HOTP_CRYSTAL_BOTTOM,
-        RegionName.HOTP_MECH_VOID_CONNECTION,
+        LocationName.HOP_CRYSTAL_BOTTOM,
+        RegionName.HOP_MECH_VOID_CONNECTION,
         LocationGroup.SWITCH,
-        Area.HOTP,
+        Area.HOP,
         room="J29",
     ),
-    LocationData(LocationName.HOTP_CRYSTAL_LOWER, RegionName.HOTP_LOWER, LocationGroup.SWITCH, Area.HOTP, room="K31"),
+    LocationData(LocationName.HOP_CRYSTAL_LOWER, RegionName.HOP_LOWER, LocationGroup.SWITCH, Area.HOP, room="K31"),
     LocationData(
-        LocationName.HOTP_CRYSTAL_AFTER_CLAW,
-        RegionName.HOTP_CLAW_CAMPFIRE,
+        LocationName.HOP_CRYSTAL_AFTER_CLAW,
+        RegionName.HOP_CLAW_CAMPFIRE,
         LocationGroup.SWITCH,
-        Area.HOTP,
+        Area.HOP,
         room="K38",
     ),
     LocationData(
-        LocationName.HOTP_CRYSTAL_MAIDEN_1,
-        RegionName.HOTP_MAIDEN,
+        LocationName.HOP_CRYSTAL_MAIDEN_1,
+        RegionName.HOP_MAIDEN,
         LocationGroup.SWITCH,
-        Area.HOTP,
+        Area.HOP,
         room="J41",
     ),
     LocationData(
-        LocationName.HOTP_CRYSTAL_MAIDEN_2,
-        RegionName.HOTP_MAIDEN,
+        LocationName.HOP_CRYSTAL_MAIDEN_2,
+        RegionName.HOP_MAIDEN,
         LocationGroup.SWITCH,
-        Area.HOTP,
+        Area.HOP,
         room="J42",
     ),
     LocationData(
-        LocationName.HOTP_CRYSTAL_BELL_ACCESS,
-        RegionName.HOTP_BELL_CAMPFIRE,
+        LocationName.HOP_CRYSTAL_BELL_ACCESS,
+        RegionName.HOP_BELL_CAMPFIRE,
         LocationGroup.SWITCH,
-        Area.HOTP,
+        Area.HOP,
         room="H29",
     ),
     LocationData(
-        LocationName.HOTP_CRYSTAL_HEART,
-        RegionName.HOTP_BOSS_CAMPFIRE,
+        LocationName.HOP_CRYSTAL_HEART,
+        RegionName.HOP_BOSS_CAMPFIRE,
         LocationGroup.SWITCH,
-        Area.HOTP,
+        Area.HOP,
         room="L38",
     ),
     LocationData(
-        LocationName.HOTP_CRYSTAL_BELOW_PUZZLE,
-        RegionName.HOTP_TP_FALL_TOP,
+        LocationName.HOP_CRYSTAL_BELOW_PUZZLE,
+        RegionName.HOP_TP_FALL_TOP,
         LocationGroup.SWITCH,
-        Area.HOTP,
+        Area.HOP,
         room="N39",
     ),
-    LocationData(LocationName.HOTP_FACE_OLD_MAN, RegionName.HOTP_ELEVATOR, LocationGroup.SWITCH, Area.HOTP, room="F36"),
-    LocationData(LocationName.ROA_ELEVATOR_1, RegionName.HOTP_BOSS, LocationGroup.ELEVATOR, Area.ROA, room="M41"),
+    LocationData(LocationName.HOP_FACE_OLD_MAN, RegionName.HOP_ELEVATOR, LocationGroup.SWITCH, Area.HOP, room="F36"),
+    LocationData(LocationName.ROA_ELEVATOR_1, RegionName.HOP_BOSS, LocationGroup.ELEVATOR, Area.ROA, room="M41"),
     LocationData(LocationName.ROA_ELEVATOR_2, RegionName.ROA_ELEVATOR, LocationGroup.ELEVATOR, Area.ROA, room="O57"),
     LocationData(
         LocationName.ROA_SWITCH_ASCEND,
@@ -2059,7 +2059,7 @@ ALL_LOCATIONS: tuple[LocationData, ...] = (
     ),
     LocationData(
         LocationName.MECH_CANDLE_MAZE_BACKDOOR,
-        RegionName.HOTP_FALL_BOTTOM,
+        RegionName.HOP_FALL_BOTTOM,
         LocationGroup.CANDLE,
         Area.MECH,
         room="R36",
@@ -2094,97 +2094,97 @@ ALL_LOCATIONS: tuple[LocationData, ...] = (
         Area.MECH,
         room="T32",
     ),
-    LocationData(LocationName.HOTP_CANDLE_1ST_ROOM, RegionName.HOTP_START, LocationGroup.CANDLE, Area.HOTP, room="L33"),
-    LocationData(LocationName.HOTP_CANDLE_LOWER, RegionName.HOTP_LOWER, LocationGroup.CANDLE, Area.HOTP, room="K30"),
+    LocationData(LocationName.HOP_CANDLE_1ST_ROOM, RegionName.HOP_START, LocationGroup.CANDLE, Area.HOP, room="L33"),
+    LocationData(LocationName.HOP_CANDLE_LOWER, RegionName.HOP_LOWER, LocationGroup.CANDLE, Area.HOP, room="K30"),
     LocationData(
-        LocationName.HOTP_CANDLE_BELL,
-        RegionName.HOTP_BELL_CAMPFIRE,
+        LocationName.HOP_CANDLE_BELL,
+        RegionName.HOP_BELL_CAMPFIRE,
         LocationGroup.CANDLE,
-        Area.HOTP,
+        Area.HOP,
         room="H30",
     ),
     LocationData(
-        LocationName.HOTP_CANDLE_EYEBALL,
-        RegionName.HOTP_EYEBALL,
+        LocationName.HOP_CANDLE_EYEBALL,
+        RegionName.HOP_EYEBALL,
         LocationGroup.CANDLE,
-        Area.HOTP,
+        Area.HOP,
         room="F32",
     ),
     LocationData(
-        LocationName.HOTP_CANDLE_OLD_MAN,
-        RegionName.HOTP_ELEVATOR,
+        LocationName.HOP_CANDLE_OLD_MAN,
+        RegionName.HOP_ELEVATOR,
         LocationGroup.CANDLE,
-        Area.HOTP,
+        Area.HOP,
         room="F36",
     ),
     LocationData(
-        LocationName.HOTP_CANDLE_BEFORE_CLAW,
-        RegionName.HOTP_TOP_LEFT,
+        LocationName.HOP_CANDLE_BEFORE_CLAW,
+        RegionName.HOP_TOP_LEFT,
         LocationGroup.CANDLE,
-        Area.HOTP,
+        Area.HOP,
         room="H36",
     ),
     LocationData(
-        LocationName.HOTP_CANDLE_CLAW_CAMPFIRE,
-        RegionName.HOTP_CLAW_CAMPFIRE,
+        LocationName.HOP_CANDLE_CLAW_CAMPFIRE,
+        RegionName.HOP_CLAW_CAMPFIRE,
         LocationGroup.CANDLE,
-        Area.HOTP,
+        Area.HOP,
         room="K37",
     ),
     LocationData(
-        LocationName.HOTP_CANDLE_TP_PUZZLE,
-        RegionName.HOTP_BOSS_CAMPFIRE,
+        LocationName.HOP_CANDLE_TP_PUZZLE,
+        RegionName.HOP_BOSS_CAMPFIRE,
         LocationGroup.CANDLE,
-        Area.HOTP,
+        Area.HOP,
         room="L40",
     ),
     LocationData(
-        LocationName.HOTP_CANDLE_BOSS,
-        RegionName.HOTP_BOSS_CAMPFIRE,
+        LocationName.HOP_CANDLE_BOSS,
+        RegionName.HOP_BOSS_CAMPFIRE,
         LocationGroup.CANDLE,
-        Area.HOTP,
+        Area.HOP,
         room="L41",
     ),
     LocationData(
-        LocationName.HOTP_CANDLE_TP_FALL,
-        RegionName.HOTP_TP_FALL_TOP,
+        LocationName.HOP_CANDLE_TP_FALL,
+        RegionName.HOP_TP_FALL_TOP,
         LocationGroup.CANDLE,
-        Area.HOTP,
+        Area.HOP,
         room="P40",
     ),
     LocationData(
-        LocationName.HOTP_CANDLE_UPPER_VOID_1,
-        RegionName.HOTP_UPPER_VOID,
+        LocationName.HOP_CANDLE_UPPER_VOID_1,
+        RegionName.HOP_UPPER_VOID,
         LocationGroup.CANDLE,
-        Area.HOTP,
+        Area.HOP,
         room="O37",
     ),
     LocationData(
-        LocationName.HOTP_CANDLE_UPPER_VOID_2,
-        RegionName.HOTP_UPPER_VOID,
+        LocationName.HOP_CANDLE_UPPER_VOID_2,
+        RegionName.HOP_UPPER_VOID,
         LocationGroup.CANDLE,
-        Area.HOTP,
+        Area.HOP,
         room="O37",
     ),
     LocationData(
-        LocationName.HOTP_CANDLE_UPPER_VOID_3,
-        RegionName.HOTP_UPPER_VOID,
+        LocationName.HOP_CANDLE_UPPER_VOID_3,
+        RegionName.HOP_UPPER_VOID,
         LocationGroup.CANDLE,
-        Area.HOTP,
+        Area.HOP,
         room="O37",
     ),
     LocationData(
-        LocationName.HOTP_CANDLE_UPPER_VOID_4,
-        RegionName.HOTP_UPPER_VOID,
+        LocationName.HOP_CANDLE_UPPER_VOID_4,
+        RegionName.HOP_UPPER_VOID,
         LocationGroup.CANDLE,
-        Area.HOTP,
+        Area.HOP,
         room="O37",
     ),
     LocationData(
-        LocationName.HOTP_CANDLE_ELEVATOR,
-        RegionName.HOTP_ELEVATOR,
+        LocationName.HOP_CANDLE_ELEVATOR,
+        RegionName.HOP_ELEVATOR,
         LocationGroup.CANDLE,
-        Area.HOTP,
+        Area.HOP,
         room="G34",
     ),
     LocationData(LocationName.ROA_CANDLE_1ST_ROOM, RegionName.ROA_START, LocationGroup.CANDLE, Area.ROA, room="O41"),
@@ -2433,10 +2433,10 @@ ALL_LOCATIONS: tuple[LocationData, ...] = (
         room="S31",
     ),
     LocationData(
-        LocationName.HOTP_SKULL_PUZZLE,
-        RegionName.HOTP_TP_TUTORIAL,
+        LocationName.HOP_SKULL_PUZZLE,
+        RegionName.HOP_TP_TUTORIAL,
         LocationGroup.SWITCH,
-        Area.HOTP,
+        Area.HOP,
         room="I31",
     ),
     LocationData(LocationName.GT_ORB_MULTI, RegionName.GT_ENTRANCE, LocationGroup.ORBS, Area.GT, room="K19"),

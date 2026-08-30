@@ -1071,13 +1071,13 @@
         ]
       },
       {
-        "name": "Hall of the Phantoms F29",
+        "name": "Hall of Phantoms F29",
         "sections": [
           {
-            "name": "HotP Athena's Bell"
+            "name": "HoP Athena's Bell"
           },
           {
-            "name": "HotP Switch Bell"
+            "name": "HoP Switch Bell"
           }
         ],
         "map_locations": [
@@ -1094,10 +1094,10 @@
         ]
       },
       {
-        "name": "Hall of the Phantoms I28",
+        "name": "Hall of Phantoms I28",
         "sections": [
           {
-            "name": "HotP Amulet of Sol"
+            "name": "HoP Amulet of Sol"
           }
         ],
         "map_locations": [
@@ -1119,10 +1119,10 @@
         ]
       },
       {
-        "name": "Hall of the Phantoms N36",
+        "name": "Hall of Phantoms N36",
         "sections": [
           {
-            "name": "HotP Griffon Claw"
+            "name": "HoP Griffon Claw"
           }
         ],
         "map_locations": [
@@ -1144,10 +1144,10 @@
         ]
       },
       {
-        "name": "Hall of the Phantoms R42",
+        "name": "Hall of Phantoms R42",
         "sections": [
           {
-            "name": "HotP Boreas Gauntlet"
+            "name": "HoP Boreas Gauntlet"
           }
         ],
         "map_locations": [
@@ -1164,10 +1164,10 @@
         ]
       },
       {
-        "name": "Hall of the Phantoms K43",
+        "name": "Hall of Phantoms K43",
         "sections": [
           {
-            "name": "HotP Dead Maiden's Ring"
+            "name": "HoP Dead Maiden's Ring"
           }
         ],
         "map_locations": [
@@ -1194,10 +1194,10 @@
         ]
       },
       {
-        "name": "Hall of the Phantoms K36",
+        "name": "Hall of Phantoms K36",
         "sections": [
           {
-            "name": "HotP Max HP Up Griffon Claw"
+            "name": "HoP Max HP Up Griffon Claw"
           }
         ],
         "map_locations": [
@@ -1219,13 +1219,13 @@
         ]
       },
       {
-        "name": "Hall of the Phantoms H33",
+        "name": "Hall of Phantoms H33",
         "sections": [
           {
-            "name": "HotP Max HP Up Secret Ladder"
+            "name": "HoP Max HP Up Secret Ladder"
           },
           {
-            "name": "HotP Blue Key Secret Ladder"
+            "name": "HoP Blue Key Secret Ladder"
           }
         ],
         "map_locations": [
@@ -1242,10 +1242,10 @@
         ]
       },
       {
-        "name": "Hall of the Phantoms R39",
+        "name": "Hall of Phantoms R39",
         "sections": [
           {
-            "name": "HotP Max HP Up Boreas Gauntlet"
+            "name": "HoP Max HP Up Boreas Gauntlet"
           }
         ],
         "map_locations": [
@@ -1262,10 +1262,10 @@
         ]
       },
       {
-        "name": "Hall of the Phantoms G39",
+        "name": "Hall of Phantoms G39",
         "sections": [
           {
-            "name": "HotP Max HP Up Old Man"
+            "name": "HoP Max HP Up Old Man"
           }
         ],
         "map_locations": [
@@ -1282,10 +1282,10 @@
         ]
       },
       {
-        "name": "Hall of the Phantoms K34",
+        "name": "Hall of Phantoms K34",
         "sections": [
           {
-            "name": "HotP Max HP Up Teleport Maze"
+            "name": "HoP Max HP Up Teleport Maze"
           }
         ],
         "map_locations": [
@@ -1307,10 +1307,10 @@
         ]
       },
       {
-        "name": "Hall of the Phantoms L35",
+        "name": "Hall of Phantoms L35",
         "sections": [
           {
-            "name": "HotP Max HP Up Above Start"
+            "name": "HoP Max HP Up Above Start"
           }
         ],
         "map_locations": [
@@ -1332,13 +1332,13 @@
         ]
       },
       {
-        "name": "Hall of the Phantoms I33",
+        "name": "Hall of Phantoms I33",
         "sections": [
           {
-            "name": "HotP White Key Left of Start"
+            "name": "HoP White Key Left of Start"
           },
           {
-            "name": "HotP Switch Left Backtrack"
+            "name": "HoP Switch Left Backtrack"
           }
         ],
         "map_locations": [
@@ -1355,10 +1355,10 @@
         ]
       },
       {
-        "name": "Hall of the Phantoms J31",
+        "name": "Hall of Phantoms J31",
         "sections": [
           {
-            "name": "HotP White Key Ghost"
+            "name": "HoP White Key Ghost"
           }
         ],
         "map_locations": [
@@ -1375,10 +1375,10 @@
         ]
       },
       {
-        "name": "Hall of the Phantoms G35",
+        "name": "Hall of Phantoms G35",
         "sections": [
           {
-            "name": "HotP White Key Old Man"
+            "name": "HoP White Key Old Man"
           }
         ],
         "map_locations": [
@@ -1395,10 +1395,10 @@
         ]
       },
       {
-        "name": "Hall of the Phantoms L39",
+        "name": "Hall of Phantoms L39",
         "sections": [
           {
-            "name": "HotP White Key Boss"
+            "name": "HoP White Key Boss"
           }
         ],
         "map_locations": [
@@ -1415,10 +1415,10 @@
         ]
       },
       {
-        "name": "Hall of the Phantoms L30",
+        "name": "Hall of Phantoms L30",
         "sections": [
           {
-            "name": "HotP Blue Key Epimetheus"
+            "name": "HoP Blue Key Epimetheus"
           }
         ],
         "map_locations": [
@@ -1440,10 +1440,10 @@
         ]
       },
       {
-        "name": "Hall of the Phantoms K29",
+        "name": "Hall of Phantoms K29",
         "sections": [
           {
-            "name": "HotP Blue Key Gold Hint"
+            "name": "HoP Blue Key Gold Hint"
           }
         ],
         "map_locations": [
@@ -1465,10 +1465,10 @@
         ]
       },
       {
-        "name": "Hall of the Phantoms J28",
+        "name": "Hall of Phantoms J28",
         "sections": [
           {
-            "name": "HotP Blue Key Amulet of Sol"
+            "name": "HoP Blue Key Amulet of Sol"
           }
         ],
         "map_locations": [
@@ -1490,10 +1490,10 @@
         ]
       },
       {
-        "name": "Hall of the Phantoms E33",
+        "name": "Hall of Phantoms E33",
         "sections": [
           {
-            "name": "HotP Blue Key Spike Teleporters"
+            "name": "HoP Blue Key Spike Teleporters"
           }
         ],
         "map_locations": [
@@ -1515,13 +1515,13 @@
         ]
       },
       {
-        "name": "Hall of the Phantoms N39",
+        "name": "Hall of Phantoms N39",
         "sections": [
           {
-            "name": "HotP Blue Key Teleport Maze"
+            "name": "HoP Blue Key Teleport Maze"
           },
           {
-            "name": "HotP Crystal Below Puzzle"
+            "name": "HoP Crystal Below Puzzle"
           }
         ],
         "map_locations": [
@@ -1538,10 +1538,10 @@
         ]
       },
       {
-        "name": "Hall of the Phantoms I30",
+        "name": "Hall of Phantoms I30",
         "sections": [
           {
-            "name": "HotP Red Key"
+            "name": "HoP Red Key"
           }
         ],
         "map_locations": [
@@ -3936,10 +3936,10 @@
         ]
       },
       {
-        "name": "Hall of the Phantoms F34",
+        "name": "Hall of Phantoms F34",
         "sections": [
           {
-            "name": "HotP Elevator"
+            "name": "HoP Elevator"
           }
         ],
         "map_locations": [
@@ -3956,13 +3956,13 @@
         ]
       },
       {
-        "name": "Hall of the Phantoms J27",
+        "name": "Hall of Phantoms J27",
         "sections": [
           {
-            "name": "HotP Switch Rock"
+            "name": "HoP Switch Rock"
           },
           {
-            "name": "HotP Crystal Rock Access"
+            "name": "HoP Crystal Rock Access"
           }
         ],
         "map_locations": [
@@ -3984,10 +3984,10 @@
         ]
       },
       {
-        "name": "Hall of the Phantoms L32",
+        "name": "Hall of Phantoms L32",
         "sections": [
           {
-            "name": "HotP Switch Below Start"
+            "name": "HoP Switch Below Start"
           }
         ],
         "map_locations": [
@@ -4009,16 +4009,16 @@
         ]
       },
       {
-        "name": "Hall of the Phantoms J33",
+        "name": "Hall of Phantoms J33",
         "sections": [
           {
-            "name": "HotP Switch Left 2"
+            "name": "HoP Switch Left 2"
           },
           {
-            "name": "HotP Switch Left 1"
+            "name": "HoP Switch Left 1"
           },
           {
-            "name": "HotP Switch Left 3"
+            "name": "HoP Switch Left 3"
           }
         ],
         "map_locations": [
@@ -4035,13 +4035,13 @@
         ]
       },
       {
-        "name": "Hall of the Phantoms K31",
+        "name": "Hall of Phantoms K31",
         "sections": [
           {
-            "name": "HotP Switch Lower Shortcut"
+            "name": "HoP Switch Lower Shortcut"
           },
           {
-            "name": "HotP Crystal Lower"
+            "name": "HoP Crystal Lower"
           }
         ],
         "map_locations": [
@@ -4063,13 +4063,13 @@
         ]
       },
       {
-        "name": "Hall of the Phantoms G32",
+        "name": "Hall of Phantoms G32",
         "sections": [
           {
-            "name": "HotP Switch Ghost Blood"
+            "name": "HoP Switch Ghost Blood"
           },
           {
-            "name": "HotP Switch Eyeball Shortcut"
+            "name": "HoP Switch Eyeball Shortcut"
           }
         ],
         "map_locations": [
@@ -4086,10 +4086,10 @@
         ]
       },
       {
-        "name": "Hall of the Phantoms G31",
+        "name": "Hall of Phantoms G31",
         "sections": [
           {
-            "name": "HotP Switch Teleports"
+            "name": "HoP Switch Teleports"
           }
         ],
         "map_locations": [
@@ -4106,10 +4106,10 @@
         ]
       },
       {
-        "name": "Hall of the Phantoms G33",
+        "name": "Hall of Phantoms G33",
         "sections": [
           {
-            "name": "HotP Switch Worm Pillar"
+            "name": "HoP Switch Worm Pillar"
           }
         ],
         "map_locations": [
@@ -4126,13 +4126,13 @@
         ]
       },
       {
-        "name": "Hall of the Phantoms H35",
+        "name": "Hall of Phantoms H35",
         "sections": [
           {
-            "name": "HotP Switch To Claw 1"
+            "name": "HoP Switch To Claw 1"
           },
           {
-            "name": "HotP Switch To Claw 2"
+            "name": "HoP Switch To Claw 2"
           }
         ],
         "map_locations": [
@@ -4149,10 +4149,10 @@
         ]
       },
       {
-        "name": "Hall of the Phantoms L36",
+        "name": "Hall of Phantoms L36",
         "sections": [
           {
-            "name": "HotP Switch Claw Access"
+            "name": "HoP Switch Claw Access"
           }
         ],
         "map_locations": [
@@ -4174,10 +4174,10 @@
         ]
       },
       {
-        "name": "Hall of the Phantoms K32",
+        "name": "Hall of Phantoms K32",
         "sections": [
           {
-            "name": "HotP Switch Ghosts"
+            "name": "HoP Switch Ghosts"
           }
         ],
         "map_locations": [
@@ -4199,10 +4199,10 @@
         ]
       },
       {
-        "name": "Hall of the Phantoms G38",
+        "name": "Hall of Phantoms G38",
         "sections": [
           {
-            "name": "HotP Switch Above Old Man"
+            "name": "HoP Switch Above Old Man"
           }
         ],
         "map_locations": [
@@ -4219,10 +4219,10 @@
         ]
       },
       {
-        "name": "Hall of the Phantoms H37",
+        "name": "Hall of Phantoms H37",
         "sections": [
           {
-            "name": "HotP Switch To Above Old Man"
+            "name": "HoP Switch To Above Old Man"
           }
         ],
         "map_locations": [
@@ -4239,10 +4239,10 @@
         ]
       },
       {
-        "name": "Hall of the Phantoms N40",
+        "name": "Hall of Phantoms N40",
         "sections": [
           {
-            "name": "HotP Switch Teleport Puzzle"
+            "name": "HoP Switch Teleport Puzzle"
           }
         ],
         "map_locations": [
@@ -4259,10 +4259,10 @@
         ]
       },
       {
-        "name": "Hall of the Phantoms G29",
+        "name": "Hall of Phantoms G29",
         "sections": [
           {
-            "name": "HotP Switch Bell Access"
+            "name": "HoP Switch Bell Access"
           }
         ],
         "map_locations": [
@@ -4279,13 +4279,13 @@
         ]
       },
       {
-        "name": "Hall of the Phantoms L33",
+        "name": "Hall of Phantoms L33",
         "sections": [
           {
-            "name": "HotP Switch 1st Room"
+            "name": "HoP Switch 1st Room"
           },
           {
-            "name": "HotP Candle 1st Room"
+            "name": "HoP Candle 1st Room"
           }
         ],
         "map_locations": [
@@ -4307,10 +4307,10 @@
         ]
       },
       {
-        "name": "Hall of the Phantoms J29",
+        "name": "Hall of Phantoms J29",
         "sections": [
           {
-            "name": "HotP Crystal Bottom"
+            "name": "HoP Crystal Bottom"
           }
         ],
         "map_locations": [
@@ -4327,10 +4327,10 @@
         ]
       },
       {
-        "name": "Hall of the Phantoms K38",
+        "name": "Hall of Phantoms K38",
         "sections": [
           {
-            "name": "HotP Crystal After Claw"
+            "name": "HoP Crystal After Claw"
           }
         ],
         "map_locations": [
@@ -4352,10 +4352,10 @@
         ]
       },
       {
-        "name": "Hall of the Phantoms J41",
+        "name": "Hall of Phantoms J41",
         "sections": [
           {
-            "name": "HotP Crystal Dead Maiden 1"
+            "name": "HoP Crystal Dead Maiden 1"
           }
         ],
         "map_locations": [
@@ -4382,10 +4382,10 @@
         ]
       },
       {
-        "name": "Hall of the Phantoms J42",
+        "name": "Hall of Phantoms J42",
         "sections": [
           {
-            "name": "HotP Crystal Dead Maiden 2"
+            "name": "HoP Crystal Dead Maiden 2"
           }
         ],
         "map_locations": [
@@ -4412,10 +4412,10 @@
         ]
       },
       {
-        "name": "Hall of the Phantoms H29",
+        "name": "Hall of Phantoms H29",
         "sections": [
           {
-            "name": "HotP Crystal Bell Access"
+            "name": "HoP Crystal Bell Access"
           }
         ],
         "map_locations": [
@@ -4432,10 +4432,10 @@
         ]
       },
       {
-        "name": "Hall of the Phantoms L38",
+        "name": "Hall of Phantoms L38",
         "sections": [
           {
-            "name": "HotP Crystal Heart"
+            "name": "HoP Crystal Heart"
           }
         ],
         "map_locations": [
@@ -4457,13 +4457,13 @@
         ]
       },
       {
-        "name": "Hall of the Phantoms F36",
+        "name": "Hall of Phantoms F36",
         "sections": [
           {
-            "name": "HotP Face Old Man"
+            "name": "HoP Face Old Man"
           },
           {
-            "name": "HotP Candle Old Man"
+            "name": "HoP Candle Old Man"
           }
         ],
         "map_locations": [
@@ -6321,10 +6321,10 @@
         ]
       },
       {
-        "name": "Hall of the Phantoms K30",
+        "name": "Hall of Phantoms K30",
         "sections": [
           {
-            "name": "HotP Candle Lower"
+            "name": "HoP Candle Lower"
           }
         ],
         "map_locations": [
@@ -6346,10 +6346,10 @@
         ]
       },
       {
-        "name": "Hall of the Phantoms H30",
+        "name": "Hall of Phantoms H30",
         "sections": [
           {
-            "name": "HotP Candle Bell"
+            "name": "HoP Candle Bell"
           }
         ],
         "map_locations": [
@@ -6366,10 +6366,10 @@
         ]
       },
       {
-        "name": "Hall of the Phantoms F32",
+        "name": "Hall of Phantoms F32",
         "sections": [
           {
-            "name": "HotP Candle Eyeball"
+            "name": "HoP Candle Eyeball"
           }
         ],
         "map_locations": [
@@ -6386,10 +6386,10 @@
         ]
       },
       {
-        "name": "Hall of the Phantoms H36",
+        "name": "Hall of Phantoms H36",
         "sections": [
           {
-            "name": "HotP Candle Before Claw"
+            "name": "HoP Candle Before Claw"
           }
         ],
         "map_locations": [
@@ -6406,10 +6406,10 @@
         ]
       },
       {
-        "name": "Hall of the Phantoms K37",
+        "name": "Hall of Phantoms K37",
         "sections": [
           {
-            "name": "HotP Candle Claw Campfire"
+            "name": "HoP Candle Claw Campfire"
           }
         ],
         "map_locations": [
@@ -6431,10 +6431,10 @@
         ]
       },
       {
-        "name": "Hall of the Phantoms L40",
+        "name": "Hall of Phantoms L40",
         "sections": [
           {
-            "name": "HotP Candle Teleport Puzzle"
+            "name": "HoP Candle Teleport Puzzle"
           }
         ],
         "map_locations": [
@@ -6451,10 +6451,10 @@
         ]
       },
       {
-        "name": "Hall of the Phantoms L41",
+        "name": "Hall of Phantoms L41",
         "sections": [
           {
-            "name": "HotP Candle Boss"
+            "name": "HoP Candle Boss"
           }
         ],
         "map_locations": [
@@ -6476,10 +6476,10 @@
         ]
       },
       {
-        "name": "Hall of the Phantoms P40",
+        "name": "Hall of Phantoms P40",
         "sections": [
           {
-            "name": "HotP Candle Teleport Fall"
+            "name": "HoP Candle Teleport Fall"
           }
         ],
         "map_locations": [
@@ -6496,19 +6496,19 @@
         ]
       },
       {
-        "name": "Hall of the Phantoms O37",
+        "name": "Hall of Phantoms O37",
         "sections": [
           {
-            "name": "HotP Candle Upper Void 1"
+            "name": "HoP Candle Upper Void 1"
           },
           {
-            "name": "HotP Candle Upper Void 2"
+            "name": "HoP Candle Upper Void 2"
           },
           {
-            "name": "HotP Candle Upper Void 3"
+            "name": "HoP Candle Upper Void 3"
           },
           {
-            "name": "HotP Candle Upper Void 4"
+            "name": "HoP Candle Upper Void 4"
           }
         ],
         "map_locations": [
@@ -6530,10 +6530,10 @@
         ]
       },
       {
-        "name": "Hall of the Phantoms G34",
+        "name": "Hall of Phantoms G34",
         "sections": [
           {
-            "name": "HotP Candle Elevator"
+            "name": "HoP Candle Elevator"
           }
         ],
         "map_locations": [
@@ -7031,10 +7031,10 @@
         ]
       },
       {
-        "name": "Hall of the Phantoms I31",
+        "name": "Hall of Phantoms I31",
         "sections": [
           {
-            "name": "HotP Skull Puzzle"
+            "name": "HoP Skull Puzzle"
           }
         ],
         "map_locations": [

@@ -78,47 +78,47 @@ class RegionName(StrEnum):
     MECH_BRAM_TUNNEL = "Mech Bram Tunnel"
     MECH_BOSS = "Mech Boss"
 
-    HOTP_START = "HotP Start"
-    HOTP_START_MID = "HotP Start Mid"
-    HOTP_LOWER_VOID_CONNECTION = "HotP Lower Void Connection"
-    HOTP_LOWER_VOID = "HotP Lower Void"
-    HOTP_START_LEFT = "HotP Start Left"
-    HOTP_START_BOTTOM = "HotP Start Bottom"
-    HOTP_START_BOTTOM_MID = "HotP Start Bottom/Mid Connection"
-    HOTP_LOWER = "HotP Lower"
-    HOTP_EPIMETHEUS = "HotP Epimetheus"
-    HOTP_MECH_VOID_CONNECTION = "HotP Mech Void Connection"
-    HOTP_AMULET_CONNECTION = "HotP Amulet Connection"
-    HOTP_AMULET = "HotP Amulet of Sol"
-    HOTP_TP_TUTORIAL = "HotP Teleport Tutorial"
-    HOTP_BELL_CAMPFIRE = "HotP Bell Campfire"
-    HOTP_RED_KEY = "HotP Red Key"
-    HOTP_BELL = "HotP Bell"
-    HOTP_CATH_CONNECTION = "HotP Cathedral Connection"
-    HOTP_CATH_VOID = "HotP Cathedral Void"
-    HOTP_LOWER_ARIAS = "HotP Lower Arias"
-    HOTP_GHOST_BLOOD = "HotP Ghost Blood"
-    HOTP_EYEBALL = "HotP Eyeball"
-    HOTP_SPIKE_TP_SECRET = "HotP Spike Teleporters Secret"
-    HOTP_WORM_SHORTCUT = "HotP Worm Pillar Shortcut"
-    HOTP_ELEVATOR = "HotP Elevator"
-    HOTP_OLD_MAN = "HotP Old Man"
-    HOTP_CLAW_LEFT = "HotP Claw Left"
-    HOTP_TOP_LEFT = "HotP Top Left"
-    HOTP_ABOVE_OLD_MAN = "HotP Above Old Man"
-    HOTP_CLAW_CAMPFIRE = "HotP Claw Campfire"
-    HOTP_CLAW = "HotP Griffon Claw"
-    HOTP_HEART = "HotP Heart"
-    HOTP_UPPER_ARIAS = "HotP Upper Arias"
-    HOTP_BOSS_CAMPFIRE = "HotP Boss Campfire"
-    HOTP_MAIDEN = "HotP Dead Maiden"
-    HOTP_TP_PUZZLE = "HotP Teleport Puzzle"
-    HOTP_TP_FALL_TOP = "HotP Teleport Fall Top"
-    HOTP_GAUNTLET_CONNECTION = "HotP Gauntlet Connection"
-    HOTP_GAUNTLET = "HotP Boreas Gauntlet"
-    HOTP_FALL_BOTTOM = "HotP Teleport Fall Bottom"
-    HOTP_UPPER_VOID = "HotP Upper Void"
-    HOTP_BOSS = "HotP Boss"
+    HOP_START = "HoP Start"
+    HOP_START_MID = "HoP Start Mid"
+    HOP_LOWER_VOID_CONNECTION = "HoP Lower Void Connection"
+    HOP_LOWER_VOID = "HoP Lower Void"
+    HOP_START_LEFT = "HoP Start Left"
+    HOP_START_BOTTOM = "HoP Start Bottom"
+    HOP_START_BOTTOM_MID = "HoP Start Bottom/Mid Connection"
+    HOP_LOWER = "HoP Lower"
+    HOP_EPIMETHEUS = "HoP Epimetheus"
+    HOP_MECH_VOID_CONNECTION = "HoP Mech Void Connection"
+    HOP_AMULET_CONNECTION = "HoP Amulet Connection"
+    HOP_AMULET = "HoP Amulet of Sol"
+    HOP_TP_TUTORIAL = "HoP Teleport Tutorial"
+    HOP_BELL_CAMPFIRE = "HoP Bell Campfire"
+    HOP_RED_KEY = "HoP Red Key"
+    HOP_BELL = "HoP Bell"
+    HOP_CATH_CONNECTION = "HoP Cathedral Connection"
+    HOP_CATH_VOID = "HoP Cathedral Void"
+    HOP_LOWER_ARIAS = "HoP Lower Arias"
+    HOP_GHOST_BLOOD = "HoP Ghost Blood"
+    HOP_EYEBALL = "HoP Eyeball"
+    HOP_SPIKE_TP_SECRET = "HoP Spike Teleporters Secret"
+    HOP_WORM_SHORTCUT = "HoP Worm Pillar Shortcut"
+    HOP_ELEVATOR = "HoP Elevator"
+    HOP_OLD_MAN = "HoP Old Man"
+    HOP_CLAW_LEFT = "HoP Claw Left"
+    HOP_TOP_LEFT = "HoP Top Left"
+    HOP_ABOVE_OLD_MAN = "HoP Above Old Man"
+    HOP_CLAW_CAMPFIRE = "HoP Claw Campfire"
+    HOP_CLAW = "HoP Griffon Claw"
+    HOP_HEART = "HoP Heart"
+    HOP_UPPER_ARIAS = "HoP Upper Arias"
+    HOP_BOSS_CAMPFIRE = "HoP Boss Campfire"
+    HOP_MAIDEN = "HoP Dead Maiden"
+    HOP_TP_PUZZLE = "HoP Teleport Puzzle"
+    HOP_TP_FALL_TOP = "HoP Teleport Fall Top"
+    HOP_GAUNTLET_CONNECTION = "HoP Gauntlet Connection"
+    HOP_GAUNTLET = "HoP Boreas Gauntlet"
+    HOP_FALL_BOTTOM = "HoP Teleport Fall Bottom"
+    HOP_UPPER_VOID = "HoP Upper Void"
+    HOP_BOSS = "HoP Boss"
 
     ROA_START = "RoA Start"
     ROA_WORMS = "RoA Worms"
@@ -265,7 +265,7 @@ class RegionName(StrEnum):
 STARTING_REGIONS: Final[dict[int, str]] = {
     0: RegionName.GT_ENTRANCE.value,
     1: RegionName.MECH_START.value,
-    2: RegionName.HOTP_BELL_CAMPFIRE.value,
+    2: RegionName.HOP_BELL_CAMPFIRE.value,
     3: RegionName.ROA_START.value,
     4: RegionName.APEX.value,
     5: RegionName.CATA_BOW_CAMPFIRE.value,
@@ -275,8 +275,8 @@ STARTING_REGIONS: Final[dict[int, str]] = {
 DEFAULT_PORTALS: Final[tuple[tuple[str, str], ...]] = (
     (RegionName.GT_ENTRANCE.value, RegionName.GT_VOID.value),
     (RegionName.MECH_LOWER_VOID.value, RegionName.MECH_UPPER_VOID.value),
-    (RegionName.HOTP_LOWER_VOID.value, RegionName.HOTP_UPPER_VOID.value),
-    (RegionName.HOTP_CATH_VOID.value, RegionName.CATH_START.value),
+    (RegionName.HOP_LOWER_VOID.value, RegionName.HOP_UPPER_VOID.value),
+    (RegionName.HOP_CATH_VOID.value, RegionName.CATH_START.value),
     (RegionName.ROA_LOWER_VOID.value, RegionName.ROA_UPPER_VOID.value),
     (RegionName.CATA_VOID_L.value, RegionName.CATA_VOID_R.value),
 )
@@ -322,8 +322,8 @@ astalon_regions: dict[RegionName, RegionData] = {
             RegionName.GT_BOSS,
             RegionName.MECH_ZEEK_CONNECTION,
             RegionName.MECH_BOSS,
-            RegionName.HOTP_ELEVATOR,
-            RegionName.HOTP_BOSS,
+            RegionName.HOP_ELEVATOR,
+            RegionName.HOP_BOSS,
             RegionName.ROA_ELEVATOR,
             RegionName.APEX,
             RegionName.CATA_ELEVATOR,
@@ -415,8 +415,8 @@ astalon_regions: dict[RegionName, RegionData] = {
             RegionName.MECH_START,
             RegionName.MECH_ZEEK_CONNECTION,
             RegionName.MECH_BOSS,
-            RegionName.HOTP_ELEVATOR,
-            RegionName.HOTP_BOSS,
+            RegionName.HOP_ELEVATOR,
+            RegionName.HOP_BOSS,
             RegionName.ROA_ELEVATOR,
             RegionName.APEX,
             RegionName.CATA_ELEVATOR,
@@ -524,7 +524,7 @@ astalon_regions: dict[RegionName, RegionData] = {
         exits=(
             RegionName.MECH_START,
             RegionName.MECH_UPPER_VOID,
-            RegionName.HOTP_MECH_VOID_CONNECTION,
+            RegionName.HOP_MECH_VOID_CONNECTION,
         ),
         portal=True,
     ),
@@ -558,7 +558,7 @@ astalon_regions: dict[RegionName, RegionData] = {
             RegionName.MECH_BK,
             RegionName.MECH_CHAINS_CANDLE,
             RegionName.MECH_CHAINS,
-            RegionName.HOTP_EPIMETHEUS,
+            RegionName.HOP_EPIMETHEUS,
         ),
         multiplier=True,
         statue=True,
@@ -594,8 +594,8 @@ astalon_regions: dict[RegionName, RegionData] = {
             RegionName.MECH_ARIAS_EYEBALL,
             RegionName.MECH_ZEEK,
             RegionName.MECH_BOSS,
-            RegionName.HOTP_ELEVATOR,
-            RegionName.HOTP_BOSS,
+            RegionName.HOP_ELEVATOR,
+            RegionName.HOP_BOSS,
             RegionName.ROA_ELEVATOR,
             RegionName.APEX,
             RegionName.CATA_ELEVATOR,
@@ -657,7 +657,7 @@ astalon_regions: dict[RegionName, RegionData] = {
         exits=(
             RegionName.MECH_TOP,
             RegionName.MECH_CHARACTER_SWAPS,
-            RegionName.HOTP_FALL_BOTTOM,
+            RegionName.HOP_FALL_BOTTOM,
         ),
     ),
     RegionName.MECH_CHARACTER_SWAPS: RegionData(
@@ -697,7 +697,7 @@ astalon_regions: dict[RegionName, RegionData] = {
     RegionName.MECH_BRAM_TUNNEL: RegionData(
         exits=(
             RegionName.MECH_BRAM_TUNNEL_CONNECTION,
-            RegionName.HOTP_START_BOTTOM,
+            RegionName.HOP_START_BOTTOM,
         ),
     ),
     RegionName.MECH_BOSS: RegionData(
@@ -707,9 +707,9 @@ astalon_regions: dict[RegionName, RegionData] = {
             RegionName.MECH_TRIPLE_SWITCHES,
             RegionName.MECH_ZEEK_CONNECTION,
             RegionName.MECH_BOSS_CONNECTION,
-            RegionName.HOTP_START,
-            RegionName.HOTP_ELEVATOR,
-            RegionName.HOTP_BOSS,
+            RegionName.HOP_START,
+            RegionName.HOP_ELEVATOR,
+            RegionName.HOP_BOSS,
             RegionName.ROA_ELEVATOR,
             RegionName.APEX,
             RegionName.CATA_ELEVATOR,
@@ -720,154 +720,154 @@ astalon_regions: dict[RegionName, RegionData] = {
         campfire=True,
         elevator=True,
     ),
-    RegionName.HOTP_START: RegionData(
+    RegionName.HOP_START: RegionData(
         exits=(
             RegionName.MECH_BOSS,
-            RegionName.HOTP_START_MID,
-            RegionName.HOTP_START_BOTTOM,
+            RegionName.HOP_START_MID,
+            RegionName.HOP_START_BOTTOM,
         ),
     ),
-    RegionName.HOTP_START_MID: RegionData(
+    RegionName.HOP_START_MID: RegionData(
         exits=(
-            RegionName.HOTP_START,
-            RegionName.HOTP_LOWER_VOID_CONNECTION,
-            RegionName.HOTP_START_LEFT,
-            RegionName.HOTP_START_BOTTOM_MID,
+            RegionName.HOP_START,
+            RegionName.HOP_LOWER_VOID_CONNECTION,
+            RegionName.HOP_START_LEFT,
+            RegionName.HOP_START_BOTTOM_MID,
         ),
     ),
-    RegionName.HOTP_LOWER_VOID_CONNECTION: RegionData(
+    RegionName.HOP_LOWER_VOID_CONNECTION: RegionData(
         exits=(
-            RegionName.HOTP_START_MID,
-            RegionName.HOTP_LOWER_VOID,
+            RegionName.HOP_START_MID,
+            RegionName.HOP_LOWER_VOID,
         ),
     ),
-    RegionName.HOTP_LOWER_VOID: RegionData(
+    RegionName.HOP_LOWER_VOID: RegionData(
         exits=(
-            RegionName.HOTP_LOWER_VOID_CONNECTION,
-            RegionName.HOTP_UPPER_VOID,
+            RegionName.HOP_LOWER_VOID_CONNECTION,
+            RegionName.HOP_UPPER_VOID,
         ),
         portal=True,
     ),
-    RegionName.HOTP_START_LEFT: RegionData(
+    RegionName.HOP_START_LEFT: RegionData(
         exits=(
-            RegionName.HOTP_START_MID,
-            RegionName.HOTP_ELEVATOR,
+            RegionName.HOP_START_MID,
+            RegionName.HOP_ELEVATOR,
         ),
     ),
-    RegionName.HOTP_START_BOTTOM: RegionData(
+    RegionName.HOP_START_BOTTOM: RegionData(
         exits=(
             RegionName.MECH_BRAM_TUNNEL,
-            RegionName.HOTP_START,
-            RegionName.HOTP_START_BOTTOM_MID,
-            RegionName.HOTP_LOWER,
+            RegionName.HOP_START,
+            RegionName.HOP_START_BOTTOM_MID,
+            RegionName.HOP_LOWER,
         ),
     ),
-    RegionName.HOTP_START_BOTTOM_MID: RegionData(
+    RegionName.HOP_START_BOTTOM_MID: RegionData(
         exits=(
-            RegionName.HOTP_START_MID,
-            RegionName.HOTP_START_BOTTOM,
+            RegionName.HOP_START_MID,
+            RegionName.HOP_START_BOTTOM,
         ),
     ),
-    RegionName.HOTP_LOWER: RegionData(
+    RegionName.HOP_LOWER: RegionData(
         exits=(
-            RegionName.HOTP_START_BOTTOM,
-            RegionName.HOTP_EPIMETHEUS,
-            RegionName.HOTP_MECH_VOID_CONNECTION,
-            RegionName.HOTP_TP_TUTORIAL,
+            RegionName.HOP_START_BOTTOM,
+            RegionName.HOP_EPIMETHEUS,
+            RegionName.HOP_MECH_VOID_CONNECTION,
+            RegionName.HOP_TP_TUTORIAL,
         ),
     ),
-    RegionName.HOTP_EPIMETHEUS: RegionData(
+    RegionName.HOP_EPIMETHEUS: RegionData(
         exits=(
             RegionName.MECH_AFTER_BK,
-            RegionName.HOTP_LOWER,
+            RegionName.HOP_LOWER,
         ),
         campfire=True,
     ),
-    RegionName.HOTP_MECH_VOID_CONNECTION: RegionData(
+    RegionName.HOP_MECH_VOID_CONNECTION: RegionData(
         exits=(
             RegionName.MECH_LOWER_VOID,
-            RegionName.HOTP_LOWER,
-            RegionName.HOTP_AMULET_CONNECTION,
+            RegionName.HOP_LOWER,
+            RegionName.HOP_AMULET_CONNECTION,
         ),
     ),
-    RegionName.HOTP_AMULET_CONNECTION: RegionData(
+    RegionName.HOP_AMULET_CONNECTION: RegionData(
         exits=(
             RegionName.GT_BUTT,
-            RegionName.HOTP_MECH_VOID_CONNECTION,
-            RegionName.HOTP_AMULET,
+            RegionName.HOP_MECH_VOID_CONNECTION,
+            RegionName.HOP_AMULET,
         ),
     ),
-    RegionName.HOTP_AMULET: RegionData(),
-    RegionName.HOTP_TP_TUTORIAL: RegionData(
+    RegionName.HOP_AMULET: RegionData(),
+    RegionName.HOP_TP_TUTORIAL: RegionData(
         exits=(
-            RegionName.HOTP_LOWER,
-            RegionName.HOTP_BELL_CAMPFIRE,
+            RegionName.HOP_LOWER,
+            RegionName.HOP_BELL_CAMPFIRE,
         ),
     ),
-    RegionName.HOTP_BELL_CAMPFIRE: RegionData(
+    RegionName.HOP_BELL_CAMPFIRE: RegionData(
         exits=(
-            RegionName.HOTP_TP_TUTORIAL,
-            RegionName.HOTP_RED_KEY,
-            RegionName.HOTP_BELL,
-            RegionName.HOTP_CATH_CONNECTION,
-            RegionName.HOTP_LOWER_ARIAS,
+            RegionName.HOP_TP_TUTORIAL,
+            RegionName.HOP_RED_KEY,
+            RegionName.HOP_BELL,
+            RegionName.HOP_CATH_CONNECTION,
+            RegionName.HOP_LOWER_ARIAS,
         ),
         campfire=True,
     ),
-    RegionName.HOTP_RED_KEY: RegionData(),
-    RegionName.HOTP_BELL: RegionData(),
-    RegionName.HOTP_CATH_CONNECTION: RegionData(
+    RegionName.HOP_RED_KEY: RegionData(),
+    RegionName.HOP_BELL: RegionData(),
+    RegionName.HOP_CATH_CONNECTION: RegionData(
         exits=(
-            RegionName.HOTP_BELL,
-            RegionName.HOTP_CATH_VOID,
+            RegionName.HOP_BELL,
+            RegionName.HOP_CATH_VOID,
         ),
     ),
-    RegionName.HOTP_CATH_VOID: RegionData(
+    RegionName.HOP_CATH_VOID: RegionData(
         exits=(
-            RegionName.HOTP_CATH_CONNECTION,
+            RegionName.HOP_CATH_CONNECTION,
             RegionName.CATH_START,
         ),
         portal=True,
     ),
-    RegionName.HOTP_LOWER_ARIAS: RegionData(
+    RegionName.HOP_LOWER_ARIAS: RegionData(
         exits=(
-            RegionName.HOTP_BELL_CAMPFIRE,
-            RegionName.HOTP_GHOST_BLOOD,
+            RegionName.HOP_BELL_CAMPFIRE,
+            RegionName.HOP_GHOST_BLOOD,
         ),
     ),
-    RegionName.HOTP_GHOST_BLOOD: RegionData(
+    RegionName.HOP_GHOST_BLOOD: RegionData(
         exits=(
-            RegionName.HOTP_LOWER_ARIAS,
-            RegionName.HOTP_EYEBALL,
-            RegionName.HOTP_WORM_SHORTCUT,
+            RegionName.HOP_LOWER_ARIAS,
+            RegionName.HOP_EYEBALL,
+            RegionName.HOP_WORM_SHORTCUT,
         ),
     ),
-    RegionName.HOTP_EYEBALL: RegionData(
+    RegionName.HOP_EYEBALL: RegionData(
         exits=(
-            RegionName.HOTP_SPIKE_TP_SECRET,
-            RegionName.HOTP_ELEVATOR,
+            RegionName.HOP_SPIKE_TP_SECRET,
+            RegionName.HOP_ELEVATOR,
         ),
     ),
-    RegionName.HOTP_SPIKE_TP_SECRET: RegionData(),
-    RegionName.HOTP_WORM_SHORTCUT: RegionData(
+    RegionName.HOP_SPIKE_TP_SECRET: RegionData(),
+    RegionName.HOP_WORM_SHORTCUT: RegionData(
         exits=(
-            RegionName.HOTP_GHOST_BLOOD,
-            RegionName.HOTP_ELEVATOR,
+            RegionName.HOP_GHOST_BLOOD,
+            RegionName.HOP_ELEVATOR,
         ),
     ),
-    RegionName.HOTP_ELEVATOR: RegionData(
+    RegionName.HOP_ELEVATOR: RegionData(
         exits=(
             RegionName.GT_ENTRANCE,
             RegionName.GT_BOSS,
             RegionName.MECH_ZEEK_CONNECTION,
             RegionName.MECH_BOSS,
-            RegionName.HOTP_START_LEFT,
-            RegionName.HOTP_SPIKE_TP_SECRET,
-            RegionName.HOTP_WORM_SHORTCUT,
-            RegionName.HOTP_OLD_MAN,
-            RegionName.HOTP_CLAW_LEFT,
-            RegionName.HOTP_TOP_LEFT,
-            RegionName.HOTP_BOSS,
+            RegionName.HOP_START_LEFT,
+            RegionName.HOP_SPIKE_TP_SECRET,
+            RegionName.HOP_WORM_SHORTCUT,
+            RegionName.HOP_OLD_MAN,
+            RegionName.HOP_CLAW_LEFT,
+            RegionName.HOP_TOP_LEFT,
+            RegionName.HOP_BOSS,
             RegionName.ROA_ELEVATOR,
             RegionName.APEX,
             RegionName.CATA_ELEVATOR,
@@ -876,99 +876,99 @@ astalon_regions: dict[RegionName, RegionData] = {
         ),
         elevator=True,
     ),
-    RegionName.HOTP_OLD_MAN: RegionData(),
-    RegionName.HOTP_CLAW_LEFT: RegionData(
+    RegionName.HOP_OLD_MAN: RegionData(),
+    RegionName.HOP_CLAW_LEFT: RegionData(
         exits=(
-            RegionName.HOTP_ELEVATOR,
-            RegionName.HOTP_TOP_LEFT,
-            RegionName.HOTP_CLAW,
+            RegionName.HOP_ELEVATOR,
+            RegionName.HOP_TOP_LEFT,
+            RegionName.HOP_CLAW,
         ),
     ),
-    RegionName.HOTP_TOP_LEFT: RegionData(
+    RegionName.HOP_TOP_LEFT: RegionData(
         exits=(
-            RegionName.HOTP_ELEVATOR,
-            RegionName.HOTP_CLAW_LEFT,
-            RegionName.HOTP_ABOVE_OLD_MAN,
-            RegionName.HOTP_CLAW_CAMPFIRE,
+            RegionName.HOP_ELEVATOR,
+            RegionName.HOP_CLAW_LEFT,
+            RegionName.HOP_ABOVE_OLD_MAN,
+            RegionName.HOP_CLAW_CAMPFIRE,
         ),
     ),
-    RegionName.HOTP_ABOVE_OLD_MAN: RegionData(),
-    RegionName.HOTP_CLAW_CAMPFIRE: RegionData(
+    RegionName.HOP_ABOVE_OLD_MAN: RegionData(),
+    RegionName.HOP_CLAW_CAMPFIRE: RegionData(
         exits=(
-            RegionName.HOTP_TOP_LEFT,
-            RegionName.HOTP_CLAW,
-            RegionName.HOTP_HEART,
+            RegionName.HOP_TOP_LEFT,
+            RegionName.HOP_CLAW,
+            RegionName.HOP_HEART,
         ),
         campfire=True,
     ),
-    RegionName.HOTP_CLAW: RegionData(
+    RegionName.HOP_CLAW: RegionData(
         exits=(
-            RegionName.HOTP_CLAW_LEFT,
-            RegionName.HOTP_CLAW_CAMPFIRE,
+            RegionName.HOP_CLAW_LEFT,
+            RegionName.HOP_CLAW_CAMPFIRE,
         ),
     ),
-    RegionName.HOTP_HEART: RegionData(
+    RegionName.HOP_HEART: RegionData(
         exits=(
-            RegionName.HOTP_CLAW_CAMPFIRE,
-            RegionName.HOTP_UPPER_ARIAS,
-            RegionName.HOTP_BOSS_CAMPFIRE,
+            RegionName.HOP_CLAW_CAMPFIRE,
+            RegionName.HOP_UPPER_ARIAS,
+            RegionName.HOP_BOSS_CAMPFIRE,
         ),
     ),
-    RegionName.HOTP_UPPER_ARIAS: RegionData(
+    RegionName.HOP_UPPER_ARIAS: RegionData(
         exits=(
-            RegionName.HOTP_HEART,
-            RegionName.HOTP_BOSS_CAMPFIRE,
+            RegionName.HOP_HEART,
+            RegionName.HOP_BOSS_CAMPFIRE,
         ),
     ),
-    RegionName.HOTP_BOSS_CAMPFIRE: RegionData(
+    RegionName.HOP_BOSS_CAMPFIRE: RegionData(
         exits=(
             RegionName.MECH_TRIPLE_SWITCHES,
-            RegionName.HOTP_HEART,
-            RegionName.HOTP_MAIDEN,
-            RegionName.HOTP_TP_PUZZLE,
-            RegionName.HOTP_BOSS,
+            RegionName.HOP_HEART,
+            RegionName.HOP_MAIDEN,
+            RegionName.HOP_TP_PUZZLE,
+            RegionName.HOP_BOSS,
         ),
         campfire=True,
     ),
-    RegionName.HOTP_MAIDEN: RegionData(statue=True),
-    RegionName.HOTP_TP_PUZZLE: RegionData(
-        exits=(RegionName.HOTP_TP_FALL_TOP,),
+    RegionName.HOP_MAIDEN: RegionData(statue=True),
+    RegionName.HOP_TP_PUZZLE: RegionData(
+        exits=(RegionName.HOP_TP_FALL_TOP,),
     ),
-    RegionName.HOTP_TP_FALL_TOP: RegionData(
+    RegionName.HOP_TP_FALL_TOP: RegionData(
         exits=(
-            RegionName.HOTP_BOSS_CAMPFIRE,
-            RegionName.HOTP_TP_PUZZLE,
-            RegionName.HOTP_GAUNTLET_CONNECTION,
-            RegionName.HOTP_FALL_BOTTOM,
+            RegionName.HOP_BOSS_CAMPFIRE,
+            RegionName.HOP_TP_PUZZLE,
+            RegionName.HOP_GAUNTLET_CONNECTION,
+            RegionName.HOP_FALL_BOTTOM,
         ),
     ),
-    RegionName.HOTP_GAUNTLET_CONNECTION: RegionData(
-        exits=(RegionName.HOTP_GAUNTLET,),
+    RegionName.HOP_GAUNTLET_CONNECTION: RegionData(
+        exits=(RegionName.HOP_GAUNTLET,),
     ),
-    RegionName.HOTP_GAUNTLET: RegionData(),
-    RegionName.HOTP_FALL_BOTTOM: RegionData(
+    RegionName.HOP_GAUNTLET: RegionData(),
+    RegionName.HOP_FALL_BOTTOM: RegionData(
         exits=(
             RegionName.MECH_TP_CONNECTION,
-            RegionName.HOTP_TP_FALL_TOP,
-            RegionName.HOTP_UPPER_VOID,
+            RegionName.HOP_TP_FALL_TOP,
+            RegionName.HOP_UPPER_VOID,
         ),
     ),
-    RegionName.HOTP_UPPER_VOID: RegionData(
+    RegionName.HOP_UPPER_VOID: RegionData(
         exits=(
-            RegionName.HOTP_LOWER_VOID,
-            RegionName.HOTP_TP_FALL_TOP,
-            RegionName.HOTP_FALL_BOTTOM,
+            RegionName.HOP_LOWER_VOID,
+            RegionName.HOP_TP_FALL_TOP,
+            RegionName.HOP_FALL_BOTTOM,
         ),
         portal=True,
     ),
-    RegionName.HOTP_BOSS: RegionData(
+    RegionName.HOP_BOSS: RegionData(
         exits=(
             RegionName.GT_ENTRANCE,
             RegionName.GT_BOSS,
             RegionName.MECH_ZEEK_CONNECTION,
             RegionName.MECH_BOSS,
-            RegionName.HOTP_ELEVATOR,
-            RegionName.HOTP_BOSS_CAMPFIRE,
+            RegionName.HOP_ELEVATOR,
+            RegionName.HOP_BOSS_CAMPFIRE,
             RegionName.ROA_START,
             RegionName.ROA_ELEVATOR,
             RegionName.APEX,
@@ -981,7 +981,7 @@ astalon_regions: dict[RegionName, RegionData] = {
     ),
     RegionName.ROA_START: RegionData(
         exits=(
-            RegionName.HOTP_BOSS,
+            RegionName.HOP_BOSS,
             RegionName.ROA_WORMS,
         ),
         campfire=True,
@@ -1190,8 +1190,8 @@ astalon_regions: dict[RegionName, RegionData] = {
             RegionName.GT_BOSS,
             RegionName.MECH_ZEEK_CONNECTION,
             RegionName.MECH_BOSS,
-            RegionName.HOTP_ELEVATOR,
-            RegionName.HOTP_BOSS,
+            RegionName.HOP_ELEVATOR,
+            RegionName.HOP_BOSS,
             RegionName.ROA_SP_CONNECTION,
             RegionName.ROA_ICARUS,
             RegionName.ROA_DARK_CONNECTION,
@@ -1273,8 +1273,8 @@ astalon_regions: dict[RegionName, RegionData] = {
             RegionName.GT_BOSS,
             RegionName.MECH_ZEEK_CONNECTION,
             RegionName.MECH_BOSS,
-            RegionName.HOTP_ELEVATOR,
-            RegionName.HOTP_BOSS,
+            RegionName.HOP_ELEVATOR,
+            RegionName.HOP_BOSS,
             RegionName.ROA_ELEVATOR,
             RegionName.FINAL_BOSS,
             RegionName.ROA_APEX_CONNECTION,
@@ -1345,8 +1345,8 @@ astalon_regions: dict[RegionName, RegionData] = {
             RegionName.GT_BOSS,
             RegionName.MECH_ZEEK_CONNECTION,
             RegionName.MECH_BOSS,
-            RegionName.HOTP_ELEVATOR,
-            RegionName.HOTP_BOSS,
+            RegionName.HOP_ELEVATOR,
+            RegionName.HOP_BOSS,
             RegionName.ROA_ELEVATOR,
             RegionName.APEX,
             RegionName.CATA_TOP,
@@ -1477,8 +1477,8 @@ astalon_regions: dict[RegionName, RegionData] = {
             RegionName.GT_BOSS,
             RegionName.MECH_ZEEK_CONNECTION,
             RegionName.MECH_BOSS,
-            RegionName.HOTP_ELEVATOR,
-            RegionName.HOTP_BOSS,
+            RegionName.HOP_ELEVATOR,
+            RegionName.HOP_BOSS,
             RegionName.ROA_ELEVATOR,
             RegionName.APEX,
             RegionName.CATA_ELEVATOR,
@@ -1496,8 +1496,8 @@ astalon_regions: dict[RegionName, RegionData] = {
             RegionName.GT_BOSS,
             RegionName.MECH_ZEEK_CONNECTION,
             RegionName.MECH_BOSS,
-            RegionName.HOTP_ELEVATOR,
-            RegionName.HOTP_BOSS,
+            RegionName.HOP_ELEVATOR,
+            RegionName.HOP_BOSS,
             RegionName.ROA_ELEVATOR,
             RegionName.APEX,
             RegionName.CATA_ELEVATOR,
@@ -1573,7 +1573,7 @@ astalon_regions: dict[RegionName, RegionData] = {
     RegionName.CD_BOSS: RegionData(boss=True),
     RegionName.CATH_START: RegionData(
         exits=(
-            RegionName.HOTP_CATH_VOID,
+            RegionName.HOP_CATH_VOID,
             RegionName.CATH_START_RIGHT,
             RegionName.CATH_START_LEFT,
         ),
@@ -1678,7 +1678,7 @@ astalon_regions: dict[RegionName, RegionData] = {
         exits=(RegionName.SP_CAMPFIRE_2,),
     ),
     RegionName.SP_CAMPFIRE_2: RegionData(
-        exits=(RegionName.HOTP_MAIDEN,),
+        exits=(RegionName.HOP_MAIDEN,),
         campfire=True,
     ),
 }

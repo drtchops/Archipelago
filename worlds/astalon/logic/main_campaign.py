@@ -150,8 +150,8 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], Rule[AstalonWorldBase]] = {
     (R.GT_ENTRANCE, R.GT_BOSS): HasElevator(Elevator.GT_2),
     (R.GT_ENTRANCE, R.MECH_ZEEK_CONNECTION): HasElevator(Elevator.MECH_1),
     (R.GT_ENTRANCE, R.MECH_BOSS): HasElevator(Elevator.MECH_2),
-    (R.GT_ENTRANCE, R.HOTP_ELEVATOR): HasElevator(Elevator.HOTP),
-    (R.GT_ENTRANCE, R.HOTP_BOSS): HasElevator(Elevator.ROA_1),
+    (R.GT_ENTRANCE, R.HOP_ELEVATOR): HasElevator(Elevator.HOP),
+    (R.GT_ENTRANCE, R.HOP_BOSS): HasElevator(Elevator.ROA_1),
     (R.GT_ENTRANCE, R.ROA_ELEVATOR): HasElevator(Elevator.ROA_2),
     (R.GT_ENTRANCE, R.APEX): elevator_apex,
     (R.GT_ENTRANCE, R.CATA_ELEVATOR): HasElevator(Elevator.CATA_1),
@@ -193,8 +193,8 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], Rule[AstalonWorldBase]] = {
     (R.GT_BOSS, R.MECH_START): Has(Eye.RED),
     (R.GT_BOSS, R.MECH_ZEEK_CONNECTION): HasElevator(Elevator.MECH_1),
     (R.GT_BOSS, R.MECH_BOSS): HasElevator(Elevator.MECH_2),
-    (R.GT_BOSS, R.HOTP_ELEVATOR): HasElevator(Elevator.HOTP),
-    (R.GT_BOSS, R.HOTP_BOSS): HasElevator(Elevator.ROA_1),
+    (R.GT_BOSS, R.HOP_ELEVATOR): HasElevator(Elevator.HOP),
+    (R.GT_BOSS, R.HOP_BOSS): HasElevator(Elevator.ROA_1),
     (R.GT_BOSS, R.ROA_ELEVATOR): HasElevator(Elevator.ROA_2),
     (R.GT_BOSS, R.APEX): elevator_apex,
     (R.GT_BOSS, R.CATA_ELEVATOR): HasElevator(Elevator.CATA_1),
@@ -267,7 +267,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], Rule[AstalonWorldBase]] = {
     (R.MECH_SNAKE, R.GT_VOID): HasSwitch(Switch.MECH_SNAKE_2, otherwise=True),
     (R.MECH_LOWER_VOID, R.MECH_START): HasBlue(BlueDoor.MECH_RED, otherwise=True),
     (R.MECH_LOWER_VOID, R.MECH_UPPER_VOID): has_void,
-    (R.MECH_LOWER_VOID, R.HOTP_MECH_VOID_CONNECTION): Has(Eye.BLUE),
+    (R.MECH_LOWER_VOID, R.HOP_MECH_VOID_CONNECTION): Has(Eye.BLUE),
     (R.MECH_WATCHER, R.MECH_START): HasSwitch(Switch.MECH_CANNON) & HasWhite(WhiteDoor.MECH_2ND),
     (R.MECH_WATCHER, R.MECH_ROOTS): has_claw | HasSwitch(Switch.MECH_WATCHER, otherwise=True),
     (R.MECH_ROOTS, R.MECH_ZEEK_CONNECTION): has_claw & has_block & Has(KeyItem.BELL),
@@ -289,7 +289,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], Rule[AstalonWorldBase]] = {
     (R.MECH_AFTER_BK, R.MECH_CHAINS_CANDLE): has_claw | HasWhite(WhiteDoor.MECH_BK, otherwise=True),
     (R.MECH_AFTER_BK, R.MECH_CHAINS): HasSwitch(Switch.MECH_CHAINS),
     (R.MECH_AFTER_BK, R.MECH_BK): HasSwitch(Crystal.MECH_BK) | HardLogic(has_kyuli_ray, options=switch_off),
-    (R.MECH_AFTER_BK, R.HOTP_EPIMETHEUS): has_claw,
+    (R.MECH_AFTER_BK, R.HOP_EPIMETHEUS): has_claw,
     (R.MECH_CHAINS, R.MECH_CHAINS_CANDLE): has_claw,
     (R.MECH_CHAINS, R.MECH_ARIAS_EYEBALL): has_arias,
     (R.MECH_CHAINS, R.MECH_SPLIT_PATH): HasSwitch(Switch.MECH_SPLIT_PATH, otherwise=True),
@@ -311,9 +311,9 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], Rule[AstalonWorldBase]] = {
     (R.MECH_ZEEK_CONNECTION, R.MECH_ARIAS_EYEBALL): HasSwitch(Switch.MECH_ARIAS) | (has_star & has_arias),
     (R.MECH_ZEEK_CONNECTION, R.CATA_ELEVATOR): HasElevator(Elevator.CATA_1),
     (R.MECH_ZEEK_CONNECTION, R.CATA_BOSS): HasElevator(Elevator.CATA_2),
-    (R.MECH_ZEEK_CONNECTION, R.HOTP_ELEVATOR): HasElevator(Elevator.HOTP),
+    (R.MECH_ZEEK_CONNECTION, R.HOP_ELEVATOR): HasElevator(Elevator.HOP),
     (R.MECH_ZEEK_CONNECTION, R.TR_START): HasElevator(Elevator.TR),
-    (R.MECH_ZEEK_CONNECTION, R.HOTP_BOSS): HasElevator(Elevator.ROA_1),
+    (R.MECH_ZEEK_CONNECTION, R.HOP_BOSS): HasElevator(Elevator.ROA_1),
     (R.MECH_ZEEK_CONNECTION, R.ROA_ELEVATOR): HasElevator(Elevator.ROA_2),
     (R.MECH_ZEEK_CONNECTION, R.MECH_ZEEK): HasRed(RedDoor.ZEEK) | CanReachRegion(R.MECH_LOWER_VOID, options=red_off),
     (R.MECH_ZEEK_CONNECTION, R.APEX): elevator_apex,
@@ -371,7 +371,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], Rule[AstalonWorldBase]] = {
             | (has_claw & Has(KeyItem.BELL))
         )
     ),
-    (R.MECH_TP_CONNECTION, R.HOTP_FALL_BOTTOM): has_claw | HasSwitch(Switch.MECH_MAZE_BACKDOOR),
+    (R.MECH_TP_CONNECTION, R.HOP_FALL_BOTTOM): has_claw | HasSwitch(Switch.MECH_MAZE_BACKDOOR),
     (R.MECH_TP_CONNECTION, R.MECH_TOP): has_claw | HasWhite(WhiteDoor.MECH_TOP),
     (R.MECH_TP_CONNECTION, R.MECH_CHARACTER_SWAPS): (
         (has_arias & (HasWhite(WhiteDoor.MECH_TOP, otherwise=True) | Has(KeyItem.BELL)))
@@ -404,7 +404,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], Rule[AstalonWorldBase]] = {
     (R.MECH_BRAM_TUNNEL_CONNECTION, R.MECH_BOSS_CONNECTION): HasSwitch(Switch.MECH_BOSS_1),
     (R.MECH_BRAM_TUNNEL_CONNECTION, R.MECH_BRAM_TUNNEL): has_star,
     (R.MECH_BRAM_TUNNEL, R.MECH_BRAM_TUNNEL_CONNECTION): has_star,
-    (R.MECH_BRAM_TUNNEL, R.HOTP_START_BOTTOM): has_star,
+    (R.MECH_BRAM_TUNNEL, R.HOP_START_BOTTOM): has_star,
     (R.MECH_BOSS, R.GT_ENTRANCE): HasElevator(Elevator.GT_1),
     (R.MECH_BOSS, R.CATA_ELEVATOR): HasElevator(Elevator.CATA_1),
     (R.MECH_BOSS, R.CATA_BOSS): HasElevator(Elevator.CATA_2),
@@ -414,155 +414,153 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], Rule[AstalonWorldBase]] = {
         & HasSwitch(Switch.MECH_TO_BOSS_1, Crystal.MECH_TRIPLE_1, Crystal.MECH_TRIPLE_2, Crystal.MECH_TRIPLE_3)
         & (HasSwitch(Switch.MECH_BLOCK_STAIRS) | HasSwitch(Crystal.MECH_SLIMES) | otherwise_crystal)
     ),
-    (R.MECH_BOSS, R.HOTP_BOSS): HasElevator(Elevator.ROA_1),
+    (R.MECH_BOSS, R.HOP_BOSS): HasElevator(Elevator.ROA_1),
     (R.MECH_BOSS, R.ROA_ELEVATOR): HasElevator(Elevator.ROA_2),
     (R.MECH_BOSS, R.APEX): elevator_apex,
     (R.MECH_BOSS, R.GT_BOSS): HasElevator(Elevator.GT_2),
-    (R.MECH_BOSS, R.HOTP_START): Has(Eye.BLUE),
+    (R.MECH_BOSS, R.HOP_START): Has(Eye.BLUE),
     (R.MECH_BOSS, R.MECH_ZEEK_CONNECTION): HasElevator(Elevator.MECH_1),
-    (R.MECH_BOSS, R.HOTP_ELEVATOR): HasElevator(Elevator.HOTP),
-    (R.HOTP_START, R.MECH_BOSS): Has(Eye.BLUE),
-    (R.HOTP_START, R.HOTP_START_BOTTOM): (
+    (R.MECH_BOSS, R.HOP_ELEVATOR): HasElevator(Elevator.HOP),
+    (R.HOP_START, R.MECH_BOSS): Has(Eye.BLUE),
+    (R.HOP_START, R.HOP_START_BOTTOM): (
         has_star
-        | (Has(Eye.BLUE) & (HasWhite(WhiteDoor.HOTP_START) | CanReachRegion(R.HOTP_START_LEFT, options=white_off)))
+        | (Has(Eye.BLUE) & (HasWhite(WhiteDoor.HOP_START) | CanReachRegion(R.HOP_START_LEFT, options=white_off)))
     ),
-    (R.HOTP_START, R.HOTP_START_MID): HasSwitch(Switch.HOTP_1ST_ROOM, otherwise=True),
-    (R.HOTP_START_MID, R.HOTP_START_LEFT): (
-        HasSwitch(Switch.HOTP_LEFT_3, otherwise=True)
-        | (has_star & HasSwitch(Switch.HOTP_LEFT_1, Switch.HOTP_LEFT_2, otherwise=True))
+    (R.HOP_START, R.HOP_START_MID): HasSwitch(Switch.HOP_1ST_ROOM, otherwise=True),
+    (R.HOP_START_MID, R.HOP_START_LEFT): (
+        HasSwitch(Switch.HOP_LEFT_3, otherwise=True)
+        | (has_star & HasSwitch(Switch.HOP_LEFT_1, Switch.HOP_LEFT_2, otherwise=True))
     ),
-    (R.HOTP_START_MID, R.HOTP_START_BOTTOM_MID): HasSwitch(Switch.HOTP_GHOSTS, otherwise=True),
-    (R.HOTP_START_MID, R.HOTP_LOWER_VOID_CONNECTION): HardLogic(has_algus | has_bram_whiplash),
-    (R.HOTP_LOWER_VOID_CONNECTION, R.HOTP_LOWER_VOID): has_claw,
-    (R.HOTP_LOWER_VOID, R.HOTP_UPPER_VOID): has_void,
-    (R.HOTP_START_LEFT, R.HOTP_ELEVATOR): HasSwitch(Switch.HOTP_LEFT_BACKTRACK),
-    (R.HOTP_START_LEFT, R.HOTP_START_MID): (
-        HasSwitch(Switch.HOTP_LEFT_3) | (has_star & HasSwitch(Switch.HOTP_LEFT_1, Switch.HOTP_LEFT_2, otherwise=True))
+    (R.HOP_START_MID, R.HOP_START_BOTTOM_MID): HasSwitch(Switch.HOP_GHOSTS, otherwise=True),
+    (R.HOP_START_MID, R.HOP_LOWER_VOID_CONNECTION): HardLogic(has_algus | has_bram_whiplash),
+    (R.HOP_LOWER_VOID_CONNECTION, R.HOP_LOWER_VOID): has_claw,
+    (R.HOP_LOWER_VOID, R.HOP_UPPER_VOID): has_void,
+    (R.HOP_START_LEFT, R.HOP_ELEVATOR): HasSwitch(Switch.HOP_LEFT_BACKTRACK),
+    (R.HOP_START_LEFT, R.HOP_START_MID): (
+        HasSwitch(Switch.HOP_LEFT_3) | (has_star & HasSwitch(Switch.HOP_LEFT_1, Switch.HOP_LEFT_2, otherwise=True))
     ),
-    (R.HOTP_START_BOTTOM, R.MECH_BRAM_TUNNEL): has_star,
-    (R.HOTP_START_BOTTOM, R.HOTP_START): has_star | (HasWhite(WhiteDoor.HOTP_START) & Has(Eye.BLUE)),
-    (R.HOTP_START_BOTTOM, R.HOTP_START_BOTTOM_MID): has_block & has_star & Has(KeyItem.BELL),
-    (R.HOTP_START_BOTTOM, R.HOTP_LOWER): (
-        HasSwitch(Switch.HOTP_BELOW_START) | CanReachRegion(R.HOTP_START_BOTTOM_MID, options=switch_off)
+    (R.HOP_START_BOTTOM, R.MECH_BRAM_TUNNEL): has_star,
+    (R.HOP_START_BOTTOM, R.HOP_START): has_star | (HasWhite(WhiteDoor.HOP_START) & Has(Eye.BLUE)),
+    (R.HOP_START_BOTTOM, R.HOP_START_BOTTOM_MID): has_block & has_star & Has(KeyItem.BELL),
+    (R.HOP_START_BOTTOM, R.HOP_LOWER): (
+        HasSwitch(Switch.HOP_BELOW_START) | CanReachRegion(R.HOP_START_BOTTOM_MID, options=switch_off)
     ),
-    (R.HOTP_START_BOTTOM_MID, R.HOTP_START_MID): HasSwitch(Switch.HOTP_GHOSTS),
-    (R.HOTP_START_BOTTOM_MID, R.HOTP_START_BOTTOM): has_star,
-    (R.HOTP_LOWER, R.HOTP_START_BOTTOM): HasSwitch(Switch.HOTP_BELOW_START),
-    (R.HOTP_LOWER, R.HOTP_EPIMETHEUS): HasBlue(BlueDoor.HOTP_STATUE, otherwise=True),
-    (R.HOTP_LOWER, R.HOTP_TP_TUTORIAL): (
-        HasSwitch(Crystal.HOTP_LOWER) | HasSwitch(Switch.HOTP_LOWER_SHORTCUT) | otherwise_crystal
+    (R.HOP_START_BOTTOM_MID, R.HOP_START_MID): HasSwitch(Switch.HOP_GHOSTS),
+    (R.HOP_START_BOTTOM_MID, R.HOP_START_BOTTOM): has_star,
+    (R.HOP_LOWER, R.HOP_START_BOTTOM): HasSwitch(Switch.HOP_BELOW_START),
+    (R.HOP_LOWER, R.HOP_EPIMETHEUS): HasBlue(BlueDoor.HOP_STATUE, otherwise=True),
+    (R.HOP_LOWER, R.HOP_TP_TUTORIAL): (
+        HasSwitch(Crystal.HOP_LOWER) | HasSwitch(Switch.HOP_LOWER_SHORTCUT) | otherwise_crystal
     ),
-    (R.HOTP_LOWER, R.HOTP_MECH_VOID_CONNECTION): (
-        HasSwitch(Crystal.HOTP_BOTTOM) | HardLogic(has_kyuli_ray, options=switch_off)
+    (R.HOP_LOWER, R.HOP_MECH_VOID_CONNECTION): (
+        HasSwitch(Crystal.HOP_BOTTOM) | HardLogic(has_kyuli_ray, options=switch_off)
     ),
-    (R.HOTP_EPIMETHEUS, R.MECH_AFTER_BK): has_claw,
-    (R.HOTP_MECH_VOID_CONNECTION, R.HOTP_AMULET_CONNECTION): HasSwitch(Crystal.HOTP_ROCK_ACCESS) | otherwise_crystal,
-    (R.HOTP_MECH_VOID_CONNECTION, R.MECH_LOWER_VOID): Has(Eye.BLUE),
-    (R.HOTP_MECH_VOID_CONNECTION, R.HOTP_LOWER): HasSwitch(Crystal.HOTP_BOTTOM) | otherwise_crystal,
-    (R.HOTP_AMULET_CONNECTION, R.HOTP_AMULET): has_claw & HasAll(Eye.RED, Eye.BLUE),
-    (R.HOTP_AMULET_CONNECTION, R.GT_BUTT): HasSwitch(Switch.HOTP_ROCK, otherwise=True),
-    (R.HOTP_AMULET_CONNECTION, R.HOTP_MECH_VOID_CONNECTION): HasSwitch(Crystal.HOTP_ROCK_ACCESS) | otherwise_crystal,
-    (R.HOTP_TP_TUTORIAL, R.HOTP_BELL_CAMPFIRE): HasSwitch(Switch.HOTP_SKULL_PUZZLE, otherwise=True),
-    (R.HOTP_BELL_CAMPFIRE, R.HOTP_TP_TUTORIAL): HasSwitch(Switch.HOTP_SKULL_PUZZLE),
-    (R.HOTP_BELL_CAMPFIRE, R.HOTP_LOWER_ARIAS): has_arias & (Has(KeyItem.BELL) | can_uppies),
-    (R.HOTP_BELL_CAMPFIRE, R.HOTP_RED_KEY): Has(Eye.GREEN) & has_cloak,
-    (R.HOTP_BELL_CAMPFIRE, R.HOTP_CATH_CONNECTION): Has(Eye.GREEN),
-    (R.HOTP_BELL_CAMPFIRE, R.HOTP_BELL): (
-        HasSwitch(Switch.HOTP_BELL_ACCESS, otherwise=True)
+    (R.HOP_EPIMETHEUS, R.MECH_AFTER_BK): has_claw,
+    (R.HOP_MECH_VOID_CONNECTION, R.HOP_AMULET_CONNECTION): HasSwitch(Crystal.HOP_ROCK_ACCESS) | otherwise_crystal,
+    (R.HOP_MECH_VOID_CONNECTION, R.MECH_LOWER_VOID): Has(Eye.BLUE),
+    (R.HOP_MECH_VOID_CONNECTION, R.HOP_LOWER): HasSwitch(Crystal.HOP_BOTTOM) | otherwise_crystal,
+    (R.HOP_AMULET_CONNECTION, R.HOP_AMULET): has_claw & HasAll(Eye.RED, Eye.BLUE),
+    (R.HOP_AMULET_CONNECTION, R.GT_BUTT): HasSwitch(Switch.HOP_ROCK, otherwise=True),
+    (R.HOP_AMULET_CONNECTION, R.HOP_MECH_VOID_CONNECTION): HasSwitch(Crystal.HOP_ROCK_ACCESS) | otherwise_crystal,
+    (R.HOP_TP_TUTORIAL, R.HOP_BELL_CAMPFIRE): HasSwitch(Switch.HOP_SKULL_PUZZLE, otherwise=True),
+    (R.HOP_BELL_CAMPFIRE, R.HOP_TP_TUTORIAL): HasSwitch(Switch.HOP_SKULL_PUZZLE),
+    (R.HOP_BELL_CAMPFIRE, R.HOP_LOWER_ARIAS): has_arias & (Has(KeyItem.BELL) | can_uppies),
+    (R.HOP_BELL_CAMPFIRE, R.HOP_RED_KEY): Has(Eye.GREEN) & has_cloak,
+    (R.HOP_BELL_CAMPFIRE, R.HOP_CATH_CONNECTION): Has(Eye.GREEN),
+    (R.HOP_BELL_CAMPFIRE, R.HOP_BELL): (
+        HasSwitch(Switch.HOP_BELL_ACCESS, otherwise=True)
         & (
-            HasSwitch(Crystal.HOTP_BELL_ACCESS)
+            HasSwitch(Crystal.HOP_BELL_ACCESS)
             | otherwise_crystal
             | (has_block & Has(KeyItem.BELL) & (has_kyuli | can_uppies))
             | HardLogic(has_claw)
         )
     ),
-    (R.HOTP_CATH_CONNECTION, R.HOTP_CATH_VOID): (
-        has_claw & (HasRed(RedDoor.CATH) | CanReachRegion(R.HOTP_RED_KEY, options=red_off))
+    (R.HOP_CATH_CONNECTION, R.HOP_CATH_VOID): (
+        has_claw & (HasRed(RedDoor.CATH) | CanReachRegion(R.HOP_RED_KEY, options=red_off))
     ),
-    (R.HOTP_CATH_VOID, R.HOTP_CATH_CONNECTION): (
-        HasRed(RedDoor.CATH) | CanReachRegion(R.HOTP_RED_KEY, options=red_off)
+    (R.HOP_CATH_VOID, R.HOP_CATH_CONNECTION): (HasRed(RedDoor.CATH) | CanReachRegion(R.HOP_RED_KEY, options=red_off)),
+    (R.HOP_CATH_VOID, R.CATH_START): has_void,
+    (R.HOP_LOWER_ARIAS, R.HOP_BELL_CAMPFIRE): has_arias,
+    (R.HOP_LOWER_ARIAS, R.HOP_GHOST_BLOOD): (
+        HasSwitch(Switch.HOP_TELEPORTS, otherwise=True) | (has_block & Has(KeyItem.BELL) & (has_kyuli | can_uppies))
     ),
-    (R.HOTP_CATH_VOID, R.CATH_START): has_void,
-    (R.HOTP_LOWER_ARIAS, R.HOTP_BELL_CAMPFIRE): has_arias,
-    (R.HOTP_LOWER_ARIAS, R.HOTP_GHOST_BLOOD): (
-        HasSwitch(Switch.HOTP_TELEPORTS, otherwise=True) | (has_block & Has(KeyItem.BELL) & (has_kyuli | can_uppies))
-    ),
-    (R.HOTP_GHOST_BLOOD, R.HOTP_EYEBALL): HasSwitch(Switch.HOTP_GHOST_BLOOD, otherwise=True),
-    (R.HOTP_GHOST_BLOOD, R.HOTP_WORM_SHORTCUT): HasSwitch(Switch.HOTP_EYEBALL_SHORTCUT),
-    (R.HOTP_WORM_SHORTCUT, R.HOTP_GHOST_BLOOD): HasSwitch(Switch.HOTP_EYEBALL_SHORTCUT, otherwise=True),
-    (R.HOTP_WORM_SHORTCUT, R.HOTP_ELEVATOR): HasSwitch(Switch.HOTP_WORM_PILLAR),
-    (R.HOTP_ELEVATOR, R.GT_ENTRANCE): HasElevator(Elevator.GT_1),
-    (R.HOTP_ELEVATOR, R.HOTP_OLD_MAN): has_cloak & (HasSwitch(Face.HOTP_OLD_MAN) | otherwise_bow),
-    (R.HOTP_ELEVATOR, R.CATA_ELEVATOR): HasElevator(Elevator.CATA_1),
-    (R.HOTP_ELEVATOR, R.HOTP_TOP_LEFT): has_claw,
-    (R.HOTP_ELEVATOR, R.CATA_BOSS): HasElevator(Elevator.CATA_2),
-    (R.HOTP_ELEVATOR, R.TR_START): HasElevator(Elevator.TR),
-    (R.HOTP_ELEVATOR, R.HOTP_START_LEFT): HasSwitch(Switch.HOTP_LEFT_BACKTRACK, otherwise=True),
-    (R.HOTP_ELEVATOR, R.HOTP_WORM_SHORTCUT): HasSwitch(Switch.HOTP_WORM_PILLAR, otherwise=True),
-    (R.HOTP_ELEVATOR, R.HOTP_SPIKE_TP_SECRET): Has(KeyItem.CHALICE),
-    (R.HOTP_ELEVATOR, R.HOTP_CLAW_LEFT): (
-        (HasSwitch(Switch.HOTP_TO_CLAW_2, otherwise=True) & can_extra_height)
+    (R.HOP_GHOST_BLOOD, R.HOP_EYEBALL): HasSwitch(Switch.HOP_GHOST_BLOOD, otherwise=True),
+    (R.HOP_GHOST_BLOOD, R.HOP_WORM_SHORTCUT): HasSwitch(Switch.HOP_EYEBALL_SHORTCUT),
+    (R.HOP_WORM_SHORTCUT, R.HOP_GHOST_BLOOD): HasSwitch(Switch.HOP_EYEBALL_SHORTCUT, otherwise=True),
+    (R.HOP_WORM_SHORTCUT, R.HOP_ELEVATOR): HasSwitch(Switch.HOP_WORM_PILLAR),
+    (R.HOP_ELEVATOR, R.GT_ENTRANCE): HasElevator(Elevator.GT_1),
+    (R.HOP_ELEVATOR, R.HOP_OLD_MAN): has_cloak & (HasSwitch(Face.HOP_OLD_MAN) | otherwise_bow),
+    (R.HOP_ELEVATOR, R.CATA_ELEVATOR): HasElevator(Elevator.CATA_1),
+    (R.HOP_ELEVATOR, R.HOP_TOP_LEFT): has_claw,
+    (R.HOP_ELEVATOR, R.CATA_BOSS): HasElevator(Elevator.CATA_2),
+    (R.HOP_ELEVATOR, R.TR_START): HasElevator(Elevator.TR),
+    (R.HOP_ELEVATOR, R.HOP_START_LEFT): HasSwitch(Switch.HOP_LEFT_BACKTRACK, otherwise=True),
+    (R.HOP_ELEVATOR, R.HOP_WORM_SHORTCUT): HasSwitch(Switch.HOP_WORM_PILLAR, otherwise=True),
+    (R.HOP_ELEVATOR, R.HOP_SPIKE_TP_SECRET): Has(KeyItem.CHALICE),
+    (R.HOP_ELEVATOR, R.HOP_CLAW_LEFT): (
+        (HasSwitch(Switch.HOP_TO_CLAW_2, otherwise=True) & can_extra_height)
         | (Has(KeyItem.BELL) & ((has_claw & has_cloak) | (has_kyuli & has_block)))
     ),
-    (R.HOTP_ELEVATOR, R.HOTP_BOSS): HasElevator(Elevator.ROA_1),
-    (R.HOTP_ELEVATOR, R.ROA_ELEVATOR): HasElevator(Elevator.ROA_2),
-    (R.HOTP_ELEVATOR, R.APEX): elevator_apex,
-    (R.HOTP_ELEVATOR, R.GT_BOSS): HasElevator(Elevator.GT_2),
-    (R.HOTP_ELEVATOR, R.MECH_ZEEK_CONNECTION): HasElevator(Elevator.MECH_1),
-    (R.HOTP_ELEVATOR, R.MECH_BOSS): HasElevator(Elevator.MECH_2),
-    (R.HOTP_CLAW_LEFT, R.HOTP_ELEVATOR): can_extra_height,
-    (R.HOTP_CLAW_LEFT, R.HOTP_TOP_LEFT): HasWhite(WhiteDoor.HOTP_CLAW, otherwise=True),
-    (R.HOTP_CLAW_LEFT, R.HOTP_CLAW): has_star,
-    (R.HOTP_TOP_LEFT, R.HOTP_ABOVE_OLD_MAN): (
+    (R.HOP_ELEVATOR, R.HOP_BOSS): HasElevator(Elevator.ROA_1),
+    (R.HOP_ELEVATOR, R.ROA_ELEVATOR): HasElevator(Elevator.ROA_2),
+    (R.HOP_ELEVATOR, R.APEX): elevator_apex,
+    (R.HOP_ELEVATOR, R.GT_BOSS): HasElevator(Elevator.GT_2),
+    (R.HOP_ELEVATOR, R.MECH_ZEEK_CONNECTION): HasElevator(Elevator.MECH_1),
+    (R.HOP_ELEVATOR, R.MECH_BOSS): HasElevator(Elevator.MECH_2),
+    (R.HOP_CLAW_LEFT, R.HOP_ELEVATOR): can_extra_height,
+    (R.HOP_CLAW_LEFT, R.HOP_TOP_LEFT): HasWhite(WhiteDoor.HOP_CLAW, otherwise=True),
+    (R.HOP_CLAW_LEFT, R.HOP_CLAW): has_star,
+    (R.HOP_TOP_LEFT, R.HOP_ABOVE_OLD_MAN): (
         Has(Eye.GREEN)
-        & (HasSwitch(Switch.HOTP_TO_ABOVE_OLD_MAN, otherwise=True) | (has_block & Has(KeyItem.BELL) & can_uppies))
+        & (HasSwitch(Switch.HOP_TO_ABOVE_OLD_MAN, otherwise=True) | (has_block & Has(KeyItem.BELL) & can_uppies))
     ),
-    (R.HOTP_CLAW_CAMPFIRE, R.HOTP_CLAW): (
-        HasSwitch(Switch.HOTP_CLAW_ACCESS, otherwise=True) & (has_kyuli | can_block_in_wall)
+    (R.HOP_CLAW_CAMPFIRE, R.HOP_CLAW): (
+        HasSwitch(Switch.HOP_CLAW_ACCESS, otherwise=True) & (has_kyuli | can_block_in_wall)
     ),
-    (R.HOTP_CLAW_CAMPFIRE, R.HOTP_HEART): HasSwitch(Crystal.HOTP_AFTER_CLAW) | otherwise_crystal,
-    (R.HOTP_CLAW, R.HOTP_CLAW_CAMPFIRE): has_claw & HasSwitch(Switch.HOTP_CLAW_ACCESS),
-    (R.HOTP_CLAW, R.HOTP_CLAW_LEFT): has_star,
-    (R.HOTP_HEART, R.HOTP_CLAW_CAMPFIRE): (
-        HasSwitch(Crystal.HOTP_AFTER_CLAW)
+    (R.HOP_CLAW_CAMPFIRE, R.HOP_HEART): HasSwitch(Crystal.HOP_AFTER_CLAW) | otherwise_crystal,
+    (R.HOP_CLAW, R.HOP_CLAW_CAMPFIRE): has_claw & HasSwitch(Switch.HOP_CLAW_ACCESS),
+    (R.HOP_CLAW, R.HOP_CLAW_LEFT): has_star,
+    (R.HOP_HEART, R.HOP_CLAW_CAMPFIRE): (
+        HasSwitch(Crystal.HOP_AFTER_CLAW)
         | HardLogic(
             ((has_cloak & has_banish & has_algus_arcanist) | (has_algus & Has(KeyItem.ICARUS)) | has_kyuli_ray),
             options=switch_off,
         )
     ),
-    (R.HOTP_HEART, R.HOTP_UPPER_ARIAS): has_arias,
-    (R.HOTP_HEART, R.HOTP_BOSS_CAMPFIRE): (
-        has_claw & (Has(KeyItem.ICARUS) | (has_block & Has(KeyItem.BELL)) | HasSwitch(Crystal.HOTP_HEART))
+    (R.HOP_HEART, R.HOP_UPPER_ARIAS): has_arias,
+    (R.HOP_HEART, R.HOP_BOSS_CAMPFIRE): (
+        has_claw & (Has(KeyItem.ICARUS) | (has_block & Has(KeyItem.BELL)) | HasSwitch(Crystal.HOP_HEART))
     ),
-    (R.HOTP_UPPER_ARIAS, R.HOTP_BOSS_CAMPFIRE): has_claw,
-    (R.HOTP_BOSS_CAMPFIRE, R.MECH_TRIPLE_SWITCHES): (
-        Has(Eye.GREEN) & has_cloak & HasSwitch(Switch.HOTP_TP_PUZZLE, Switch.MECH_ARIAS_CYCLOPS)
+    (R.HOP_UPPER_ARIAS, R.HOP_BOSS_CAMPFIRE): has_claw,
+    (R.HOP_BOSS_CAMPFIRE, R.MECH_TRIPLE_SWITCHES): (
+        Has(Eye.GREEN) & has_cloak & HasSwitch(Switch.HOP_TP_PUZZLE, Switch.MECH_ARIAS_CYCLOPS)
     ),
-    (R.HOTP_BOSS_CAMPFIRE, R.HOTP_MAIDEN): (
-        HasBlue(BlueDoor.HOTP_MAIDEN, otherwise=True) & (has_sword | (has_kyuli & has_block & Has(KeyItem.BELL)))
+    (R.HOP_BOSS_CAMPFIRE, R.HOP_MAIDEN): (
+        HasBlue(BlueDoor.HOP_MAIDEN, otherwise=True) & (has_sword | (has_kyuli & has_block & Has(KeyItem.BELL)))
     ),
-    (R.HOTP_BOSS_CAMPFIRE, R.HOTP_TP_PUZZLE): Has(Eye.GREEN),
-    (R.HOTP_BOSS_CAMPFIRE, R.HOTP_BOSS): HasWhite(WhiteDoor.HOTP_BOSS) | (has_arias & white_off),
-    (R.HOTP_TP_PUZZLE, R.HOTP_TP_FALL_TOP): has_star | HasSwitch(Switch.HOTP_TP_PUZZLE, otherwise=True),
-    (R.HOTP_TP_FALL_TOP, R.HOTP_FALL_BOTTOM): has_cloak,
-    (R.HOTP_TP_FALL_TOP, R.HOTP_TP_PUZZLE): has_star | HasSwitch(Switch.HOTP_TP_PUZZLE),
-    (R.HOTP_TP_FALL_TOP, R.HOTP_GAUNTLET_CONNECTION): has_claw,
-    (R.HOTP_TP_FALL_TOP, R.HOTP_BOSS_CAMPFIRE): has_kyuli | (has_block & can_combo_height),
-    (R.HOTP_GAUNTLET_CONNECTION, R.HOTP_GAUNTLET): has_claw & Has(KeyItem.BELL) & can_kill_ghosts,
-    (R.HOTP_FALL_BOTTOM, R.HOTP_TP_FALL_TOP): has_claw,
-    (R.HOTP_FALL_BOTTOM, R.HOTP_UPPER_VOID): Has(Eye.GREEN),
-    (R.HOTP_UPPER_VOID, R.HOTP_FALL_BOTTOM): Has(Eye.GREEN),
-    (R.HOTP_UPPER_VOID, R.HOTP_LOWER_VOID): has_void,
-    (R.HOTP_BOSS, R.GT_ENTRANCE): HasElevator(Elevator.GT_1),
-    (R.HOTP_BOSS, R.CATA_ELEVATOR): HasElevator(Elevator.CATA_1),
-    (R.HOTP_BOSS, R.CATA_BOSS): HasElevator(Elevator.CATA_2),
-    (R.HOTP_BOSS, R.HOTP_ELEVATOR): HasElevator(Elevator.HOTP),
-    (R.HOTP_BOSS, R.TR_START): HasElevator(Elevator.TR),
-    (R.HOTP_BOSS, R.ROA_ELEVATOR): HasElevator(Elevator.ROA_2),
-    (R.HOTP_BOSS, R.APEX): elevator_apex,
-    (R.HOTP_BOSS, R.GT_BOSS): HasElevator(Elevator.GT_2),
-    (R.HOTP_BOSS, R.MECH_ZEEK_CONNECTION): HasElevator(Elevator.MECH_1),
-    (R.HOTP_BOSS, R.MECH_BOSS): HasElevator(Elevator.MECH_2),
+    (R.HOP_BOSS_CAMPFIRE, R.HOP_TP_PUZZLE): Has(Eye.GREEN),
+    (R.HOP_BOSS_CAMPFIRE, R.HOP_BOSS): HasWhite(WhiteDoor.HOP_BOSS) | (has_arias & white_off),
+    (R.HOP_TP_PUZZLE, R.HOP_TP_FALL_TOP): has_star | HasSwitch(Switch.HOP_TP_PUZZLE, otherwise=True),
+    (R.HOP_TP_FALL_TOP, R.HOP_FALL_BOTTOM): has_cloak,
+    (R.HOP_TP_FALL_TOP, R.HOP_TP_PUZZLE): has_star | HasSwitch(Switch.HOP_TP_PUZZLE),
+    (R.HOP_TP_FALL_TOP, R.HOP_GAUNTLET_CONNECTION): has_claw,
+    (R.HOP_TP_FALL_TOP, R.HOP_BOSS_CAMPFIRE): has_kyuli | (has_block & can_combo_height),
+    (R.HOP_GAUNTLET_CONNECTION, R.HOP_GAUNTLET): has_claw & Has(KeyItem.BELL) & can_kill_ghosts,
+    (R.HOP_FALL_BOTTOM, R.HOP_TP_FALL_TOP): has_claw,
+    (R.HOP_FALL_BOTTOM, R.HOP_UPPER_VOID): Has(Eye.GREEN),
+    (R.HOP_UPPER_VOID, R.HOP_FALL_BOTTOM): Has(Eye.GREEN),
+    (R.HOP_UPPER_VOID, R.HOP_LOWER_VOID): has_void,
+    (R.HOP_BOSS, R.GT_ENTRANCE): HasElevator(Elevator.GT_1),
+    (R.HOP_BOSS, R.CATA_ELEVATOR): HasElevator(Elevator.CATA_1),
+    (R.HOP_BOSS, R.CATA_BOSS): HasElevator(Elevator.CATA_2),
+    (R.HOP_BOSS, R.HOP_ELEVATOR): HasElevator(Elevator.HOP),
+    (R.HOP_BOSS, R.TR_START): HasElevator(Elevator.TR),
+    (R.HOP_BOSS, R.ROA_ELEVATOR): HasElevator(Elevator.ROA_2),
+    (R.HOP_BOSS, R.APEX): elevator_apex,
+    (R.HOP_BOSS, R.GT_BOSS): HasElevator(Elevator.GT_2),
+    (R.HOP_BOSS, R.MECH_ZEEK_CONNECTION): HasElevator(Elevator.MECH_1),
+    (R.HOP_BOSS, R.MECH_BOSS): HasElevator(Elevator.MECH_2),
     (R.ROA_START, R.ROA_WORMS): (
         # this should be more complicated
         HasSwitch(Crystal.ROA_1ST_ROOM) | Filtered(Has(KeyItem.BELL) & can_crystal, options=switch_off)
@@ -666,9 +664,9 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], Rule[AstalonWorldBase]] = {
     (R.ROA_ELEVATOR, R.GT_ENTRANCE): HasElevator(Elevator.GT_1),
     (R.ROA_ELEVATOR, R.CATA_ELEVATOR): HasElevator(Elevator.CATA_1),
     (R.ROA_ELEVATOR, R.CATA_BOSS): HasElevator(Elevator.CATA_2),
-    (R.ROA_ELEVATOR, R.HOTP_ELEVATOR): HasElevator(Elevator.HOTP),
+    (R.ROA_ELEVATOR, R.HOP_ELEVATOR): HasElevator(Elevator.HOP),
     (R.ROA_ELEVATOR, R.TR_START): HasElevator(Elevator.TR),
-    (R.ROA_ELEVATOR, R.HOTP_BOSS): HasElevator(Elevator.ROA_1),
+    (R.ROA_ELEVATOR, R.HOP_BOSS): HasElevator(Elevator.ROA_1),
     (R.ROA_ELEVATOR, R.ROA_ICARUS): HasSwitch(Switch.ROA_ICARUS, otherwise=True),
     (R.ROA_ELEVATOR, R.ROA_DARK_CONNECTION): has_claw | HasSwitch(Switch.ROA_ELEVATOR, otherwise=True),
     (R.ROA_ELEVATOR, R.APEX): elevator_apex,
@@ -705,14 +703,14 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], Rule[AstalonWorldBase]] = {
     (R.APEX, R.GT_ENTRANCE): HasElevator(Elevator.GT_1),
     (R.APEX, R.CATA_ELEVATOR): HasElevator(Elevator.CATA_1),
     (R.APEX, R.CATA_BOSS): HasElevator(Elevator.CATA_2),
-    (R.APEX, R.HOTP_ELEVATOR): HasElevator(Elevator.HOTP),
+    (R.APEX, R.HOP_ELEVATOR): HasElevator(Elevator.HOP),
     (R.APEX, R.FINAL_BOSS): (
         HasAll(Eye.RED, Eye.BLUE, Eye.GREEN) & (Has(KeyItem.BELL, options=easy) | HardLogic(True_())) & HasGoal()
     ),
     (R.APEX, R.ROA_APEX_CONNECTION): HasSwitch(Switch.ROA_APEX_ACCESS),
     (R.APEX, R.TR_START): HasElevator(Elevator.TR),
     (R.APEX, R.APEX_HEART): can_extra_height,
-    (R.APEX, R.HOTP_BOSS): HasElevator(Elevator.ROA_1),
+    (R.APEX, R.HOP_BOSS): HasElevator(Elevator.ROA_1),
     (R.APEX, R.ROA_ELEVATOR): HasElevator(Elevator.ROA_2),
     (R.APEX, R.GT_BOSS): HasElevator(Elevator.GT_2),
     (R.APEX, R.APEX_CENTAUR_ACCESS): HasBlue(BlueDoor.APEX, otherwise=True) & has_star,
@@ -740,9 +738,9 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], Rule[AstalonWorldBase]] = {
     (R.CATA_TOP, R.CATA_BOW_CAMPFIRE): HasSwitch(Switch.CATA_TOP, otherwise=True),
     (R.CATA_ELEVATOR, R.GT_ENTRANCE): HasElevator(Elevator.GT_1),
     (R.CATA_ELEVATOR, R.CATA_BOSS): HasElevator(Elevator.CATA_2),
-    (R.CATA_ELEVATOR, R.HOTP_ELEVATOR): HasElevator(Elevator.HOTP),
+    (R.CATA_ELEVATOR, R.HOP_ELEVATOR): HasElevator(Elevator.HOP),
     (R.CATA_ELEVATOR, R.TR_START): HasElevator(Elevator.TR),
-    (R.CATA_ELEVATOR, R.HOTP_BOSS): HasElevator(Elevator.ROA_1),
+    (R.CATA_ELEVATOR, R.HOP_BOSS): HasElevator(Elevator.ROA_1),
     (R.CATA_ELEVATOR, R.ROA_ELEVATOR): HasElevator(Elevator.ROA_2),
     (R.CATA_ELEVATOR, R.APEX): elevator_apex,
     (R.CATA_ELEVATOR, R.GT_BOSS): HasElevator(Elevator.GT_2),
@@ -804,11 +802,11 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], Rule[AstalonWorldBase]] = {
     (R.CATA_VOID_L, R.CATA_BOSS): HasWhite(WhiteDoor.CATA_PRISON, otherwise=True) & has_kyuli,
     (R.CATA_BOSS, R.GT_ENTRANCE): HasElevator(Elevator.GT_1),
     (R.CATA_BOSS, R.CATA_ELEVATOR): HasElevator(Elevator.CATA_1),
-    (R.CATA_BOSS, R.HOTP_ELEVATOR): HasElevator(Elevator.HOTP),
+    (R.CATA_BOSS, R.HOP_ELEVATOR): HasElevator(Elevator.HOP),
     (R.CATA_BOSS, R.CATA_CENTAUR): HasSwitch(Face.CATA_CAMPFIRE) | otherwise_bow,
     (R.CATA_BOSS, R.CATA_VOID_L): HasWhite(WhiteDoor.CATA_PRISON, otherwise=True),
     (R.CATA_BOSS, R.TR_START): HasElevator(Elevator.TR) | HasSwitch(Switch.TR_ELEVATOR, otherwise=True),
-    (R.CATA_BOSS, R.HOTP_BOSS): HasElevator(Elevator.ROA_1),
+    (R.CATA_BOSS, R.HOP_BOSS): HasElevator(Elevator.ROA_1),
     (R.CATA_BOSS, R.ROA_ELEVATOR): HasElevator(Elevator.ROA_2),
     (R.CATA_BOSS, R.APEX): elevator_apex,
     (R.CATA_BOSS, R.GT_BOSS): HasElevator(Elevator.GT_2),
@@ -817,8 +815,8 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], Rule[AstalonWorldBase]] = {
     (R.TR_START, R.GT_ENTRANCE): HasElevator(Elevator.GT_1),
     (R.TR_START, R.CATA_ELEVATOR): HasElevator(Elevator.CATA_1),
     (R.TR_START, R.CATA_BOSS): HasElevator(Elevator.CATA_2) | (HasSwitch(Switch.TR_ELEVATOR) & can_extra_height),
-    (R.TR_START, R.HOTP_ELEVATOR): HasElevator(Elevator.HOTP),
-    (R.TR_START, R.HOTP_BOSS): HasElevator(Elevator.ROA_1),
+    (R.TR_START, R.HOP_ELEVATOR): HasElevator(Elevator.HOP),
+    (R.TR_START, R.HOP_BOSS): HasElevator(Elevator.ROA_1),
     (R.TR_START, R.ROA_ELEVATOR): HasElevator(Elevator.ROA_2),
     (R.TR_START, R.TR_LEFT): (
         HasBlue(BlueDoor.TR, otherwise=True)
@@ -900,9 +898,9 @@ MAIN_LOCATION_RULES: dict[L, Rule[AstalonWorldBase]] = {
         & CanReachRegion(R.GT_BUTT)
         & (has_algus | has_kyuli | has_bram | has_zeek | has_sword)
     ),
-    L.HOTP_BELL: HasSwitch(Switch.HOTP_BELL, otherwise=True) | has_kyuli | can_combo_height,
-    L.HOTP_CLAW: can_extra_height,
-    L.HOTP_MAIDEN_RING: HasSwitch(Crystal.HOTP_MAIDEN_1, Crystal.HOTP_MAIDEN_2) | otherwise_crystal,
+    L.HOP_BELL: HasSwitch(Switch.HOP_BELL, otherwise=True) | has_kyuli | can_combo_height,
+    L.HOP_CLAW: can_extra_height,
+    L.HOP_MAIDEN_RING: HasSwitch(Crystal.HOP_MAIDEN_1, Crystal.HOP_MAIDEN_2) | otherwise_crystal,
     L.TR_ADORNED_KEY: (
         HasSwitch(Switch.TR_ADORNED_L, Switch.TR_ADORNED_M, Switch.TR_ADORNED_R)
         | Filtered(
@@ -928,13 +926,13 @@ MAIN_LOCATION_RULES: dict[L, Rule[AstalonWorldBase]] = {
     L.GT_HP_5_KEY: has_claw,
     L.MECH_HP_1_SWITCH: HasSwitch(Switch.MECH_INVISIBLE, otherwise=True),
     L.MECH_HP_3_CLAW: has_claw,
-    L.HOTP_HP_2_GAUNTLET: has_claw & has_zeek & Has(KeyItem.BELL),
-    L.HOTP_HP_5_OLD_MAN: (
+    L.HOP_HP_2_GAUNTLET: has_claw & has_zeek & Has(KeyItem.BELL),
+    L.HOP_HP_5_OLD_MAN: (
         has_claw
         & ((Has(KeyItem.BELL) & can_kill_ghosts) | Has(KeyItem.CHALICE))
-        & HasSwitch(Switch.HOTP_ABOVE_OLD_MAN, otherwise=True)
+        & HasSwitch(Switch.HOP_ABOVE_OLD_MAN, otherwise=True)
     ),
-    L.HOTP_HP_5_START: has_claw & HasBlue(BlueDoor.HOTP_START, otherwise=True),
+    L.HOP_HP_5_START: has_claw & HasBlue(BlueDoor.HOP_START, otherwise=True),
     L.ROA_HP_2_RIGHT: (
         (has_gauntlet | Has(KeyItem.CHALICE) | has_star)
         & Has(KeyItem.BELL)
@@ -971,10 +969,10 @@ MAIN_LOCATION_RULES: dict[L, Rule[AstalonWorldBase]] = {
     L.MECH_BLUE_KEY_BLOCKS: HasSwitch(Switch.MECH_KEY_BLOCKS, otherwise=True),
     L.MECH_BLUE_KEY_SAVE: has_claw,
     L.MECH_BLUE_KEY_POT: has_kyuli | can_combo_height,
-    L.HOTP_BLUE_KEY_STATUE: has_claw,
-    L.HOTP_BLUE_KEY_AMULET: has_kyuli | can_combo_height,
-    L.HOTP_BLUE_KEY_LADDER: can_extra_height,
-    L.HOTP_BLUE_KEY_MAZE: HasSwitch(Crystal.HOTP_BELOW_PUZZLE) | otherwise_crystal,
+    L.HOP_BLUE_KEY_STATUE: has_claw,
+    L.HOP_BLUE_KEY_AMULET: has_kyuli | can_combo_height,
+    L.HOP_BLUE_KEY_LADDER: can_extra_height,
+    L.HOP_BLUE_KEY_MAZE: HasSwitch(Crystal.HOP_BELOW_PUZZLE) | otherwise_crystal,
     L.ROA_BLUE_KEY_FACE: HasSwitch(Face.ROA_BLUE_KEY) | otherwise_bow,
     L.ROA_BLUE_KEY_FLAMES: (
         (has_block & has_kyuli & Has(KeyItem.BELL)) | CanReachEntrance(R.ROA_FLAMES, R.ROA_ARIAS_BABY_GORGON)
@@ -1057,27 +1055,26 @@ MAIN_LOCATION_RULES: dict[L, Rule[AstalonWorldBase]] = {
     L.MECH_CRYSTAL_TOP_CHAINS: can_crystal,
     L.MECH_CRYSTAL_BK: can_crystal,
     L.MECH_FACE_ABOVE_VOLANTIS: has_bow & has_claw,
-    L.HOTP_SWITCH_LOWER_SHORTCUT: HasSwitch(Crystal.HOTP_LOWER) | otherwise_crystal,
-    L.HOTP_SWITCH_TO_CLAW_2: (
-        HasSwitch(Switch.HOTP_TO_CLAW_1, otherwise=True)
-        | (HasSwitch(Switch.HOTP_TO_CLAW_2, otherwise=True) & can_extra_height)
+    L.HOP_SWITCH_LOWER_SHORTCUT: HasSwitch(Crystal.HOP_LOWER) | otherwise_crystal,
+    L.HOP_SWITCH_TO_CLAW_2: (
+        HasSwitch(Switch.HOP_TO_CLAW_1, otherwise=True)
+        | (HasSwitch(Switch.HOP_TO_CLAW_2, otherwise=True) & can_extra_height)
         | has_claw
     ),
-    L.HOTP_SWITCH_CLAW_ACCESS: has_kyuli | can_block_in_wall,
-    L.HOTP_SWITCH_LEFT_3: (
-        HasSwitch(Switch.HOTP_LEFT_1, Switch.HOTP_LEFT_2, otherwise=True)
-        | (has_star & CanReachRegion(R.HOTP_START_LEFT))
+    L.HOP_SWITCH_CLAW_ACCESS: has_kyuli | can_block_in_wall,
+    L.HOP_SWITCH_LEFT_3: (
+        HasSwitch(Switch.HOP_LEFT_1, Switch.HOP_LEFT_2, otherwise=True) | (has_star & CanReachRegion(R.HOP_START_LEFT))
     ),
-    L.HOTP_CRYSTAL_ROCK_ACCESS: can_crystal,
-    L.HOTP_CRYSTAL_BOTTOM: can_crystal,
-    L.HOTP_CRYSTAL_LOWER: can_crystal,
-    L.HOTP_CRYSTAL_AFTER_CLAW: can_crystal,
-    L.HOTP_CRYSTAL_MAIDEN_1: can_crystal,
-    L.HOTP_CRYSTAL_MAIDEN_2: can_crystal & (HasSwitch(Crystal.HOTP_MAIDEN_1, otherwise=True) | has_kyuli),
-    L.HOTP_CRYSTAL_BELL_ACCESS: can_crystal,
-    L.HOTP_CRYSTAL_HEART: can_crystal,
-    L.HOTP_CRYSTAL_BELOW_PUZZLE: can_crystal,
-    L.HOTP_FACE_OLD_MAN: has_bow,
+    L.HOP_CRYSTAL_ROCK_ACCESS: can_crystal,
+    L.HOP_CRYSTAL_BOTTOM: can_crystal,
+    L.HOP_CRYSTAL_LOWER: can_crystal,
+    L.HOP_CRYSTAL_AFTER_CLAW: can_crystal,
+    L.HOP_CRYSTAL_MAIDEN_1: can_crystal,
+    L.HOP_CRYSTAL_MAIDEN_2: can_crystal & (HasSwitch(Crystal.HOP_MAIDEN_1, otherwise=True) | has_kyuli),
+    L.HOP_CRYSTAL_BELL_ACCESS: can_crystal,
+    L.HOP_CRYSTAL_HEART: can_crystal,
+    L.HOP_CRYSTAL_BELOW_PUZZLE: can_crystal,
+    L.HOP_FACE_OLD_MAN: has_bow,
     L.ROA_SWITCH_SPIKE_CLIMB: has_claw,
     L.ROA_SWITCH_TRIPLE_3: HasSwitch(Crystal.ROA_TRIPLE_2) | otherwise_crystal,
     L.ROA_CRYSTAL_1ST_ROOM: can_crystal & has_kyuli & Has(KeyItem.BELL),

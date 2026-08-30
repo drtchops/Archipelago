@@ -99,9 +99,9 @@ class WhiteDoor(StrEnum):
     MECH_BK = "White Door Mech Black Knight"
     MECH_ARENA = "White Door Mech Enemy Arena"
     MECH_TOP = "White Door Mech Top"
-    HOTP_START = "White Door HotP 1st Room"
-    HOTP_CLAW = "White Door HotP Griffon Claw"
-    HOTP_BOSS = "White Door HotP Boss"
+    HOP_START = "White Door HoP 1st Room"
+    HOP_CLAW = "White Door HoP Griffon Claw"
+    HOP_BOSS = "White Door HoP Boss"
     ROA_WORMS = "White Door RoA Worms"
     ROA_ASCEND = "White Door RoA Ascend"
     ROA_BALLS = "White Door RoA Spike Balls"
@@ -124,9 +124,9 @@ class BlueDoor(StrEnum):
     MECH_BOOTS = "Blue Door Mech Talaria Boots"
     MECH_VOID = "Blue Door Mech Void Charm"
     MECH_CD = "Blue Door Mech Cyclops Den"
-    HOTP_START = "Blue Door HotP Above Start"
-    HOTP_STATUE = "Blue Door HotP Epimetheus"
-    HOTP_MAIDEN = "Blue Door HotP Dead Maiden"
+    HOP_START = "Blue Door HoP Above Start"
+    HOP_STATUE = "Blue Door HoP Epimetheus"
+    HOP_MAIDEN = "Blue Door HoP Dead Maiden"
     ROA_FLAMES = "Blue Door RoA Flames"
     ROA_BLOOD = "Blue Door RoA Blood Pot"
     APEX = "Blue Door Apex"
@@ -182,7 +182,7 @@ class Elevator(StrEnum):
     GT_2 = "GT 2 Elevator"
     MECH_1 = "Mech 1 Elevator"
     MECH_2 = "Mech 2 Elevator"
-    HOTP = "HotP Elevator"
+    HOP = "HoP Elevator"
     ROA_1 = "RoA 1 Elevator"
     ROA_2 = "RoA 2 Elevator"
     APEX = "Apex Elevator"
@@ -233,28 +233,28 @@ class Switch(StrEnum):
     MECH_EYEBALL = "Door Mech Eyeball"
     MECH_INVISIBLE = "Door Mech Invisible"
     MECH_SKULL_PUZZLE = "Door Mech Skull Puzzle"
-    HOTP_ROCK = "Rockfall HotP"
-    HOTP_BELOW_START = "Door HotP Below Start"
-    HOTP_LEFT_2 = "Door HotP Left 2"
-    HOTP_LEFT_1 = "Door HotP Left 1"
-    HOTP_LOWER_SHORTCUT = "Door HotP Lower Shortcut"
-    HOTP_BELL = "Blocks HotP Bell"
-    HOTP_GHOST_BLOOD = "Door HotP Ghost Blood"
-    HOTP_TELEPORTS = "Door HotP Teleports"
-    HOTP_WORM_PILLAR = "Door HotP Worm Pillar"
-    HOTP_TO_CLAW_1 = "Door HotP To Claw"
-    HOTP_TO_CLAW_2 = "Blocks HotP To Claw"
-    HOTP_CLAW_ACCESS = "Blocks HotP Claw Access"
-    HOTP_GHOSTS = "Door HotP Ghosts"
-    HOTP_LEFT_3 = "Blocks HotP Left"
-    HOTP_ABOVE_OLD_MAN = "Door HotP Above Old Man"
-    HOTP_TO_ABOVE_OLD_MAN = "Blocks HotP To Above Old Man"
-    HOTP_TP_PUZZLE = "Door HotP TP Puzzle"
-    HOTP_EYEBALL_SHORTCUT = "Blocks HotP Eyeball Shortcut"
-    HOTP_BELL_ACCESS = "Blocks HotP Bell Access Left"
-    HOTP_1ST_ROOM = "Blocks HotP 1st Room"
-    HOTP_LEFT_BACKTRACK = "Blocks HotP Left Backtrack"
-    HOTP_SKULL_PUZZLE = "Door HotP Skull Puzzle"
+    HOP_ROCK = "Rockfall HoP"
+    HOP_BELOW_START = "Door HoP Below Start"
+    HOP_LEFT_2 = "Door HoP Left 2"
+    HOP_LEFT_1 = "Door HoP Left 1"
+    HOP_LOWER_SHORTCUT = "Door HoP Lower Shortcut"
+    HOP_BELL = "Blocks HoP Bell"
+    HOP_GHOST_BLOOD = "Door HoP Ghost Blood"
+    HOP_TELEPORTS = "Door HoP Teleports"
+    HOP_WORM_PILLAR = "Door HoP Worm Pillar"
+    HOP_TO_CLAW_1 = "Door HoP To Claw"
+    HOP_TO_CLAW_2 = "Blocks HoP To Claw"
+    HOP_CLAW_ACCESS = "Blocks HoP Claw Access"
+    HOP_GHOSTS = "Door HoP Ghosts"
+    HOP_LEFT_3 = "Blocks HoP Left"
+    HOP_ABOVE_OLD_MAN = "Door HoP Above Old Man"
+    HOP_TO_ABOVE_OLD_MAN = "Blocks HoP To Above Old Man"
+    HOP_TP_PUZZLE = "Door HoP TP Puzzle"
+    HOP_EYEBALL_SHORTCUT = "Blocks HoP Eyeball Shortcut"
+    HOP_BELL_ACCESS = "Blocks HoP Bell Access Left"
+    HOP_1ST_ROOM = "Blocks HoP 1st Room"
+    HOP_LEFT_BACKTRACK = "Blocks HoP Left Backtrack"
+    HOP_SKULL_PUZZLE = "Door HoP Skull Puzzle"
     ROA_ASCEND = "Blocks RoA Ascend"
     ROA_AFTER_WORMS = "Blocks RoA After Worms"
     ROA_RIGHT_PATH = "Blocks RoA Right Path"
@@ -339,15 +339,15 @@ class Crystal(StrEnum):
     MECH_OLD_MAN = "Blocks Mech Old Man"
     MECH_TOP_CHAINS = "Blocks Mech Top Chains"
     MECH_BK = "Blocks Mech BK"
-    HOTP_ROCK_ACCESS = "Door HotP Rock"
-    HOTP_BOTTOM = "Door HotP Bottom"
-    HOTP_LOWER = "Blocks HotP Lower"
-    HOTP_AFTER_CLAW = "Door HotP After Claw"
-    HOTP_MAIDEN_1 = "Blocks HotP Maiden"
-    HOTP_MAIDEN_2 = "Door HotP Maiden"
-    HOTP_BELL_ACCESS = "Blocks HotP Bell Access Right"
-    HOTP_HEART = "Blocks HotP Heart"
-    HOTP_BELOW_PUZZLE = "Blocks HotP Below Puzzle"
+    HOP_ROCK_ACCESS = "Door HoP Rock"
+    HOP_BOTTOM = "Door HoP Bottom"
+    HOP_LOWER = "Blocks HoP Lower"
+    HOP_AFTER_CLAW = "Door HoP After Claw"
+    HOP_MAIDEN_1 = "Blocks HoP Maiden"
+    HOP_MAIDEN_2 = "Door HoP Maiden"
+    HOP_BELL_ACCESS = "Blocks HoP Bell Access Right"
+    HOP_HEART = "Blocks HoP Heart"
+    HOP_BELOW_PUZZLE = "Blocks HoP Below Puzzle"
     ROA_1ST_ROOM = "Door RoA 1st Room"
     ROA_BABY_GORGON = "Door RoA Baby Gorgon"
     ROA_LADDER_R = "Blocks RoA Ladder Right"
@@ -380,7 +380,7 @@ class Crystal(StrEnum):
 
 class Face(StrEnum):
     MECH_VOLANTIS = "Blocks Mech Above Volantis"
-    HOTP_OLD_MAN = "Blocks HotP Old Man"
+    HOP_OLD_MAN = "Blocks HoP Old Man"
     ROA_SPIDERS = "Blocks RoA Spiders Lower"
     ROA_BLUE_KEY = "Blocks RoA Blue Key"
     CAVES_1ST_ROOM = "Blocks Caves 1st Room"
@@ -574,9 +574,9 @@ ALL_ITEMS: tuple[ItemData, ...] = (
     ItemData(WhiteDoor.MECH_BK, ItemClassification.progression, 1, ItemGroup.DOOR_WHITE),
     ItemData(WhiteDoor.MECH_ARENA, ItemClassification.progression, 1, ItemGroup.DOOR_WHITE),
     ItemData(WhiteDoor.MECH_TOP, ItemClassification.progression, 1, ItemGroup.DOOR_WHITE),
-    ItemData(WhiteDoor.HOTP_START, ItemClassification.progression, 1, ItemGroup.DOOR_WHITE),
-    ItemData(WhiteDoor.HOTP_CLAW, ItemClassification.progression, 1, ItemGroup.DOOR_WHITE),
-    ItemData(WhiteDoor.HOTP_BOSS, ItemClassification.progression, 1, ItemGroup.DOOR_WHITE),
+    ItemData(WhiteDoor.HOP_START, ItemClassification.progression, 1, ItemGroup.DOOR_WHITE),
+    ItemData(WhiteDoor.HOP_CLAW, ItemClassification.progression, 1, ItemGroup.DOOR_WHITE),
+    ItemData(WhiteDoor.HOP_BOSS, ItemClassification.progression, 1, ItemGroup.DOOR_WHITE),
     ItemData(WhiteDoor.ROA_WORMS, ItemClassification.progression, 1, ItemGroup.DOOR_WHITE),
     ItemData(WhiteDoor.ROA_ASCEND, ItemClassification.progression, 1, ItemGroup.DOOR_WHITE),
     ItemData(WhiteDoor.ROA_BALLS, ItemClassification.progression, 1, ItemGroup.DOOR_WHITE),
@@ -596,9 +596,9 @@ ALL_ITEMS: tuple[ItemData, ...] = (
     ItemData(BlueDoor.MECH_BOOTS, ItemClassification.progression, 1, ItemGroup.DOOR_BLUE),
     ItemData(BlueDoor.MECH_VOID, ItemClassification.progression, 1, ItemGroup.DOOR_BLUE),
     ItemData(BlueDoor.MECH_CD, ItemClassification.progression, 1, ItemGroup.DOOR_BLUE),
-    ItemData(BlueDoor.HOTP_START, ItemClassification.progression, 1, ItemGroup.DOOR_BLUE),
-    ItemData(BlueDoor.HOTP_STATUE, ItemClassification.progression, 1, ItemGroup.DOOR_BLUE),
-    ItemData(BlueDoor.HOTP_MAIDEN, ItemClassification.progression, 1, ItemGroup.DOOR_BLUE),
+    ItemData(BlueDoor.HOP_START, ItemClassification.progression, 1, ItemGroup.DOOR_BLUE),
+    ItemData(BlueDoor.HOP_STATUE, ItemClassification.progression, 1, ItemGroup.DOOR_BLUE),
+    ItemData(BlueDoor.HOP_MAIDEN, ItemClassification.progression, 1, ItemGroup.DOOR_BLUE),
     ItemData(BlueDoor.ROA_FLAMES, ItemClassification.progression, 1, ItemGroup.DOOR_BLUE),
     ItemData(BlueDoor.ROA_BLOOD, ItemClassification.filler, 1, ItemGroup.DOOR_BLUE),
     ItemData(BlueDoor.APEX, ItemClassification.progression, 1, ItemGroup.DOOR_BLUE),
@@ -663,7 +663,7 @@ ALL_ITEMS: tuple[ItemData, ...] = (
     ItemData(Elevator.GT_2, ItemClassification.progression, 1, ItemGroup.ELEVATOR),
     ItemData(Elevator.MECH_1, ItemClassification.progression, 1, ItemGroup.ELEVATOR),
     ItemData(Elevator.MECH_2, ItemClassification.progression, 1, ItemGroup.ELEVATOR),
-    ItemData(Elevator.HOTP, ItemClassification.progression, 1, ItemGroup.ELEVATOR),
+    ItemData(Elevator.HOP, ItemClassification.progression, 1, ItemGroup.ELEVATOR),
     ItemData(Elevator.ROA_1, ItemClassification.progression, 1, ItemGroup.ELEVATOR),
     ItemData(Elevator.ROA_2, ItemClassification.progression, 1, ItemGroup.ELEVATOR),
     ItemData(Elevator.APEX, ItemClassification.progression, 1, ItemGroup.ELEVATOR),
@@ -728,27 +728,27 @@ ALL_ITEMS: tuple[ItemData, ...] = (
     ItemData(Switch.MECH_CANNON, ItemClassification.progression, 1, ItemGroup.SWITCH),
     ItemData(Switch.MECH_EYEBALL, ItemClassification.progression, 1, ItemGroup.SWITCH),
     ItemData(Switch.MECH_INVISIBLE, ItemClassification.progression, 1, ItemGroup.SWITCH),
-    ItemData(Switch.HOTP_ROCK, ItemClassification.progression, 1, ItemGroup.SWITCH),
-    ItemData(Switch.HOTP_BELOW_START, ItemClassification.progression, 1, ItemGroup.SWITCH),
-    ItemData(Switch.HOTP_LEFT_2, ItemClassification.progression, 1, ItemGroup.SWITCH),
-    ItemData(Switch.HOTP_LEFT_1, ItemClassification.progression, 1, ItemGroup.SWITCH),
-    ItemData(Switch.HOTP_LOWER_SHORTCUT, ItemClassification.progression, 1, ItemGroup.SWITCH),
-    ItemData(Switch.HOTP_BELL, ItemClassification.progression, 1, ItemGroup.SWITCH),
-    ItemData(Switch.HOTP_GHOST_BLOOD, ItemClassification.progression, 1, ItemGroup.SWITCH),
-    ItemData(Switch.HOTP_TELEPORTS, ItemClassification.progression, 1, ItemGroup.SWITCH),
-    ItemData(Switch.HOTP_WORM_PILLAR, ItemClassification.progression, 1, ItemGroup.SWITCH),
-    ItemData(Switch.HOTP_TO_CLAW_1, ItemClassification.progression, 1, ItemGroup.SWITCH),
-    ItemData(Switch.HOTP_TO_CLAW_2, ItemClassification.progression, 1, ItemGroup.SWITCH),
-    ItemData(Switch.HOTP_CLAW_ACCESS, ItemClassification.progression, 1, ItemGroup.SWITCH),
-    ItemData(Switch.HOTP_GHOSTS, ItemClassification.progression, 1, ItemGroup.SWITCH),
-    ItemData(Switch.HOTP_LEFT_3, ItemClassification.progression, 1, ItemGroup.SWITCH),
-    ItemData(Switch.HOTP_ABOVE_OLD_MAN, ItemClassification.progression, 1, ItemGroup.SWITCH),
-    ItemData(Switch.HOTP_TO_ABOVE_OLD_MAN, ItemClassification.progression, 1, ItemGroup.SWITCH),
-    ItemData(Switch.HOTP_TP_PUZZLE, ItemClassification.progression, 1, ItemGroup.SWITCH),
-    ItemData(Switch.HOTP_EYEBALL_SHORTCUT, ItemClassification.progression, 1, ItemGroup.SWITCH),
-    ItemData(Switch.HOTP_BELL_ACCESS, ItemClassification.progression, 1, ItemGroup.SWITCH),
-    ItemData(Switch.HOTP_1ST_ROOM, ItemClassification.progression, 1, ItemGroup.SWITCH),
-    ItemData(Switch.HOTP_LEFT_BACKTRACK, ItemClassification.progression, 1, ItemGroup.SWITCH),
+    ItemData(Switch.HOP_ROCK, ItemClassification.progression, 1, ItemGroup.SWITCH),
+    ItemData(Switch.HOP_BELOW_START, ItemClassification.progression, 1, ItemGroup.SWITCH),
+    ItemData(Switch.HOP_LEFT_2, ItemClassification.progression, 1, ItemGroup.SWITCH),
+    ItemData(Switch.HOP_LEFT_1, ItemClassification.progression, 1, ItemGroup.SWITCH),
+    ItemData(Switch.HOP_LOWER_SHORTCUT, ItemClassification.progression, 1, ItemGroup.SWITCH),
+    ItemData(Switch.HOP_BELL, ItemClassification.progression, 1, ItemGroup.SWITCH),
+    ItemData(Switch.HOP_GHOST_BLOOD, ItemClassification.progression, 1, ItemGroup.SWITCH),
+    ItemData(Switch.HOP_TELEPORTS, ItemClassification.progression, 1, ItemGroup.SWITCH),
+    ItemData(Switch.HOP_WORM_PILLAR, ItemClassification.progression, 1, ItemGroup.SWITCH),
+    ItemData(Switch.HOP_TO_CLAW_1, ItemClassification.progression, 1, ItemGroup.SWITCH),
+    ItemData(Switch.HOP_TO_CLAW_2, ItemClassification.progression, 1, ItemGroup.SWITCH),
+    ItemData(Switch.HOP_CLAW_ACCESS, ItemClassification.progression, 1, ItemGroup.SWITCH),
+    ItemData(Switch.HOP_GHOSTS, ItemClassification.progression, 1, ItemGroup.SWITCH),
+    ItemData(Switch.HOP_LEFT_3, ItemClassification.progression, 1, ItemGroup.SWITCH),
+    ItemData(Switch.HOP_ABOVE_OLD_MAN, ItemClassification.progression, 1, ItemGroup.SWITCH),
+    ItemData(Switch.HOP_TO_ABOVE_OLD_MAN, ItemClassification.progression, 1, ItemGroup.SWITCH),
+    ItemData(Switch.HOP_TP_PUZZLE, ItemClassification.progression, 1, ItemGroup.SWITCH),
+    ItemData(Switch.HOP_EYEBALL_SHORTCUT, ItemClassification.progression, 1, ItemGroup.SWITCH),
+    ItemData(Switch.HOP_BELL_ACCESS, ItemClassification.progression, 1, ItemGroup.SWITCH),
+    ItemData(Switch.HOP_1ST_ROOM, ItemClassification.progression, 1, ItemGroup.SWITCH),
+    ItemData(Switch.HOP_LEFT_BACKTRACK, ItemClassification.progression, 1, ItemGroup.SWITCH),
     ItemData(Switch.ROA_ASCEND, ItemClassification.progression, 1, ItemGroup.SWITCH),
     ItemData(Switch.ROA_AFTER_WORMS, ItemClassification.progression, 1, ItemGroup.SWITCH),
     ItemData(Switch.ROA_RIGHT_PATH, ItemClassification.progression, 1, ItemGroup.SWITCH),
@@ -830,15 +830,15 @@ ALL_ITEMS: tuple[ItemData, ...] = (
     ItemData(Crystal.MECH_OLD_MAN, ItemClassification.filler, 1, ItemGroup.SWITCH),
     ItemData(Crystal.MECH_TOP_CHAINS, ItemClassification.filler, 1, ItemGroup.SWITCH),
     ItemData(Crystal.MECH_BK, ItemClassification.progression, 1, ItemGroup.SWITCH),
-    ItemData(Crystal.HOTP_ROCK_ACCESS, ItemClassification.progression, 1, ItemGroup.SWITCH),
-    ItemData(Crystal.HOTP_BOTTOM, ItemClassification.progression, 1, ItemGroup.SWITCH),
-    ItemData(Crystal.HOTP_LOWER, ItemClassification.progression, 1, ItemGroup.SWITCH),
-    ItemData(Crystal.HOTP_AFTER_CLAW, ItemClassification.progression, 1, ItemGroup.SWITCH),
-    ItemData(Crystal.HOTP_MAIDEN_1, ItemClassification.progression, 1, ItemGroup.SWITCH),
-    ItemData(Crystal.HOTP_MAIDEN_2, ItemClassification.progression, 1, ItemGroup.SWITCH),
-    ItemData(Crystal.HOTP_BELL_ACCESS, ItemClassification.progression, 1, ItemGroup.SWITCH),
-    ItemData(Crystal.HOTP_HEART, ItemClassification.progression, 1, ItemGroup.SWITCH),
-    ItemData(Crystal.HOTP_BELOW_PUZZLE, ItemClassification.progression, 1, ItemGroup.SWITCH),
+    ItemData(Crystal.HOP_ROCK_ACCESS, ItemClassification.progression, 1, ItemGroup.SWITCH),
+    ItemData(Crystal.HOP_BOTTOM, ItemClassification.progression, 1, ItemGroup.SWITCH),
+    ItemData(Crystal.HOP_LOWER, ItemClassification.progression, 1, ItemGroup.SWITCH),
+    ItemData(Crystal.HOP_AFTER_CLAW, ItemClassification.progression, 1, ItemGroup.SWITCH),
+    ItemData(Crystal.HOP_MAIDEN_1, ItemClassification.progression, 1, ItemGroup.SWITCH),
+    ItemData(Crystal.HOP_MAIDEN_2, ItemClassification.progression, 1, ItemGroup.SWITCH),
+    ItemData(Crystal.HOP_BELL_ACCESS, ItemClassification.progression, 1, ItemGroup.SWITCH),
+    ItemData(Crystal.HOP_HEART, ItemClassification.progression, 1, ItemGroup.SWITCH),
+    ItemData(Crystal.HOP_BELOW_PUZZLE, ItemClassification.progression, 1, ItemGroup.SWITCH),
     ItemData(Crystal.ROA_1ST_ROOM, ItemClassification.progression, 1, ItemGroup.SWITCH),
     ItemData(Crystal.ROA_BABY_GORGON, ItemClassification.progression, 1, ItemGroup.SWITCH),
     ItemData(Crystal.ROA_LADDER_R, ItemClassification.progression, 1, ItemGroup.SWITCH),
@@ -868,7 +868,7 @@ ALL_ITEMS: tuple[ItemData, ...] = (
     ItemData(Crystal.SP_BLOCKS, ItemClassification.progression, 1, ItemGroup.SWITCH),
     ItemData(Crystal.SP_STAR, ItemClassification.progression, 1, ItemGroup.SWITCH),
     ItemData(Face.MECH_VOLANTIS, ItemClassification.filler, 1, ItemGroup.SWITCH),
-    ItemData(Face.HOTP_OLD_MAN, ItemClassification.filler, 1, ItemGroup.SWITCH),
+    ItemData(Face.HOP_OLD_MAN, ItemClassification.filler, 1, ItemGroup.SWITCH),
     ItemData(Face.ROA_SPIDERS, ItemClassification.progression, 1, ItemGroup.SWITCH),
     ItemData(Face.ROA_BLUE_KEY, ItemClassification.progression, 1, ItemGroup.SWITCH),
     ItemData(Face.CAVES_1ST_ROOM, ItemClassification.progression, 1, ItemGroup.SWITCH),
@@ -888,7 +888,7 @@ ALL_ITEMS: tuple[ItemData, ...] = (
     ItemData(Trap.ROCKS, ItemClassification.trap, 0, ItemGroup.TRAP),
     ItemData(Elevator.GT_1, ItemClassification.progression, 1, ItemGroup.ELEVATOR),
     ItemData(Switch.MECH_SKULL_PUZZLE, ItemClassification.progression, 1, ItemGroup.SWITCH),
-    ItemData(Switch.HOTP_SKULL_PUZZLE, ItemClassification.progression, 1, ItemGroup.SWITCH),
+    ItemData(Switch.HOP_SKULL_PUZZLE, ItemClassification.progression, 1, ItemGroup.SWITCH),
     ItemData(Orbs.ORB_MULTI, ItemClassification.useful, 3, ItemGroup.ORBS),
 )
 
