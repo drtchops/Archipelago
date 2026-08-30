@@ -3,7 +3,7 @@ import logging
 import os
 import subprocess
 
-from Utils import messagebox
+from Utils import is_frozen, messagebox
 from worlds.LauncherComponents import Component, Type, components
 
 from .constants import GAME_NAME
@@ -50,6 +50,12 @@ def attempt_launch_ut(*args: str) -> None:
         )
 
 
+def build_tracker(*args: str) -> None:
+    from .build_tracker import build
+
+    build()
+
+
 components.extend(
     (
         Component(
@@ -68,3 +74,8 @@ components.extend(
         ),
     )
 )
+
+if not is_frozen():
+    components.append(
+        Component("build_astalon_tracker", func=build_tracker, game_name=GAME_NAME, component_type=Type.HIDDEN)
+    )

@@ -21,21 +21,42 @@ def map_page_index(data: Any, *_: Any, **__: Any) -> int:
     """Converts the area id provided by the game mod to a map index."""
     if not isinstance(data, int):
         return 0
-    if data in (1, 99):
-        # tomb
+    if data == 6:
+        # apex
         return 1
-    if data in (2, 3, 7):
-        # mechanism_and_hall
+    if data in (5, 13):
+        # roa
         return 2
-    if data in (4, 19, 21):
-        # catacombs
+    if data == 8:
+        # sp
         return 3
-    if data in (5, 6, 8, 13):
-        # ruins
+    if data == 3:
+        # hop
         return 4
+    if data == 7:
+        # cath
+        return 5
+    if data == 2:
+        # mech
+        return 6
     if data == 11:
         # cyclops
-        return 5
+        return 7
+    if data in (1, 99):
+        # tomb
+        return 8
+    if data in (4, 21):
+        # cata
+        return 9
+    if data == 69:
+        # dev room
+        return 10
+    if data == 19:
+        # tr
+        return 11
+    if data == -1:
+        # shop
+        return 12
     # world map
     return 0
 
@@ -49,17 +70,24 @@ CHARACTER_ICONS: Final[dict[int, str]] = {
 }
 
 MAP_OFFSETS: Final[tuple[tuple[int, int], ...]] = (
-    (-1800, 17180),  # world map
-    (-4152, 25130),  # gt
-    (-1560, 21080),  # mech and hotp
-    (-5448 + 876, 26840),  # catacombs
-    (-2424, 17000),  # ruins
-    (-9336, 20840),  # cyclops
+    (-1128, 16760),  # world map
+    (-6312, 16760),  # apex
+    (-4584, 17000),  # roa
+    (-1992, 18680),  # sp
+    (-2424, 20840),  # hop
+    (-1128, 21320),  # cath
+    (-5448, 22280),  # mech
+    (-8904, 20600),  # cd
+    (-3720, 24680),  # gt
+    (-5016, 26600),  # cata
+    (-9768, 27800),  # dev
+    (-5016, 29240),  # tr
+    (0, 0),  # shop
 )
 ROOM_WIDTH: Final[int] = 432
 ROOM_HEIGHT: Final[int] = 240
-MAP_SCALE_X: Final[float] = ROOM_WIDTH / 59.346
-MAP_SCALE_Y: Final[float] = -ROOM_HEIGHT / 40.475
+MAP_SCALE_X: Final[float] = ROOM_WIDTH / 60
+MAP_SCALE_Y: Final[float] = -ROOM_HEIGHT / 40
 
 CAMPFIRE_WARPS: Final[dict[int, tuple[RegionName, str]]] = {
     6696: (RegionName.GT_ENTRANCE, "Tutorial"),
@@ -169,8 +197,8 @@ def rule_to_json(
 class AstalonUTWorld(AstalonWorldBase):
     tracker_world: ClassVar = {
         "map_page_folder": "tracker",
-        "map_page_maps": "maps/maps.json",
-        "map_page_locations": "locations/locations.json",
+        "map_page_maps": "maps.json",
+        "map_page_locations": "locations.json",
         "map_page_setting_key": "{player}_{team}_astalon_area",
         "map_page_index": map_page_index,
         "location_setting_key": "{player}_{team}_astalon_coords",

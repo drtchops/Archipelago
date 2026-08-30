@@ -1,0 +1,7426 @@
+[
+  {
+    "name": "World Map",
+    "children": [
+      {
+        "name": "Gorgon Tomb J21",
+        "sections": [
+          {
+            "name": "GT Gorgonheart"
+          },
+          {
+            "name": "GT Switch Gorgonheart"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 630,
+            "y": 1660
+          },
+          {
+            "map": "Gorgon Tomb",
+            "x": 270,
+            "y": 340
+          }
+        ]
+      },
+      {
+        "name": "Gorgon Tomb N21",
+        "sections": [
+          {
+            "name": "GT Ring of the Ancients"
+          },
+          {
+            "name": "GT Max HP Up Ring of the Ancients"
+          },
+          {
+            "name": "GT Crystal Ring of the Ancients"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 870,
+            "y": 1660
+          },
+          {
+            "map": "Gorgon Tomb",
+            "x": 510,
+            "y": 340
+          },
+          {
+            "map": "Mechanism",
+            "x": 270,
+            "y": 740
+          }
+        ]
+      },
+      {
+        "name": "Gorgon Tomb O22",
+        "sections": [
+          {
+            "name": "GT Sword of Mirrors"
+          },
+          {
+            "name": "GT Switch Sword"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 930,
+            "y": 1620
+          },
+          {
+            "map": "Gorgon Tomb",
+            "x": 570,
+            "y": 300
+          },
+          {
+            "map": "Mechanism",
+            "x": 330,
+            "y": 700
+          }
+        ]
+      },
+      {
+        "name": "Gorgon Tomb L21",
+        "sections": [
+          {
+            "name": "GT Linus' Map"
+          },
+          {
+            "name": "GT Candle Linus' Map"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 750,
+            "y": 1660
+          },
+          {
+            "map": "Gorgon Tomb",
+            "x": 390,
+            "y": 340
+          },
+          {
+            "map": "Mechanism",
+            "x": 150,
+            "y": 740
+          }
+        ]
+      },
+      {
+        "name": "Gorgon Tomb G25",
+        "sections": [
+          {
+            "name": "GT Ascendant Key"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 450,
+            "y": 1500
+          },
+          {
+            "map": "Gorgon Tomb",
+            "x": 90,
+            "y": 180
+          }
+        ]
+      },
+      {
+        "name": "Gorgon Tomb I22",
+        "sections": [
+          {
+            "name": "GT Banish Spell"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 570,
+            "y": 1620
+          },
+          {
+            "map": "Gorgon Tomb",
+            "x": 210,
+            "y": 300
+          }
+        ]
+      },
+      {
+        "name": "Gorgon Tomb R21",
+        "sections": [
+          {
+            "name": "GT Void Charm"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 1110,
+            "y": 1660
+          },
+          {
+            "map": "Gorgon Tomb",
+            "x": 750,
+            "y": 340
+          },
+          {
+            "map": "Mechanism",
+            "x": 510,
+            "y": 740
+          }
+        ]
+      },
+      {
+        "name": "Gorgon Tomb M26",
+        "sections": [
+          {
+            "name": "GT Gorgon Eye Red"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 810,
+            "y": 1460
+          },
+          {
+            "map": "Gorgon Tomb",
+            "x": 450,
+            "y": 140
+          },
+          {
+            "map": "Mechanism",
+            "x": 210,
+            "y": 540
+          }
+        ]
+      },
+      {
+        "name": "Gorgon Tomb L19",
+        "sections": [
+          {
+            "name": "GT Attack Up"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 750,
+            "y": 1740
+          },
+          {
+            "map": "Catacombs",
+            "x": 210,
+            "y": 100
+          },
+          {
+            "map": "Gorgon Tomb",
+            "x": 390,
+            "y": 420
+          }
+        ]
+      },
+      {
+        "name": "Gorgon Tomb G26",
+        "sections": [
+          {
+            "name": "GT Max HP Up Ascendant Key"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 450,
+            "y": 1460
+          },
+          {
+            "map": "Gorgon Tomb",
+            "x": 90,
+            "y": 140
+          }
+        ]
+      },
+      {
+        "name": "Gorgon Tomb J20",
+        "sections": [
+          {
+            "name": "GT White Key 1st Room"
+          },
+          {
+            "name": "GT Switch 2nd Room"
+          },
+          {
+            "name": "GT Switch Gorgonheart Shortcut"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 630,
+            "y": 1700
+          },
+          {
+            "map": "Catacombs",
+            "x": 90,
+            "y": 60
+          },
+          {
+            "map": "Gorgon Tomb",
+            "x": 270,
+            "y": 380
+          }
+        ]
+      },
+      {
+        "name": "Gorgon Tomb P21",
+        "sections": [
+          {
+            "name": "GT White Key Right Side"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 990,
+            "y": 1660
+          },
+          {
+            "map": "Gorgon Tomb",
+            "x": 630,
+            "y": 340
+          },
+          {
+            "map": "Mechanism",
+            "x": 390,
+            "y": 740
+          }
+        ]
+      },
+      {
+        "name": "Gorgon Tomb I25",
+        "sections": [
+          {
+            "name": "GT White Key Before Boss"
+          },
+          {
+            "name": "GT Switch Butt Access"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 570,
+            "y": 1500
+          },
+          {
+            "map": "Gorgon Tomb",
+            "x": 210,
+            "y": 180
+          }
+        ]
+      },
+      {
+        "name": "Gorgon Tomb O20",
+        "sections": [
+          {
+            "name": "GT Blue Key Bonesnakes"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 930,
+            "y": 1700
+          },
+          {
+            "map": "Catacombs",
+            "x": 390,
+            "y": 60
+          },
+          {
+            "map": "Gorgon Tomb",
+            "x": 570,
+            "y": 380
+          }
+        ]
+      },
+      {
+        "name": "Gorgon Tomb I26",
+        "sections": [
+          {
+            "name": "GT Blue Key Butt"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 570,
+            "y": 1460
+          },
+          {
+            "map": "Gorgon Tomb",
+            "x": 210,
+            "y": 140
+          }
+        ]
+      },
+      {
+        "name": "Gorgon Tomb J26",
+        "sections": [
+          {
+            "name": "GT Blue Key Inside Wall"
+          },
+          {
+            "name": "GT Candle Boss"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 630,
+            "y": 1460
+          },
+          {
+            "map": "Gorgon Tomb",
+            "x": 270,
+            "y": 140
+          }
+        ]
+      },
+      {
+        "name": "Gorgon Tomb O21",
+        "sections": [
+          {
+            "name": "GT Blue Key Pot"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 930,
+            "y": 1660
+          },
+          {
+            "map": "Gorgon Tomb",
+            "x": 570,
+            "y": 340
+          },
+          {
+            "map": "Mechanism",
+            "x": 330,
+            "y": 740
+          }
+        ]
+      },
+      {
+        "name": "Gorgon Tomb K27",
+        "sections": [
+          {
+            "name": "GT Red Key"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 690,
+            "y": 1420
+          },
+          {
+            "map": "Gorgon Tomb",
+            "x": 330,
+            "y": 100
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 510,
+            "y": 740
+          },
+          {
+            "map": "Mechanism",
+            "x": 90,
+            "y": 500
+          }
+        ]
+      },
+      {
+        "name": "Mechanism T26",
+        "sections": [
+          {
+            "name": "Mech Talaria Boots"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 1230,
+            "y": 1460
+          },
+          {
+            "map": "Mechanism",
+            "x": 630,
+            "y": 540
+          }
+        ]
+      },
+      {
+        "name": "Mechanism O35",
+        "sections": [
+          {
+            "name": "Mech Cloak of Levitation"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 930,
+            "y": 1100
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 750,
+            "y": 420
+          },
+          {
+            "map": "Mechanism",
+            "x": 330,
+            "y": 180
+          }
+        ]
+      },
+      {
+        "name": "Mechanism M33",
+        "sections": [
+          {
+            "name": "Mech Gorgon Eye Blue"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 810,
+            "y": 1180
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 630,
+            "y": 500
+          },
+          {
+            "map": "Mechanism",
+            "x": 210,
+            "y": 260
+          }
+        ]
+      },
+      {
+        "name": "Mechanism M34",
+        "sections": [
+          {
+            "name": "Mech Attack Up Above Volantis"
+          },
+          {
+            "name": "Mech Face Above Volantis"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 810,
+            "y": 1140
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 630,
+            "y": 460
+          },
+          {
+            "map": "Mechanism",
+            "x": 210,
+            "y": 220
+          }
+        ]
+      },
+      {
+        "name": "Mechanism R32",
+        "sections": [
+          {
+            "name": "Mech Attack Up Morning Star Blocks"
+          },
+          {
+            "name": "Mech Switch Split Path"
+          },
+          {
+            "name": "Mech Crystal Top Chains"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 1110,
+            "y": 1220
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 930,
+            "y": 540
+          },
+          {
+            "map": "Mechanism",
+            "x": 510,
+            "y": 300
+          }
+        ]
+      },
+      {
+        "name": "Mechanism T33",
+        "sections": [
+          {
+            "name": "Mech Max HP Up Secret Switch"
+          },
+          {
+            "name": "Mech Switch Upper Void"
+          },
+          {
+            "name": "Mech Switch Invisible"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 1230,
+            "y": 1180
+          },
+          {
+            "map": "Mechanism",
+            "x": 630,
+            "y": 260
+          }
+        ]
+      },
+      {
+        "name": "Mechanism M32",
+        "sections": [
+          {
+            "name": "Mech Max HP Up Morning Star Blocks"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 810,
+            "y": 1220
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 630,
+            "y": 540
+          },
+          {
+            "map": "Mechanism",
+            "x": 210,
+            "y": 300
+          }
+        ]
+      },
+      {
+        "name": "Mechanism R23",
+        "sections": [
+          {
+            "name": "Mech Max HP Up Above Checkpoint"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 1110,
+            "y": 1580
+          },
+          {
+            "map": "Gorgon Tomb",
+            "x": 750,
+            "y": 260
+          },
+          {
+            "map": "Mechanism",
+            "x": 510,
+            "y": 660
+          }
+        ]
+      },
+      {
+        "name": "Mechanism Q23",
+        "sections": [
+          {
+            "name": "Mech White Key Below Linus"
+          },
+          {
+            "name": "Mech Switch Lower Key"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 1050,
+            "y": 1580
+          },
+          {
+            "map": "Gorgon Tomb",
+            "x": 690,
+            "y": 260
+          },
+          {
+            "map": "Mechanism",
+            "x": 450,
+            "y": 660
+          }
+        ]
+      },
+      {
+        "name": "Mechanism O30",
+        "sections": [
+          {
+            "name": "Mech White Key Black Knight"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 930,
+            "y": 1300
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 750,
+            "y": 620
+          },
+          {
+            "map": "Mechanism",
+            "x": 330,
+            "y": 380
+          }
+        ]
+      },
+      {
+        "name": "Mechanism U35",
+        "sections": [
+          {
+            "name": "Mech White Key Enemy Arena"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 1290,
+            "y": 1100
+          },
+          {
+            "map": "Mechanism",
+            "x": 690,
+            "y": 180
+          }
+        ]
+      },
+      {
+        "name": "Mechanism S38",
+        "sections": [
+          {
+            "name": "Mech White Key Top"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 1170,
+            "y": 980
+          },
+          {
+            "map": "Cyclops Den",
+            "x": 90,
+            "y": 340
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 990,
+            "y": 300
+          },
+          {
+            "map": "Mechanism",
+            "x": 570,
+            "y": 60
+          }
+        ]
+      },
+      {
+        "name": "Mechanism S21",
+        "sections": [
+          {
+            "name": "Mech Blue Key Void Charm"
+          },
+          {
+            "name": "Mech Switch Snake 1"
+          },
+          {
+            "name": "Mech Switch Snake 2"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 1170,
+            "y": 1660
+          },
+          {
+            "map": "Gorgon Tomb",
+            "x": 810,
+            "y": 340
+          },
+          {
+            "map": "Mechanism",
+            "x": 570,
+            "y": 740
+          }
+        ]
+      },
+      {
+        "name": "Mechanism T21",
+        "sections": [
+          {
+            "name": "Mech Blue Key Snake Head"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 1230,
+            "y": 1660
+          },
+          {
+            "map": "Mechanism",
+            "x": 630,
+            "y": 740
+          }
+        ]
+      },
+      {
+        "name": "Mechanism P25",
+        "sections": [
+          {
+            "name": "Mech Blue Key Linus"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 990,
+            "y": 1500
+          },
+          {
+            "map": "Gorgon Tomb",
+            "x": 630,
+            "y": 180
+          },
+          {
+            "map": "Mechanism",
+            "x": 390,
+            "y": 580
+          }
+        ]
+      },
+      {
+        "name": "Mechanism R26",
+        "sections": [
+          {
+            "name": "Mech Blue Key Sacrifice"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 1110,
+            "y": 1460
+          },
+          {
+            "map": "Gorgon Tomb",
+            "x": 750,
+            "y": 140
+          },
+          {
+            "map": "Mechanism",
+            "x": 510,
+            "y": 540
+          }
+        ]
+      },
+      {
+        "name": "Mechanism M27",
+        "sections": [
+          {
+            "name": "Mech Blue Key To Red Key"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 810,
+            "y": 1420
+          },
+          {
+            "map": "Gorgon Tomb",
+            "x": 450,
+            "y": 100
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 630,
+            "y": 740
+          },
+          {
+            "map": "Mechanism",
+            "x": 210,
+            "y": 500
+          }
+        ]
+      },
+      {
+        "name": "Mechanism R30",
+        "sections": [
+          {
+            "name": "Mech Blue Key Arias"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 1110,
+            "y": 1300
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 930,
+            "y": 620
+          },
+          {
+            "map": "Mechanism",
+            "x": 510,
+            "y": 380
+          }
+        ]
+      },
+      {
+        "name": "Mechanism Q31",
+        "sections": [
+          {
+            "name": "Mech Blue Key Switch Blocks"
+          },
+          {
+            "name": "Mech Switch Key Blocks"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 1050,
+            "y": 1260
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 870,
+            "y": 580
+          },
+          {
+            "map": "Mechanism",
+            "x": 450,
+            "y": 340
+          }
+        ]
+      },
+      {
+        "name": "Mechanism T32",
+        "sections": [
+          {
+            "name": "Mech Blue Key Top Path"
+          },
+          {
+            "name": "Mech Candle Right Campfire"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 1230,
+            "y": 1220
+          },
+          {
+            "map": "Mechanism",
+            "x": 630,
+            "y": 300
+          }
+        ]
+      },
+      {
+        "name": "Mechanism V33",
+        "sections": [
+          {
+            "name": "Mech Blue Key Old Man"
+          },
+          {
+            "name": "Mech Crystal Old Man"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 1350,
+            "y": 1180
+          },
+          {
+            "map": "Mechanism",
+            "x": 750,
+            "y": 260
+          }
+        ]
+      },
+      {
+        "name": "Mechanism S36",
+        "sections": [
+          {
+            "name": "Mech Blue Key Checkpoint"
+          },
+          {
+            "name": "Mech Crystal Top"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 1170,
+            "y": 1060
+          },
+          {
+            "map": "Cyclops Den",
+            "x": 90,
+            "y": 420
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 990,
+            "y": 380
+          },
+          {
+            "map": "Mechanism",
+            "x": 570,
+            "y": 140
+          }
+        ]
+      },
+      {
+        "name": "Mechanism T35",
+        "sections": [
+          {
+            "name": "Mech Blue Key Pot"
+          },
+          {
+            "name": "Mech Switch Pots"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 1230,
+            "y": 1100
+          },
+          {
+            "map": "Mechanism",
+            "x": 630,
+            "y": 180
+          }
+        ]
+      },
+      {
+        "name": "Mechanism K28",
+        "sections": [
+          {
+            "name": "Mech Red Key"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 690,
+            "y": 1380
+          },
+          {
+            "map": "Gorgon Tomb",
+            "x": 330,
+            "y": 60
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 510,
+            "y": 700
+          },
+          {
+            "map": "Mechanism",
+            "x": 90,
+            "y": 460
+          }
+        ]
+      },
+      {
+        "name": "Hall of the Phantoms F29",
+        "sections": [
+          {
+            "name": "HotP Athena's Bell"
+          },
+          {
+            "name": "HotP Switch Bell"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 390,
+            "y": 1340
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 210,
+            "y": 660
+          }
+        ]
+      },
+      {
+        "name": "Hall of the Phantoms I28",
+        "sections": [
+          {
+            "name": "HotP Amulet of Sol"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 570,
+            "y": 1380
+          },
+          {
+            "map": "Gorgon Tomb",
+            "x": 210,
+            "y": 60
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 390,
+            "y": 700
+          }
+        ]
+      },
+      {
+        "name": "Hall of the Phantoms N36",
+        "sections": [
+          {
+            "name": "HotP Griffon Claw"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 870,
+            "y": 1060
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 690,
+            "y": 380
+          },
+          {
+            "map": "Mechanism",
+            "x": 270,
+            "y": 140
+          }
+        ]
+      },
+      {
+        "name": "Hall of the Phantoms R42",
+        "sections": [
+          {
+            "name": "HotP Boreas Gauntlet"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 1110,
+            "y": 820
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 930,
+            "y": 140
+          }
+        ]
+      },
+      {
+        "name": "Hall of the Phantoms K43",
+        "sections": [
+          {
+            "name": "HotP Dead Maiden's Ring"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 690,
+            "y": 780
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 510,
+            "y": 100
+          },
+          {
+            "map": "Ruins of Ash",
+            "x": 210,
+            "y": 740
+          },
+          {
+            "map": "Serpent Path",
+            "x": 570,
+            "y": 460
+          }
+        ]
+      },
+      {
+        "name": "Hall of the Phantoms K36",
+        "sections": [
+          {
+            "name": "HotP Max HP Up Griffon Claw"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 690,
+            "y": 1060
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 510,
+            "y": 380
+          },
+          {
+            "map": "Mechanism",
+            "x": 90,
+            "y": 140
+          }
+        ]
+      },
+      {
+        "name": "Hall of the Phantoms H33",
+        "sections": [
+          {
+            "name": "HotP Max HP Up Secret Ladder"
+          },
+          {
+            "name": "HotP Blue Key Secret Ladder"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 510,
+            "y": 1180
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 330,
+            "y": 500
+          }
+        ]
+      },
+      {
+        "name": "Hall of the Phantoms R39",
+        "sections": [
+          {
+            "name": "HotP Max HP Up Boreas Gauntlet"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 1110,
+            "y": 940
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 930,
+            "y": 260
+          }
+        ]
+      },
+      {
+        "name": "Hall of the Phantoms G39",
+        "sections": [
+          {
+            "name": "HotP Max HP Up Old Man"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 450,
+            "y": 940
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 270,
+            "y": 260
+          }
+        ]
+      },
+      {
+        "name": "Hall of the Phantoms K34",
+        "sections": [
+          {
+            "name": "HotP Max HP Up Teleport Maze"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 690,
+            "y": 1140
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 510,
+            "y": 460
+          },
+          {
+            "map": "Mechanism",
+            "x": 90,
+            "y": 220
+          }
+        ]
+      },
+      {
+        "name": "Hall of the Phantoms L35",
+        "sections": [
+          {
+            "name": "HotP Max HP Up Above Start"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 750,
+            "y": 1100
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 570,
+            "y": 420
+          },
+          {
+            "map": "Mechanism",
+            "x": 150,
+            "y": 180
+          }
+        ]
+      },
+      {
+        "name": "Hall of the Phantoms I33",
+        "sections": [
+          {
+            "name": "HotP White Key Left of Start"
+          },
+          {
+            "name": "HotP Switch Left Backtrack"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 570,
+            "y": 1180
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 390,
+            "y": 500
+          }
+        ]
+      },
+      {
+        "name": "Hall of the Phantoms J31",
+        "sections": [
+          {
+            "name": "HotP White Key Ghost"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 630,
+            "y": 1260
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 450,
+            "y": 580
+          }
+        ]
+      },
+      {
+        "name": "Hall of the Phantoms G35",
+        "sections": [
+          {
+            "name": "HotP White Key Old Man"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 450,
+            "y": 1100
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 270,
+            "y": 420
+          }
+        ]
+      },
+      {
+        "name": "Hall of the Phantoms L39",
+        "sections": [
+          {
+            "name": "HotP White Key Boss"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 750,
+            "y": 940
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 570,
+            "y": 260
+          }
+        ]
+      },
+      {
+        "name": "Hall of the Phantoms L30",
+        "sections": [
+          {
+            "name": "HotP Blue Key Epimetheus"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 750,
+            "y": 1300
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 570,
+            "y": 620
+          },
+          {
+            "map": "Mechanism",
+            "x": 150,
+            "y": 380
+          }
+        ]
+      },
+      {
+        "name": "Hall of the Phantoms K29",
+        "sections": [
+          {
+            "name": "HotP Blue Key Gold Hint"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 690,
+            "y": 1340
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 510,
+            "y": 660
+          },
+          {
+            "map": "Mechanism",
+            "x": 90,
+            "y": 420
+          }
+        ]
+      },
+      {
+        "name": "Hall of the Phantoms J28",
+        "sections": [
+          {
+            "name": "HotP Blue Key Amulet of Sol"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 630,
+            "y": 1380
+          },
+          {
+            "map": "Gorgon Tomb",
+            "x": 270,
+            "y": 60
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 450,
+            "y": 700
+          }
+        ]
+      },
+      {
+        "name": "Hall of the Phantoms E33",
+        "sections": [
+          {
+            "name": "HotP Blue Key Spike Teleporters"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 330,
+            "y": 1180
+          },
+          {
+            "map": "Cathedral",
+            "x": 330,
+            "y": 420
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 150,
+            "y": 500
+          }
+        ]
+      },
+      {
+        "name": "Hall of the Phantoms N39",
+        "sections": [
+          {
+            "name": "HotP Blue Key Teleport Maze"
+          },
+          {
+            "name": "HotP Crystal Below Puzzle"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 870,
+            "y": 940
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 690,
+            "y": 260
+          }
+        ]
+      },
+      {
+        "name": "Hall of the Phantoms I30",
+        "sections": [
+          {
+            "name": "HotP Red Key"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 570,
+            "y": 1300
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 390,
+            "y": 620
+          }
+        ]
+      },
+      {
+        "name": "Ruins of Ash N55",
+        "sections": [
+          {
+            "name": "RoA Icarus Emblem"
+          },
+          {
+            "name": "RoA Switch Icarus Emblem"
+          },
+          {
+            "name": "RoA Candle Icarus 1"
+          },
+          {
+            "name": "RoA Candle Icarus 2"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 870,
+            "y": 300
+          },
+          {
+            "map": "Ruins of Ash",
+            "x": 390,
+            "y": 260
+          }
+        ]
+      },
+      {
+        "name": "Ruins of Ash L60",
+        "sections": [
+          {
+            "name": "RoA Gorgon Eye Green"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 750,
+            "y": 100
+          },
+          {
+            "map": "Ruins of Ash",
+            "x": 270,
+            "y": 60
+          }
+        ]
+      },
+      {
+        "name": "Ruins of Ash L47",
+        "sections": [
+          {
+            "name": "RoA Attack Up"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 750,
+            "y": 620
+          },
+          {
+            "map": "Ruins of Ash",
+            "x": 270,
+            "y": 580
+          }
+        ]
+      },
+      {
+        "name": "Ruins of Ash M46",
+        "sections": [
+          {
+            "name": "RoA Max HP Up Left of Ascent"
+          },
+          {
+            "name": "RoA Switch Ascend Shortcut"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 810,
+            "y": 660
+          },
+          {
+            "map": "Ruins of Ash",
+            "x": 330,
+            "y": 620
+          }
+        ]
+      },
+      {
+        "name": "Ruins of Ash Q48",
+        "sections": [
+          {
+            "name": "RoA Max HP Up Right Side"
+          },
+          {
+            "name": "RoA Crystal Branch Right"
+          },
+          {
+            "name": "RoA Crystal Branch Left"
+          },
+          {
+            "name": "RoA Candle Branch"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 1050,
+            "y": 580
+          },
+          {
+            "map": "Ruins of Ash",
+            "x": 570,
+            "y": 540
+          }
+        ]
+      },
+      {
+        "name": "Ruins of Ash M60",
+        "sections": [
+          {
+            "name": "RoA Max HP Up After Solaria"
+          },
+          {
+            "name": "RoA Switch Apex Access"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 810,
+            "y": 100
+          },
+          {
+            "map": "The Apex",
+            "x": 90,
+            "y": 100
+          },
+          {
+            "map": "Ruins of Ash",
+            "x": 330,
+            "y": 60
+          }
+        ]
+      },
+      {
+        "name": "Ruins of Ash P41",
+        "sections": [
+          {
+            "name": "RoA White Key Checkpoint"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 990,
+            "y": 860
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 810,
+            "y": 180
+          },
+          {
+            "map": "Ruins of Ash",
+            "x": 510,
+            "y": 820
+          }
+        ]
+      },
+      {
+        "name": "Ruins of Ash N44",
+        "sections": [
+          {
+            "name": "RoA White Key 3 Reapers"
+          },
+          {
+            "name": "RoA Crystal 3 Reapers"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 870,
+            "y": 740
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 690,
+            "y": 60
+          },
+          {
+            "map": "Ruins of Ash",
+            "x": 390,
+            "y": 700
+          }
+        ]
+      },
+      {
+        "name": "Ruins of Ash M48",
+        "sections": [
+          {
+            "name": "RoA White Key Torches"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 810,
+            "y": 580
+          },
+          {
+            "map": "Ruins of Ash",
+            "x": 330,
+            "y": 540
+          }
+        ]
+      },
+      {
+        "name": "Ruins of Ash M52",
+        "sections": [
+          {
+            "name": "RoA White Key Void Portal"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 810,
+            "y": 420
+          },
+          {
+            "map": "Ruins of Ash",
+            "x": 330,
+            "y": 380
+          }
+        ]
+      },
+      {
+        "name": "Ruins of Ash M43",
+        "sections": [
+          {
+            "name": "RoA Blue Key Face"
+          },
+          {
+            "name": "RoA Face Blue Key"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 810,
+            "y": 780
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 630,
+            "y": 100
+          },
+          {
+            "map": "Ruins of Ash",
+            "x": 330,
+            "y": 740
+          }
+        ]
+      },
+      {
+        "name": "Ruins of Ash Q44",
+        "sections": [
+          {
+            "name": "RoA Blue Key Flames"
+          },
+          {
+            "name": "RoA Switch Baby Gorgon"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 1050,
+            "y": 740
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 870,
+            "y": 60
+          },
+          {
+            "map": "Ruins of Ash",
+            "x": 570,
+            "y": 700
+          }
+        ]
+      },
+      {
+        "name": "Ruins of Ash L48",
+        "sections": [
+          {
+            "name": "RoA Blue Key Baby Gorgon"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 750,
+            "y": 580
+          },
+          {
+            "map": "Ruins of Ash",
+            "x": 270,
+            "y": 540
+          }
+        ]
+      },
+      {
+        "name": "Ruins of Ash N59",
+        "sections": [
+          {
+            "name": "RoA Blue Key Top"
+          },
+          {
+            "name": "RoA Crystal Centaur"
+          },
+          {
+            "name": "RoA Candle Top Centaur"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 870,
+            "y": 140
+          },
+          {
+            "map": "The Apex",
+            "x": 150,
+            "y": 140
+          },
+          {
+            "map": "Ruins of Ash",
+            "x": 390,
+            "y": 100
+          }
+        ]
+      },
+      {
+        "name": "Ruins of Ash N43",
+        "sections": [
+          {
+            "name": "RoA Blue Key Pot"
+          },
+          {
+            "name": "RoA Switch Ascend"
+          },
+          {
+            "name": "RoA Candle Bottom Ascend"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 870,
+            "y": 780
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 690,
+            "y": 100
+          },
+          {
+            "map": "Ruins of Ash",
+            "x": 390,
+            "y": 740
+          }
+        ]
+      },
+      {
+        "name": "Ruins of Ash Q53",
+        "sections": [
+          {
+            "name": "RoA Red Key"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 1050,
+            "y": 380
+          },
+          {
+            "map": "Ruins of Ash",
+            "x": 570,
+            "y": 340
+          }
+        ]
+      },
+      {
+        "name": "Darkness J60",
+        "sections": [
+          {
+            "name": "Dark Max HP Up"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 630,
+            "y": 100
+          },
+          {
+            "map": "Ruins of Ash",
+            "x": 150,
+            "y": 60
+          }
+        ]
+      },
+      {
+        "name": "Darkness I60",
+        "sections": [
+          {
+            "name": "Dark White Key"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 570,
+            "y": 100
+          },
+          {
+            "map": "Ruins of Ash",
+            "x": 90,
+            "y": 60
+          }
+        ]
+      },
+      {
+        "name": "The Apex T58",
+        "sections": [
+          {
+            "name": "Apex Blood Chalice"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 1230,
+            "y": 180
+          },
+          {
+            "map": "The Apex",
+            "x": 510,
+            "y": 180
+          }
+        ]
+      },
+      {
+        "name": "The Apex P58",
+        "sections": [
+          {
+            "name": "Apex Max HP Up Blood Chalice"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 990,
+            "y": 180
+          },
+          {
+            "map": "The Apex",
+            "x": 270,
+            "y": 180
+          },
+          {
+            "map": "Ruins of Ash",
+            "x": 510,
+            "y": 140
+          }
+        ]
+      },
+      {
+        "name": "The Apex R60",
+        "sections": [
+          {
+            "name": "Apex Max HP Up After Heart"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 1110,
+            "y": 100
+          },
+          {
+            "map": "The Apex",
+            "x": 390,
+            "y": 100
+          }
+        ]
+      },
+      {
+        "name": "The Apex O60",
+        "sections": [
+          {
+            "name": "Apex Blue Key"
+          },
+          {
+            "name": "Apex Candle Elevator"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 930,
+            "y": 100
+          },
+          {
+            "map": "The Apex",
+            "x": 210,
+            "y": 100
+          },
+          {
+            "map": "Ruins of Ash",
+            "x": 450,
+            "y": 60
+          }
+        ]
+      },
+      {
+        "name": "Catacombs K14",
+        "sections": [
+          {
+            "name": "Cata Lunarian Bow"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 690,
+            "y": 1940
+          },
+          {
+            "map": "Catacombs",
+            "x": 150,
+            "y": 300
+          }
+        ]
+      },
+      {
+        "name": "Caves Q17",
+        "sections": [
+          {
+            "name": "Caves Attack Up Item Chain Red"
+          },
+          {
+            "name": "Caves Attack Up Item Chain Blue"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 1050,
+            "y": 1820
+          },
+          {
+            "map": "Catacombs",
+            "x": 510,
+            "y": 180
+          },
+          {
+            "map": "Gorgon Tomb",
+            "x": 690,
+            "y": 500
+          }
+        ]
+      },
+      {
+        "name": "Caves R17",
+        "sections": [
+          {
+            "name": "Caves Attack Up Item Chain Green"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 1110,
+            "y": 1820
+          },
+          {
+            "map": "Catacombs",
+            "x": 570,
+            "y": 180
+          },
+          {
+            "map": "Gorgon Tomb",
+            "x": 750,
+            "y": 500
+          }
+        ]
+      },
+      {
+        "name": "Catacombs N17",
+        "sections": [
+          {
+            "name": "Cata Attack Up Climbable Root"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 870,
+            "y": 1820
+          },
+          {
+            "map": "Catacombs",
+            "x": 330,
+            "y": 180
+          },
+          {
+            "map": "Gorgon Tomb",
+            "x": 510,
+            "y": 500
+          }
+        ]
+      },
+      {
+        "name": "Catacombs S9",
+        "sections": [
+          {
+            "name": "Cata Attack Up Poison Roots"
+          },
+          {
+            "name": "Cata Max HP Up After Poison Roots"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 1170,
+            "y": 2140
+          },
+          {
+            "map": "Catacombs",
+            "x": 630,
+            "y": 500
+          },
+          {
+            "map": "Tower Roots",
+            "x": 630,
+            "y": 60
+          }
+        ]
+      },
+      {
+        "name": "Caves P20",
+        "sections": [
+          {
+            "name": "Caves Max HP Up 1st Room"
+          },
+          {
+            "name": "Caves Face 1st Room"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 990,
+            "y": 1700
+          },
+          {
+            "map": "Catacombs",
+            "x": 450,
+            "y": 60
+          },
+          {
+            "map": "Gorgon Tomb",
+            "x": 630,
+            "y": 380
+          }
+        ]
+      },
+      {
+        "name": "Caves S19",
+        "sections": [
+          {
+            "name": "Caves Max HP Up Cyclops Arena"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 1170,
+            "y": 1740
+          },
+          {
+            "map": "Catacombs",
+            "x": 630,
+            "y": 100
+          },
+          {
+            "map": "Gorgon Tomb",
+            "x": 810,
+            "y": 420
+          }
+        ]
+      },
+      {
+        "name": "Catacombs Q10",
+        "sections": [
+          {
+            "name": "Cata Max HP Up Above Poison Roots"
+          },
+          {
+            "name": "Cata Crystal Poison Roots"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 1050,
+            "y": 2100
+          },
+          {
+            "map": "Catacombs",
+            "x": 510,
+            "y": 460
+          }
+        ]
+      },
+      {
+        "name": "Catacombs Q9",
+        "sections": [
+          {
+            "name": "Cata Max HP Up Before Poison Roots"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 1050,
+            "y": 2140
+          },
+          {
+            "map": "Catacombs",
+            "x": 510,
+            "y": 500
+          },
+          {
+            "map": "Tower Roots",
+            "x": 510,
+            "y": 60
+          }
+        ]
+      },
+      {
+        "name": "Catacombs N7",
+        "sections": [
+          {
+            "name": "Cata Max HP Up Before Gemini Bottom"
+          },
+          {
+            "name": "Cata Max HP Up Before Gemini Top"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 870,
+            "y": 2220
+          },
+          {
+            "map": "Catacombs",
+            "x": 330,
+            "y": 580
+          },
+          {
+            "map": "Tower Roots",
+            "x": 330,
+            "y": 140
+          }
+        ]
+      },
+      {
+        "name": "Catacombs K10",
+        "sections": [
+          {
+            "name": "Cata Max HP Up Above Gemini"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 690,
+            "y": 2100
+          },
+          {
+            "map": "Catacombs",
+            "x": 150,
+            "y": 460
+          }
+        ]
+      },
+      {
+        "name": "Caves S18",
+        "sections": [
+          {
+            "name": "Caves Max HP Up Item Chain"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 1170,
+            "y": 1780
+          },
+          {
+            "map": "Catacombs",
+            "x": 630,
+            "y": 140
+          },
+          {
+            "map": "Gorgon Tomb",
+            "x": 810,
+            "y": 460
+          }
+        ]
+      },
+      {
+        "name": "Catacombs M15",
+        "sections": [
+          {
+            "name": "Cata White Key On Head"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 810,
+            "y": 1900
+          },
+          {
+            "map": "Catacombs",
+            "x": 270,
+            "y": 260
+          }
+        ]
+      },
+      {
+        "name": "Catacombs R13",
+        "sections": [
+          {
+            "name": "Cata White Key Dev Room"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 1110,
+            "y": 1980
+          },
+          {
+            "map": "Catacombs",
+            "x": 570,
+            "y": 340
+          }
+        ]
+      },
+      {
+        "name": "Catacombs M7",
+        "sections": [
+          {
+            "name": "Cata White Key Prison"
+          },
+          {
+            "name": "Cata Candle Prison"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 810,
+            "y": 2220
+          },
+          {
+            "map": "Catacombs",
+            "x": 270,
+            "y": 580
+          },
+          {
+            "map": "Tower Roots",
+            "x": 270,
+            "y": 140
+          }
+        ]
+      },
+      {
+        "name": "Catacombs O13",
+        "sections": [
+          {
+            "name": "Cata Blue Key Slime Water"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 930,
+            "y": 1980
+          },
+          {
+            "map": "Catacombs",
+            "x": 390,
+            "y": 340
+          }
+        ]
+      },
+      {
+        "name": "Catacombs O9",
+        "sections": [
+          {
+            "name": "Cata Blue Key Eyeballs"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 930,
+            "y": 2140
+          },
+          {
+            "map": "Catacombs",
+            "x": 390,
+            "y": 500
+          },
+          {
+            "map": "Tower Roots",
+            "x": 390,
+            "y": 60
+          }
+        ]
+      },
+      {
+        "name": "Tower Roots O2",
+        "sections": [
+          {
+            "name": "TR Adorned Key"
+          },
+          {
+            "name": "TR Switch Adorned Key Left"
+          },
+          {
+            "name": "TR Switch Adorned Key Middle"
+          },
+          {
+            "name": "TR Switch Adorned Key Right"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 930,
+            "y": 2420
+          },
+          {
+            "map": "Tower Roots",
+            "x": 390,
+            "y": 340
+          }
+        ]
+      },
+      {
+        "name": "Tower Roots N1",
+        "sections": [
+          {
+            "name": "TR Max HP Up Bottom"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 870,
+            "y": 2460
+          },
+          {
+            "map": "Tower Roots",
+            "x": 330,
+            "y": 380
+          }
+        ]
+      },
+      {
+        "name": "Tower Roots O3",
+        "sections": [
+          {
+            "name": "TR Max HP Up Top"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 930,
+            "y": 2380
+          },
+          {
+            "map": "Tower Roots",
+            "x": 390,
+            "y": 300
+          }
+        ]
+      },
+      {
+        "name": "Tower Roots J9",
+        "sections": [
+          {
+            "name": "TR Red Key"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 630,
+            "y": 2140
+          },
+          {
+            "map": "Catacombs",
+            "x": 90,
+            "y": 500
+          },
+          {
+            "map": "Tower Roots",
+            "x": 90,
+            "y": 60
+          }
+        ]
+      },
+      {
+        "name": "Cyclops Den V45",
+        "sections": [
+          {
+            "name": "CD Attack Up"
+          },
+          {
+            "name": "CD Max HP Up"
+          },
+          {
+            "name": "CD Switch Top"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 1350,
+            "y": 700
+          },
+          {
+            "map": "Cyclops Den",
+            "x": 270,
+            "y": 60
+          }
+        ]
+      },
+      {
+        "name": "Cathedral B42",
+        "sections": [
+          {
+            "name": "Cath Magic Block"
+          },
+          {
+            "name": "Cath Crystal Top Left"
+          },
+          {
+            "name": "Cath Crystal Top Right"
+          },
+          {
+            "name": "Cath Candle Top 1"
+          },
+          {
+            "name": "Cath Candle Top 2"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 150,
+            "y": 820
+          },
+          {
+            "map": "Cathedral",
+            "x": 150,
+            "y": 60
+          }
+        ]
+      },
+      {
+        "name": "Cathedral A37",
+        "sections": [
+          {
+            "name": "Cath Attack Up"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 90,
+            "y": 1020
+          },
+          {
+            "map": "Cathedral",
+            "x": 90,
+            "y": 260
+          }
+        ]
+      },
+      {
+        "name": "Cathedral B39",
+        "sections": [
+          {
+            "name": "Cath Max HP Up Top Left"
+          },
+          {
+            "name": "Cath Max HP Up Top Right"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 150,
+            "y": 940
+          },
+          {
+            "map": "Cathedral",
+            "x": 150,
+            "y": 180
+          }
+        ]
+      },
+      {
+        "name": "Cathedral A36",
+        "sections": [
+          {
+            "name": "Cath Max HP Up Left Climb"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 90,
+            "y": 1060
+          },
+          {
+            "map": "Cathedral",
+            "x": 90,
+            "y": 300
+          }
+        ]
+      },
+      {
+        "name": "Cathedral B35",
+        "sections": [
+          {
+            "name": "Cath Max HP Up Bell"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 150,
+            "y": 1100
+          },
+          {
+            "map": "Cathedral",
+            "x": 150,
+            "y": 340
+          }
+        ]
+      },
+      {
+        "name": "Serpent Path D53",
+        "sections": [
+          {
+            "name": "SP Morning Star"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 270,
+            "y": 380
+          },
+          {
+            "map": "Serpent Path",
+            "x": 150,
+            "y": 60
+          }
+        ]
+      },
+      {
+        "name": "Serpent Path H45",
+        "sections": [
+          {
+            "name": "SP Attack Up"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 510,
+            "y": 700
+          },
+          {
+            "map": "Serpent Path",
+            "x": 390,
+            "y": 380
+          }
+        ]
+      },
+      {
+        "name": "Serpent Path E44",
+        "sections": [
+          {
+            "name": "SP Max HP Up"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 330,
+            "y": 740
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 150,
+            "y": 60
+          },
+          {
+            "map": "Serpent Path",
+            "x": 210,
+            "y": 420
+          }
+        ]
+      },
+      {
+        "name": "Serpent Path H51",
+        "sections": [
+          {
+            "name": "SP Blue Key Bubbles"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 510,
+            "y": 460
+          },
+          {
+            "map": "Serpent Path",
+            "x": 390,
+            "y": 140
+          }
+        ]
+      },
+      {
+        "name": "Serpent Path G52",
+        "sections": [
+          {
+            "name": "SP Blue Key Morning Star"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 450,
+            "y": 420
+          },
+          {
+            "map": "Serpent Path",
+            "x": 330,
+            "y": 100
+          }
+        ]
+      },
+      {
+        "name": "Serpent Path D48",
+        "sections": [
+          {
+            "name": "SP Blue Key Painting"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 270,
+            "y": 580
+          },
+          {
+            "map": "Serpent Path",
+            "x": 150,
+            "y": 260
+          }
+        ]
+      },
+      {
+        "name": "Serpent Path F45",
+        "sections": [
+          {
+            "name": "SP Blue Key Arias"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 390,
+            "y": 700
+          },
+          {
+            "map": "Serpent Path",
+            "x": 270,
+            "y": 380
+          }
+        ]
+      },
+      {
+        "name": "Gorgon Tomb I17",
+        "sections": [
+          {
+            "name": "GT Algus"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 570,
+            "y": 1820
+          },
+          {
+            "map": "Gorgon Tomb",
+            "x": 210,
+            "y": 500
+          }
+        ]
+      },
+      {
+        "name": "Gorgon Tomb H18",
+        "sections": [
+          {
+            "name": "GT Arias"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 510,
+            "y": 1780
+          },
+          {
+            "map": "Gorgon Tomb",
+            "x": 150,
+            "y": 460
+          }
+        ]
+      },
+      {
+        "name": "Gorgon Tomb J18",
+        "sections": [
+          {
+            "name": "GT Kyuli"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 630,
+            "y": 1780
+          },
+          {
+            "map": "Catacombs",
+            "x": 90,
+            "y": 140
+          },
+          {
+            "map": "Gorgon Tomb",
+            "x": 270,
+            "y": 460
+          }
+        ]
+      },
+      {
+        "name": "Mechanism U29",
+        "sections": [
+          {
+            "name": "Mech Zeek"
+          },
+          {
+            "name": "Mech Cyclops Idol"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 1290,
+            "y": 1340
+          },
+          {
+            "map": "Mechanism",
+            "x": 690,
+            "y": 420
+          }
+        ]
+      },
+      {
+        "name": "Tower Roots L4",
+        "sections": [
+          {
+            "name": "TR Bram"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 750,
+            "y": 2340
+          },
+          {
+            "map": "Tower Roots",
+            "x": 210,
+            "y": 260
+          }
+        ]
+      },
+      {
+        "name": "Gorgon Tomb L26",
+        "sections": [
+          {
+            "name": "GT Elevator 2"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 750,
+            "y": 1460
+          },
+          {
+            "map": "Gorgon Tomb",
+            "x": 390,
+            "y": 140
+          },
+          {
+            "map": "Mechanism",
+            "x": 150,
+            "y": 540
+          }
+        ]
+      },
+      {
+        "name": "Gorgon Tomb K22",
+        "sections": [
+          {
+            "name": "GT Switch 1st Cyclops"
+          },
+          {
+            "name": "GT Candle 1st Cyclops"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 690,
+            "y": 1620
+          },
+          {
+            "map": "Gorgon Tomb",
+            "x": 330,
+            "y": 300
+          },
+          {
+            "map": "Mechanism",
+            "x": 90,
+            "y": 700
+          }
+        ]
+      },
+      {
+        "name": "Gorgon Tomb J25",
+        "sections": [
+          {
+            "name": "GT Switch Spike Tunnel Access"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 630,
+            "y": 1500
+          },
+          {
+            "map": "Gorgon Tomb",
+            "x": 270,
+            "y": 180
+          }
+        ]
+      },
+      {
+        "name": "Gorgon Tomb P22",
+        "sections": [
+          {
+            "name": "GT Switch Upper Path Blocks"
+          },
+          {
+            "name": "GT Switch Upper Path Access"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 990,
+            "y": 1620
+          },
+          {
+            "map": "Gorgon Tomb",
+            "x": 630,
+            "y": 300
+          },
+          {
+            "map": "Mechanism",
+            "x": 390,
+            "y": 700
+          }
+        ]
+      },
+      {
+        "name": "Gorgon Tomb J22",
+        "sections": [
+          {
+            "name": "GT Switch Crosses"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 630,
+            "y": 1620
+          },
+          {
+            "map": "Gorgon Tomb",
+            "x": 270,
+            "y": 300
+          }
+        ]
+      },
+      {
+        "name": "Gorgon Tomb I24",
+        "sections": [
+          {
+            "name": "GT Switch Arias's Path"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 570,
+            "y": 1540
+          },
+          {
+            "map": "Gorgon Tomb",
+            "x": 210,
+            "y": 220
+          }
+        ]
+      },
+      {
+        "name": "Gorgon Tomb N22",
+        "sections": [
+          {
+            "name": "GT Switch Sword Access"
+          },
+          {
+            "name": "GT Switch Sword Backtrack"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 870,
+            "y": 1620
+          },
+          {
+            "map": "Gorgon Tomb",
+            "x": 510,
+            "y": 300
+          },
+          {
+            "map": "Mechanism",
+            "x": 270,
+            "y": 700
+          }
+        ]
+      },
+      {
+        "name": "Gorgon Tomb O24",
+        "sections": [
+          {
+            "name": "GT Switch Upper Arias"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 930,
+            "y": 1540
+          },
+          {
+            "map": "Gorgon Tomb",
+            "x": 570,
+            "y": 220
+          },
+          {
+            "map": "Mechanism",
+            "x": 330,
+            "y": 620
+          }
+        ]
+      },
+      {
+        "name": "Gorgon Tomb N24",
+        "sections": [
+          {
+            "name": "GT Crystal Ladder"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 870,
+            "y": 1540
+          },
+          {
+            "map": "Gorgon Tomb",
+            "x": 510,
+            "y": 220
+          },
+          {
+            "map": "Mechanism",
+            "x": 270,
+            "y": 620
+          }
+        ]
+      },
+      {
+        "name": "Gorgon Tomb M24",
+        "sections": [
+          {
+            "name": "GT Crystal Old Man 1"
+          },
+          {
+            "name": "GT Crystal Old Man 2"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 810,
+            "y": 1540
+          },
+          {
+            "map": "Gorgon Tomb",
+            "x": 450,
+            "y": 220
+          },
+          {
+            "map": "Mechanism",
+            "x": 210,
+            "y": 620
+          }
+        ]
+      },
+      {
+        "name": "Mechanism Q29",
+        "sections": [
+          {
+            "name": "Mech Elevator 1"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 1050,
+            "y": 1340
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 870,
+            "y": 660
+          },
+          {
+            "map": "Mechanism",
+            "x": 450,
+            "y": 420
+          }
+        ]
+      },
+      {
+        "name": "Mechanism N33",
+        "sections": [
+          {
+            "name": "Mech Elevator 2"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 870,
+            "y": 1180
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 690,
+            "y": 500
+          },
+          {
+            "map": "Mechanism",
+            "x": 270,
+            "y": 260
+          }
+        ]
+      },
+      {
+        "name": "Mechanism O27",
+        "sections": [
+          {
+            "name": "Mech Switch Watcher"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 930,
+            "y": 1420
+          },
+          {
+            "map": "Gorgon Tomb",
+            "x": 570,
+            "y": 100
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 750,
+            "y": 740
+          },
+          {
+            "map": "Mechanism",
+            "x": 330,
+            "y": 500
+          }
+        ]
+      },
+      {
+        "name": "Mechanism Q33",
+        "sections": [
+          {
+            "name": "Mech Switch Chains"
+          },
+          {
+            "name": "Mech Switch Block Stairs"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 1050,
+            "y": 1180
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 870,
+            "y": 500
+          },
+          {
+            "map": "Mechanism",
+            "x": 450,
+            "y": 260
+          }
+        ]
+      },
+      {
+        "name": "Mechanism O32",
+        "sections": [
+          {
+            "name": "Mech Switch Boss Access 1"
+          },
+          {
+            "name": "Mech Switch Boss Access 2"
+          },
+          {
+            "name": "Mech Crystal To Boss 3"
+          },
+          {
+            "name": "Mech Candle Boss 1"
+          },
+          {
+            "name": "Mech Candle Boss 2"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 930,
+            "y": 1220
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 750,
+            "y": 540
+          },
+          {
+            "map": "Mechanism",
+            "x": 330,
+            "y": 300
+          }
+        ]
+      },
+      {
+        "name": "Mechanism S24",
+        "sections": [
+          {
+            "name": "Mech Switch Boots Access"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 1170,
+            "y": 1540
+          },
+          {
+            "map": "Gorgon Tomb",
+            "x": 810,
+            "y": 220
+          },
+          {
+            "map": "Mechanism",
+            "x": 570,
+            "y": 620
+          }
+        ]
+      },
+      {
+        "name": "Mechanism Q22",
+        "sections": [
+          {
+            "name": "Mech Switch Upper GT Access"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 1050,
+            "y": 1620
+          },
+          {
+            "map": "Gorgon Tomb",
+            "x": 690,
+            "y": 300
+          },
+          {
+            "map": "Mechanism",
+            "x": 450,
+            "y": 700
+          }
+        ]
+      },
+      {
+        "name": "Mechanism S34",
+        "sections": [
+          {
+            "name": "Mech Switch Upper Void Drop"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 1170,
+            "y": 1140
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 990,
+            "y": 460
+          },
+          {
+            "map": "Mechanism",
+            "x": 570,
+            "y": 220
+          }
+        ]
+      },
+      {
+        "name": "Mechanism Q25",
+        "sections": [
+          {
+            "name": "Mech Switch Linus"
+          },
+          {
+            "name": "Mech Crystal Linus"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 1050,
+            "y": 1500
+          },
+          {
+            "map": "Gorgon Tomb",
+            "x": 690,
+            "y": 180
+          },
+          {
+            "map": "Mechanism",
+            "x": 450,
+            "y": 580
+          }
+        ]
+      },
+      {
+        "name": "Mechanism P32",
+        "sections": [
+          {
+            "name": "Mech Switch To Boss 2"
+          },
+          {
+            "name": "Mech Switch To Boss 1"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 990,
+            "y": 1220
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 810,
+            "y": 540
+          },
+          {
+            "map": "Mechanism",
+            "x": 390,
+            "y": 300
+          }
+        ]
+      },
+      {
+        "name": "Mechanism R36",
+        "sections": [
+          {
+            "name": "Mech Switch Maze Backdoor"
+          },
+          {
+            "name": "Mech Candle Maze Backdoor"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 1110,
+            "y": 1060
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 930,
+            "y": 380
+          },
+          {
+            "map": "Mechanism",
+            "x": 510,
+            "y": 140
+          }
+        ]
+      },
+      {
+        "name": "Mechanism R35",
+        "sections": [
+          {
+            "name": "Mech Switch Arias Cyclops"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 1110,
+            "y": 1100
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 930,
+            "y": 420
+          },
+          {
+            "map": "Mechanism",
+            "x": 510,
+            "y": 180
+          }
+        ]
+      },
+      {
+        "name": "Mechanism T24",
+        "sections": [
+          {
+            "name": "Mech Switch Boots Lower"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 1230,
+            "y": 1540
+          },
+          {
+            "map": "Mechanism",
+            "x": 630,
+            "y": 620
+          }
+        ]
+      },
+      {
+        "name": "Mechanism P30",
+        "sections": [
+          {
+            "name": "Mech Switch Chains Gap"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 990,
+            "y": 1300
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 810,
+            "y": 620
+          },
+          {
+            "map": "Mechanism",
+            "x": 390,
+            "y": 380
+          }
+        ]
+      },
+      {
+        "name": "Mechanism S30",
+        "sections": [
+          {
+            "name": "Mech Switch Arias"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 1170,
+            "y": 1300
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 990,
+            "y": 620
+          },
+          {
+            "map": "Mechanism",
+            "x": 570,
+            "y": 380
+          }
+        ]
+      },
+      {
+        "name": "Mechanism N27",
+        "sections": [
+          {
+            "name": "Mech Switch Cannon"
+          },
+          {
+            "name": "Mech Crystal Cannon"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 870,
+            "y": 1420
+          },
+          {
+            "map": "Gorgon Tomb",
+            "x": 510,
+            "y": 100
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 690,
+            "y": 740
+          },
+          {
+            "map": "Mechanism",
+            "x": 270,
+            "y": 500
+          }
+        ]
+      },
+      {
+        "name": "Mechanism U34",
+        "sections": [
+          {
+            "name": "Mech Switch Eyeball"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 1290,
+            "y": 1140
+          },
+          {
+            "map": "Mechanism",
+            "x": 690,
+            "y": 220
+          }
+        ]
+      },
+      {
+        "name": "Mechanism Q24",
+        "sections": [
+          {
+            "name": "Mech Crystal Lower"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 1050,
+            "y": 1540
+          },
+          {
+            "map": "Gorgon Tomb",
+            "x": 690,
+            "y": 220
+          },
+          {
+            "map": "Mechanism",
+            "x": 450,
+            "y": 620
+          }
+        ]
+      },
+      {
+        "name": "Mechanism R33",
+        "sections": [
+          {
+            "name": "Mech Crystal Triple 1"
+          },
+          {
+            "name": "Mech Crystal Triple 2"
+          },
+          {
+            "name": "Mech Crystal Triple 3"
+          },
+          {
+            "name": "Mech Candle Roots"
+          },
+          {
+            "name": "Mech Candle Slimes"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 1110,
+            "y": 1180
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 930,
+            "y": 500
+          },
+          {
+            "map": "Mechanism",
+            "x": 510,
+            "y": 260
+          }
+        ]
+      },
+      {
+        "name": "Mechanism P34",
+        "sections": [
+          {
+            "name": "Mech Crystal Cloak"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 990,
+            "y": 1140
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 810,
+            "y": 460
+          },
+          {
+            "map": "Mechanism",
+            "x": 390,
+            "y": 220
+          }
+        ]
+      },
+      {
+        "name": "Mechanism R34",
+        "sections": [
+          {
+            "name": "Mech Crystal Slimes"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 1110,
+            "y": 1140
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 930,
+            "y": 460
+          },
+          {
+            "map": "Mechanism",
+            "x": 510,
+            "y": 220
+          }
+        ]
+      },
+      {
+        "name": "Mechanism U36",
+        "sections": [
+          {
+            "name": "Mech Crystal To CD"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 1290,
+            "y": 1060
+          },
+          {
+            "map": "Cyclops Den",
+            "x": 210,
+            "y": 420
+          },
+          {
+            "map": "Mechanism",
+            "x": 690,
+            "y": 140
+          }
+        ]
+      },
+      {
+        "name": "Mechanism P28",
+        "sections": [
+          {
+            "name": "Mech Crystal Campfire"
+          },
+          {
+            "name": "Mech Candle Black Knight"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 990,
+            "y": 1380
+          },
+          {
+            "map": "Gorgon Tomb",
+            "x": 630,
+            "y": 60
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 810,
+            "y": 700
+          },
+          {
+            "map": "Mechanism",
+            "x": 390,
+            "y": 460
+          }
+        ]
+      },
+      {
+        "name": "Mechanism N26",
+        "sections": [
+          {
+            "name": "Mech Crystal 1st Room"
+          },
+          {
+            "name": "Mech Candle 1st Room"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 870,
+            "y": 1460
+          },
+          {
+            "map": "Gorgon Tomb",
+            "x": 510,
+            "y": 140
+          },
+          {
+            "map": "Mechanism",
+            "x": 270,
+            "y": 540
+          }
+        ]
+      },
+      {
+        "name": "Mechanism P29",
+        "sections": [
+          {
+            "name": "Mech Crystal Black Knight"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 990,
+            "y": 1340
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 810,
+            "y": 660
+          },
+          {
+            "map": "Mechanism",
+            "x": 390,
+            "y": 420
+          }
+        ]
+      },
+      {
+        "name": "Hall of the Phantoms F34",
+        "sections": [
+          {
+            "name": "HotP Elevator"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 390,
+            "y": 1140
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 210,
+            "y": 460
+          }
+        ]
+      },
+      {
+        "name": "Hall of the Phantoms J27",
+        "sections": [
+          {
+            "name": "HotP Switch Rock"
+          },
+          {
+            "name": "HotP Crystal Rock Access"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 630,
+            "y": 1420
+          },
+          {
+            "map": "Gorgon Tomb",
+            "x": 270,
+            "y": 100
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 450,
+            "y": 740
+          }
+        ]
+      },
+      {
+        "name": "Hall of the Phantoms K31",
+        "sections": [
+          {
+            "name": "HotP Switch Below Start"
+          },
+          {
+            "name": "HotP Crystal Lower"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 690,
+            "y": 1260
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 510,
+            "y": 580
+          },
+          {
+            "map": "Mechanism",
+            "x": 90,
+            "y": 340
+          }
+        ]
+      },
+      {
+        "name": "Hall of the Phantoms J33",
+        "sections": [
+          {
+            "name": "HotP Switch Left 2"
+          },
+          {
+            "name": "HotP Switch Left 1"
+          },
+          {
+            "name": "HotP Switch Left 3"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 630,
+            "y": 1180
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 450,
+            "y": 500
+          }
+        ]
+      },
+      {
+        "name": "Hall of the Phantoms K32",
+        "sections": [
+          {
+            "name": "HotP Switch Lower Shortcut"
+          },
+          {
+            "name": "HotP Switch Ghosts"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 690,
+            "y": 1220
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 510,
+            "y": 540
+          },
+          {
+            "map": "Mechanism",
+            "x": 90,
+            "y": 300
+          }
+        ]
+      },
+      {
+        "name": "Hall of the Phantoms G32",
+        "sections": [
+          {
+            "name": "HotP Switch Ghost Blood"
+          },
+          {
+            "name": "HotP Switch Eyeball Shortcut"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 450,
+            "y": 1220
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 270,
+            "y": 540
+          }
+        ]
+      },
+      {
+        "name": "Hall of the Phantoms G31",
+        "sections": [
+          {
+            "name": "HotP Switch Teleports"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 450,
+            "y": 1260
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 270,
+            "y": 580
+          }
+        ]
+      },
+      {
+        "name": "Hall of the Phantoms G33",
+        "sections": [
+          {
+            "name": "HotP Switch Worm Pillar"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 450,
+            "y": 1180
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 270,
+            "y": 500
+          }
+        ]
+      },
+      {
+        "name": "Hall of the Phantoms H35",
+        "sections": [
+          {
+            "name": "HotP Switch To Claw 1"
+          },
+          {
+            "name": "HotP Switch To Claw 2"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 510,
+            "y": 1100
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 330,
+            "y": 420
+          }
+        ]
+      },
+      {
+        "name": "Hall of the Phantoms L36",
+        "sections": [
+          {
+            "name": "HotP Switch Claw Access"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 750,
+            "y": 1060
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 570,
+            "y": 380
+          },
+          {
+            "map": "Mechanism",
+            "x": 150,
+            "y": 140
+          }
+        ]
+      },
+      {
+        "name": "Hall of the Phantoms G38",
+        "sections": [
+          {
+            "name": "HotP Switch Above Old Man"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 450,
+            "y": 980
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 270,
+            "y": 300
+          }
+        ]
+      },
+      {
+        "name": "Hall of the Phantoms H37",
+        "sections": [
+          {
+            "name": "HotP Switch To Above Old Man"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 510,
+            "y": 1020
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 330,
+            "y": 340
+          }
+        ]
+      },
+      {
+        "name": "Hall of the Phantoms N40",
+        "sections": [
+          {
+            "name": "HotP Switch Teleport Puzzle"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 870,
+            "y": 900
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 690,
+            "y": 220
+          }
+        ]
+      },
+      {
+        "name": "Hall of the Phantoms G29",
+        "sections": [
+          {
+            "name": "HotP Switch Bell Access"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 450,
+            "y": 1340
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 270,
+            "y": 660
+          }
+        ]
+      },
+      {
+        "name": "Hall of the Phantoms L33",
+        "sections": [
+          {
+            "name": "HotP Switch 1st Room"
+          },
+          {
+            "name": "HotP Candle 1st Room"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 750,
+            "y": 1180
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 570,
+            "y": 500
+          },
+          {
+            "map": "Mechanism",
+            "x": 150,
+            "y": 260
+          }
+        ]
+      },
+      {
+        "name": "Hall of the Phantoms J29",
+        "sections": [
+          {
+            "name": "HotP Crystal Bottom"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 630,
+            "y": 1340
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 450,
+            "y": 660
+          }
+        ]
+      },
+      {
+        "name": "Hall of the Phantoms K38",
+        "sections": [
+          {
+            "name": "HotP Crystal After Claw"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 690,
+            "y": 980
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 510,
+            "y": 300
+          },
+          {
+            "map": "Mechanism",
+            "x": 90,
+            "y": 60
+          }
+        ]
+      },
+      {
+        "name": "Hall of the Phantoms J41",
+        "sections": [
+          {
+            "name": "HotP Crystal Dead Maiden 1"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 630,
+            "y": 860
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 450,
+            "y": 180
+          },
+          {
+            "map": "Ruins of Ash",
+            "x": 150,
+            "y": 820
+          },
+          {
+            "map": "Serpent Path",
+            "x": 510,
+            "y": 540
+          }
+        ]
+      },
+      {
+        "name": "Hall of the Phantoms J42",
+        "sections": [
+          {
+            "name": "HotP Crystal Dead Maiden 2"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 630,
+            "y": 820
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 450,
+            "y": 140
+          },
+          {
+            "map": "Ruins of Ash",
+            "x": 150,
+            "y": 780
+          },
+          {
+            "map": "Serpent Path",
+            "x": 510,
+            "y": 500
+          }
+        ]
+      },
+      {
+        "name": "Hall of the Phantoms H29",
+        "sections": [
+          {
+            "name": "HotP Crystal Bell Access"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 510,
+            "y": 1340
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 330,
+            "y": 660
+          }
+        ]
+      },
+      {
+        "name": "Hall of the Phantoms L38",
+        "sections": [
+          {
+            "name": "HotP Crystal Heart"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 750,
+            "y": 980
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 570,
+            "y": 300
+          },
+          {
+            "map": "Mechanism",
+            "x": 150,
+            "y": 60
+          }
+        ]
+      },
+      {
+        "name": "Hall of the Phantoms F36",
+        "sections": [
+          {
+            "name": "HotP Face Old Man"
+          },
+          {
+            "name": "HotP Candle Old Man"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 390,
+            "y": 1060
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 210,
+            "y": 380
+          }
+        ]
+      },
+      {
+        "name": "Ruins of Ash M41",
+        "sections": [
+          {
+            "name": "RoA Elevator 1"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 810,
+            "y": 860
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 630,
+            "y": 180
+          },
+          {
+            "map": "Ruins of Ash",
+            "x": 330,
+            "y": 820
+          }
+        ]
+      },
+      {
+        "name": "Ruins of Ash O57",
+        "sections": [
+          {
+            "name": "RoA Elevator 2"
+          },
+          {
+            "name": "RoA Candle Elevator"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 930,
+            "y": 220
+          },
+          {
+            "map": "Ruins of Ash",
+            "x": 450,
+            "y": 180
+          }
+        ]
+      },
+      {
+        "name": "Ruins of Ash N42",
+        "sections": [
+          {
+            "name": "RoA Switch After Worms"
+          },
+          {
+            "name": "RoA Switch 1st Shortcut"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 870,
+            "y": 820
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 690,
+            "y": 140
+          },
+          {
+            "map": "Ruins of Ash",
+            "x": 390,
+            "y": 780
+          }
+        ]
+      },
+      {
+        "name": "Ruins of Ash O48",
+        "sections": [
+          {
+            "name": "RoA Switch Right Path"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 930,
+            "y": 580
+          },
+          {
+            "map": "Ruins of Ash",
+            "x": 450,
+            "y": 540
+          }
+        ]
+      },
+      {
+        "name": "Ruins of Ash N51",
+        "sections": [
+          {
+            "name": "RoA Switch Shaft Left"
+          },
+          {
+            "name": "RoA Switch Shaft Right"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 870,
+            "y": 460
+          },
+          {
+            "map": "Ruins of Ash",
+            "x": 390,
+            "y": 420
+          }
+        ]
+      },
+      {
+        "name": "Ruins of Ash N57",
+        "sections": [
+          {
+            "name": "RoA Switch Elevator"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 870,
+            "y": 220
+          },
+          {
+            "map": "Ruins of Ash",
+            "x": 390,
+            "y": 180
+          }
+        ]
+      },
+      {
+        "name": "Ruins of Ash N53",
+        "sections": [
+          {
+            "name": "RoA Switch Shaft Downwards"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 870,
+            "y": 380
+          },
+          {
+            "map": "Ruins of Ash",
+            "x": 390,
+            "y": 340
+          }
+        ]
+      },
+      {
+        "name": "Ruins of Ash P54",
+        "sections": [
+          {
+            "name": "RoA Switch Spiders"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 990,
+            "y": 340
+          },
+          {
+            "map": "Ruins of Ash",
+            "x": 510,
+            "y": 300
+          }
+        ]
+      },
+      {
+        "name": "Ruins of Ash L54",
+        "sections": [
+          {
+            "name": "RoA Switch Dark Room"
+          },
+          {
+            "name": "RoA Switch Above Centaur"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 750,
+            "y": 340
+          },
+          {
+            "map": "Ruins of Ash",
+            "x": 270,
+            "y": 300
+          }
+        ]
+      },
+      {
+        "name": "Ruins of Ash L42",
+        "sections": [
+          {
+            "name": "RoA Switch Spike Climb"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 750,
+            "y": 820
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 570,
+            "y": 140
+          },
+          {
+            "map": "Ruins of Ash",
+            "x": 270,
+            "y": 780
+          }
+        ]
+      },
+      {
+        "name": "Ruins of Ash N58",
+        "sections": [
+          {
+            "name": "RoA Switch Blood Pot"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 870,
+            "y": 180
+          },
+          {
+            "map": "The Apex",
+            "x": 150,
+            "y": 180
+          },
+          {
+            "map": "Ruins of Ash",
+            "x": 390,
+            "y": 140
+          }
+        ]
+      },
+      {
+        "name": "Ruins of Ash P42",
+        "sections": [
+          {
+            "name": "RoA Switch Worms"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 990,
+            "y": 820
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 810,
+            "y": 140
+          },
+          {
+            "map": "Ruins of Ash",
+            "x": 510,
+            "y": 780
+          }
+        ]
+      },
+      {
+        "name": "Ruins of Ash N46",
+        "sections": [
+          {
+            "name": "RoA Switch Triple 1"
+          },
+          {
+            "name": "RoA Switch Triple 3"
+          },
+          {
+            "name": "RoA Crystal Triple 2"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 870,
+            "y": 660
+          },
+          {
+            "map": "Ruins of Ash",
+            "x": 390,
+            "y": 620
+          }
+        ]
+      },
+      {
+        "name": "Ruins of Ash L59",
+        "sections": [
+          {
+            "name": "RoA Switch Boss Access"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 750,
+            "y": 140
+          },
+          {
+            "map": "Ruins of Ash",
+            "x": 270,
+            "y": 100
+          }
+        ]
+      },
+      {
+        "name": "Ruins of Ash M59",
+        "sections": [
+          {
+            "name": "RoA Switch Blood Pot Left"
+          },
+          {
+            "name": "RoA Switch Blood Pot Right"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 810,
+            "y": 140
+          },
+          {
+            "map": "The Apex",
+            "x": 90,
+            "y": 140
+          },
+          {
+            "map": "Ruins of Ash",
+            "x": 330,
+            "y": 100
+          }
+        ]
+      },
+      {
+        "name": "Ruins of Ash P43",
+        "sections": [
+          {
+            "name": "RoA Switch Lower Void"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 990,
+            "y": 780
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 810,
+            "y": 100
+          },
+          {
+            "map": "Ruins of Ash",
+            "x": 510,
+            "y": 740
+          }
+        ]
+      },
+      {
+        "name": "Ruins of Ash O41",
+        "sections": [
+          {
+            "name": "RoA Crystal 1st Room"
+          },
+          {
+            "name": "RoA Candle 1st Room"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 930,
+            "y": 860
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 750,
+            "y": 180
+          },
+          {
+            "map": "Ruins of Ash",
+            "x": 450,
+            "y": 820
+          }
+        ]
+      },
+      {
+        "name": "Ruins of Ash P44",
+        "sections": [
+          {
+            "name": "RoA Crystal Baby Gorgon"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 990,
+            "y": 740
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 810,
+            "y": 60
+          },
+          {
+            "map": "Ruins of Ash",
+            "x": 510,
+            "y": 700
+          }
+        ]
+      },
+      {
+        "name": "Ruins of Ash N48",
+        "sections": [
+          {
+            "name": "RoA Crystal Ladder Right"
+          },
+          {
+            "name": "RoA Crystal Ladder Left"
+          },
+          {
+            "name": "RoA Candle Ladder Bottom"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 870,
+            "y": 580
+          },
+          {
+            "map": "Ruins of Ash",
+            "x": 390,
+            "y": 540
+          }
+        ]
+      },
+      {
+        "name": "Ruins of Ash O52",
+        "sections": [
+          {
+            "name": "RoA Crystal Spike Balls"
+          },
+          {
+            "name": "RoA Candle Spike Balls"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 930,
+            "y": 420
+          },
+          {
+            "map": "Ruins of Ash",
+            "x": 450,
+            "y": 380
+          }
+        ]
+      },
+      {
+        "name": "Ruins of Ash M45",
+        "sections": [
+          {
+            "name": "RoA Crystal Left Ascend"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 810,
+            "y": 700
+          },
+          {
+            "map": "Ruins of Ash",
+            "x": 330,
+            "y": 660
+          }
+        ]
+      },
+      {
+        "name": "Ruins of Ash N52",
+        "sections": [
+          {
+            "name": "RoA Crystal Shaft"
+          },
+          {
+            "name": "RoA Candle Shaft"
+          },
+          {
+            "name": "RoA Candle Ladder Right"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 870,
+            "y": 420
+          },
+          {
+            "map": "Ruins of Ash",
+            "x": 390,
+            "y": 380
+          }
+        ]
+      },
+      {
+        "name": "Ruins of Ash P53",
+        "sections": [
+          {
+            "name": "RoA Face Spiders"
+          },
+          {
+            "name": "RoA Candle Spiders"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 990,
+            "y": 380
+          },
+          {
+            "map": "Ruins of Ash",
+            "x": 510,
+            "y": 340
+          }
+        ]
+      },
+      {
+        "name": "Darkness J59",
+        "sections": [
+          {
+            "name": "Dark Switch"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 630,
+            "y": 140
+          },
+          {
+            "map": "Ruins of Ash",
+            "x": 150,
+            "y": 100
+          }
+        ]
+      },
+      {
+        "name": "The Apex N60",
+        "sections": [
+          {
+            "name": "Apex Elevator"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 870,
+            "y": 100
+          },
+          {
+            "map": "The Apex",
+            "x": 150,
+            "y": 100
+          },
+          {
+            "map": "Ruins of Ash",
+            "x": 390,
+            "y": 60
+          }
+        ]
+      },
+      {
+        "name": "The Apex P61",
+        "sections": [
+          {
+            "name": "Apex Switch"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 990,
+            "y": 60
+          },
+          {
+            "map": "The Apex",
+            "x": 270,
+            "y": 60
+          }
+        ]
+      },
+      {
+        "name": "Caves P18",
+        "sections": [
+          {
+            "name": "Caves Switch Skeletons"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 990,
+            "y": 1780
+          },
+          {
+            "map": "Catacombs",
+            "x": 450,
+            "y": 140
+          },
+          {
+            "map": "Gorgon Tomb",
+            "x": 630,
+            "y": 460
+          }
+        ]
+      },
+      {
+        "name": "Caves P16",
+        "sections": [
+          {
+            "name": "Caves Switch Catacombs Access 1"
+          },
+          {
+            "name": "Caves Switch Catacombs Access 2"
+          },
+          {
+            "name": "Caves Switch Catacombs Access 3"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 990,
+            "y": 1860
+          },
+          {
+            "map": "Catacombs",
+            "x": 450,
+            "y": 220
+          }
+        ]
+      },
+      {
+        "name": "Catacombs L16",
+        "sections": [
+          {
+            "name": "Cata Elevator 1"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 750,
+            "y": 1860
+          },
+          {
+            "map": "Catacombs",
+            "x": 210,
+            "y": 220
+          }
+        ]
+      },
+      {
+        "name": "Catacombs L8",
+        "sections": [
+          {
+            "name": "Cata Elevator 2"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 750,
+            "y": 2180
+          },
+          {
+            "map": "Catacombs",
+            "x": 210,
+            "y": 540
+          },
+          {
+            "map": "Tower Roots",
+            "x": 210,
+            "y": 100
+          }
+        ]
+      },
+      {
+        "name": "Catacombs M16",
+        "sections": [
+          {
+            "name": "Cata Switch Elevator"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 810,
+            "y": 1860
+          },
+          {
+            "map": "Catacombs",
+            "x": 270,
+            "y": 220
+          }
+        ]
+      },
+      {
+        "name": "Catacombs M14",
+        "sections": [
+          {
+            "name": "Cata Switch Vertical Shortcut"
+          },
+          {
+            "name": "Cata Candle Vertical Shortcut"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 810,
+            "y": 1940
+          },
+          {
+            "map": "Catacombs",
+            "x": 270,
+            "y": 300
+          }
+        ]
+      },
+      {
+        "name": "Catacombs N15",
+        "sections": [
+          {
+            "name": "Cata Switch Top"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 870,
+            "y": 1900
+          },
+          {
+            "map": "Catacombs",
+            "x": 330,
+            "y": 260
+          }
+        ]
+      },
+      {
+        "name": "Catacombs O12",
+        "sections": [
+          {
+            "name": "Cata Switch Claw 1"
+          },
+          {
+            "name": "Cata Switch Claw 2"
+          },
+          {
+            "name": "Cata Candle Griffon"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 930,
+            "y": 2020
+          },
+          {
+            "map": "Catacombs",
+            "x": 390,
+            "y": 380
+          }
+        ]
+      },
+      {
+        "name": "Catacombs N11",
+        "sections": [
+          {
+            "name": "Cata Switch Water 1"
+          },
+          {
+            "name": "Cata Switch Water 2"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 870,
+            "y": 2060
+          },
+          {
+            "map": "Catacombs",
+            "x": 330,
+            "y": 420
+          }
+        ]
+      },
+      {
+        "name": "Catacombs Q12",
+        "sections": [
+          {
+            "name": "Cata Switch Dev Room"
+          },
+          {
+            "name": "Cata Candle Dev Room"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 1050,
+            "y": 2020
+          },
+          {
+            "map": "Catacombs",
+            "x": 510,
+            "y": 380
+          }
+        ]
+      },
+      {
+        "name": "Catacombs N10",
+        "sections": [
+          {
+            "name": "Cata Switch After Blue Door"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 870,
+            "y": 2100
+          },
+          {
+            "map": "Catacombs",
+            "x": 330,
+            "y": 460
+          }
+        ]
+      },
+      {
+        "name": "Catacombs M10",
+        "sections": [
+          {
+            "name": "Cata Switch Shortcut Access"
+          },
+          {
+            "name": "Cata Switch Ladder Blocks"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 810,
+            "y": 2100
+          },
+          {
+            "map": "Catacombs",
+            "x": 270,
+            "y": 460
+          }
+        ]
+      },
+      {
+        "name": "Catacombs M13",
+        "sections": [
+          {
+            "name": "Cata Switch Mid Shortcut"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 810,
+            "y": 1980
+          },
+          {
+            "map": "Catacombs",
+            "x": 270,
+            "y": 340
+          }
+        ]
+      },
+      {
+        "name": "Catacombs O16",
+        "sections": [
+          {
+            "name": "Cata Switch 1st Room"
+          },
+          {
+            "name": "Cata Candle 1st Room"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 930,
+            "y": 1860
+          },
+          {
+            "map": "Catacombs",
+            "x": 390,
+            "y": 220
+          }
+        ]
+      },
+      {
+        "name": "Catacombs L10",
+        "sections": [
+          {
+            "name": "Cata Switch Flames 2"
+          },
+          {
+            "name": "Cata Switch Flames 1"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 750,
+            "y": 2100
+          },
+          {
+            "map": "Catacombs",
+            "x": 210,
+            "y": 460
+          }
+        ]
+      },
+      {
+        "name": "Catacombs O14",
+        "sections": [
+          {
+            "name": "Cata Face After Bow"
+          },
+          {
+            "name": "Cata Candle After Bow"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 930,
+            "y": 1940
+          },
+          {
+            "map": "Catacombs",
+            "x": 390,
+            "y": 300
+          }
+        ]
+      },
+      {
+        "name": "Catacombs L14",
+        "sections": [
+          {
+            "name": "Cata Face Bow"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 750,
+            "y": 1940
+          },
+          {
+            "map": "Catacombs",
+            "x": 210,
+            "y": 300
+          }
+        ]
+      },
+      {
+        "name": "Catacombs O8",
+        "sections": [
+          {
+            "name": "Cata Face x4"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 930,
+            "y": 2180
+          },
+          {
+            "map": "Catacombs",
+            "x": 390,
+            "y": 540
+          },
+          {
+            "map": "Tower Roots",
+            "x": 390,
+            "y": 100
+          }
+        ]
+      },
+      {
+        "name": "Catacombs M8",
+        "sections": [
+          {
+            "name": "Cata Face Campfire"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 810,
+            "y": 2180
+          },
+          {
+            "map": "Catacombs",
+            "x": 270,
+            "y": 540
+          },
+          {
+            "map": "Tower Roots",
+            "x": 270,
+            "y": 100
+          }
+        ]
+      },
+      {
+        "name": "Catacombs P8",
+        "sections": [
+          {
+            "name": "Cata Face Double Door"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 990,
+            "y": 2180
+          },
+          {
+            "map": "Catacombs",
+            "x": 450,
+            "y": 540
+          },
+          {
+            "map": "Tower Roots",
+            "x": 450,
+            "y": 100
+          }
+        ]
+      },
+      {
+        "name": "Catacombs O7",
+        "sections": [
+          {
+            "name": "Cata Face Bottom"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 930,
+            "y": 2220
+          },
+          {
+            "map": "Catacombs",
+            "x": 390,
+            "y": 580
+          },
+          {
+            "map": "Tower Roots",
+            "x": 390,
+            "y": 140
+          }
+        ]
+      },
+      {
+        "name": "Tower Roots L3",
+        "sections": [
+          {
+            "name": "TR Elevator"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 750,
+            "y": 2380
+          },
+          {
+            "map": "Tower Roots",
+            "x": 210,
+            "y": 300
+          }
+        ]
+      },
+      {
+        "name": "Tower Roots J5",
+        "sections": [
+          {
+            "name": "TR Switch Elevator"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 630,
+            "y": 2300
+          },
+          {
+            "map": "Tower Roots",
+            "x": 90,
+            "y": 220
+          }
+        ]
+      },
+      {
+        "name": "Tower Roots P1",
+        "sections": [
+          {
+            "name": "TR Switch Bottom"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 990,
+            "y": 2460
+          },
+          {
+            "map": "Tower Roots",
+            "x": 450,
+            "y": 380
+          }
+        ]
+      },
+      {
+        "name": "Tower Roots P3",
+        "sections": [
+          {
+            "name": "TR Crystal Gold"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 990,
+            "y": 2380
+          },
+          {
+            "map": "Tower Roots",
+            "x": 450,
+            "y": 300
+          }
+        ]
+      },
+      {
+        "name": "Tower Roots P2",
+        "sections": [
+          {
+            "name": "TR Crystal Dark Arias"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 990,
+            "y": 2420
+          },
+          {
+            "map": "Tower Roots",
+            "x": 450,
+            "y": 340
+          }
+        ]
+      },
+      {
+        "name": "Cyclops Den W38",
+        "sections": [
+          {
+            "name": "CD Switch 1"
+          },
+          {
+            "name": "CD Crystal Backtrack"
+          },
+          {
+            "name": "CD Candle 1"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 1410,
+            "y": 980
+          },
+          {
+            "map": "Cyclops Den",
+            "x": 330,
+            "y": 340
+          },
+          {
+            "map": "Mechanism",
+            "x": 810,
+            "y": 60
+          }
+        ]
+      },
+      {
+        "name": "Cyclops Den X38",
+        "sections": [
+          {
+            "name": "CD Switch 2"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 1470,
+            "y": 980
+          },
+          {
+            "map": "Cyclops Den",
+            "x": 390,
+            "y": 340
+          }
+        ]
+      },
+      {
+        "name": "Cyclops Den X39",
+        "sections": [
+          {
+            "name": "CD Switch 3"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 1470,
+            "y": 940
+          },
+          {
+            "map": "Cyclops Den",
+            "x": 390,
+            "y": 300
+          }
+        ]
+      },
+      {
+        "name": "Cyclops Den U40",
+        "sections": [
+          {
+            "name": "CD Switch Campfire"
+          },
+          {
+            "name": "CD Candle 2nd Campfire 1"
+          },
+          {
+            "name": "CD Candle 2nd Campfire 2"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 1290,
+            "y": 900
+          },
+          {
+            "map": "Cyclops Den",
+            "x": 210,
+            "y": 260
+          }
+        ]
+      },
+      {
+        "name": "Cyclops Den W37",
+        "sections": [
+          {
+            "name": "CD Crystal Start"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 1410,
+            "y": 1020
+          },
+          {
+            "map": "Cyclops Den",
+            "x": 330,
+            "y": 380
+          },
+          {
+            "map": "Mechanism",
+            "x": 810,
+            "y": 100
+          }
+        ]
+      },
+      {
+        "name": "Cyclops Den U42",
+        "sections": [
+          {
+            "name": "CD Crystal Campfire"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 1290,
+            "y": 820
+          },
+          {
+            "map": "Cyclops Den",
+            "x": 210,
+            "y": 180
+          }
+        ]
+      },
+      {
+        "name": "Cyclops Den T43",
+        "sections": [
+          {
+            "name": "CD Crystal Steps"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 1230,
+            "y": 780
+          },
+          {
+            "map": "Cyclops Den",
+            "x": 150,
+            "y": 140
+          }
+        ]
+      },
+      {
+        "name": "Cathedral B32",
+        "sections": [
+          {
+            "name": "Cath Switch Bottom"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 150,
+            "y": 1220
+          },
+          {
+            "map": "Cathedral",
+            "x": 150,
+            "y": 460
+          }
+        ]
+      },
+      {
+        "name": "Cathedral A35",
+        "sections": [
+          {
+            "name": "Cath Switch Beside Shaft"
+          },
+          {
+            "name": "Cath Crystal Shaft"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 90,
+            "y": 1100
+          },
+          {
+            "map": "Cathedral",
+            "x": 90,
+            "y": 340
+          }
+        ]
+      },
+      {
+        "name": "Cathedral C38",
+        "sections": [
+          {
+            "name": "Cath Switch Top Campfire"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 210,
+            "y": 980
+          },
+          {
+            "map": "Cathedral",
+            "x": 210,
+            "y": 220
+          }
+        ]
+      },
+      {
+        "name": "Cathedral B31",
+        "sections": [
+          {
+            "name": "Cath Crystal 1st Room"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 150,
+            "y": 1260
+          },
+          {
+            "map": "Cathedral",
+            "x": 150,
+            "y": 500
+          }
+        ]
+      },
+      {
+        "name": "Cathedral A38",
+        "sections": [
+          {
+            "name": "Cath Crystal Spike Pit"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 90,
+            "y": 980
+          },
+          {
+            "map": "Cathedral",
+            "x": 90,
+            "y": 220
+          }
+        ]
+      },
+      {
+        "name": "Cathedral A33",
+        "sections": [
+          {
+            "name": "Cath Crystal Shaft Access"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 90,
+            "y": 1180
+          },
+          {
+            "map": "Cathedral",
+            "x": 90,
+            "y": 420
+          }
+        ]
+      },
+      {
+        "name": "Cathedral B36",
+        "sections": [
+          {
+            "name": "Cath Crystal Orbs"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 150,
+            "y": 1060
+          },
+          {
+            "map": "Cathedral",
+            "x": 150,
+            "y": 300
+          }
+        ]
+      },
+      {
+        "name": "Cathedral A32",
+        "sections": [
+          {
+            "name": "Cath Face Left"
+          },
+          {
+            "name": "Cath Face Right"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 90,
+            "y": 1220
+          },
+          {
+            "map": "Cathedral",
+            "x": 90,
+            "y": 460
+          }
+        ]
+      },
+      {
+        "name": "Serpent Path F46",
+        "sections": [
+          {
+            "name": "SP Switch Double Doors"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 390,
+            "y": 660
+          },
+          {
+            "map": "Serpent Path",
+            "x": 270,
+            "y": 340
+          }
+        ]
+      },
+      {
+        "name": "Serpent Path F48",
+        "sections": [
+          {
+            "name": "SP Switch Bubbles"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 390,
+            "y": 580
+          },
+          {
+            "map": "Serpent Path",
+            "x": 270,
+            "y": 260
+          }
+        ]
+      },
+      {
+        "name": "Serpent Path F52",
+        "sections": [
+          {
+            "name": "SP Switch After Star"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 390,
+            "y": 420
+          },
+          {
+            "map": "Serpent Path",
+            "x": 270,
+            "y": 100
+          }
+        ]
+      },
+      {
+        "name": "Serpent Path G50",
+        "sections": [
+          {
+            "name": "SP Crystal Blocks"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 450,
+            "y": 500
+          },
+          {
+            "map": "Serpent Path",
+            "x": 330,
+            "y": 180
+          }
+        ]
+      },
+      {
+        "name": "Serpent Path D51",
+        "sections": [
+          {
+            "name": "SP Crystal Star"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 270,
+            "y": 460
+          },
+          {
+            "map": "Serpent Path",
+            "x": 150,
+            "y": 140
+          }
+        ]
+      },
+      {
+        "name": "Cyclops Den Z37",
+        "sections": [
+          {
+            "name": "CD Prince's Crown"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 1590,
+            "y": 1020
+          },
+          {
+            "map": "Cyclops Den",
+            "x": 510,
+            "y": 380
+          }
+        ]
+      },
+      {
+        "name": "Gorgon Tomb L20",
+        "sections": [
+          {
+            "name": "GT Candle Bottom"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 750,
+            "y": 1700
+          },
+          {
+            "map": "Catacombs",
+            "x": 210,
+            "y": 60
+          },
+          {
+            "map": "Gorgon Tomb",
+            "x": 390,
+            "y": 380
+          }
+        ]
+      },
+      {
+        "name": "Mechanism S22",
+        "sections": [
+          {
+            "name": "Mech Candle Bottom"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 1170,
+            "y": 1620
+          },
+          {
+            "map": "Gorgon Tomb",
+            "x": 810,
+            "y": 300
+          },
+          {
+            "map": "Mechanism",
+            "x": 570,
+            "y": 700
+          }
+        ]
+      },
+      {
+        "name": "Mechanism Q30",
+        "sections": [
+          {
+            "name": "Mech Candle Chains"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 1050,
+            "y": 1300
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 870,
+            "y": 620
+          },
+          {
+            "map": "Mechanism",
+            "x": 450,
+            "y": 380
+          }
+        ]
+      },
+      {
+        "name": "Mechanism T31",
+        "sections": [
+          {
+            "name": "Mech Candle Right"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 1230,
+            "y": 1260
+          },
+          {
+            "map": "Mechanism",
+            "x": 630,
+            "y": 340
+          }
+        ]
+      },
+      {
+        "name": "Mechanism T34",
+        "sections": [
+          {
+            "name": "Mech Candle Pots"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 1230,
+            "y": 1140
+          },
+          {
+            "map": "Mechanism",
+            "x": 630,
+            "y": 220
+          }
+        ]
+      },
+      {
+        "name": "Mechanism S29",
+        "sections": [
+          {
+            "name": "Mech Candle Zeek"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 1170,
+            "y": 1340
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 990,
+            "y": 660
+          },
+          {
+            "map": "Mechanism",
+            "x": 570,
+            "y": 420
+          }
+        ]
+      },
+      {
+        "name": "Mechanism V36",
+        "sections": [
+          {
+            "name": "Mech Candle CD Access 1"
+          },
+          {
+            "name": "Mech Candle CD Access 2"
+          },
+          {
+            "name": "Mech Candle CD Access 3"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 1350,
+            "y": 1060
+          },
+          {
+            "map": "Cyclops Den",
+            "x": 270,
+            "y": 420
+          },
+          {
+            "map": "Mechanism",
+            "x": 750,
+            "y": 140
+          }
+        ]
+      },
+      {
+        "name": "Hall of the Phantoms K30",
+        "sections": [
+          {
+            "name": "HotP Candle Lower"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 690,
+            "y": 1300
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 510,
+            "y": 620
+          },
+          {
+            "map": "Mechanism",
+            "x": 90,
+            "y": 380
+          }
+        ]
+      },
+      {
+        "name": "Hall of the Phantoms H30",
+        "sections": [
+          {
+            "name": "HotP Candle Bell"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 510,
+            "y": 1300
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 330,
+            "y": 620
+          }
+        ]
+      },
+      {
+        "name": "Hall of the Phantoms F32",
+        "sections": [
+          {
+            "name": "HotP Candle Eyeball"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 390,
+            "y": 1220
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 210,
+            "y": 540
+          }
+        ]
+      },
+      {
+        "name": "Hall of the Phantoms H36",
+        "sections": [
+          {
+            "name": "HotP Candle Before Claw"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 510,
+            "y": 1060
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 330,
+            "y": 380
+          }
+        ]
+      },
+      {
+        "name": "Hall of the Phantoms K37",
+        "sections": [
+          {
+            "name": "HotP Candle Claw Campfire"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 690,
+            "y": 1020
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 510,
+            "y": 340
+          },
+          {
+            "map": "Mechanism",
+            "x": 90,
+            "y": 100
+          }
+        ]
+      },
+      {
+        "name": "Hall of the Phantoms L40",
+        "sections": [
+          {
+            "name": "HotP Candle Teleport Puzzle"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 750,
+            "y": 900
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 570,
+            "y": 220
+          }
+        ]
+      },
+      {
+        "name": "Hall of the Phantoms L41",
+        "sections": [
+          {
+            "name": "HotP Candle Boss"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 750,
+            "y": 860
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 570,
+            "y": 180
+          },
+          {
+            "map": "Ruins of Ash",
+            "x": 270,
+            "y": 820
+          }
+        ]
+      },
+      {
+        "name": "Hall of the Phantoms P40",
+        "sections": [
+          {
+            "name": "HotP Candle Teleport Fall"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 990,
+            "y": 900
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 810,
+            "y": 220
+          }
+        ]
+      },
+      {
+        "name": "Hall of the Phantoms O37",
+        "sections": [
+          {
+            "name": "HotP Candle Upper Void 1"
+          },
+          {
+            "name": "HotP Candle Upper Void 2"
+          },
+          {
+            "name": "HotP Candle Upper Void 3"
+          },
+          {
+            "name": "HotP Candle Upper Void 4"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 930,
+            "y": 1020
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 750,
+            "y": 340
+          },
+          {
+            "map": "Mechanism",
+            "x": 330,
+            "y": 100
+          }
+        ]
+      },
+      {
+        "name": "Hall of the Phantoms G34",
+        "sections": [
+          {
+            "name": "HotP Candle Elevator"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 450,
+            "y": 1140
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 270,
+            "y": 460
+          }
+        ]
+      },
+      {
+        "name": "Ruins of Ash O44",
+        "sections": [
+          {
+            "name": "RoA Candle 3 Reapers"
+          },
+          {
+            "name": "RoA Candle Enemy Arena"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 930,
+            "y": 740
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 750,
+            "y": 60
+          },
+          {
+            "map": "Ruins of Ash",
+            "x": 450,
+            "y": 700
+          }
+        ]
+      },
+      {
+        "name": "Ruins of Ash O47",
+        "sections": [
+          {
+            "name": "RoA Candle Middle Campfire"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 930,
+            "y": 620
+          },
+          {
+            "map": "Ruins of Ash",
+            "x": 450,
+            "y": 580
+          }
+        ]
+      },
+      {
+        "name": "Ruins of Ash N54",
+        "sections": [
+          {
+            "name": "RoA Candle Shaft Top"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 870,
+            "y": 340
+          },
+          {
+            "map": "Ruins of Ash",
+            "x": 390,
+            "y": 300
+          }
+        ]
+      },
+      {
+        "name": "Ruins of Ash M54",
+        "sections": [
+          {
+            "name": "RoA Candle Above Centaur"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 810,
+            "y": 340
+          },
+          {
+            "map": "Ruins of Ash",
+            "x": 330,
+            "y": 300
+          }
+        ]
+      },
+      {
+        "name": "Ruins of Ash M44",
+        "sections": [
+          {
+            "name": "RoA Candle Baby Gorgon"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 810,
+            "y": 740
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 630,
+            "y": 60
+          },
+          {
+            "map": "Ruins of Ash",
+            "x": 330,
+            "y": 700
+          }
+        ]
+      },
+      {
+        "name": "Ruins of Ash P50",
+        "sections": [
+          {
+            "name": "RoA Candle Hidden 1"
+          },
+          {
+            "name": "RoA Candle Hidden 2"
+          },
+          {
+            "name": "RoA Candle Hidden 3"
+          },
+          {
+            "name": "RoA Candle Hidden 4"
+          },
+          {
+            "name": "RoA Candle Hidden 5"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 990,
+            "y": 500
+          },
+          {
+            "map": "Ruins of Ash",
+            "x": 510,
+            "y": 460
+          }
+        ]
+      },
+      {
+        "name": "Ruins of Ash O56",
+        "sections": [
+          {
+            "name": "RoA Candle Elevator Campfire"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 930,
+            "y": 260
+          },
+          {
+            "map": "Ruins of Ash",
+            "x": 450,
+            "y": 220
+          }
+        ]
+      },
+      {
+        "name": "Ruins of Ash K60",
+        "sections": [
+          {
+            "name": "RoA Candle Boss 1"
+          },
+          {
+            "name": "RoA Candle Boss 2"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 690,
+            "y": 100
+          },
+          {
+            "map": "Ruins of Ash",
+            "x": 210,
+            "y": 60
+          }
+        ]
+      },
+      {
+        "name": "The Apex Q58",
+        "sections": [
+          {
+            "name": "Apex Candle Chalice 1"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 1050,
+            "y": 180
+          },
+          {
+            "map": "The Apex",
+            "x": 330,
+            "y": 180
+          },
+          {
+            "map": "Ruins of Ash",
+            "x": 570,
+            "y": 140
+          }
+        ]
+      },
+      {
+        "name": "The Apex R58",
+        "sections": [
+          {
+            "name": "Apex Candle Chalice 2"
+          },
+          {
+            "name": "Apex Candle Chalice 3"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 1110,
+            "y": 180
+          },
+          {
+            "map": "The Apex",
+            "x": 390,
+            "y": 180
+          }
+        ]
+      },
+      {
+        "name": "The Apex O59",
+        "sections": [
+          {
+            "name": "Apex Candle Gargoyle 1"
+          },
+          {
+            "name": "Apex Candle Gargoyle 2"
+          },
+          {
+            "name": "Apex Candle Gargoyle 3"
+          },
+          {
+            "name": "Apex Candle Gargoyle 4"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 930,
+            "y": 140
+          },
+          {
+            "map": "The Apex",
+            "x": 210,
+            "y": 140
+          },
+          {
+            "map": "Ruins of Ash",
+            "x": 450,
+            "y": 100
+          }
+        ]
+      },
+      {
+        "name": "Catacombs K16",
+        "sections": [
+          {
+            "name": "Cata Candle Orb Multiplier"
+          },
+          {
+            "name": "Cata Orb Multiplier"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 690,
+            "y": 1860
+          },
+          {
+            "map": "Catacombs",
+            "x": 150,
+            "y": 220
+          }
+        ]
+      },
+      {
+        "name": "Catacombs P11",
+        "sections": [
+          {
+            "name": "Cata Candle Above Roots 1"
+          },
+          {
+            "name": "Cata Candle Above Roots 2"
+          },
+          {
+            "name": "Cata Candle Above Roots 3"
+          },
+          {
+            "name": "Cata Candle Above Roots 4"
+          },
+          {
+            "name": "Cata Candle Above Roots 5"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 990,
+            "y": 2060
+          },
+          {
+            "map": "Catacombs",
+            "x": 450,
+            "y": 420
+          }
+        ]
+      },
+      {
+        "name": "Catacombs Q8",
+        "sections": [
+          {
+            "name": "Cata Candle Void Right 1"
+          },
+          {
+            "name": "Cata Candle Void Right 2"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 1050,
+            "y": 2180
+          },
+          {
+            "map": "Catacombs",
+            "x": 510,
+            "y": 540
+          },
+          {
+            "map": "Tower Roots",
+            "x": 510,
+            "y": 100
+          }
+        ]
+      },
+      {
+        "name": "Tower Roots M3",
+        "sections": [
+          {
+            "name": "TR Candle 1st Room 1"
+          },
+          {
+            "name": "TR Candle 1st Room 2"
+          },
+          {
+            "name": "TR Candle 1st Room 3"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 810,
+            "y": 2380
+          },
+          {
+            "map": "Tower Roots",
+            "x": 270,
+            "y": 300
+          }
+        ]
+      },
+      {
+        "name": "Cyclops Den S45",
+        "sections": [
+          {
+            "name": "CD Candle Top Campfire"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 1170,
+            "y": 700
+          },
+          {
+            "map": "Cyclops Den",
+            "x": 90,
+            "y": 60
+          }
+        ]
+      },
+      {
+        "name": "Gorgon Tomb I20",
+        "sections": [
+          {
+            "name": "GT Elevator 1"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 570,
+            "y": 1700
+          },
+          {
+            "map": "Gorgon Tomb",
+            "x": 210,
+            "y": 380
+          }
+        ]
+      },
+      {
+        "name": "Mechanism S31",
+        "sections": [
+          {
+            "name": "Mech Skull Puzzle"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 1170,
+            "y": 1260
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 990,
+            "y": 580
+          },
+          {
+            "map": "Mechanism",
+            "x": 570,
+            "y": 340
+          }
+        ]
+      },
+      {
+        "name": "Hall of the Phantoms I31",
+        "sections": [
+          {
+            "name": "HotP Skull Puzzle"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 570,
+            "y": 1260
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 390,
+            "y": 580
+          }
+        ]
+      },
+      {
+        "name": "Gorgon Tomb K19",
+        "sections": [
+          {
+            "name": "GT Orb Multiplier"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 690,
+            "y": 1740
+          },
+          {
+            "map": "Catacombs",
+            "x": 150,
+            "y": 100
+          },
+          {
+            "map": "Gorgon Tomb",
+            "x": 330,
+            "y": 420
+          }
+        ]
+      },
+      {
+        "name": "Mechanism P31",
+        "sections": [
+          {
+            "name": "Mech Orb Multiplier"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 990,
+            "y": 1260
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 810,
+            "y": 580
+          },
+          {
+            "map": "Mechanism",
+            "x": 390,
+            "y": 340
+          }
+        ]
+      },
+      {
+        "name": "Epimetheus Shop",
+        "sections": [
+          {
+            "name": "Gift Purchase"
+          },
+          {
+            "name": "Knowledge Purchase"
+          },
+          {
+            "name": "Mercy Purchase"
+          },
+          {
+            "name": "Orb Seeker Purchase"
+          },
+          {
+            "name": "Cartographer Purchase"
+          },
+          {
+            "name": "Death Orb Purchase"
+          },
+          {
+            "name": "Death Point Purchase"
+          },
+          {
+            "name": "Titan's Ego Purchase"
+          },
+          {
+            "name": "Arcanist Purchase"
+          },
+          {
+            "name": "Shock Field Purchase"
+          },
+          {
+            "name": "Meteor Rain Purchase"
+          },
+          {
+            "name": "Gorgonslayer Purchase"
+          },
+          {
+            "name": "Last Stand Purchase"
+          },
+          {
+            "name": "Lionheart Purchase"
+          },
+          {
+            "name": "Assassin Strike Purchase"
+          },
+          {
+            "name": "Bullseye Purchase"
+          },
+          {
+            "name": "Shining Ray Purchase"
+          },
+          {
+            "name": "Junkyard Hunt Purchase"
+          },
+          {
+            "name": "Orb Monger Purchase"
+          },
+          {
+            "name": "Bigger Loot Purchase"
+          },
+          {
+            "name": "Golden Axe Purchase"
+          },
+          {
+            "name": "Monster Hunter Purchase"
+          },
+          {
+            "name": "Whiplash Purchase"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 330,
+            "y": 2125
+          }
+        ]
+      },
+      {
+        "name": "Gift Purchase",
+        "sections": [
+          {
+            "name": "Gift Purchase"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "Shop",
+            "x": 283,
+            "y": 508
+          }
+        ]
+      },
+      {
+        "name": "Knowledge Purchase",
+        "sections": [
+          {
+            "name": "Knowledge Purchase"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "Shop",
+            "x": 73,
+            "y": 508
+          }
+        ]
+      },
+      {
+        "name": "Mercy Purchase",
+        "sections": [
+          {
+            "name": "Mercy Purchase"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "Shop",
+            "x": 374,
+            "y": 666
+          }
+        ]
+      },
+      {
+        "name": "Orb Seeker Purchase",
+        "sections": [
+          {
+            "name": "Orb Seeker Purchase"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "Shop",
+            "x": 177,
+            "y": 508
+          }
+        ]
+      },
+      {
+        "name": "Cartographer Purchase",
+        "sections": [
+          {
+            "name": "Cartographer Purchase"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "Shop",
+            "x": 91,
+            "y": 666
+          }
+        ]
+      },
+      {
+        "name": "Death Orb Purchase",
+        "sections": [
+          {
+            "name": "Death Orb Purchase"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "Shop",
+            "x": 179,
+            "y": 666
+          }
+        ]
+      },
+      {
+        "name": "Death Point Purchase",
+        "sections": [
+          {
+            "name": "Death Point Purchase"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "Shop",
+            "x": 283,
+            "y": 666
+          }
+        ]
+      },
+      {
+        "name": "Titan's Ego Purchase",
+        "sections": [
+          {
+            "name": "Titan's Ego Purchase"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "Shop",
+            "x": 374,
+            "y": 508
+          }
+        ]
+      },
+      {
+        "name": "Arcanist Purchase",
+        "sections": [
+          {
+            "name": "Arcanist Purchase"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "Shop",
+            "x": 619,
+            "y": 128
+          }
+        ]
+      },
+      {
+        "name": "Shock Field Purchase",
+        "sections": [
+          {
+            "name": "Shock Field Purchase"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "Shop",
+            "x": 711,
+            "y": 128
+          }
+        ]
+      },
+      {
+        "name": "Meteor Rain Purchase",
+        "sections": [
+          {
+            "name": "Meteor Rain Purchase"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "Shop",
+            "x": 811,
+            "y": 128
+          }
+        ]
+      },
+      {
+        "name": "Gorgonslayer Purchase",
+        "sections": [
+          {
+            "name": "Gorgonslayer Purchase"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "Shop",
+            "x": 619,
+            "y": 276
+          }
+        ]
+      },
+      {
+        "name": "Last Stand Purchase",
+        "sections": [
+          {
+            "name": "Last Stand Purchase"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "Shop",
+            "x": 711,
+            "y": 276
+          }
+        ]
+      },
+      {
+        "name": "Lionheart Purchase",
+        "sections": [
+          {
+            "name": "Lionheart Purchase"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "Shop",
+            "x": 811,
+            "y": 276
+          }
+        ]
+      },
+      {
+        "name": "Assassin Strike Purchase",
+        "sections": [
+          {
+            "name": "Assassin Strike Purchase"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "Shop",
+            "x": 619,
+            "y": 418
+          }
+        ]
+      },
+      {
+        "name": "Bullseye Purchase",
+        "sections": [
+          {
+            "name": "Bullseye Purchase"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "Shop",
+            "x": 711,
+            "y": 418
+          }
+        ]
+      },
+      {
+        "name": "Shining Ray Purchase",
+        "sections": [
+          {
+            "name": "Shining Ray Purchase"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "Shop",
+            "x": 811,
+            "y": 418
+          }
+        ]
+      },
+      {
+        "name": "Junkyard Hunt Purchase",
+        "sections": [
+          {
+            "name": "Junkyard Hunt Purchase"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "Shop",
+            "x": 619,
+            "y": 560
+          }
+        ]
+      },
+      {
+        "name": "Orb Monger Purchase",
+        "sections": [
+          {
+            "name": "Orb Monger Purchase"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "Shop",
+            "x": 711,
+            "y": 560
+          }
+        ]
+      },
+      {
+        "name": "Bigger Loot Purchase",
+        "sections": [
+          {
+            "name": "Bigger Loot Purchase"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "Shop",
+            "x": 811,
+            "y": 560
+          }
+        ]
+      },
+      {
+        "name": "Golden Axe Purchase",
+        "sections": [
+          {
+            "name": "Golden Axe Purchase"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "Shop",
+            "x": 619,
+            "y": 704
+          }
+        ]
+      },
+      {
+        "name": "Monster Hunter Purchase",
+        "sections": [
+          {
+            "name": "Monster Hunter Purchase"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "Shop",
+            "x": 711,
+            "y": 704
+          }
+        ]
+      },
+      {
+        "name": "Whiplash Purchase",
+        "sections": [
+          {
+            "name": "Whiplash Purchase"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "Shop",
+            "x": 811,
+            "y": 704
+          }
+        ]
+      }
+    ]
+  }
+]

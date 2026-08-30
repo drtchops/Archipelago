@@ -1,0 +1,93 @@
+[
+  {
+    "name": "World Map",
+    "location_size": 24,
+    "location_border_thickness": 2,
+    "location_icon_size": 25,
+    "img": "images/maps/world_map.png"
+  },
+  {
+    "name": "The Apex",
+    "location_size": 12,
+    "location_border_thickness": 2,
+    "location_icon_size": 25,
+    "img": "images/maps/apex.png"
+  },
+  {
+    "name": "Ruins of Ash",
+    "location_size": 12,
+    "location_border_thickness": 2,
+    "location_icon_size": 25,
+    "img": "images/maps/ruins_of_ash.png"
+  },
+  {
+    "name": "Serpent Path",
+    "location_size": 12,
+    "location_border_thickness": 2,
+    "location_icon_size": 25,
+    "img": "images/maps/serpent_path.png"
+  },
+  {
+    "name": "Hall of Phantoms",
+    "location_size": 12,
+    "location_border_thickness": 2,
+    "location_icon_size": 25,
+    "img": "images/maps/hall_of_phantoms.png"
+  },
+  {
+    "name": "Cathedral",
+    "location_size": 12,
+    "location_border_thickness": 2,
+    "location_icon_size": 25,
+    "img": "images/maps/cathedral.png"
+  },
+  {
+    "name": "Mechanism",
+    "location_size": 12,
+    "location_border_thickness": 2,
+    "location_icon_size": 25,
+    "img": "images/maps/mechanism.png"
+  },
+  {
+    "name": "Cyclops Den",
+    "location_size": 12,
+    "location_border_thickness": 2,
+    "location_icon_size": 25,
+    "img": "images/maps/cyclops_den.png"
+  },
+  {
+    "name": "Gorgon Tomb",
+    "location_size": 12,
+    "location_border_thickness": 2,
+    "location_icon_size": 25,
+    "img": "images/maps/gorgon_tomb.png"
+  },
+  {
+    "name": "Catacombs",
+    "location_size": 12,
+    "location_border_thickness": 2,
+    "location_icon_size": 25,
+    "img": "images/maps/catacombs.png"
+  },
+  {
+    "name": "Dev Room",
+    "location_size": 12,
+    "location_border_thickness": 2,
+    "location_icon_size": 25,
+    "img": "images/maps/dev_room.png"
+  },
+  {
+    "name": "Tower Roots",
+    "location_size": 12,
+    "location_border_thickness": 2,
+    "location_icon_size": 25,
+    "img": "images/maps/tower_roots.png"
+  },
+  {
+    "name": "Shop",
+    "location_size": 12,
+    "location_border_thickness": 2,
+    "location_icon_size": 25,
+    "img": "images/maps/shop.png"
+  }
+]

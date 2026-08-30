@@ -1,1 +1,3 @@
 requirements-dev.txt
+build_tracker.py
+*.xcf
