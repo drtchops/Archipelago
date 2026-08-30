@@ -254,9 +254,6 @@
             "name": "GT White Key 1st Room"
           },
           {
-            "name": "GT Switch 2nd Room"
-          },
-          {
             "name": "GT Switch Gorgonheart Shortcut"
           }
         ],
@@ -3020,6 +3017,31 @@
         ]
       },
       {
+        "name": "Gorgon Tomb K20",
+        "sections": [
+          {
+            "name": "GT Switch 2nd Room"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 690,
+            "y": 1700
+          },
+          {
+            "map": "Catacombs",
+            "x": 150,
+            "y": 60
+          },
+          {
+            "map": "Gorgon Tomb",
+            "x": 330,
+            "y": 380
+          }
+        ]
+      },
+      {
         "name": "Gorgon Tomb K22",
         "sections": [
           {
@@ -3731,9 +3753,6 @@
             "name": "Mech Crystal Triple 3"
           },
           {
-            "name": "Mech Candle Roots"
-          },
-          {
             "name": "Mech Candle Slimes"
           }
         ],
@@ -3965,30 +3984,27 @@
         ]
       },
       {
-        "name": "Hall of the Phantoms K31",
+        "name": "Hall of the Phantoms L32",
         "sections": [
           {
             "name": "HotP Switch Below Start"
-          },
-          {
-            "name": "HotP Crystal Lower"
           }
         ],
         "map_locations": [
           {
             "map": "World Map",
-            "x": 690,
-            "y": 1260
+            "x": 750,
+            "y": 1220
           },
           {
             "map": "Hall of Phantoms",
-            "x": 510,
-            "y": 580
+            "x": 570,
+            "y": 540
           },
           {
             "map": "Mechanism",
-            "x": 90,
-            "y": 340
+            "x": 150,
+            "y": 300
           }
         ]
       },
@@ -4019,30 +4035,30 @@
         ]
       },
       {
-        "name": "Hall of the Phantoms K32",
+        "name": "Hall of the Phantoms K31",
         "sections": [
           {
             "name": "HotP Switch Lower Shortcut"
           },
           {
-            "name": "HotP Switch Ghosts"
+            "name": "HotP Crystal Lower"
           }
         ],
         "map_locations": [
           {
             "map": "World Map",
             "x": 690,
-            "y": 1220
+            "y": 1260
           },
           {
             "map": "Hall of Phantoms",
             "x": 510,
-            "y": 540
+            "y": 580
           },
           {
             "map": "Mechanism",
             "x": 90,
-            "y": 300
+            "y": 340
           }
         ]
       },
@@ -4154,6 +4170,31 @@
             "map": "Mechanism",
             "x": 150,
             "y": 140
+          }
+        ]
+      },
+      {
+        "name": "Hall of the Phantoms K32",
+        "sections": [
+          {
+            "name": "HotP Switch Ghosts"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 690,
+            "y": 1220
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 510,
+            "y": 540
+          },
+          {
+            "map": "Mechanism",
+            "x": 90,
+            "y": 300
           }
         ]
       },
@@ -4944,9 +4985,6 @@
           },
           {
             "name": "RoA Candle Shaft"
-          },
-          {
-            "name": "RoA Candle Ladder Right"
           }
         ],
         "map_locations": [
@@ -6107,6 +6145,36 @@
         ]
       },
       {
+        "name": "Mechanism P27",
+        "sections": [
+          {
+            "name": "Mech Candle Roots"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 990,
+            "y": 1420
+          },
+          {
+            "map": "Gorgon Tomb",
+            "x": 630,
+            "y": 100
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 810,
+            "y": 740
+          },
+          {
+            "map": "Mechanism",
+            "x": 390,
+            "y": 500
+          }
+        ]
+      },
+      {
         "name": "Mechanism S22",
         "sections": [
           {
@@ -6482,29 +6550,26 @@
         ]
       },
       {
-        "name": "Ruins of Ash O44",
+        "name": "Ruins of Ash M44",
         "sections": [
           {
             "name": "RoA Candle 3 Reapers"
-          },
-          {
-            "name": "RoA Candle Enemy Arena"
           }
         ],
         "map_locations": [
           {
             "map": "World Map",
-            "x": 930,
+            "x": 810,
             "y": 740
           },
           {
             "map": "Hall of Phantoms",
-            "x": 750,
+            "x": 630,
             "y": 60
           },
           {
             "map": "Ruins of Ash",
-            "x": 450,
+            "x": 330,
             "y": 700
           }
         ]
@@ -6570,7 +6635,7 @@
         ]
       },
       {
-        "name": "Ruins of Ash M44",
+        "name": "Ruins of Ash N56",
         "sections": [
           {
             "name": "RoA Candle Baby Gorgon"
@@ -6579,18 +6644,13 @@
         "map_locations": [
           {
             "map": "World Map",
-            "x": 810,
-            "y": 740
-          },
-          {
-            "map": "Hall of Phantoms",
-            "x": 630,
-            "y": 60
+            "x": 870,
+            "y": 260
           },
           {
             "map": "Ruins of Ash",
-            "x": 330,
-            "y": 700
+            "x": 390,
+            "y": 220
           }
         ]
       },
@@ -6666,6 +6726,51 @@
             "map": "Ruins of Ash",
             "x": 210,
             "y": 60
+          }
+        ]
+      },
+      {
+        "name": "Ruins of Ash N49",
+        "sections": [
+          {
+            "name": "RoA Candle Ladder Right"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 870,
+            "y": 540
+          },
+          {
+            "map": "Ruins of Ash",
+            "x": 390,
+            "y": 500
+          }
+        ]
+      },
+      {
+        "name": "Ruins of Ash O44",
+        "sections": [
+          {
+            "name": "RoA Candle Enemy Arena"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 930,
+            "y": 740
+          },
+          {
+            "map": "Hall of Phantoms",
+            "x": 750,
+            "y": 60
+          },
+          {
+            "map": "Ruins of Ash",
+            "x": 450,
+            "y": 700
           }
         ]
       },

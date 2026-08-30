@@ -1007,7 +1007,7 @@ ALL_LOCATIONS: tuple[LocationData, ...] = (
     LocationData(LocationName.MECH_ZEEK, RegionName.MECH_ZEEK, LocationGroup.CHARACTER, Area.MECH, room="U29"),
     LocationData(LocationName.TR_BRAM, RegionName.TR_BRAM, LocationGroup.CHARACTER, Area.TR, room="L4"),
     LocationData(LocationName.GT_ELEVATOR_2, RegionName.GT_BOSS, LocationGroup.ELEVATOR, Area.GT, room="L26"),
-    LocationData(LocationName.GT_SWITCH_2ND_ROOM, RegionName.GT_ENTRANCE, LocationGroup.SWITCH, Area.GT, room="J20"),
+    LocationData(LocationName.GT_SWITCH_2ND_ROOM, RegionName.GT_ENTRANCE, LocationGroup.SWITCH, Area.GT, room="K20"),
     LocationData(
         LocationName.GT_SWITCH_1ST_CYCLOPS,
         RegionName.GT_GORGONHEART,
@@ -1347,7 +1347,7 @@ ALL_LOCATIONS: tuple[LocationData, ...] = (
         RegionName.HOTP_START_BOTTOM_MID,
         LocationGroup.SWITCH,
         Area.HOTP,
-        room="K31",
+        room="L32",
     ),
     LocationData(
         LocationName.HOTP_SWITCH_LEFT_2,
@@ -1368,7 +1368,7 @@ ALL_LOCATIONS: tuple[LocationData, ...] = (
         RegionName.HOTP_LOWER,
         LocationGroup.SWITCH,
         Area.HOTP,
-        room="K32",
+        room="K31",
     ),
     LocationData(LocationName.HOTP_SWITCH_BELL, RegionName.HOTP_BELL, LocationGroup.SWITCH, Area.HOTP, room="F29"),
     LocationData(
@@ -2006,7 +2006,7 @@ ALL_LOCATIONS: tuple[LocationData, ...] = (
     LocationData(LocationName.GT_CANDLE_1ST_CYCLOPS, RegionName.GT_LEFT, LocationGroup.CANDLE, Area.GT, room="K22"),
     LocationData(LocationName.GT_CANDLE_BOSS, RegionName.GT_BOSS, LocationGroup.CANDLE, Area.GT, room="J26"),
     LocationData(LocationName.GT_CANDLE_BOTTOM, RegionName.GT_BOTTOM, LocationGroup.CANDLE, Area.GT, room="L20"),
-    LocationData(LocationName.MECH_CANDLE_ROOTS, RegionName.MECH_ROOTS, LocationGroup.CANDLE, Area.MECH, room="R33"),
+    LocationData(LocationName.MECH_CANDLE_ROOTS, RegionName.MECH_ROOTS, LocationGroup.CANDLE, Area.MECH, room="P27"),
     LocationData(
         LocationName.MECH_CANDLE_BOTTOM,
         RegionName.MECH_BOTTOM_CAMPFIRE,
@@ -2193,7 +2193,7 @@ ALL_LOCATIONS: tuple[LocationData, ...] = (
         RegionName.ROA_LEFT_ASCENT,
         LocationGroup.CANDLE,
         Area.ROA,
-        room="O44",
+        room="M44",
     ),
     LocationData(
         LocationName.ROA_CANDLE_MIDDLE_CAMPFIRE,
@@ -2229,7 +2229,7 @@ ALL_LOCATIONS: tuple[LocationData, ...] = (
         RegionName.ROA_ELEVATOR,
         LocationGroup.CANDLE,
         Area.ROA,
-        room="M44",
+        room="N56",
     ),
     LocationData(
         LocationName.ROA_CANDLE_TOP_CENTAUR,
@@ -2312,7 +2312,7 @@ ALL_LOCATIONS: tuple[LocationData, ...] = (
         RegionName.ROA_RIGHT_SWITCH_CANDLE,
         LocationGroup.CANDLE,
         Area.ROA,
-        room="N52",
+        room="N49",
     ),
     LocationData(LocationName.ROA_CANDLE_ARENA, RegionName.ROA_ARENA, LocationGroup.CANDLE, Area.ROA, room="O44"),
     LocationData(LocationName.APEX_CANDLE_ELEVATOR, RegionName.APEX, LocationGroup.CANDLE, Area.APEX, room="O60"),

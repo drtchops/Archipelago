@@ -3,7 +3,7 @@ from typing import Any, ClassVar, Final, cast
 
 from typing_extensions import override
 
-from BaseClasses import CollectionRule, CollectionState, Entrance, Location, Region
+from BaseClasses import CollectionRule, CollectionState
 from NetUtils import JSONMessagePart
 from Options import Option
 from rule_builder.rules import Rule
@@ -157,7 +157,8 @@ PORTAL_REGIONS: Final[dict[int, RegionName]] = {
 ACRONYMS = {
     "gt": "Gorgon's Tomb, the light blue starting area",
     "mech": "Mechanism, the yellow 2nd main area",
-    "hotp": "Hall of the Phantoms, the purple 3rd main area",
+    "hop": "Hall of Phantoms, the purple 3rd main area",
+    "hotp": "Hall of Phantoms, the purple 3rd main area. Wait, what do you mean 'the'?",
     "roa": "Ruins of Ash, the orange last main area",
     "cata": "Catacombs, the blue area below the start",
     "tr": "Tower Roots, the blue area below Catacombs",
@@ -183,14 +184,15 @@ def rule_to_json(
     rule: CollectionRule | Rule.Resolved | None,
     state: CollectionState,
     indent: str = "",
+    show_true: bool = False,
 ) -> list[JSONMessagePart]:
     messages: list[JSONMessagePart] = []
     if isinstance(rule, Rule.Resolved) and not rule.always_true:
         if indent:
             messages.append({"type": "text", "text": indent})
         messages.extend(rule.explain_json(state))
-    # else:
-    #     messages.append({"type": "color", "color": "green", "text": "True"})
+    elif show_true:
+        messages.append({"type": "color", "color": "green", "text": "True"})
     return messages
 
 
@@ -239,86 +241,14 @@ class AstalonUTWorld(AstalonWorldBase):
             if "portal_pairs" in slot_data:
                 self.portal_pairs = tuple(tuple(p) for p in slot_data["portal_pairs"])
 
-    def get_logical_path(self, dest_name: str, state: CollectionState, *_: Any, **__: Any) -> list[JSONMessagePart]:
-        if not dest_name:
-            return [{"type": "text", "text": "Provide a location or region to route to using /get_logical_path [name]"}]
-
-        goal_location: Location | None = None
-        goal_region: Region | None = None
-        region_name = ""
-        location_name, usable, response = get_intended_text(dest_name, [loc.name for loc in self.get_locations()])
-        if usable:
-            try:
-                goal_location = self.get_location(location_name)
-            except KeyError:
-                return [{"type": "text", "text": f"Location {location_name} not found in this multiworld"}]
-            goal_region = goal_location.parent_region
-            if not goal_region:
-                return [{"type": "text", "text": f"Location {location_name} has no parent region"}]
-        else:
-            region_name, usable, _resp = get_intended_text(
-                dest_name,
-                [reg.name for reg in self.get_regions()],
-            )
-            if usable:
-                goal_region = self.get_region(region_name)
-            else:
-                return [{"type": "text", "text": response}]
-
-        in_logic = True
-        if (goal_location and not goal_location.can_reach(state)) or (
-            goal_region not in state.path and goal_region.name != self.origin_region_name
-        ):
-            state.collect(self.create_item(self.glitches_item_name))
-            in_logic = False
-
-        if goal_location and not goal_location.can_reach(state):
-            return [{"type": "text", "text": f"Location {goal_location.name} cannot be reached"}]
-        if goal_region not in state.path and goal_region.name != self.origin_region_name:
-            return [{"type": "text", "text": f"Region {goal_region.name} cannot be reached"}]
-
-        messages: list[JSONMessagePart] = [
-            {"type": "color", "color": "slateblue", "text": f"Start -> {self.origin_region_name}\n"},
-            # {"type": "color", "color": "green", "text": "    True\n"},
-        ]
-        if goal_region.name != self.origin_region_name:
-            path: list[Entrance] = []
-            name, connection = state.path[goal_region]
-            while connection is not None:
-                name, connection = connection
-                if "->" in name or name.endswith(" Portal"):
-                    path.append(self.get_entrance(name))
-
-            path.reverse()
-            for p in path:
-                messages.extend(
-                    [
-                        {"type": "entrance_name", "text": p.name, "player": self.player},
-                        {"type": "text", "text": "\n"},
-                        *rule_to_json(p.access_rule, state, indent="    "),
-                        {"type": "text", "text": "\n"},
-                    ]
-                )
-
-        if goal_location:
-            messages.extend(
-                [
-                    {"type": "text", "text": "-> "},
-                    {
-                        "type": "color",
-                        "color": "green" if in_logic else "yellow",
-                        "text": goal_location.name,
-                    },
-                    {"type": "text", "text": "\n"},
-                    *rule_to_json(goal_location.access_rule, state, indent="    "),
-                ]
-            )
-
-        return messages
-
     def explain_rule(self, dest_name: str, state: CollectionState, *_: Any, **__: Any) -> list[JSONMessagePart]:
         if not dest_name:
-            return [{"type": "text", "text": "Enter a macro, location, region, item, or acronym to get an explanation"}]
+            return [
+                {
+                    "type": "text",
+                    "text": "Enter a macro, location, region, entrance, item, or acronym to get an explanation",
+                }
+            ]
         if description := ACRONYMS.get(dest_name.lower()):
             return [{"type": "text", "text": description}]
 
@@ -326,6 +256,7 @@ class AstalonUTWorld(AstalonWorldBase):
             "macro": self._explain_macro,
             "location": self._explain_location,
             "region": self._explain_region,
+            "entrance": self._explain_entrance,
             "item": self._explain_item,
         }
         attempts = list(types_to_try.keys())
@@ -388,7 +319,7 @@ class AstalonUTWorld(AstalonWorldBase):
             [
                 {"type": "text", "text": f"\nGroup: {location_data.group}"},
                 {"type": "text", "text": "\nLogic: "},
-                *rule_to_json(location.access_rule, state),
+                *rule_to_json(location.access_rule, state, show_true=True),
             ]
         )
         return messages, True, 100
@@ -437,6 +368,29 @@ class AstalonUTWorld(AstalonWorldBase):
                         *rule_to_json(entrance.access_rule, state, indent="    "),
                     ]
                 )
+        return messages, True, 100
+
+    def _explain_entrance(self, entrance_name: str, state: CollectionState) -> tuple[list[JSONMessagePart], bool, int]:
+        all_entrance_names = set(self.multiworld.regions.entrance_cache[self.player])
+        guess, usable, response = get_intended_text(entrance_name, all_entrance_names)
+        if not usable:
+            picks = get_fuzzy_results(entrance_name, all_entrance_names, limit=1)
+            confidence = picks[0][1]
+            return [{"type": "text", "text": response}], False, confidence
+
+        entrance_name = guess
+        entrance = self.get_entrance(entrance_name)
+        messages: list[JSONMessagePart] = [
+            {"type": "text", "text": "Entrance "},
+            {"type": "color", "color": "green" if entrance.can_reach(state) else "salmon", "text": entrance_name},
+            {"type": "text", "text": f"\nSource: {entrance.parent_region.name if entrance.parent_region else ''}"},
+            {
+                "type": "text",
+                "text": f"\nDestination: {entrance.connected_region.name if entrance.connected_region else ''}",
+            },
+            {"type": "text", "text": "\nLogic: "},
+            *rule_to_json(entrance.access_rule, state, show_true=True),
+        ]
         return messages, True, 100
 
     def _explain_item(self, item_name: str, state: CollectionState) -> tuple[list[JSONMessagePart], bool, int]:
