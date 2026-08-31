@@ -77,6 +77,9 @@ class StartingLocation(Choice):
     option_apex = 4
     option_catacombs = 5
     option_tower_roots = 6
+    option_cyclops_den = 7
+    option_cathedral = 8
+    option_serpent_path = 9
     default = 0
 
 

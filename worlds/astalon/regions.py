@@ -270,6 +270,9 @@ STARTING_REGIONS: Final[dict[int, str]] = {
     4: RegionName.APEX.value,
     5: RegionName.CATA_BOW_CAMPFIRE.value,
     6: RegionName.TR_START.value,
+    7: RegionName.CD_START,
+    8: RegionName.CATH_CAMPFIRE_1,
+    9: RegionName.SP_CAMPFIRE_1,
 }
 
 DEFAULT_PORTALS: Final[tuple[tuple[str, str], ...]] = (

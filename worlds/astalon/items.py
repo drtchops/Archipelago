@@ -445,11 +445,13 @@ QOL_ITEMS: tuple[ShopUpgrade, ...] = (
 class EarlyItems:
     white_doors: tuple[WhiteDoor, ...] = ()
     blue_doors: tuple[BlueDoor, ...] = ()
-    switches: tuple[Switch, ...] = ()
+    red_doors: tuple[RedDoor, ...] = ()
+    switches: tuple[Switch | Crystal | Face, ...] = ()
+    key_items: tuple[KeyItem, ...] = ()
 
     @cached_property
     def all(self) -> set[ItemName]:
-        return set(self.white_doors + self.blue_doors + self.switches)
+        return set(self.white_doors + self.blue_doors + self.red_doors + self.switches + self.key_items)
 
 
 EARLY_ITEMS = {
@@ -476,12 +478,121 @@ EARLY_ITEMS = {
             Switch.CAVES_CATA_3,
         ),
     ),
-    1: EarlyItems(),
-    2: EarlyItems(),
-    3: EarlyItems(),
-    4: EarlyItems(),
-    5: EarlyItems(),
-    6: EarlyItems(),
+    1: EarlyItems(
+        white_doors=(WhiteDoor.MECH_2ND,),
+        blue_doors=(
+            BlueDoor.MECH_VOID,
+            BlueDoor.MECH_SHORTCUT,
+            BlueDoor.MECH_BOOTS,
+            BlueDoor.MECH_RED,
+        ),
+        switches=(
+            Switch.MECH_CANNON,
+            Crystal.MECH_CANNON,
+            Switch.MECH_WATCHER,
+            Switch.MECH_LINUS,
+            Crystal.MECH_LINUS,
+            Crystal.MECH_LOWER,
+            Switch.MECH_LOWER_KEY,
+            Switch.MECH_TO_UPPER_GT,
+            Switch.MECH_BOOTS,
+        ),
+    ),
+    2: EarlyItems(
+        blue_doors=(BlueDoor.HOP_STATUE,),
+        switches=(
+            Switch.HOP_SKULL_PUZZLE,
+            Crystal.HOP_LOWER,
+            Crystal.HOP_BOTTOM,
+        ),
+    ),
+    3: EarlyItems(
+        white_doors=(
+            WhiteDoor.ROA_WORMS,
+            WhiteDoor.ROA_ASCEND,
+        ),
+        switches=(
+            Crystal.ROA_1ST_ROOM,
+            Switch.ROA_WORMS,
+            Switch.ROA_AFTER_WORMS,
+            Switch.ROA_1ST_SHORTCUT,
+            Switch.ROA_SPIKE_CLIMB,
+            Switch.ROA_ASCEND,
+            Switch.ROA_LOWER_VOID,
+            Crystal.ROA_3_REAPERS,
+            Crystal.ROA_LEFT_ASCEND,
+            Switch.ROA_ASCEND_SHORTCUT,
+            Switch.ROA_TRIPLE_1,
+            Crystal.ROA_TRIPLE_2,
+            Switch.ROA_TRIPLE_3,
+        ),
+    ),
+    4: EarlyItems(
+        blue_doors=(BlueDoor.APEX,),
+        switches=(Switch.ROA_APEX_ACCESS,),
+    ),
+    5: EarlyItems(
+        blue_doors=(
+            BlueDoor.CATA_SAVE,
+            BlueDoor.CATA_BOW,
+        ),
+        switches=(
+            Switch.CATA_TOP,
+            Switch.CATA_ELEVATOR,
+            Switch.CATA_VERTICAL_SHORTCUT,
+            Face.CATA_BOW,
+            Face.CATA_AFTER_BOW,
+            Switch.CATA_LADDER_BLOCKS,
+            Switch.CATA_SHORTCUT_ACCESS,
+            Switch.CATA_MID_SHORTCUT,
+            Switch.CATA_FLAMES_1,
+        ),
+    ),
+    6: EarlyItems(
+        white_doors=(WhiteDoor.CATA_PRISON,),
+        blue_doors=(BlueDoor.TR,),
+        red_doors=(RedDoor.TR,),
+        switches=(Switch.TR_ELEVATOR,),
+    ),
+    7: EarlyItems(
+        blue_doors=(BlueDoor.MECH_CD,),
+        switches=(
+            Crystal.MECH_TO_CD,
+            Crystal.CD_START,
+            Crystal.CD_BACKTRACK,
+            Crystal.CD_CAMPFIRE,
+            Crystal.CD_STEPS,
+            Switch.CD_1,
+            Switch.CD_2,
+            Switch.CD_3,
+            Switch.CD_CAMPFIRE,
+            Switch.CD_TOP,
+        ),
+        key_items=(KeyItem.CYCLOPS,),
+    ),
+    8: EarlyItems(
+        red_doors=(RedDoor.CATH,),
+        switches=(
+            Switch.CATH_BESIDE_SHAFT,
+            Switch.CATH_BOTTOM,
+            Switch.CATH_TOP_CAMPFIRE,
+            Crystal.CATH_1ST_ROOM,
+            Crystal.CATH_ORBS,
+            Crystal.CATH_SHAFT,
+            Crystal.CATH_SHAFT_ACCESS,
+            Crystal.CATH_SPIKE_PIT,
+        ),
+    ),
+    9: EarlyItems(
+        blue_doors=(BlueDoor.SP,),
+        switches=(
+            Switch.SP_AFTER_STAR,
+            Switch.SP_BUBBLES,
+            Switch.SP_DOUBLE_DOORS,
+            Crystal.SP_BLOCKS,
+            Crystal.SP_STAR,
+        ),
+    ),
 }
 
 

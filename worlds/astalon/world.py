@@ -345,12 +345,17 @@ class AstalonWorld(AstalonUTWorld):
             self.multiworld.push_precollected(self.create_item(KeyItem.BELL.value))
 
         if self.options.open_early_doors:
+            for key_item in self.early_items.key_items:
+                self.multiworld.push_precollected(self.create_item(key_item.value))
             if self.options.randomize_white_keys:
                 for white_door in self.early_items.white_doors:
                     self.multiworld.push_precollected(self.create_item(white_door.value))
             if self.options.randomize_blue_keys:
                 for blue_door in self.early_items.blue_doors:
                     self.multiworld.push_precollected(self.create_item(blue_door.value))
+            if self.options.randomize_red_keys:
+                for red_door in self.early_items.red_doors:
+                    self.multiworld.push_precollected(self.create_item(red_door.value))
             if self.options.randomize_switches:
                 for red_door in self.early_items.switches:
                     self.multiworld.push_precollected(self.create_item(red_door.value))
