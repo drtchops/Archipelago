@@ -5860,7 +5860,7 @@
             "name": "Cath Switch Beside Shaft"
           },
           {
-            "name": "Cath Crystal Shaft"
+            "name": "Cath Crystal Shaft Access"
           }
         ],
         "map_locations": [
@@ -5917,6 +5917,26 @@
         ]
       },
       {
+        "name": "Cathedral A33",
+        "sections": [
+          {
+            "name": "Cath Crystal Shaft"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 90,
+            "y": 1180
+          },
+          {
+            "map": "Cathedral",
+            "x": 90,
+            "y": 420
+          }
+        ]
+      },
+      {
         "name": "Cathedral A38",
         "sections": [
           {
@@ -5933,26 +5953,6 @@
             "map": "Cathedral",
             "x": 90,
             "y": 220
-          }
-        ]
-      },
-      {
-        "name": "Cathedral A33",
-        "sections": [
-          {
-            "name": "Cath Crystal Shaft Access"
-          }
-        ],
-        "map_locations": [
-          {
-            "map": "World Map",
-            "x": 90,
-            "y": 1180
-          },
-          {
-            "map": "Cathedral",
-            "x": 90,
-            "y": 420
           }
         ]
       },

@@ -128,7 +128,7 @@ elevator_apex = HasElevator(
 )
 
 # TODO: better implementations
-shop_cheap = CanReachRegion(R.GT_LEFT)
+shop_cheap = True_()
 shop_moderate = CanReachRegion(R.MECH_START)
 shop_expensive = CanReachRegion(R.ROA_START)
 
@@ -848,6 +848,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], Rule[AstalonWorldBase]] = {
     (R.CD_KYULI_ROUTE, R.CD_CAMPFIRE_3): has_kyuli,
     (R.CD_CAMPFIRE_3, R.CD_ARENA): HasSwitch(Crystal.CD_CAMPFIRE) | otherwise_crystal,
     (R.CD_STEPS, R.CD_TOP): HasSwitch(Crystal.CD_STEPS) | otherwise_crystal,
+    (R.CATH_START, R.HOP_CATH_VOID): has_void,
     (R.CATH_START, R.CATH_START_LEFT): (
         (
             HasSwitch(Crystal.CATH_1ST_ROOM)
