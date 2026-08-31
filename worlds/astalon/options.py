@@ -431,8 +431,8 @@ class AstalonOptions(DeathLinkMixin, PerGameCommonOptions):
     randomize_blue_keys: RandomizeBlueKeys
     randomize_red_keys: RandomizeRedKeys
     randomize_shop: RandomizeShop
-    randomize_elevator: RandomizeElevator
     randomize_switches: RandomizeSwitches
+    randomize_elevator: RandomizeElevator
     randomize_candles: RandomizeCandles
     randomize_orb_multipliers: RandomizeOrbMultipliers
     shuffle_void_portals: ShuffleVoidPortals

@@ -654,7 +654,10 @@ astalon_regions: dict[RegionName, RegionData] = {
         campfire=True,
     ),
     RegionName.MECH_CD_ACCESS: RegionData(
-        exits=(RegionName.CD_START,),
+        exits=(
+            RegionName.MECH_TOP,
+            RegionName.CD_START,
+        ),
     ),
     RegionName.MECH_TP_CONNECTION: RegionData(
         exits=(
@@ -933,7 +936,10 @@ astalon_regions: dict[RegionName, RegionData] = {
         ),
         campfire=True,
     ),
-    RegionName.HOP_MAIDEN: RegionData(statue=True),
+    RegionName.HOP_MAIDEN: RegionData(
+        exits=(RegionName.HOP_BOSS_CAMPFIRE,),
+        statue=True,
+    ),
     RegionName.HOP_TP_PUZZLE: RegionData(
         exits=(RegionName.HOP_TP_FALL_TOP,),
     ),
@@ -1540,6 +1546,7 @@ astalon_regions: dict[RegionName, RegionData] = {
     ),
     RegionName.CD_START: RegionData(
         exits=(
+            RegionName.MECH_CD_ACCESS,
             RegionName.CD_2,
             RegionName.CD_BOSS,
         ),
@@ -1583,13 +1590,23 @@ astalon_regions: dict[RegionName, RegionData] = {
         portal=True,
     ),
     RegionName.CATH_START_RIGHT: RegionData(
-        exits=(RegionName.CATH_START_TOP_LEFT,),
+        exits=(
+            RegionName.CATH_START,
+            RegionName.CATH_START_TOP_LEFT,
+        ),
     ),
     RegionName.CATH_START_TOP_LEFT: RegionData(
-        exits=(RegionName.CATH_START_LEFT,),
+        exits=(
+            RegionName.CATH_START,
+            RegionName.CATH_START_RIGHT,
+            RegionName.CATH_START_LEFT,
+        ),
     ),
     RegionName.CATH_START_LEFT: RegionData(
-        exits=(RegionName.CATH_TP,),
+        exits=(
+            RegionName.CATH_START,
+            RegionName.CATH_TP,
+        ),
     ),
     RegionName.CATH_TP: RegionData(
         exits=(RegionName.CATH_LEFT_SHAFT,),
@@ -1601,14 +1618,25 @@ astalon_regions: dict[RegionName, RegionData] = {
         ),
     ),
     RegionName.CATH_UNDER_CAMPFIRE: RegionData(
-        exits=(RegionName.CATH_CAMPFIRE_1,),
+        exits=(
+            RegionName.CATH_START_RIGHT,
+            RegionName.CATH_START_TOP_LEFT,
+            RegionName.CATH_LEFT_SHAFT,
+            RegionName.CATH_CAMPFIRE_1,
+        ),
     ),
     RegionName.CATH_CAMPFIRE_1: RegionData(
-        exits=(RegionName.CATH_SHAFT_ACCESS,),
+        exits=(
+            RegionName.CATH_UNDER_CAMPFIRE,
+            RegionName.CATH_SHAFT_ACCESS,
+        ),
         campfire=True,
     ),
     RegionName.CATH_SHAFT_ACCESS: RegionData(
-        exits=(RegionName.CATH_ORB_ROOM,),
+        exits=(
+            RegionName.CATH_LEFT_SHAFT,
+            RegionName.CATH_ORB_ROOM,
+        ),
     ),
     RegionName.CATH_ORB_ROOM: RegionData(
         exits=(
@@ -1633,12 +1661,16 @@ astalon_regions: dict[RegionName, RegionData] = {
     RegionName.CATH_UPPER_SPIKE_PIT: RegionData(),
     RegionName.SP_START: RegionData(
         exits=(
+            RegionName.ROA_SP_CONNECTION,
             RegionName.SP_CAMPFIRE_1,
             RegionName.SP_STAR_END,
         ),
     ),
     RegionName.SP_CAMPFIRE_1: RegionData(
-        exits=(RegionName.SP_HEARTS,),
+        exits=(
+            RegionName.SP_START,
+            RegionName.SP_HEARTS,
+        ),
         campfire=True,
     ),
     RegionName.SP_HEARTS: RegionData(
@@ -1674,14 +1706,23 @@ astalon_regions: dict[RegionName, RegionData] = {
         ),
     ),
     RegionName.SP_STAR_END: RegionData(
-        exits=(RegionName.SP_STAR_CONNECTION,),
+        exits=(
+            RegionName.SP_START,
+            RegionName.SP_STAR_CONNECTION,
+        ),
     ),
     RegionName.SP_ORBS: RegionData(),
     RegionName.SP_FROG: RegionData(
-        exits=(RegionName.SP_CAMPFIRE_2,),
+        exits=(
+            RegionName.SP_HEARTS,
+            RegionName.SP_CAMPFIRE_2,
+        ),
     ),
     RegionName.SP_CAMPFIRE_2: RegionData(
-        exits=(RegionName.HOP_MAIDEN,),
+        exits=(
+            RegionName.HOP_MAIDEN,
+            RegionName.SP_FROG,
+        ),
         campfire=True,
     ),
 }

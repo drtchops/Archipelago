@@ -1,5 +1,22 @@
 from .bases import AstalonTestBase
 
+FULL_RANDOM = {
+    "randomize_characters": "solo",
+    "randomize_key_items": "true",
+    "randomize_health_pickups": "true",
+    "randomize_attack_pickups": "true",
+    "randomize_white_keys": "true",
+    "randomize_blue_keys": "true",
+    "randomize_red_keys": "true",
+    "randomize_shop": "true",
+    "randomize_switches": "true",
+    "randomize_elevator": "true",
+    "randomize_candles": "true",
+    "randomize_orb_multipliers": "true",
+    "shuffle_void_portals": "decoupled",
+    "apex_elevator": "included",
+}
+
 
 class DefaultTest(AstalonTestBase):
     pass
@@ -40,45 +57,16 @@ class SwitchesOnlyTest(AstalonTestBase):
 
 class AllEasyTest(AstalonTestBase):
     options = {  # noqa: RUF012
+        **FULL_RANDOM,
         "difficulty": "easy",
-        "randomize_characters": "solo",
-        "randomize_key_items": "true",
-        "randomize_health_pickups": "true",
-        "randomize_attack_pickups": "true",
-        "randomize_white_keys": "true",
-        "randomize_blue_keys": "true",
-        "randomize_red_keys": "true",
-        "randomize_shop": "true",
-        "randomize_elevator": "true",
-        "randomize_switches": "true",
-        "randomize_candles": "true",
-        "randomize_orb_multipliers": "true",
         "shuffle_void_portals": "coupled",
-        "start_with_qol": "true",
-        "apex_elevator": "vanilla",
-        "open_early_doors": "true",
     }
 
 
 class AllHardTest(AstalonTestBase):
     options = {  # noqa: RUF012
+        **FULL_RANDOM,
         "difficulty": "hard",
-        "randomize_characters": "solo",
-        "randomize_key_items": "true",
-        "randomize_health_pickups": "true",
-        "randomize_attack_pickups": "true",
-        "randomize_white_keys": "true",
-        "randomize_blue_keys": "true",
-        "randomize_red_keys": "true",
-        "randomize_shop": "true",
-        "randomize_elevator": "true",
-        "randomize_switches": "true",
-        "randomize_candles": "true",
-        "randomize_orb_multipliers": "true",
-        "shuffle_void_portals": "decoupled",
-        "start_with_qol": "true",
-        "apex_elevator": "vanilla",
-        "open_early_doors": "true",
     }
 
 
@@ -106,4 +94,67 @@ class EyeHuntTest(AstalonTestBase):
         "goal": "eye_hunt",
         "additional_eyes_required": "6",
         "extra_eyes": "33",
+    }
+
+
+class StartingLocationMechTest(AstalonTestBase):
+    options = {  # noqa: RUF012
+        **FULL_RANDOM,
+        "starting_location": "mechanism",
+    }
+
+
+class StartingLocationHopTest(AstalonTestBase):
+    options = {  # noqa: RUF012
+        **FULL_RANDOM,
+        "starting_location": "hall_of_phantoms",
+    }
+
+
+class StartingLocationRoaTest(AstalonTestBase):
+    options = {  # noqa: RUF012
+        **FULL_RANDOM,
+        "starting_location": "ruins_of_ash",
+    }
+
+
+class StartingLocationApexTest(AstalonTestBase):
+    options = {  # noqa: RUF012
+        **FULL_RANDOM,
+        "starting_location": "apex",
+    }
+
+
+class StartingLocationCataTest(AstalonTestBase):
+    options = {  # noqa: RUF012
+        **FULL_RANDOM,
+        "starting_location": "catacombs",
+    }
+
+
+class StartingLocationTrTest(AstalonTestBase):
+    options = {  # noqa: RUF012
+        **FULL_RANDOM,
+        "starting_location": "tower_roots",
+    }
+
+
+class StartingLocationCdTest(AstalonTestBase):
+    options = {  # noqa: RUF012
+        **FULL_RANDOM,
+        "starting_location": "cyclops_den",
+    }
+
+
+class StartingLocationCathTest(AstalonTestBase):
+    options = {  # noqa: RUF012
+        **FULL_RANDOM,
+        "starting_location": "cathedral",
+    }
+
+
+class StartingLocationSpTest(AstalonTestBase):
+    options = {  # noqa: RUF012
+        **FULL_RANDOM,
+        "starting_location": "serpent_path",
     }

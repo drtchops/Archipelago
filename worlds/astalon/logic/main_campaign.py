@@ -361,6 +361,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], Rule[AstalonWorldBase]] = {
         & HasBlue(BlueDoor.MECH_CD, otherwise=True)
         & (HasSwitch(Crystal.MECH_TO_CD) | otherwise_crystal | (has_kyuli & has_block & Has(KeyItem.BELL)))
     ),
+    (R.MECH_CD_ACCESS, R.MECH_TOP): Has(Eye.BLUE) & HasBlue(BlueDoor.MECH_CD),
     (R.MECH_CD_ACCESS, R.CD_START): Has(KeyItem.CYCLOPS),
     (R.MECH_TOP, R.MECH_TRIPLE_SWITCHES): (
         can_crystal
@@ -838,6 +839,7 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], Rule[AstalonWorldBase]] = {
     (R.TR_MIDDLE_RIGHT, R.TR_DARK_ARIAS): Has(Eye.GREEN),
     (R.TR_MIDDLE_RIGHT, R.TR_BOTTOM): HasSwitch(Switch.TR_BOTTOM, otherwise=True),
     (R.TR_BOTTOM, R.TR_BOTTOM_LEFT): Has(Eye.BLUE),
+    (R.CD_START, R.MECH_CD_ACCESS): Has(KeyItem.CYCLOPS),
     (R.CD_START, R.CD_2): HasSwitch(Switch.CD_1, otherwise=True) | HasSwitch(Crystal.CD_BACKTRACK),
     (R.CD_START, R.CD_BOSS): CanReachRegion(R.CD_ARIAS_ROUTE) & CanReachRegion(R.CD_TOP),
     (R.CD_3, R.CD_MIDDLE): HasSwitch(Switch.CD_3, otherwise=True),
@@ -853,13 +855,23 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], Rule[AstalonWorldBase]] = {
         )
         & has_claw
     ),
+    (R.CATH_START_RIGHT, R.CATH_START): (
+        HasSwitch(Switch.CATH_BOTTOM, otherwise=True) | (Has(KeyItem.BELL) & has_algus_meteor & chalice_on_easy)
+    ),
     (R.CATH_START_RIGHT, R.CATH_START_TOP_LEFT): HasSwitch(Switch.CATH_BOTTOM, otherwise=True),
+    (R.CATH_START_TOP_LEFT, R.CATH_START_RIGHT): HasSwitch(Switch.CATH_BOTTOM),
     (R.CATH_START_TOP_LEFT, R.CATH_START_LEFT): HasSwitch(Face.CATH_L),
     (R.CATH_START_LEFT, R.CATH_TP): HasSwitch(Face.CATH_R) | otherwise_bow,
     (R.CATH_LEFT_SHAFT, R.CATH_SHAFT_ACCESS): HasSwitch(Crystal.CATH_SHAFT_ACCESS) & has_claw,
     (R.CATH_LEFT_SHAFT, R.CATH_UNDER_CAMPFIRE): HasSwitch(Crystal.CATH_SHAFT) | otherwise_crystal,
+    (R.CATH_UNDER_CAMPFIRE, R.CATH_START_TOP_LEFT): HasSwitch(Switch.CATH_BOTTOM),
+    (R.CATH_UNDER_CAMPFIRE, R.CATH_LEFT_SHAFT): HasSwitch(Crystal.CATH_SHAFT),
     (R.CATH_UNDER_CAMPFIRE, R.CATH_CAMPFIRE_1): has_zeek & Has(KeyItem.BELL),
     (R.CATH_CAMPFIRE_1, R.CATH_SHAFT_ACCESS): has_kyuli,
+    (R.CATH_SHAFT_ACCESS, R.CATH_LEFT_SHAFT): HasSwitch(Crystal.CATH_SHAFT_ACCESS) | otherwise_crystal,
+    (R.CATH_SHAFT_ACCESS, R.CATH_CAMPFIRE_1): (
+        Has(KeyItem.BELL) & ((has_algus_meteor & chalice_on_easy) | has_kyuli_ray)
+    ),
     (R.CATH_SHAFT_ACCESS, R.CATH_ORB_ROOM): HasSwitch(Switch.CATH_BESIDE_SHAFT, otherwise=True),
     (R.CATH_ORB_ROOM, R.CATH_GOLD_BLOCK): (
         HasSwitch(Crystal.CATH_ORBS) | Filtered(can_crystal & Has(KeyItem.BELL), options=switch_off)
@@ -870,8 +882,10 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], Rule[AstalonWorldBase]] = {
         HasSwitch(Crystal.CATH_SPIKE_PIT) | otherwise_crystal | HardLogic(has_cloak & has_block & Has(KeyItem.BELL))
     ),
     (R.CATH_TOP, R.CATH_CAMPFIRE_2): HasSwitch(Switch.CATH_TOP_CAMPFIRE, otherwise=True),
+    (R.SP_START, R.ROA_SP_CONNECTION): HasRed(RedDoor.SP) & has_claw,
     (R.SP_START, R.SP_STAR_END): has_block & Has(KeyItem.BELL) & has_claw,
     (R.SP_START, R.SP_CAMPFIRE_1): HasSwitch(Crystal.SP_BLOCKS) | otherwise_crystal,
+    (R.SP_CAMPFIRE_1, R.SP_START): HasSwitch(Crystal.SP_BLOCKS) & has_claw,
     (R.SP_CAMPFIRE_1, R.SP_HEARTS): HasSwitch(Switch.SP_BUBBLES, otherwise=True),
     (R.SP_HEARTS, R.SP_CAMPFIRE_1): HasSwitch(Switch.SP_BUBBLES),
     (R.SP_HEARTS, R.SP_ORBS): has_star & Has(KeyItem.BELL) & has_kyuli,
@@ -885,6 +899,10 @@ MAIN_ENTRANCE_RULES: dict[tuple[R, R], Rule[AstalonWorldBase]] = {
     (R.SP_STAR_CONNECTION, R.SP_STAR): has_star,
     (R.SP_STAR_CONNECTION, R.SP_STAR_END): has_star & (HasSwitch(Switch.SP_AFTER_STAR) | (has_arias & switch_off)),
     (R.SP_STAR_END, R.SP_STAR_CONNECTION): has_star & HasSwitch(Switch.SP_AFTER_STAR),
+    (R.SP_FROG, R.SP_HEARTS): HasSwitch(Switch.SP_DOUBLE_DOORS) & has_claw,
+    (R.SP_CAMPFIRE_2, R.SP_FROG): (
+        has_claw | (Has(KeyItem.BELL) & ((has_algus_meteor & chalice_on_easy) | has_kyuli_ray))
+    ),
 }
 
 MAIN_LOCATION_RULES: dict[L, Rule[AstalonWorldBase]] = {
