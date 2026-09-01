@@ -3381,12 +3381,6 @@
             "name": "Mech Switch Boss Access 2"
           },
           {
-            "name": "Mech Crystal To Boss 3"
-          },
-          {
-            "name": "Mech Candle Boss 1"
-          },
-          {
             "name": "Mech Candle Boss 2"
           }
         ],
@@ -3519,6 +3513,12 @@
           },
           {
             "name": "Mech Switch To Boss 1"
+          },
+          {
+            "name": "Mech Crystal To Boss 3"
+          },
+          {
+            "name": "Mech Candle Boss 1"
           }
         ],
         "map_locations": [
@@ -3741,7 +3741,7 @@
         ]
       },
       {
-        "name": "Mechanism R33",
+        "name": "Mechanism R34",
         "sections": [
           {
             "name": "Mech Crystal Triple 1"
@@ -3751,26 +3751,23 @@
           },
           {
             "name": "Mech Crystal Triple 3"
-          },
-          {
-            "name": "Mech Candle Slimes"
           }
         ],
         "map_locations": [
           {
             "map": "World Map",
             "x": 1110,
-            "y": 1180
+            "y": 1140
           },
           {
             "map": "Hall of Phantoms",
             "x": 930,
-            "y": 500
+            "y": 460
           },
           {
             "map": "Mechanism",
             "x": 510,
-            "y": 260
+            "y": 220
           }
         ]
       },
@@ -3800,27 +3797,30 @@
         ]
       },
       {
-        "name": "Mechanism R34",
+        "name": "Mechanism R33",
         "sections": [
           {
             "name": "Mech Crystal Slimes"
+          },
+          {
+            "name": "Mech Candle Slimes"
           }
         ],
         "map_locations": [
           {
             "map": "World Map",
             "x": 1110,
-            "y": 1140
+            "y": 1180
           },
           {
             "map": "Hall of Phantoms",
             "x": 930,
-            "y": 460
+            "y": 500
           },
           {
             "map": "Mechanism",
             "x": 510,
-            "y": 220
+            "y": 260
           }
         ]
       },
@@ -4663,9 +4663,6 @@
         "sections": [
           {
             "name": "RoA Switch Dark Room"
-          },
-          {
-            "name": "RoA Switch Above Centaur"
           }
         ],
         "map_locations": [
@@ -4703,6 +4700,29 @@
             "map": "Ruins of Ash",
             "x": 270,
             "y": 780
+          }
+        ]
+      },
+      {
+        "name": "Ruins of Ash M54",
+        "sections": [
+          {
+            "name": "RoA Switch Above Centaur"
+          },
+          {
+            "name": "RoA Candle Above Centaur"
+          }
+        ],
+        "map_locations": [
+          {
+            "map": "World Map",
+            "x": 810,
+            "y": 340
+          },
+          {
+            "map": "Ruins of Ash",
+            "x": 330,
+            "y": 300
           }
         ]
       },
@@ -6610,26 +6630,6 @@
           {
             "map": "Ruins of Ash",
             "x": 390,
-            "y": 300
-          }
-        ]
-      },
-      {
-        "name": "Ruins of Ash M54",
-        "sections": [
-          {
-            "name": "RoA Candle Above Centaur"
-          }
-        ],
-        "map_locations": [
-          {
-            "map": "World Map",
-            "x": 810,
-            "y": 340
-          },
-          {
-            "map": "Ruins of Ash",
-            "x": 330,
             "y": 300
           }
         ]
