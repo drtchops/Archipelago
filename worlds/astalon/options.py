@@ -1,5 +1,6 @@
+from collections.abc import Iterable
 from dataclasses import dataclass
-from typing import Any, Final
+from typing import Any, ClassVar, Final
 
 from Options import (
     Choice,
@@ -7,6 +8,7 @@ from Options import (
     DeathLinkMixin,
     DefaultOnToggle,
     NamedRange,
+    OptionCounter,
     OptionGroup,
     PerGameCommonOptions,
     Range,
@@ -404,6 +406,27 @@ class TrapPercentage(NamedRange):
     }
 
 
+class TrapWeights(OptionCounter):
+    """
+    Set how likely each of the traps are when filling the above trap percentage.
+    Has no effect if no filler items need to be created or Trap Percentage is 0.
+    """
+
+    display_name = "Trap Weights"
+    min = 0
+    valid_keys: ClassVar[Iterable[str]] = ("Cutscene Trap", "Rocks Trap", "Dead Maiden Trap")  # pyright: ignore[reportIncompatibleVariableOverride]
+    default = dict.fromkeys(valid_keys, 50)
+
+    @property
+    def weights(self) -> tuple[list[str], list[int]]:
+        names = list(self.value.keys())
+        weights = list(self.value.values())
+        if sum(weights) == 0:
+            names = list(self.valid_keys)
+            weights = [50 for _ in names]
+        return names, weights
+
+
 class TagLink(Toggle):
     """
     Determines if the Tag Link is enabled.
@@ -451,6 +474,7 @@ class AstalonOptions(DeathLinkMixin, PerGameCommonOptions):
     scale_character_stats: ScaleCharacterStats
     hint_shop_items: HintShopItems
     trap_percentage: TrapPercentage
+    trap_weights: TrapWeights
     tag_link: TagLink
 
 
@@ -496,6 +520,7 @@ OPTION_GROUPS: Final[list[OptionGroup]] = [
         "Traps & Links",
         [
             TrapPercentage,
+            TrapWeights,
             DeathLink,
             TagLink,
         ],

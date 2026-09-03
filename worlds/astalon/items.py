@@ -401,6 +401,7 @@ class Heal(StrEnum):
 class Trap(StrEnum):
     CUTSCENE = "Cutscene Trap"
     ROCKS = "Rocks Trap"
+    MAIDEN = "Dead Maiden Trap"
 
 
 ItemName: TypeAlias = (
@@ -1001,6 +1002,7 @@ ALL_ITEMS: tuple[ItemData, ...] = (
     ItemData(Switch.MECH_SKULL_PUZZLE, ItemClassification.progression, 1, ItemGroup.SWITCH),
     ItemData(Switch.HOP_SKULL_PUZZLE, ItemClassification.progression, 1, ItemGroup.SWITCH),
     ItemData(Orbs.ORB_MULTI, ItemClassification.useful, 3, ItemGroup.ORBS),
+    ItemData(Trap.MAIDEN, ItemClassification.trap, 0, ItemGroup.TRAP),
 )
 
 item_table: dict[str, ItemData] = {item.name.value: item for item in ALL_ITEMS}
@@ -1029,9 +1031,4 @@ filler_items: tuple[str, ...] = (
     Orbs.ORBS_500.value,
     Orbs.ORBS_1000.value,
     Heal.HEAL_5.value,
-)
-
-trap_items: tuple[str, ...] = (
-    Trap.CUTSCENE.value,
-    Trap.ROCKS.value,
 )

@@ -25,7 +25,6 @@ from .items import (
     item_name_groups,
     item_name_to_id,
     item_table,
-    trap_items,
 )
 from .locations import (
     AstalonLocation,
@@ -268,9 +267,6 @@ class AstalonWorld(AstalonUTWorld):
         location.address = None
         location.place_locked_item(item)
 
-    def create_trap(self) -> AstalonItem:
-        return self.create_item(self.get_trap_item_name())
-
     @override
     def create_items(self) -> None:
         itempool: list[Item] = []
@@ -393,8 +389,10 @@ class AstalonWorld(AstalonUTWorld):
             trap_count = round(total_filler * (self.options.trap_percentage / 100))
             if trap_count > 0:
                 filler_items = self.random.sample(filler_items, len(filler_items) - trap_count)
-                for _ in range(trap_count):
-                    filler_items.append(self.create_trap())
+                trap_names, trap_weights = self.options.trap_weights.weights
+                traps = self.random.choices(trap_names, weights=trap_weights, k=trap_count)
+                for trap_name in traps:
+                    filler_items.append(self.create_item(trap_name))
 
         self.multiworld.itempool += itempool + filler_items
 
@@ -412,9 +410,6 @@ class AstalonWorld(AstalonUTWorld):
     @override
     def get_filler_item_name(self) -> str:
         return self.random.choice(self.filler_item_names)
-
-    def get_trap_item_name(self) -> str:
-        return self.random.choice(trap_items)
 
     @override
     def connect_entrances(self) -> None:
