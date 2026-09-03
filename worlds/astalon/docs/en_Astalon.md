@@ -34,10 +34,11 @@ Any items as noted above can appear in other players' worlds depending on which 
 
 ## What does another world's item look like in Astalon?
 
-Items for your world or another Astalon world will appear as the actual item, except for switches, which appear as
-frogs, and elevators, which appear as the old man's head. I have no idea why I picked those icons.
+Items for your world or another Astalon world will appear as the actual item if there's an applicable icon. Switches,
+magic crystals, and faces are all represented by floor switches. Elevators have a custom new sprite.
 
-Items for other worlds will appear as a blue orb if they're a progression item, or a grey orb otherwise.
+Items for other worlds will appear as a custom AP logo. Progression+Useful are gold, Progression is default colors,
+Useful is blue, and filler is grey.
 
 ## Are there any unexpected bits of logic the randomizer uses?
 
